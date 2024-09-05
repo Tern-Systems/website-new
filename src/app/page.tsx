@@ -40,7 +40,7 @@ export default function Home() {
                 processes.
               </p>
           </div>
-          <div>
+          <div className="self-end">
              <p>
                 New York, New York
               </p>
