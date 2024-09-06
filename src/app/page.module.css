@@ -18,9 +18,7 @@
     font-size: 36px;
   }
   
-  .iconText,
-  .iconText1,
-  .iconText2 {
+  .iconText {
     position: absolute;
     opacity: 0; /* Make text visible without hover */
     transition: opacity 0.3s ease;
@@ -35,42 +33,106 @@
     border-right: 2px solid transparent; /* Initially transparent cursor */
     /* letter-spacing: 6px; */
   }
-  
-  .iconText {
-    transform: translate(-10%, -52%);
+
+  .letter {
+    position:relative;
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .letterSpan {
+    display: inline-block;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.4s ease;
   }
   
-  .iconText1 {
-    transform: translate(-8%, -50%);
-  }
-  
-  .iconText2 {
-    transform: translate(-11%, -42%);
+  .finalLetter {
+    display: inline-block;
+    opacity: 1;
+    color: #03a062; /* Final color (adjust as needed) */
+    font-size: 36px;
   }
   
   .icon:hover .iconSymbol {
     opacity: 0;
   }
-  
-  .icon:hover .iconText,
-  .icon:hover .iconText1,
-  .icon:hover .iconText2 {
-    opacity: 1;
-    width: auto; /* Ensures the width is dynamic */
-    clip-path: inset(0 100% 0 0);
-    animation: type 1s steps(8, end) forwards, blink 1.1s linear 1.1s infinite;
-  }
-  
-  /* Typing animation keyframes */
-  @keyframes type {
-    0% {
-      clip-path: inset(0 100% 0 0);
-    }
-    100% {
-      clip-path: inset(0 0 0 0); /* Reveal the entire text */
-    }
+
+  .footer {
+      font-family: helvetica, arial, sans-serif;
   }
 
-.footer {
-    font-family: helvetica, arial, sans-serif;
+  .contactOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background: rgba(0, 0, 0, 0.7);  */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* z-index: 1000;  */
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  }
+  
+  .contactContent {
+    /* background: white; */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;; 
+  }
+
+  /* Initial state when the insignia is centered */
+.insigniaContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease;
 }
+
+.insigniaContainer.move {
+  transform: translate(calc(30vw - 30%), calc(-90vh + 30%));
+  width: 70%; /* Resize to 30% smaller */
+  height: 70%;
+}
+
+/* Separate class for returning */
+.insigniaContainer.return {
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+}
+
+
+  .contactOverlay.show,
+  .contactContent.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .contactOverlay.hide,
+  .contactContent.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .fadeIn {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+  }
+  
+  .fadeOut {
+    opacity: 0;
+    transition: opacity 0.5s ease-out; /* Fade out effect */
+  }
+  
+  .footerText {
+    transition: opacity 0.5s ease-in-out; /* Fade in/out effect */
+  }
