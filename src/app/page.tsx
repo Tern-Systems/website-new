@@ -1,62 +1,114 @@
-'use client'
+'use client';
 
 import { useState } from "react";
 import Image from "next/image";
 import IconWithCyclingLetters from './IconWithCyclingLetters';
 import styles from './page.module.css';
-
+import PrivacyParagraph from "./components/PrivacyParagraph";
+import TermsParagraph from "./components/TermsParagraph";
+import Cookies from "./components/Cookies";
 
 export default function Home() {
-
-  const [showContact, setShowContact] = useState(false);
-  const [showFooterText, setShowFooterText] = useState(true);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
 
-  const handleContactClick = () => {
-    console.log("Contact button clicked");
-
-    if (moveInsignia) {
-      // If the insignia is moving to the upper right, set the return state
+  const handleIconClick = (section: string) => {
+    if (activeSection === section) {
+      // Start fading out
+      setMoveInsignia(true);
       setIsReturning(true);
-
-      setShowContact(false);
-      setShowFooterText(true);
+  
+      // After the fade-out duration, reset the active section
       setTimeout(() => {
+        setActiveSection(null);
         setMoveInsignia(false);
         setIsReturning(false);
-      }, 500); // Adjust this timeout to match the transition duration
+      }, 500); // This should match the duration of the fade-out effect
     } else {
-      // If the insignia is moving back to the center
+      // Start fading in
       setMoveInsignia(true);
-      setShowContact(true);
-      setShowFooterText(false);
+      setActiveSection(section);
       setIsReturning(false);
     }
   };
+  
+  
 
-
-
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'about':
+        return (
+          <div className={`${styles.contactContent} ${activeSection === 'about' ? styles.fadeIn : styles.fadeOut}`}>
+            <p>We are a technology company based out of the United States.</p>
+            <p>Vision: Ushering in the era of efficient computing, equipping all legacy devices with advanced microprocessors.</p>
+            <p>Mission: Revolutionize computing by harnessing the power of ternary microprocessors.</p>
+            <p>Purpose: Develop, manufacture, preserve, and enhance fundamental computer software and hardware, emphasizing universal efficiency across all processes.</p>
+          </div>
+        );
+      case 'contact':
+        return (
+          <div className={`${styles.contactContent} ${activeSection === 'contact' ? styles.fadeIn : styles.fadeOut}`}>
+            <p>Tern Systems</p>
+            <p>New York, New York</p>
+            <p>General correspondence: info@tern.ac</p>
+          </div>
+        );
+      case 'ternkey':
+        return (
+          <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
+            <p>Unlocking the potential of ternary programming.</p>
+            <p>TernKey is the world’s first ternary software programming sandbox for software developers. Allowing programmers the ability to interact within a ternary microprocessor simulated environment for the first time.</p>
+            <p>We are focused on fostering a community for the next wave of computer programmers by implementing the next evolution of computer technology.</p>
+          </div>
+        );
+      case 'cookies':
+        return (
+          <div className={`${styles.contactContent} ${activeSection === 'cookies' ? styles.fadeIn : styles.fadeOut}`}>
+            <Cookies />
+          </div>
+        );
+      case 'privacy':
+        return (
+          <div className={`px-[10vw] ${styles.contactContent} ${activeSection === 'privacy' ? styles.fadeIn : styles.fadeOut}`}>
+            <PrivacyParagraph />
+          </div>
+        );
+      case 'terms':
+        return (
+          <div className={`${styles.contactContent} ${activeSection === 'terms' ? styles.fadeIn : styles.fadeOut}`}>
+            <TermsParagraph />
+          </div>
+        );
+      default:
+        return <div className={styles.contactContent} />;
+    }
+  };
+  
+  
 
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
-        <aside className="m-[54px] flex-shrink-0 flex items-center z-10">
+        <aside className="m-[54px] flex-shrink-0 flex z-10">
           <div className="text-[36px] flex flex-col gap-[40px]">
-            <div className={styles.icon}>
+            <div className={styles.icon} onClick={() => handleIconClick('about')}>
               <span className={styles.iconSymbol}>-</span>
-              <IconWithCyclingLetters text="About" />
+              <IconWithCyclingLetters text="About" symbols={['-', '0', '+']} />
             </div>
-            <div className={styles.icon}>
+            <div className={styles.icon} onClick={() => handleIconClick('ternkey')}>
               <span className={styles.iconSymbol}>0</span>
-              <IconWithCyclingLetters text="TernKey" />
+              <IconWithCyclingLetters text="TernKey" symbols={['-', '0', '+']} />
             </div>
-            <div className={styles.icon} onClick={handleContactClick}>
+            <div className={styles.icon} onClick={() => handleIconClick('contact')}>
               <span className={styles.iconSymbol}>+</span>
-              <IconWithCyclingLetters text="Contact" />
+              <IconWithCyclingLetters text="Contact" symbols={['-', '0', '+']} />
             </div>
           </div>
         </aside>
+        <div className={`absolute right-[54px] top-[50px] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
+          <p>New York, New York</p>
+        </div>
         <div className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''}`}>
           <Image
             src="/images/Tern_Systems_Logo_Insignia.png"
@@ -67,26 +119,29 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles.contactOverlay} ${showContact ? styles.show : styles.hide}`}>
-        <div className={`${styles.contactContent} ${showContact ? styles.show : styles.hide}`}>
-          <p>Tern Systems</p>
-          <p>New York, New York</p>
-          <p>General correspondence: info@tern.ac</p>
-        </div>
+      <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
+        {renderContent()}
       </div>
 
       <footer className={`${styles.footer} text-[14px] text-white w-full flex justify-between px-[54px] pb-[50px]`}>
-        <div className={`max-w-[500px] ${showFooterText ? styles.fadeIn : styles.fadeOut}`}>
+        <div className={`max-w-[500px] ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
           <p>
             Develop, manufacture, preserve, and enhance fundamental computer
             software and hardware, emphasizing universal efficiency across all
             processes.
           </p>
         </div>
-        <div className={`self-end ${showFooterText ? styles.fadeIn : styles.fadeOut}`}>
-          <p>New York, New York</p>
+        <div className={`self-end flex items-center space-x-4 ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
+          <a href="#" onClick={() => handleIconClick('cookies')}>Cookies</a>
+          <span>&bull;</span>
+          <a href="#" onClick={() => handleIconClick('privacy')}>Privacy</a>
+          <span>&bull;</span>
+          <a href="#" onClick={() => handleIconClick('terms')}>Terms</a>
         </div>
       </footer>
     </div>
   );
 }
+
+
+
