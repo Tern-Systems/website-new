@@ -1,138 +1,146 @@
 .icon {
-    /* font-size: 3rem; */
-    font-family: "Neo Sans W 1 G", sans-serif;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: auto;
-    height: auto;
-    position: relative;
-    overflow: visible;
-    margin-bottom: 20px;
-  }
-  
-  .iconSymbol {
-    transition: opacity 0.3s ease;
-    color: #03a062; /* Symbol color */
-    font-size: 36px;
-  }
-  
-  .iconText {
-    position: absolute;
-    opacity: 0; /* Make text visible without hover */
-    transition: opacity 0.3s ease;
-    color: #03a062;
-    font-size: 36px; /* Adjust text size */
-    font-family: "Neo Sans W 1 G", sans-serif;
-    white-space: nowrap;
-    top: 50%;
-    left: 50%;
-    overflow: hidden;
-    width: 0;
-    border-right: 2px solid transparent; /* Initially transparent cursor */
-    /* letter-spacing: 6px; */
-  }
+  font-family: "Neo Sans W1G", sans-serif;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: auto;
+  height: auto;
+}
 
-  .letter {
-    position:relative;
-    display: inline-block;
-    opacity: 0;
-    transition: opacity 0.4s;
-  }
+.iconSymbol {
+  color: #17a8b7; /* Adjust color as needed */
+  font-size: 36px;
+  transition: opacity 0.3s ease;
+}
 
-  .letterSpan {
-    display: inline-block;
-    opacity: 0; /* Initially hidden */
-    transition: opacity 0.4s ease;
-  }
-  
-  .finalLetter {
-    display: inline-block;
-    opacity: 1;
-    color: #03a062; /* Final color (adjust as needed) */
-    font-size: 36px;
-  }
-  
-  .icon:hover .iconSymbol {
-    opacity: 0;
-  }
-
-  .footer {
-      font-family: helvetica, arial, sans-serif;
-  }
-
-  .contactOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    /* background: rgba(0, 0, 0, 0.7);  */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* z-index: 1000;  */
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-  }
-  
-  .contactContent {
-    /* background: white; */
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: white;
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;; 
-  }
-
-  /* Initial state when the insignia is centered */
-.insigniaContainer {
+.iconText {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-size: 36px;
+  color: #17a8b7;
   display: flex;
-  align-items: center;
+  gap: 0.1em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.icon:hover .iconSymbol {
+  opacity: 0;
+}
+
+.letter {
+  position: relative;
+  width: 50px;
+  height: 70px;
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+}
+
+.letter span {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.05s ease-in-out;
+  width: 50px;
+  height: 70px;
+}
+
+.finalLetter {
+  opacity: 1 !important;
+  transition: none; /* No fading for the final letter */
+}
+
+
+
+
+
+
+.icon:hover .iconSymbol {
+  opacity: 0;
+}
+
+.footer {
+    font-family: helvetica, arial, sans-serif;
+}
+
+.contactOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background: rgba(0, 0, 0, 0.7);  */
+  display: flex;
   justify-content: center;
-  transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease;
+  align-items: center;
+  /* z-index: 1000;  */
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.contactContent {
+  /* background: white; */
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;; 
+}
+
+/* Initial state when the insignia is centered */
+.insigniaContainer {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+display: flex;
+align-items: center;
+justify-content: center;
+transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease;
+z-index: 1000;
+pointer-events: auto;
 }
 
 .insigniaContainer.move {
-  transform: translate(calc(30vw - 30%), calc(-90vh + 30%));
-  width: 70%; /* Resize to 30% smaller */
-  height: 70%;
+transform: translate(calc(30vw - 30%), calc(-90vh + 30%));
+width: 70%; /* Resize to 30% smaller */
+height: 70%;
 }
 
 /* Separate class for returning */
 .insigniaContainer.return {
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
+transform: translate(-50%, -50%);
+width: 100%;
+height: 100%;
 }
 
 
-  .contactOverlay.show,
-  .contactContent.show {
-    opacity: 1;
-    visibility: visible;
-  }
+.contactOverlay.show,
+.contactContent.show {
+  opacity: 1;
+  visibility: visible;
+}
 
-  .contactOverlay.hide,
-  .contactContent.hide {
-    opacity: 0;
-    visibility: hidden;
-  }
-  
-  .fadeIn {
-    opacity: 1;
-    transition: opacity 0.5s ease-in;
-  }
-  
-  .fadeOut {
-    opacity: 0;
-    transition: opacity 0.5s ease-out; /* Fade out effect */
-  }
-  
-  .footerText {
-    transition: opacity 0.5s ease-in-out; /* Fade in/out effect */
-  }
+.contactOverlay.hide,
+.contactContent.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.fadeIn {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+
+.fadeOut {
+  opacity: 0;
+  transition: opacity 0.5s ease-out; /* Fade out effect */
+}
+
+.footerText {
+  transition: opacity 0.5s ease-in-out; /* Fade in/out effect */
+}
+
