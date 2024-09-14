@@ -13,21 +13,21 @@ export default function Home() {
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
 
-  const fadeDuration = 300; // Reduced duration for faster transitions in ms
+  const fadeDuration = 300; 
 
   const handleIconClick = (section: string) => {
     if (activeSection === section) {
-      // Start fading out
+ 
       setMoveInsignia(true);
       setIsReturning(false);
 
-      // Delay the transition of the insignia movement
+
       setTimeout(() => {
         setActiveSection(null);
         setMoveInsignia(false);
-      }, fadeDuration); // Reduced delay for faster transitions
+      }, fadeDuration); 
     } else {
-      // Start fading in
+
       setMoveInsignia(true);
       setActiveSection(section);
       setIsReturning(false);
@@ -36,20 +36,17 @@ export default function Home() {
 
   const handleInsigniaClick = () => {
     if (activeSection !== null) {
-      // Start fading out
       setMoveInsignia(true);
       setIsReturning(false);
 
-      // Delay resetting the active section and moving the insignia
       setTimeout(() => {
         setActiveSection(null);
         setMoveInsignia(false);
-      }, fadeDuration); // Reduced delay
+      }, fadeDuration); 
 
-      // Delay the insignia return
       setTimeout(() => {
         setIsReturning(true);
-      }, fadeDuration); // Reduced delay
+      }, fadeDuration); 
     }
   };
 
