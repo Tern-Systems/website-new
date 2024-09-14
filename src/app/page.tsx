@@ -1,30 +1,31 @@
-'use client';
+'use client'
 
 import { useState } from "react";
-import Image from "next/image";
 import IconWithCyclingLetters from './IconWithCyclingLetters';
 import styles from './page.module.css';
 import PrivacyParagraph from "./components/PrivacyParagraph";
 import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
+import Spline from '@splinetool/react-spline';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
 
+  const fadeDuration = 300; // Reduced duration for faster transitions in ms
+
   const handleIconClick = (section: string) => {
     if (activeSection === section) {
       // Start fading out
       setMoveInsignia(true);
-      setIsReturning(true);
-  
-      // After the fade-out duration, reset the active section
+      setIsReturning(false);
+
+      // Delay the transition of the insignia movement
       setTimeout(() => {
         setActiveSection(null);
         setMoveInsignia(false);
-        setIsReturning(false);
-      }, 500); // This should match the duration of the fade-out effect
+      }, fadeDuration); // Reduced delay for faster transitions
     } else {
       // Start fading in
       setMoveInsignia(true);
@@ -32,8 +33,25 @@ export default function Home() {
       setIsReturning(false);
     }
   };
-  
-  
+
+  const handleInsigniaClick = () => {
+    if (activeSection !== null) {
+      // Start fading out
+      setMoveInsignia(true);
+      setIsReturning(false);
+
+      // Delay resetting the active section and moving the insignia
+      setTimeout(() => {
+        setActiveSection(null);
+        setMoveInsignia(false);
+      }, fadeDuration); // Reduced delay
+
+      // Delay the insignia return
+      setTimeout(() => {
+        setIsReturning(true);
+      }, fadeDuration); // Reduced delay
+    }
+  };
 
   const renderContent = () => {
     switch (activeSection) {
@@ -84,8 +102,6 @@ export default function Home() {
         return <div className={styles.contactContent} />;
     }
   };
-  
-  
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -109,13 +125,8 @@ export default function Home() {
         <div className={`absolute right-[54px] top-[50px] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
           <p>New York, New York</p>
         </div>
-        <div className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''}`}>
-          <Image
-            src="/images/Tern_Systems_Logo_Insignia.png"
-            alt="Tern Systems Logo"
-            width={100}
-            height={100}
-          />
+        <div className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''}`} onClick={handleInsigniaClick}>
+          <Spline scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode" />
         </div>
       </div>
 
@@ -142,6 +153,8 @@ export default function Home() {
     </div>
   );
 }
+
+
 
 
 
