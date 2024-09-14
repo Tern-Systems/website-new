@@ -95,26 +95,21 @@
 position: absolute;
 top: 50%;
 left: 50%;
-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%) scale(1);
 display: flex;
 align-items: center;
 justify-content: center;
-transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease;
+transition: transform 0.5s ease;
 z-index: 1000;
 pointer-events: auto;
 }
 
 .insigniaContainer.move {
-transform: translate(calc(30vw - 30%), calc(-90vh + 30%));
-width: 70%; /* Resize to 30% smaller */
-height: 70%;
+transform: translate(calc(43vw - 30%), calc(-47vh + 30%)) scale(0.5);
 }
 
-/* Separate class for returning */
 .insigniaContainer.return {
-transform: translate(-50%, -50%);
-width: 100%;
-height: 100%;
+transform: translate(-50%, -50%) scale(1);
 }
 
 
