@@ -123,7 +123,10 @@ export default function Home() {
           <p>New York, New York</p>
         </div>
         <div className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''}`} onClick={handleInsigniaClick}>
-          <Spline scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode" />
+          <Spline 
+            scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode" 
+            style={{background: 'transparent'}}
+          />
         </div>
       </div>
 
