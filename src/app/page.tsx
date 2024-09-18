@@ -13,7 +13,7 @@ export default function Home() {
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
 
-  const fadeDuration = 300; 
+  const fadeDuration = 500; 
 
   const handleIconClick = (section: string) => {
     if (activeSection === section) {
@@ -122,8 +122,13 @@ export default function Home() {
         <div className={`absolute right-[54px] top-[50px] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
           <p>New York, New York</p>
         </div>
-        <div className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''}`} onClick={handleInsigniaClick}>
-          <Spline scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode" />
+        <div 
+          className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''} ${activeSection !== null ? styles.pointer : ''}`} 
+          onClick={handleInsigniaClick}
+        >
+          <Spline 
+            scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode" 
+          />
         </div>
       </div>
 
@@ -140,18 +145,40 @@ export default function Home() {
           </p>
         </div>
         <div className={`self-end flex items-center space-x-4 ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
-          <a href="#" onClick={() => handleIconClick('cookies')}>Cookies</a>
-          <span>&bull;</span>
-          <a href="#" onClick={() => handleIconClick('privacy')}>Privacy</a>
-          <span>&bull;</span>
-          <a href="#" onClick={() => handleIconClick('terms')}>Terms</a>
+          <a
+            href="#"
+            onClick={(e) => {
+              if (!activeSection) handleIconClick('cookies');
+              else e.preventDefault(); // Prevent the link click when faded out
+            }}
+            className={activeSection ? styles.disabled : ''}
+          >
+            Cookies
+          </a>
+          <span className={styles.bullet}>&bull;</span>
+          <a
+            href="#"
+            onClick={(e) => {
+              if (!activeSection) handleIconClick('privacy');
+              else e.preventDefault();
+            }}
+            className={activeSection ? styles.disabled : ''}
+          >
+            Privacy
+          </a>
+          <span className={styles.bullet}>&bull;</span>
+          <a
+            href="#"
+            onClick={(e) => {
+              if (!activeSection) handleIconClick('terms');
+              else e.preventDefault();
+            }}
+            className={activeSection ? styles.disabled : ''}
+          >
+            Terms
+          </a>
         </div>
       </footer>
     </div>
   );
 }
-
-
-
-
-

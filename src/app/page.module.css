@@ -112,6 +112,10 @@
   transform: translate(-50%, -50%) scale(1);
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 
 .contactOverlay.show,
 .contactContent.show {
@@ -139,3 +143,11 @@
   transition: opacity 0.5s ease-in-out; /* Fade in/out effect */
 }
 
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.bullet {
+  cursor: default;
+}
