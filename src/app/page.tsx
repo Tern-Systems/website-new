@@ -134,7 +134,6 @@ export default function Home() {
       <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
         {renderContent()}
       </div>
-
       <footer className={`${styles.footer} text-[14px] text-white w-full flex justify-between px-[54px] pb-[50px]`}>
         <div className={`max-w-[500px] ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
           <p>

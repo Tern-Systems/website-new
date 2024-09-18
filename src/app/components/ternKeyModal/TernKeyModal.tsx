@@ -13,10 +13,10 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     return (
         <div className={styles.modalOverlay} onClick={onClose}>
             <div className={`flex flex-col ${styles.modalContent}`} onClick={(e) => e.stopPropagation()}>
-                <div className='flex justify-center w-[100%] m-[0.625rem]'>
+                <div className='flex justify-center w-[100%] my-[0.625rem]'>
                     <Image src="/images/ternkey-logo.png" alt="TernKey Logo" width={83} height={96} />
                 </div>              
-                <button className={styles.closeButton} onClick={onClose}>X</button>
+                <button className={styles.closeButton} onClick={onClose}>x</button>
                 <form className="flex flex-col items-start mt-4">
                     <label className={styles.label}>Please enter credential to create a TernKey account</label>
                     <input className='px-[0.875rem] w-[30rem] h-[2.43rem] mb-[1.875rem] rounded-[6px] mx-[0.9375rem]' placeholder='Email'></input>
@@ -24,10 +24,10 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 </form>
                 <footer className='text-black'>
                 <div className="flex items-center justify-center mt-[1.25rem]">
-                    <p>Already have an account?</p>
-                    <a href="#" className='text-[#17a8b7]'>Login</a>
+                    <p className={styles.textUnderButton}>Already have an account?</p>
+                    <a href="#" className={`text-[#17a8b7] pl-[4px] ${styles.textUnderButton}`}>Login</a>
                 </div>
-                <div className='mt-[1.25rem]'>
+                <div className={styles.copywrite}>
                     <p>&copy; 2024 Tern Systems</p>
                 </div>
                 </footer>

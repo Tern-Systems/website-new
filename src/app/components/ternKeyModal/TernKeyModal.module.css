@@ -5,6 +5,13 @@
     font-style: normal;
   }
 
+  @font-face {
+    font-family: 'Merriweather';
+    src: url('/fonts/Merriweather-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -29,8 +36,9 @@
   }
   
   .closeButton {
+    color: #000000;
     position: absolute;
-    top: 10px;
+    top: 4px;
     right: 10px;
     background: none;
     border: none;
@@ -44,4 +52,14 @@
     font-size: 1rem;
     margin-left: 0.9375rem;
     margin-bottom: 0.625rem;
+  }
+
+  .textUnderButton {
+    font-family: 'NeoSans', sans-serif;
+    font-size: 1rem;
+  }
+
+  .copywrite {
+    font-family: 'Times New Roman','Merriweather', sans-serif; /*Adobe Caslon Pro isn't free */
+    margin-top: 1.25rem;
   }
