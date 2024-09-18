@@ -7,6 +7,7 @@ import PrivacyParagraph from "./components/PrivacyParagraph";
 import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
 import Spline from '@splinetool/react-spline';
+import TernKeyModal from './components/ternKeyModal/TernKeyModal'
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -72,9 +73,7 @@ export default function Home() {
       case 'ternkey':
         return (
           <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
-            <p>Unlocking the potential of ternary programming.</p>
-            <p>TernKey is the world’s first ternary software programming sandbox for software developers. Allowing programmers the ability to interact within a ternary microprocessor simulated environment for the first time.</p>
-            <p>We are focused on fostering a community for the next wave of computer programmers by implementing the next evolution of computer technology.</p>
+            <TernKeyModal isOpen={activeSection === 'ternkey'} onClose={() => handleIconClick('ternkey')} />
           </div>
         );
       case 'cookies':
@@ -149,7 +148,7 @@ export default function Home() {
             href="#"
             onClick={(e) => {
               if (!activeSection) handleIconClick('cookies');
-              else e.preventDefault(); // Prevent the link click when faded out
+              else e.preventDefault();
             }}
             className={activeSection ? styles.disabled : ''}
           >

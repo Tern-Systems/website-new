@@ -10,7 +10,7 @@
 }
 
 .iconSymbol {
-  color: #17a8b7; /* Adjust color as needed */
+  color: #17a8b7;
   font-size: 36px;
   transition: opacity 0.3s ease;
 }
@@ -51,13 +51,8 @@
 
 .finalLetter {
   opacity: 1 !important;
-  transition: none; /* No fading for the final letter */
+  transition: none;
 }
-
-
-
-
-
 
 .icon:hover .iconSymbol {
   opacity: 0;
@@ -73,16 +68,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* background: rgba(0, 0, 0, 0.7);  */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* z-index: 1000;  */
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .contactContent {
-  /* background: white; */
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -136,11 +128,11 @@
 
 .fadeOut {
   opacity: 0;
-  transition: opacity 0.5s ease-out; /* Fade out effect */
+  transition: opacity 0.5s ease-out; 
 }
 
 .footerText {
-  transition: opacity 0.5s ease-in-out; /* Fade in/out effect */
+  transition: opacity 0.5s ease-in-out; 
 }
 
 .disabled {
