@@ -7,13 +7,15 @@ import PrivacyParagraph from "./components/PrivacyParagraph";
 import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
 import Spline from '@splinetool/react-spline';
+import TernKeyModal from './components/ternKeyModal/TernKeyModal'
+
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
 
-  const fadeDuration = 300; 
+  const fadeDuration = 500; 
 
   const handleIconClick = (section: string) => {
     if (activeSection === section) {
@@ -72,9 +74,7 @@ export default function Home() {
       case 'ternkey':
         return (
           <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
-            <p>Unlocking the potential of ternary programming.</p>
-            <p>TernKey is the world’s first ternary software programming sandbox for software developers. Allowing programmers the ability to interact within a ternary microprocessor simulated environment for the first time.</p>
-            <p>We are focused on fostering a community for the next wave of computer programmers by implementing the next evolution of computer technology.</p>
+            <TernKeyModal isOpen={activeSection === 'ternkey'} onClose={() => handleIconClick('ternkey')} />
           </div>
         );
       case 'cookies':
@@ -122,15 +122,19 @@ export default function Home() {
         <div className={`absolute right-[54px] top-[50px] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
           <p>New York, New York</p>
         </div>
-        <div className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''}`} onClick={handleInsigniaClick}>
-          <Spline scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode" />
+        <div 
+          className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''} ${activeSection !== null ? styles.pointer : ''}`} 
+          onClick={handleInsigniaClick}
+        >
+          <Spline 
+            scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode" 
+          />
         </div>
       </div>
 
       <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
         {renderContent()}
       </div>
-
       <footer className={`${styles.footer} text-[14px] text-white w-full flex justify-between px-[54px] pb-[50px]`}>
         <div className={`max-w-[500px] ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
           <p>
@@ -140,11 +144,38 @@ export default function Home() {
           </p>
         </div>
         <div className={`self-end flex items-center space-x-4 ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
-          <a href="#" onClick={() => handleIconClick('cookies')}>Cookies</a>
-          <span>&bull;</span>
-          <a href="#" onClick={() => handleIconClick('privacy')}>Privacy</a>
-          <span>&bull;</span>
-          <a href="#" onClick={() => handleIconClick('terms')}>Terms</a>
+          <a
+            href="#"
+            onClick={(e) => {
+              if (!activeSection) handleIconClick('cookies');
+              else e.preventDefault();
+            }}
+            className={activeSection ? styles.disabled : ''}
+          >
+            Cookies
+          </a>
+          <span className={styles.bullet}>&bull;</span>
+          <a
+            href="#"
+            onClick={(e) => {
+              if (!activeSection) handleIconClick('privacy');
+              else e.preventDefault();
+            }}
+            className={activeSection ? styles.disabled : ''}
+          >
+            Privacy
+          </a>
+          <span className={styles.bullet}>&bull;</span>
+          <a
+            href="#"
+            onClick={(e) => {
+              if (!activeSection) handleIconClick('terms');
+              else e.preventDefault();
+            }}
+            className={activeSection ? styles.disabled : ''}
+          >
+            Terms
+          </a>
         </div>
       </footer>
     </div>

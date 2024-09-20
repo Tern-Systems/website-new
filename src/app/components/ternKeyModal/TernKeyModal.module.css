@@ -1,0 +1,65 @@
+@font-face {
+    font-family: 'NeoSans';
+    src: url('/fonts/NeoSansW1G-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Merriweather';
+    src: url('/fonts/Merriweather-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modalContent {
+    background: #D9D9D9;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    width: 34.3125rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .closeButton {
+    color: #000000;
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .label {
+    font-family: 'NeoSans', sans-serif;
+    color: #000000;
+    font-size: 1rem;
+    margin-left: 0.9375rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .textUnderButton {
+    font-family: 'NeoSans', sans-serif;
+    font-size: 1rem;
+  }
+
+  .copywrite {
+    font-family: 'Times New Roman','Merriweather', sans-serif; /*Adobe Caslon Pro isn't free */
+    margin-top: 1.25rem;
+  }

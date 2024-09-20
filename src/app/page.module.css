@@ -51,13 +51,8 @@
 
 .finalLetter {
   opacity: 1 !important;
-  transition: none; /* No fading for the final letter */
+  transition: none;
 }
-
-
-
-
-
 
 .icon:hover .iconSymbol {
   opacity: 0;
@@ -73,17 +68,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* background: rgba(0, 0, 0, 0.7);  */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* z-index: 1000;  */
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .contactContent {
-  /* background: white; */
-  /* padding: 11.31rem 7.34rem; */
   border-radius: 10px;
   text-align: center;
   color: #FFF;
@@ -93,9 +84,13 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+ transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
+.pointer {
+  cursor: pointer;
+}
+ 
 .privacySection {
   width: 105.3125rem;
   height: 44.875rem;
@@ -114,7 +109,6 @@
   flex-shrink: 0;
 }
 
-/* Initial state when the insignia is centered */
 .insigniaContainer {
 position: absolute;
 top: 50%;
@@ -156,10 +150,18 @@ transform: translate(-50%, -50%) scale(1);
 
 .fadeOut {
   opacity: 0;
-  transition: opacity 0.5s ease-out; /* Fade out effect */
+  transition: opacity 0.5s ease-out; 
 }
 
 .footerText {
-  transition: opacity 0.5s ease-in-out; /* Fade in/out effect */
+  transition: opacity 0.5s ease-in-out; 
 }
 
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.bullet {
+  cursor: default;
+}
