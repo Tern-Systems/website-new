@@ -30,7 +30,7 @@
     border-radius: 8px;
     position: relative;
     width: 34.3125rem;
-    height: 25.0625rem;
+    height: auto;
     display: flex;
     flex-direction: column;
   }
