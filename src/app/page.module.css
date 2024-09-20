@@ -10,7 +10,7 @@
 }
 
 .iconSymbol {
-  color: #17a8b7; /* Adjust color as needed */
+  color: var(--tern-blue); /* Adjust color as needed */
   font-size: 36px;
   transition: opacity 0.3s ease;
 }
@@ -21,7 +21,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 36px;
-  color: #17a8b7;
+  color: var(--tern-blue);
   display: flex;
   gap: 0.1em;
   opacity: 0;
