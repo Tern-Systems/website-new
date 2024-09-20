@@ -75,8 +75,6 @@
 }
 
 .contactContent {
-  /* background: white; */
-  /* padding: 11.31rem 7.34rem; */
   border-radius: 10px;
   text-align: center;
   color: #FFF;
@@ -86,33 +84,50 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;; 
-}
-
-.insigniaContainer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.5s ease;
-  z-index: 1000;
-  pointer-events: auto;
-  background: transparent;
-}
-
-.insigniaContainer.move {
-  transform: translate(calc(35vw - 30%), calc(-70vh + 30%)) scale(0.5);
-}
-
-.insigniaContainer.return {
-  transform: translate(-50%, -50%) scale(1);
+ transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .pointer {
   cursor: pointer;
+}
+ 
+.privacySection {
+  width: 105.3125rem;
+  height: 44.875rem;
+  flex-shrink: 0;
+}
+
+.cookieSection {
+  width: 105.3125rem;
+  height: 43.5rem;
+  flex-shrink: 0;
+}
+
+.termSection {
+  width: 103.5625rem;
+  height: 61.4375rem;
+  flex-shrink: 0;
+}
+
+.insigniaContainer {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%) scale(1);
+display: flex;
+align-items: center;
+justify-content: center;
+transition: transform 0.5s ease;
+z-index: 1000;
+pointer-events: auto;
+}
+
+.insigniaContainer.move {
+transform: translate(calc(43vw - 30%), calc(-47vh + 30%)) scale(0.5);
+}
+
+.insigniaContainer.return {
+transform: translate(-50%, -50%) scale(1);
 }
 
 

@@ -9,6 +9,7 @@ import Cookies from "./components/Cookies";
 import Spline from '@splinetool/react-spline';
 import TernKeyModal from './components/ternKeyModal/TernKeyModal'
 
+
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [moveInsignia, setMoveInsignia] = useState(false);
@@ -180,3 +181,8 @@ export default function Home() {
     </div>
   );
 }
+
+
+
+
+
