@@ -47,7 +47,7 @@ export default function Home() {
 
       setTimeout(() => {
         setIsReturning(true);
-      }, fadeDuration); 
+      }, fadeDuration);
     }
   };
 
@@ -78,19 +78,19 @@ export default function Home() {
         );
       case 'cookies':
         return (
-          <div className={`${styles.contactContent} ${activeSection === 'cookies' ? styles.fadeIn : styles.fadeOut}`}>
+          <div className={`${styles.contactContent}  ${styles.cookieSection} ${activeSection === 'cookies' ? styles.fadeIn : styles.fadeOut}`}>
             <Cookies />
           </div>
         );
       case 'privacy':
         return (
-          <div className={`px-[10vw] ${styles.contactContent} ${activeSection === 'privacy' ? styles.fadeIn : styles.fadeOut}`}>
+          <div className={`${styles.contactContent} ${styles.privacySection} ${activeSection === 'privacy' ? styles.fadeIn : styles.fadeOut}`}>
             <PrivacyParagraph />
           </div>
         );
       case 'terms':
         return (
-          <div className={`${styles.contactContent} ${activeSection === 'terms' ? styles.fadeIn : styles.fadeOut}`}>
+          <div className={`${styles.contactContent} ${styles.termSection} ${activeSection === 'terms' ? styles.fadeIn : styles.fadeOut}`}>
             <TermsParagraph />
           </div>
         );
