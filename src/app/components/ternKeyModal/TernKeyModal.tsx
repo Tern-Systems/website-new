@@ -41,8 +41,6 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
   
-  
-
   const handleOtpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -127,4 +125,3 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 };
 
 export default TernKeyModal;
-
