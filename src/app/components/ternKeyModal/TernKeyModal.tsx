@@ -39,12 +39,12 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             {isSignUp ? (
               <>
                 <p className={styles.textUnderButton}>Already have an account?</p>
-                <a href="#" className={`text-[#17a8b7] pl-[4px] ${styles.textUnderButton}`} onClick={() => setIsSignUp(false)}>Login</a>
+                <a href="#" className={`text-[#178AB7] pl-[4px] ${styles.textUnderButton}`} onClick={() => setIsSignUp(false)}>Login</a>
               </>
             ) : (
               <>
                 <p className={styles.textUnderButton}>Don't have an account?</p>
-                <a href="#" className={`text-[#17a8b7] pl-[4px] ${styles.textUnderButton}`} onClick={() => setIsSignUp(true)}>Sign Up</a>
+                <a href="#" className={`text-[#178AB7] pl-[4px] ${styles.textUnderButton}`} onClick={() => setIsSignUp(true)}>Sign Up</a>
               </>
             )}
           </div>
