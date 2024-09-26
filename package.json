@@ -11,7 +11,8 @@
   "dependencies": {
     "@splinetool/react-spline": "^4.0.0",
     "@splinetool/runtime": "^1.9.27",
-    "next": "14.2.8",
+    "axios": "^1.7.7",
+    "next": "^14.2.13",
     "react": "^18",
     "react-dom": "^18"
   },
