@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import styles from './TernKeyModal.module.css';
 import Image from 'next/image';
 import SignupForm from './SignupForm';
@@ -12,6 +12,7 @@ interface ModalProps {
 }
 
 const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  const router = useRouter(); 
   const [isSignUpComplete, setIsSignUpComplete] = useState(false);
   const [view, setView] = useState<'signup' | 'login' | 'forgot'>('signup');
   const [email, setEmail] = useState('');
@@ -112,11 +113,3 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 };
 
 export default TernKeyModal;
-
-
-
-
-
-
-
-
