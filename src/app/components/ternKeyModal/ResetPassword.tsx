@@ -10,7 +10,7 @@ interface ResetPasswordProps {
     setView: (view: 'login' | 'signup' | 'forgotPassword') => void; 
 }
 
-const ResetPassword: React.FC<ResetPasswordProps> = ({ email, setEmail, setMessage, resetToken, setView }) => {
+const ResetPassword: React.FC<ResetPasswordProps> = ({  setMessage, resetToken, setView }) => { //I deleted the email and setEmail for now
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);

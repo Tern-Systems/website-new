@@ -1,4 +1,3 @@
-import { useState } from "react";
 import axios from "axios";
 import styles from './TernKeyModal.module.css'
 
@@ -19,7 +18,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setMessage,  email, setEmail, pas
     
         try {
           const response = await axios.post('http://localhost:5000/login', { email, password });
-          console.log(response.data);
+          console.log(response)
           setMessage(response.data.msg || 'Login successful!');
     
           if (response.data.success) {
@@ -64,8 +63,8 @@ return (
               <a 
                 className={`text-[#178AB7] pl-[4px] ${styles.textUnderButton}`} 
                 onClick={(e) => {
-                  e.preventDefault(); // Prevent default anchor behavior
-                  setView('forgot'); // Change the view to forgot password
+                  e.preventDefault(); 
+                  setView('forgot');
               }}
               >Reset</a>
             </div>       
