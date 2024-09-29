@@ -125,4 +125,3 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 };
 
 export default TernKeyModal;
-
