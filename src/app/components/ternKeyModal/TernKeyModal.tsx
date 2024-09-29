@@ -93,7 +93,7 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </>
             ) : view === 'login' ? (
               <>
-                <p className={styles.textUnderButton}>Don't have an account?</p>
+                <p className={styles.textUnderButton}>Don&apos;t have an account?</p>
                 <a href="#" className={`text-[#178AB7] pl-[4px] ${styles.textUnderButton}`} onClick={handleToggle}>Sign Up</a>
               </>
             ) : (

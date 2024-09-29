@@ -8,8 +8,6 @@ import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
 import Spline from '@splinetool/react-spline';
 import TernKeyModal from './components/ternKeyModal/TernKeyModal'
-import ResetPassword from "./components/ternKeyModal/ResetPassword";
-
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -182,8 +180,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-
-
-
