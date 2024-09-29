@@ -12,7 +12,7 @@ interface ModalProps {
 }
 
 const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const router = useRouter(); 
+  const router = useRouter();
   const [isSignUpComplete, setIsSignUpComplete] = useState(false);
   const [view, setView] = useState<'signup' | 'login' | 'forgot'>('signup');
   const [email, setEmail] = useState('');
@@ -28,6 +28,18 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     setPassword('');
     setView(view === 'signup' ? 'login' : 'signup');
   };
+
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+  
+    if (queryParams.get('success') === 'email_verified') {
+      setView('login');
+      setMessage('Sign up successful. Please log in.');
+    } else if (queryParams.get('error') === 'Internal_server_error') {
+      setView('signup'); 
+      setMessage('Internal server error. Please try again.');
+    }
+  }, []);
 
   const renderForm = () => {
     switch (view) {
@@ -93,7 +105,7 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </>
             ) : view === 'login' ? (
               <>
-                <p className={styles.textUnderButton}>Don't have an account?</p>
+                <p className={styles.textUnderButton}>Don&apos;t have an account?</p>
                 <a href="#" className={`text-[#178AB7] pl-[4px] ${styles.textUnderButton}`} onClick={handleToggle}>Sign Up</a>
               </>
             ) : (

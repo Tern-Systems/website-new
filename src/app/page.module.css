@@ -110,16 +110,17 @@
 }
 
 .insigniaContainer {
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%) scale(1);
-display: flex;
-align-items: center;
-justify-content: center;
-transition: transform 0.5s ease;
-z-index: 1000;
-pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s ease;
+  z-index: 1000;
+  pointer-events: auto;
+  background: transparent;
 }
 
 .insigniaContainer.move {
@@ -127,7 +128,11 @@ pointer-events: auto;
 }
 
 .insigniaContainer.return {
-transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 
