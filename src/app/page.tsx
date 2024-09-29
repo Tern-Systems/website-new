@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import IconWithCyclingLetters from './IconWithCyclingLetters';
 import styles from './page.module.css';
 import PrivacyParagraph from "./components/PrivacyParagraph";
@@ -15,6 +15,17 @@ export default function Home() {
   const [isReturning, setIsReturning] = useState(false);
 
   const fadeDuration = 500; 
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+  
+    if (queryParams.get('success') === 'email_verified' || queryParams.get('error') === 'Internal_server_error')   {
+      setMoveInsignia(true);
+      setActiveSection('ternkey');
+      setIsReturning(false);
+    }
+  }, []);
+  
 
   const handleIconClick = (section: string) => {
     if (activeSection === section) {
@@ -73,7 +84,10 @@ export default function Home() {
       case 'ternkey':
         return (
           <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
-            <TernKeyModal isOpen={activeSection === 'ternkey'} onClose={() => handleIconClick('ternkey')} />
+            <TernKeyModal 
+              isOpen={activeSection === 'ternkey'} 
+              onClose={() => handleIconClick('ternkey')} 
+            />
           </div>
         );
       case 'cookies':
