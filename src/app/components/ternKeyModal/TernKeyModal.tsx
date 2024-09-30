@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './TernKeyModal.module.css';
 import Image from 'next/image';
 import SignupForm from './SignupForm';
@@ -9,15 +8,15 @@ import ForgotPassword from './ForgotPassword';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  message: string;
+  setMessage: (msg: string) => void;
 }
 
-const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const router = useRouter();
+const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose, message, setMessage }) => {
   const [isSignUpComplete, setIsSignUpComplete] = useState(false);
   const [view, setView] = useState<'signup' | 'login' | 'forgot'>('signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
 
   if (!isOpen) return null;
 
@@ -28,18 +27,6 @@ const TernKeyModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     setPassword('');
     setView(view === 'signup' ? 'login' : 'signup');
   };
-
-  React.useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-  
-    if (queryParams.get('success') === 'email_verified') {
-      setView('login');
-      setMessage('Sign up successful. Please log in.');
-    } else if (queryParams.get('error') === 'Internal_server_error') {
-      setView('signup'); 
-      setMessage('Internal server error. Please try again.');
-    }
-  }, []);
 
   const renderForm = () => {
     switch (view) {
