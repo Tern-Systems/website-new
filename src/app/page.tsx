@@ -13,16 +13,23 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
+  const [message, setMessage] = useState('');
 
   const fadeDuration = 500; 
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
   
-    if (queryParams.get('success') === 'email_verified' || queryParams.get('error') === 'Internal_server_error')   {
+    if (queryParams.get('success') === 'email_verified')   {
       setMoveInsignia(true);
       setActiveSection('ternkey');
       setIsReturning(false);
+      setMessage("Successfully signed up. Please log in.");
+    } else if ( queryParams.get('error') === 'Internal_server_error') {
+      setMoveInsignia(true);
+      setActiveSection('ternkey');
+      setIsReturning(false);
+      setMessage('An error has occurred. Please try again');
     }
   }, []);
   
@@ -43,6 +50,9 @@ export default function Home() {
       setMoveInsignia(true);
       setActiveSection(section);
       setIsReturning(false);
+
+      const newUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState(null, '', newUrl);
     }
   };
 
@@ -86,7 +96,9 @@ export default function Home() {
           <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
             <TernKeyModal 
               isOpen={activeSection === 'ternkey'} 
-              onClose={() => handleIconClick('ternkey')} 
+              onClose={() => handleIconClick('ternkey')}
+              message={message}
+              setMessage={setMessage}
             />
           </div>
         );
