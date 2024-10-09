@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/b192d9e1-3970-4cf6-8250-c1a1a2dfbf96" alt="Minimalistic Website Logo" width="300"/>
+  <img src="https://github.com/user-attachments/assets/f9954bd9-0495-4026-9f92-d8ba18c94c10" alt="Minimalistic Website Logo" width="300"/>
   
   # Minimalistic-Website
   
