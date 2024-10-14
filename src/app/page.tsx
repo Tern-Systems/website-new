@@ -14,6 +14,7 @@ export default function Home() {
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
   const [message, setMessage] = useState('');
+  const [minimalLanding, setMinimalLanding] = useState(true);
 
   const fadeDuration = 500; 
 
@@ -129,7 +130,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
         <aside className="m-[54px] flex-shrink-0 flex z-10">
-          <div className="text-[36px] flex flex-col gap-[40px]">
+          <div className={`text-[36px] flex flex-col gap-[40px] ${minimalLanding ? "hidden" : "flex"}`}>
             <div className={styles.icon} onClick={() => handleIconClick('about')}>
               <span className={styles.iconSymbol}>-</span>
               <IconWithCyclingLetters text="About" symbols={['-', '0', '+']} />
@@ -144,7 +145,7 @@ export default function Home() {
             </div>
           </div>
         </aside>
-        <div className={`absolute right-[54px] top-[50px] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
+        <div className={`absolute right-[54px] top-[50px] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
           <p>New York, New York</p>
         </div>
         <div 
@@ -160,15 +161,15 @@ export default function Home() {
       <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
         {renderContent()}
       </div>
-      <footer className={`${styles.footer} text-[14px] text-white w-full flex justify-between px-[54px] pb-[50px]`}>
-        <div className={`max-w-[500px] ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
+      <footer className={`${styles.footer} text-[14px] text-white w-full flex ${minimalLanding ? "justify-center" : "justify-between"} px-[54px] pb-[50px]`}>
+        <div className={`max-w-[500px] ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
           <p>
             Develop, manufacture, preserve, and enhance fundamental computer
             software and hardware, emphasizing universal efficiency across all
             processes.
           </p>
         </div>
-        <div className={`self-end flex items-center space-x-4 ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
+        <div className={`self-end flex items-center space-x-4 ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
           <a
             href="#"
             onClick={(e) => {
@@ -202,6 +203,7 @@ export default function Home() {
             Terms
           </a>
         </div>
+        <a onClick={() => setMinimalLanding(false)} className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems LLC &copy; 2024</a>
       </footer>
     </div>
   );
