@@ -60,7 +60,24 @@
 
 .footer {
     font-family: helvetica, arial, sans-serif;
+    font-size: 14px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    z-index: 20;
+    
+
 }
+
+
+
+
+.footer a.disabled {
+  pointer-events: none; /* Disable clicks for disabled links */
+  cursor: default; /* Show default cursor */
+}
+
 
 .contactOverlay {
   position: fixed;

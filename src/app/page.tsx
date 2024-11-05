@@ -6,8 +6,10 @@ import styles from './page.module.css';
 import PrivacyParagraph from "./components/PrivacyParagraph";
 import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
+import Credo from "./components/Credo";
 import Spline from '@splinetool/react-spline';
 import TernKeyModal from './components/ternKeyModal/TernKeyModal'
+import Link from "next/link";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -15,6 +17,7 @@ export default function Home() {
   const [isReturning, setIsReturning] = useState(false);
   const [message, setMessage] = useState('');
   const [minimalLanding, setMinimalLanding] = useState(true);
+  const [showCredo, setShowCredo] = useState(false);
 
   const fadeDuration = 500; 
 
@@ -77,12 +80,21 @@ export default function Home() {
     switch (activeSection) {
       case 'about':
         return (
+          <>
           <div className={`${styles.contactContent} ${activeSection === 'about' ? styles.fadeIn : styles.fadeOut}`}>
-            <p>We are a technology company based out of the United States.</p>
-            <p>Vision: Ushering in the era of efficient computing, equipping all legacy devices with advanced microprocessors.</p>
-            <p>Mission: Revolutionize computing by harnessing the power of ternary microprocessors.</p>
-            <p>Purpose: Develop, manufacture, preserve, and enhance fundamental computer software and hardware, emphasizing universal efficiency across all processes.</p>
+            <p className="mb-4">We are Tern Systems.
+            </p>
+            <p className="mb-4">A technology company based out of the United States.
+            </p>
+            <p className="mb-4">Ushering in the era of efficient computing, equiping all legacy devices with advanced microprocessors.
+            </p>
+            <p className="mb-4">On a mission to revolutionize computing by harnessing the power of ternary microprocessors.
+            </p>
           </div>
+          
+          
+          </>
+          
         );
       case 'contact':
         return (
@@ -121,6 +133,12 @@ export default function Home() {
             <TermsParagraph />
           </div>
         );
+      case 'credo':
+        return (
+          <div className={`${styles.contactContent} ${styles.credoSection} ${activeSection === 'credo' ? styles.fadeIn : styles.fadeOut}`}>
+              <Credo />
+            </div>
+        );  
       default:
         return <div className={styles.contactContent} />;
     }
@@ -203,7 +221,7 @@ export default function Home() {
             Terms
           </a>
         </div>
-        <a onClick={() => setMinimalLanding(false)} className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems LLC &copy; 2024</a>
+        <a onClick={() => setMinimalLanding(false)} className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems </a>
       </footer>
     </div>
   );
