@@ -1,15 +1,21 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import {useState, useEffect, ReactElement} from "react";
 import IconWithCyclingLetters from './IconWithCyclingLetters';
 import styles from './page.module.css';
+
 import PrivacyParagraph from "./components/PrivacyParagraph";
 import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
 import Credo from "./components/Credo";
+
 import Spline from '@splinetool/react-spline';
+import Image from "next/image";
 import TernKeyModal from './components/ternKeyModal/TernKeyModal'
-import Link from "next/link";
+
+import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
+import SVG_GITHUB from "@/assets/images/icons/github.svg";
+import SVG_DISCORD from "@/assets/images/icons/discord.svg";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -17,7 +23,6 @@ export default function Home() {
   const [isReturning, setIsReturning] = useState(false);
   const [message, setMessage] = useState('');
   const [minimalLanding, setMinimalLanding] = useState(true);
-  const [showCredo, setShowCredo] = useState(false);
 
   const fadeDuration = 500; 
 
@@ -144,6 +149,42 @@ export default function Home() {
     }
   };
 
+  // Footer
+  const renderFooterContent = (): ReactElement => {
+    switch (activeSection) {
+      case 'about':
+        return <a href={'#'} onClick={() => handleIconClick('credo')}>Our Credo</a>;
+      case 'contact':
+        return (
+            <>
+              <a href="https://www.linkedin.com/company/tern-sys/" target={'_blank'}>
+                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_LINKEDIN}
+                       alt={'linkedin-icon'}/>
+              </a>
+              <a href="https://github.com/Tern-Systems" target={'_blank'}>
+                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_GITHUB}
+                       alt={'github-icon'}/>
+              </a>
+              <a href="https://discord.gg/ZkZZmm8k4f" target={'_blank'}>
+                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_DISCORD}
+                       alt={'discord-icon'}/>
+              </a>
+            </>
+        );
+      case 'ternkey':
+        return <p>Documentation</p>;
+      default:
+        return (
+            <p>
+              Develop, manufacture, preserve, and enhance fundamental computer
+              software and hardware, emphasizing universal efficiency across all
+              processes.
+            </p>
+        );
+    }
+  };
+  const footerAnimationStyle = activeSection === null || ['about', 'contact', 'ternkey'].includes(activeSection) ? styles.fadeIn : styles.fadeOut;
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
@@ -175,53 +216,34 @@ export default function Home() {
           />
         </div>
       </div>
-
       <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
         {renderContent()}
       </div>
-      <footer className={`${styles.footer} text-[14px] text-white w-full flex ${minimalLanding ? "justify-center" : "justify-between"} px-[54px] pb-[50px]`}>
-        <div className={`max-w-[500px] ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
-          <p>
-            Develop, manufacture, preserve, and enhance fundamental computer
-            software and hardware, emphasizing universal efficiency across all
-            processes.
-          </p>
+      <footer
+          className={`${styles.footer} text-[14px] text-white w-full flex ${footerAnimationStyle} ${minimalLanding ? "justify-center" : "justify-between"} px-[54px] pb-[50px]`}>
+        <div
+            className={`max-w-[500px] ${minimalLanding ? "hidden" : "flex"}`}>
+          {renderFooterContent()}
         </div>
-        <div className={`self-end flex items-center space-x-4 ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
-          <a
-            href="#"
-            onClick={(e) => {
-              if (!activeSection) handleIconClick('cookies');
-              else e.preventDefault();
-            }}
-            className={activeSection ? styles.disabled : ''}
+        <div
+            className={`self-end flex items-center space-x-4 ${minimalLanding ? "hidden" : "flex"}`}>
+          <a href="#" onClick={() => {handleIconClick('cookies')}}
           >
             Cookies
           </a>
           <span className={styles.bullet}>&bull;</span>
-          <a
-            href="#"
-            onClick={(e) => {
-              if (!activeSection) handleIconClick('privacy');
-              else e.preventDefault();
-            }}
-            className={activeSection ? styles.disabled : ''}
+          <a href="#" onClick={() => {handleIconClick('cookies')}}
           >
             Privacy
           </a>
           <span className={styles.bullet}>&bull;</span>
-          <a
-            href="#"
-            onClick={(e) => {
-              if (!activeSection) handleIconClick('terms');
-              else e.preventDefault();
-            }}
-            className={activeSection ? styles.disabled : ''}
+          <a href="#" onClick={() => {handleIconClick('cookies')}}
           >
             Terms
           </a>
         </div>
-        <a onClick={() => setMinimalLanding(false)} className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems </a>
+        <a onClick={() => setMinimalLanding(false)}
+           className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems</a>
       </footer>
     </div>
   );
