@@ -65,19 +65,9 @@
     bottom: 0;
     left: 0;
     padding: 10px;
-    z-index: 20;
-    
-
+    z-index: 9999;
+    pointer-events: auto;
 }
-
-
-
-
-.footer a.disabled {
-  pointer-events: none; /* Disable clicks for disabled links */
-  cursor: default; /* Show default cursor */
-}
-
 
 .contactOverlay {
   position: fixed;
@@ -89,6 +79,7 @@
   justify-content: center;
   align-items: center;
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  z-index: 100;
 }
 
 .contactContent {
@@ -124,6 +115,11 @@
   width: 103.5625rem;
   height: 61.4375rem;
   flex-shrink: 0;
+}
+
+.credoSection {
+  text-align: center;
+  justify-content: center;
 }
 
 .insigniaContainer {
@@ -163,6 +159,7 @@
 .contactContent.hide {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 
 .fadeIn {
