@@ -17,6 +17,8 @@ import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
 import SVG_GITHUB from "@/assets/images/icons/github.svg";
 import SVG_DISCORD from "@/assets/images/icons/discord.svg";
 
+const MENU_BTNS = ['About', 'TernKey', 'Contact'];
+
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [moveInsignia, setMoveInsignia] = useState(false);
@@ -149,6 +151,9 @@ export default function Home() {
     }
   };
 
+  const MenuBtns: ReactElement[] = MENU_BTNS.map((text,idx) =>
+      <IconWithCyclingLetters key={text + idx} text={text} symbols={['-', '0', '+']} symbolIdx={idx} activeSection={activeSection} handleIconClick={handleIconClick}/>);
+
   // Footer
   const renderFooterContent = (): ReactElement => {
     switch (activeSection) {
@@ -188,23 +193,12 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
-        <aside className="m-[54px] flex-shrink-0 flex z-10">
+        <aside className="relative m-[2.06rem] flex-shrink-0 flex z-10">
           <div className={`text-[36px] flex flex-col gap-[40px] ${minimalLanding ? "hidden" : "flex"}`}>
-            <div className={styles.icon} onClick={() => handleIconClick('about')}>
-              <span className={styles.iconSymbol}>-</span>
-              <IconWithCyclingLetters text="About" symbols={['-', '0', '+']} />
-            </div>
-            <div className={styles.icon} onClick={() => handleIconClick('ternkey')}>
-              <span className={styles.iconSymbol}>0</span>
-              <IconWithCyclingLetters text="TernKey" symbols={['-', '0', '+']} />
-            </div>
-            <div className={styles.icon} onClick={() => handleIconClick('contact')}>
-              <span className={styles.iconSymbol}>+</span>
-              <IconWithCyclingLetters text="Contact" symbols={['-', '0', '+']} />
-            </div>
+            {MenuBtns}
           </div>
         </aside>
-        <div className={`absolute right-[54px] top-[50px] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
+        <div className={`absolute top-[2.06rem] right-[2.06rem] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
           <p>New York, New York</p>
         </div>
         <div 

@@ -2,60 +2,49 @@
   font-family: "Neo Sans W1G", sans-serif;
   cursor: pointer;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
   width: auto;
-  height: auto;
+  height: 36px;
 }
 
 .iconSymbol {
   color: var(--tern-blue); /* Adjust color as needed */
-  font-size: 36px;
   transition: opacity 0.3s ease;
 }
 
 .iconText {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   font-size: 36px;
   color: var(--tern-blue);
-  display: flex;
   gap: 0.1em;
-  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .icon:hover .iconSymbol {
-  opacity: 0;
+  display: none;
+}
+.icon:hover .iconText {
+  display: flex;
 }
 
 .letter {
   position: relative;
-  width: 50px;
-  height: 70px;
-  display: inline-block;
-  font-weight: bold;
+  font-size: 36px;
+  height: 54px;
+  width: 24px;
   text-align: center;
+  display: inline-block;
 }
 
 .letter span {
   position: absolute;
-  opacity: 0;
   transition: opacity 0.05s ease-in-out;
-  width: 50px;
-  height: 70px;
 }
 
 .finalLetter {
   opacity: 1 !important;
   transition: none;
-}
-
-.icon:hover .iconSymbol {
-  opacity: 0;
 }
 
 .footer {
@@ -64,9 +53,9 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    padding: 10px;
+    padding: 2rem 2.06rem 2rem;
     z-index: 20;
-    
+
 
 }
 
@@ -107,7 +96,7 @@
 .pointer {
   cursor: pointer;
 }
- 
+
 .privacySection {
   width: 105.3125rem;
   height: 44.875rem;
@@ -172,11 +161,11 @@
 
 .fadeOut {
   opacity: 0;
-  transition: opacity 0.5s ease-out; 
+  transition: opacity 0.5s ease-out;
 }
 
 .footerText {
-  transition: opacity 0.5s ease-in-out; 
+  transition: opacity 0.5s ease-in-out;
 }
 
 .disabled {

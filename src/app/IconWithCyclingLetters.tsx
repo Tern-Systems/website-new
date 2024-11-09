@@ -4,9 +4,12 @@ import styles from './page.module.css';
 interface IconWithCyclingLettersProps {
   text: string;
   symbols: string[];
+  symbolIdx: number;
+  activeSection: string | null;
+  handleIconClick: (text: string) => void;
 }
 
-const IconWithCyclingLetters: React.FC<IconWithCyclingLettersProps> = ({ text, symbols }) => {
+const IconWithCyclingLetters: React.FC<IconWithCyclingLettersProps> = ({ text, symbols , symbolIdx, activeSection, handleIconClick}) => {
   const [displayedText, setDisplayedText] = useState<string[]>(Array(text.length).fill(''));
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -45,15 +48,22 @@ const IconWithCyclingLetters: React.FC<IconWithCyclingLettersProps> = ({ text, s
 
   }, [isAnimating, symbols, text]);
 
+  const isActiveSection = activeSection === text.toLowerCase();
+
   return (
     <div
       className={styles.icon}
-      onMouseEnter={() => setIsAnimating(true)}
+      onMouseEnter={() => {
+        if (!isActiveSection) setIsAnimating(true);
+      }}
+      onClick={() => handleIconClick(text.toLowerCase())}
     >
-      <div className={styles.iconSymbol}>
-        {/* Your symbol content */}
+      <div className={`${styles.iconSymbol} ${isActiveSection ? 'hidden' : 'flex'}`}>
+        <div className={styles.icon}>
+          <span className={`${styles.iconSymbol} ${styles.letter}`}>{symbols[symbolIdx]}</span>
+        </div>
       </div>
-      <div className={styles.iconText}>
+      <div className={`${styles.iconText} ${!isActiveSection ? 'hidden' : 'flex'}`}>
         {displayedText.map((letter, index) => (
           <span
             key={index}
