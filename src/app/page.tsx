@@ -8,8 +8,11 @@ import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
 import Credo from "./components/Credo";
 import Spline from '@splinetool/react-spline';
-import TernKeyModal from './components/ternKeyModal/TernKeyModal'
+import Image from "next/image";
+
 import Link from "next/link";
+
+import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -101,19 +104,14 @@ export default function Home() {
           <div className={`${styles.contactContent} ${activeSection === 'contact' ? styles.fadeIn : styles.fadeOut}`}>
             <p>Tern Systems</p>
             <p>New York, New York</p>
-            <p>General correspondence: info@tern.ac</p>
+            <p>info@tern.ac</p>
           </div>
         );
       case 'ternkey':
         return (
-          <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
-            <TernKeyModal 
-              isOpen={activeSection === 'ternkey'} 
-              onClose={() => handleIconClick('ternkey')}
-              message={message}
-              setMessage={setMessage}
-            />
-          </div>
+            <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+              <Image style={{width:'166.8px',height:'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
+            </a>
         );
       case 'cookies':
         return (
