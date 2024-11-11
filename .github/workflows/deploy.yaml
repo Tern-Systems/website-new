@@ -49,18 +49,32 @@ jobs:
         sudo service website-app restart
     
         EOF
-
-    - name: 'Fetch PR Details'
-      id: pr_details
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-        https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository }}:${{ github.ref_name }})
         
-        echo "::set-output name=creator::$(echo $PR_INFO | jq -r '.[0].user.login')"
-        echo "::set-output name=approver::$(echo $PR_INFO | jq -r '.[0].requested_reviewers[0].login')"
-        echo "::set-output name=merger::$(echo $PR_INFO | jq -r '.[0].merged_by.login')"
+        - name: 'Fetch PR Details'
+          id: pr_details
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            # Fetch the PR information
+            PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+              https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository }}:${{ github.ref_name }})
+        
+            # Extract PR creator
+            CREATOR=$(echo "$PR_INFO" | jq -r '.[0].user.login')
+            echo "creator=$CREATOR" >> $GITHUB_ENV
+        
+            # Extract PR approver (if exists)
+            APPROVER=$(echo "$PR_INFO" | jq -r '.[0].requested_reviewers[0].login // "none"')
+            echo "approver=$APPROVER" >> $GITHUB_ENV
+        
+            # Extract PR merger (if exists)
+            MERGER=$(echo "$PR_INFO" | jq -r '.[0].merged_by.login // "none"')
+            echo "merger=$MERGER" >> $GITHUB_ENV
+        
+          # Outputs
+          echo "creator=${{ env.creator }}"
+          echo "approver=${{ env.approver }}"
+          echo "merger=${{ env.merger }}"
 
     # Send a success or failure notification based on deployment outcome
     - name: 'Send Deployment Status Notification to Discord'
@@ -68,5 +82,5 @@ jobs:
       run: |
         STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
         curl -X POST -H "Content-Type: application/json" \
-        -d "{\"content\":\"**Deploy TernKey**\n**Creator:** ${{ steps.pr_details.outputs.creator }}\n**Approver:** ${{ steps.pr_details.outputs.approver }}\n**Merger:** ${{ steps.pr_details.outputs.merger }}\n**Status:** $STATUS\"}" \
+        -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ steps.pr_details.outputs.creator }}\n**Approver:** ${{ steps.pr_details.outputs.approver }}\n**Merger:** ${{ steps.pr_details.outputs.merger }}\n**Status:** $STATUS\"}" \
         ${{ secrets.DISCORD_WEBHOOK_URL }}
