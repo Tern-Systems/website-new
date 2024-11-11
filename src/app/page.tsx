@@ -8,6 +8,8 @@ import PrivacyParagraph from "./components/PrivacyParagraph";
 import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
 import Credo from "./components/Credo";
+import DocumentationView from "./components/DocumentationView";
+
 
 import Spline from '@splinetool/react-spline';
 import Image from "next/image";
@@ -104,6 +106,18 @@ export default function Home() {
           </>
 
         );
+      case 'documentation':
+        return (
+          <>
+            <div className={`${styles.documentationLinksContent} ${styles.contactContent} ${activeSection === 'documentation' ? styles.fadeIn : styles.fadeOut}`}>
+              <a href={'#'} className={'mb-[8.88rem]'} onClick={()=> handleIconClick('TernKey Manual')}>TernKey Manual</a>
+              <a href={'#'} onClick={()=> handleIconClick('GHandbook')}>G Handbook</a>
+            </div>
+          </>
+        );
+      case 'TernKey Manual':
+      case 'GHandbook':
+        return <DocumentationView view={activeSection}/>;
       case 'contact':
         return (
           <div className={`${styles.contactContent} ${activeSection === 'contact' ? styles.fadeIn : styles.fadeOut}`}>

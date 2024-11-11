@@ -93,6 +93,14 @@
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
+.documentationLinksContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Oxygen, sans-serif;
+  font-size: 1.3125rem;
+}
+
 .pointer {
   cursor: pointer;
 }
