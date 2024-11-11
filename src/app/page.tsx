@@ -172,7 +172,7 @@ export default function Home() {
             </>
         );
       case 'ternkey':
-        return <p>Documentation</p>;
+        return <p onClick={()=>handleIconClick('documentation')}>Documentation</p>;
       default:
         return (
             <p>
