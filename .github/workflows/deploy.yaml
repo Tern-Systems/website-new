@@ -50,6 +50,8 @@ jobs:
     
         EOF
         
+        shell: /usr/bin/bash -e {0}
+        
         - name: 'Fetch PR Details'
           id: pr_details
           env:
