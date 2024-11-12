@@ -48,14 +48,20 @@
 }
 
 .footer {
-    font-family: helvetica, arial, sans-serif;
-    font-size: 14px;
     position: fixed;
     bottom: 0;
-    left: 0;
-    padding: 10px;
-    z-index: 9999;
-    pointer-events: auto;
+    display: flex;
+    padding: 2rem 2.06rem 2rem;
+    width: 100%;
+    color: #ECF0F3;
+    font-family: "Neo Sans W1G", sans-serif;
+    font-size: 1rem;
+}
+
+.linkMinimalistic {
+  color: #ECF0F3;
+  font-family: Oxygen, sans-serif;
+  font-size: 1.3125rem;
 }
 
 .contactOverlay {

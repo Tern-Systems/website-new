@@ -1,7 +1,6 @@
 'use client'
 
 import {useState, useEffect, ReactElement} from "react";
-import IconWithCyclingLetters from './IconWithCyclingLetters';
 import styles from './page.module.css';
 
 import Credo from "./components/Credo";
@@ -16,8 +15,12 @@ import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
 import SVG_GITHUB from "@/assets/images/icons/github.svg";
 import SVG_DISCORD from "@/assets/images/icons/discord.svg";
 
-const MENU_BTNS = ['About', 'TernKey', 'Contact'];
-const SECTIONS_WITH_MENU = ['about', 'documentation', 'ternkey', 'contact'];
+const FOOTER_LINKS = ['About', 'TernKey', 'Contact'];
+const CONTACT_LINKS :{svg:string, href: string}[]= [
+    {svg: SVG_LINKEDIN, href:'https://www.linkedin.com/company/tern-sys/'},
+    {svg: SVG_GITHUB, href:'https://github.com/Tern-Systems'},
+    {svg: SVG_DISCORD, href:'https://discord.gg/ZkZZmm8k4f'},
+]
 
 import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
@@ -132,14 +135,11 @@ export default function Home() {
           <div className={`${styles.contactContent} ${styles.credoSection} ${activeSection === 'credo' ? styles.fadeIn : styles.fadeOut}`}>
               <Credo />
           </div>
-        );  
+        );
       default:
         return <div className={styles.contactContent} />;
     }
   };
-
-  const MenuBtns: ReactElement[] = MENU_BTNS.map((text,idx) =>
-      <IconWithCyclingLetters key={text + idx} text={text} symbols={['-', '0', '+']} symbolIdx={idx} activeSection={activeSection} handleIconClick={handleIconClick}/>);
 
   // Footer
   const renderFooterContent = (): ReactElement => {
@@ -147,47 +147,47 @@ export default function Home() {
       case 'about':
         return <a href={'#'} onClick={() => handleIconClick('credo')}>Our Credo</a>;
       case 'contact':
-        return (
-            <>
-              <a href="https://www.linkedin.com/company/tern-sys/" target={'_blank'}>
-                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_LINKEDIN}
-                       alt={'linkedin-icon'}/>
-              </a>
-              <a href="https://github.com/Tern-Systems" target={'_blank'}>
-                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_GITHUB}
-                       alt={'github-icon'}/>
-              </a>
-              <a href="https://discord.gg/ZkZZmm8k4f" target={'_blank'}>
-                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_DISCORD}
-                       alt={'discord-icon'}/>
-              </a>
-            </>
-        );
+        const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
+            <a key={link.svg + index} href={link.href} target={'_blank'}>
+              <Image src={link.svg} alt={link.svg.toString().toLowerCase()} className={'mr-[0.75rem] w-[2.06rem] h-[2.06rem]'}/>
+            </a>
+        ))
+        return <div className={'flex'}>{ContactLinks}</div>;
       case 'ternkey':
         return <p onClick={()=>handleIconClick('documentation')}>Documentation</p>;
-      default:
+      case null:
+        const FooterLinks: ReactElement[] = FOOTER_LINKS.map((link:string, index)=> {
+          let DelimElem: ReactElement | null = null;
+          if (index !== FOOTER_LINKS.length - 1)
+            DelimElem = <span className={styles.bullet}>&nbsp;&bull;&nbsp;</span>;
+
+          return (
+              <>
+                <a href="#" onClick={() => {handleIconClick(link.toLowerCase())}}>{link}</a>
+                {DelimElem}
+              </>
+          );
+        })
         return (
-            <p>
-              Develop, manufacture, preserve, and enhance fundamental computer
-              software and hardware, emphasizing universal efficiency across all
-              processes.
-            </p>
+            <>
+              <div className={'max-w-[575px]'}>
+                <div className={`mb-[2.69rem]`}>
+                  {FooterLinks}
+                </div>
+                <p>
+                  Tern Systems is a technology company that develops, manufactures, preserves, and enhances fundamental computer software and hardware.
+                </p>
+              </div>
+               <p className={'place-self-end'}>New York, New York</p>
+            </>
         );
+      default: return <></>;
     }
   };
-  const footerAnimationStyle = activeSection === null || ['about', 'contact', 'ternkey'].includes(activeSection) ? styles.fadeIn : styles.fadeOut;
 
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
-        <aside className="relative m-[2.06rem] flex-shrink-0 flex z-10">
-          <div className={`text-[36px] flex flex-col gap-[40px] ${minimalLanding ? "hidden" : "flex"}`}>
-            {activeSection === null || SECTIONS_WITH_MENU.includes(activeSection)? MenuBtns : null}
-          </div>
-        </aside>
-        <div className={`absolute top-[2.06rem] right-[2.06rem] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
-          <p>New York, New York</p>
-        </div>
         <div
           className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''} ${activeSection !== null ? styles.pointer : ''}`}
           onClick={handleInsigniaClick}
@@ -200,32 +200,16 @@ export default function Home() {
       <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
         {renderContent()}
       </div>
-      <footer
-          className={`${styles.footer} text-[14px] text-white w-full flex ${footerAnimationStyle} ${minimalLanding ? "justify-center" : "justify-between"} px-[54px] pb-[50px]`}>
-        <div
-            className={`max-w-[500px] ${minimalLanding ? "hidden" : "flex"}`}>
-          {renderFooterContent()}
-        </div>
-        <div
-            className={`self-end flex items-center space-x-4 ${minimalLanding ? "hidden" : "flex"}`}>
-          <a href="#" onClick={() => {handleIconClick('cookies')}}
-          >
-            Cookies
-          </a>
-          <span className={styles.bullet}>&bull;</span>
-          <a href="#" onClick={() => {handleIconClick('cookies')}}
-          >
-            Privacy
-          </a>
-          <span className={styles.bullet}>&bull;</span>
-          <a href="#" onClick={() => {handleIconClick('cookies')}}
-          >
-            Terms
-          </a>
-          
-        </div>
-        <a onClick={() => setMinimalLanding(false)}
-           className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems</a>
+      <footer className={`${styles.footer} ${minimalLanding ? "justify-center" : "justify-between"}`}>
+        {
+          minimalLanding
+            ? (
+                <a href={'#'} className={`${styles.linkMinimalistic} cursor-pointer`} onClick={() => setMinimalLanding(false)}>
+                    Tern Systems
+                </a>
+            )
+            : renderFooterContent()
+        }
       </footer>
     </div>
   );
