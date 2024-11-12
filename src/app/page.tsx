@@ -94,11 +94,12 @@ export default function Home() {
       case 'about':
         return (
           <>
-          <div className={`${styles.contactContent} ${styles.fadeIn}`}>
-          {showCredo ? <Credo /> : <About />}
-        </div>
-          <div className="fixed bottom-1 left-0 p-12">
-          <button onClick={() => setShowCredo(!showCredo)} className="text-white text-sm">
+            <div className={styles.viewTitle}>{showCredo ? 'Our Credo' : 'About'}</div>
+            <div className={styles.contactContent}>
+              {showCredo ? <Credo /> : <About />}
+            </div>
+            <div className="fixed bottom-1 left-0 p-12">
+            <button onClick={() => setShowCredo(!showCredo)} className="text-white text-sm">
               {showCredo ? '' : 'Our Credo'}
             </button>
           </div>
@@ -107,7 +108,8 @@ export default function Home() {
       case 'documentation':
         return (
           <>
-            <div className={`${styles.documentationLinksContent} ${styles.contactContent} ${activeSection === 'documentation' ? styles.fadeIn : styles.fadeOut}`}>
+            <div className={styles.viewTitle}>Documentation</div>
+            <div className={`${styles.documentationLinksContent} ${styles.contactContent}`}>
               <a href={'#'} className={'mb-[8.88rem]'} onClick={()=> handleIconClick('TernKey Manual')}>TernKey Manual</a>
               <a href={'#'} onClick={()=> handleIconClick('GHandbook')}>G Handbook</a>
             </div>
@@ -118,23 +120,23 @@ export default function Home() {
         return <DocumentationView view={activeSection}/>;
       case 'contact':
         return (
-          <div className={`${styles.contactContent} ${activeSection === 'contact' ? styles.fadeIn : styles.fadeOut}`}>
-            <p>Tern Systems</p>
-            <p>New York, New York</p>
-            <p>info@tern.ac</p>
-          </div>
+            <>
+              <div className={styles.viewTitle}>Contact</div>
+              <div className={styles.contactContent}>
+                <p>Tern Systems</p>
+                <p>New York, New York</p>
+                <p>info@tern.ac</p>
+              </div>
+            </>
         );
       case 'ternkey':
         return (
-            <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
-              <Image style={{width:'166.8px',height:'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
-            </a>
-        );
-      case 'credo':
-        return (
-          <div className={`${styles.contactContent} ${styles.credoSection} ${activeSection === 'credo' ? styles.fadeIn : styles.fadeOut}`}>
-              <Credo />
-          </div>
+            <>
+              <div className={styles.viewTitle}>TernKey</div>
+              <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+                <Image style={{width:'166.8px',height:'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
+              </a>
+            </>
         );
       default:
         return <div className={styles.contactContent} />;
@@ -197,7 +199,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
+      <div className={`${styles.contactOverlay} px-[2rem] py-[2.06rem]`}>
         {renderContent()}
       </div>
       <footer className={`${styles.footer} ${minimalLanding ? "justify-center" : "justify-between"}`}>
