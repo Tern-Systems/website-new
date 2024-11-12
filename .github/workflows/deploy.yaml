@@ -33,22 +33,11 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
           # Navigate to the project directory
-          cd /home/${{ secrets.GCP_USERNAME }}/TernKey
-          
-          # Install Yarn and PM2 globally if they are not already installed
-          if ! command -v yarn &> /dev/null; then
-            npm install -g yarn
-          fi
-          
-          if ! command -v pm2 &> /dev/null; then
-            npm install -g pm2
-          fi
-          
-          # Grant execute permission to the script
-          chmod +x dev-fm-be.sh
-          
-          # Run the script
-          ./dev-fm-be.sh
+          cd /home/${{ secrets.GCP_USERNAME }}/Website
+          git pull origin main
+          npm install
+          npm run build
+          sudo service website-app restart
         EOF
 
         
