@@ -13,7 +13,7 @@ import DocumentationView from "./components/DocumentationView";
 
 import Spline from '@splinetool/react-spline';
 import Image from "next/image";
-import TernKeyModal from './components/ternKeyModal/TernKeyModal'
+import Link from "next/link";
 
 import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
 import SVG_GITHUB from "@/assets/images/icons/github.svg";
@@ -21,6 +21,8 @@ import SVG_DISCORD from "@/assets/images/icons/discord.svg";
 
 const MENU_BTNS = ['About', 'TernKey', 'Contact'];
 const SECTIONS_WITH_MENU = ['about', 'documentation', 'ternkey', 'contact'];
+
+import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -101,8 +103,6 @@ export default function Home() {
             <p className="mb-4">On a mission to revolutionize computing by harnessing the power of ternary microprocessors.
             </p>
           </div>
-
-
           </>
 
         );
@@ -123,19 +123,14 @@ export default function Home() {
           <div className={`${styles.contactContent} ${activeSection === 'contact' ? styles.fadeIn : styles.fadeOut}`}>
             <p>Tern Systems</p>
             <p>New York, New York</p>
-            <p>General correspondence: info@tern.ac</p>
+            <p>info@tern.ac</p>
           </div>
         );
       case 'ternkey':
         return (
-          <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
-            <TernKeyModal
-              isOpen={activeSection === 'ternkey'}
-              onClose={() => handleIconClick('ternkey')}
-              message={message}
-              setMessage={setMessage}
-            />
-          </div>
+            <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+              <Image style={{width:'166.8px',height:'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
+            </a>
         );
       case 'cookies':
         return (
