@@ -8,8 +8,8 @@ import PrivacyParagraph from "./components/PrivacyParagraph";
 import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
 import Credo from "./components/Credo";
+import About from "./components/About";
 import DocumentationView from "./components/DocumentationView";
-
 
 import Spline from '@splinetool/react-spline';
 import Image from "next/image";
@@ -23,6 +23,7 @@ const MENU_BTNS = ['About', 'TernKey', 'Contact'];
 const SECTIONS_WITH_MENU = ['about', 'documentation', 'ternkey', 'contact'];
 
 import SVG_INSIGNIA from '@/assets/images/insignia.svg'
+
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -93,15 +94,13 @@ export default function Home() {
       case 'about':
         return (
           <>
-          <div className={`${styles.contactContent} ${activeSection === 'about' ? styles.fadeIn : styles.fadeOut}`}>
-            <p className="mb-4">We are Tern Systems.
-            </p>
-            <p className="mb-4">A technology company based out of the United States.
-            </p>
-            <p className="mb-4">Ushering in the era of efficient computing, equiping all legacy devices with advanced microprocessors.
-            </p>
-            <p className="mb-4">On a mission to revolutionize computing by harnessing the power of ternary microprocessors.
-            </p>
+          <div className={`${styles.contactContent} ${styles.fadeIn}`}>
+          {showCredo ? <Credo /> : <About />}
+        </div>
+          <div className="fixed bottom-1 left-0 p-12">
+          <button onClick={() => setShowCredo(!showCredo)} className="text-white text-sm">
+              {showCredo ? '' : 'Our Credo'}
+            </button>
           </div>
           </>
 
@@ -154,8 +153,8 @@ export default function Home() {
         return (
           <div className={`${styles.contactContent} ${styles.credoSection} ${activeSection === 'credo' ? styles.fadeIn : styles.fadeOut}`}>
               <Credo />
-            </div>
-        );
+          </div>
+        );  
       default:
         return <div className={styles.contactContent} />;
     }
@@ -245,6 +244,7 @@ export default function Home() {
           >
             Terms
           </a>
+          
         </div>
         <a onClick={() => setMinimalLanding(false)}
            className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems</a>
