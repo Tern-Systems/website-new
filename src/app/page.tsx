@@ -28,8 +28,7 @@ import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isViewChange, setViewChange] = useState<boolean>(false);
-  const [moveInsignia, setMoveInsignia] = useState(false);
-  const [isReturning, setIsReturning] = useState(false);
+  const [isInsigniaMoved, setInsigniaMoved] = useState(false);
   const [message, setMessage] = useState('');
   const [minimalLanding, setMinimalLanding] = useState(true);
   const [showCredo, setShowCredo] = useState(false);
@@ -39,14 +38,10 @@ export default function Home() {
     const queryParams = new URLSearchParams(window.location.search);
 
     if (queryParams.get('success') === 'email_verified')   {
-      setMoveInsignia(true);
       setActiveSection('ternkey');
-      setIsReturning(false);
       setMessage("Successfully signed up. Please log in.");
     } else if ( queryParams.get('error') === 'Internal_server_error') {
-      setMoveInsignia(true);
       setActiveSection('ternkey');
-      setIsReturning(false);
       setMessage('An error has occurred. Please try again');
     }
   }, []);
@@ -59,8 +54,8 @@ export default function Home() {
           setActiveSection(section);
       }, fadeDuration);
 
-      setMoveInsignia(true);
-      setIsReturning(false);
+      setInsigniaMoved(true);
+      setActiveSection(section);
 
       const newUrl = window.location.origin + window.location.pathname;
       window.history.replaceState(null, '', newUrl);
@@ -69,17 +64,11 @@ export default function Home() {
   const handleInsigniaClick = () => {
     if (activeSection !== null) {
       setViewChange(true);
-      setMoveInsignia(true);
-      setIsReturning(false);
+      setInsigniaMoved(false);
 
       setTimeout(() => {
         setViewChange(false);
         setActiveSection(null);
-        setMoveInsignia(false);
-      }, fadeDuration);
-
-      setTimeout(() => {
-        setIsReturning(true);
       }, fadeDuration);
     }
   };
@@ -180,7 +169,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
         <div
-          className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''} ${activeSection !== null ? styles.pointer : ''}`}
+          className={`${styles.insigniaContainer} text-white ${isInsigniaMoved ? styles.move : styles.return} ${activeSection !== null ? styles.pointer : ''}`}
           onClick={handleInsigniaClick}
         >
           <Spline
