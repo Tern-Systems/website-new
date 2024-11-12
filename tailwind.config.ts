@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        caslon: ['"Adobe Caslon Pro"', 'serif'],
+        neo: ['"Neo Sans W1G"', 'sans-serif'],
+      },
     },
   },
   plugins: [],

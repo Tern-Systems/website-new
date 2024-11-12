@@ -27,3 +27,17 @@ body {
     text-wrap: balance;
   }
 }
+
+@font-face {
+  font-family: "Adobe Caslon Pro";
+  src: url("/fonts/AdobeCaslonPro-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Neo Sans W1G";
+  src: url("/fonts/NeoSansW1G-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
