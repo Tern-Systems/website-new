@@ -1,79 +1,84 @@
 name: Deploy Website to GCP Compute Engine
 
 env: 
-  DEBUG: true
-  
+  DEBUG: true  # Enable debugging mode for more verbose output
+
 on:
   push:
-    branches: [main]  # Trigger deployment when a PR is opened or merged into the main branch.
+    branches: [main]  # Trigger deployment on push to the main branch
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest Ubuntu image for the job
 
     steps:
-    - name: 'Checkout repository'
-      uses: actions/checkout@v3  # Check out the code from the repository
+      # Step 1: Checkout the code from the repository
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
 
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+      # Step 2: Set up SSH key for secure connection to GCP instance
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh  # Create .ssh directory if it doesn't exist
+          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
+          chmod 600 ~/.ssh/id_rsa  # Set appropriate permissions for the SSH key
 
-    - name: Verify SSH connection
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
-          # Check Node.js and npm versions
-          node -v
-          npm -v
-        EOF
+      # Step 3: Verify SSH connection and check Node.js and npm versions on the server
+      - name: Verify SSH connection
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
+            # Display Node.js and npm versions to confirm connection and environment setup
+            node -v
+            npm -v
+          EOF
+        # shell: /usr/bin/bash -e {0}
 
-    - name: SSH into the GCP instance and run the deployment script
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
-          # Navigate to the project directory
-          cd /home/${{ secrets.GCP_USERNAME }}/Website
-          git pull origin main
-          npm install
-          npm run build
-          sudo service website-app restart
-        EOF
+      # Step 4: SSH into the GCP instance and run deployment commands
+      - name: SSH into the GCP instance and run the deployment script
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
+            # Navigate to the project directory on the GCP instance
+            cd /home/${{ secrets.GCP_USERNAME }}/Website
+            # Pull the latest changes from the main branch
+            git pull origin main
+            # Install any new dependencies
+            npm install
+            # Build the application for production
+            npm run build
+            # Restart the application service to apply updates
+            sudo service website-app restart
+          EOF
+        # shell: /usr/bin/bash -e {0}
 
-        
-        shell: /usr/bin/bash -e {0}
-        
-        - name: 'Fetch PR Details'
-          id: pr_details
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            # Fetch the PR information
-            PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository }}:${{ github.ref_name }})
-        
-            # Extract PR creator
-            CREATOR=$(echo "$PR_INFO" | jq -r '.[0].user.login')
-            echo "creator=$CREATOR" >> $GITHUB_ENV
-        
-            # Extract PR approver (if exists)
-            APPROVER=$(echo "$PR_INFO" | jq -r '.[0].requested_reviewers[0].login // "none"')
-            echo "approver=$APPROVER" >> $GITHUB_ENV
-        
-            # Extract PR merger (if exists)
-            MERGER=$(echo "$PR_INFO" | jq -r '.[0].merged_by.login // "none"')
-            echo "merger=$MERGER" >> $GITHUB_ENV
-        
-          # Outputs
-          echo "creator=${{ env.creator }}"
-          echo "approver=${{ env.approver }}"
-          echo "merger=${{ env.merger }}"
+      # Step 5: Fetch details of the Pull Request (PR) to extract creator, approver, and merger info
+      - name: Fetch PR Details
+        id: pr_details
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch PR information based on the current branch and repository
+          PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository }}:${{ github.ref_name }})
 
-    # Send a success or failure notification based on deployment outcome
-    - name: 'Send Deployment Status Notification to Discord'
-      if: always()
-      run: |
-        STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
-        curl -X POST -H "Content-Type: application/json" \
-        -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ steps.pr_details.outputs.creator }}\n**Approver:** ${{ steps.pr_details.outputs.approver }}\n**Merger:** ${{ steps.pr_details.outputs.merger }}\n**Status:** $STATUS\"}" \
-        ${{ secrets.DISCORD_WEBHOOK_URL }}
+          # Extract the username of the PR creator
+          CREATOR=$(echo "$PR_INFO" | jq -r '.[0].user.login')
+          # Extract the first requested reviewer as the approver, if available
+          APPROVER=$(echo "$PR_INFO" | jq -r '.[0].requested_reviewers[0].login // "none"')
+          # Extract the username of the person who merged the PR, if merged
+          MERGER=$(echo "$PR_INFO" | jq -r '.[0].merged_by.login // "none"')
+
+          # Set outputs for later steps to access these values
+          echo "::set-output name=creator::$CREATOR"
+          echo "::set-output name=approver::$APPROVER"
+          echo "::set-output name=merger::$MERGER"
+
+      # Step 6: Send a deployment status notification to Discord with PR details
+      - name: Send Deployment Status Notification to Discord
+        if: always()  # Run this step regardless of success or failure of previous steps
+        run: |
+          # Determine deployment status based on the job outcome
+          STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
+          # Send a formatted message to Discord including deployment details and status
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ steps.pr_details.outputs.creator }}\n**Approver:** ${{ steps.pr_details.outputs.approver }}\n**Merger:** ${{ steps.pr_details.outputs.merger }}\n**Status:** $STATUS\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
