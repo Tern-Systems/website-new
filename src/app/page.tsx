@@ -4,9 +4,6 @@ import {useState, useEffect, ReactElement} from "react";
 import IconWithCyclingLetters from './IconWithCyclingLetters';
 import styles from './page.module.css';
 
-import PrivacyParagraph from "./components/PrivacyParagraph";
-import TermsParagraph from "./components/TermsParagraph";
-import Cookies from "./components/Cookies";
 import Credo from "./components/Credo";
 import About from "./components/About";
 import DocumentationView from "./components/DocumentationView";
@@ -103,7 +100,6 @@ export default function Home() {
             </button>
           </div>
           </>
-
         );
       case 'documentation':
         return (
@@ -130,24 +126,6 @@ export default function Home() {
             <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
               <Image style={{width:'166.8px',height:'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
             </a>
-        );
-      case 'cookies':
-        return (
-          <div className={`${styles.contactContent}  ${styles.cookieSection} ${activeSection === 'cookies' ? styles.fadeIn : styles.fadeOut}`}>
-            <Cookies />
-          </div>
-        );
-      case 'privacy':
-        return (
-          <div className={`${styles.contactContent} ${styles.privacySection} ${activeSection === 'privacy' ? styles.fadeIn : styles.fadeOut}`}>
-            <PrivacyParagraph />
-          </div>
-        );
-      case 'terms':
-        return (
-          <div className={`${styles.contactContent} ${styles.termSection} ${activeSection === 'terms' ? styles.fadeIn : styles.fadeOut}`}>
-            <TermsParagraph />
-          </div>
         );
       case 'credo':
         return (
