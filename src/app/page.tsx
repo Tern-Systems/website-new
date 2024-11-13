@@ -170,9 +170,10 @@ export default function Home() {
       <div className="flex-grow flex relative">
         <div
           className={`${styles.insigniaContainer} text-white ${isInsigniaMoved ? styles.move : styles.return} ${activeSection !== null ? styles.pointer : ''}`}
-          onClick={handleInsigniaClick}
+          onClick={() => handleInsigniaClick()}
         >
           <Spline
+            className={isInsigniaMoved ? 'pointer-events-none' : ''}
             scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"
           />
         </div>

@@ -115,7 +115,6 @@
   z-index: 1000;
   width: 300px; /* 240px after the scale() */
   height: 300px;
-  pointer-events: auto;
   background: transparent;
 }
 
