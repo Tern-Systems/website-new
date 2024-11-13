@@ -27,6 +27,7 @@ import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isViewChange, setViewChange] = useState<boolean>(false);
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
   const [message, setMessage] = useState('');
@@ -52,33 +53,27 @@ export default function Home() {
 
 
   const handleIconClick = (section: string) => {
-    if (activeSection === section) {
-
-      setMoveInsignia(true);
-      setIsReturning(false);
-
-
+      setViewChange(true);
       setTimeout(() => {
-        setActiveSection(null);
-        setMoveInsignia(false);
+          setViewChange(false);
+          setActiveSection(section);
       }, fadeDuration);
-    } else {
 
       setMoveInsignia(true);
-      setActiveSection(section);
       setIsReturning(false);
 
       const newUrl = window.location.origin + window.location.pathname;
       window.history.replaceState(null, '', newUrl);
-    }
   };
 
   const handleInsigniaClick = () => {
     if (activeSection !== null) {
+      setViewChange(true);
       setMoveInsignia(true);
       setIsReturning(false);
 
       setTimeout(() => {
+        setViewChange(false);
         setActiveSection(null);
         setMoveInsignia(false);
       }, fadeDuration);
@@ -199,7 +194,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className={`${styles.contactOverlay} px-[2rem] py-[2.06rem]`}>
+      <div className={`${styles.contactOverlay} px-[2rem] py-[2.06rem] ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
         {renderContent()}
       </div>
       <footer className={`${styles.footer} ${minimalLanding ? "justify-center" : "justify-between"}`}>
