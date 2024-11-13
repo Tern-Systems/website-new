@@ -89,14 +89,8 @@ export default function Home() {
       case 'about':
         return (
           <>
-            <div className={styles.viewTitle}>{showCredo ? 'Our Credo' : 'About'}</div>
-            <div className={styles.contactContent}>
-              {showCredo ? <Credo /> : <About />}
-            </div>
-            <div className="fixed bottom-1 left-0 p-12">
-            <button onClick={() => setShowCredo(!showCredo)} className="text-white text-sm">
-              {showCredo ? '' : 'Our Credo'}
-            </button>
+          <div className={`${styles.contactContent} ${styles.fadeIn}`}>
+          {showCredo ? <Credo /> : <About />}
           </div>
           </>
         );
@@ -142,7 +136,7 @@ export default function Home() {
   const renderFooterContent = (): ReactElement => {
     switch (activeSection) {
       case 'about':
-        return <a href={'#'} onClick={() => handleIconClick('credo')}>Our Credo</a>;
+        return <a href={'#'} onClick={() => handleIconClick('credo')}className="font-neo">Our Credo</a>;
       case 'contact':
         const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
             <a key={link.svg + index} href={link.href} target={'_blank'}>
