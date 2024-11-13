@@ -49,7 +49,7 @@ jobs:
             sudo service website-app restart
           EOF
         # shell: /usr/bin/bash -e {0}
-
+      
       # Step 5: Fetch details of the Pull Request (PR) to extract creator, approver, and merger info
       - name: Fetch PR Details
         id: pr_details
@@ -60,32 +60,27 @@ jobs:
           PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository }}:${{ github.ref_name }})
       
-          # Check if PR_INFO is empty or if there are no PRs found
-          if [ "$(echo "$PR_INFO" | jq 'length')" -eq 0 ]; then
-            echo "No pull request found for the specified branch. Retrieving commit information."
+          # Extract the username of the PR creator, approver, and merger if available
+          CREATOR=$(echo "$PR_INFO" | jq -r '.[0].user.login // "none"')
+          APPROVER=$(echo "$PR_INFO" | jq -r '.[0].requested_reviewers[0].login // "none"')
+          MERGER=$(echo "$PR_INFO" | jq -r '.[0].merged_by.login // "none"')
       
-            # Fetch latest commit information on the branch
-            COMMIT_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              https://api.github.com/repos/${{ github.repository }}/commits/${{ github.ref_name }})
-      
-            # Extract the username of the commit author
-            CREATOR=$(echo "$COMMIT_INFO" | jq -r '.commit.author.name')
-            APPROVER="none"  # No approver in this case
-            MERGER="none"    # No merger in this case
-      
-          else
-            # Extract the username of the PR creator
-            CREATOR=$(echo "$PR_INFO" | jq -r '.[0].user.login')
-            # Extract the first requested reviewer as the approver, if available
-            APPROVER=$(echo "$PR_INFO" | jq -r '.[0].requested_reviewers[0].login // "none"')
-            # Extract the username of the person who merged the PR, if merged
-            MERGER=$(echo "$PR_INFO" | jq -r '.[0].merged_by.login // "none"')
+          # If PR data is unavailable, set fallback messages to make debugging easier
+          if [ "$CREATOR" == "none" ]; then
+            CREATOR="No PR found or data unavailable"
+          fi
+          if [ "$APPROVER" == "none" ]; then
+            APPROVER="No approver assigned"
+          fi
+          if [ "$MERGER" == "none" ]; then
+            MERGER="Not merged yet"
           fi
       
-          # Set outputs for later steps to access these values
+          # Output the values
           echo "::set-output name=creator::$CREATOR"
           echo "::set-output name=approver::$APPROVER"
           echo "::set-output name=merger::$MERGER"
+
 
       # Step 6: Send a deployment status notification to Discord with PR details
       - name: Send Deployment Status Notification to Discord
