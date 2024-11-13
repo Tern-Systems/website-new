@@ -1,25 +1,37 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import {useState, useEffect, ReactElement} from "react";
 import IconWithCyclingLetters from './IconWithCyclingLetters';
 import styles from './page.module.css';
+
 import PrivacyParagraph from "./components/PrivacyParagraph";
 import TermsParagraph from "./components/TermsParagraph";
 import Cookies from "./components/Cookies";
+import Credo from "./components/Credo";
+
 import Spline from '@splinetool/react-spline';
+import Image from "next/image";
 import TernKeyModal from './components/ternKeyModal/TernKeyModal'
+
+import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
+import SVG_GITHUB from "@/assets/images/icons/github.svg";
+import SVG_DISCORD from "@/assets/images/icons/discord.svg";
+
+const MENU_BTNS = ['About', 'TernKey', 'Contact'];
+const SECTIONS_WITH_MENU = ['about', 'documentation', 'ternkey', 'contact'];
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [moveInsignia, setMoveInsignia] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
   const [message, setMessage] = useState('');
+  const [minimalLanding, setMinimalLanding] = useState(true);
 
-  const fadeDuration = 500; 
+  const fadeDuration = 500;
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
-  
+
     if (queryParams.get('success') === 'email_verified')   {
       setMoveInsignia(true);
       setActiveSection('ternkey');
@@ -32,11 +44,11 @@ export default function Home() {
       setMessage('An error has occurred. Please try again');
     }
   }, []);
-  
+
 
   const handleIconClick = (section: string) => {
     if (activeSection === section) {
- 
+
       setMoveInsignia(true);
       setIsReturning(false);
 
@@ -44,7 +56,7 @@ export default function Home() {
       setTimeout(() => {
         setActiveSection(null);
         setMoveInsignia(false);
-      }, fadeDuration); 
+      }, fadeDuration);
     } else {
 
       setMoveInsignia(true);
@@ -64,7 +76,7 @@ export default function Home() {
       setTimeout(() => {
         setActiveSection(null);
         setMoveInsignia(false);
-      }, fadeDuration); 
+      }, fadeDuration);
 
       setTimeout(() => {
         setIsReturning(true);
@@ -76,12 +88,21 @@ export default function Home() {
     switch (activeSection) {
       case 'about':
         return (
+          <>
           <div className={`${styles.contactContent} ${activeSection === 'about' ? styles.fadeIn : styles.fadeOut}`}>
-            <p>We are a technology company based out of the United States.</p>
-            <p>Vision: Ushering in the era of efficient computing, equipping all legacy devices with advanced microprocessors.</p>
-            <p>Mission: Revolutionize computing by harnessing the power of ternary microprocessors.</p>
-            <p>Purpose: Develop, manufacture, preserve, and enhance fundamental computer software and hardware, emphasizing universal efficiency across all processes.</p>
+            <p className="mb-4">We are Tern Systems.
+            </p>
+            <p className="mb-4">A technology company based out of the United States.
+            </p>
+            <p className="mb-4">Ushering in the era of efficient computing, equiping all legacy devices with advanced microprocessors.
+            </p>
+            <p className="mb-4">On a mission to revolutionize computing by harnessing the power of ternary microprocessors.
+            </p>
           </div>
+
+
+          </>
+
         );
       case 'contact':
         return (
@@ -94,8 +115,8 @@ export default function Home() {
       case 'ternkey':
         return (
           <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
-            <TernKeyModal 
-              isOpen={activeSection === 'ternkey'} 
+            <TernKeyModal
+              isOpen={activeSection === 'ternkey'}
               onClose={() => handleIconClick('ternkey')}
               message={message}
               setMessage={setMessage}
@@ -120,88 +141,104 @@ export default function Home() {
             <TermsParagraph />
           </div>
         );
+      case 'credo':
+        return (
+          <div className={`${styles.contactContent} ${styles.credoSection} ${activeSection === 'credo' ? styles.fadeIn : styles.fadeOut}`}>
+              <Credo />
+            </div>
+        );
       default:
         return <div className={styles.contactContent} />;
     }
   };
 
+  const MenuBtns: ReactElement[] = MENU_BTNS.map((text,idx) =>
+      <IconWithCyclingLetters key={text + idx} text={text} symbols={['-', '0', '+']} symbolIdx={idx} activeSection={activeSection} handleIconClick={handleIconClick}/>);
+
+  // Footer
+  const renderFooterContent = (): ReactElement => {
+    switch (activeSection) {
+      case 'about':
+        return <a href={'#'} onClick={() => handleIconClick('credo')}>Our Credo</a>;
+      case 'contact':
+        return (
+            <>
+              <a href="https://www.linkedin.com/company/tern-sys/" target={'_blank'}>
+                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_LINKEDIN}
+                       alt={'linkedin-icon'}/>
+              </a>
+              <a href="https://github.com/Tern-Systems" target={'_blank'}>
+                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_GITHUB}
+                       alt={'github-icon'}/>
+              </a>
+              <a href="https://discord.gg/ZkZZmm8k4f" target={'_blank'}>
+                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_DISCORD}
+                       alt={'discord-icon'}/>
+              </a>
+            </>
+        );
+      case 'ternkey':
+        return <p onClick={()=>handleIconClick('documentation')}>Documentation</p>;
+      default:
+        return (
+            <p>
+              Develop, manufacture, preserve, and enhance fundamental computer
+              software and hardware, emphasizing universal efficiency across all
+              processes.
+            </p>
+        );
+    }
+  };
+  const footerAnimationStyle = activeSection === null || ['about', 'contact', 'ternkey'].includes(activeSection) ? styles.fadeIn : styles.fadeOut;
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
-        <aside className="m-[54px] flex-shrink-0 flex z-10">
-          <div className="text-[36px] flex flex-col gap-[40px]">
-            <div className={styles.icon} onClick={() => handleIconClick('about')}>
-              <span className={styles.iconSymbol}>-</span>
-              <IconWithCyclingLetters text="About" symbols={['-', '0', '+']} />
-            </div>
-            <div className={styles.icon} onClick={() => handleIconClick('ternkey')}>
-              <span className={styles.iconSymbol}>0</span>
-              <IconWithCyclingLetters text="TernKey" symbols={['-', '0', '+']} />
-            </div>
-            <div className={styles.icon} onClick={() => handleIconClick('contact')}>
-              <span className={styles.iconSymbol}>+</span>
-              <IconWithCyclingLetters text="Contact" symbols={['-', '0', '+']} />
-            </div>
+        <aside className="relative m-[2.06rem] flex-shrink-0 flex z-10">
+          <div className={`text-[36px] flex flex-col gap-[40px] ${minimalLanding ? "hidden" : "flex"}`}>
+            {activeSection === null || SECTIONS_WITH_MENU.includes(activeSection)? MenuBtns : null}
           </div>
         </aside>
-        <div className={`absolute right-[54px] top-[50px] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
+        <div className={`absolute top-[2.06rem] right-[2.06rem] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
           <p>New York, New York</p>
         </div>
-        <div 
-          className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''} ${activeSection !== null ? styles.pointer : ''}`} 
+        <div
+          className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''} ${activeSection !== null ? styles.pointer : ''}`}
           onClick={handleInsigniaClick}
         >
-          <Spline 
-            scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode" 
+          <Spline
+            scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"
           />
         </div>
       </div>
-
       <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
         {renderContent()}
       </div>
-      <footer className={`${styles.footer} text-[14px] text-white w-full flex justify-between px-[54px] pb-[50px]`}>
-        <div className={`max-w-[500px] ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
-          <p>
-            Develop, manufacture, preserve, and enhance fundamental computer
-            software and hardware, emphasizing universal efficiency across all
-            processes.
-          </p>
+      <footer
+          className={`${styles.footer} text-[14px] text-white w-full flex ${footerAnimationStyle} ${minimalLanding ? "justify-center" : "justify-between"} px-[54px] pb-[50px]`}>
+        <div
+            className={`max-w-[500px] ${minimalLanding ? "hidden" : "flex"}`}>
+          {renderFooterContent()}
         </div>
-        <div className={`self-end flex items-center space-x-4 ${activeSection ? styles.fadeOut : styles.fadeIn}`}>
-          <a
-            href="#"
-            onClick={(e) => {
-              if (!activeSection) handleIconClick('cookies');
-              else e.preventDefault();
-            }}
-            className={activeSection ? styles.disabled : ''}
+        <div
+            className={`self-end flex items-center space-x-4 ${minimalLanding ? "hidden" : "flex"}`}>
+          <a href="#" onClick={() => {handleIconClick('cookies')}}
           >
             Cookies
           </a>
           <span className={styles.bullet}>&bull;</span>
-          <a
-            href="#"
-            onClick={(e) => {
-              if (!activeSection) handleIconClick('privacy');
-              else e.preventDefault();
-            }}
-            className={activeSection ? styles.disabled : ''}
+          <a href="#" onClick={() => {handleIconClick('cookies')}}
           >
             Privacy
           </a>
           <span className={styles.bullet}>&bull;</span>
-          <a
-            href="#"
-            onClick={(e) => {
-              if (!activeSection) handleIconClick('terms');
-              else e.preventDefault();
-            }}
-            className={activeSection ? styles.disabled : ''}
+          <a href="#" onClick={() => {handleIconClick('cookies')}}
           >
             Terms
           </a>
         </div>
+        <a onClick={() => setMinimalLanding(false)}
+           className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems</a>
       </footer>
     </div>
   );
