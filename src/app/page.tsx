@@ -31,7 +31,7 @@ export default function Home() {
   const [isReturning, setIsReturning] = useState(false);
   const [message, setMessage] = useState('');
   const [minimalLanding, setMinimalLanding] = useState(true);
-
+  const [showCredo, setShowCredo] = useState(false);
   const fadeDuration = 500;
 
   useEffect(() => {
