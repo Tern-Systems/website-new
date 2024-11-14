@@ -51,10 +51,6 @@
   font-size: 1.3125rem;
 }
 
-.pointer {
-  cursor: pointer;
-}
-
 .privacySection {
   width: 105.3125rem;
   height: 44.875rem;
@@ -118,8 +114,15 @@
   background: transparent;
 }
 
-.insigniaContainer.move {
+.insigniaContainer.moved {
   animation: insignia-move 0.5s ease-in-out forwards;
+}
+
+.insigniaContainer.moved::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .insigniaContainer.return {

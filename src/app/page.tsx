@@ -24,15 +24,16 @@ const CONTACT_LINKS :{svg:string, href: string}[]= [
 
 import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
+const FADE_DURATION = 500;
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isViewChange, setViewChange] = useState<boolean>(false);
   const [isInsigniaMoved, setInsigniaMoved] = useState(false);
+  const [isInsigniaMoving, setInsigniaMoving] = useState(false);
   const [message, setMessage] = useState('');
   const [minimalLanding, setMinimalLanding] = useState(true);
   const [showCredo, setShowCredo] = useState(false);
-  const fadeDuration = 500;
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -48,29 +49,41 @@ export default function Home() {
 
 
   const handleIconClick = (section: string) => {
-      setViewChange(true);
-      setTimeout(() => {
-          setViewChange(false);
-          setActiveSection(section);
-      }, fadeDuration);
-
-      setInsigniaMoved(true);
+    setViewChange(true);
+    setTimeout(() => {
+      setViewChange(false);
       setActiveSection(section);
+    }, FADE_DURATION);
 
-      const newUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState(null, '', newUrl);
+    if (activeSection !== null)
+      return;
+
+    setInsigniaMoving(true);
+    setTimeout(() => {
+      setInsigniaMoving(false);
+      setInsigniaMoved(true);
+    }, 0)
+
+    const newUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState(null, '', newUrl);
   };
 
   const handleInsigniaClick = () => {
-    if (activeSection !== null) {
-      setViewChange(true);
-      setInsigniaMoved(false);
+    if (activeSection === null)
+      return;
 
-      setTimeout(() => {
-        setViewChange(false);
-        setActiveSection(null);
-      }, fadeDuration);
-    }
+    setViewChange(true);
+    setInsigniaMoving(true);
+
+    setTimeout(() => {
+      setViewChange(false);
+      setActiveSection(null);
+    }, FADE_DURATION);
+
+    setTimeout(() => {
+      setInsigniaMoved(false);
+      setInsigniaMoving(false);
+    }, 0)
   };
 
   const renderContent = () => {
@@ -169,13 +182,16 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
         <div
-          className={`${styles.insigniaContainer} text-white ${isInsigniaMoved ? styles.move : styles.return} ${activeSection !== null ? styles.pointer : ''}`}
+          className={`${styles.insigniaContainer} text-white '] ${isInsigniaMoved ? styles.moved  : styles.return}`}
           onClick={() => handleInsigniaClick()}
         >
-          <Spline
-            className={isInsigniaMoved ? 'pointer-events-none' : ''}
-            scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"
-          />
+          {
+            isInsigniaMoving ? null : (
+              <Spline
+                className={isInsigniaMoved ? styles.eventsDisabled : ''}
+                scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
+              />
+          )}
         </div>
       </div>
       <div className={`${styles.contactOverlay} px-[2rem] py-[2.06rem] ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
