@@ -95,7 +95,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     }
 
     return (
-        <>
+        <div className={`${isMenuOpened ? 'flex' : ''}`}>
             <aside
                 className={`${styles.menu} ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}>
                 <div className={`flex items-center ${styles.menuBtns}`}>
@@ -138,7 +138,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                     </div>
                 </div>
                 {!isMenuOpened ? null : (
-                    <div className={`mt-[1.86rem] ${isSelectExpanded ? 'opacity-25' : ''}`}>
+                    <div className={`mt-[1.86rem] overflow-y-scroll w-[102%] box-content pr-[7rem] ${isSelectExpanded ? 'opacity-25' : ''}`}>
                         <div className={'mb-[0.74rem]'}>
                             <span>Table of Contents</span>
                         </div>
@@ -148,8 +148,10 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                     </div>
                 )}
             </aside>
-            {ViewDict[selectedOption].elem()}
-        </>
+            <div className={`max-h-[86.6vh] ${isMenuOpened ? 'pt-[2.06rem] pl-[23.69rem]' : 'pt-[2.06rem]'}`}>
+                {ViewDict[selectedOption].elem()}
+            </div>
+        </div>
     );
 }
 
