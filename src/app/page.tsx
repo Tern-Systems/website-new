@@ -24,64 +24,66 @@ const CONTACT_LINKS :{svg:string, href: string}[]= [
 
 import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
+const FADE_DURATION = 500;
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isViewChange, setViewChange] = useState<boolean>(false);
-  const [moveInsignia, setMoveInsignia] = useState(false);
-  const [isReturning, setIsReturning] = useState(false);
+  const [isInsigniaMoved, setInsigniaMoved] = useState(false);
+  const [isInsigniaMoving, setInsigniaMoving] = useState(false);
   const [message, setMessage] = useState('');
   const [minimalLanding, setMinimalLanding] = useState(true);
   const [showCredo, setShowCredo] = useState(false);
-  const fadeDuration = 500;
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
 
     if (queryParams.get('success') === 'email_verified')   {
-      setMoveInsignia(true);
       setActiveSection('ternkey');
-      setIsReturning(false);
       setMessage("Successfully signed up. Please log in.");
     } else if ( queryParams.get('error') === 'Internal_server_error') {
-      setMoveInsignia(true);
       setActiveSection('ternkey');
-      setIsReturning(false);
       setMessage('An error has occurred. Please try again');
     }
   }, []);
 
 
   const handleIconClick = (section: string) => {
-      setViewChange(true);
-      setTimeout(() => {
-          setViewChange(false);
-          setActiveSection(section);
-      }, fadeDuration);
+    setViewChange(true);
+    setTimeout(() => {
+      setViewChange(false);
+      setActiveSection(section);
+    }, FADE_DURATION);
 
-      setMoveInsignia(true);
-      setIsReturning(false);
+    if (activeSection !== null)
+      return;
 
-      const newUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState(null, '', newUrl);
+    setInsigniaMoving(true);
+    setTimeout(() => {
+      setInsigniaMoving(false);
+      setInsigniaMoved(true);
+    }, 0)
+
+    const newUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState(null, '', newUrl);
   };
 
   const handleInsigniaClick = () => {
-    if (activeSection !== null) {
-      setViewChange(true);
-      setMoveInsignia(true);
-      setIsReturning(false);
+    if (activeSection === null)
+      return;
 
-      setTimeout(() => {
-        setViewChange(false);
-        setActiveSection(null);
-        setMoveInsignia(false);
-      }, fadeDuration);
+    setViewChange(true);
+    setInsigniaMoving(true);
 
-      setTimeout(() => {
-        setIsReturning(true);
-      }, fadeDuration);
-    }
+    setTimeout(() => {
+      setViewChange(false);
+      setActiveSection(null);
+    }, FADE_DURATION);
+
+    setTimeout(() => {
+      setInsigniaMoved(false);
+      setInsigniaMoving(false);
+    }, 0)
   };
 
   const renderContent = () => {
@@ -180,12 +182,16 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow flex relative">
         <div
-          className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''} ${activeSection !== null ? styles.pointer : ''}`}
-          onClick={handleInsigniaClick}
+          className={`${styles.insigniaContainer} text-white '] ${isInsigniaMoved ? styles.moved  : styles.return}`}
+          onClick={() => handleInsigniaClick()}
         >
-          <Spline
-            scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"
-          />
+          {
+            isInsigniaMoving ? null : (
+              <Spline
+                className={isInsigniaMoved ? styles.eventsDisabled : ''}
+                scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
+              />
+          )}
         </div>
       </div>
       <div className={`${styles.contactOverlay} px-[2rem] py-[2.06rem] ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
