@@ -1,4 +1,4 @@
-import React, {ReactElement, useState, JSX} from 'react'
+import React, {ReactElement, useState, JSX, useEffect} from 'react'
 import Image from "next/image";
 
 import Manual, {ManualAnchors} from "./Manual";
@@ -47,7 +47,6 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     ];
 
     // Renders an anchor list for the opened document
-
     const renderAnchorListHelper = (list: TListEntry, isChapters: boolean, chapterFlag: boolean, chapterCounter: number): ReactElement => {
         const ListOptions: ReactElement[] = list.map((entry, index): ReactElement => {
             let anchorId: string;
@@ -94,10 +93,27 @@ const DocumentationView = (props: IDocumentationViewProps) => {
         return renderAnchorListHelper(list, isChapters, chapterFlag, chapterCounter);
     }
 
+    // Click checking
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            if (isMenuOpened && !document.querySelector('#documentation-menu')?.contains(e.target as Node))
+                setMenuOpened(false);
+        }
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
+    }, [isMenuOpened, setMenuOpened])
+
+    // Returning to the top
+    useEffect(() => {
+        window.scrollTo({top: 1});
+    }, [selectedOption])
+
     return (
-        <>
+        <div className={`${isMenuOpened ? 'flex' : ''}`}>
             <aside
-                className={`${styles.menu} ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}>
+                id={'documentation-menu'}
+                className={`${styles.menu} ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}
+            >
                 <div className={`flex items-center ${styles.menuBtns}`}>
                     <div
                         className={'absolute z-10 flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] br-[5px] border-2 border-white border-solid'}
@@ -109,7 +125,8 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                                  borderTopLeftRadius: '2px',
                                  borderBottomLeftRadius: '2px',
                                  width: isMenuOpened ? '10%' : '40%'
-                             }}/>
+                             }}
+                        />
                     </div>
                     <div
                         className={`${styles.selectWrapper} ${isSelectExpanded ? styles.selectActive : ''}`}
@@ -138,7 +155,8 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                     </div>
                 </div>
                 {!isMenuOpened ? null : (
-                    <div className={`mt-[1.86rem] ${isSelectExpanded ? 'opacity-25' : ''}`}>
+                    <div
+                        className={`mt-[1.86rem] overflow-y-scroll w-[102%] box-content pr-[7rem] ${isSelectExpanded ? 'opacity-25' : ''}`}>
                         <div className={'mb-[0.74rem]'}>
                             <span>Table of Contents</span>
                         </div>
@@ -148,8 +166,16 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                     </div>
                 )}
             </aside>
-            {ViewDict[selectedOption].elem()}
-        </>
+            <div className={`max-h-[86.6vh] ${isMenuOpened ? 'pt-[2.06rem] pl-[23.69rem]' : 'pt-[2.06rem]'}`}>
+                <div className={styles.content}>
+                    <div className={styles.scrollable}>
+                        <div className={styles.text}>
+                            {ViewDict[selectedOption].elem()}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 

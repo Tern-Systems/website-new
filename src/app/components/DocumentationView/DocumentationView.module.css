@@ -7,19 +7,20 @@
     font-family: "Neo Sans W1G", sans-serif;
     font-size: 1.5rem;
     line-height: 130%;
-    width: 83.875rem;
     overflow: hidden;
-    max-height: 57.25rem;
-    padding: 1.15rem;
+    max-height: 86.6vh;
+}
+
+.scrollable {
+    max-height: inherit;
+    padding-right: 10rem;
+    box-sizing: content-box;
+    overflow-y: scroll;
+    width: 101%;
 }
 
 .text {
-    max-height: inherit;
-    width: 102%;
-    overflow-y: scroll;
-    padding-right: 7rem;
-    box-sizing: content-box;
-    font-size: 1.5rem;
+    padding: 1.15rem;
 }
 
 .menuBtns {
@@ -30,6 +31,7 @@
 
 .menu {
     position: absolute;
+    max-height: 100vh;
     left: 0;
     top: 0;
     display: flex;
@@ -38,6 +40,8 @@
     padding: 2.06rem;
     color: #ECF0F3;
     font-size: 1.0625rem;
+    overflow: hidden;
+    z-index: 1;
 }
 
 

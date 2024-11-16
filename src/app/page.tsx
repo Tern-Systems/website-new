@@ -138,7 +138,7 @@ export default function Home() {
   const renderFooterContent = (): ReactElement => {
     switch (activeSection) {
       case 'about':
-        return <a href={'#'} onClick={() => handleIconClick('credo')}className="font-neo">Our Credo</a>;
+        return <a href={'#'} onClick={() => handleIconClick('credo')} className="font-neo">Our Credo</a>;
       case 'contact':
         const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
             <a key={link.svg + index} href={link.href} target={'_blank'}>
@@ -147,7 +147,7 @@ export default function Home() {
         ))
         return <div className={'flex'}>{ContactLinks}</div>;
       case 'ternkey':
-        return <p onClick={()=>handleIconClick('documentation')}>Documentation</p>;
+        return <a href={'#'} onClick={()=>handleIconClick('documentation')}>Documentation</a>;
       case null:
         const FooterLinks: ReactElement[] = FOOTER_LINKS.map((link:string, index)=> {
           let DelimElem: ReactElement | null = null;
