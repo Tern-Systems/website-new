@@ -16,9 +16,12 @@
 }
 
 .contactOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  flex-grow: 1;
-  max-height: inherit;
   justify-content: center;
   align-items: center;
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
