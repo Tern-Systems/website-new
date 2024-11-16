@@ -9,7 +9,6 @@ import DocumentationView from "./components/DocumentationView";
 
 import Spline from '@splinetool/react-spline';
 import Image from "next/image";
-import Link from "next/link";
 
 import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
 import SVG_GITHUB from "@/assets/images/icons/github.svg";
@@ -33,6 +32,7 @@ export default function Home() {
   const [isInsigniaMoving, setInsigniaMoving] = useState(false);
   const [message, setMessage] = useState('');
   const [minimalLanding, setMinimalLanding] = useState(true);
+  const fadeDuration = 500;
   const [showCredo, setShowCredo] = useState(false);
 
   useEffect(() => {
@@ -88,11 +88,12 @@ export default function Home() {
 
   const renderContent = () => {
     switch (activeSection) {
+      case 'credo':
       case 'about':
         return (
           <>
           <div className={`${styles.contactContent} ${styles.fadeIn}`}>
-          {showCredo ? <Credo /> : <About />}
+          {activeSection === 'credo' ? <Credo /> : <About />}
           </div>
           </>
         );
@@ -142,7 +143,7 @@ export default function Home() {
       case 'contact':
         const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
             <a key={link.svg + index} href={link.href} target={'_blank'}>
-              <Image src={link.svg} alt={link.svg.toString().toLowerCase()} className={'mr-[0.75rem] w-[2.06rem] h-[2.06rem]'}/>
+              <Image src={link.svg} alt={link.svg.toString().toLowerCase()} className={'mr-[0.75rem] w-[1.8125rem] h-[1.8125rem]'}/>
             </a>
         ))
         return <div className={'flex'}>{ContactLinks}</div>;
@@ -155,10 +156,10 @@ export default function Home() {
             DelimElem = <span className={styles.bullet}>&nbsp;&bull;&nbsp;</span>;
 
           return (
-              <>
+              <span key={link + index}>
                 <a href="#" onClick={() => {handleIconClick(link.toLowerCase())}}>{link}</a>
                 {DelimElem}
-              </>
+              </span>
           );
         })
         return (
