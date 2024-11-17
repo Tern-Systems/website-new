@@ -9,9 +9,11 @@ import styles from './DocumentationView.module.css';
 import SVG_CHEVRON from '@/assets/images/icons/select-chewron.svg';
 
 
+/// Types //////////
 // Anchors list type
 type TListEntry = Array<string | Record<string, TListEntry>>;
 
+/// Constants //////////
 // Views
 const ViewDict: Record<string, { elem: () => JSX.Element, anchors: TListEntry, isChapter: boolean }> = {
     'TernKey Manual': {elem: Manual, anchors: ManualAnchors, isChapter: false},
@@ -19,6 +21,7 @@ const ViewDict: Record<string, { elem: () => JSX.Element, anchors: TListEntry, i
 }
 const ViewDictKeys = Object.keys(ViewDict);
 
+/// DocumentationView //////////
 interface IDocumentationViewProps {
     view: string;
 }
@@ -30,10 +33,27 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     const [isSelectExpanded, setSelectExpanded] = useState<boolean>(false);
     const [selectedOption, setSelectedOption] = useState<string>(view);
 
-    // Toggles
+    /// Toggles /////
     const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
     const toggleMenuOpen = () => setMenuOpened((prevState) => !prevState);
 
+    /// Effects /////
+    // Click checking
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            if (isMenuOpened && !document.querySelector('#documentation-menu')?.contains(e.target as Node))
+                setMenuOpened(false);
+        }
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
+    }, [isMenuOpened, setMenuOpened])
+
+    // Returning to the top
+    useEffect(() => {
+        window.scrollTo({top: 1});
+    }, [selectedOption])
+
+    /// Render /////
     // Options list
     const OptionsAllJSX: ReactElement[] = ViewDictKeys.map((value, index) =>
         <li key={value + index} className={styles.optionWrapper} onClick={() => setSelectedOption(value)}>{value}</li>
@@ -93,20 +113,59 @@ const DocumentationView = (props: IDocumentationViewProps) => {
         return renderAnchorListHelper(list, isChapters, chapterFlag, chapterCounter);
     }
 
-    // Click checking
-    useEffect(() => {
-        const handleClick = (e: MouseEvent) => {
-            if (isMenuOpened && !document.querySelector('#documentation-menu')?.contains(e.target as Node))
-                setMenuOpened(false);
-        }
-        window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
-    }, [isMenuOpened, setMenuOpened])
-
-    // Returning to the top
-    useEffect(() => {
-        window.scrollTo({top: 1});
-    }, [selectedOption])
+    // Misc
+    const MenuBtn = (
+        <div
+            className={'cursor-pointer z-10 flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] br-[5px] border-2 border-white border-solid'}
+            style={{borderRadius: '5px'}}
+            onClick={() => toggleMenuOpen()}
+        >
+            <div className={`bg-white box-border h-[100%]`}
+                 style={{
+                     borderTopLeftRadius: '2px',
+                     borderBottomLeftRadius: '2px',
+                     width: isMenuOpened ? '10%' : '40%'
+                 }}
+            />
+        </div>
+    );
+    const ViewSelect = (
+        <div
+            className={styles.selectWrapper}
+            onClick={() => toggleSelectExpand()}
+            onBlur={() => setSelectExpanded(false)}
+        >
+            <div className={styles.selectControlWrapper}>
+                <div
+                    id={'documentation-select'}
+                    className={`justify-center flex-grow sm:mx-[0.62rem] sm:flex-grow-0`}
+                >
+                    {OptionsAllJSX[selectedOptionIdx]}
+                </div>
+                <Image
+                    src={SVG_CHEVRON}
+                    alt={'select chevron'}
+                    className={`absolute right-0 sm:static sm:mr-[1rem] ${isSelectExpanded ? 'rotate-180' : ''}`}
+                />
+            </div>
+            {isSelectExpanded ? (
+                <ul className={styles.optionsList}>
+                    {OptionsJSX}
+                </ul>
+            ) : null}
+        </div>
+    );
+    const MenuContent = (
+        <div
+            className={`mt-[1.86rem] overflow-y-scroll w-[102%] box-content pr-[7rem] ${isSelectExpanded ? 'opacity-25' : ''}`}>
+            <div className={'mb-[0.74rem]'}>
+                <span>Table of Contents</span>
+            </div>
+            <ul style={{marginLeft: '-0.9rem'}}>
+                {renderAnchorList(ViewDict[selectedOption].anchors, ViewDict[selectedOption].isChapter)}
+            </ul>
+        </div>
+    );
 
     return (
         <>
@@ -115,57 +174,13 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                 className={`w-[23.6825rem] ${styles.menu} sm:portrait:w-screen ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}
             >
                 <div className={`flex items-center ${styles.menuBtns}`}>
-                    <div
-                        className={'cursor-pointer z-10 flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] br-[5px] border-2 border-white border-solid'}
-                        style={{borderRadius: '5px'}}
-                        onClick={() => toggleMenuOpen()}
-                    >
-                        <div className={`bg-white box-border h-[100%]`}
-                             style={{
-                                 borderTopLeftRadius: '2px',
-                                 borderBottomLeftRadius: '2px',
-                                 width: isMenuOpened ? '10%' : '40%'
-                             }}
-                        />
-                    </div>
-                    <div
-                        className={styles.selectWrapper}
-                        onClick={() => toggleSelectExpand()}
-                        onBlur={() => setSelectExpanded(false)}
-                    >
-                        <div className={styles.selectControlWrapper}>
-                            <div
-                                id={'documentation-select'}
-                                className={`justify-center flex-grow sm:mx-[0.62rem] sm:flex-grow-0`}
-                            >
-                                {OptionsAllJSX[selectedOptionIdx]}
-                            </div>
-                            <Image
-                                src={SVG_CHEVRON}
-                                alt={'select chevron'}
-                                className={`absolute right-0 sm:static sm:mr-[1rem] ${isSelectExpanded ? 'rotate-180' : ''}`}
-                            />
-                        </div>
-                        {isSelectExpanded ? (
-                            <ul className={styles.optionsList}>
-                                {OptionsJSX}
-                            </ul>
-                        ) : null}
-                    </div>
+                    {MenuBtn}
+                    {ViewSelect}
                 </div>
-                {!isMenuOpened ? null : (
-                    <div
-                        className={`mt-[1.86rem] overflow-y-scroll w-[102%] box-content pr-[7rem] ${isSelectExpanded ? 'opacity-25' : ''}`}>
-                        <div className={'mb-[0.74rem]'}>
-                            <span>Table of Contents</span>
-                        </div>
-                        <ul style={{marginLeft: '-0.9rem'}}>
-                            {renderAnchorList(ViewDict[selectedOption].anchors, ViewDict[selectedOption].isChapter)}
-                        </ul>
-                    </div>
-                )}
+                {!isMenuOpened ? null : MenuContent}
             </aside>
-            <div className={`max-h-full pt-[3.88rem] ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60 lg:pl-[23.69rem] md:landscape:pl-[23.69rem]' : ''}`}>
+            <div
+                className={`max-h-full pt-[3.88rem] ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60 lg:pl-[23.69rem] md:landscape:pl-[23.69rem]' : ''}`}>
                 <div className={styles.content}>
                     <div className={styles.text}>
                         {ViewDict[selectedOption].elem()}
