@@ -6,8 +6,6 @@ import {SectionsEnum} from "@/app/page";
 import Manual, {ManualAnchors} from "./Manual";
 import GHandbook, {GHandbookAnchors} from "./GHandbook";
 
-import styles from './DocumentationView.module.css';
-
 import SVG_CHEVRON from '@/assets/images/icons/select-chewron.svg';
 
 
@@ -58,7 +56,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     /// Render /////
     // Options list
     const OptionsAllJSX: ReactElement[] = ViewDictKeys.map((value, index) =>
-        <li key={value + index} className={styles.optionWrapper} onClick={() => setSelectedOption(value)}>{value}</li>
+        <li key={value + index} className={'flex items-center cursor-pointer justify-center'} onClick={() => setSelectedOption(value)}>{value}</li>
     );
 
     // Remove selected (current) option from the options list
@@ -103,7 +101,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                     >
                         {anchorText}
                     </a>
-                    <ul className={styles.anchorList}>{SubListOptions}</ul>
+                    <ul>{SubListOptions}</ul>
                 </li>
             );
         });
@@ -133,11 +131,11 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     );
     const ViewSelect = (
         <div
-            className={styles.selectWrapper}
+            className={'relative flex-grow'}
             onClick={() => toggleSelectExpand()}
             onBlur={() => setSelectExpanded(false)}
         >
-            <div className={styles.selectControlWrapper}>
+            <div className={'flex items-center'}>
                 <div
                     id={'documentation-select'}
                     className={`justify-center flex-grow sm:mx-[0.62rem] sm:flex-grow-0`}
@@ -151,7 +149,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                 />
             </div>
             {isSelectExpanded ? (
-                <ul className={styles.optionsList}>
+                <ul className={'absolute z-10 w-full'}>
                     {OptionsJSX}
                 </ul>
             ) : null}
@@ -173,9 +171,11 @@ const DocumentationView = (props: IDocumentationViewProps) => {
         <>
             <aside
                 id={'documentation-menu'}
-                className={`w-[23.6825rem] ${styles.menu} sm:portrait:w-screen ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}
+                className={`
+                    absolute left-0 top-0 flex flex-col px-[--px] py-[--py] max-h-screen w-[23.6825rem] text-primary text-[1.0625rem]
+                    z-[1] sm:portrait:w-screen ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}
             >
-                <div className={`flex items-center ${styles.menuBtns}`}>
+                <div className={`flex items-center font-oxygen text-[1.3125rem] font-bold`}>
                     {MenuBtn}
                     {ViewSelect}
                 </div>
@@ -183,8 +183,8 @@ const DocumentationView = (props: IDocumentationViewProps) => {
             </aside>
             <div
                 className={`max-h-full pt-[3.88rem] ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60 lg:pl-[23.69rem] md:landscape:pl-[23.69rem]' : ''}`}>
-                <div className={styles.content}>
-                    <div className={styles.text}>
+                <div className={'max-h-full rounded-[0.5625rem] border-2 border-[#192131] bg-[#001125] text-primary font-neo text-[1.5rem] leading-[130%] overflow-y-scroll'}>
+                    <div className={'px-[0.44rem] py-[0.59rem]'}>
                         {ViewDict[selectedOption].elem()}
                     </div>
                 </div>

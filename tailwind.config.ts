@@ -14,11 +14,10 @@ const config: Config = {
         lg: { min: '1440px' }
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        textPrimary: "#ECF0F3",
-        textSecondary: "#ECF0F3",
-        textTitle: "#178AB7",
+        bgBackground: "var(--bg-background)",
+        bgForeground: "var(--bg-foreground)",
+        primary: "var(--color-primary)",
+        title: "var(--color-title)",
       },
       fontFamily: {
         caslon: ['"Adobe Caslon Pro"', 'serif'],

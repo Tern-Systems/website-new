@@ -87,7 +87,7 @@ export default function Home() {
           case 'TernKey':
           case 'Documentation':
           case 'Contact':
-              Title = <div className={'text-textTitle font-oxygen text-[2.25rem] leading-none capitalize sm:mb-[--py]'}>{activeSection}</div>;
+              Title = <div className={'text-title font-oxygen text-[2.25rem] leading-none capitalize sm:mb-[--py]'}>{activeSection}</div>;
               break;
           default:
               Title = null;
@@ -211,14 +211,14 @@ export default function Home() {
         </p>
     );
     const HomeLink = (
-        <SectionLink section={SectionsEnum.Home} className={`text-textPrimary text-[1.3125rem] cursor-pointer`}>
+        <SectionLink section={SectionsEnum.Home} className={`text-text-primary text-[1.3125rem] cursor-pointer`}>
             Tern Systems
         </SectionLink>
     );
 
      return (
          <footer
-             className={`flex w-full justify-center text-center text-[1rem] font-neo text-textPrimary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
+             className={`flex w-full justify-center text-center text-[1rem] font-neo text-primary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
          >
              {minimalLanding ? HomeLink : SectionContent}
              {activeSection || minimalLanding ? null : LocationTitle}
