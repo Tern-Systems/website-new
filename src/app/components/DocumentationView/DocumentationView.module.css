@@ -9,18 +9,16 @@
     line-height: 130%;
     overflow: hidden;
     max-height: 86.6vh;
-}
-
-.scrollable {
-    max-height: inherit;
-    padding-right: 10rem;
-    box-sizing: content-box;
     overflow-y: scroll;
-    width: 101%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.content::-webkit-scrollbar {
+    display: none;
 }
 
 .text {
-    padding: 1.15rem;
+    padding: 0.59rem 0.44rem;
 }
 
 .menuBtns {

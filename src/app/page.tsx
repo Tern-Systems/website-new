@@ -1,7 +1,7 @@
 'use client'
 
 import {useState, useEffect, ReactElement} from "react";
-import {useRouter, useParams, useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import styles from './page.module.css';
 
 import Credo from "./components/Credo";
@@ -24,7 +24,7 @@ const CONTACT_LINKS :{svg:string, href: string}[]= [
 
 import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
-const FADE_DURATION = 500;
+const FADE_DURATION = 300;
 
 export default function Home() {
   const router = useRouter();
@@ -33,19 +33,15 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isViewChange, setViewChange] = useState<boolean>(false);
   const [isInsigniaMoved, setInsigniaMoved] = useState(false);
-  const [isInsigniaMoving, setInsigniaMoving] = useState(false);
   const [minimalLanding, setMinimalLanding] = useState(true);
-  const fadeDuration = 500;
 
   const section = params.get('section');
   useEffect(() => {
     setViewChange(true);
+  if (section !== null)
+      setInsigniaMoved(![null, 'start'].includes(section));
     setTimeout(() => {
-      setActiveSection((prevState) => {
-        if (prevState !== null)
-          setInsigniaMoved(![null, 'start'].includes(section));
-        return section;
-      });
+      setActiveSection(section);
       setMinimalLanding(section === null)
       setViewChange(false);
     }, FADE_DURATION);
@@ -65,9 +61,10 @@ export default function Home() {
       case 'about':
         return (
           <>
-          <div className={`${styles.contactContent} ${styles.fadeIn}`}>
-          {activeSection === 'credo' ? <Credo /> : <About />}
-          </div>
+            <div className={styles.viewTitle}>{activeSection}</div>
+            <div className={`${styles.contactContent} ${styles.fadeIn}`}>
+              {activeSection === 'credo' ? <Credo /> : <About />}
+            </div>
           </>
         );
       case 'documentation':
@@ -152,22 +149,20 @@ export default function Home() {
     }
   };
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-grow flex relative">
+  // 2 pre-rendered insignias for moving without flickering
+    const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, index) => (
         <div
-          className={`${styles.insigniaContainer} text-white '] ${isInsigniaMoved ? styles.moved  : styles.return}`}
-          onClick={() => handleInsigniaClick()}
+            key={index}
+            className={`${styles.insigniaContainer} text-white ${state ? 'hidden' : ''} ${isInsigniaMoved ? styles.moved : styles.return}`}
+            onClick={() => handleInsigniaClick()}
         >
-          {
-            isInsigniaMoving ? null : (
-              <Spline
-                className={isInsigniaMoved ? styles.eventsDisabled : ''}
-                scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
-              />
-          )}
+            <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
         </div>
-      </div>
+    ));
+
+  return (
+    <div className="min-h-screen flex flex-col overflow-hidden">
+      <div className="flex-grow flex relative">{Insignia}</div>
       <div className={`${styles.contactOverlay} px-[2rem] py-[2.06rem] ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
         {renderContent()}
       </div>
