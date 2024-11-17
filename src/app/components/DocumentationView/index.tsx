@@ -168,10 +168,8 @@ const DocumentationView = (props: IDocumentationViewProps) => {
             </aside>
             <div className={`max-h-[86.6vh] ${isMenuOpened ? 'pt-[2.06rem] pl-[23.69rem]' : 'pt-[2.06rem]'}`}>
                 <div className={styles.content}>
-                    <div className={styles.scrollable}>
-                        <div className={styles.text}>
-                            {ViewDict[selectedOption].elem()}
-                        </div>
+                    <div className={styles.text}>
+                        {ViewDict[selectedOption].elem()}
                     </div>
                 </div>
             </div>

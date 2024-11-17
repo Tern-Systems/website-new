@@ -163,7 +163,7 @@ export default function Home() {
     ));
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-hidden">
       <div className="flex-grow flex relative">{Insignia}</div>
       <div className={`${styles.contactOverlay} px-[2rem] py-[2.06rem] ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
         {renderContent()}

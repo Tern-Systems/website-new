@@ -43,6 +43,12 @@
   color: #ECF0F3;
   font-family: "Neo Sans W1G", sans-serif;
   font-size: 1rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.contactContent::-webkit-scrollbar {
+  display: none;
 }
 
 .documentationLinksContent {
