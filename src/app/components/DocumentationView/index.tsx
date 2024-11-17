@@ -109,14 +109,14 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     }, [selectedOption])
 
     return (
-        <div className={`${isMenuOpened ? 'flex' : ''}`}>
+        <>
             <aside
                 id={'documentation-menu'}
-                className={`${styles.menu} ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}
+                className={`w-[23.6825rem] ${styles.menu} sm:portrait:w-screen ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}
             >
                 <div className={`flex items-center ${styles.menuBtns}`}>
                     <div
-                        className={'cursor-pointer absolute z-10 flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] br-[5px] border-2 border-white border-solid'}
+                        className={'cursor-pointer z-10 flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] br-[5px] border-2 border-white border-solid'}
                         style={{borderRadius: '5px'}}
                         onClick={() => toggleMenuOpen()}
                     >
@@ -129,22 +129,21 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                         />
                     </div>
                     <div
-                        className={`${styles.selectWrapper} ${isSelectExpanded ? styles.selectActive : ''}`}
+                        className={styles.selectWrapper}
                         onClick={() => toggleSelectExpand()}
                         onBlur={() => setSelectExpanded(false)}
                     >
-                        <label htmlFor={'documentation-select'}/>
                         <div className={styles.selectControlWrapper}>
                             <div
                                 id={'documentation-select'}
-                                className={styles.selectControl}
+                                className={`justify-center flex-grow sm:mx-[0.62rem] sm:flex-grow-0`}
                             >
                                 {OptionsAllJSX[selectedOptionIdx]}
                             </div>
                             <Image
                                 src={SVG_CHEVRON}
                                 alt={'select chevron'}
-                                className={`${styles.chevron} ${isSelectExpanded ? 'rotate-180' : ''}`}
+                                className={`absolute right-0 sm:static sm:mr-[1rem] ${isSelectExpanded ? 'rotate-180' : ''}`}
                             />
                         </div>
                         {isSelectExpanded ? (
@@ -166,14 +165,14 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                     </div>
                 )}
             </aside>
-            <div className={`max-h-[86.6vh] ${isMenuOpened ? 'pt-[2.06rem] pl-[23.69rem]' : 'pt-[2.06rem]'}`}>
+            <div className={`max-h-full pt-[3.88rem] ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60 lg:pl-[23.69rem] md:landscape:pl-[23.69rem]' : ''}`}>
                 <div className={styles.content}>
                     <div className={styles.text}>
                         {ViewDict[selectedOption].elem()}
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
