@@ -1,6 +1,7 @@
 'use client'
 
 import {useState, useEffect, ReactElement} from "react";
+import {useRouter, useParams, useSearchParams} from "next/navigation";
 import styles from './page.module.css';
 
 import Credo from "./components/Credo";
@@ -26,64 +27,36 @@ import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 const FADE_DURATION = 500;
 
 export default function Home() {
+  const router = useRouter();
+  const params = useSearchParams()
+
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isViewChange, setViewChange] = useState<boolean>(false);
   const [isInsigniaMoved, setInsigniaMoved] = useState(false);
   const [isInsigniaMoving, setInsigniaMoving] = useState(false);
-  const [message, setMessage] = useState('');
   const [minimalLanding, setMinimalLanding] = useState(true);
   const fadeDuration = 500;
-  const [showCredo, setShowCredo] = useState(false);
 
+  const section = params.get('section');
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-
-    if (queryParams.get('success') === 'email_verified')   {
-      setActiveSection('ternkey');
-      setMessage("Successfully signed up. Please log in.");
-    } else if ( queryParams.get('error') === 'Internal_server_error') {
-      setActiveSection('ternkey');
-      setMessage('An error has occurred. Please try again');
-    }
-  }, []);
-
-
-  const handleIconClick = (section: string) => {
     setViewChange(true);
     setTimeout(() => {
+      setActiveSection((prevState) => {
+        if (prevState !== null)
+          setInsigniaMoved(![null, 'start'].includes(section));
+        return section;
+      });
+      setMinimalLanding(section === null)
       setViewChange(false);
-      setActiveSection(section);
     }, FADE_DURATION);
+  }, [section]);
 
-    if (activeSection !== null)
-      return;
-
-    setInsigniaMoving(true);
-    setTimeout(() => {
-      setInsigniaMoving(false);
-      setInsigniaMoved(true);
-    }, 0)
-
-    const newUrl = window.location.origin + window.location.pathname;
-    window.history.replaceState(null, '', newUrl);
+  const handleIconClick = (section: string) => {
+    router.replace(`/?section=${section}`, undefined, {shallow: true});
   };
 
   const handleInsigniaClick = () => {
-    if (activeSection === null)
-      return;
-
-    setViewChange(true);
-    setInsigniaMoving(true);
-
-    setTimeout(() => {
-      setViewChange(false);
-      setActiveSection(null);
-    }, FADE_DURATION);
-
-    setTimeout(() => {
-      setInsigniaMoved(false);
-      setInsigniaMoving(false);
-    }, 0)
+    router.replace(`/?section=start`, undefined, {shallow: true});
   };
 
   const renderContent = () => {
@@ -149,7 +122,7 @@ export default function Home() {
         return <div className={'flex'}>{ContactLinks}</div>;
       case 'ternkey':
         return <a href={'#'} onClick={()=>handleIconClick('documentation')}>Documentation</a>;
-      case null:
+      case 'start':
         const FooterLinks: ReactElement[] = FOOTER_LINKS.map((link:string, index)=> {
           let DelimElem: ReactElement | null = null;
           if (index !== FOOTER_LINKS.length - 1)
@@ -202,7 +175,7 @@ export default function Home() {
         {
           minimalLanding
             ? (
-                <a href={'#'} className={`${styles.linkMinimalistic} cursor-pointer`} onClick={() => setMinimalLanding(false)}>
+                <a href={'#'} className={`${styles.linkMinimalistic} cursor-pointer`} onClick={() => handleIconClick('start')}>
                     Tern Systems
                 </a>
             )
