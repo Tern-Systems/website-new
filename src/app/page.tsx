@@ -19,7 +19,6 @@ import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
 import styles from './page.module.css';
 
-/// Types ///////////
 enum SectionsEnum {
     'Start' = 'Start', Home = 'Home',
     About = 'About', Credo = 'Our Credo',
@@ -27,7 +26,6 @@ enum SectionsEnum {
     Contact = 'Contact',
 }
 
-/// Constants ///////////
 const FADE_DURATION = 300;
 const INIT_INSIGNIA_SECTIONS: SectionsEnum[] = [SectionsEnum.Start, SectionsEnum.Home];
 const FOOTER_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.TernKey, SectionsEnum.Contact];
@@ -37,7 +35,6 @@ const CONTACT_LINKS: { svg: string, href: string }[] = [
     {svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
 ]
 
-/// Home ///////////
 export default function Home() {
   const router = useRouter();
   const params = useSearchParams()
@@ -47,18 +44,16 @@ export default function Home() {
   const [isInsigniaMoved, setInsigniaMoved] = useState(false);
   const [minimalLanding, setMinimalLanding] = useState(true);
 
-  /// Handlers /////
   const handleLinkClick = (section: SectionsEnum) => {
-    router.replace(`/?section=${section}`, undefined, {shallow: true});
+    router.replace(`/?section=${section}`);
   };
   const handleInsigniaClick = () => {
-    router.replace(`/?section=${SectionsEnum.Home}`, undefined, {shallow: true});
+    router.replace(`/?section=${SectionsEnum.Home}`);
   };
 
   // HOC
     const SectionLink = withSectionLink(handleLinkClick);
 
-    /// Effects /////
     const section = params.get('section') as SectionsEnum;
     useEffect(() => {
         if (!Object.values(SectionsEnum).includes(section))
@@ -74,7 +69,6 @@ export default function Home() {
         }, FADE_DURATION);
     }, [section]);
 
-  /// Render /////
   // Content
   const renderContent = () => {
       let Title: ReactElement | null;

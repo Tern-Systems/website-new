@@ -9,11 +9,9 @@ import GHandbook, {GHandbookAnchors} from "./GHandbook";
 import SVG_CHEVRON from '@/assets/images/icons/select-chewron.svg';
 
 
-/// Types //////////
 // Anchors list type
 type TListEntry = Array<string | Record<string, TListEntry>>;
 
-/// Constants //////////
 // Views
 const ViewDict: Record<string, { elem: () => JSX.Element, anchors: TListEntry, isChapter: boolean }> = {
     ['TernKey Manual' as SectionsEnum.TernKeyManual]: {elem: Manual, anchors: ManualAnchors, isChapter: false},
@@ -21,7 +19,6 @@ const ViewDict: Record<string, { elem: () => JSX.Element, anchors: TListEntry, i
 }
 const ViewDictKeys = Object.keys(ViewDict) as SectionsEnum[];
 
-/// DocumentationView //////////
 interface IDocumentationViewProps {
     view: SectionsEnum;
 }
@@ -33,11 +30,9 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     const [isSelectExpanded, setSelectExpanded] = useState<boolean>(false);
     const [selectedOption, setSelectedOption] = useState<SectionsEnum>(view);
 
-    /// Toggles /////
     const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
     const toggleMenuOpen = () => setMenuOpened((prevState) => !prevState);
 
-    /// Effects /////
     // Click checking
     useEffect(() => {
         const handleClick = (e: MouseEvent) => {
@@ -53,7 +48,6 @@ const DocumentationView = (props: IDocumentationViewProps) => {
         window.scrollTo({top: 1});
     }, [selectedOption])
 
-    /// Render /////
     // Options list
     const OptionsAllJSX: ReactElement[] = ViewDictKeys.map((value, index) =>
         <li key={value + index} className={'flex items-center cursor-pointer justify-center'} onClick={() => setSelectedOption(value)}>{value}</li>

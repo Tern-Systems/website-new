@@ -1,6 +1,5 @@
 import {AnchorHTMLAttributes, FC, PropsWithChildren, ReactElement} from "react";
 
-/// withSectionLink /////
 interface SectionLinkProps<T extends string> extends AnchorHTMLAttributes<HTMLAnchorElement>, PropsWithChildren {
     section: T;
 }
