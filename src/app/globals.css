@@ -29,14 +29,14 @@ body ::-webkit-scrollbar {
 
 @font-face {
   font-family: "Adobe Caslon Pro";
-  src: url("/fonts/AdobeCaslonPro-Regular.ttf") format("truetype");
+  src: url("/public/fonts/ACaslonPro-Regular.otf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Neo Sans W1G";
-  src: url("/fonts/NeoSansW1G-Regular.otf") format("opentype");
+  src: url("/public/fonts/NeoSansW1G-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
