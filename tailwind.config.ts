@@ -14,13 +14,32 @@ const config: Config = {
         lg: { min: '1440px' }
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        bgBackground: "var(--bg-background)",
+        bgForeground: "var(--bg-foreground)",
+        primary: "var(--color-primary)",
+        title: "var(--color-title)",
       },
       fontFamily: {
         caslon: ['"Adobe Caslon Pro"', 'serif'],
         neo: ['"Neo Sans W1G"', 'sans-serif'],
+        oxygen: ['"Oxygen"', 'sans-serif'],
       },
+      keyframes: {
+          insignia: {
+              '0%': {
+                  top: '45%',
+                  right: '50%',
+                  transform: 'translate(50%, -50%) scale(var(--insignia-scale-init))',
+                  transformOrigin: 'center center'
+              },
+              '100%': {
+                  top: '0',
+                  right: '0',
+                  transform: 'translate(calc(-1 * var(--px)), var(--py)) scale(var(--insignia-scale-moved))',
+                  transformOrigin: 'top right'
+              }
+          }
+      }
     },
   },
   plugins: [],
