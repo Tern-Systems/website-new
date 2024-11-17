@@ -38,12 +38,10 @@ export default function Home() {
   const section = params.get('section');
   useEffect(() => {
     setViewChange(true);
+  if (section !== null)
+      setInsigniaMoved(![null, 'start'].includes(section));
     setTimeout(() => {
-      setActiveSection((prevState) => {
-        if (prevState !== null)
-          setInsigniaMoved(![null, 'start'].includes(section));
-        return section;
-      });
+      setActiveSection(section);
       setMinimalLanding(section === null)
       setViewChange(false);
     }, FADE_DURATION);
