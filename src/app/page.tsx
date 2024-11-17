@@ -87,7 +87,7 @@ export default function Home() {
               <div className={styles.contactContent}>
                 <p>Tern Systems</p>
                 <p>New York, New York</p>
-                <p>info@tern.ac</p>
+                <p className={'mt-[1rem]'}>info@tern.ac</p>
               </div>
             </>
         );
@@ -95,9 +95,11 @@ export default function Home() {
         return (
             <>
               <div className={styles.viewTitle}>TernKey</div>
-              <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
-                <Image style={{width:'166.8px',height:'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
-              </a>
+              <div className={styles.contactContent}>
+                  <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+                    <Image style={{width:'166.8px',height:'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
+                  </a>
+              </div>
             </>
         );
       default:
@@ -133,17 +135,14 @@ export default function Home() {
           );
         })
         return (
-            <>
-              <div className={'max-w-[575px]'}>
-                <div className={`mb-[2.69rem]`}>
-                  {FooterLinks}
-                </div>
-                <p>
-                  Tern Systems is a technology company that develops, manufactures, preserves, and enhances fundamental computer software and hardware.
-                </p>
-              </div>
-               <p className={'place-self-end'}>New York, New York</p>
-            </>
+          <div className={'max-w-[575px]'}>
+            <div className={`mb-[2.69rem] sm:landscape:place-self-start sm:landscape:absolute sm:landscape:top-[2.06rem] sm:landscape:left-[2rem]`}>
+              {FooterLinks}
+            </div>
+            <p>
+              Tern Systems is a technology company that develops, manufactures, preserves, and enhances fundamental computer software and hardware.
+            </p>
+          </div>
         );
       default: return <></>;
     }
@@ -161,12 +160,12 @@ export default function Home() {
     ));
 
   return (
-    <div className="min-h-screen flex flex-col overflow-hidden">
-      <div className="flex-grow flex relative">{Insignia}</div>
-      <div className={`${styles.contactOverlay} px-[2rem] py-[2.06rem] ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
+     <div className="min-h-screen h-screen flex flex-col px-[2rem] py-[2.06rem] relative">
+      {Insignia}
+      <div className={`${styles.contactOverlay} max-h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
         {renderContent()}
       </div>
-      <footer className={`${styles.footer} ${minimalLanding ? "justify-center" : "justify-between"}`}>
+      <footer className={`flex w-full justify-center text-center ${styles.footer} ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}>
         {
           minimalLanding
             ? (
@@ -177,6 +176,13 @@ export default function Home() {
             : renderFooterContent()
         }
       </footer>
+      {
+          activeSection || minimalLanding ? null : (
+              <p className={`absolute place-self-center sm:landscape:place-self-end ${styles.footer} lg:bottom-[2.06rem] lg:place-self-end`}>
+                  New York, New York
+              </p>
+          )
+      }
     </div>
   );
 }
