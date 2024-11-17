@@ -6,6 +6,8 @@ import {useRouter, useSearchParams} from "next/navigation";
 import Spline from '@splinetool/react-spline';
 import Image from "next/image";
 
+import {withSectionLink} from "@/app/hocs/withSectionLink";
+
 import Credo from "./components/Credo";
 import About from "./components/About";
 import DocumentationView from "./components/DocumentationView";
@@ -20,8 +22,8 @@ import styles from './page.module.css';
 /// Types ///////////
 enum SectionsEnum {
     Start = 'Start', Home = 'Home',
-    About = 'About', Credo = 'Credo',
-    TernKey = 'TernKey', Documentation = 'Documentation', TernKeyManual = 'TernKey Manual', GHandbook = 'GHandbook',
+    About = 'About', Credo = 'Our Credo',
+    TernKey = 'TernKey', Documentation = 'Documentation', TernKeyManual = 'TernKey Manual', GHandbook = 'G Handbook',
     Contact = 'Contact',
 }
 
@@ -45,26 +47,32 @@ export default function Home() {
   const [isInsigniaMoved, setInsigniaMoved] = useState(false);
   const [minimalLanding, setMinimalLanding] = useState(true);
 
-  /// Effects /////
-  const section = params.get('section') as SectionsEnum.Home;
-  useEffect(() => {
-    setViewChange(true);
-  if (section !== null)
-      setInsigniaMoved(!INIT_INSIGNIA_SECTIONS.includes(section));
-    setTimeout(() => {
-      setActiveSection(section);
-      setMinimalLanding(section === null)
-      setViewChange(false);
-    }, FADE_DURATION);
-  }, [section]);
-
   /// Handlers /////
-  const handleIconClick = (section: SectionsEnum) => {
+  const handleLinkClick = (section: SectionsEnum) => {
     router.replace(`/?section=${section}`, undefined, {shallow: true});
   };
   const handleInsigniaClick = () => {
-    router.replace(`/?section=Home`, undefined, {shallow: true});
+    router.replace(`/?section=${SectionsEnum.Home}`, undefined, {shallow: true});
   };
+
+  // HOC
+    const SectionLink = withSectionLink(handleLinkClick);
+
+    /// Effects /////
+    const section = params.get('section') as SectionsEnum;
+    useEffect(() => {
+        if (!Object.keys(SectionsEnum).includes(section))
+            return;
+
+        setViewChange(true);
+        if (section !== null)
+            setInsigniaMoved(!INIT_INSIGNIA_SECTIONS.includes(section));
+        setTimeout(() => {
+            setActiveSection(section);
+            setMinimalLanding(section === 'Start')
+            setViewChange(false);
+        }, FADE_DURATION);
+    }, [section]);
 
   /// Render /////
   // Content
@@ -75,7 +83,7 @@ export default function Home() {
       // Title
       switch (activeSection) {
           case 'About':
-          case 'Credo':
+          case 'Our Credo':
           case 'TernKey':
           case 'Documentation':
           case 'Contact':
@@ -94,7 +102,7 @@ export default function Home() {
                 </div>
             );
             break;
-      case 'Credo':
+      case 'Our Credo':
             Content = (
                 <div className={styles.contactContent}>
                     <Credo/>
@@ -104,15 +112,13 @@ export default function Home() {
       case 'Documentation':
           Content = (
               <div className={`${styles.documentationLinksContent} ${styles.contactContent}`}>
-                  <a href={'#'} className={'mb-[8.88rem]'} onClick={() => handleIconClick( SectionsEnum.TernKeyManual)}>
-                      TernKey Manual
-                  </a>
-                  <a href={'#'} onClick={() => handleIconClick(SectionsEnum.GHandbook)}>G Handbook</a>
+                  <SectionLink section={SectionsEnum.TernKeyManual} className={'mb-[8.88rem]'} />
+                  <SectionLink section={SectionsEnum.GHandbook} />
               </div>
           );
           break;
       case 'TernKey Manual':
-      case 'GHandbook':
+      case 'G Handbook':
             Content = <DocumentationView view={activeSection}/>;
             break;
       case 'Contact':
@@ -151,19 +157,22 @@ export default function Home() {
 
     switch (activeSection) {
       case 'About':
-          SectionContent = <a href={'#'} onClick={() => handleIconClick(SectionsEnum.Credo)} className="font-neo">Our Credo</a>;
+          SectionContent = <SectionLink section={SectionsEnum.Credo} className={'font-neo'} />
           break;
       case 'Contact':
           const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
               <a key={link.svg + index} href={link.href} target={'_blank'}>
-                  <Image src={link.svg} alt={link.svg.toString().toLowerCase()}
-                         className={'mr-[0.75rem] w-[1.8125rem] h-[1.8125rem]'}/>
+                  <Image
+                      src={link.svg}
+                      alt={link.svg.toString().toLowerCase()}
+                      className={'mr-[0.75rem] w-[1.8125rem] h-[1.8125rem]'}
+                  />
               </a>
           ))
           SectionContent = <div className={'flex'}>{ContactLinks}</div>;
           break;
       case 'TernKey':
-          SectionContent = <a href={'#'} onClick={() => handleIconClick(SectionsEnum.Documentation)}>Documentation</a>;
+          SectionContent = <SectionLink section={SectionsEnum.Documentation} />
           break;
       case 'Home':
           const FooterLinks: ReactElement[] = FOOTER_LINKS.map((link: SectionsEnum, index) => {
@@ -173,7 +182,7 @@ export default function Home() {
 
               return (
                 <span key={link + index}>
-                  <a href={"#"} onClick={() => handleIconClick(link)}>{link}</a>
+                  <SectionLink section={link} />
                   {Delim}
                 </span>
               );
@@ -202,9 +211,9 @@ export default function Home() {
         </p>
     );
     const HomeLink = (
-        <a href={'#'} className={`${styles.linkMinimalistic} cursor-pointer`} onClick={() => handleIconClick(SectionsEnum.Home)}>
+        <SectionLink section={SectionsEnum.Home} className={`${styles.linkMinimalistic} cursor-pointer`}>
             Tern Systems
-        </a>
+        </SectionLink>
     );
 
      return (

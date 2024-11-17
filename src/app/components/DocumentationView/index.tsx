@@ -1,6 +1,8 @@
 import React, {ReactElement, useState, JSX, useEffect} from 'react'
 import Image from "next/image";
 
+import {SectionsEnum} from "@/app/page";
+
 import Manual, {ManualAnchors} from "./Manual";
 import GHandbook, {GHandbookAnchors} from "./GHandbook";
 
@@ -16,14 +18,14 @@ type TListEntry = Array<string | Record<string, TListEntry>>;
 /// Constants //////////
 // Views
 const ViewDict: Record<string, { elem: () => JSX.Element, anchors: TListEntry, isChapter: boolean }> = {
-    'TernKey Manual': {elem: Manual, anchors: ManualAnchors, isChapter: false},
-    'GHandbook': {elem: GHandbook, anchors: GHandbookAnchors, isChapter: true}
+    ['TernKey Manual' as SectionsEnum.TernKeyManual]: {elem: Manual, anchors: ManualAnchors, isChapter: false},
+    ['G Handbook' as SectionsEnum.GHandbook]: {elem: GHandbook, anchors: GHandbookAnchors, isChapter: true},
 }
-const ViewDictKeys = Object.keys(ViewDict);
+const ViewDictKeys = Object.keys(ViewDict) as SectionsEnum[];
 
 /// DocumentationView //////////
 interface IDocumentationViewProps {
-    view: string;
+    view: SectionsEnum;
 }
 
 const DocumentationView = (props: IDocumentationViewProps) => {
@@ -31,7 +33,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
 
     const [isMenuOpened, setMenuOpened] = useState<boolean>(false);
     const [isSelectExpanded, setSelectExpanded] = useState<boolean>(false);
-    const [selectedOption, setSelectedOption] = useState<string>(view);
+    const [selectedOption, setSelectedOption] = useState<SectionsEnum>(view);
 
     /// Toggles /////
     const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
