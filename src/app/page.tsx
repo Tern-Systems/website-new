@@ -21,7 +21,7 @@ import styles from './page.module.css';
 
 /// Types ///////////
 enum SectionsEnum {
-    Start = 'Start', Home = 'Home',
+    'Start' = 'Start', Home = 'Home',
     About = 'About', Credo = 'Our Credo',
     TernKey = 'TernKey', Documentation = 'Documentation', TernKeyManual = 'TernKey Manual', GHandbook = 'G Handbook',
     Contact = 'Contact',
@@ -61,7 +61,7 @@ export default function Home() {
     /// Effects /////
     const section = params.get('section') as SectionsEnum;
     useEffect(() => {
-        if (!Object.keys(SectionsEnum).includes(section))
+        if (!Object.values(SectionsEnum).includes(section))
             return;
 
         setViewChange(true);
@@ -87,7 +87,7 @@ export default function Home() {
           case 'TernKey':
           case 'Documentation':
           case 'Contact':
-              Title = <div className={styles.viewTitle}>{activeSection}</div>;
+              Title = <div className={'text-textTitle font-oxygen text-[2.25rem] leading-none capitalize sm:mb-[--py]'}>{activeSection}</div>;
               break;
           default:
               Title = null;
@@ -97,21 +97,21 @@ export default function Home() {
     switch (activeSection) {
        case 'About':
             Content = (
-                <div className={styles.contactContent}>
+                <div className={styles.content}>
                     <About/>
                 </div>
             );
             break;
       case 'Our Credo':
             Content = (
-                <div className={styles.contactContent}>
+                <div className={styles.content}>
                     <Credo/>
                 </div>
             );
             break;
       case 'Documentation':
           Content = (
-              <div className={`${styles.documentationLinksContent} ${styles.contactContent}`}>
+              <div className={`${styles.content} font-oxygen text-[1.3125rem]`}>
                   <SectionLink section={SectionsEnum.TernKeyManual} className={'mb-[8.88rem]'} />
                   <SectionLink section={SectionsEnum.GHandbook} />
               </div>
@@ -123,7 +123,7 @@ export default function Home() {
             break;
       case 'Contact':
           Content = (
-              <div className={styles.contactContent}>
+              <div className={styles.content}>
                   <p>Tern Systems</p>
                   <p>New York, New York</p>
                   <p className={'mt-[1rem]'}>info@tern.ac</p>
@@ -132,7 +132,7 @@ export default function Home() {
           break;
        case 'TernKey':
           Content = (
-              <div className={styles.contactContent}>
+              <div className={styles.content}>
                   <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
                       <Image style={{width: '166.8px', height: 'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
                   </a>
@@ -144,8 +144,8 @@ export default function Home() {
     }
 
     return (
-        <div className={`${styles.contactOverlay} max-h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
-            {Title}
+        <div className={`flex flex-col flex-grow max-h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
+                {Title}
             {Content}
         </div>
     );
@@ -157,7 +157,7 @@ export default function Home() {
 
     switch (activeSection) {
       case 'About':
-          SectionContent = <SectionLink section={SectionsEnum.Credo} className={'font-neo'} />
+          SectionContent = <SectionLink section={SectionsEnum.Credo} className={'font-neo'}>Our Credo</SectionLink>
           break;
       case 'Contact':
           const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
@@ -178,7 +178,7 @@ export default function Home() {
           const FooterLinks: ReactElement[] = FOOTER_LINKS.map((link: SectionsEnum, index) => {
               let Delim: ReactElement | null = null;
               if (index !== FOOTER_LINKS.length - 1)
-                  Delim = <span className={styles.bullet}>&nbsp;&bull;&nbsp;</span>;
+                  Delim = <span className={'cursor-default'}>&nbsp;&bull;&nbsp;</span>;
 
               return (
                 <span key={link + index}>
@@ -190,7 +190,7 @@ export default function Home() {
           SectionContent = (
               <div className={'max-w-[575px]'}>
                   <div
-                      className={`mb-[2.69rem] sm:landscape:place-self-Home sm:landscape:absolute sm:landscape:top-[2.06rem] sm:landscape:left-[2rem]`}>
+                      className={`mb-[2.69rem] sm:landscape:place-self-Home sm:landscape:absolute sm:landscape:top-[--px] sm:landscape:left-[--px]`}>
                       {FooterLinks}
                   </div>
                   <p>
@@ -206,19 +206,19 @@ export default function Home() {
 
     // Misc
     const LocationTitle = (
-        <p className={`absolute place-self-center sm:landscape:place-self-end ${styles.footer} lg:bottom-[2.06rem] lg:place-self-end`}>
+        <p className={`absolute place-self-center sm:landscape:place-self-end lg:bottom-[--py] lg:place-self-end`}>
             New York, New York
         </p>
     );
     const HomeLink = (
-        <SectionLink section={SectionsEnum.Home} className={`${styles.linkMinimalistic} cursor-pointer`}>
+        <SectionLink section={SectionsEnum.Home} className={`text-textPrimary text-[1.3125rem] cursor-pointer`}>
             Tern Systems
         </SectionLink>
     );
 
      return (
          <footer
-             className={`flex w-full justify-center text-center ${styles.footer} ${!minimalLanding ? 'lg:justify-Home lg:text-left' : ''}`}
+             className={`flex w-full justify-center text-center text-[1rem] font-neo text-textPrimary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
          >
              {minimalLanding ? HomeLink : SectionContent}
              {activeSection || minimalLanding ? null : LocationTitle}
@@ -231,7 +231,12 @@ export default function Home() {
     const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, index) => (
         <div
             key={index}
-            className={`${styles.insigniaContainer} text-white ${state ? 'hidden' : ''} ${isInsigniaMoved ? styles.moved : styles.return}`}
+            className={`
+                absolute z-10 size-[11.5rem] bg-transparent
+                ${state ? 'hidden' : ''}
+                ${isInsigniaMoved ? 'after:absolute after:top-0 after:w-full after:h-full' : ''}
+                ${isInsigniaMoved ? 'animate-[insignia_0.3s_ease-in-out_forwards]' : 'animate-[insignia_0.3s_ease-in-out_forwards_reverse]'}
+            `}
             onClick={() => handleInsigniaClick()}
         >
             <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
@@ -239,10 +244,12 @@ export default function Home() {
     ));
 
   return (
-     <div className="min-h-screen h-screen flex flex-col px-[2rem] py-[2.06rem] relative">
+     <div className="min-h-screen h-screen flex flex-col px-[--px] py-[--py] relative">
          {Insignia}
          {renderContent()}
          {renderFooter()}
     </div>
   );
 }
+
+export {SectionsEnum}

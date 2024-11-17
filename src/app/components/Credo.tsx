@@ -2,7 +2,7 @@ import React from 'react';
 
 const Credo = () => {
   return (
-    <div className='font-caslon text-xl justify-center sm:mt-[2.06rem]'>
+    <div className='font-caslon text-xl justify-center'>
       <p className="mb-6">
         We abide by the following doctrine, which outlines our core ideology’s six core values and exclusive purpose.
       </p>

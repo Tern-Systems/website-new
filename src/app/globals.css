@@ -6,13 +6,10 @@
   --background: #000000;
   --foreground: #171717;
   --tern-blue: #178AB7;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    /* --foreground: #ededed; */
-  }
+  --px: 2rem;
+  --py: 2.06rem;
+  --insignia-scale-init: 0.8;
+  --insignia-scale-moved: 0.2;
 }
 
 body {
@@ -20,12 +17,12 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   overflow: hidden;
-}
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+body ::-webkit-scrollbar {
+  display: none;
 }
 
 @font-face {
@@ -38,6 +35,6 @@ body {
 @font-face {
   font-family: "Neo Sans W1G";
   src: url("/fonts/NeoSansW1G-Regular.otf") format("opentype");
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
 }
