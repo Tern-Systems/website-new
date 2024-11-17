@@ -65,9 +65,10 @@ export default function Home() {
       case 'about':
         return (
           <>
-          <div className={`${styles.contactContent} ${styles.fadeIn}`}>
-          {activeSection === 'credo' ? <Credo /> : <About />}
-          </div>
+            <div className={styles.viewTitle}>{activeSection}</div>
+            <div className={`${styles.contactContent} ${styles.fadeIn}`}>
+              {activeSection === 'credo' ? <Credo /> : <About />}
+            </div>
           </>
         );
       case 'documentation':

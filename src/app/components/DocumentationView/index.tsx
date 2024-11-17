@@ -116,7 +116,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
             >
                 <div className={`flex items-center ${styles.menuBtns}`}>
                     <div
-                        className={'absolute z-10 flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] br-[5px] border-2 border-white border-solid'}
+                        className={'cursor-pointer absolute z-10 flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] br-[5px] border-2 border-white border-solid'}
                         style={{borderRadius: '5px'}}
                         onClick={() => toggleMenuOpen()}
                     >
