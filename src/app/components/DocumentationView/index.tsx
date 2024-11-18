@@ -1,7 +1,7 @@
 import React, {ReactElement, useState, JSX, useEffect} from 'react'
 import Image from "next/image";
 
-import {SectionsEnum} from "@/app/page";
+import {SectionsEnum} from "@/app/utils/sections";
 
 import Manual, {ManualAnchors} from "./Manual";
 import GHandbook, {GHandbookAnchors} from "./GHandbook";

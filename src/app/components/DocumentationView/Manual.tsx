@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from './DocumentationView.module.css';
 import {TListEntry} from "@/app/components/DocumentationView";
 
 const ManualAnchors: TListEntry = [
