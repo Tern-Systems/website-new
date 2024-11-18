@@ -1,245 +1,242 @@
 'use client'
 
 import {useState, useEffect, ReactElement} from "react";
-import IconWithCyclingLetters from './IconWithCyclingLetters';
-import styles from './page.module.css';
-
-import PrivacyParagraph from "./components/PrivacyParagraph";
-import TermsParagraph from "./components/TermsParagraph";
-import Cookies from "./components/Cookies";
-import Credo from "./components/Credo";
+import {useRouter, useSearchParams} from "next/navigation";
 
 import Spline from '@splinetool/react-spline';
 import Image from "next/image";
-import TernKeyModal from './components/ternKeyModal/TernKeyModal'
+
+import {SectionsEnum} from "@/app/utils/sections";
+
+import {withSectionLink} from "@/app/hocs/withSectionLink";
+
+import Credo from "./components/Credo";
+import About from "./components/About";
+import DocumentationView from "./components/DocumentationView";
 
 import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
 import SVG_GITHUB from "@/assets/images/icons/github.svg";
 import SVG_DISCORD from "@/assets/images/icons/discord.svg";
+import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
-const MENU_BTNS = ['About', 'TernKey', 'Contact'];
-const SECTIONS_WITH_MENU = ['about', 'documentation', 'ternkey', 'contact'];
+import styles from './page.module.css';
+
+const FADE_DURATION = 300;
+const INIT_INSIGNIA_SECTIONS: SectionsEnum[] = [SectionsEnum.Start, SectionsEnum.Home];
+const FOOTER_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.TernKey, SectionsEnum.Contact];
+const CONTACT_LINKS: { svg: string, href: string }[] = [
+    {svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys/'},
+    {svg: SVG_GITHUB, href: 'https://github.com/Tern-Systems'},
+    {svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
+]
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [moveInsignia, setMoveInsignia] = useState(false);
-  const [isReturning, setIsReturning] = useState(false);
-  const [message, setMessage] = useState('');
+  const router = useRouter();
+  const params = useSearchParams();
+
+  const [activeSection, setActiveSection] = useState<SectionsEnum>(SectionsEnum.Start);
+  const [isViewChange, setViewChange] = useState<boolean>(false);
+  const [isInsigniaMoved, setInsigniaMoved] = useState(false);
   const [minimalLanding, setMinimalLanding] = useState(true);
 
-  const fadeDuration = 500;
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-
-    if (queryParams.get('success') === 'email_verified')   {
-      setMoveInsignia(true);
-      setActiveSection('ternkey');
-      setIsReturning(false);
-      setMessage("Successfully signed up. Please log in.");
-    } else if ( queryParams.get('error') === 'Internal_server_error') {
-      setMoveInsignia(true);
-      setActiveSection('ternkey');
-      setIsReturning(false);
-      setMessage('An error has occurred. Please try again');
-    }
-  }, []);
-
-
-  const handleIconClick = (section: string) => {
-    if (activeSection === section) {
-
-      setMoveInsignia(true);
-      setIsReturning(false);
-
-
-      setTimeout(() => {
-        setActiveSection(null);
-        setMoveInsignia(false);
-      }, fadeDuration);
-    } else {
-
-      setMoveInsignia(true);
-      setActiveSection(section);
-      setIsReturning(false);
-
-      const newUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState(null, '', newUrl);
-    }
+  const handleLinkClick = (section: SectionsEnum) => {
+    router.replace(`/?section=${section}`);
   };
-
   const handleInsigniaClick = () => {
-    if (activeSection !== null) {
-      setMoveInsignia(true);
-      setIsReturning(false);
-
-      setTimeout(() => {
-        setActiveSection(null);
-        setMoveInsignia(false);
-      }, fadeDuration);
-
-      setTimeout(() => {
-        setIsReturning(true);
-      }, fadeDuration);
-    }
+    router.replace(`/?section=${SectionsEnum.Home}`);
   };
 
+  // HOC
+    const SectionLink = withSectionLink(handleLinkClick);
+
+    const section = params.get('section') as SectionsEnum;
+    useEffect(() => {
+        if (!Object.values(SectionsEnum).includes(section))
+            return;
+
+        setViewChange(true);
+        if (section !== null)
+            setInsigniaMoved(!INIT_INSIGNIA_SECTIONS.includes(section));
+        setTimeout(() => {
+            setActiveSection(section);
+            setMinimalLanding(section === 'Start')
+            setViewChange(false);
+        }, FADE_DURATION);
+    }, [section]);
+
+  // Content
   const renderContent = () => {
+      let Title: ReactElement | null;
+      let Content: ReactElement | null;
+
+      // Title
+      switch (activeSection) {
+          case 'About':
+          case 'Our Credo':
+          case 'TernKey':
+          case 'Documentation':
+          case 'Contact':
+              Title = <div className={'text-title font-oxygen text-[2.25rem] leading-none capitalize sm:mb-[--py]'}>{activeSection}</div>;
+              break;
+          default:
+              Title = null;
+      }
+
+      // Content
     switch (activeSection) {
-      case 'about':
-        return (
-          <>
-          <div className={`${styles.contactContent} ${activeSection === 'about' ? styles.fadeIn : styles.fadeOut}`}>
-            <p className="mb-4">We are Tern Systems.
-            </p>
-            <p className="mb-4">A technology company based out of the United States.
-            </p>
-            <p className="mb-4">Ushering in the era of efficient computing, equiping all legacy devices with advanced microprocessors.
-            </p>
-            <p className="mb-4">On a mission to revolutionize computing by harnessing the power of ternary microprocessors.
-            </p>
-          </div>
-
-
-          </>
-
-        );
-      case 'contact':
-        return (
-          <div className={`${styles.contactContent} ${activeSection === 'contact' ? styles.fadeIn : styles.fadeOut}`}>
-            <p>Tern Systems</p>
-            <p>New York, New York</p>
-            <p>General correspondence: info@tern.ac</p>
-          </div>
-        );
-      case 'ternkey':
-        return (
-          <div className={`${styles.contactContent} ${activeSection === 'ternkey' ? styles.fadeIn : styles.fadeOut}`}>
-            <TernKeyModal
-              isOpen={activeSection === 'ternkey'}
-              onClose={() => handleIconClick('ternkey')}
-              message={message}
-              setMessage={setMessage}
-            />
-          </div>
-        );
-      case 'cookies':
-        return (
-          <div className={`${styles.contactContent}  ${styles.cookieSection} ${activeSection === 'cookies' ? styles.fadeIn : styles.fadeOut}`}>
-            <Cookies />
-          </div>
-        );
-      case 'privacy':
-        return (
-          <div className={`${styles.contactContent} ${styles.privacySection} ${activeSection === 'privacy' ? styles.fadeIn : styles.fadeOut}`}>
-            <PrivacyParagraph />
-          </div>
-        );
-      case 'terms':
-        return (
-          <div className={`${styles.contactContent} ${styles.termSection} ${activeSection === 'terms' ? styles.fadeIn : styles.fadeOut}`}>
-            <TermsParagraph />
-          </div>
-        );
-      case 'credo':
-        return (
-          <div className={`${styles.contactContent} ${styles.credoSection} ${activeSection === 'credo' ? styles.fadeIn : styles.fadeOut}`}>
-              <Credo />
-            </div>
-        );
+       case 'About':
+            Content = (
+                <div className={styles.content}>
+                    <About/>
+                </div>
+            );
+            break;
+      case 'Our Credo':
+            Content = (
+                <div className={styles.content}>
+                    <Credo/>
+                </div>
+            );
+            break;
+      case 'Documentation':
+          Content = (
+              <div className={`${styles.content} font-oxygen text-[1.3125rem]`}>
+                  <SectionLink section={SectionsEnum.TernKeyManual} className={'mb-[8.88rem]'} />
+                  <SectionLink section={SectionsEnum.GHandbook} />
+              </div>
+          );
+          break;
+      case 'TernKey Manual':
+      case 'G Handbook':
+            Content = <DocumentationView view={activeSection}/>;
+            break;
+      case 'Contact':
+          Content = (
+              <div className={styles.content}>
+                  <p>Tern Systems</p>
+                  <p>New York, New York</p>
+                  <p className={'mt-[1rem]'}>info@tern.ac</p>
+              </div>
+          );
+          break;
+       case 'TernKey':
+          Content = (
+              <div className={styles.content}>
+                  <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+                      <Image style={{width: '166.8px', height: 'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
+                  </a>
+              </div>
+          );
+          break;
       default:
-        return <div className={styles.contactContent} />;
+        Content = null;
     }
-  };
 
-  const MenuBtns: ReactElement[] = MENU_BTNS.map((text,idx) =>
-      <IconWithCyclingLetters key={text + idx} text={text} symbols={['-', '0', '+']} symbolIdx={idx} activeSection={activeSection} handleIconClick={handleIconClick}/>);
+    return (
+        <div className={`flex flex-col flex-grow max-h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
+                {Title}
+            {Content}
+        </div>
+    );
+  };
 
   // Footer
-  const renderFooterContent = (): ReactElement => {
+  const renderFooter = (): ReactElement => {
+      let SectionContent: ReactElement | null;
+
     switch (activeSection) {
-      case 'about':
-        return <a href={'#'} onClick={() => handleIconClick('credo')}>Our Credo</a>;
-      case 'contact':
-        return (
-            <>
-              <a href="https://www.linkedin.com/company/tern-sys/" target={'_blank'}>
-                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_LINKEDIN}
-                       alt={'linkedin-icon'}/>
+      case 'About':
+          SectionContent = <SectionLink section={SectionsEnum.Credo} className={'font-neo'}>Our Credo</SectionLink>
+          break;
+      case 'Contact':
+          const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
+              <a key={link.svg + index} href={link.href} target={'_blank'}>
+                  <Image
+                      src={link.svg}
+                      alt={link.svg.toString().toLowerCase()}
+                      className={'mr-[0.75rem] w-[1.8125rem] h-[1.8125rem]'}
+                  />
               </a>
-              <a href="https://github.com/Tern-Systems" target={'_blank'}>
-                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_GITHUB}
-                       alt={'github-icon'}/>
-              </a>
-              <a href="https://discord.gg/ZkZZmm8k4f" target={'_blank'}>
-                <Image style={{marginRight: '20px'}} width={33} height={33} src={SVG_DISCORD}
-                       alt={'discord-icon'}/>
-              </a>
-            </>
-        );
-      case 'ternkey':
-        return <p onClick={()=>handleIconClick('documentation')}>Documentation</p>;
-      default:
-        return (
-            <p>
-              Develop, manufacture, preserve, and enhance fundamental computer
-              software and hardware, emphasizing universal efficiency across all
-              processes.
-            </p>
-        );
+          ))
+          SectionContent = <div className={'flex'}>{ContactLinks}</div>;
+          break;
+      case 'TernKey':
+          SectionContent = <SectionLink section={SectionsEnum.Documentation} />
+          break;
+      case 'Home':
+          const FooterLinks: ReactElement[] = FOOTER_LINKS.map((link: SectionsEnum, index) => {
+              let Delim: ReactElement | null = null;
+              if (index !== FOOTER_LINKS.length - 1)
+                  Delim = <span className={'cursor-default'}>&nbsp;&bull;&nbsp;</span>;
+
+              return (
+                <span key={link + index}>
+                  <SectionLink section={link} />
+                  {Delim}
+                </span>
+              );
+          })
+          SectionContent = (
+              <div className={'max-w-[575px]'}>
+                  <div
+                      className={`mb-[2.69rem] sm:landscape:place-self-Home sm:landscape:absolute sm:landscape:top-[--px] sm:landscape:left-[--px]`}>
+                      {FooterLinks}
+                  </div>
+                  <p>
+                      Tern Systems is a technology company that develops, manufactures, preserves, and enhances
+                      fundamental computer software and hardware.
+                  </p>
+              </div>
+          );
+          break;
+        default:
+            SectionContent = null;
     }
+
+    // Misc
+    const LocationTitle = (
+        <p className={`absolute place-self-center sm:landscape:place-self-end lg:bottom-[--py] lg:place-self-end`}>
+            New York, New York
+        </p>
+    );
+    const HomeLink = (
+        <SectionLink section={SectionsEnum.Home} className={`text-text-primary text-[1.3125rem] cursor-pointer`}>
+            Tern Systems
+        </SectionLink>
+    );
+
+     return (
+         <footer
+             className={`flex w-full justify-center text-center text-[1rem] font-neo text-primary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
+         >
+             {minimalLanding ? HomeLink : SectionContent}
+             {activeSection || minimalLanding ? null : LocationTitle}
+         </footer>
+     );
   };
-  const footerAnimationStyle = activeSection === null || ['about', 'contact', 'ternkey'].includes(activeSection) ? styles.fadeIn : styles.fadeOut;
+
+    // Insignia
+    // 2 pre-rendered insignias for moving without flickering
+    const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, index) => (
+        <div
+            key={index}
+            className={`
+                absolute z-10 size-[11.5rem] bg-transparent
+                ${state ? 'hidden' : ''}
+                ${isInsigniaMoved ? 'after:absolute after:top-0 after:w-full after:h-full' : ''}
+                ${isInsigniaMoved ? 'animate-[insignia_0.3s_ease-in-out_forwards]' : 'animate-[insignia_0.3s_ease-in-out_forwards_reverse]'}
+            `}
+            onClick={() => handleInsigniaClick()}
+        >
+            <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
+        </div>
+    ));
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-grow flex relative">
-        <aside className="relative m-[2.06rem] flex-shrink-0 flex z-10">
-          <div className={`text-[36px] flex flex-col gap-[40px] ${minimalLanding ? "hidden" : "flex"}`}>
-            {activeSection === null || SECTIONS_WITH_MENU.includes(activeSection)? MenuBtns : null}
-          </div>
-        </aside>
-        <div className={`absolute top-[2.06rem] right-[2.06rem] text-white text-[14px]  ${activeSection ? styles.fadeOut : styles.fadeIn} ${minimalLanding ? "hidden" : "flex"}`}>
-          <p>New York, New York</p>
-        </div>
-        <div
-          className={`${styles.insigniaContainer} ${moveInsignia ? (isReturning ? styles.return : styles.move) : ''} ${activeSection !== null ? styles.pointer : ''}`}
-          onClick={handleInsigniaClick}
-        >
-          <Spline
-            scene="https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"
-          />
-        </div>
-      </div>
-      <div className={`${styles.contactOverlay} ${activeSection ? styles.show : styles.hide}`}>
-        {renderContent()}
-      </div>
-      <footer
-          className={`${styles.footer} text-[14px] text-white w-full flex ${footerAnimationStyle} ${minimalLanding ? "justify-center" : "justify-between"} px-[54px] pb-[50px]`}>
-        <div
-            className={`max-w-[500px] ${minimalLanding ? "hidden" : "flex"}`}>
-          {renderFooterContent()}
-        </div>
-        <div
-            className={`self-end flex items-center space-x-4 ${minimalLanding ? "hidden" : "flex"}`}>
-          <a href="#" onClick={() => {handleIconClick('cookies')}}
-          >
-            Cookies
-          </a>
-          <span className={styles.bullet}>&bull;</span>
-          <a href="#" onClick={() => {handleIconClick('cookies')}}
-          >
-            Privacy
-          </a>
-          <span className={styles.bullet}>&bull;</span>
-          <a href="#" onClick={() => {handleIconClick('cookies')}}
-          >
-            Terms
-          </a>
-        </div>
-        <a onClick={() => setMinimalLanding(false)}
-           className={`${minimalLanding ? "flex" : "hidden"} cursor-pointer`}>Tern Systems</a>
-      </footer>
+     <div className="min-h-screen h-screen flex flex-col px-[--px] py-[--py] relative">
+         {Insignia}
+         {renderContent()}
+         {renderFooter()}
     </div>
   );
 }
