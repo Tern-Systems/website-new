@@ -31,7 +31,7 @@ const Credo = () => {
         Ingenuity encapsulates cleverness, originality, and inventiveness, originating from resolute passion.
       </p>
       <p className="mb-6">
-        While our values may serve as a general guide for the characteristics sought by groups and individuals, our purpose encapsulates an exacting and eternal meaning for our company's existence.
+        While our values may serve as a general guide for the characteristics sought by groups and individuals, our purpose encapsulates an exacting and eternal meaning for our company&apos;s existence.
       </p>
       <p className="mb-6">
         The overarching perpetual driving purpose of Tern Systems is to develop, manufacture, preserve, and enhance fundamental computer software and hardware, emphasizing universal efficiency across all processes.

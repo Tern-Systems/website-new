@@ -6,6 +6,8 @@ import {useRouter, useSearchParams} from "next/navigation";
 import Spline from '@splinetool/react-spline';
 import Image from "next/image";
 
+import {SectionsEnum} from "@/app/utils/sections";
+
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
 import Credo from "./components/Credo";
@@ -19,13 +21,6 @@ import SVG_INSIGNIA from '@/assets/images/insignia.svg'
 
 import styles from './page.module.css';
 
-enum SectionsEnum {
-    'Start' = 'Start', Home = 'Home',
-    About = 'About', Credo = 'Our Credo',
-    TernKey = 'TernKey', Documentation = 'Documentation', TernKeyManual = 'TernKey Manual', GHandbook = 'G Handbook',
-    Contact = 'Contact',
-}
-
 const FADE_DURATION = 300;
 const INIT_INSIGNIA_SECTIONS: SectionsEnum[] = [SectionsEnum.Start, SectionsEnum.Home];
 const FOOTER_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.TernKey, SectionsEnum.Contact];
@@ -37,7 +32,7 @@ const CONTACT_LINKS: { svg: string, href: string }[] = [
 
 export default function Home() {
   const router = useRouter();
-  const params = useSearchParams()
+  const params = useSearchParams();
 
   const [activeSection, setActiveSection] = useState<SectionsEnum>(SectionsEnum.Start);
   const [isViewChange, setViewChange] = useState<boolean>(false);
@@ -245,5 +240,3 @@ export default function Home() {
     </div>
   );
 }
-
-export {SectionsEnum}
