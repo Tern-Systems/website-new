@@ -40,14 +40,13 @@ export default function Home() {
   const [minimalLanding, setMinimalLanding] = useState(true);
 
   const handleLinkClick = (section: SectionsEnum) => {
-    router.replace(`/?section=${section}`);
+      history.pushState({}, '', window.location.href);
+      router.replace(`/?section=${section}`);
   };
   const handleInsigniaClick = () => {
-    router.replace(`/?section=${SectionsEnum.Home}`);
+      history.pushState({}, '', window.location.href);
+      router.replace(`/?section=${SectionsEnum.Home}`);
   };
-
-  // HOC
-    const SectionLink = withSectionLink(handleLinkClick);
 
     const section = params.get('section') as SectionsEnum;
     useEffect(() => {
@@ -63,6 +62,9 @@ export default function Home() {
             setViewChange(false);
         }, FADE_DURATION);
     }, [section]);
+
+  // HOC
+  const SectionLink = withSectionLink(handleLinkClick);
 
   // Content
   const renderContent = () => {
