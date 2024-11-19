@@ -95,8 +95,8 @@ export default function Home() {
       case 'Documentation':
           Content = (
               <>
-                  <SectionLink section={SectionsEnum.TernKeyManual} className={'block mb-[8.88rem] sm:landscape:mb-[4.44em] font-oxygen text-[1.3125rem]'} />
-                  <SectionLink section={SectionsEnum.GHandbook} className={'block font-oxygen text-[1.3125rem]'} />
+                  <SectionLink section={SectionsEnum.TernKeyManual} className={'block mb-[8.88rem] sm:landscape:mb-[4.44em] font-oxygen text-primary'} />
+                  <SectionLink section={SectionsEnum.GHandbook} className={'block font-oxygen text-primary'} />
               </>
           );
           break;
@@ -127,7 +127,7 @@ export default function Home() {
     if (Title) {
         Content = (
             <div
-                className={`overflow-y-scroll m-auto content-center h-full text-primary text-center font-neo text-[1rem]`}>
+                className={`overflow-y-scroll m-auto content-center text-primary text-center font-neo text-[1rem]`}>
                 {Content}
             </div>
         );
@@ -201,7 +201,7 @@ export default function Home() {
         </p>
     );
     const HomeLink = (
-        <SectionLink section={SectionsEnum.Home} className={`text-text-primary text-[1.3125rem] cursor-pointer`}>
+        <SectionLink section={SectionsEnum.Home} className={`text-text-primary text-primary cursor-pointer`}>
             Tern Systems
         </SectionLink>
     );

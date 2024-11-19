@@ -162,7 +162,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                     absolute left-0 top-0 flex flex-col px-[--px] py-[--py] max-h-screen text-primary text-[1.0625rem]
                     z-[1] sm:portrait:w-screen ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D] w-[23.6825rem]' : 'h-fit bg-none'}`}
             >
-                <div className={`flex items-center justify-between font-oxygen text-[1.3125rem] font-bold`}>
+                <div className={`flex items-center justify-between font-oxygen text-primary font-bold`}>
                     {MenuBtn}
                     {ViewSelect}
                     <Image
