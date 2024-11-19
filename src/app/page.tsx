@@ -147,7 +147,7 @@ export default function Home() {
 
     switch (activeSection) {
       case 'About':
-          SectionContent = <SectionLink section={SectionsEnum.Credo} className={'font-neo'}>Our Credo</SectionLink>
+          SectionContent = <SectionLink section={SectionsEnum.Credo} className={'font-neo text-[1rem]'}>Our Credo</SectionLink>
           break;
       case 'Contact':
           const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
@@ -162,7 +162,7 @@ export default function Home() {
           SectionContent = <div className={'flex'}>{ContactLinks}</div>;
           break;
       case 'TernKey':
-          SectionContent = <SectionLink section={SectionsEnum.Documentation} />
+          SectionContent = <SectionLink section={SectionsEnum.Documentation} className={'text-[1rem]'} />
           break;
       case 'Home':
           const FooterLinks: ReactElement[] = FOOTER_LINKS.map((link: SectionsEnum, index) => {
@@ -178,7 +178,7 @@ export default function Home() {
               );
           })
           SectionContent = (
-              <div className={'max-w-[575px]'}>
+              <div className={'max-w-[34.79rem] text-[1rem]'}>
                   <div
                       className={`mb-[2.69rem] sm:landscape:place-self-Home sm:landscape:absolute sm:landscape:top-[--px] sm:landscape:left-[--px]`}>
                       {FooterLinks}
@@ -196,7 +196,7 @@ export default function Home() {
 
     // Misc
     const LocationTitle = (
-        <p className={`absolute top-[--py] right-[--px] sm:portrait:right-auto md:right-auto lg:bottom-[--py] lg:place-self-end`}>
+        <p className={`absolute top-[--py] right-[--px] text-[1rem] sm:portrait:right-auto md:right-auto lg:bottom-[--py] lg:place-self-end`}>
             New York, New York
         </p>
     );
@@ -212,7 +212,7 @@ export default function Home() {
      return (
          <>
              <footer
-                 className={`flex w-full justify-center text-center text-[1rem] font-neo text-primary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
+                 className={`flex w-full justify-center text-center font-neo text-primary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
              >
                  {minimalLanding ? HomeLink : SectionContent}
                  {activeSection === 'Home' ? LocationTitle : null}
