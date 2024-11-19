@@ -1,21 +1,3 @@
-/* Content  */
-.content {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  margin-top: var(--py);
-  overflow-y: scroll;
-
-  color: #ECF0F3;
-  font-family: "Neo Sans W1G", sans-serif;
-  font-size: 1rem;
-}
-
 .fadeIn {
   opacity: 1;
   transition: opacity 0.5s ease-in;
