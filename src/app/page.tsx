@@ -76,7 +76,7 @@ export default function Home() {
           case 'TernKey':
           case 'Documentation':
           case 'Contact':
-              Title = <div className={'text-title font-oxygen text-[2.25rem] leading-none capitalize sm:mb-[--py]'}>{activeSection}</div>;
+              Title = <div className={'text-title font-oxygen text-[2.25rem] leading-none capitalize'}>{activeSection}</div>;
               break;
           default:
               Title = null;
@@ -85,25 +85,17 @@ export default function Home() {
       // Content
     switch (activeSection) {
        case 'About':
-            Content = (
-                <div className={styles.content}>
-                    <About/>
-                </div>
-            );
+            Content = <About/>;
             break;
       case 'Our Credo':
-            Content = (
-                <div className={styles.content}>
-                    <Credo/>
-                </div>
-            );
+            Content = <Credo/>;
             break;
       case 'Documentation':
           Content = (
-              <div className={`${styles.content} font-oxygen text-[1.3125rem]`}>
-                  <SectionLink section={SectionsEnum.TernKeyManual} className={'mb-[8.88rem]'} />
-                  <SectionLink section={SectionsEnum.GHandbook} />
-              </div>
+              <>
+                  <SectionLink section={SectionsEnum.TernKeyManual} className={'mb-[8.88rem] font-oxygen text-[1.3125rem]'} />
+                  <SectionLink section={SectionsEnum.GHandbook} className={'font-oxygen text-[1.3125rem]'} />
+              </>
           );
           break;
       case 'TernKey Manual':
@@ -112,29 +104,35 @@ export default function Home() {
             break;
       case 'Contact':
           Content = (
-              <div className={styles.content}>
+              <>
                   <p>Tern Systems</p>
                   <p>New York, New York</p>
                   <p className={'mt-[1rem]'}>info@tern.ac</p>
-              </div>
+              </>
           );
           break;
        case 'TernKey':
           Content = (
-              <div className={styles.content}>
-                  <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
-                      <Image style={{width: '166.8px', height: 'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
-                  </a>
-              </div>
+              <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+                  <Image src={SVG_INSIGNIA} alt={'insignia'} className={'h-[33.6dvh] max-h-[10.42rem]'}/>
+              </a>
           );
           break;
       default:
         Content = null;
     }
 
+    if (Title) {
+        Content = (
+            <div className={styles.content}>
+                {Content}
+            </div>
+        );
+    }
+
     return (
-        <div className={`flex flex-col flex-grow max-h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
-                {Title}
+        <div className={`flex flex-col flex-grow h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
+            {Title}
             {Content}
         </div>
     );
@@ -153,7 +151,7 @@ export default function Home() {
               <a key={link.svg + index} href={link.href} target={'_blank'}>
                   <Image
                       src={link.svg}
-                      alt={link.svg.toString().toLowerCase()}
+                      alt={link.href}
                       className={'mr-[0.75rem] w-[1.8125rem] h-[1.8125rem]'}
                   />
               </a>
@@ -195,7 +193,7 @@ export default function Home() {
 
     // Misc
     const LocationTitle = (
-        <p className={`absolute place-self-center sm:landscape:place-self-end lg:bottom-[--py] lg:place-self-end`}>
+        <p className={`absolute top-[--py] sm:landscape:right-[--px] lg:bottom-[--py] lg:place-self-end`}>
             New York, New York
         </p>
     );
@@ -206,12 +204,14 @@ export default function Home() {
     );
 
      return (
-         <footer
-             className={`flex w-full justify-center text-center text-[1rem] font-neo text-primary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
-         >
-             {minimalLanding ? HomeLink : SectionContent}
-             {activeSection || minimalLanding ? null : LocationTitle}
-         </footer>
+         <>
+             <footer
+                 className={`flex w-full mt-[--py] justify-center text-center text-[1rem] font-neo text-primary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
+             >
+                 {minimalLanding ? HomeLink : SectionContent}
+                 {activeSection === 'Home' ? LocationTitle : null}
+             </footer>
+         </>
      );
   };
 
@@ -233,7 +233,7 @@ export default function Home() {
     ));
 
   return (
-     <div className="min-h-screen h-screen flex flex-col px-[--px] py-[--py] relative">
+     <div className="h-dvh max-h-dvh flex flex-col px-[--px] py-[--py] relative">
          {Insignia}
          {renderContent()}
          {renderFooter()}

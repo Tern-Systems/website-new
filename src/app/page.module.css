@@ -8,7 +8,7 @@
   align-items: center;
   text-align: center;
 
-  max-height: 100%;
+  margin-top: var(--py);
   overflow-y: scroll;
 
   color: #ECF0F3;
