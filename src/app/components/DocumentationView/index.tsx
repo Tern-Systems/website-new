@@ -125,22 +125,15 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     );
     const ViewSelect = (
         <div
-            className={'relative flex-grow'}
+            className={'relative'}
             onClick={() => toggleSelectExpand()}
             onBlur={() => setSelectExpanded(false)}
         >
-            <div className={'flex items-center'}>
-                <div
-                    id={'documentation-select'}
-                    className={`justify-center flex-grow sm:mx-[0.62rem] sm:flex-grow-0`}
-                >
-                    {OptionsAllJSX[selectedOptionIdx]}
-                </div>
-                <Image
-                    src={SVG_CHEVRON}
-                    alt={'select chevron'}
-                    className={`absolute right-0 sm:static sm:mr-[1rem] ${isSelectExpanded ? 'rotate-180' : ''}`}
-                />
+            <div
+                id={'documentation-select'}
+                className={`justify-center mx-[0.62rem]`}
+            >
+                {OptionsAllJSX[selectedOptionIdx]}
             </div>
             {isSelectExpanded ? (
                 <ul className={'absolute z-10 w-full'}>
@@ -166,12 +159,17 @@ const DocumentationView = (props: IDocumentationViewProps) => {
             <aside
                 id={'documentation-menu'}
                 className={`
-                    absolute left-0 top-0 flex flex-col px-[--px] py-[--py] max-h-screen w-[23.6825rem] text-primary text-[1.0625rem]
-                    z-[1] sm:portrait:w-screen ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D]' : 'h-fit bg-none'}`}
+                    absolute left-0 top-0 flex flex-col px-[--px] py-[--py] max-h-screen text-primary text-[1.0625rem]
+                    z-[1] sm:portrait:w-screen ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D] w-[23.6825rem]' : 'h-fit bg-none'}`}
             >
-                <div className={`flex items-center font-oxygen text-[1.3125rem] font-bold`}>
+                <div className={`flex items-center justify-between font-oxygen text-[1.3125rem] font-bold`}>
                     {MenuBtn}
                     {ViewSelect}
+                    <Image
+                        src={SVG_CHEVRON}
+                        alt={'select chevron'}
+                        className={isSelectExpanded ? 'rotate-180' : ''}
+                    />
                 </div>
                 {!isMenuOpened ? null : MenuContent}
             </aside>
