@@ -196,7 +196,7 @@ export default function Home() {
 
     // Misc
     const LocationTitle = (
-        <p className={`absolute top-[--py] right-[--px] text-[1rem] sm:portrait:right-auto md:right-auto lg:bottom-[--py] lg:place-self-end`}>
+        <p className={`absolute top-[--py] text-[1rem] sm:landscape:right-[--px] lg:right-[--px] lg:bottom-[--py] lg:place-self-end`}>
             New York, New York
         </p>
     );
