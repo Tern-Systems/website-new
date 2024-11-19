@@ -7,6 +7,7 @@ import Manual, {ManualAnchors} from "./Manual";
 import GHandbook, {GHandbookAnchors} from "./GHandbook";
 
 import SVG_CHEVRON from '@/assets/images/icons/select-chewron.svg';
+import {log} from "util";
 
 
 // Anchors list type
@@ -50,7 +51,8 @@ const DocumentationView = (props: IDocumentationViewProps) => {
 
     // Options list
     const OptionsAllJSX: ReactElement[] = ViewDictKeys.map((value, index) =>
-        <li key={value + index} className={'flex items-center cursor-pointer justify-center'} onClick={() => setSelectedOption(value)}>{value}</li>
+        <li key={value + index} className={'flex items-center cursor-pointer justify-center'}
+            onClick={() => setSelectedOption(value)}>{value}</li>
     );
 
     // Remove selected (current) option from the options list
@@ -110,33 +112,22 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     // Misc
     const MenuBtn = (
         <div
-            className={'cursor-pointer z-10 flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] br-[5px] border-2 border-white border-solid'}
-            style={{borderRadius: '5px'}}
+            className={'cursor-pointer flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] rounded-[0.3125rem] border-2 border-white border-solid'}
             onClick={() => toggleMenuOpen()}
         >
-            <div className={`bg-white box-border h-[100%]`}
-                 style={{
-                     borderTopLeftRadius: '2px',
-                     borderBottomLeftRadius: '2px',
-                     width: isMenuOpened ? '10%' : '40%'
-                 }}
-            />
+            <div
+                className={`bg-white box-border h-[100%] rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
         </div>
     );
     const ViewSelect = (
         <div
-            className={'relative'}
+            className={'relative mx-[0.62rem]'}
             onClick={() => toggleSelectExpand()}
             onBlur={() => setSelectExpanded(false)}
         >
-            <div
-                id={'documentation-select'}
-                className={`justify-center mx-[0.62rem]`}
-            >
-                {OptionsAllJSX[selectedOptionIdx]}
-            </div>
+            <div>{OptionsAllJSX[selectedOptionIdx]}</div>
             {isSelectExpanded ? (
-                <ul className={'absolute z-10 w-full'}>
+                <ul className={'absolute z-10 text-nowrap'}>
                     {OptionsJSX}
                 </ul>
             ) : null}
@@ -144,7 +135,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     );
     const MenuContent = (
         <div
-            className={`mt-[1.86rem] overflow-y-scroll w-[102%] box-content pr-[7rem] ${isSelectExpanded ? 'opacity-25' : ''}`}>
+            className={`mt-[1.86rem] overflow-y-scroll w-full ${isSelectExpanded ? 'opacity-25' : ''}`}>
             <div className={'mb-[0.74rem]'}>
                 <span>Table of Contents</span>
             </div>
@@ -160,9 +151,9 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                 id={'documentation-menu'}
                 className={`
                     absolute left-0 top-0 flex flex-col px-[--px] py-[--py] max-h-screen text-primary text-[1.0625rem]
-                    z-[1] sm:portrait:w-screen ${isMenuOpened ? 'h-[100%] bg-[#4D4D4D] w-[23.6825rem]' : 'h-fit bg-none'}`}
+                    z-[1] ${isMenuOpened ? 'bg-[#4D4D4D] w-[23.6825rem] sm:portrait:w-screen' : 'h-fit bg-none'}`}
             >
-                <div className={`flex items-center justify-between font-oxygen text-primary font-bold`}>
+                <div className={`flex items-center font-oxygen text-primary font-bold lg:justify-between`}>
                     {MenuBtn}
                     {ViewSelect}
                     <Image
@@ -175,7 +166,8 @@ const DocumentationView = (props: IDocumentationViewProps) => {
             </aside>
             <div
                 className={`max-h-full pt-[3.88rem] ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60 lg:pl-[23.69rem] md:landscape:pl-[23.69rem]' : ''}`}>
-                <div className={'max-h-full rounded-[0.5625rem] border-2 border-[#192131] bg-[#001125] text-primary font-neo text-[1.5rem] leading-[130%] overflow-y-scroll'}>
+                <div
+                    className={'max-h-full rounded-[0.5625rem] border-2 border-[#192131] bg-[#001125] text-primary font-neo text-[1.5rem] leading-[130%] overflow-y-scroll'}>
                     <div className={'px-[0.44rem] py-[0.59rem]'}>
                         {ViewDict[selectedOption].elem()}
                     </div>
