@@ -24,6 +24,9 @@ const config: Config = {
         neo: ['"Neo Sans W1G"', 'sans-serif'],
         oxygen: ['"Oxygen"', 'sans-serif'],
       },
+      fontSize: {
+        primary: '1.3125rem'
+      },
       keyframes: {
           insignia: {
               '0%': {
