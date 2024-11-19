@@ -40,14 +40,13 @@ export default function Home() {
   const [minimalLanding, setMinimalLanding] = useState(true);
 
   const handleLinkClick = (section: SectionsEnum) => {
-    router.replace(`/?section=${section}`);
+      history.pushState({}, '', window.location.href);
+      router.replace(`/?section=${section}`);
   };
   const handleInsigniaClick = () => {
-    router.replace(`/?section=${SectionsEnum.Home}`);
+      history.pushState({}, '', window.location.href);
+      router.replace(`/?section=${SectionsEnum.Home}`);
   };
-
-  // HOC
-    const SectionLink = withSectionLink(handleLinkClick);
 
     const section = params.get('section') as SectionsEnum;
     useEffect(() => {
@@ -64,6 +63,9 @@ export default function Home() {
         }, FADE_DURATION);
     }, [section]);
 
+  // HOC
+  const SectionLink = withSectionLink(handleLinkClick);
+
   // Content
   const renderContent = () => {
       let Title: ReactElement | null;
@@ -76,7 +78,7 @@ export default function Home() {
           case 'TernKey':
           case 'Documentation':
           case 'Contact':
-              Title = <div className={'text-title font-oxygen text-[2.25rem] leading-none capitalize sm:mb-[--py]'}>{activeSection}</div>;
+              Title = <div className={'pb-[--py] text-title font-oxygen text-[2.25rem] leading-none capitalize'}>{activeSection}</div>;
               break;
           default:
               Title = null;
@@ -85,25 +87,17 @@ export default function Home() {
       // Content
     switch (activeSection) {
        case 'About':
-            Content = (
-                <div className={styles.content}>
-                    <About/>
-                </div>
-            );
+            Content = <About/>;
             break;
       case 'Our Credo':
-            Content = (
-                <div className={styles.content}>
-                    <Credo/>
-                </div>
-            );
+            Content = <Credo/>;
             break;
       case 'Documentation':
           Content = (
-              <div className={`${styles.content} font-oxygen text-[1.3125rem]`}>
-                  <SectionLink section={SectionsEnum.TernKeyManual} className={'mb-[8.88rem]'} />
-                  <SectionLink section={SectionsEnum.GHandbook} />
-              </div>
+              <>
+                  <SectionLink section={SectionsEnum.TernKeyManual} className={'block mb-[8.88rem] sm:landscape:mb-[4.44em] font-oxygen text-primary'} />
+                  <SectionLink section={SectionsEnum.GHandbook} className={'block font-oxygen text-primary'} />
+              </>
           );
           break;
       case 'TernKey Manual':
@@ -112,31 +106,38 @@ export default function Home() {
             break;
       case 'Contact':
           Content = (
-              <div className={styles.content}>
+              <>
                   <p>Tern Systems</p>
                   <p>New York, New York</p>
                   <p className={'mt-[1rem]'}>info@tern.ac</p>
-              </div>
+              </>
           );
           break;
        case 'TernKey':
           Content = (
-              <div className={styles.content}>
-                  <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
-                      <Image style={{width: '166.8px', height: 'auto'}} src={SVG_INSIGNIA} alt={'insignia'}/>
-                  </a>
-              </div>
+              <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+                  <Image src={SVG_INSIGNIA} alt={'insignia'} className={'h-[33.6dvh] max-h-[10.42rem]'}/>
+              </a>
           );
           break;
       default:
         Content = null;
     }
 
+    if (Title) {
+        Content = (
+            <div
+                className={`overflow-y-scroll m-auto content-center text-primary text-center font-neo text-[1rem]`}>
+                {Content}
+            </div>
+        );
+    }
+
     return (
-        <div className={`flex flex-col flex-grow max-h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
-                {Title}
+        <>
+            {Title}
             {Content}
-        </div>
+        </>
     );
   };
 
@@ -146,14 +147,14 @@ export default function Home() {
 
     switch (activeSection) {
       case 'About':
-          SectionContent = <SectionLink section={SectionsEnum.Credo} className={'font-neo'}>Our Credo</SectionLink>
+          SectionContent = <SectionLink section={SectionsEnum.Credo} className={'font-neo text-[1rem]'}>Our Credo</SectionLink>
           break;
       case 'Contact':
           const ContactLinks: ReactElement[] = CONTACT_LINKS.map((link, index) => (
               <a key={link.svg + index} href={link.href} target={'_blank'}>
                   <Image
                       src={link.svg}
-                      alt={link.svg.toString().toLowerCase()}
+                      alt={link.href}
                       className={'mr-[0.75rem] w-[1.8125rem] h-[1.8125rem]'}
                   />
               </a>
@@ -161,7 +162,7 @@ export default function Home() {
           SectionContent = <div className={'flex'}>{ContactLinks}</div>;
           break;
       case 'TernKey':
-          SectionContent = <SectionLink section={SectionsEnum.Documentation} />
+          SectionContent = <SectionLink section={SectionsEnum.Documentation} className={'text-[1rem]'} />
           break;
       case 'Home':
           const FooterLinks: ReactElement[] = FOOTER_LINKS.map((link: SectionsEnum, index) => {
@@ -177,7 +178,7 @@ export default function Home() {
               );
           })
           SectionContent = (
-              <div className={'max-w-[575px]'}>
+              <div className={'max-w-[34.79rem] text-[1rem]'}>
                   <div
                       className={`mb-[2.69rem] sm:landscape:place-self-Home sm:landscape:absolute sm:landscape:top-[--px] sm:landscape:left-[--px]`}>
                       {FooterLinks}
@@ -195,23 +196,28 @@ export default function Home() {
 
     // Misc
     const LocationTitle = (
-        <p className={`absolute place-self-center sm:landscape:place-self-end lg:bottom-[--py] lg:place-self-end`}>
+        <p className={`absolute top-[--py] right-[--px] text-[1rem] sm:portrait:right-auto md:right-auto lg:bottom-[--py] lg:place-self-end`}>
             New York, New York
         </p>
     );
     const HomeLink = (
-        <SectionLink section={SectionsEnum.Home} className={`text-text-primary text-[1.3125rem] cursor-pointer`}>
+        <SectionLink section={SectionsEnum.Home} className={`text-text-primary text-primary cursor-pointer`}>
             Tern Systems
         </SectionLink>
     );
 
+    if (SectionContent)
+        SectionContent = <div className={'mt-[--py]'}>{SectionContent}</div>;
+
      return (
-         <footer
-             className={`flex w-full justify-center text-center text-[1rem] font-neo text-primary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
-         >
-             {minimalLanding ? HomeLink : SectionContent}
-             {activeSection || minimalLanding ? null : LocationTitle}
-         </footer>
+         <>
+             <footer
+                 className={`flex w-full justify-center text-center font-neo text-primary ${!minimalLanding ? 'lg:justify-start lg:text-left' : ''}`}
+             >
+                 {minimalLanding ? HomeLink : SectionContent}
+                 {activeSection === 'Home' ? LocationTitle : null}
+             </footer>
+         </>
      );
   };
 
@@ -233,10 +239,12 @@ export default function Home() {
     ));
 
   return (
-     <div className="min-h-screen h-screen flex flex-col px-[--px] py-[--py] relative">
+     <div className={"h-dvh max-h-dvh px-[--px] py-[--py] relative"}>
          {Insignia}
-         {renderContent()}
-         {renderFooter()}
+         <div className={`flex flex-col flex-grow justify-end h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
+             {renderContent()}
+             {renderFooter()}
+         </div>
     </div>
   );
 }
