@@ -51,8 +51,13 @@ const DocumentationView = (props: IDocumentationViewProps) => {
 
     // Options list
     const OptionsAllJSX: ReactElement[] = ViewDictKeys.map((value, index) =>
-        <li key={value + index} className={'flex items-center cursor-pointer justify-center'}
-            onClick={() => setSelectedOption(value)}>{value}</li>
+        <li
+            className={'flex'}
+            key={value + index}
+            onClick={() => setSelectedOption(value)}
+        >
+            {value}
+        </li>
     );
 
     // Remove selected (current) option from the options list
@@ -121,16 +126,21 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     );
     const ViewSelect = (
         <div
-            className={'relative mx-[0.62rem]'}
+            className={'cursor-pointer'}
             onClick={() => toggleSelectExpand()}
             onBlur={() => setSelectExpanded(false)}
         >
-            <div>{OptionsAllJSX[selectedOptionIdx]}</div>
-            {isSelectExpanded ? (
-                <ul className={'absolute z-10 text-nowrap'}>
+            <div className={'relative inline-block mx-[0.62rem] w-[160px] text-nowrap'}>
+                <div>{OptionsAllJSX[selectedOptionIdx]}</div>
+                <ul className={`absolute z-10 ${isSelectExpanded ? '' : 'invisible'}`}>
                     {OptionsJSX}
                 </ul>
-            ) : null}
+            </div>
+            <Image
+                src={SVG_CHEVRON}
+                alt={'select chevron'}
+                className={`inline ${isSelectExpanded ? 'rotate-180' : ''}`}
+            />
         </div>
     );
     const MenuContent = (
@@ -156,11 +166,6 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                 <div className={`flex items-center font-oxygen text-primary font-bold lg:justify-between`}>
                     {MenuBtn}
                     {ViewSelect}
-                    <Image
-                        src={SVG_CHEVRON}
-                        alt={'select chevron'}
-                        className={isSelectExpanded ? 'rotate-180' : ''}
-                    />
                 </div>
                 {!isMenuOpened ? null : MenuContent}
             </aside>
