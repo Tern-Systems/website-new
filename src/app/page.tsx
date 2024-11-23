@@ -69,7 +69,7 @@ export default function Home() {
         <div
             key={index}
             className={`
-                    absolute z-10 size-[11.5rem] bg-transparent mt-[-0.25rem]
+                    absolute z-10 size-[11.5rem] bg-transparent
                     ${state ? 'hidden' : ''}
                     ${isInsigniaMoved ? 'after:absolute after:top-0 after:w-full after:h-full cursor-pointer' : ''}
                     ${isInsigniaMoved ? 'animate-[insignia_0.3s_ease-in-out_forwards]' : 'animate-[insignia_0.3s_ease-in-out_forwards_reverse]'}

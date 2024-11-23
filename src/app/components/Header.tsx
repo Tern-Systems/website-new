@@ -16,8 +16,8 @@ const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
     profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
     documentation: [
         SectionsEnum.TernKeyManual,
-        SectionsEnum.ARHosting,
-        SectionsEnum.TernKit,
+        SectionsEnum.ARHostingManual,
+        SectionsEnum.TernKitManual,
         SectionsEnum.GHandbook,
         SectionsEnum.TernHandbook,
         SectionsEnum.BTMC,
@@ -46,7 +46,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                 key={link + index}
                 section={link}
                 className={`relative flex justify-center
-                            ${activeSection === link ? 'after:absolute after:bottom-0 after:w-[3.125rem] after:border-b-[0.0625rem]' : ''}`}
+                            ${activeSection === link ? 'after:absolute after:bottom-[-0.22rem] after:w-[3.125rem] after:border-b-[0.0625rem]' : ''}`}
             />
         );
     });
@@ -68,12 +68,17 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
         default:
             SubNavItems = [];
     }
-    const SubNav = (
-        <ul className={`absolute left-0 top-[5.13rem] flex gap-[calc(2*var(--px))] px-[--px] py-[--py] w-full
+
+
+    let SubNav: ReactElement | null = null;
+    if (SubNavItems.length) {
+        SubNav = (
+            <ul className={`absolute left-0 top-[5.13rem] flex gap-[calc(2*var(--px))] px-[--px] py-[--py] w-full
                         border-b-[0.06rem] border-brSection cursor-pointer`}>
-            {SubNavItems}
-        </ul>
-    );
+                {SubNavItems}
+            </ul>
+        );
+    }
 
     let userBtns: ReactElement | ReactElement[];
     if (isLoggedIn_) {

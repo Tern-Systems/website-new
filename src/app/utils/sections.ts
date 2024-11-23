@@ -2,11 +2,19 @@ export enum SectionsEnum {
     // Documentation
     TernKeyManual = 'TernKey Manual',
     GHandbook = 'G Handbook',
-    ARHosting = 'AR Hosting User Manual',
-    TernKit = 'TernKit User Manual',
+    ARHostingManual = 'AR Hosting User Manual',
+    TernKitManual = 'TernKit User Manual',
     TernHandbook = 'TERN Handbook',
     BTMC = 'BTMC',
     Standards = 'Standards & Specifications',
+
+    // Service
+    ARHosting = 'AR Code Hosting',
+    CreationTool = 'Creation Tool',
+    MappingTool = 'Mapping Tool',
+    Pricing = 'Pricing and Plans',
+    SavedCodes = 'Saved Codes',
+    UserManual = 'User Manual',
 
     // Common
     Start = 'Start',
