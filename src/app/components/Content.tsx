@@ -10,6 +10,8 @@ import Credo from "@/app/components/Credo";
 import DocumentationView from "@/app/components/DocumentationView";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
+import PNG_AR_LOGO from "@/assets/images/icons/ar-hosting-logo.png";
+import PNG_QR from "@/assets/images/qr.png";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -23,22 +25,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     const SectionLink = withSectionLink(handleLinkClick);
 
     // Elements
-    let Title: ReactElement | null;
     let Content: ReactElement | null;
-
-    // Title
-    switch (activeSection) {
-        case 'About':
-        case 'Our Credo':
-        case 'TernKey':
-        case 'Documentation':
-        case 'Contact':
-            Title = <div
-                className={'pb-[--py] text-title font-oxygen text-[2.25rem] leading-none capitalize'}>{activeSection}</div>;
-            break;
-        default:
-            Title = null;
-    }
 
     // Content
     switch (activeSection) {
@@ -77,24 +64,28 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 </a>
             );
             break;
+        case 'AR Code Hosting':
+            Content = (
+                <>
+                    <div className={'grid grid-rows-2 grid-cols-2 items-center text-left gap-x-[0.75rem] mb-[1.87rem]'}>
+                        <Image src={PNG_AR_LOGO} alt={'ar hosting logo'} className={'row-span-2 h-[4.375dvh] max-h-[10.42rem]'}/>
+                        <span className={'col-start-2'}>Code</span>
+                        <span className={'col-start-2'}>Hosting</span>
+                    </div>
+                    <Image src={PNG_QR} alt={'qr'} className={'size-[37.69dvh] cursor-pointer'}/>
+                </>
+            );
+            break;
         default:
             Content = null;
     }
 
-    if (Title) {
-        Content = (
-            <div
-                className={`overflow-y-scroll m-auto content-center text-primary text-center font-neo text-[1rem]`}>
-                {Content}
-            </div>
-        );
-    }
-
     return (
-        <>
-            {Title}
+        <div
+            className={`flex flex-col flex-grow w-full overflow-y-scroll m-auto justify-center items-center bg-content bg-cover
+                        bg-no-repeat text-primary text-center font-neo text-[1rem]`}>
             {Content}
-        </>
+        </div>
     );
 }
 

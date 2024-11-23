@@ -13,6 +13,9 @@ const config: Config = {
         md: { min: '834px', max: '1439.9px'},
         lg: { min: '1440px' }
       },
+      backgroundImage: {
+            'content': "url('../assets/images/bg-content.png')"
+      },
       colors: {
         bgControl: "var(--bg-control)",
         brSection: "var(--br-section)",

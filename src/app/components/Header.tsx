@@ -8,13 +8,21 @@ import {withSectionLink} from "@/app/hocs/withSectionLink";
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 
 
-type SubNav = 'profile' | 'documentation';
+type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service;
 
 const NAV_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.Product, SectionsEnum.Service, SectionsEnum.Contact];
 const AUTH_BTNS: string[] = ['login', 'sign up'];
 const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
-    profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
-    documentation: [
+    Profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
+    Service: [
+        SectionsEnum.ARHosting,
+        SectionsEnum.CreationTool,
+        SectionsEnum.MappingTool,
+        SectionsEnum.Pricing,
+        SectionsEnum.SavedCodes,
+        SectionsEnum.UserManual
+    ],
+    Documentation: [
         SectionsEnum.TernKeyManual,
         SectionsEnum.ARHostingManual,
         SectionsEnum.TernKitManual,
@@ -51,30 +59,40 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
         );
     });
 
-    let SubNavItems: ReactElement[];
+    let subNavItems: SectionsEnum[];
     switch (activeSection) {
         case 'My Tern':
         case 'Profile':
         case 'Billing':
-            SubNavItems = SUBNAVS.profile.map((link) => (
-                <SectionLink
-                    key={link}
-                    section={link}
-                    className={`relative flex justify-center
-                                ${activeSection === link ? 'after:absolute after:bottom-[-0.5rem] after:w-[3.125rem] after:border-b-[0.0625rem]' : ''}`}
-                />
-            ));
+            subNavItems = SUBNAVS.Profile;
+            break
+        case 'Service':
+        case 'AR Code Hosting':
+        case 'Creation Tool':
+        case 'Mapping Tool':
+        case 'Pricing and Plans':
+        case 'Saved Codes':
+        case 'User Manual':
+            subNavItems = SUBNAVS.Service;
             break
         default:
-            SubNavItems = [];
+            subNavItems = [];
     }
 
-
     let SubNav: ReactElement | null = null;
-    if (SubNavItems.length) {
+    if (subNavItems.length) {
+        const SubNavItems = subNavItems.map((link) => (
+            <SectionLink
+                key={link}
+                section={link}
+                className={`relative flex justify-center
+                                ${activeSection === link ? 'after:absolute after:bottom-[-0.5rem] after:w-[3.125rem] after:border-b-[0.0625rem]' : ''}`}
+            />
+        ));
+
         SubNav = (
-            <ul className={`absolute left-0 top-[5.13rem] flex gap-[calc(2*var(--px))] px-[--px] py-[--py] w-full
-                        border-b-[0.06rem] border-brSection cursor-pointer`}>
+            <ul className={`absolute left-0 top-[5.13rem] flex gap-[calc(2*var(--px))] px-[--px] w-full h-[3.88rem]
+                            items-center bg-black border-b-[0.06rem] border-brSection cursor-pointer`}>
                 {SubNavItems}
             </ul>
         );
@@ -82,7 +100,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
 
     let userBtns: ReactElement | ReactElement[];
     if (isLoggedIn_) {
-        const ProfileLinks: ReactElement[] = SUBNAVS.profile.map((link) => (
+        const ProfileLinks: ReactElement[] = SUBNAVS.Profile.map((link) => (
             <li key={link}>
                 <SectionLink
                     section={link}

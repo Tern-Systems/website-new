@@ -32,7 +32,6 @@ export default function Home() {
     const [activeSection, setActiveSection] = useState<SectionsEnum>(SectionsEnum.Start);
     const [isViewChange, setViewChange] = useState<boolean>(true);
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
-    const [minimalLanding, setMinimalLanding] = useState(true);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
 
     const handleLinkClick = (section: SectionsEnum) => {
@@ -54,7 +53,6 @@ export default function Home() {
             setInsigniaMoved(section !== SectionsEnum.Start);
         setTimeout(() => {
             setActiveSection(section);
-            setMinimalLanding(section === 'Start')
             setViewChange(false);
             setProfileLinksVisibility(false);
         }, FADE_DURATION);
@@ -80,7 +78,7 @@ export default function Home() {
         </div>
     ));
 
-    const Layout = minimalLanding
+    const Layout = activeSection === 'Start'
         ? (
             <SectionLink
                 section={SectionsEnum.Home}
