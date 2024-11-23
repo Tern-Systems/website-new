@@ -7,8 +7,11 @@ import {SectionsEnum} from "@/app/utils/sections";
 import {handleLinkClick} from "@/app/utils/router";
 
 import {useModal} from "@/app/context/Modal.context";
+import {useUser} from "@/app/context/User.context";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
+
+import {PricingModal} from "@/app/components/modals/PricingModal";
 
 import About from "@/app/components/views/About";
 import Credo from "@/app/components/views/Credo";
@@ -27,6 +30,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
 
     const router = useRouter();
     const modalCtx = useModal();
+    const userCtx = useUser();
 
     // HOC
     const SectionLink = withSectionLink(router);
@@ -100,7 +104,12 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 );
                 break;
             case 'Creation Tool':
-                Content = <CreationToolView arLogo={renderARHostingLogo()} />
+                Content = <CreationToolView arLogo={renderARHostingLogo()}/>
+                break
+            case 'Saved Codes':
+                if (!userCtx.userData?.planType)
+                    modalCtx.openModal(PricingModal);
+                Content = <></>; // TODO
                 break;
             default:
                 Content = null;
