@@ -28,5 +28,9 @@ export enum SectionsEnum {
     Credo = 'Our Credo',
     TernKey = 'TernKey',
     Documentation = 'Documentation',
-    Contact = 'Contact'
+    Contact = 'Contact',
+
+    // Auth
+    SignUp = 'Sign Up',
+    LogIn = 'LogIn',
 }
