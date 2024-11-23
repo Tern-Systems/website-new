@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --bg-background: #000000;
-  --bg-foreground: #171717;
+  --bg-main: #000000;
+  --bg-control: #4D4D4D;
+  --br-section: #4D4D4D;
+  --br-control: #999999;
   --color-title: #178AB7;
   --color-primary: #ECF0F3;
   --fz-content: 1.3125rem;
@@ -15,8 +17,7 @@
 }
 
 body {
-  color: var(--bg-foreground);
-  background: var(--bg-background);
+  background: var(--bg-main);
   font-family: Arial, Helvetica, sans-serif;
   overflow: hidden;
 

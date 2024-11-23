@@ -15,7 +15,7 @@ type TListEntry = Array<string | Record<string, TListEntry>>;
 
 // Views
 const ViewDict: Record<string, { elem: () => JSX.Element, anchors: TListEntry, isChapter: boolean }> = {
-    ['TernKey Manual' as SectionsEnum.TernKeyManual]: {elem: Manual, anchors: ManualAnchors, isChapter: false},
+    ['TernKey Manual' as SectionsEnum.TernKey]: {elem: Manual, anchors: ManualAnchors, isChapter: false},
     ['G Handbook' as SectionsEnum.GHandbook]: {elem: GHandbook, anchors: GHandbookAnchors, isChapter: true},
 }
 const ViewDictKeys = Object.keys(ViewDict) as SectionsEnum[];

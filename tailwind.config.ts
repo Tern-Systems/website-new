@@ -14,8 +14,9 @@ const config: Config = {
         lg: { min: '1440px' }
       },
       colors: {
-        bgBackground: "var(--bg-background)",
-        bgForeground: "var(--bg-foreground)",
+        bgControl: "var(--bg-control)",
+        brSection: "var(--br-section)",
+        brControl: "var(--br-control)",
         primary: "var(--color-primary)",
         title: "var(--color-title)",
       },
@@ -31,15 +32,15 @@ const config: Config = {
           insignia: {
               '0%': {
                   top: '45%',
-                  right: '50%',
-                  transform: 'translate(50%, -50%) scale(var(--insignia-scale-init))',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%) scale(var(--insignia-scale-init))',
                   transformOrigin: 'center center'
               },
               '100%': {
                   top: '0',
-                  right: '0',
-                  transform: 'translate(calc(-1 * var(--px)), var(--py)) scale(var(--insignia-scale-moved))',
-                  transformOrigin: 'top right'
+                  left: '0',
+                  transform: 'translate(calc(var(--px)), var(--py)) scale(var(--insignia-scale-moved))',
+                  transformOrigin: 'top left'
               }
           }
       }
