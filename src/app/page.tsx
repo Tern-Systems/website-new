@@ -99,7 +99,7 @@ export default function Home() {
                     handleLinkClick={handleLinkClick}
                 />
                 <footer
-                    className={`flex w-full justify-between font-neo text-primary border-t-[0.06rem] border-brSection px-[--px] py-[--py] place-self-end`}>
+                    className={`flex w-full justify-between font-neo text-primary border-t-small border-section px-[--px] py-[--py] place-self-end`}>
                     <span>© Copyright 2025 Tern Systems LLC</span>
                     <span>New York, New York</span>
                 </footer>

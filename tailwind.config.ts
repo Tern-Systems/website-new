@@ -17,11 +17,25 @@ const config: Config = {
             'content': "url('../assets/images/bg-content.png')"
       },
       colors: {
-        bgControl: "var(--bg-control)",
-        brSection: "var(--br-section)",
-        brControl: "var(--br-control)",
-        primary: "var(--color-primary)",
-        title: "var(--color-title)",
+          primary: "var(--color-primary)",
+      },
+      backgroundColor: {
+          control: "var(--bg-control)",
+          control2: "var(--bg-control-2)",
+          section: "var(--bg-section)",
+          section2: "var(--bg-section-2)",
+      },
+      borderRadius: {
+          small: 'var(--br-small)',
+      },
+      borderColor: {
+          section: "var(--b-section)",
+          control: "var(--b-control)",
+          control2: "var(--b-control-2)",
+          control3: "var(--b-control-3)",
+      },
+      borderWidth : {
+       small: 'var(--b-small)',
       },
       fontFamily: {
         caslon: ['"Adobe Caslon Pro"', 'serif'],
@@ -29,7 +43,7 @@ const config: Config = {
         oxygen: ['"Oxygen"', 'sans-serif'],
       },
       fontSize: {
-        primary: '1.3125rem'
+        content: '2.25rem'
       },
       keyframes: {
           insignia: {

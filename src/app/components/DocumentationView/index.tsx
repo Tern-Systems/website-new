@@ -172,7 +172,7 @@ const DocumentationView = (props: IDocumentationViewProps) => {
             <div
                 className={`max-h-full pt-[3.88rem] ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60 lg:pl-[23.69rem] md:landscape:pl-[23.69rem]' : ''}`}>
                 <div
-                    className={'max-h-full rounded-[0.5625rem] border-2 border-[#192131] bg-[#001125] text-primary font-neo text-[1.5rem] leading-[130%] overflow-y-scroll'}>
+                    className={'max-h-full rounded-small border-small border-control2 bg-section text-primary font-neo text-[1.5rem] leading-[130%] overflow-y-scroll'}>
                     <div className={'px-[0.44rem] py-[0.59rem]'}>
                         {ViewDict[selectedOption].elem()}
                     </div>

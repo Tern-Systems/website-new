@@ -1,0 +1,19 @@
+<svg width="37" height="36" viewBox="0 0 37 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Picker Button">
+<path id="Gradient" fill-rule="evenodd" clip-rule="evenodd" d="M18.4014 36C28.3425 36 36.4014 27.9411 36.4014 18C36.4014 8.05887 28.3425 0 18.4014 0C8.46024 0 0.401367 8.05887 0.401367 18C0.401367 27.9411 8.46024 36 18.4014 36ZM18.4014 33C26.6856 33 33.4014 26.2843 33.4014 18C33.4014 9.71573 26.6856 3 18.4014 3C10.1171 3 3.40137 9.71573 3.40137 18C3.40137 26.2843 10.1171 33 18.4014 33Z" fill="url(#paint0_angular_1318_2406)"/>
+</g>
+<defs>
+    <radialGradient id="paint0_angular_1318_2406" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(18.4014 18) rotate(-90) scale(18)">
+        <stop stop-color="#E7E040"/>
+        <stop offset="0.124041" stop-color="#EEAA3C"/>
+        <stop offset="0.249383" stop-color="#E8403B"/>
+        <stop offset="0.365593" stop-color="#B33ED5"/>
+        <stop offset="0.506092" stop-color="#694AE8"/>
+        <stop offset="0.642612" stop-color="#3CCAE7"/>
+        <stop offset="0.748717" stop-color="#3CE885"/>
+        <stop offset="0.869545" stop-color="#89E743"/>
+        <stop offset="1" stop-color="#E7E040"/>
+    </radialGradient>
+</defs>
+</svg>

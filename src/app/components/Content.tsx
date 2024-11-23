@@ -11,7 +11,7 @@ import DocumentationView from "@/app/components/DocumentationView";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import PNG_AR_LOGO from "@/assets/images/icons/ar-hosting-logo.png";
-import PNG_QR from "@/assets/images/qr.png";
+import CreationTool from "@/app/components/ServicesView/CreationTool";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -25,6 +25,19 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     const SectionLink = withSectionLink(handleLinkClick);
 
     // Elements
+    const renderARHostingLogo = () => (
+        <div
+            className={'grid grid-rows-2 grid-cols-2 items-center text-left gap-x-[0.75rem] gap-y-[0.4rem] text-[1rem] leading-none'}>
+            <Image
+                src={PNG_AR_LOGO}
+                alt={'ar hosting logo'}
+                className={'row-span-2 max-h-[4.375rem] w-auto place-self-end self-center'}
+            />
+            <span className={'col-start-2'}>Code</span>
+            <span className={'col-start-2'}>Hosting</span>
+        </div>
+    );
+
     let Content: ReactElement | null;
 
     // Content
@@ -67,14 +80,16 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
         case 'AR Code Hosting':
             Content = (
                 <>
-                    <div className={'grid grid-rows-2 grid-cols-2 items-center text-left gap-x-[0.75rem] mb-[1.87rem]'}>
-                        <Image src={PNG_AR_LOGO} alt={'ar hosting logo'} className={'row-span-2 h-[4.375dvh] max-h-[10.42rem]'}/>
-                        <span className={'col-start-2'}>Code</span>
-                        <span className={'col-start-2'}>Hosting</span>
-                    </div>
-                    <Image src={PNG_QR} alt={'qr'} className={'size-[37.69dvh] cursor-pointer'}/>
+                    {renderARHostingLogo()}
+                    <div
+                        className={'flex flex-grow my-[1.87rem] max-h-[37.69rem] w-full bg-[url("../assets/images/qr.png")] bg-contain bg-no-repeat bg-center cursor-pointer'}/>
+                    <button className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem]'}>Create
+                    </button>
                 </>
             );
+            break;
+        case 'Creation Tool':
+            Content = <CreationTool arLogo={renderARHostingLogo()}/>
             break;
         default:
             Content = null;
@@ -82,7 +97,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
 
     return (
         <div
-            className={`flex flex-col flex-grow w-full overflow-y-scroll m-auto justify-center items-center bg-content bg-cover
+            className={`relative flex flex-col flex-grow w-full overflow-y-scroll m-auto p-[--py] justify-center items-center bg-content bg-cover
                         bg-no-repeat text-primary text-center font-neo text-[1rem]`}>
             {Content}
         </div>

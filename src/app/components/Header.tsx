@@ -54,7 +54,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                 key={link + index}
                 section={link}
                 className={`relative flex justify-center
-                            ${activeSection === link ? 'after:absolute after:bottom-[-0.22rem] after:w-[3.125rem] after:border-b-[0.0625rem]' : ''}`}
+                            ${activeSection === link ? 'after:absolute after:bottom-[-0.22rem] after:w-[3.125rem] after:border-b-small' : ''}`}
             />
         );
     });
@@ -86,13 +86,13 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                 key={link}
                 section={link}
                 className={`relative flex justify-center
-                                ${activeSection === link ? 'after:absolute after:bottom-[-0.5rem] after:w-[3.125rem] after:border-b-[0.0625rem]' : ''}`}
+                                ${activeSection === link ? 'after:absolute after:bottom-[-0.5rem] after:w-[3.125rem] after:border-b-small' : ''}`}
             />
         ));
 
         SubNav = (
-            <ul className={`absolute left-0 top-[5.13rem] flex gap-[calc(2*var(--px))] px-[--px] w-full h-[3.88rem]
-                            items-center bg-black border-b-[0.06rem] border-brSection cursor-pointer`}>
+            <ul className={`flex gap-[calc(2*var(--px))] px-[--px] w-full h-[3.88rem]
+                            items-center bg-black border-b-small border-section cursor-pointer`}>
                 {SubNavItems}
             </ul>
         );
@@ -104,13 +104,13 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
             <li key={link}>
                 <SectionLink
                     section={link}
-                    className={`relative flex justify-center bg-bgControl`}
+                    className={`relative flex justify-center bg-control`}
                 />
             </li>
         ));
 
         ProfileLinks.push(
-            <li className={'border-t-[0.06rem] pt-[1.2rem]'}>
+            <li className={'border-t-small pt-[1.2rem]'}>
                 <a href="#">Log Out</a>
             </li>
         );
@@ -123,8 +123,8 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                     className={'h-full cursor-pointer'}
                     onClick={() => profileLinksState.handle(prevState => !prevState)}
                 />
-                <ul className={`absolute right-0 flex flex-col items-start gap-[1.2rem] mt-[0.62rem] p-[0.75rem]
-                                border-[0.06rem] border-brControl rounded-[0.375rem] bg-bgControl text-nowrap
+                <ul className={`absolute z-10 right-0 flex flex-col items-start gap-[1.2rem] mt-[0.62rem] p-[0.75rem]
+                                border-small border-control rounded-[0.375rem] bg-control text-nowrap
                                 ${profileLinksState.value ? '' : 'hidden'}`}>
                     {ProfileLinks}
                 </ul>
@@ -134,7 +134,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
         userBtns = AUTH_BTNS.map((name, index) => (
             <div key={name}>
                 <div
-                    className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-[0.06rem] border-brSection
+                    className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-small border-section
                                 text-[0.875rem] font-bold capitalize cursor-pointer 
                                 ${index ? 'bg-black text-white' : 'bg-white text-black'}`}
                     onClick={() => setLoggedState(prevState => !prevState)}
@@ -147,16 +147,16 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
 
     return (
         <>
-            <header
-                className={`relative flex w-full h-[5.13rem] px-[--px] justify-between items-center font-neo text-primary
-                            leading-none border-b-[0.06rem] border-brSection`}>
-                <nav
-                    className={`relative flex items-center ml-[6.22rem] before:absolute before:h-[3.44rem] before:-left-[--py]
-                                before:border-[0.06rem] before:border-brSection`}>
-                    <ul className={'flex gap-[calc(2*var(--px))] cursor-pointer'}>{NavLinks}</ul>
-                </nav>
+            <header className={'font-neo text-primary leading-none'}>
+                <div className={`relative flex w-full h-[5.13rem] px-[--px] justify-between items-center border-b-small border-section`}>
+                    <nav
+                        className={`relative flex items-center ml-[6.22rem] before:absolute before:h-[3.44rem] before:-left-[--py]
+                                before:border-small before:border-section`}>
+                        <ul className={'flex gap-[calc(2*var(--px))] cursor-pointer'}>{NavLinks}</ul>
+                    </nav>
+                    <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
+                </div>
                 {SubNav}
-                <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </header>
         </>
     );

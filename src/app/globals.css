@@ -5,14 +5,26 @@
 :root {
   --bg-main: #000000;
   --bg-control: #4D4D4D;
-  --br-section: #4D4D4D;
-  --br-control: #999999;
+  --bg-control-2: #808080;
+  --bg-section: #001125;
+  --bg-section-2: #178AB7;
+
+  --b-small: 0.0625rem;
+  --b-section: #4D4D4D;
+  --b-control: #999999;
+  --b-control-2: #192131;
+  --b-control-3: #F2F2F2;
+  --br-small: 0.5625rem;
+
   --color-title: #178AB7;
   --color-primary: #ECF0F3;
+
   --fz-content: 1.3125rem;
+
   --px: 2rem;
   --py: 2.06rem;
-  --insignia-pt-moved: 1.5rem;
+
+  --insignia-pt-moved: 1.2rem;
   --insignia-scale-init: 0.8;
   --insignia-scale-moved: 0.2;
 }
@@ -25,6 +37,7 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 body ::-webkit-scrollbar {
   display: none;
 }
