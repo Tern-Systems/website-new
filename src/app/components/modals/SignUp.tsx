@@ -1,6 +1,6 @@
 import {FC, FormEvent} from "react";
 
-import {IModalContext} from "@/app/context/Modal.context";
+import {ModalProps} from "@/app/context/Modal.context";
 
 import {useForm} from "@/app/hooks/useForm";
 
@@ -16,10 +16,7 @@ type RegistrationForm = {
 
 const FORM_DEFAULT: RegistrationForm = {email: '', password: '', passwordConfirm: ''};
 
-interface SignUpModal extends Pick<IModalContext, 'closeModal'> {
-}
-
-const SignUpModal: FC<SignUpModal> = (props: SignUpModal) => {
+const SignUpModal: FC<ModalProps> = (props: ModalProps) => {
     const [formValue, setFormValue] = useForm<RegistrationForm>(FORM_DEFAULT);
 
     const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -31,7 +28,7 @@ const SignUpModal: FC<SignUpModal> = (props: SignUpModal) => {
         <div
             className={`p-[--py] w-[30.31rem] rounded-[0.5625rem] border-small border-control3 bg-control text-primary`}>
             <div className={'flex justify-between'}>
-                <h1 className={'font-oxygen text-[1.6875rem] font-bold'}>Create account</h1>
+                <h1 className={'font-oxygen text-header font-bold'}>Create account</h1>
                 <Button
                     btnType={'close'}
                     onClick={() => props.closeModal()}

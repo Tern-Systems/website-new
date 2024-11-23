@@ -32,10 +32,8 @@ const CreationToolView: FC<CreationToolProps> = (props: CreationToolProps) => {
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!userCtx.isLoggedIn) {
-            modalCtx.openModal(SignUpModal);
-            return;
-        }
+        if (!userCtx.isLoggedIn)
+            return modalCtx.openModal(SignUpModal);
 
         const SuccessModal: FC = () => (
             <div

@@ -2,13 +2,22 @@
 
 import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from 'react';
 import {createRoot, Root} from "react-dom/client";
+import {IUserContext} from "@/app/context/User.context";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-type CloseModal = { closeModal: () => void; }
 
-interface IModalContext extends CloseModal {
-    openModal: (component: FC<CloseModal>) => void;
-    isModalVisible: boolean;
+type ModalCustomProps = {
+    userCtx?: IUserContext;
+    router?: AppRouterInstance;
 }
+
+interface IModalContext {
+    isModalVisible: boolean;
+    closeModal: () => void;
+    openModal: (component: FC<ModalProps>, props?: ModalCustomProps) => void;
+}
+
+type ModalProps = ModalCustomProps & Pick<IModalContext, 'openModal' | 'closeModal'>;
 
 const ModalContext = createContext<IModalContext | null>(null);
 
@@ -16,17 +25,16 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [isModalVisible, setModalVisibility] = useState<boolean>(false);
     const [ModalRoot, setModalRoot] = useState<Root | null>(null);
 
-
     const closeModal = () => {
         if (ModalRoot === null)
             return;
         ModalRoot.render(null);
         setModalVisibility(false);
     }
-    const openModal = (Component: FC<CloseModal>) => {
+    const openModal = (Component: FC<ModalProps>, props?: ModalCustomProps) => {
         if (ModalRoot === null)
             return;
-        ModalRoot.render(<Component closeModal={closeModal}/>);
+        ModalRoot.render(<Component {...props} closeModal={closeModal} openModal={openModal}/>);
         setModalVisibility(true);
     }
 
@@ -51,4 +59,4 @@ const useModal = (): IModalContext => {
 };
 
 export {ModalProvider, useModal}
-export type {IModalContext}
+export type {IModalContext, ModalProps}

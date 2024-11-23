@@ -143,7 +143,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
             <div key={name}>
                 <div
                     className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-small border-section
-                                text-[0.875rem] font-bold capitalize cursor-pointer 
+                                text-small font-bold capitalize cursor-pointer 
                                 ${index ? 'bg-black text-white' : 'bg-white text-black'}`}
                     onClick={() => handleLinkClick(name, router)}
                 >

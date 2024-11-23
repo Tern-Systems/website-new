@@ -16,6 +16,7 @@ import SVG_GITHUB from "@/assets/images/icons/github.svg";
 import SVG_DISCORD from "@/assets/images/icons/discord.svg";
 
 import styles from './page.module.css';
+import {useModal} from "@/app/context/Modal.context";
 
 const FADE_DURATION = 300;
 
@@ -27,6 +28,7 @@ const CONTACT_LINKS: { svg: string, href: string }[] = [
 
 export default function Home() {
     const router = useRouter();
+    const modalCtx = useModal();
     const params = useSearchParams();
 
     const [activeSection, setActiveSection] = useState<SectionsEnum>(SectionsEnum.Start);
@@ -53,6 +55,11 @@ export default function Home() {
             setProfileLinksVisibility(false);
         }, FADE_DURATION);
     }, [section]);
+
+    useEffect(() => {
+        if (section !== activeSection)
+            modalCtx.closeModal();
+    }, [modalCtx, section, activeSection])
 
     const SectionLink = withSectionLink(router);
 
@@ -97,7 +104,6 @@ export default function Home() {
                 </footer>
             </>
         )
-
 
     return (
         <div className={"h-dvh max-h-dvh relative"}>

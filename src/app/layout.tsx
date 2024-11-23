@@ -9,8 +9,8 @@ export default function RootLayout({children}: Readonly<{ children: ReactNode }>
     return (
         <html lang="en">
             <body>
-                <ModalProvider>
-                    <UserProvider>
+                <UserProvider>
+                    <ModalProvider>
                         <div
                             id={"modal-portal"}
                             className={'absolute z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-[45%] text-primary font-neo'}
@@ -18,8 +18,8 @@ export default function RootLayout({children}: Readonly<{ children: ReactNode }>
                         <Suspense>
                             {children}
                         </Suspense>
-                    </UserProvider>
-                </ModalProvider>
+                    </ModalProvider>
+                </UserProvider>
             </body>
         </html>
     );

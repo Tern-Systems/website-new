@@ -20,13 +20,20 @@ const Button: FC<ButtonProps> = (props: ButtonProps) => {
                 <button
                     {...props}
                     type={'submit'}
-                    className={`border-small border-control3 rounded-full p-[0.5rem] text-[1.3125rem] text-primary ${props.className}`}
+                    className={`p-[1.13rem] w-full border-small border-control3 rounded-full text-[1.3125rem] text-primary leading-none ${props.className}`}
                 >
                     {props.children}
                 </button>
             )
         default:
-            return <button {...props} type={'button'}>{props.children}</button>;
+            return (
+                <button
+                    {...props}
+                    type={'button'}
+                    className={`w-full rounded-full p-[1.13rem] text-[1.3125rem] text-primary leading-none ${props.className}`}
+                >
+                    {props.children}
+                </button>);
     }
 }
 export {Button}

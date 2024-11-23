@@ -6,20 +6,23 @@
   --bg-main: #000000;
   --bg-control: #4D4D4D;
   --bg-control-2: #808080;
+  --bg-control-3: #178AB7;
   --bg-section: #001125;
-  --bg-section-2: #178AB7;
+  --bg-section-2: var(--bg-control-3);
 
   --b-small: 0.0625rem;
-  --b-section: #4D4D4D;
+  --b-section: var(--bg-control);
   --b-control: #999999;
   --b-control-2: #192131;
   --b-control-3: #F2F2F2;
   --br-small: 0.5625rem;
 
-  --color-title: #178AB7;
   --color-primary: #ECF0F3;
+  --color-secondary: var(--bg-control-2);
 
+  --fz-small: 0.875rem;
   --fz-content: 1.3125rem;
+  --fz-header: 1.6875rem;
 
   --px: 2rem;
   --py: 2.06rem;
