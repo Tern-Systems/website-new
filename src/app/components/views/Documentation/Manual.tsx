@@ -1,5 +1,5 @@
 import React from 'react'
-import {TListEntry} from "@/app/components/DocumentationView";
+import {TListEntry} from "@/app/components/views/Documentation";
 
 const ManualAnchors: TListEntry = [
     'Overview',
@@ -20,7 +20,7 @@ const ManualAnchors: TListEntry = [
     }
 ];
 
-const Manual = () => {
+const ManualView = () => {
     return (
         <>
             <p id={'Overview'}>Overview</p>
@@ -152,5 +152,5 @@ const Manual = () => {
     )
 }
 
-export default Manual;
+export default ManualView;
 export {ManualAnchors}

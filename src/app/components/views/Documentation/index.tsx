@@ -3,11 +3,10 @@ import Image from "next/image";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
-import Manual, {ManualAnchors} from "./Manual";
-import GHandbook, {GHandbookAnchors} from "./GHandbook";
+import ManualView, {ManualAnchors} from "./Manual";
+import GHandbookView, {GHandbookAnchors} from "./GHandbook";
 
 import SVG_CHEVRON from '@/assets/images/icons/select-chewron.svg';
-import {log} from "util";
 
 
 // Anchors list type
@@ -15,8 +14,8 @@ type TListEntry = Array<string | Record<string, TListEntry>>;
 
 // Views
 const ViewDict: Record<string, { elem: () => JSX.Element, anchors: TListEntry, isChapter: boolean }> = {
-    ['TernKey Manual' as SectionsEnum.TernKey]: {elem: Manual, anchors: ManualAnchors, isChapter: false},
-    ['G Handbook' as SectionsEnum.GHandbook]: {elem: GHandbook, anchors: GHandbookAnchors, isChapter: true},
+    ['TernKey Manual' as SectionsEnum.TernKey]: {elem: ManualView, anchors: ManualAnchors, isChapter: false},
+    ['G Handbook' as SectionsEnum.GHandbook]: {elem: GHandbookView, anchors: GHandbookAnchors, isChapter: true},
 }
 const ViewDictKeys = Object.keys(ViewDict) as SectionsEnum[];
 

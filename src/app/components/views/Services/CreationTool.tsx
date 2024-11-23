@@ -22,7 +22,7 @@ interface CreationToolProps {
     isLoggedIn: boolean;
 }
 
-const CreationTool: FC<CreationToolProps> = (props: CreationToolProps) => {
+const CreationToolView: FC<CreationToolProps> = (props: CreationToolProps) => {
     const {arLogo, isLoggedIn} = props;
 
     const modalCtx = useModal();
@@ -103,5 +103,5 @@ const CreationTool: FC<CreationToolProps> = (props: CreationToolProps) => {
     );
 }
 
-export default CreationTool;
+export default CreationToolView;
 export type {CreationToolForm}

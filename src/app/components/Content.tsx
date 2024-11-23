@@ -4,18 +4,19 @@ import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
+import {handleLinkClick} from "@/app/utils/router";
+
+import {useModal} from "@/app/context/Modal.context";
+
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
-import About from "@/app/components/About";
-import Credo from "@/app/components/Credo";
-import DocumentationView from "@/app/components/DocumentationView";
-import CreationTool from "@/app/components/ServicesView/CreationTool";
+import About from "@/app/components/views/About";
+import Credo from "@/app/components/views/Credo";
+import DocumentationView from "@/app/components/views/Documentation";
+import CreationToolView from "@/app/components/views/Services/CreationTool";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import PNG_AR_LOGO from "@/assets/images/icons/ar-hosting-logo.png";
-import {SignUpModal} from "@/app/components/modals/SignUp";
-import {useModal} from "@/app/context/Modal.context";
-import {handleLinkClick} from "@/app/utils/router";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -100,7 +101,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 );
                 break;
             case 'Creation Tool':
-                Content = <CreationTool arLogo={renderARHostingLogo()} isLoggedIn={isLoggedIn}/>
+                Content = <CreationToolView arLogo={renderARHostingLogo()} isLoggedIn={isLoggedIn}/>
                 break;
             default:
                 Content = null;

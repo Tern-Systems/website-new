@@ -1,5 +1,5 @@
 import React from 'react'
-import {TListEntry} from "@/app/components/DocumentationView";
+import {TListEntry} from "@/app/components/views/Documentation";
 
 const GHandbookAnchors: TListEntry = [
     'Terms and Abbreviations',
@@ -12,7 +12,7 @@ const GHandbookAnchors: TListEntry = [
     {'Calls and Argument Passing': ['Recursion', 'Glossary']}
 ];
 
-const GHandbook = () => {
+const GHandbookView = () => {
     return (
         <>
             <p id={'Introduction'}> Introduction</p>
@@ -158,5 +158,5 @@ const GHandbook = () => {
     )
 }
 
-export default GHandbook;
+export default GHandbookView;
 export {GHandbookAnchors};
