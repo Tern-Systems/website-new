@@ -34,10 +34,17 @@ export default function Home() {
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
 
-    const handleLinkClick = (section: SectionsEnum) => {
-        history.pushState({}, '', window.location.href);
-        router.replace(`/?section=${section}`);
-    };
+    const [isLoggedIn, setLoggedState] = useState(false);
+
+    const handleLogIn = async () => {
+        // TODO
+        setLoggedState(true);
+    }
+
+    const handleRegister = async () => {
+        // TODO
+    }
+
     const handleInsigniaClick = () => {
         history.pushState({}, '', window.location.href);
         router.replace(`/?section=${SectionsEnum.Home}`);
@@ -58,7 +65,7 @@ export default function Home() {
         }, FADE_DURATION);
     }, [section]);
 
-    const SectionLink = withSectionLink(handleLinkClick);
+    const SectionLink = withSectionLink(router);
 
     // Elements
 
@@ -90,13 +97,13 @@ export default function Home() {
         : (
             <>
                 <Header
-                    handleLinkClick={handleLinkClick}
                     activeSection={activeSection}
                     profileLinksState={{value: isProfileLinksVisible, handle: setProfileLinksVisibility}}
+                    loggedState={{value: isLoggedIn, handle: setLoggedState}}
                 />
                 <Content
                     activeSection={activeSection}
-                    handleLinkClick={handleLinkClick}
+                    isLoggedIn={isLoggedIn}
                 />
                 <footer
                     className={`flex w-full justify-between font-neo text-primary border-t-small border-section px-[--px] py-[--py] place-self-end`}>

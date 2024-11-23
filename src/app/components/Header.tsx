@@ -1,4 +1,4 @@
-import {Dispatch, FC, ReactElement, SetStateAction, useState} from "react";
+import {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
 
 import {SectionsEnum} from "@/app/utils/sections";
@@ -6,12 +6,14 @@ import {SectionsEnum} from "@/app/utils/sections";
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
+import {useRouter} from "next/navigation";
+import {handleLinkClick} from "@/app/utils/router";
 
 
 type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service;
 
 const NAV_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.Product, SectionsEnum.Service, SectionsEnum.Contact];
-const AUTH_BTNS: string[] = ['login', 'sign up'];
+const AUTH_BTNS: SectionsEnum[] = [SectionsEnum.LogIn, SectionsEnum.SignUp];
 const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
     Profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
     Service: [
@@ -36,16 +38,16 @@ const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
 interface IHeaderProps {
     profileLinksState: { value: boolean, handle: Dispatch<SetStateAction<boolean>> }
     activeSection: SectionsEnum;
-    handleLinkClick: (section: SectionsEnum) => void;
+    loggedState: { value: boolean, handle: Dispatch<SetStateAction<boolean>> }
 }
 
 const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
-    const {profileLinksState, activeSection, handleLinkClick} = props;
+    const {profileLinksState, activeSection, loggedState} = props;
 
-    const [isLoggedIn_, setLoggedState] = useState(false);
+    const router = useRouter();
 
     // HOC
-    const SectionLink = withSectionLink(handleLinkClick);
+    const SectionLink = withSectionLink(router);
 
     // Elements
     const NavLinks: ReactElement[] = NAV_LINKS.map((link: SectionsEnum, index) => {
@@ -99,7 +101,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
     }
 
     let userBtns: ReactElement | ReactElement[];
-    if (isLoggedIn_) {
+    if (loggedState.value) {
         const ProfileLinks: ReactElement[] = SUBNAVS.Profile.map((link) => (
             <li key={link}>
                 <SectionLink
@@ -110,7 +112,10 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
         ));
 
         ProfileLinks.push(
-            <li className={'border-t-small pt-[1.2rem]'}>
+            <li
+                className={'border-t-small pt-[1.2rem]'}
+                onClick={() => loggedState.handle(false)}
+            >
                 <a href="#">Log Out</a>
             </li>
         );
@@ -121,7 +126,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                     src={SVG_PROFILE}
                     alt={'profile icon'}
                     className={'h-full cursor-pointer'}
-                    onClick={() => profileLinksState.handle(prevState => !prevState)}
+                    onClick={() => handleLinkClick(SectionsEnum.Profile, router)}
                 />
                 <ul className={`absolute z-10 right-0 flex flex-col items-start gap-[1.2rem] mt-[0.62rem] p-[0.75rem]
                                 border-small border-control rounded-[0.375rem] bg-control text-nowrap
@@ -137,7 +142,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                     className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-small border-section
                                 text-[0.875rem] font-bold capitalize cursor-pointer 
                                 ${index ? 'bg-black text-white' : 'bg-white text-black'}`}
-                    onClick={() => setLoggedState(prevState => !prevState)}
+                    onClick={() => handleLinkClick(name, router)}
                 >
                     {name}
                 </div>
@@ -148,7 +153,8 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
     return (
         <>
             <header className={'font-neo text-primary leading-none'}>
-                <div className={`relative flex w-full h-[5.13rem] px-[--px] justify-between items-center border-b-small border-section`}>
+                <div
+                    className={`relative flex w-full h-[5.13rem] px-[--px] justify-between items-center border-b-small border-section`}>
                     <nav
                         className={`relative flex items-center ml-[6.22rem] before:absolute before:h-[3.44rem] before:-left-[--py]
                                 before:border-small before:border-section`}>

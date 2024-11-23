@@ -1,5 +1,6 @@
 import {FC, ReactElement} from "react";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
@@ -8,21 +9,27 @@ import {withSectionLink} from "@/app/hocs/withSectionLink";
 import About from "@/app/components/About";
 import Credo from "@/app/components/Credo";
 import DocumentationView from "@/app/components/DocumentationView";
+import CreationTool from "@/app/components/ServicesView/CreationTool";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import PNG_AR_LOGO from "@/assets/images/icons/ar-hosting-logo.png";
-import CreationTool from "@/app/components/ServicesView/CreationTool";
+import {SignUpModal} from "@/app/components/modals/SignUp";
+import {useModal} from "@/app/context/Modal.context";
+import {handleLinkClick} from "@/app/utils/router";
 
 interface IContentProps {
     activeSection: SectionsEnum;
-    handleLinkClick: (section: SectionsEnum) => void;
+    isLoggedIn: boolean;
 }
 
 const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
-    const {activeSection, handleLinkClick} = props;
+    const {activeSection, isLoggedIn} = props;
+
+    const router = useRouter();
+    const modalCtx = useModal();
 
     // HOC
-    const SectionLink = withSectionLink(handleLinkClick);
+    const SectionLink = withSectionLink(router);
 
     // Elements
     const renderARHostingLogo = () => (
@@ -38,61 +45,66 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
         </div>
     );
 
-    let Content: ReactElement | null;
-
     // Content
-    switch (activeSection) {
-        case 'About':
-            Content = <About/>;
-            break;
-        case 'Our Credo':
-            Content = <Credo/>;
-            break;
-        case 'Documentation':
-            Content = (
-                <>
-                    <SectionLink section={SectionsEnum.TernKey}
-                                 className={'block mb-[8.88rem] sm:landscape:mb-[4.44em] font-oxygen text-primary'}/>
-                    <SectionLink section={SectionsEnum.GHandbook} className={'block font-oxygen text-primary'}/>
-                </>
-            );
-            break;
-        case 'TernKey Manual':
-        case 'G Handbook':
-            Content = <DocumentationView view={activeSection}/>;
-            break;
-        case 'Contact':
-            Content = (
-                <>
-                    <p>Tern Systems</p>
-                    <p>New York, New York</p>
-                    <p className={'mt-[1rem]'}>info@tern.ac</p>
-                </>
-            );
-            break;
-        case 'TernKey':
-            Content = (
-                <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
-                    <Image src={SVG_INSIGNIA} alt={'insignia'} className={'h-[33.6dvh] max-h-[10.42rem]'}/>
-                </a>
-            );
-            break;
-        case 'AR Code Hosting':
-            Content = (
-                <>
-                    {renderARHostingLogo()}
-                    <div
-                        className={'flex flex-grow my-[1.87rem] max-h-[37.69rem] w-full bg-[url("../assets/images/qr.png")] bg-contain bg-no-repeat bg-center cursor-pointer'}/>
-                    <button className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem]'}>Create
-                    </button>
-                </>
-            );
-            break;
-        case 'Creation Tool':
-            Content = <CreationTool arLogo={renderARHostingLogo()}/>
-            break;
-        default:
-            Content = null;
+    let Content: ReactElement | null = null;
+    if (!modalCtx.isModalVisible) {
+        switch (activeSection) {
+            case 'About':
+                Content = <About/>;
+                break;
+            case 'Our Credo':
+                Content = <Credo/>;
+                break;
+            case 'Documentation':
+                Content = (
+                    <>
+                        <SectionLink section={SectionsEnum.TernKey}
+                                     className={'block mb-[8.88rem] sm:landscape:mb-[4.44em] font-oxygen text-primary'}/>
+                        <SectionLink section={SectionsEnum.GHandbook} className={'block font-oxygen text-primary'}/>
+                    </>
+                );
+                break;
+            case 'TernKey Manual':
+            case 'G Handbook':
+                Content = <DocumentationView view={activeSection}/>;
+                break;
+            case 'Contact':
+                Content = (
+                    <>
+                        <p>Tern Systems</p>
+                        <p>New York, New York</p>
+                        <p className={'mt-[1rem]'}>info@tern.ac</p>
+                    </>
+                );
+                break;
+            case 'TernKey':
+                Content = (
+                    <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+                        <Image src={SVG_INSIGNIA} alt={'insignia'} className={'h-[33.6dvh] max-h-[10.42rem]'}/>
+                    </a>
+                );
+                break;
+            case 'AR Code Hosting':
+                Content = (
+                    <>
+                        {renderARHostingLogo()}
+                        <div
+                            className={'flex flex-grow my-[1.87rem] max-h-[37.69rem] w-full bg-[url("../assets/images/qr.png")] bg-contain bg-no-repeat bg-center cursor-pointer'}/>
+                        <button
+                            className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem]'}
+                            onClick={() => handleLinkClick(SectionsEnum.CreationTool, router)}
+                        >
+                            Create
+                        </button>
+                    </>
+                );
+                break;
+            case 'Creation Tool':
+                Content = <CreationTool arLogo={renderARHostingLogo()} isLoggedIn={isLoggedIn}/>
+                break;
+            default:
+                Content = null;
+        }
     }
 
     return (

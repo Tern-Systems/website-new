@@ -1,9 +1,12 @@
-import {FC, FormEvent, ReactElement, useState} from "react";
-import Image from "next/image";
+import {FC, FormEvent, ReactElement} from "react";
 
-import SVG_COLOR_PICKER_BORDER from "@/assets/images/color-picker-border.svg";
-import SVG_UPLOAD from "@/assets/images/icons/upload.png";
-import SVG_CLOSE from "@/assets/images/icons/close.svg";
+import {useModal} from "@/app/context/Modal.context";
+import {useForm} from "@/app/hooks/useForm";
+
+import {SignUpModal} from "@/app/components/modals/SignUp";
+
+import {Input} from "@/app/components/form/Input";
+import {Button} from "@/app/components/form/Button";
 
 type CreationToolForm = {
     name: string;
@@ -11,75 +14,61 @@ type CreationToolForm = {
     backgroundColor: string;
 }
 
+const FORM_DEFAULT = {backgroundColor: '#fff', moduleColor: '#fff', name: ''}
 const CREATION_TOOL_FORM_COLOR_PICKERS = ['module', 'background'];
 
 interface CreationToolProps {
     arLogo: ReactElement;
-
+    isLoggedIn: boolean;
 }
 
 const CreationTool: FC<CreationToolProps> = (props: CreationToolProps) => {
-    const {arLogo} = props;
+    const {arLogo, isLoggedIn} = props;
 
-    const [isQRSaved, setQRSavedState] = useState(false);
-    const [formValue, setFormValue] = useState<CreationToolForm>({
-        backgroundColor: '#fff',
-        moduleColor: ' #fff',
-        name: ''
-    });
-
-    const setFormValueHelper = (key: keyof CreationToolForm, value: string) =>
-        setFormValue(prevState => ({...prevState, [key]: value}));
+    const modalCtx = useModal();
+    const [formValue, setFormValue] = useForm<CreationToolForm>(FORM_DEFAULT);
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!isLoggedIn) {
+            modalCtx.openModal(SignUpModal);
+            return;
+        }
+
+        const SuccessModal: FC = () => (
+            <div
+                className={`absolute right-[--px] bottom-[--py] flex items-start px-[0.62rem] py-[0.8rem] bg-control2 rounded-[0.375rem] max-w-[18.09rem] text-left`}
+                onClick={() => modalCtx.closeModal()}
+            >
+                <span>Your AR Code <span
+                    className={'font-bold'}>{formValue.name}</span> has been successfully saved</span>
+                <div className={'size-[0.9375rem] bg-[url("../assets/images/icons/close.svg")] bg-contain'} />
+            </div>
+        )
+
         // TODO
-        setQRSavedState(true);
+        modalCtx.openModal(SuccessModal);
     }
 
     const ColorPickers = CREATION_TOOL_FORM_COLOR_PICKERS.map((type, index) => {
         const key = `${type}Color` as keyof CreationToolForm;
         return (
-            <label
+            <Input
+                labelText={type + 'Color'}
                 key={type + index}
-                htmlFor={`qr-${type}-color`}
-                className={'flex items-center justify-between cursor-pointer'}
-            >
-                <span className={'text-[1.875rem] capitalize'}>{type} Color</span>
-                <span
-                    className={`relative inline-flex items-center justify-center size-[2.25rem] rounded-full`}>
-                                <span
-                                    style={{backgroundColor: formValue[key]}}
-                                    className={'absolute inline-block size-[70%] rounded-full'}
-                                />
-                                    <Image src={SVG_COLOR_PICKER_BORDER} alt={'color picker border'}/>
-                            </span>
-                <input
-                    type={'color'}
-                    id={`qr-${type}-color`}
-                    name={`qr-${type}-color`}
-                    value={formValue[key]}
-                    onChange={(event) => setFormValueHelper(key, event.target.value)}
-                    className={'hidden'}
-                    required
-                />
-            </label>
+                type={'color'}
+                id={`qr-${type}-color`}
+                name={`qr-${type}-color`}
+                value={formValue[key]}
+                style={{backgroundColor: formValue[key]}}
+                onChange={(event) => setFormValue(key, event.target.value)}
+                required
+            />
         )
     });
 
     return (
         <>
-            <div
-                className={`absolute right-[--px] bottom-[--py] flex items-start px-[0.62rem] py-[0.8rem] bg-control2 rounded-[0.375rem] max-w-[18.09rem] text-left ${isQRSaved ? '' : 'hidden'}`}>
-                <span>Your AR Code <span
-                    className={'font-bold'}>{formValue.name}</span> has been successfully saved</span>
-                <Image
-                    src={SVG_CLOSE}
-                    alt={'close icon'}
-                    className={'cursor-pointer'}
-                    onClick={() => setQRSavedState(false)}
-                />
-            </div>
             <div className={'flex p-[4.06rem] bg-section border-small border-control2 rounded-small'}>
                 <div className={'p-[0.91rem] mr-[7.7rem] size-[32.375rem] bg-section2 cursor-pointer'}>
                     <div
@@ -90,37 +79,24 @@ const CreationTool: FC<CreationToolProps> = (props: CreationToolProps) => {
                     onSubmit={(event) => handleFormSubmit(event)}
                 >
                     {arLogo}
-                    <input
+                    <Input
                         type={"text"}
                         id={'qr-name'}
                         name={'qr-name'}
                         placeholder={'Name'}
                         value={formValue.name}
-                        onInput={(event) => setFormValueHelper('name', event.currentTarget.value)}
-                        className={'rounded-[0.375rem] h-[1.875rem] pl-[0.74rem] bg-control2 placeholder:text-white border-small border-control3'}
+                        onInput={(event) => setFormValue('name', event.currentTarget.value)}
                         required
                     />
-                    <label
-                        htmlFor={'qr-file'}
-                        className={'relative py-[0.6rem] rounded-full bg-white text-black text-[1.3125rem] font-bold cursor-pointer'}
-                    >
-                        <Image src={SVG_UPLOAD} alt={'upload icon'} className={'inline size-[2rem]'}/>
-                        <span>Upload Media</span>
-                        <input
-                            type={"file"}
-                            id={'qr-file'}
-                            name={'qr-file'}
-                            className={'absolute -z-10 left-0'}
-                            required
-                        />
-                    </label>
+                    <Input
+                        labelText={'Upload Media'}
+                        type={"file"}
+                        id={'qr-file'}
+                        name={'qr-file'}
+                        required
+                    />
                     {ColorPickers}
-                    <button
-                        type={'submit'}
-                        className={'border-small border-control3 rounded-full p-[0.5rem] text-[1.3125rem]'}
-                    >
-                        Save AR Code
-                    </button>
+                    <Button btnType={'submit'}>Save AR Code</Button>
                 </form>
             </div>
         </>
