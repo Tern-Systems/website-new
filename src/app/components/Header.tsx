@@ -1,13 +1,16 @@
 import {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
+
+import {handleLinkClick} from "@/app/utils/router";
+
+import {useUser} from "@/app/context/User.context";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
-import {useRouter} from "next/navigation";
-import {handleLinkClick} from "@/app/utils/router";
 
 
 type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service;
@@ -38,13 +41,13 @@ const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
 interface IHeaderProps {
     profileLinksState: { value: boolean, handle: Dispatch<SetStateAction<boolean>> }
     activeSection: SectionsEnum;
-    loggedState: { value: boolean, handle: Dispatch<SetStateAction<boolean>> }
 }
 
 const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
-    const {profileLinksState, activeSection, loggedState} = props;
+    const {profileLinksState, activeSection} = props;
 
     const router = useRouter();
+    const userCtx = useUser();
 
     // HOC
     const SectionLink = withSectionLink(router);
@@ -101,7 +104,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
     }
 
     let userBtns: ReactElement | ReactElement[];
-    if (loggedState.value) {
+    if (userCtx.isLoggedIn) {
         const ProfileLinks: ReactElement[] = SUBNAVS.Profile.map((link) => (
             <li key={link}>
                 <SectionLink
@@ -114,7 +117,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
         ProfileLinks.push(
             <li
                 className={'border-t-small pt-[1.2rem]'}
-                onClick={() => loggedState.handle(false)}
+                onClick={() => userCtx.removeUserData()}
             >
                 <a href="#">Log Out</a>
             </li>

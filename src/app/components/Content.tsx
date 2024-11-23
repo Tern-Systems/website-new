@@ -20,11 +20,10 @@ import PNG_AR_LOGO from "@/assets/images/icons/ar-hosting-logo.png";
 
 interface IContentProps {
     activeSection: SectionsEnum;
-    isLoggedIn: boolean;
 }
 
 const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
-    const {activeSection, isLoggedIn} = props;
+    const {activeSection} = props;
 
     const router = useRouter();
     const modalCtx = useModal();
@@ -101,7 +100,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 );
                 break;
             case 'Creation Tool':
-                Content = <CreationToolView arLogo={renderARHostingLogo()} isLoggedIn={isLoggedIn}/>
+                Content = <CreationToolView arLogo={renderARHostingLogo()} />
                 break;
             default:
                 Content = null;

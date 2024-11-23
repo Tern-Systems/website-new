@@ -7,6 +7,7 @@ import {SignUpModal} from "@/app/components/modals/SignUp";
 
 import {Input} from "@/app/components/form/Input";
 import {Button} from "@/app/components/form/Button";
+import {useUser} from "@/app/context/User.context";
 
 type CreationToolForm = {
     name: string;
@@ -19,18 +20,19 @@ const CREATION_TOOL_FORM_COLOR_PICKERS = ['module', 'background'];
 
 interface CreationToolProps {
     arLogo: ReactElement;
-    isLoggedIn: boolean;
 }
 
 const CreationToolView: FC<CreationToolProps> = (props: CreationToolProps) => {
-    const {arLogo, isLoggedIn} = props;
+    const {arLogo} = props;
 
     const modalCtx = useModal();
+    const userCtx = useUser();
+
     const [formValue, setFormValue] = useForm<CreationToolForm>(FORM_DEFAULT);
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!isLoggedIn) {
+        if (!userCtx.isLoggedIn) {
             modalCtx.openModal(SignUpModal);
             return;
         }
@@ -42,7 +44,7 @@ const CreationToolView: FC<CreationToolProps> = (props: CreationToolProps) => {
             >
                 <span>Your AR Code <span
                     className={'font-bold'}>{formValue.name}</span> has been successfully saved</span>
-                <div className={'size-[0.9375rem] bg-[url("../assets/images/icons/close.svg")] bg-contain'} />
+                <div className={'size-[0.9375rem] bg-[url("../assets/images/icons/close.svg")] bg-contain'}/>
             </div>
         )
 
