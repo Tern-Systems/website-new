@@ -50,7 +50,7 @@ const Input: FC<InputProps> = (props: InputProps) => {
             return (
                 <label
                     htmlFor={props.id}
-                    className={`flex flex-col mb-[0.94rem] last-of-type:mb-0 justify-between cursor-pointer ${className}`}
+                    className={`flex flex-col mb-[0.94rem] last-of-type:mb-0 justify-between cursor-pointer text-left ${className}`}
                 >
                     {labelText ? <span className={'text-primary capitalize mb-[0.63rem]'}>{labelText}</span> : null}
                     <input

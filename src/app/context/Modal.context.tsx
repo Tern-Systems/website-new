@@ -1,9 +1,10 @@
 'use client';
 
-import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from 'react';
-import {createRoot, Root} from "react-dom/client";
-import {IUserContext} from "@/app/context/User.context";
+import React, {createContext, FC, PropsWithChildren, ReactElement, useContext, useEffect, useState} from 'react';
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {createRoot, Root} from "react-dom/client";
+
+import {IUserContext} from "@/app/context/User.context";
 
 
 type ModalCustomProps = {
@@ -11,10 +12,17 @@ type ModalCustomProps = {
     router?: AppRouterInstance;
 }
 
+type ModalConfig = {
+    props?: ModalCustomProps,
+    isAbsolute?: boolean,
+    isDarkBg?: boolean
+}
+
 interface IModalContext {
-    isModalVisible: boolean;
-    closeModal: () => void;
-    openModal: (component: FC<ModalProps>, props?: ModalCustomProps) => void;
+    Modal: ReactElement | null;
+    isDarkBg: boolean;
+    closeModal: (isAbsolute: boolean) => void;
+    openModal: (component: FC<ModalProps>, config?: ModalConfig) => void;
 }
 
 type ModalProps = ModalCustomProps & Pick<IModalContext, 'openModal' | 'closeModal'>;
@@ -22,20 +30,27 @@ type ModalProps = ModalCustomProps & Pick<IModalContext, 'openModal' | 'closeMod
 const ModalContext = createContext<IModalContext | null>(null);
 
 const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-    const [isModalVisible, setModalVisibility] = useState<boolean>(false);
+    const [Modal, setModal] = useState<ReactElement | null>(null);
     const [ModalRoot, setModalRoot] = useState<Root | null>(null);
+    const [isDarkBg, setDarkBgState] = useState(false);
 
-    const closeModal = () => {
-        if (ModalRoot === null)
-            return;
-        ModalRoot.render(null);
-        setModalVisibility(false);
+    const closeModal = (isAbsolute: boolean) => {
+        if (!isAbsolute)
+            setModal(null);
+        else if (ModalRoot !== null) {
+            ModalRoot.render(null);
+            setDarkBgState(false);
+        }
     }
-    const openModal = (Component: FC<ModalProps>, props?: ModalCustomProps) => {
-        if (ModalRoot === null)
-            return;
-        ModalRoot.render(<Component {...props} closeModal={closeModal} openModal={openModal}/>);
-        setModalVisibility(true);
+    const openModal = (Component: FC<ModalProps>, config?: ModalConfig) => {
+        const ModalElem = <Component {...config?.props} closeModal={closeModal} openModal={openModal}/>;
+
+        if (!config?.isAbsolute)
+            setModal(ModalElem);
+        else if (ModalRoot !== null) {
+            ModalRoot.render(ModalElem);
+            setDarkBgState(config?.isDarkBg ?? false);
+        }
     }
 
     useEffect(() => {
@@ -45,7 +60,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     }, [])
 
     return (
-        <ModalContext.Provider value={{isModalVisible, openModal, closeModal}}>
+        <ModalContext.Provider value={{Modal, isDarkBg, openModal, closeModal}}>
             {props.children}
         </ModalContext.Provider>
     );

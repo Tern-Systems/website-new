@@ -16,7 +16,13 @@ type RegistrationForm = {
 
 const FORM_DEFAULT: RegistrationForm = {email: '', password: '', passwordConfirm: ''};
 
-const SignUpModal: FC<ModalProps> = (props: ModalProps) => {
+interface SignUpModalBaseProps extends Pick<ModalProps, 'openModal'> {
+    info: string;
+}
+
+const SignUpModalBase: FC<SignUpModalBaseProps> = (props: SignUpModalBaseProps) => {
+    const {info, openModal} = props;
+
     const [formValue, setFormValue] = useForm<RegistrationForm>(FORM_DEFAULT);
 
     const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -25,20 +31,11 @@ const SignUpModal: FC<ModalProps> = (props: ModalProps) => {
     }
 
     return (
-        <div
-            className={`p-[--py] w-[30.31rem] rounded-[0.5625rem] border-small border-control3 bg-control text-primary`}>
-            <div className={'flex justify-between'}>
-                <h1 className={'font-oxygen text-header font-bold'}>Create account</h1>
-                <Button
-                    btnType={'close'}
-                    onClick={() => props.closeModal()}
-                />
-            </div>
-            <hr className={'my-[1.25rem]'}/>
-            <div className={'text-center'}>
-                <span>You must have an ARCH subscription to save an AR code. Please create an account below to purchase a Plan.</span>
+        <>
+            <div className={'text-center w-[26.18rem]'}>
+                <span>{info}</span>
                 <span
-                    className={'inline-block my-[1.25rem] w-[10.42rem] h-[9rem] bg-[url("../assets/images/insignia-logo.png")] bg-contain'}/>
+                    className={'inline-block my-[1.25rem] w-[10.42rem] h-[9rem] bg-[url("../assets/images/insignia-logo.png")] bg-contain bg-no-repeat'}/>
             </div>
             <form
                 className={'flex flex-col'}
@@ -74,8 +71,19 @@ const SignUpModal: FC<ModalProps> = (props: ModalProps) => {
                 />
                 <Button btnType={'submit'} className={'mt-[1.56rem]'}>Sign Up</Button>
             </form>
-        </div>
+            <div>
+                <span>
+                    Already have an account?&nbsp;
+                    <span
+                        className={'text-[#21A1D3] cursor-pointer'}
+                        onClick={() => openModal(()=>null)} // TODO Log In
+                    >
+                        Log In
+                    </span>
+                </span>
+            </div>
+        </>
     )
 }
 
-export {SignUpModal}
+export {SignUpModalBase}

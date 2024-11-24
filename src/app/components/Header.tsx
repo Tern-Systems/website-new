@@ -20,7 +20,7 @@ const AUTH_BTNS: SectionsEnum[] = [SectionsEnum.LogIn, SectionsEnum.SignUp];
 const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
     Profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
     Service: [
-        SectionsEnum.ARHosting,
+        SectionsEnum.ARCH,
         SectionsEnum.CreationTool,
         SectionsEnum.MappingTool,
         SectionsEnum.Pricing,
@@ -72,7 +72,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
             subNavItems = SUBNAVS.Profile;
             break
         case 'Service':
-        case 'AR Code Hosting':
+        case 'ARCH':
         case 'Creation Tool':
         case 'Mapping Tool':
         case 'Pricing and Plans':

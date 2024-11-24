@@ -9,7 +9,7 @@ export enum SectionsEnum {
     Standards = 'Standards & Specifications',
 
     // Service
-    ARHosting = 'AR Code Hosting',
+    ARCH = 'ARCH',
     CreationTool = 'Creation Tool',
     MappingTool = 'Mapping Tool',
     Pricing = 'Pricing and Plans',

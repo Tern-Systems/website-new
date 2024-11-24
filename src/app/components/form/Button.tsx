@@ -12,7 +12,7 @@ const Button: FC<ButtonProps> = (props: ButtonProps) => {
                 <button
                     {...props}
                     type={'button'}
-                    className={`size-[0.9375rem] bg-[url("../assets/images/icons/close.svg")] bg-contain ${props.className}`}
+                    className={`size-[0.9375rem] bg-[url("../assets/images/icons/close.svg")] bg-contain bg-no-repeat ${props.className}`}
                 />
             );
         case 'submit':

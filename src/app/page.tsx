@@ -43,8 +43,9 @@ export default function Home() {
 
     const section = params.get('section') as SectionsEnum;
     useEffect(() => {
-        if (!Object.values(SectionsEnum).includes(section))
+        if (!Object.values(SectionsEnum).includes(section) || section === activeSection)
             return;
+
 
         setViewChange(true);
         if (section !== null)
@@ -53,13 +54,9 @@ export default function Home() {
             setActiveSection(section);
             setViewChange(false);
             setProfileLinksVisibility(false);
+            modalCtx.closeModal(false);
         }, FADE_DURATION);
-    }, [section]);
-
-    useEffect(() => {
-        if (section !== activeSection)
-            modalCtx.closeModal();
-    }, [modalCtx, section, activeSection])
+    }, [section, activeSection, modalCtx]);
 
     const SectionLink = withSectionLink(router);
 

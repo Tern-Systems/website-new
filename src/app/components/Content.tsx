@@ -11,7 +11,7 @@ import {useUser} from "@/app/context/User.context";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
-import {PricingModal} from "@/app/components/modals/PricingModal";
+import {PricingModal} from "@/app/components/modals/Pricing";
 
 import About from "@/app/components/views/About";
 import Credo from "@/app/components/views/Credo";
@@ -19,7 +19,6 @@ import DocumentationView from "@/app/components/views/Documentation";
 import CreationToolView from "@/app/components/views/Services/CreationTool";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
-import PNG_AR_LOGO from "@/assets/images/icons/ar-hosting-logo.png";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -36,22 +35,11 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     const SectionLink = withSectionLink(router);
 
     // Elements
-    const renderARHostingLogo = () => (
-        <div
-            className={'grid grid-rows-2 grid-cols-2 items-center text-left gap-x-[0.75rem] gap-y-[0.4rem] text-[1rem] leading-none'}>
-            <Image
-                src={PNG_AR_LOGO}
-                alt={'ar hosting logo'}
-                className={'row-span-2 max-h-[4.375rem] w-auto place-self-end self-center'}
-            />
-            <span className={'col-start-2'}>Code</span>
-            <span className={'col-start-2'}>Hosting</span>
-        </div>
-    );
-
     // Content
-    let Content: ReactElement | null = null;
-    if (!modalCtx.isModalVisible) {
+    let Content: ReactElement | null;
+    if (modalCtx.Modal)
+        Content = modalCtx.Modal;
+    else {
         switch (activeSection) {
             case 'About':
                 Content = <About/>;
@@ -88,10 +76,9 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                     </a>
                 );
                 break;
-            case 'AR Code Hosting':
+            case 'ARCH':
                 Content = (
                     <>
-                        {renderARHostingLogo()}
                         <div
                             className={'flex flex-grow my-[1.87rem] max-h-[37.69rem] w-full bg-[url("../assets/images/qr.png")] bg-contain bg-no-repeat bg-center cursor-pointer'}/>
                         <button
@@ -104,7 +91,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 );
                 break;
             case 'Creation Tool':
-                Content = <CreationToolView arLogo={renderARHostingLogo()}/>
+                Content = <CreationToolView/>
                 break
             case 'Saved Codes':
                 if (!userCtx.userData?.planType)
@@ -118,9 +105,9 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
 
     return (
         <div
-            className={`relative flex flex-col flex-grow w-full overflow-y-scroll m-auto p-[--py] justify-center items-center bg-content bg-cover
-                        bg-no-repeat text-primary text-center font-neo text-[1rem]`}>
-            {Content}
+            className={`relative flex flex-col flex-grow w-full overflow-y-scroll p-[--py] justify-center items-center bg-content bg-cover
+                        bg-no-repeat text-primary text-center font-neo text-[1rem] ${modalCtx.isDarkBg ? 'brightness-[60%]' : 'brightness-100'}`}>
+            <div className={'h-full w-full flex flex-col'}>{Content}</div>
         </div>
     );
 }
