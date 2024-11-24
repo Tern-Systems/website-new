@@ -4,19 +4,21 @@ import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {handleLinkClick} from "@/app/utils/router";
+import {navigate} from "@/app/utils/router";
 
+import {useModal} from "@/app/context/Modal.context";
 import {useUser} from "@/app/context/User.context";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
+import {AuthModal} from "@/app/components/modals/Auth";
 
 
 type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service;
 
 const NAV_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.Product, SectionsEnum.Service, SectionsEnum.Contact];
-const AUTH_BTNS: SectionsEnum[] = [SectionsEnum.LogIn, SectionsEnum.SignUp];
+const AUTH_BTNS: string[] = ['Log In', 'Sign Up'];
 const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
     Profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
     Service: [
@@ -48,6 +50,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
 
     const router = useRouter();
     const userCtx = useUser();
+    const modalCtx = useModal();
 
     // HOC
     const SectionLink = withSectionLink(router);
@@ -129,7 +132,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                     src={SVG_PROFILE}
                     alt={'profile icon'}
                     className={'h-full cursor-pointer'}
-                    onClick={() => handleLinkClick(SectionsEnum.Profile, router)}
+                    onClick={() => navigate(SectionsEnum.Profile, router)}
                 />
                 <ul className={`absolute z-10 right-0 flex flex-col items-start gap-[1.2rem] mt-[0.62rem] p-[0.75rem]
                                 border-small border-control rounded-[0.375rem] bg-control text-nowrap
@@ -145,7 +148,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                     className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-small border-section
                                 text-small font-bold capitalize cursor-pointer 
                                 ${index ? 'bg-black text-white' : 'bg-white text-black'}`}
-                    onClick={() => handleLinkClick(name, router)}
+                    onClick={() => modalCtx.openModal(<AuthModal />)}
                 >
                     {name}
                 </div>

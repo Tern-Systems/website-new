@@ -2,11 +2,13 @@
 
 import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
 
-type PlanType = 'standard' | 'pro' | null;
+type PlanType = 'Standard' | 'Pro' | null;
+type PlanRecurrency = 'Monthly' | 'Annual';
 
 interface UserData {
     email: string;
     planType: PlanType;
+    planRecurrency: PlanRecurrency;
 }
 
 interface IUserContext {
@@ -45,9 +47,9 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 const useUser = (): IUserContext => {
     const context = useContext(UserContext);
     if (!context)
-        throw new Error('useUser must be used within a ModalProvider!');
+        throw new Error('useUser must be used within a UserProvider!');
     return context;
 };
 
 export {UserProvider, useUser}
-export type {IUserContext}
+export type {IUserContext, PlanType, PlanRecurrency}

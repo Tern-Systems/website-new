@@ -1,6 +1,6 @@
 import {AnchorHTMLAttributes, FC, PropsWithChildren, ReactElement} from "react";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
-import {handleLinkClick} from "@/app/utils/router";
+import {navigate} from "@/app/utils/router";
 
 interface SectionLinkProps<T extends string> extends AnchorHTMLAttributes<HTMLAnchorElement>, PropsWithChildren {
     section: T;
@@ -13,7 +13,7 @@ const withSectionLink = function <T extends string>(router: AppRouterInstance): 
             {...propsRest}
             href={'#'}
             className={`capitalize ${className}`}
-            onClick={() => handleLinkClick<T>(section, router)}
+            onClick={() => navigate<T>(section, router)}
         >
             {children ?? section}
         </a>;

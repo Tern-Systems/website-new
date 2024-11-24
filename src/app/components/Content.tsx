@@ -4,14 +4,14 @@ import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {handleLinkClick} from "@/app/utils/router";
+import {navigate} from "@/app/utils/router";
 
 import {useModal} from "@/app/context/Modal.context";
 import {useUser} from "@/app/context/User.context";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
-import {PricingModal} from "@/app/components/modals/Pricing";
+import {PricingView} from "@/app/components/views/Pricing";
 
 import About from "@/app/components/views/About";
 import Credo from "@/app/components/views/Credo";
@@ -36,10 +36,8 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
 
     // Elements
     // Content
-    let Content: ReactElement | null;
-    if (modalCtx.Modal)
-        Content = modalCtx.Modal;
-    else {
+    let Content: ReactElement | null = null;
+    if (!modalCtx.hideContent) {
         switch (activeSection) {
             case 'About':
                 Content = <About/>;
@@ -83,7 +81,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                             className={'flex flex-grow my-[1.87rem] max-h-[37.69rem] w-full bg-[url("../assets/images/qr.png")] bg-contain bg-no-repeat bg-center cursor-pointer'}/>
                         <button
                             className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem]'}
-                            onClick={() => handleLinkClick(SectionsEnum.CreationTool, router)}
+                            onClick={() => navigate(SectionsEnum.CreationTool, router)}
                         >
                             Create
                         </button>
@@ -95,8 +93,11 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 break
             case 'Saved Codes':
                 if (!userCtx.userData?.planType)
-                    modalCtx.openModal(PricingModal);
+                    navigate(SectionsEnum.Pricing, router);
                 Content = <></>; // TODO
+                break;
+            case 'Pricing and Plans':
+                Content = <PricingView/>
                 break;
             default:
                 Content = null;
@@ -106,7 +107,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     return (
         <div
             className={`relative flex flex-col flex-grow w-full overflow-y-scroll p-[--py] justify-center items-center bg-content bg-cover
-                        bg-no-repeat text-primary text-center font-neo text-[1rem] ${modalCtx.isDarkBg ? 'brightness-[60%]' : 'brightness-100'}`}>
+                        bg-no-repeat text-primary text-center font-neo text-[1rem]`}>
             <div className={'h-full w-full flex flex-col'}>{Content}</div>
         </div>
     );

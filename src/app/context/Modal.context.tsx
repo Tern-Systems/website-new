@@ -1,67 +1,63 @@
 'use client';
 
-import React, {createContext, FC, PropsWithChildren, ReactElement, useContext, useEffect, useState} from 'react';
-import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
-import {createRoot, Root} from "react-dom/client";
+import React, {createContext, FC, PropsWithChildren, ReactElement, useContext, useState} from 'react';
 
-import {IUserContext} from "@/app/context/User.context";
+import {BaseModal} from "@/app/components/modals/Base";
 
-
-type ModalCustomProps = {
-    userCtx?: IUserContext;
-    router?: AppRouterInstance;
-}
 
 type ModalConfig = {
-    props?: ModalCustomProps,
-    isAbsolute?: boolean,
-    isDarkBg?: boolean
+    isSimple?: boolean;
+    hideContent?: boolean;
+    title?: string;
 }
 
 interface IModalContext {
     Modal: ReactElement | null;
-    isDarkBg: boolean;
+    hideContent: boolean;
     closeModal: (isAbsolute: boolean) => void;
-    openModal: (component: FC<ModalProps>, config?: ModalConfig) => void;
+    openModal: (Component: ReactElement | string, config?: ModalConfig) => void;
 }
-
-type ModalProps = ModalCustomProps & Pick<IModalContext, 'openModal' | 'closeModal'>;
 
 const ModalContext = createContext<IModalContext | null>(null);
 
 const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
+    const [isSimpleModal, setSimpleModal] = useState(false);
+    const [hideContent, setHideContent] = useState(false);
     const [Modal, setModal] = useState<ReactElement | null>(null);
-    const [ModalRoot, setModalRoot] = useState<Root | null>(null);
-    const [isDarkBg, setDarkBgState] = useState(false);
 
-    const closeModal = (isAbsolute: boolean) => {
-        if (!isAbsolute)
-            setModal(null);
-        else if (ModalRoot !== null) {
-            ModalRoot.render(null);
-            setDarkBgState(false);
-        }
-    }
-    const openModal = (Component: FC<ModalProps>, config?: ModalConfig) => {
-        const ModalElem = <Component {...config?.props} closeModal={closeModal} openModal={openModal}/>;
-
-        if (!config?.isAbsolute)
-            setModal(ModalElem);
-        else if (ModalRoot !== null) {
-            ModalRoot.render(ModalElem);
-            setDarkBgState(config?.isDarkBg ?? false);
-        }
+    const handleModalChange = (Component: ReactElement | null, isSimple: boolean, hideContent: boolean) => {
+        setModal(Component);
+        setSimpleModal(isSimple);
+        setHideContent(hideContent);
     }
 
-    useEffect(() => {
-        const ModalRootElem = document.getElementById('modal-portal');
-        if (ModalRootElem !== null)
-            setModalRoot(createRoot(ModalRootElem));
-    }, [])
+    const closeModal = () => handleModalChange(null, false, false);
+
+    const openModal = (Component: ReactElement | string, config?: ModalConfig) => {
+        const ModalElem = (
+            <BaseModal
+                simple={config?.isSimple === true}
+                title={config?.title}
+                onClick={() => closeModal()}
+            >
+                {Component}
+            </BaseModal>
+        );
+        handleModalChange(ModalElem, config?.isSimple === true, config?.hideContent === true);
+    }
+
+    const ModalElem = Modal ? (
+        <div className={`absolute z-50 w-full h-full content-center text-primary font-neo overflow-hidden`}>
+            {Modal}
+        </div>
+    ) : null;
 
     return (
-        <ModalContext.Provider value={{Modal, isDarkBg, openModal, closeModal}}>
-            {props.children}
+        <ModalContext.Provider value={{Modal, hideContent, openModal, closeModal}}>
+            {ModalElem}
+            <div className={Modal && !isSimpleModal ? 'brightness-[60%]' : 'brightness-100'}>
+                {props.children}
+            </div>
         </ModalContext.Provider>
     );
 };
@@ -74,4 +70,4 @@ const useModal = (): IModalContext => {
 };
 
 export {ModalProvider, useModal}
-export type {IModalContext, ModalProps}
+export type {IModalContext}

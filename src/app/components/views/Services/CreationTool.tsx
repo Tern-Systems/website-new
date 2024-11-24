@@ -1,14 +1,13 @@
 import {FC, FormEvent} from "react";
 
-import {ModalProps, useModal} from "@/app/context/Modal.context";
+import {useModal} from "@/app/context/Modal.context";
 import {useForm} from "@/app/hooks/useForm";
 
-import {SignUpModalBase} from "@/app/components/modals/SignUp";
+import {AuthModal} from "@/app/components/modals/Auth";
 
 import {Input} from "@/app/components/form/Input";
 import {Button} from "@/app/components/form/Button";
 import {useUser} from "@/app/context/User.context";
-import {withBaseModal} from "@/app/hocs/withBaseModal";
 
 type CreationToolForm = {
     name: string;
@@ -29,27 +28,17 @@ const CreationToolView: FC = () => {
         event.preventDefault();
         if (!userCtx.isLoggedIn) {
             const info = 'You must have an ARCH subscription to save an AR code. Please create an account below to purchase a Plan.';
-            const SignUpModal: FC<ModalProps> = withBaseModal(
-                <SignUpModalBase info={info} openModal={modalCtx.openModal}/>,
-                'Create Account'
-            );
-            return modalCtx.openModal(SignUpModal);
+            return modalCtx.openModal(<AuthModal info={info}/>);
         }
 
-        const SuccessModal: FC = () => (
-            <div
-                className={`absolute right-[--px] bottom-[--py] flex items-start px-[0.62rem] py-[0.8rem] bg-control2 rounded-[0.375rem] max-w-[18.09rem] text-left`}
-                onClick={() => modalCtx.closeModal(false)}
-            >
-                <span>
-                    Your AR Code <span className={'font-bold'}>{formValue.name}</span>has been successfully saved
-                </span>
-                <div className={'size-[0.9375rem] bg-[url("../assets/images/icons/close.svg")] bg-contain'}/>
-            </div>
+        const SuccessModal = () => (
+            <span>
+                Your AR Code <span className={'font-bold'}>{formValue.name}</span>has been successfully saved
+            </span>
         )
 
         // TODO
-        modalCtx.openModal(SuccessModal, {isAbsolute: true});
+        modalCtx.openModal(<SuccessModal/>);
     }
 
     const ColorPickers = CREATION_TOOL_FORM_COLOR_PICKERS.map((type, index) => {

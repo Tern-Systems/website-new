@@ -5,12 +5,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const Button: FC<ButtonProps> = (props: ButtonProps) => {
-    const {btnType} = props;
+    const {btnType, ...buttonProps} = props;
     switch (btnType) {
         case 'close':
             return (
                 <button
-                    {...props}
+                    {...buttonProps}
                     type={'button'}
                     className={`size-[0.9375rem] bg-[url("../assets/images/icons/close.svg")] bg-contain bg-no-repeat ${props.className}`}
                 />
@@ -18,7 +18,7 @@ const Button: FC<ButtonProps> = (props: ButtonProps) => {
         case 'submit':
             return (
                 <button
-                    {...props}
+                    {...buttonProps}
                     type={'submit'}
                     className={`p-[1.13rem] w-full border-small border-control3 rounded-full text-[1.3125rem] text-primary leading-none ${props.className}`}
                 >
@@ -28,7 +28,7 @@ const Button: FC<ButtonProps> = (props: ButtonProps) => {
         default:
             return (
                 <button
-                    {...props}
+                    {...buttonProps}
                     type={'button'}
                     className={`w-full rounded-full p-[1.13rem] text-[1.3125rem] text-primary leading-none ${props.className}`}
                 >
