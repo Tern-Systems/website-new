@@ -1,18 +1,18 @@
 import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
+import axios from "axios";
+
+import {Service, SignUpData} from "@/app/services/auth.service";
 
 import {useForm} from "@/app/hooks/useForm";
 
 import {Input} from "@/app/components/form/Input";
 import {Button} from "@/app/components/form/Button";
+import {useModal} from "@/app/context/Modal.context";
+import {cookies} from "next/headers";
 
+type FormData = SignUpData;
 
-type RegistrationForm = {
-    email: string;
-    password: string;
-    passwordConfirm: string;
-}
-
-const FORM_DEFAULT: RegistrationForm = {email: '', password: '', passwordConfirm: ''};
+const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 
 interface AuthModalProps {
     info?: string;
@@ -22,12 +22,27 @@ interface AuthModalProps {
 const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
     const {isLoginAction, info} = props;
 
+    const modalCtx = useModal();
+
     const [isLoginForm, setLoginFormState] = useState(isLoginAction);
-    const [formValue, setFormValue] = useForm<RegistrationForm>(FORM_DEFAULT);
+    const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // TODO
+        try {
+            if (isLoginForm) {
+                const {payload} = await Service.postLogIn(formValue);
+                localStorage.setItem('jwt', payload);
+            } else
+                await Service.postSignUp(formValue);
+        } catch (error: unknown) {
+            let message: string = 'Unknown error';
+            if (axios.isAxiosError(error))
+                message = error.cause?.message ?? message;
+            else if (typeof error === 'string')
+                message = error;
+            modalCtx.openModal(message, {isSimple: true});
+        }
     }
 
     useEffect(() => {
