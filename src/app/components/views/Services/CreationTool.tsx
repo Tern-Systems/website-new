@@ -28,7 +28,7 @@ const CreationToolView: FC = () => {
         event.preventDefault();
         if (!userCtx.isLoggedIn) {
             const info = 'You must have an ARCH subscription to save an AR code. Please create an account below to purchase a Plan.';
-            return modalCtx.openModal(<AuthModal info={info}/>);
+            return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>);
         }
 
         const SuccessModal = () => (

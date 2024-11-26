@@ -54,7 +54,7 @@ export default function Home() {
             setActiveSection(section);
             setViewChange(false);
             setProfileLinksVisibility(false);
-            modalCtx.closeModal(false);
+            modalCtx.closeModal();
         }, FADE_DURATION);
     }, [section, activeSection, modalCtx]);
 

@@ -63,7 +63,7 @@ const PricingView: FC = () => {
     const handleSubmitClick = () => {
         if (!userCtx.isLoggedIn) {
             const info = 'You must have a TernKey account to manage saved codes. Please create an account below.';
-            return modalCtx.openModal(<AuthModal info={info}/>);
+            return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>);
         }
 
         navigate(SectionsEnum.Subscribe, router);

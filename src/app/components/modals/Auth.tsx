@@ -1,14 +1,17 @@
 import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
 import axios from "axios";
 
-import {Service, SignUpData} from "@/app/services/auth.service";
+import {AuthService, SignUpData} from "@/app/services/auth.service";
+import {UserService} from "@/app/services/user.service";
 
 import {useForm} from "@/app/hooks/useForm";
 
+import {useModal} from "@/app/context/Modal.context";
+import {useUser} from "@/app/context/User.context";
+
 import {Input} from "@/app/components/form/Input";
 import {Button} from "@/app/components/form/Button";
-import {useModal} from "@/app/context/Modal.context";
-import {cookies} from "next/headers";
+
 
 type FormData = SignUpData;
 
@@ -16,13 +19,14 @@ const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 
 interface AuthModalProps {
     info?: string;
-    isLoginAction?: boolean;
+    isLoginAction: boolean;
 }
 
 const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
     const {isLoginAction, info} = props;
 
     const modalCtx = useModal();
+    const userCtx = useUser();
 
     const [isLoginForm, setLoginFormState] = useState(isLoginAction);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
@@ -31,10 +35,20 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                const {payload} = await Service.postLogIn(formValue);
-                localStorage.setItem('jwt', payload);
+                const {payload: token} = await AuthService.postLogIn(formValue);
+                const {payload: userBaseData} = await UserService.getUser(token);
+
+                localStorage.setItem('tern-jwt', token);
+                localStorage.setItem('tern-email', userBaseData.email);
+                localStorage.setItem('tern-email-verified', userBaseData.isEmailVerified.toString());
+                localStorage.setItem('tern-plan-purchased', userBaseData.isPurchased.toString());
+
+                // TODO userCtx.save
+                console.log(userBaseData)
             } else
-                await Service.postSignUp(formValue);
+                await AuthService.postSignUp(formValue);
+
+            modalCtx.closeModal();
         } catch (error: unknown) {
             let message: string = 'Unknown error';
             if (axios.isAxiosError(error))

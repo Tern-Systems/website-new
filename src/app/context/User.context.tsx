@@ -7,6 +7,8 @@ type PlanRecurrency = 'Monthly' | 'Annual';
 
 interface UserData {
     email: string;
+    isEmailVerified: boolean;
+    isPurchased: boolean
     planType: PlanType;
     planRecurrency: PlanRecurrency;
 }
@@ -52,4 +54,4 @@ const useUser = (): IUserContext => {
 };
 
 export {UserProvider, useUser}
-export type {IUserContext, PlanType, PlanRecurrency}
+export type {IUserContext, UserData, PlanType, PlanRecurrency}

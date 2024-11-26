@@ -1,5 +1,8 @@
 import {genSalt, hashSync} from "bcryptjs";
 import axios, {AxiosRequestConfig} from "axios";
+
+import {BaseService} from "@/app/services/base.service";
+
 import {Res} from "@/app/utils/service";
 
 type LoginData = {
@@ -16,14 +19,9 @@ interface IAuthService {
     postLogIn: (data: LoginData) => Promise<Res<string>>;
 }
 
-class AuthServiceImpl implements IAuthService {
-    readonly API: string;
-
+class AuthServiceImpl extends BaseService implements IAuthService {
     constructor() {
-        const api: string | undefined = process.env.NEXT_PUBLIC_API;
-        if (!api)
-            throw 'API URL is not defined!'
-        this.API = api;
+        super()
     }
 
     async postSignUp(data: SignUpData): Promise<Res> {
@@ -55,9 +53,7 @@ class AuthServiceImpl implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this.API + `login`,
-            headers: {
-                "Content-Type": 'application/json',
-            },
+            headers: {'Content-Type': 'application/json',},
             data: JSON.stringify({
                 email: data.email,
                 password: data.password
@@ -74,6 +70,6 @@ class AuthServiceImpl implements IAuthService {
     }
 }
 
-const Service = new AuthServiceImpl();
-export {Service}
+const AuthService = new AuthServiceImpl();
+export {AuthService}
 export type {SignUpData, LoginData}

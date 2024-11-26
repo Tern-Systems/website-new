@@ -14,7 +14,7 @@ type ModalConfig = {
 interface IModalContext {
     Modal: ReactElement | null;
     hideContent: boolean;
-    closeModal: (isAbsolute: boolean) => void;
+    closeModal: () => void;
     openModal: (Component: ReactElement | string, config?: ModalConfig) => void;
 }
 

@@ -148,7 +148,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                     className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-small border-section
                                 text-small font-bold capitalize cursor-pointer 
                                 ${index ? 'bg-black text-white' : 'bg-white text-black'}`}
-                    onClick={() => modalCtx.openModal(<AuthModal />)}
+                    onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!index}/>)}
                 >
                     {name}
                 </div>
