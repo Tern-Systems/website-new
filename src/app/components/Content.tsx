@@ -1,4 +1,4 @@
-import {FC, ReactElement} from "react";
+import {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
 
@@ -11,21 +11,24 @@ import {useUser} from "@/app/context/User.context";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
-import {PricingView} from "@/app/components/views/Pricing";
-
 import About from "@/app/components/views/About";
 import Credo from "@/app/components/views/Credo";
 import DocumentationView from "@/app/components/views/Documentation";
 import CreationToolView from "@/app/components/views/Services/CreationTool";
+import {SubscribeView} from "@/app/components/views/Subscribe";
+import {PricingView} from "@/app/components/views/Pricing";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
+import {Button} from "@/app/components/form/Button";
 
 interface IContentProps {
     activeSection: SectionsEnum;
+    headingsHiddenState: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
 const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
-    const {activeSection} = props;
+    const {activeSection, headingsHiddenState} = props;
+    const [isHeadingsHidden, setHeadingsHidden] = headingsHiddenState;
 
     const router = useRouter();
     const modalCtx = useModal();
@@ -35,7 +38,6 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     const SectionLink = withSectionLink(router);
 
     // Elements
-    // Content
     let Content: ReactElement | null = null;
     if (!modalCtx.hideContent) {
         switch (activeSection) {
@@ -79,12 +81,12 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                     <>
                         <div
                             className={'flex flex-grow my-[1.87rem] max-h-[37.69rem] w-full bg-[url("../assets/images/qr.png")] bg-contain bg-no-repeat bg-center cursor-pointer'}/>
-                        <button
-                            className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem]'}
+                        <Button
+                            className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem] w-fit place-self-center'}
                             onClick={() => navigate(SectionsEnum.CreationTool, router)}
                         >
                             Create
-                        </button>
+                        </Button>
                     </>
                 );
                 break;
@@ -99,15 +101,26 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
             case 'Pricing and Plans':
                 Content = <PricingView/>
                 break;
+            case 'Subscribe':
+                // if (!userCtx.isLoggedIn)
+                //     navigate(SectionsEnum.Home, router);
+                setHeadingsHidden(true);
+                Content = <SubscribeView/>
+                break;
             default:
                 Content = null;
         }
     }
 
+    if (isHeadingsHidden)
+        return <>{Content}</>
+
     return (
         <div
-            className={`relative flex flex-col flex-grow w-full overflow-y-scroll p-[--py] justify-center items-center bg-content bg-cover
-                        bg-no-repeat text-primary text-center font-neo text-[1rem]`}>
+            className={`relative flex flex-col flex-grow w-full p-[--py] overflow-y-scroll justify-center items-center 
+                        bg-content bg-cover bg-no-repeat text-primary text-center font-neo text-[1rem]
+                        ${isHeadingsHidden ? '' : ''}`}
+        >
             <div className={'h-full w-full flex flex-col'}>{Content}</div>
         </div>
     );

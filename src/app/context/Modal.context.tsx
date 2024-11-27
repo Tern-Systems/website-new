@@ -6,22 +6,21 @@ import {BaseModal} from "@/app/components/modals/Base";
 
 
 type ModalConfig = {
-    isSimple?: boolean;
     hideContent?: boolean;
-    title?: string;
+    darkenBg?: boolean;
 }
 
 interface IModalContext {
     Modal: ReactElement | null;
     hideContent: boolean;
     closeModal: () => void;
-    openModal: (Component: ReactElement | string, config?: ModalConfig) => void;
+    openModal: (Component: ReactElement, config?: ModalConfig) => void;
 }
 
 const ModalContext = createContext<IModalContext | null>(null);
 
 const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-    const [isSimpleModal, setSimpleModal] = useState(false);
+    const [darkenBg, setSimpleModal] = useState(false);
     const [hideContent, setHideContent] = useState(false);
     const [Modal, setModal] = useState<ReactElement | null>(null);
 
@@ -33,21 +32,11 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     const closeModal = () => handleModalChange(null, false, false);
 
-    const openModal = (Component: ReactElement | string, config?: ModalConfig) => {
-        const ModalElem = (
-            <BaseModal
-                simple={config?.isSimple === true}
-                title={config?.title}
-                onClick={() => closeModal()}
-            >
-                {Component}
-            </BaseModal>
-        );
-        handleModalChange(ModalElem, config?.isSimple === true, config?.hideContent === true);
-    }
+    const openModal = (ModalElem: ReactElement, config?: ModalConfig) =>
+        handleModalChange(ModalElem, config?.darkenBg === true, config?.hideContent === true);
 
     const ModalElem = Modal ? (
-        <div className={`absolute z-50 w-full h-full content-center text-primary font-neo overflow-hidden`}>
+        <div className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden`}>
             {Modal}
         </div>
     ) : null;
@@ -55,7 +44,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     return (
         <ModalContext.Provider value={{Modal, hideContent, openModal, closeModal}}>
             {ModalElem}
-            <div className={Modal && !isSimpleModal ? 'brightness-[60%]' : 'brightness-100'}>
+            <div className={Modal && !darkenBg ? 'brightness-[60%]' : 'brightness-100'}>
                 {props.children}
             </div>
         </ModalContext.Provider>

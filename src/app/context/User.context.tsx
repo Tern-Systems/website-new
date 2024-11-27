@@ -2,8 +2,8 @@
 
 import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
 
-type PlanType = 'Standard' | 'Pro' | null;
-type PlanRecurrency = 'Monthly' | 'Annual';
+type PlanType = 'standard' | 'pro' | null;
+type PlanRecurrency = 'monthly' | 'annual';
 
 interface UserData {
     email: string;

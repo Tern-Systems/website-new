@@ -19,11 +19,14 @@ const config: Config = {
             colors: {
                 primary: "var(--color-primary)",
                 secondary: "var(--color-secondary)",
+                form: "var(--color-form)",
+                placeholder: "var(--color-placeholder)",
             },
             backgroundColor: {
                 control: "var(--bg-control)",
                 control2: "var(--bg-control-2)",
                 control3: "var(--bg-control-3)",
+                control4: "var(--bg-control-4)",
                 section: "var(--bg-section)",
                 section2: "var(--bg-section-2)",
             },
@@ -35,6 +38,8 @@ const config: Config = {
                 control: "var(--b-control)",
                 control2: "var(--b-control-2)",
                 control3: "var(--b-control-3)",
+                control4: "var(--b-control-4)",
+                control5: "var(--b-control-5)",
             },
             borderWidth: {
                 small: 'var(--b-small)',

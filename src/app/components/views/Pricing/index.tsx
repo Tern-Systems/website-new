@@ -16,21 +16,20 @@ import {Button} from "@/app/components/form/Button";
 
 import SVG_DIAMOND from '@/assets/images/icons/diamond.svg'
 import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg'
+import {BaseModal} from "@/app/components/modals/Base";
 
 
-type PlanEntry = {
-    name: NonNullable<PlanType>;
+type Plan = Record<NonNullable<PlanType>, {
     icon: string;
     priceUSD: Record<PlanRecurrency, number>;
     benefits: string[];
-}
+}>
 
-const PLAN_TIME_RANGE: PlanRecurrency[] = ['Monthly', 'Annual'];
-const PLANS: PlanEntry[] = [
-    {
-        name: 'Standard',
+const PLAN_TIME_RANGE: PlanRecurrency[] = ['monthly', 'annual'];
+const PLAN: Plan = {
+    standard: {
         icon: SVG_DIAMOND_ACE,
-        priceUSD: {Monthly: 10, Annual: 8},
+        priceUSD: {monthly: 10, annual: 8},
         benefits: [
             'Create and manage one AR code',
             '100 scans per month',
@@ -39,10 +38,9 @@ const PLANS: PlanEntry[] = [
             'Data import and export',
         ]
     },
-    {
-        name: 'Pro',
+    pro: {
         icon: SVG_DIAMOND,
-        priceUSD: {Monthly: 50, Annual: 40},
+        priceUSD: {monthly: 50, annual: 40},
         benefits: [
             'Manage up to 5 AR codes',
             '1,000 scans per month',
@@ -51,36 +49,44 @@ const PLANS: PlanEntry[] = [
             'Access to dedicated support team'
         ]
     }
-]
+}
 
 const PricingView: FC = () => {
     const router = useRouter();
     const modalCtx = useModal();
     const userCtx = useUser();
 
-    const [selectedPlanTime, setSelectedPlanTime] = useState<PlanRecurrency>('Monthly');
+    const [selectedPlanTime, setSelectedPlanTime] = useState<PlanRecurrency>('monthly');
 
-    const handleSubmitClick = () => {
+    const handleSubscribeClick = (planType: PlanType | undefined, reccurency: PlanRecurrency | undefined) => {
         if (!userCtx.isLoggedIn) {
             const info = 'You must have a TernKey account to manage saved codes. Please create an account below.';
             return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>);
         }
 
-        navigate(SectionsEnum.Subscribe, router);
+        navigate<SectionsEnum, NonNullable<PlanType> & PlanRecurrency>(
+            SectionsEnum.Subscribe, router, {planType, reccurency}
+        );
     }
 
     const showBillingModal = () => {
-        const BillingModal = () => (
-            <div className={'flex flex-col items-center w-[26.31rem]'}>
-                <span className={'mb-[1.22rem]'}>Email: brc@tern.ac</span>
-                <span>Phone: +1 (914) 306-5528</span>
-            </div>
+        const BillingModal = (
+            <BaseModal title={'Billing Resolution Center'}>
+                <div className={'flex flex-col items-center w-[26.31rem]'}>
+                    <span className={'mb-[1.22rem]'}>
+                        Email: <a href={'mailto:brc@tern.ac'} target={'_blank'}>brc@tern.ac</a>
+                    </span>
+                    <span>
+                        Phone: <a href={'tel:+19143065528'} target={'_blank'}>+1 (914) 306-5528</a>
+                    </span>
+                </div>
+            </BaseModal>
         );
-        modalCtx.openModal(<BillingModal/>, {title: 'Billing Resolution Center', isSimple: false});
+        modalCtx.openModal(BillingModal);
     }
 
     const showLimitsModal = () =>
-        modalCtx.openModal(<LimitsModal/>, {title: 'Limits Apply'});
+        modalCtx.openModal(<LimitsModal/>, {darkenBg: true});
 
 
     const BillingResolution = (
@@ -92,15 +98,17 @@ const PricingView: FC = () => {
         </span>
     );
 
-    const Columns: ReactElement[] = PLANS.map((plan: PlanEntry, index) => {
-        const Benefits: ReactElement[] = plan.benefits.map((benefit, subIndex) => {
+    const Columns: ReactElement[] = Object.entries(PLAN).map(([key, value], index) => {
+        const {userData} = userCtx;
+
+        const Benefits: ReactElement[] = value.benefits.map((benefit, subIndex) => {
             let listInsideRule = 'list-image-[url("../assets/images/icons/bullet.svg")]';
-            if (plan.name === 'Pro')
+            if (key === 'pro')
                 listInsideRule = 'list-image-[url("../assets/images/icons/star.svg")]';
 
             return (
                 <li
-                    key={plan.name + subIndex}
+                    key={key + subIndex}
                     className={`list-inside ${listInsideRule}`}
                 >
                     {benefit}
@@ -110,17 +118,17 @@ const PricingView: FC = () => {
 
         if (index) {
             const Additional = (
-                <div className={''}>
-                    <span>Everything in {PLANS[index - 1].name}, and:</span>
+                <div>
+                    <span>Everything in {key}, and:</span>
                 </div>
             );
             Benefits.unshift(Additional);
         }
 
-        const isAnnualOption = selectedPlanTime === 'Annual';
-        const isMonthlyPlan = userCtx.userData?.planRecurrency === 'Monthly';
-        const isCurrentPlan = userCtx.userData?.planType === plan.name;
-        const isCurrentReccurency = userCtx.userData?.planRecurrency === selectedPlanTime;
+        const isAnnualOption = selectedPlanTime === 'annual';
+        const isMonthlyPlan = userData?.planRecurrency === 'monthly';
+        const isCurrentPlan = userData?.planType === key;
+        const isCurrentReccurency = userData?.planRecurrency === selectedPlanTime;
         const isBtnDisabled = isCurrentPlan && isCurrentReccurency;
 
         let subscribeBtnText: string;
@@ -134,7 +142,7 @@ const PricingView: FC = () => {
             </span>
         );
 
-        if (!userCtx.userData?.planType) {
+        if (!userData?.planType) {
             subscribeBtnText = 'Subscribe';
             Links = Limits;
         } else {
@@ -149,7 +157,7 @@ const PricingView: FC = () => {
                         </>
                     );
                 } else {
-                    subscribeBtnText = `${index ? 'Up' : 'Down'}grade to ` + PLANS[index].name;
+                    subscribeBtnText = `${index ? 'Up' : 'Down'}grade to ` + key;
                     Links = Limits;
                 }
             } else {
@@ -167,22 +175,23 @@ const PricingView: FC = () => {
 
         return (
             <div
-                key={plan.name}
-                className={`flex flex-col flex-grow p-[--py] w-[25.125rem] max-h-[35.21rem] rounded-[0.5625rem] border-small border-control3 bg-control text-left text-primary leading-none`}
+                key={key}
+                className={`flex flex-col flex-grow p-[--py] w-[25.125rem] max-h-[35.21rem] rounded-[0.5625rem]
+                            border-small border-control3 bg-control text-left text-primary`}
             >
-                <h2 className={'flex mb-[0.95rem] font-oxygen text-header font-bold'}>
-                    <Image src={plan.icon} alt={plan.name + ' icon'} className={'mr-[0.32rem]'}/>
-                    <span>{plan.name}</span>
+                <h2 className={'flex mb-[0.95rem] font-oxygen text-header font-bold capitalize'}>
+                    <Image src={value.icon} alt={key + ' icon'} className={'mr-[0.32rem]'}/>
+                    <span>{key}</span>
                 </h2>
                 <div className={'text-secondary mb-[2.2rem] text-[1.25rem]'}>
                     <span>
-                        ${plan.priceUSD[selectedPlanTime]}/month{isAnnualOption ? '*' : null}
+                        ${value.priceUSD[selectedPlanTime]}/month{isAnnualOption ? '*' : null}
                     </span>
                 </div>
                 <Button
-                    btnType={'button'}
-                    onClick={() => handleSubmitClick()}
-                    className={`bg-control3 font-bold disabled:bg-inherit disabled:border-small disabled:border-control disabled:text-secondary`}
+                    onClick={() => handleSubscribeClick(userData?.planType, userData?.planRecurrency)}
+                    className={`bg-control3 font-bold disabled:bg-inherit disabled:border-small disabled:border-control
+                                disabled:text-secondary rounded-full py-[1.13rem]`}
                     disabled={isBtnDisabled}
                 >
                     {subscribeBtnText}
@@ -196,10 +205,10 @@ const PricingView: FC = () => {
         )
     });
 
-    const SwitchOptions: ReactElement[] = PLAN_TIME_RANGE.map((entry) => (
+    const Switch: ReactElement[] = PLAN_TIME_RANGE.map((entry) => (
             <div
                 key={entry}
-                className={`px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold leading-none ${selectedPlanTime === entry ? 'bg-control2' : 'text-secondary'}`}
+                className={`px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold ${selectedPlanTime === entry ? 'bg-control2' : 'text-secondary'}`}
                 onClick={() => setSelectedPlanTime(entry)}
             >
                 {entry}
@@ -207,7 +216,7 @@ const PricingView: FC = () => {
         )
     );
 
-    const BillingResolutionBlock = !userCtx.userData?.planType
+    const BillingResolutionBlock = typeof userCtx.userData?.planType === 'string'
         ? null
         : (
             <div className={'flex mt-[--py]'}>
@@ -221,7 +230,7 @@ const PricingView: FC = () => {
         <>
             <div className={'flex flex-col my-auto'}>
                 <div className={'flex place-self-center p-[0.19rem] border-small rounded-full text-small'}>
-                    {SwitchOptions}
+                    {Switch}
                 </div>
                 <div className={'flex place-self-center gap-[4.13rem] mt-[3.12rem]'}>
                     {Columns}
@@ -232,4 +241,4 @@ const PricingView: FC = () => {
     )
 }
 
-export {PricingView}
+export {PricingView, PLAN}

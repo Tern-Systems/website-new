@@ -7,6 +7,7 @@
   --bg-control: #4D4D4D;
   --bg-control-2: #808080;
   --bg-control-3: #178AB7;
+  --bg-control-4: #f2f2f2;
   --bg-section: #001125;
   --bg-section-2: var(--bg-control-3);
 
@@ -14,11 +15,15 @@
   --b-section: var(--bg-control);
   --b-control: #999999;
   --b-control-2: #192131;
-  --b-control-3: #F2F2F2;
+  --b-control-3: #B3B3B3;
+  --b-control-4: var(--bg-control-4);
+  --b-control-5: var(--bg-control-2);
   --br-small: 0.5625rem;
 
   --color-primary: #ECF0F3;
   --color-secondary: var(--bg-control-2);
+  --color-form: var(--bg-control);
+  --color-placeholder: var(--b-control-3);
 
   --fz-small: 0.875rem;
   --fz-content: 1.3125rem;
@@ -39,6 +44,16 @@ body {
 
   -ms-overflow-style: none;
   scrollbar-width: none;
+  line-height: normal;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 body ::-webkit-scrollbar {

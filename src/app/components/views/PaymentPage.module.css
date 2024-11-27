@@ -1,0 +1,430 @@
+.paymentContainer {
+  display: flex;
+  position: absolute;
+  align-items: top;
+  background-color: #ffffff;
+  min-height: 100%;
+  justify-content: center;
+  font-family: "Oxygen", sans-serif;
+  color: #4d4d4d;
+}
+
+.paymentContainer * {
+  box-sizing: border-box;
+}
+.addressLine1,
+.addressLine2 {
+  width: 100%;
+  border-bottom: 1px solid #b3b3b3;
+  border-left: 1px solid #b3b3b3;
+  border-right: 1px solid #b3b3b3;
+}
+.backButton {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 110px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  font-size: 21px;
+  color: #4D4D4D;
+  font-family: "Oxygen";
+  margin-top: 27px;
+  margin-left: 30px;
+}
+.bigPrice {
+  font-family: "Oxygen", sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 60.61px;
+  color: rgba(77, 77, 77, 1);
+  margin: 0;
+}
+.billingAddress {
+  border-radius: 0px 0px 9px 9px;
+  width: 100%;
+  border-bottom: 1px solid #b3b3b3;
+  border-left: 1px solid #b3b3b3;
+  border-right: 1px solid #b3b3b3;
+}
+.billingCountry {
+  border-radius: 9px 9px 0px 0px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #b3b3b3;
+}
+
+.cardGroup {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+}
+.cardHolderName {
+  border-radius: 9px 9px 9px 9px;
+  border: 1px;
+  width: 100%;
+  border: 1px solid #b3b3b3;
+}
+.city,
+.postalCode {
+  width: 100%;
+  border-bottom: 1px solid #b3b3b3;
+  border-left: 1px solid #b3b3b3;
+  border-right: 1px solid #b3b3b3;
+}
+.closeButton {
+  color: #808080;
+  position: absolute;
+  top:15px;
+  right: 25px;
+  background: transparent;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+.cvc {
+  border-radius: 0px 0px 9px 0px;
+  
+}
+.declinedModalPopUp {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 485px;
+  height: 386px;
+  background-color: #F2F2F2;
+  border: 2px solid #999;
+  border-radius: 9px;
+  padding: 20px 15px;
+}
+.declinedModalPopUp * {
+  font-family: "Oxygen", sans-serif;
+  color: #4D4D4D;
+}
+.declinedModalPopUp div {
+  margin-top: 10px;
+  padding: 2;
+  font-family: "Neo", sans-serif;
+  color: #4D4D4D;
+}
+.declinedModalPopUp h1 {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  font-weight: 700;
+  color: #4D4D4D;
+  font-size: 27px;
+}
+.declinedModalPopUp hr {
+  width: 100%;
+  border: 1px solid #b3b3b3;
+  color: #808080;
+  margin-bottom: 15px;
+}
+.declinedModalPopUp p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  padding: 0px 25px;
+  font-family: "Neo", sans-serif;
+}
+.modalPopUp {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 485px;
+  height: 390px;
+  background-color: #4D4D4D;
+  border: 2px solid #999;
+  border-radius: 9px;
+  padding: 20px 15px;
+}
+
+.modalPopUp * {
+  margin: 2;
+  padding: 2;
+  font-family: "Oxygen", sans-serif;
+  color: #ECF0F3;
+}
+.modalPopUp div {
+  margin-top: 10px;
+  padding: 2;
+  font-family: "Neo", sans-serif;
+  color: #ECF0F3;
+}
+.modalPopUp h1 {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-weight: 700;
+  font-size: 27px;
+}
+.modalPopUp hr {
+  width: 100%;
+  border: 1px solid #b3b3b3;
+  color: #b3b3b3;
+  margin-bottom: 15px;
+}
+.modalPopUp p {
+  text-align: center;
+  margin-top: 20px;
+}
+.description {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Oxygen", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(77, 77, 77, 1);
+  margin: 0;
+}
+.expandButton {
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+.expirationDate,
+.cvc {
+  width: 100%;
+  height: 50px;
+}
+
+.expirationDate {
+  border-radius: 0px 0px 0px 9px;
+  border-bottom: 1px solid #b3b3b3;
+  border-left: 1px solid #b3b3b3;
+  border-right: 1px solid #b3b3b3;
+}
+.form {
+  width: 465px;
+}
+.input {
+  
+  margin: 0;
+  padding-left: 10px;
+  height: 50px;
+  font-family: "Oxygen", sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 26.52px;
+  text-align: left;
+  color: #4d4d4d;
+}
+.input::placeholder {
+  color: #b3b3b3;
+
+}
+.inputContainer {
+  border: 1px solid #b3b3b3;
+  margin: 0;
+  height: 50px;
+  font-family: "Oxygen", sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 26.52px;
+  text-align: left;
+  color: #4D4D4D;
+  border-radius: 9px 9px 0px 0px;
+  display: flex;
+  position: relative;
+}
+.cvcInputContainer {
+  border-bottom: 1px solid #b3b3b3;
+  margin: 0;
+  height: 50px;
+  font-family: "Oxygen", sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 26.52px;
+  text-align: left;
+  color: #4D4D4D;
+  border-radius: 0px 0px 9px 0px;
+  display: flex;
+  position: relative;
+}
+.cardNumber{
+  width: 100%;
+  font-family: "Oxygen", sans-serif;
+  margin: 0;
+  padding: 10px;
+  border-radius: 9px 9px 0px 0px;
+}
+.cardNumber::placeholder {
+  color: #b3b3b3;
+  
+}
+.cvc {
+  width: 100%;
+  font-family: "Oxygen", sans-serif;
+  margin: 0;
+  padding: 10px;
+  border-radius: 0px 0px 9px 0px;
+  border-bottom: 1px solid #b3b3b3;
+  border-right: 1px solid #b3b3b3;
+}
+.cvc::placeholder{
+  
+  color: #b3b3b3;
+}
+.creditCardCompanies,
+.cvcIcon {
+  position: absolute;
+  right: 0;
+  top: 17px;
+  right: 15.67px;
+  display: flex;
+  gap: 2px;
+}
+.methodBox {
+  width: 467px;
+  box-sizing: border-box;
+}
+.methodContainer {
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  
+  min-height: 100%;
+  width: 50vw;
+  padding: 123px 0;
+  background-color: #f2f2f2;
+  box-shadow: inset 5px 0px 32px rgba(12, 12, 13, 0.2);
+}
+.methodTitle {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 26.52px;
+  text-align: left;
+  margin: 0;
+  margin-bottom: 20px;
+}
+.methodHead {
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 26.52px;
+  text-align: left;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.paymentMethodContainer {
+  box-sizing: border-box;
+}
+.paymentMethodContainer form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.paymentSection {
+  width: 100%;
+  margin-bottom: 20px;
+  color: #4D4D4D;
+}
+.paymentSectionSaved {
+  width: 100%;
+  margin-bottom: 20px;
+  color: #4D4D4D;
+  height: 100%;
+}
+
+.perMonth {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-left: 5px;
+}
+.pricePerMonth {
+  display: flex;
+  align-items: center;
+  height: 46px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.savedCards {
+  border-radius: 9px 9px 9px 9px;
+  width: 100%;
+  border: 1px solid #b3b3b3;
+}
+
+.state {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  padding-left: 5px;
+  border-radius: 0px 0px 9px 9px;
+  border-bottom: 1px solid #b3b3b3;
+  border-left: 1px solid #b3b3b3;
+  border-right: 1px solid #b3b3b3;
+}
+
+.subHeading {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Oxygen", sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: rgba(77, 77, 77, 1);
+  line-height: 26.52px;
+  margin: 0;
+  margin-bottom: 20px;
+}
+.subscribeBox {
+  width: 467px;
+  height: 386px;
+  margin-top: 123px;
+}
+.subscribeButton {
+  width: 100%;
+  height: 50px;
+  top: 719px;
+  left: 1208.5px;
+  gap: 0px;
+  border: none;
+  border-radius: 25px 25px 25px 25px;
+  background-color: #4d4d4d;
+  color: white;
+  font-weight: 1000;
+}
+.subscribeContainer {
+  box-sizing: border-box;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  width: 50vw;
+  height: 100%;
+  background-color: #ffffff;
+}
+.subscribeSection {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #b3b3b3;
+  margin-bottom: 20px;
+}
+.termsSection {
+  font-size: 14px;
+  display: grid;
+  grid-template-columns: 1fr 22fr;
+  align-items: start;
+  margin: 20px 0;
+}

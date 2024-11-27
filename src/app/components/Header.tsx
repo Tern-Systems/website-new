@@ -41,12 +41,14 @@ const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
 }
 
 interface IHeaderProps {
-    profileLinksState: { value: boolean, handle: Dispatch<SetStateAction<boolean>> }
+    profileMenuState: [boolean, Dispatch<SetStateAction<boolean>>];
     activeSection: SectionsEnum;
 }
 
 const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
-    const {profileLinksState, activeSection} = props;
+    const {profileMenuState, activeSection} = props;
+
+    const [isProfileMenuVisible, setProfileMenuVisibility] = profileMenuState;
 
     const router = useRouter();
     const userCtx = useUser();
@@ -132,11 +134,11 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
                     src={SVG_PROFILE}
                     alt={'profile icon'}
                     className={'h-full cursor-pointer'}
-                    onClick={() => navigate(SectionsEnum.Profile, router)}
+                    onClick={() => setProfileMenuVisibility(prevState => !prevState)}
                 />
                 <ul className={`absolute z-10 right-0 flex flex-col items-start gap-[1.2rem] mt-[0.62rem] p-[0.75rem]
                                 border-small border-control rounded-[0.375rem] bg-control text-nowrap
-                                ${profileLinksState.value ? '' : 'hidden'}`}>
+                                ${isProfileMenuVisible ? '' : 'hidden'}`}>
                     {ProfileLinks}
                 </ul>
             </div>
@@ -158,7 +160,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
 
     return (
         <>
-            <header className={'font-neo text-primary leading-none'}>
+            <header className={'font-neo text-primary'}>
                 <div
                     className={`relative flex w-full h-[5.13rem] px-[--px] justify-between items-center border-b-small border-section`}>
                     <nav

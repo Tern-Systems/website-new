@@ -1,35 +1,55 @@
-import {PropsWithChildren} from "react";
+import {FC, PropsWithChildren} from "react";
 import {Button} from "@/app/components/form/Button";
+import {useModal} from "@/app/context/Modal.context";
 
-interface BaseModalProps<T extends boolean> extends PropsWithChildren {
-    simple: T;
+interface ModalConfig extends PropsWithChildren {
+    isSmall?: boolean;
     title?: string;
-    onClick: () => void;
+    onClose?: () => void;
+    className?: string;
+    classNameContent?: string;
 }
 
-function BaseModal<T extends boolean>(props: BaseModalProps<T>) {
-    const {simple, children, title, onClick} = props;
-    if (simple) {
+const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
+    const {
+        children, isSmall, title, onClose,
+        className, classNameContent
+    } = props;
+
+    const modalCtx = useModal();
+
+    if (isSmall) {
         return (
             <span
                 className={`flex items-center gap-[1rem] px-[0.62rem] py-[0.8rem]
-                            bg-control2 rounded-[0.375rem] max-w-[18.09rem] text-left`}
+                            bg-control2 rounded-[0.375rem] text-left ${className}`}
             >
-            <span>{children}</span>
-            <Button btnType={'close'} onClick={() => onClick()}/>
-        </span>
+                <span className={classNameContent}>{children}</span>
+                <Button icon={'close'} onClick={() => onClose?.()}/>
+            </span>
         );
     } else {
         return (
             <div
                 className={`p-[--py] rounded-[0.5625rem] border-small border-control3 bg-control
-                            text-primary leading-none place-self-center`}>
-                <div className={'flex items-center justify-between font-oxygen text-[1.69rem] text-primary'}>
-                    <h1 id={'modal-title'}>{title ?? ''}</h1>
-                    <Button btnType={'close'} onClick={() => onClick()}/>
+                            text-primary place-self-center mx-auto ${className}`}>
+                <div className={`flex items-center justify-between font-oxygen text-primary`}>
+                    <h2
+                        id={'modal-title'}
+                        className={'text-primary font-oxygen text-[1.6875rem] font-bold'}
+                    >
+                        {title ?? ''}
+                    </h2>
+                    <Button
+                        icon={'close'}
+                        onClick={() => {
+                            modalCtx.closeModal();
+                            onClose?.()
+                        }}
+                    />
                 </div>
                 <hr className={'scale-[105%] mt-[1.25rem] mb-[1.54rem]'}/>
-                <div>{children}</div>
+                <div className={classNameContent}>{children}</div>
             </div>
         )
     }

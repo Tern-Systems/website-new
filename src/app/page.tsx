@@ -35,6 +35,7 @@ export default function Home() {
     const [isViewChange, setViewChange] = useState<boolean>(true);
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
+    const [isHeadingsHidden, setHeadingsHidden] = useState(false);
 
     const handleInsigniaClick = () => {
         history.pushState({}, '', window.location.href);
@@ -54,6 +55,7 @@ export default function Home() {
             setActiveSection(section);
             setViewChange(false);
             setProfileLinksVisibility(false);
+            setHeadingsHidden(false);
             modalCtx.closeModal();
         }, FADE_DURATION);
     }, [section, activeSection, modalCtx]);
@@ -78,6 +80,22 @@ export default function Home() {
         </div>
     ));
 
+    const HeaderElem = isHeadingsHidden ? null
+        : (
+            <Header
+                activeSection={activeSection}
+                profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]}
+            />
+        );
+    const FooterElem = isHeadingsHidden ? null
+        : (
+            <footer
+                className={`flex w-full justify-between font-neo text-primary border-t-small border-section px-[--px] py-[--py] place-self-end`}>
+                <span>© Copyright 2025 Tern Systems LLC</span>
+                <span>New York, New York</span>
+            </footer>
+        );
+
     const Layout = activeSection === 'Start'
         ? (
             <SectionLink
@@ -89,22 +107,18 @@ export default function Home() {
         )
         : (
             <>
-                <Header
+                {HeaderElem}
+                <Content
                     activeSection={activeSection}
-                    profileLinksState={{value: isProfileLinksVisible, handle: setProfileLinksVisibility}}
+                    headingsHiddenState={[isHeadingsHidden, setHeadingsHidden]}
                 />
-                <Content activeSection={activeSection}/>
-                <footer
-                    className={`flex w-full justify-between font-neo text-primary border-t-small border-section px-[--px] py-[--py] place-self-end`}>
-                    <span>© Copyright 2025 Tern Systems LLC</span>
-                    <span>New York, New York</span>
-                </footer>
+                {FooterElem}
             </>
-        )
+        );
 
     return (
         <div className={"h-dvh max-h-dvh relative"}>
-            {Insignia}
+            {isHeadingsHidden ? null : Insignia}
             <div
                 className={`flex flex-col flex-grow justify-between h-full ${isViewChange ? styles.fadeOut : styles.fadeIn}`}>
                 {Layout}

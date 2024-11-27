@@ -45,16 +45,15 @@ const CreationToolView: FC = () => {
         const key = `${type}Color` as keyof CreationToolForm;
         return (
             <Input
-                labelText={type + 'Color'}
                 key={type + index}
                 type={'color'}
-                id={`qr-${type}-color`}
-                name={`qr-${type}-color`}
                 value={formValue[key]}
                 style={{backgroundColor: formValue[key]}}
-                onChange={(event) => setFormValue(key, event.target.value)}
+                onChange={setFormValue(key)}
                 required
-            />
+            >
+                {type} Color
+            </Input>
         )
     });
 
@@ -74,22 +73,26 @@ const CreationToolView: FC = () => {
                 </div>
                 <Input
                     type={"text"}
-                    id={'qr-name'}
                     name={'qr-name'}
                     placeholder={'Name'}
                     value={formValue.name}
-                    onInput={(event) => setFormValue('name', event.currentTarget.value)}
+                    onChange={setFormValue('name')}
+                    className={`px-[0.68rem] h-[2.3125rem] w-full text-[1.6875rem] placeholder:text-primary bg-control2
+                                border-small border-control4 rounded-[0.375rem]`}
                     required
                 />
                 <Input
-                    labelText={'Upload Media'}
                     type={"file"}
-                    id={'qr-file'}
                     name={'qr-file'}
+                    classNameWrapper={'h-[3.125rem] font-bold text-[1.3125rem] text-black bg-white rounded-full'}
                     required
-                />
+                >
+                    Upload Media
+                </Input>
                 {ColorPickers}
-                <Button btnType={'submit'}>Save AR Code</Button>
+                <Button className={'px-[4.34rem] h-[3.125rem] text-[1.3125rem] font-bold border-small border-control5 rounded-full'}>
+                    Save AR Code
+                </Button>
             </form>
         </div>
     );

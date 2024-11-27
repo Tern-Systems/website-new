@@ -6,14 +6,14 @@ interface SectionLinkProps<T extends string> extends AnchorHTMLAttributes<HTMLAn
     section: T;
 }
 
-const withSectionLink = function <T extends string>(router: AppRouterInstance): FC<SectionLinkProps<T>> {
+const withSectionLink = function <T extends string, P extends string>(router: AppRouterInstance): FC<SectionLinkProps<T>> {
     return function Component(props: SectionLinkProps<T>): ReactElement {
         const {children, section, className, ...propsRest} = props;
         return <a
             {...propsRest}
             href={'#'}
             className={`capitalize ${className}`}
-            onClick={() => navigate<T>(section, router)}
+            onClick={() => navigate<T, P>(section, router)}
         >
             {children ?? section}
         </a>;

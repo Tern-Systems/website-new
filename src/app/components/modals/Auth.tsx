@@ -1,4 +1,4 @@
-import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
+import {FC, FormEvent, ReactElement, useState} from "react";
 import axios from "axios";
 
 import {AuthService, SignUpData} from "@/app/services/auth.service";
@@ -11,6 +11,9 @@ import {useUser} from "@/app/context/User.context";
 
 import {Input} from "@/app/components/form/Input";
 import {Button} from "@/app/components/form/Button";
+
+import SVG_EYE from '@/assets/images/icons/eye.svg'
+import {BaseModal} from "@/app/components/modals/Base";
 
 
 type FormData = SignUpData;
@@ -55,31 +58,34 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                 message = error.cause?.message ?? message;
             else if (typeof error === 'string')
                 message = error;
-            modalCtx.openModal(message, {isSimple: true});
+            modalCtx.openModal(<BaseModal><span>{message}</span></BaseModal>);
         }
     }
-
-    useEffect(() => {
-        const modalTitle = document.getElementById('modal-title');
-        if (modalTitle)
-            modalTitle.innerText = !isLoginForm ? 'Create Account' : 'Login to Account';
-    }, [isLoginForm])
 
     const PasswordConfirm = isLoginForm
         ? null
         : (
             <Input
                 type={"password"}
-                id={'password-repeat'}
                 name={'password-repeat'}
                 placeholder={'Confirm Password'}
                 value={formValue.passwordConfirm}
-                onInput={(event) => setFormValue('passwordConfirm', event.currentTarget.value)}
-                required
+                onChange={setFormValue('passwordConfirm')}
+                className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                icons={[SVG_EYE]}
+                required={!isLoginForm}
             />
         );
 
-    return (
+    const PasswordReset = !isLoginForm
+        ? null
+        : (
+            <span className={'mt-[0.62rem]'}>
+                Forgot your password? <span className={'text-[#21A1D3] cursor-pointer'}>Reset</span>
+            </span>
+        );
+
+    const Content = (
         <>
             <div className={'flex flex-col items-center w-[26.18rem]'}>
                 <span>{info}</span>
@@ -91,27 +97,33 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                 className={'flex flex-col'}
                 onSubmit={(event) => handleFormSubmit(event)}
             >
-                <Input
-                    labelText={`Please enter email to ${isLoginForm ? 'create' : 'log into'} your Tern account`}
-                    type={"text"}
-                    id={'email'}
-                    name={'email'}
-                    placeholder={'Email'}
-                    value={formValue.email}
-                    onInput={(event) => setFormValue('email', event.currentTarget.value)}
-                    required
-                />
-                <Input
-                    type={"password"}
-                    id={'password'}
-                    name={'password'}
-                    placeholder={'Password'}
-                    value={formValue.password}
-                    onInput={(event) => setFormValue('password', event.currentTarget.value)}
-                    required
-                />
-                {PasswordConfirm}
-                <Button btnType={'submit'} className={'mt-[1.56rem]'}>
+                <fieldset className={'flex flex-col gap-[0.94rem]'}>
+                    <Input
+                        name={'email'}
+                        placeholder={'Email'}
+                        value={formValue.email}
+                        onChange={setFormValue('email')}
+                        classNameWrapper={'flex-col [&]:items-start'}
+                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                        required
+                    >
+                        Please enter email to {isLoginForm ? 'create' : 'log into'} your Tern account
+                    </Input>
+                    <Input
+                        type={"password"}
+                        name={'password'}
+                        placeholder={'Password'}
+                        value={formValue.password}
+                        onChange={setFormValue('password')}
+                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                        required
+                    />
+                    {PasswordConfirm}
+                </fieldset>
+                {PasswordReset}
+                <Button className={`py-[0.92rem] mt-[1.56rem] text-[1.125rem] font-bold rounded-full
+                                    w-[18.93rem] place-self-center border-small border-control 
+                                    ${isLoginForm ? 'text-form bg-white' : 'text-primary'}`}>
                     {!isLoginForm ? 'Sign Up' : 'Log In'}
                 </Button>
             </form>
@@ -127,7 +139,9 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                 </span>
             </div>
         </>
-    )
+    );
+
+    return <BaseModal title={isLoginForm ? 'Login to Account' : 'Create Account'}>{Content}</BaseModal>
 }
 
 
