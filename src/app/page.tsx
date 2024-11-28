@@ -7,24 +7,14 @@ import Spline from '@splinetool/react-spline';
 import {SectionsEnum} from "@/app/utils/sections";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
+import {useModal} from "@/app/context/Modal.context";
 
 import Header from "@/app/components/Header";
 import Content from "@/app/components/Content";
 
-import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
-import SVG_GITHUB from "@/assets/images/icons/github.svg";
-import SVG_DISCORD from "@/assets/images/icons/discord.svg";
-
 import styles from './page.module.css';
-import {useModal} from "@/app/context/Modal.context";
 
 const FADE_DURATION = 300;
-
-const CONTACT_LINKS: { svg: string, href: string }[] = [
-    {svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys/'},
-    {svg: SVG_GITHUB, href: 'https://github.com/Tern-Systems'},
-    {svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
-]
 
 export default function Home() {
     const router = useRouter();

@@ -1,24 +1,24 @@
-import {Dispatch, FC, ReactElement, SetStateAction} from "react";
+import React, {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
-import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
 import {useModal} from "@/app/context/Modal.context";
 import {useUser} from "@/app/context/User.context";
+import {useNavigate} from "@/app/hooks/useNavigate";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
-import About from "@/app/components/views/About";
-import Credo from "@/app/components/views/Credo";
-import DocumentationView from "@/app/components/views/Documentation";
-import CreationToolView from "@/app/components/views/Services/CreationTool";
+import {Button} from "@/app/components/form/Button";
+
+import {Credo} from "@/app/components/views/Credo";
+import {DocumentationView} from "@/app/components/views/Documentation";
+import {CreationToolView} from "@/app/components/views/Services/CreationTool";
 import {SubscribeView} from "@/app/components/views/Subscribe";
 import {PricingView} from "@/app/components/views/Pricing";
+import {Contact} from "@/app/components/Contact";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
-import {Button} from "@/app/components/form/Button";
-import {useNavigate} from "@/app/hooks/useNavigate";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -40,16 +40,37 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     let Content: ReactElement | null = null;
     if (!modalCtx.hideContent) {
         switch (activeSection) {
-            case 'About':
-                Content = <About/>;
-                break;
             case 'Home':
                 Content = (
-                    <div className={'flex flex-col w-[58.625rem] text-left mt-[12.87rem] ml-[5.94rem] gap-[1.5rem]'}>
-                        <span className={'text-blue w-0 text-[6.25rem]'}>All Ways</span>
+                    <div className={'flex flex-col w-[58.625rem] text-left mt-[5.87rem] ml-[5.94rem] gap-[1.5rem]'}>
+                        <h1 className={'text-blue w-0 text-[6.25rem]'}>All Ways</h1>
                         <span className={'text-[2.25rem] text-primary font-bold'}>We develop, manufacture, preserve, and enhance fundamental computer software and hardware.</span>
                     </div>
                 );
+                break;
+            case 'About':
+                Content = (
+                    <div
+                        className={'w-[58.625rem] text-left my-auto ml-[5.94rem]'}>
+                        <div className={'leading-normal text-[2.25rem] font-bold'}>
+                            <h1 className={'text-[3.75rem]'}>We are Tern.</h1>
+                            <p className={"mb-4"}>A technology company based out of the United States.</p>
+                            <p className={"mb-4"}>
+                                Ushering in the era of efficient computing, equiping all legacy devices with advanced
+                                microprocessors.
+                            </p>
+                            <p className={"mb-4"}>
+                                On a mission to revolutionize computing by harnessing the power of ternary
+                                microprocessors.
+                            </p>
+                        </div>
+                        <SectionLink
+                            section={SectionsEnum.Credo}
+                            className={`text-primary rounded-full border-small border-control5 font-bold px-[0.91rem]
+                                        h-[1.4375rem] w-fit mt-[3.31rem]`}
+                        />
+                    </div>
+                )
                 break;
             case 'Our Credo':
                 Content = <Credo/>;
@@ -68,13 +89,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 Content = <DocumentationView view={activeSection}/>;
                 break;
             case 'Contact':
-                Content = (
-                    <>
-                        <p>Tern Systems</p>
-                        <p>New York, New York</p>
-                        <p className={'mt-[1rem]'}>info@tern.ac</p>
-                    </>
-                );
+                Content = <Contact/>;
                 break;
             case 'TernKey':
                 Content = (
@@ -124,7 +139,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
 
     return (
         <div
-            className={`relative flex flex-col flex-grow w-full p-[--py] overflow-y-scroll justify-center items-center 
+            className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
                         bg-content bg-cover bg-no-repeat text-primary text-center font-neo text-[1rem]
                         ${isHeadingsHidden ? '' : ''}`}
         >

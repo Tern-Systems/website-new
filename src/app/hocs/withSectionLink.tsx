@@ -14,7 +14,7 @@ const withSectionLink = function <T extends string, P extends string>(router: Ap
         return <a
             {...propsRest}
             href={'#'}
-            className={`capitalize ${className}`}
+            className={`capitalize flex items-center ${className}`}
             onClick={() => navigate<T, P>(section)}
         >
             {children ?? section}

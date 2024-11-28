@@ -181,5 +181,5 @@ const DocumentationView = (props: IDocumentationViewProps) => {
     );
 }
 
-export default DocumentationView;
+export {DocumentationView};
 export type {TListEntry};

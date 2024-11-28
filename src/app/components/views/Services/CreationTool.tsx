@@ -98,5 +98,5 @@ const CreationToolView: FC = () => {
     );
 }
 
-export default CreationToolView;
+export {CreationToolView};
 export type {CreationToolForm}
