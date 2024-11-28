@@ -24,6 +24,7 @@
   --color-secondary: var(--bg-control-2);
   --color-form: var(--bg-control);
   --color-placeholder: var(--b-control-3);
+  --color-blue: var(--bg-control-3);
 
   --fz-small: 0.875rem;
   --fz-content: 1.3125rem;

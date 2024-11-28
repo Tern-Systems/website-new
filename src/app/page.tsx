@@ -98,12 +98,9 @@ export default function Home() {
 
     const Layout = activeSection === 'Start'
         ? (
-            <SectionLink
-                section={SectionsEnum.Home}
-                className={`text-text-primary text-primary cursor-pointer text-center mt-auto mb-[--py]`}
-            >
-                Tern
-            </SectionLink>
+            <span className={`text-primary text-center mt-auto mb-[--py]`}>
+                <SectionLink section={SectionsEnum.Home} className={'cursor-pointer'}>Tern</SectionLink>
+            </span>
         )
         : (
             <>

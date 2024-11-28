@@ -21,6 +21,7 @@ const config: Config = {
                 secondary: "var(--color-secondary)",
                 form: "var(--color-form)",
                 placeholder: "var(--color-placeholder)",
+                blue: "var(--color-blue)",
             },
             backgroundColor: {
                 control: "var(--bg-control)",

@@ -130,11 +130,11 @@ const SAVED_PAYMENTS: Record<string, CardData> = {
 
 
 interface PaymentFormProps {
-    setPaymentDeclined: Dispatch<SetStateAction<boolean>>;
+    setPaymentStatus: Dispatch<SetStateAction<boolean | null>>;
 }
 
 const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
-    const {setPaymentDeclined} = props
+    const {setPaymentStatus} = props
 
     const [formData, setFormData] = useForm<FormData>(FORM_DEFAULT);
     const [isBillingExpanded, setBillingExpandedState] = useState(false);

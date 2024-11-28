@@ -1,14 +1,13 @@
 import {FC, ReactElement, useState} from "react";
 import Image from "next/image";
-import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 import {PlanRecurrency, PlanType, useUser} from "@/app/context/User.context";
 
-import {navigate} from "@/app/utils/router";
-
+import {useNavigate} from "@/app/hooks/useNavigate";
 import {useModal} from "@/app/context/Modal.context";
 
+import {BaseModal} from "@/app/components/modals/Base";
 import {AuthModal} from "@/app/components/modals/Auth";
 import {LimitsModal} from "./LimitsModal";
 
@@ -16,7 +15,6 @@ import {Button} from "@/app/components/form/Button";
 
 import SVG_DIAMOND from '@/assets/images/icons/diamond.svg'
 import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg'
-import {BaseModal} from "@/app/components/modals/Base";
 
 
 type Plan = Record<NonNullable<PlanType>, {
@@ -52,7 +50,7 @@ const PLAN: Plan = {
 }
 
 const PricingView: FC = () => {
-    const router = useRouter();
+    const [navigate] = useNavigate();
     const modalCtx = useModal();
     const userCtx = useUser();
 
@@ -65,7 +63,7 @@ const PricingView: FC = () => {
         }
 
         navigate<SectionsEnum, NonNullable<PlanType> & PlanRecurrency>(
-            SectionsEnum.Subscribe, router, {planType, reccurency}
+            SectionsEnum.Subscribe, {planType, reccurency}
         );
     }
 

@@ -4,8 +4,6 @@ import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {navigate} from "@/app/utils/router";
-
 import {useModal} from "@/app/context/Modal.context";
 import {useUser} from "@/app/context/User.context";
 
@@ -20,6 +18,7 @@ import {PricingView} from "@/app/components/views/Pricing";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import {Button} from "@/app/components/form/Button";
+import {useNavigate} from "@/app/hooks/useNavigate";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -30,7 +29,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     const {activeSection, headingsHiddenState} = props;
     const [isHeadingsHidden, setHeadingsHidden] = headingsHiddenState;
 
-    const router = useRouter();
+    const [navigate, router] = useNavigate();
     const modalCtx = useModal();
     const userCtx = useUser();
 
@@ -43,6 +42,14 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
         switch (activeSection) {
             case 'About':
                 Content = <About/>;
+                break;
+            case 'Home':
+                Content = (
+                    <div className={'flex flex-col w-[58.625rem] text-left mt-[12.87rem] ml-[5.94rem] gap-[1.5rem]'}>
+                        <span className={'text-blue w-0 text-[6.25rem]'}>All Ways</span>
+                        <span className={'text-[2.25rem] text-primary font-bold'}>We develop, manufacture, preserve, and enhance fundamental computer software and hardware.</span>
+                    </div>
+                );
                 break;
             case 'Our Credo':
                 Content = <Credo/>;
@@ -83,7 +90,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                             className={'flex flex-grow my-[1.87rem] max-h-[37.69rem] w-full bg-[url("../assets/images/qr.png")] bg-contain bg-no-repeat bg-center cursor-pointer'}/>
                         <Button
                             className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem] w-fit place-self-center'}
-                            onClick={() => navigate(SectionsEnum.CreationTool, router)}
+                            onClick={() => navigate(SectionsEnum.CreationTool)}
                         >
                             Create
                         </Button>
@@ -95,7 +102,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 break
             case 'Saved Codes':
                 if (!userCtx.userData?.planType)
-                    navigate(SectionsEnum.Pricing, router);
+                    navigate(SectionsEnum.Pricing);
                 Content = <></>; // TODO
                 break;
             case 'Pricing and Plans':

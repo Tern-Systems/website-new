@@ -4,8 +4,6 @@ import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {navigate} from "@/app/utils/router";
-
 import {useModal} from "@/app/context/Modal.context";
 import {useUser} from "@/app/context/User.context";
 
