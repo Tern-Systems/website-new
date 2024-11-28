@@ -10,7 +10,7 @@ export enum SectionsEnum {
 
     // Service
     ARCH = 'ARCH',
-    CreationTool = 'Creation Tool',
+    ARCodeTool = 'Creation Tool',
     MappingTool = 'Mapping Tool',
     Pricing = 'Pricing and Plans',
     SavedCodes = 'Saved Codes',

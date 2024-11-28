@@ -1,10 +1,10 @@
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 
 type FormElement = Pick<HTMLInputElement, 'type' | 'value'> & Partial<Pick<HTMLInputElement, 'checked'>>;
 type SetFunction<T extends object> = (key: keyof T, value?: string) =>
     <E extends FormElement>(event: ChangeEvent<E> | string) => void;
 
-const useForm = <T extends object>(defaultValue: T): [T, SetFunction<T>] => {
+const useForm = <T extends object>(defaultValue: T): [T, SetFunction<T>, Dispatch<SetStateAction<T>>] => {
     const [formValue, setFormValue] = useState<T>(defaultValue);
 
     const setFormValueHelper = (key: keyof T) => {
@@ -14,7 +14,7 @@ const useForm = <T extends object>(defaultValue: T): [T, SetFunction<T>] => {
         }
     }
 
-    return [formValue, setFormValueHelper];
+    return [formValue, setFormValueHelper, setFormValue];
 }
 
 export {useForm}

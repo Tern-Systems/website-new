@@ -13,12 +13,14 @@ import {Button} from "@/app/components/form/Button";
 
 import {Credo} from "@/app/components/views/Credo";
 import {DocumentationView} from "@/app/components/views/Documentation";
-import {CreationToolView} from "@/app/components/views/Services/CreationTool";
+import {ARCodeToolView} from "@/app/components/views/Services/ARCodeTool";
 import {SubscribeView} from "@/app/components/views/Subscribe";
 import {PricingView} from "@/app/components/views/Pricing";
-import {Contact} from "@/app/components/Contact";
+import {Contact} from "@/app/components/views/Contact";
+import {SavedARCodes} from "@/app/components/views/Services/SavedARCodes";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
+import SVG_QR from "@/assets/images/qr.png";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -101,11 +103,11 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
             case 'ARCH':
                 Content = (
                     <>
-                        <div
-                            className={'flex flex-grow my-[1.87rem] max-h-[37.69rem] w-full bg-[url("../assets/images/qr.png")] bg-contain bg-no-repeat bg-center cursor-pointer'}/>
+                        <Image src={SVG_QR} alt={'qr'}
+                               className={'mb-[1.87rem] max-w-[37.69rem] cursor-pointer place-self-center'}/>
                         <Button
                             className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem] w-fit place-self-center'}
-                            onClick={() => navigate(SectionsEnum.CreationTool)}
+                            onClick={() => navigate(SectionsEnum.ARCodeTool)}
                         >
                             Create
                         </Button>
@@ -113,19 +115,19 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 );
                 break;
             case 'Creation Tool':
-                Content = <CreationToolView/>
+                Content = <ARCodeToolView/>
                 break
             case 'Saved Codes':
                 if (!userCtx.userData?.planType)
                     navigate(SectionsEnum.Pricing);
-                Content = <></>; // TODO
+                Content = <SavedARCodes/>;
                 break;
             case 'Pricing and Plans':
                 Content = <PricingView/>
                 break;
             case 'Subscribe':
-                // if (!userCtx.isLoggedIn)
-                //     navigate(SectionsEnum.Home, router);
+                if (!userCtx.isLoggedIn)
+                    navigate(SectionsEnum.Home);
                 setHeadingsHidden(true);
                 Content = <SubscribeView/>
                 break;
@@ -139,11 +141,15 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
 
     return (
         <div
+            id={'content'}
             className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
                         bg-content bg-cover bg-no-repeat text-primary text-center font-neo text-[1rem]
                         ${isHeadingsHidden ? '' : ''}`}
         >
-            <div className={'h-full w-full flex flex-col'}>{Content}</div>
+            <div className={'h-full w-full flex flex-col p-[--py] pb-0'}>
+                {Content}
+                <span className={'pb-[1rem]'}/>
+            </div>
         </div>
     );
 }

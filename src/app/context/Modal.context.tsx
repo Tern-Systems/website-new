@@ -2,19 +2,18 @@
 
 import React, {createContext, FC, PropsWithChildren, ReactElement, useContext, useState} from 'react';
 
-import {BaseModal} from "@/app/components/modals/Base";
-
 
 type ModalConfig = {
     hideContent?: boolean;
     darkenBg?: boolean;
 }
 
+type OpenModal = (Component: ReactElement, config?: ModalConfig) => void;
+
 interface IModalContext {
-    Modal: ReactElement | null;
     hideContent: boolean;
     closeModal: () => void;
-    openModal: (Component: ReactElement, config?: ModalConfig) => void;
+    openModal: OpenModal;
 }
 
 const ModalContext = createContext<IModalContext | null>(null);
@@ -36,15 +35,15 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         handleModalChange(ModalElem, config?.darkenBg === true, config?.hideContent === true);
 
     const ModalElem = Modal ? (
-        <div className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden`}>
+        <div className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden pointer-events-none`}>
             {Modal}
         </div>
     ) : null;
 
     return (
-        <ModalContext.Provider value={{Modal, hideContent, openModal, closeModal}}>
+        <ModalContext.Provider value={{hideContent, openModal, closeModal}}>
             {ModalElem}
-            <div className={Modal && !darkenBg ? 'brightness-[60%]' : 'brightness-100'}>
+            <div className={Modal && darkenBg ? 'brightness-[60%]' : 'brightness-100'}>
                 {props.children}
             </div>
         </ModalContext.Provider>
@@ -59,4 +58,4 @@ const useModal = (): IModalContext => {
 };
 
 export {ModalProvider, useModal}
-export type {IModalContext}
+export type {IModalContext, OpenModal}

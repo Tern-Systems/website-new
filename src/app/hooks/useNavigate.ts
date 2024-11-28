@@ -19,3 +19,4 @@ const useNavigate = (): [Navigate, AppRouterInstance] => {
 }
 
 export {useNavigate}
+export type {Navigate}

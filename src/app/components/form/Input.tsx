@@ -9,12 +9,13 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement>, PropsWithChi
     classNameWrapper?: string;
     classNameLabel?: string;
     icons?: string[];
+    toggleVisibility?: boolean;
 }
 
 const Input: FC<InputProps> = (props: InputProps) => {
     const {
         children, classNameWrapper, classNameLabel, className,
-        icons, ...inputProps
+        icons, toggleVisibility, ...inputProps
     } = props;
 
     const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -31,7 +32,7 @@ const Input: FC<InputProps> = (props: InputProps) => {
                     {LabelFile}
                     <input
                         {...inputProps}
-                        className={`absolute w-0 ${className}`}
+                        className={`absolute bottom-0 -z-10 h-1 w-1 ${className}`}
                     />
                 </label>
             );
@@ -50,12 +51,12 @@ const Input: FC<InputProps> = (props: InputProps) => {
                                 style={props.style}
                                 className={'absolute inline-block size-[70%] rounded-full'}
                             />
-                                <Image src={SVG_COLOR_PICKER_BORDER} alt={'color picker border'}/>
-                            </span>
-                    <input
-                        {...inputProps}
-                        className={`absolute w-0 ${className}`}
-                    />
+                            <Image src={SVG_COLOR_PICKER_BORDER} alt={'color picker border'}/>
+                            <input
+                                {...inputProps}
+                                className={`absolute bottom-0 -z-10 h-1 w-1 ${className}`}
+                            />
+                    </span>
                 </label>
             );
         default:
@@ -80,7 +81,7 @@ const Input: FC<InputProps> = (props: InputProps) => {
                         className={'absolute flex gap-[0.13rem] right-[0.81rem]'}
                         onClick={() => {
                             if (inputRef.current)
-                                inputRef.current.type = ['password', 'text'][+(inputRef.current?.type === 'password')];
+                                inputRef.current.type = ['password', 'text'][+(!toggleVisibility || inputRef.current?.type === 'password')];
                         }}
                     >
                         {IconsSVGs}

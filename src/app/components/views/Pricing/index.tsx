@@ -54,16 +54,16 @@ const PricingView: FC = () => {
     const modalCtx = useModal();
     const userCtx = useUser();
 
-    const [selectedPlanTime, setSelectedPlanTime] = useState<PlanRecurrency>('monthly');
+    const [selectedReccurency, setSelectedReccurency] = useState<PlanRecurrency>('monthly');
 
-    const handleSubscribeClick = (planType: PlanType | undefined, reccurency: PlanRecurrency | undefined) => {
+    const handleSubscribeClick = (planType: NonNullable<PlanType>, reccurency: PlanRecurrency) => {
         if (!userCtx.isLoggedIn) {
-            const info = 'You must have a TernKey account to manage saved codes. Please create an account below.';
+            const info = 'You must have a TernKey account to subscribe. Please create or log in to your account below.';
             return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>);
         }
 
         navigate<SectionsEnum, NonNullable<PlanType> & PlanRecurrency>(
-            SectionsEnum.Subscribe, {planType, reccurency}
+            SectionsEnum.Subscribe, {['plan-type']: planType, reccurency}
         );
     }
 
@@ -123,10 +123,10 @@ const PricingView: FC = () => {
             Benefits.unshift(Additional);
         }
 
-        const isAnnualOption = selectedPlanTime === 'annual';
+        const isAnnualOption = selectedReccurency === 'annual';
         const isMonthlyPlan = userData?.planRecurrency === 'monthly';
         const isCurrentPlan = userData?.planType === key;
-        const isCurrentReccurency = userData?.planRecurrency === selectedPlanTime;
+        const isCurrentReccurency = userData?.planRecurrency === selectedReccurency;
         const isBtnDisabled = isCurrentPlan && isCurrentReccurency;
 
         let subscribeBtnText: string;
@@ -183,12 +183,12 @@ const PricingView: FC = () => {
                 </h2>
                 <div className={'text-secondary mb-[2.2rem] text-[1.25rem]'}>
                     <span>
-                        ${value.priceUSD[selectedPlanTime]}/month{isAnnualOption ? '*' : null}
+                        ${value.priceUSD[selectedReccurency]}/month{isAnnualOption ? '*' : null}
                     </span>
                 </div>
                 <Button
-                    onClick={() => handleSubscribeClick(userData?.planType, userData?.planRecurrency)}
-                    className={`bg-control3 font-bold disabled:bg-inherit disabled:border-small disabled:border-control
+                    onClick={() => handleSubscribeClick(key as NonNullable<PlanType>, selectedReccurency)}
+                    className={`bg-control3 font-bold text-[1.125rem] disabled:bg-inherit disabled:border-small disabled:border-control
                                 disabled:text-secondary rounded-full py-[1.13rem]`}
                     disabled={isBtnDisabled}
                 >
@@ -206,8 +206,8 @@ const PricingView: FC = () => {
     const Switch: ReactElement[] = PLAN_TIME_RANGE.map((entry) => (
             <div
                 key={entry}
-                className={`px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold ${selectedPlanTime === entry ? 'bg-control2' : 'text-secondary'}`}
-                onClick={() => setSelectedPlanTime(entry)}
+                className={`px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold ${selectedReccurency === entry ? 'bg-control2' : 'text-secondary'}`}
+                onClick={() => setSelectedReccurency(entry)}
             >
                 {entry}
             </div>

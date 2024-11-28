@@ -14,7 +14,7 @@ const DeclinedModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal
             title={'Payment Declined'}
-            isSmall={false}
+            isSimple={false}
             className={`[&]:bg-control4 max-w-[30.125rem] border-control5 [&_hr]:border-control5
                     [&_h2]:text-form [&_button]:brightness-50`}
             classNameContent={'flex flex-col items-center text-center px-[1rem]'}

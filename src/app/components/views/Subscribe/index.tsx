@@ -5,6 +5,7 @@ import {useSearchParams} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
+import {useFlow} from "@/app/context/Flow.context";
 import {useModal} from "@/app/context/Modal.context";
 import {useNavigate} from "@/app/hooks/useNavigate";
 
@@ -17,6 +18,7 @@ import {DeclinedModal} from "./DeclinedModal";
 import {Button} from "@/app/components/form/Button";
 
 const SubscribeView: FC = () => {
+    const flowCtx = useFlow();
     const [navigate] = useNavigate();
     const params = useSearchParams();
     const modalCtx = useModal();
@@ -27,11 +29,15 @@ const SubscribeView: FC = () => {
     const [paymentStatus, setPaymentStatus] = useState<boolean | null>(null);
 
     useEffect(() => {
-        if (paymentStatus)
+        if (paymentStatus === false)
             modalCtx.openModal(<DeclinedModal onClose={() => setPaymentStatus(null)}/>);
-        else
-            navigate(SectionsEnum.SavedCodes, navigate);
-    }, [paymentStatus]);
+        else if (paymentStatus) {
+            const next = flowCtx.next();
+            if (next)
+                return next();
+            navigate(SectionsEnum.Home);
+        }
+    }, [paymentStatus, modalCtx, flowCtx, setPaymentStatus, navigate]);
 
     return (
         <div className={'flex font-oxygen text-form h-full'}>

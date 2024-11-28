@@ -21,7 +21,7 @@ const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
     Profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
     Service: [
         SectionsEnum.ARCH,
-        SectionsEnum.CreationTool,
+        SectionsEnum.ARCodeTool,
         SectionsEnum.MappingTool,
         SectionsEnum.Pricing,
         SectionsEnum.SavedCodes,

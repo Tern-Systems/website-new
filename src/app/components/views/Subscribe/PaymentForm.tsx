@@ -41,13 +41,13 @@ const FORM_DEFAULT: FormData = {
     expirationDate: '',
     cvc: '',
     cardholderName: '',
-    billingCountry: 'Country / Region',
+    billingCountry: '',
     billingAddress: '',
     addressLine1: '',
     addressLine2: '',
     city: '',
     postalCode: '',
-    state: 'State / Province',
+    state: '',
     acceptTerms: false,
 }
 
@@ -142,7 +142,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
 
     const toggleBillingDetails = () => setBillingExpandedState((prev) => !prev);
 
-    const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         console.log(Array.from(new FormData(event.currentTarget))); // TODO
@@ -225,6 +225,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                         name={'billing-country'}
                         options={COUNTRIES}
                         value={formData.billingCountry}
+                        placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-b-none border-small
                                         rounded-[0.375rem] border-control3 `}
@@ -254,14 +255,13 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                                 onChange={setFormData('addressLine2')}
                                 placeholder={'Address Line #2'}
                                 className={'[&&]:border-b-0 [&&]:rounded-none'}
-                                required={isBillingExpanded}
                             />
                             <div className={'flex'}>
                                 <Input
                                     name={'billing-city'}
                                     value={formData.city}
                                     onChange={setFormData('city')}
-                                    placeholder={'City'}
+                                    placeholder={'City / Locality'}
                                     className={`[&&]:border-r-0 [&&]:rounded-r-none ${formData.billingCountry === 'US'
                                         ? '[&&]:rounded-none'
                                         : '[&&]:rounded-tl-none'}`}
@@ -281,6 +281,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                                 name={'state'}
                                 options={STATES}
                                 value={formData.state}
+                                placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
                                 className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-t-none [&&]:border-t-0
                                             ${formData.billingCountry === 'US' ? '' : 'hidden'}`}
@@ -336,7 +337,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                     <Button
                         type={'submit'}
                         className={`mt-[1.87rem] p-[1.12rem] bg-control text-primary font-sans text-[1.125rem] font-bold
-                                    w-full rounded-full `}
+                                    w-full rounded-full`}
                     >
                         Subscibe
                     </Button>

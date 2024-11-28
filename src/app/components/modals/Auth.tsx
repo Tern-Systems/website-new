@@ -1,19 +1,22 @@
 import {FC, FormEvent, ReactElement, useState} from "react";
 import axios from "axios";
+import Image from "next/image";
 
 import {AuthService, SignUpData} from "@/app/services/auth.service";
 import {UserService} from "@/app/services/user.service";
 
 import {useForm} from "@/app/hooks/useForm";
-
 import {useModal} from "@/app/context/Modal.context";
 import {useUser} from "@/app/context/User.context";
+import {useFlow} from "@/app/context/Flow.context";
+
+import {BaseModal} from "@/app/components/modals/Base";
 
 import {Input} from "@/app/components/form/Input";
 import {Button} from "@/app/components/form/Button";
 
+import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
 import SVG_EYE from '@/assets/images/icons/eye.svg'
-import {BaseModal} from "@/app/components/modals/Base";
 
 
 type FormData = SignUpData;
@@ -28,6 +31,7 @@ interface AuthModalProps {
 const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
     const {isLoginAction, info} = props;
 
+    const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
 
@@ -52,13 +56,14 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                 await AuthService.postSignUp(formValue);
 
             modalCtx.closeModal();
+            flowCtx.next();
         } catch (error: unknown) {
             let message: string = 'Unknown error';
             if (axios.isAxiosError(error))
                 message = error.cause?.message ?? message;
             else if (typeof error === 'string')
                 message = error;
-            modalCtx.openModal(<BaseModal><span>{message}</span></BaseModal>);
+            modalCtx.openModal(<BaseModal isSimple className={'place-self-center mx-auto'}>{message}</BaseModal>);
         }
     }
 
@@ -89,8 +94,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
         <>
             <div className={'flex flex-col items-center w-[26.18rem]'}>
                 <span>{info}</span>
-                <span
-                    className={'inline-block my-[1.25rem] w-[10.42rem] h-[9rem] bg-[url("../assets/images/insignia-logo.png")] bg-contain bg-no-repeat'}/>
+                <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10.42rem] h-[9rem]'}/>
                 {isLoginForm ? <span className={'mb-[1.88rem] font-oxygen text-[1.6875rem]'}>Tern</span> : null}
             </div>
             <form

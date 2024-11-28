@@ -7,7 +7,7 @@
 }
 
 .form input,
-.form select + label {
+.form input + label {
   background: white;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;

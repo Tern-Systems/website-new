@@ -1,0 +1,187 @@
+import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
+import Image from "next/image";
+
+import {SectionsEnum} from "@/app/utils/sections";
+import {ARCode} from "@/app/components/views/Services/SavedARCodes/CodeMenu";
+
+import {FlowQueue, useFlow} from "@/app/context/Flow.context";
+import {useModal} from "@/app/context/Modal.context";
+import {useUser} from "@/app/context/User.context";
+
+import {useNavigate} from "@/app/hooks/useNavigate";
+import {useForm} from "@/app/hooks/useForm";
+import {useSearchParams} from "next/navigation";
+
+import {BaseModal} from "@/app/components/modals/Base";
+import {AuthModal} from "@/app/components/modals/Auth";
+
+import {Input} from "@/app/components/form/Input";
+import {Button} from "@/app/components/form/Button";
+
+import SVG_QR from "@/assets/images/qr.png";
+
+type ARCodeToolForm = Omit<ARCode, 'file'> & Partial<Pick<ARCode, 'file'>>;
+
+const FORM_DEFAULT: ARCodeToolForm = {backgroundColor: '#ffffff', moduleColor: '#ffffff', name: ''}
+const FORM_COLOR_PICKERS = ['module', 'background'];
+
+const ARCodeToolView: FC = () => {
+    const flowCtx = useFlow();
+    const modalCtx = useModal();
+    const [navigate] = useNavigate();
+    const params = useSearchParams();
+    const {isLoggedIn, userData} = useUser();
+    const {isPurchased} = userData || {};
+
+    const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>(FORM_DEFAULT);
+    const [isEditMode, setEditState] = useState(false);
+
+    const processCode = useCallback(async () => {
+        const result = null; // TODO
+
+        const SuccessModal = () => {
+            return (
+                <BaseModal isSimple
+                           className={'w-[18rem] h-[3.58rem] bottom-[7.19rem] right-[--py] border-control4 border-small'}>
+                    Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully saved
+                </BaseModal>
+            );
+        }
+
+        modalCtx.openModal(<SuccessModal/>);
+    }, [modalCtx, formValue.name])
+
+    useEffect(() => {
+        const arCode = JSON.parse(params.get('ar-code') ?? '{}') as ARCode;
+        setFormValueState(arCode);
+        setEditState(true);
+    }, [params, setFormValueState])
+
+    useEffect(() => {
+        const handlePageLeave = () => {
+            if (isEditMode)
+                return;
+
+            const LeavingConfirmModal = () => (
+                <BaseModal
+                    title={'Save Changes?'}
+                    className={'w-[30.72rem] bottom-[7.19rem] right-[--py] border-control4 border-small text-center'}
+                >
+                    <span>Do you want to save your changes before returning to the previous page?</span>
+                    <span className={'flex mt-[1.25rem] gap-[0.62rem] text-[0.875rem] font-bold justify-center'}>
+                            <Button
+                                className={'px-[1rem] bg-white text-form rounded-full h-[1.44rem]'}
+                                onClick={() => {
+                                    processCode();
+                                    // TODO continue page leave
+                                }}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                className={'px-[1rem] border-small border-control rounded-full h-[1.44rem] text-white'}
+                                onClick={() => {
+                                    // TODO continue page leave
+                                    modalCtx.closeModal();
+                                }}
+                            >
+                                Don&apos;t Save
+                            </Button>
+                            <Button
+                                className={'px-[1rem] text-primary rounded-full h-[1.44rem] bg-control2'}
+                                onClick={() => modalCtx.closeModal()}>
+                                Cancel
+                            </Button>
+                </span>
+                </BaseModal>
+            );
+            modalCtx.openModal(<LeavingConfirmModal/>);
+        }
+        // TODO prevent leaving
+    }, [])
+
+
+    const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const flow: FlowQueue = [];
+        if (!isLoggedIn) {
+            flow.push(() => {
+                const info = 'You must have an ARCH subscription to save an AR code. Please create an account below to purchase a Plan.';
+                return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>, {hideContent: true});
+            });
+        }
+        if (!isPurchased)
+            flow.push(() => navigate(SectionsEnum.Pricing))
+
+        if (!flow.length)
+            return processCode();
+
+        flow.push(async () => {
+            navigate(SectionsEnum.SavedCodes);
+            await processCode()
+        });
+        flowCtx.run(flow);
+    }
+
+    //Elements
+    const ColorPickers = FORM_COLOR_PICKERS.map((type, index) => {
+        const key = `${type}Color` as keyof Pick<ARCodeToolForm, 'moduleColor' | 'backgroundColor'>;
+        return (
+            <Input
+                key={type + index}
+                type={'color'}
+                value={formValue[key]}
+                style={{backgroundColor: formValue[key]}}
+                classNameLabel={'text-[1.875rem]'}
+                onChange={setFormValue(key)}
+                required
+            >
+                {type} Color
+            </Input>
+        )
+    });
+
+    return (
+        <div
+            className={'flex place-self-center my-auto p-[4.06rem] w-[69.65rem] bg-section border-small border-control2 rounded-small'}>
+            <div className={'p-[0.91rem] mr-[7.7rem] size-[32.375rem] bg-section2 cursor-pointer'}>
+                <Image src={SVG_QR} alt={'qr'} className={'h-full'}/>
+            </div>
+            <form
+                className={'flex flex-col justify-between w-[21rem]'}
+                onSubmit={(event) => handleFormSubmit(event)}
+            >
+                <div>
+                    <span className={'text-primary text-[3.75rem] font-oxygen font-bold'}>ARCH</span>
+                </div>
+                <Input
+                    type={"text"}
+                    name={'qr-name'}
+                    placeholder={'Name'}
+                    value={formValue.name}
+                    onChange={setFormValue('name')}
+                    className={`px-[0.68rem] h-[2.3125rem] w-full text-[1.6875rem] placeholder:text-primary bg-control2
+                                border-small border-control4 rounded-[0.375rem]`}
+                    required
+                />
+                <Input
+                    type={"file"}
+                    name={'qr-file'}
+                    classNameWrapper={'h-[3.125rem] font-bold text-[1.3125rem] text-black bg-white rounded-full'}
+                    required
+                >
+                    {isEditMode ? formValue.file : 'Upload Media'}
+                </Input>
+                {ColorPickers}
+                <Button
+                    className={'px-[4.34rem] h-[3.125rem] text-[1.3125rem] font-bold border-small border-control5 rounded-full'}>
+                    Save AR Code
+                </Button>
+            </form>
+        </div>
+    );
+}
+
+export {ARCodeToolView};
+export type {ARCodeToolForm}
