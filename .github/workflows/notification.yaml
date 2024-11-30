@@ -55,7 +55,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.PAT }}
-          event-type: deploy-g
+          event-type: deploy
           client-payload: >
             {
               "creator": "${{ env.creator }}",
