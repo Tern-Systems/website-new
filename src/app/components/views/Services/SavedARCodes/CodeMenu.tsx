@@ -4,11 +4,11 @@ import {SectionsEnum} from "@/app/utils/sections";
 
 import {Navigate, useNavigate} from "@/app/hooks/useNavigate";
 
-import {OpenModal, useModal} from "@/app/context/Modal.context";
+import {OpenModal, useModal} from "@/app/context";
 
 import {ShareModal} from "./ShareModal";
 
-import {Button, ButtonIcon} from "@/app/components/form/Button";
+import {Button, ButtonIcon} from "@/app/components/form";
 import {DeleteModal} from "@/app/components/views/Services/SavedARCodes/DeleteModal";
 
 type ARCode = {

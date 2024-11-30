@@ -2,7 +2,7 @@ import {AnchorHTMLAttributes, FC, PropsWithChildren, ReactElement} from "react";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import {useNavigate} from "@/app/hooks/useNavigate";
-import {useFlow} from "@/app/context/Flow.context";
+import {useFlow} from "@/app/context";
 
 interface SectionLinkProps<T extends string> extends AnchorHTMLAttributes<HTMLAnchorElement>, PropsWithChildren {
     section: T;

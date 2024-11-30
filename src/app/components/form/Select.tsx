@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes, ReactElement, SelectHTMLAttributes, useState} from 'react';
+import React, {InputHTMLAttributes, ReactElement, useState} from 'react';
 import Image from "next/image";
 
 import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";

@@ -4,19 +4,15 @@ import Image from "next/image";
 import {SectionsEnum} from "@/app/utils/sections";
 import {ARCode} from "@/app/components/views/Services/SavedARCodes/CodeMenu";
 
-import {FlowQueue, useFlow} from "@/app/context/Flow.context";
-import {useModal} from "@/app/context/Modal.context";
-import {useUser} from "@/app/context/User.context";
+import {FlowQueue, useFlow, useModal, useUser} from "@/app/context";
 
 import {useNavigate} from "@/app/hooks/useNavigate";
 import {useForm} from "@/app/hooks/useForm";
 import {useSearchParams} from "next/navigation";
 
-import {BaseModal} from "@/app/components/modals/Base";
-import {AuthModal} from "@/app/components/modals/Auth";
+import {AuthModal, BaseModal} from "@/app/components/modals";
 
-import {Input} from "@/app/components/form/Input";
-import {Button} from "@/app/components/form/Button";
+import {Button, Input} from "@/app/components/form";
 
 import SVG_QR from "@/assets/images/qr.png";
 

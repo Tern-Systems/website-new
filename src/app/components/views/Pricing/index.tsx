@@ -2,16 +2,14 @@ import {FC, ReactElement, useState} from "react";
 import Image from "next/image";
 
 import {SectionsEnum} from "@/app/utils/sections";
-import {PlanRecurrency, PlanType, useUser} from "@/app/context/User.context";
+import {PlanRecurrency, PlanType, useModal, useUser} from "@/app/context";
 
 import {useNavigate} from "@/app/hooks/useNavigate";
-import {useModal} from "@/app/context/Modal.context";
 
-import {BaseModal} from "@/app/components/modals/Base";
-import {AuthModal} from "@/app/components/modals/Auth";
+import {AuthModal, BaseModal} from "@/app/components/modals";
 import {LimitsModal} from "./LimitsModal";
 
-import {Button} from "@/app/components/form/Button";
+import {Button} from "@/app/components/form";
 
 import SVG_DIAMOND from '@/assets/images/icons/diamond.svg'
 import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg'

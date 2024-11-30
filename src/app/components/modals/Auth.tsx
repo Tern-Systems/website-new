@@ -6,18 +6,14 @@ import {AuthService, SignUpData} from "@/app/services/auth.service";
 import {UserService} from "@/app/services/user.service";
 
 import {useForm} from "@/app/hooks/useForm";
-import {useModal} from "@/app/context/Modal.context";
-import {useUser} from "@/app/context/User.context";
-import {useFlow} from "@/app/context/Flow.context";
+import {useFlow, useModal, useUser} from "@/app/context";
 
-import {BaseModal} from "@/app/components/modals/Base";
+import {BaseModal, ResetPasswordModal} from "@/app/components/modals";
 
-import {Input} from "@/app/components/form/Input";
-import {Button} from "@/app/components/form/Button";
+import {Button, Input} from "@/app/components/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
 import SVG_EYE from '@/assets/images/icons/eye.svg'
-import {ResetPasswordModal} from "@/app/components/modals/ResetPassword";
 
 
 type FormData = SignUpData;

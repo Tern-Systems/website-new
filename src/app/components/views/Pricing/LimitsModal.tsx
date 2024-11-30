@@ -1,4 +1,4 @@
-import {BaseModal} from "@/app/components/modals/Base";
+import {BaseModal} from "@/app/components/modals";
 
 const LimitsModal = () => (
     <BaseModal title={'Limits Apply'}>

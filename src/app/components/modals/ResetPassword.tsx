@@ -4,13 +4,12 @@ import Image from "next/image";
 
 import {SignUpData} from "@/app/services/auth.service";
 
-import {useModal} from "@/app/context/Modal.context";
+import {useModal} from "@/app/context";
 import {useForm} from "@/app/hooks/useForm";
 
-import {BaseModal} from "@/app/components/modals/Base";
+import {BaseModal} from "@/app/components/modals";
 
-import {Input} from "@/app/components/form/Input";
-import {Button} from "@/app/components/form/Button";
+import {Button, Input} from "@/app/components/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
 import SVG_EYE from '@/assets/images/icons/eye.svg'

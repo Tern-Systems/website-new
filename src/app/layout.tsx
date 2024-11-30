@@ -1,25 +1,23 @@
 import {ReactNode, Suspense} from "react";
 
-import {DeferredCallProvider} from "@/app/context/Flow.context";
-import {UserProvider} from "@/app/context/User.context";
-import {ModalProvider} from "@/app/context/Modal.context";
+import {FlowProvider, ModalProvider, UserProvider} from "@/app/context";
 
 import "./globals.css";
 
 export default function RootLayout({children}: Readonly<{ children: ReactNode }>) {
     return (
         <html lang="en">
-        <body>
-            <DeferredCallProvider>
+            <body>
+                <FlowProvider>
                 <UserProvider>
-                    <ModalProvider>
-                        <Suspense>
-                            {children}
-                        </Suspense>
-                    </ModalProvider>
+                <ModalProvider>
+                    <Suspense>
+                        {children}
+                    </Suspense>
+                </ModalProvider>
                 </UserProvider>
-            </DeferredCallProvider>
-        </body>
+                </FlowProvider>
+            </body>
         </html>
     );
 }

@@ -2,9 +2,9 @@ import {FC} from "react";
 
 import {PLAN} from "@/app/components/views/Pricing";
 
-import {PlanRecurrency, PlanType} from "@/app/context/User.context";
+import {PlanRecurrency, PlanType} from "@/app/context";
 
-import {Button} from "@/app/components/form/Button";
+import {Button} from "@/app/components/form";
 
 interface PaymentInfoProps {
     planType: NonNullable<PlanType>;

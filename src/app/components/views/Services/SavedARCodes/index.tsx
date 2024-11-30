@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import {ARCode, CodeMenu, MenuData} from "./CodeMenu";
 
-import {Button} from "@/app/components/form/Button";
+import {Button} from "@/app/components/form";
 
 
 const SAVED_CODES: ARCode[] = [

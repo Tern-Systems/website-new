@@ -3,21 +3,23 @@ import Image from "next/image";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {useModal} from "@/app/context/Modal.context";
-import {useUser} from "@/app/context/User.context";
+import {useModal, useUser} from "@/app/context";
 import {useNavigate} from "@/app/hooks/useNavigate";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
-import {Button} from "@/app/components/form/Button";
+import {Button} from "@/app/components/form";
 
-import {Credo} from "@/app/components/views/Credo";
-import {DocumentationView} from "@/app/components/views/Documentation";
-import {ARCodeToolView} from "@/app/components/views/Services/ARCodeTool";
-import {SubscribeView} from "@/app/components/views/Subscribe";
-import {PricingView} from "@/app/components/views/Pricing";
-import {Contact} from "@/app/components/views/Contact";
-import {SavedARCodes} from "@/app/components/views/Services/SavedARCodes";
+import {
+    ARCodeToolView,
+    ContactView,
+    CredoView,
+    DocumentationView,
+    ManageSubscriptions,
+    PricingView,
+    SavedARCodes,
+    SubscribeView,
+} from "@/app/components/views";
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import SVG_QR from "@/assets/images/qr.png";
@@ -75,7 +77,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 )
                 break;
             case 'Our Credo':
-                Content = <Credo/>;
+                Content = <CredoView/>;
                 break;
             case 'Documentation':
                 Content = (
@@ -91,7 +93,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 Content = <DocumentationView view={activeSection}/>;
                 break;
             case 'Contact':
-                Content = <Contact/>;
+                Content = <ContactView/>;
                 break;
             case 'TernKey':
                 Content = (

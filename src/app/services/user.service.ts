@@ -3,7 +3,7 @@ import axios, {AxiosRequestConfig} from "axios";
 import {BaseService} from "@/app/services/base.service";
 import {Res} from "@/app/utils/service";
 
-import {UserData} from "@/app/context/User.context";
+import {UserData} from "@/app/context";
 
 type UserBaseData = Pick<UserData, 'email' | 'isEmailVerified' | 'isPurchased'>
 

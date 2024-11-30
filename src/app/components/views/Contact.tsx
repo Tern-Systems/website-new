@@ -19,7 +19,7 @@ const LINKS: { svg: string, href: string }[] = [ // TODO
     {svg: SVG_FACEBOOK, href: 'https://www.facebook.com/ternsystemsinc'},
 ]
 
-const Contact: FC = () => {
+const ContactView: FC = () => {
     const Links = LINKS.map((link) => (
         <a key={link.href} href={link.href} target={'_blank'} className={'size-[2rem]'}>
             <Image src={link.svg} alt={link.href}/>
@@ -37,4 +37,4 @@ const Contact: FC = () => {
     )
 }
 
-export {Contact}
+export {ContactView}

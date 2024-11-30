@@ -15,7 +15,7 @@ const PARAGRAPHS: string[] = [
     "This ideology serves as our organization’s moral compass. We aim to pursue these values and purpose everlastingly.",
 ]
 
-const Credo = () => {
+const CredoView = () => {
     const Paragraphs = PARAGRAPHS.map((p, index) => <p key={p.slice(5) + index} className={'mb-[2.3rem]'}>{p}</p>)
     return (
         <div className='text-left text-[1.6875rem] mt-[5.87rem] ml-[5.94rem] font-bold w-[65.125rem]'>
@@ -25,4 +25,4 @@ const Credo = () => {
     );
 };
 
-export {Credo};
+export {CredoView};

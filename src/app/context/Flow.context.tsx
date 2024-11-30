@@ -14,7 +14,7 @@ interface IFlowContext {
 
 const FlowContext = createContext<IFlowContext | null>(null);
 
-const DeferredCallProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
+const FlowProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         const [flowQueue, setFlowQueue] = useState<FlowQueue>([]);
 
         const get = (queue: FlowQueue): FlowItem | undefined => {
@@ -52,5 +52,5 @@ const useFlow = (): IFlowContext => {
     return context;
 };
 
-export {DeferredCallProvider, useFlow}
+export {FlowProvider, useFlow}
 export type {FlowQueue}

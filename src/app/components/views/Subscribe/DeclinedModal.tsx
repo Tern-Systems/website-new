@@ -1,6 +1,7 @@
 import {FC} from "react";
-import {BaseModal} from "@/app/components/modals/Base";
 import Image from "next/image";
+
+import {BaseModal} from "@/app/components/modals";
 
 import SVG_DECLINED from '@/assets/images/declined.svg';
 

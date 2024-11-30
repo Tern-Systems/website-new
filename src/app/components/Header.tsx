@@ -4,13 +4,13 @@ import {useRouter} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {useModal} from "@/app/context/Modal.context";
-import {useUser} from "@/app/context/User.context";
+import {useModal, useUser} from "@/app/context";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
 
+import {AuthModal} from "@/app/components/modals";
+
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
-import {AuthModal} from "@/app/components/modals/Auth";
 
 
 type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service;

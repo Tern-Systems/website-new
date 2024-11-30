@@ -54,4 +54,4 @@ const useUser = (): IUserContext => {
 };
 
 export {UserProvider, useUser}
-export type {IUserContext, UserData, PlanType, PlanRecurrency}
+export type {UserData, PlanType, PlanRecurrency}

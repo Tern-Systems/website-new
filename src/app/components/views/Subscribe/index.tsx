@@ -5,17 +5,14 @@ import {useSearchParams} from "next/navigation";
 
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {useFlow} from "@/app/context/Flow.context";
-import {useModal} from "@/app/context/Modal.context";
+import {PlanRecurrency, PlanType, useFlow, useModal} from "@/app/context";
 import {useNavigate} from "@/app/hooks/useNavigate";
-
-import {PlanRecurrency, PlanType} from "@/app/context/User.context";
 
 import {PaymentInfo} from "./PaymentInfo";
 import {PaymentForm} from "./PaymentForm";
 import {DeclinedModal} from "./DeclinedModal";
 
-import {Button} from "@/app/components/form/Button";
+import {Button} from "@/app/components/form";
 
 const SubscribeView: FC = () => {
     const flowCtx = useFlow();

@@ -1,6 +1,6 @@
 import {FC, PropsWithChildren} from "react";
-import {Button} from "@/app/components/form/Button";
-import {useModal} from "@/app/context/Modal.context";
+import {Button} from "@/app/components/form";
+import {useModal} from "@/app/context";
 
 interface ModalConfig extends PropsWithChildren {
     isSimple?: boolean;

@@ -2,9 +2,9 @@ import {Dispatch, FC, FormEvent, ReactElement, SetStateAction, useState} from 'r
 
 import {useForm} from "@/app/hooks/useForm";
 
-import {Input} from '@/app/components/form/Input';
-import {Button} from "@/app/components/form/Button";
-import {Select} from "@/app/components/form/Select";
+import {Input} from '@/app/components/form';
+import {Button} from "@/app/components/form";
+import {Select} from "@/app/components/form";
 
 import SVG_VISA from '@/assets/images/icons/card-visa.svg';
 import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';

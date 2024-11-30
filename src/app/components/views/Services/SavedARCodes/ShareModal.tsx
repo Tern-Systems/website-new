@@ -1,7 +1,7 @@
 import {FC, useState} from "react";
 import Image from "next/image";
 
-import {BaseModal} from "@/app/components/modals/Base";
+import {BaseModal} from "@/app/components/modals";
 
 import SVG_FIGURE_FALLBACK from '@/assets/images/figure.svg';
 import SVG_CHEVRON from '@/assets/images/icons/select-chewron.svg';

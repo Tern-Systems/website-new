@@ -7,7 +7,7 @@ import Spline from '@splinetool/react-spline';
 import {SectionsEnum} from "@/app/utils/sections";
 
 import {withSectionLink} from "@/app/hocs/withSectionLink";
-import {useModal} from "@/app/context/Modal.context";
+import {useModal} from "@/app/context";
 
 import Header from "@/app/components/Header";
 import Content from "@/app/components/Content";

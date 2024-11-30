@@ -2,9 +2,9 @@ import {FC} from "react";
 
 import {ARCode} from "@/app/components/views/Services/SavedARCodes/CodeMenu";
 
-import {BaseModal} from "@/app/components/modals/Base";
-import {Button} from "@/app/components/form/Button";
-import {useModal} from "@/app/context/Modal.context";
+import {BaseModal} from "@/app/components/modals";
+import {Button} from "@/app/components/form";
+import {useModal} from "@/app/context";
 
 interface Props {
     adCode: ARCode;
