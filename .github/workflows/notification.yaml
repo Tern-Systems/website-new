@@ -1,0 +1,64 @@
+name: Fetch PR Data on Push to Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  fetch-pr-details:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get PR Details
+        id: pr-details
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        run: |
+          echo "Fetching details for the latest PR merged into the main branch"
+
+          # Fetch the latest merged PR
+          PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&base=main")
+
+          PR_NUMBER=$(echo "$PR_INFO" | jq -r '[.[] | select(.merged_at != null)][0].number')
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No recently merged PR found."
+            exit 1
+          fi
+
+          # Fetch PR details
+          PR_DETAILS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
+
+          # Extract creator, approver, and merger
+          CREATOR=$(echo "$PR_DETAILS" | jq -r '.user.login')
+          REVIEWS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews")
+          APPROVER=$(echo "$REVIEWS" | jq -r '[.[] | select(.state == "APPROVED")][0].user.login')
+          MERGER=$(echo "$PR_DETAILS" | jq -r '.merged_by.login')
+
+          # Log extracted data
+          echo "PR Creator: $CREATOR"
+          echo "Approver: ${APPROVER:-None}"
+          echo "Merger: ${MERGER:-None}"
+
+          # Set outputs
+          echo "creator=$CREATOR" >> $GITHUB_ENV
+          echo "approver=${APPROVER:-None}" >> $GITHUB_ENV
+          echo "merger=${MERGER:-None}" >> $GITHUB_ENV
+
+      - name: Trigger Deployment
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PAT }}
+          event-type: deploy-g
+          client-payload: >
+            {
+              "creator": "${{ env.creator }}",
+              "approver": "${{ env.approver }}",
+              "merger": "${{ env.merger }}"
+            }
