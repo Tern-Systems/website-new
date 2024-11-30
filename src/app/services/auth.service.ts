@@ -25,9 +25,6 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     }
 
     async postSignUp(data: SignUpData): Promise<Res> {
-        if (data.password !== data.passwordConfirm)
-            throw "Passwords don't match";
-
         const salt = await genSalt(10);
         const config: AxiosRequestConfig = {
             method: 'POST',

@@ -17,6 +17,7 @@ import {Button} from "@/app/components/form/Button";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
 import SVG_EYE from '@/assets/images/icons/eye.svg'
+import {ResetPasswordModal} from "@/app/components/modals/ResetPassword";
 
 
 type FormData = SignUpData;
@@ -36,6 +37,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
     const userCtx = useUser();
 
     const [isLoginForm, setLoginFormState] = useState(isLoginAction);
+    const [warningMsg, setWarningMsg] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -52,11 +54,13 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
 
                 // TODO userCtx.save
                 console.log(userBaseData)
-            } else
+            } else if (formValue.password !== formValue.passwordConfirm)
+                setWarningMsg("Passwords don't match");
+            else {
                 await AuthService.postSignUp(formValue);
-
-            modalCtx.closeModal();
-            flowCtx.next();
+                modalCtx.closeModal();
+                flowCtx.next();
+            }
         } catch (error: unknown) {
             let message: string = 'Unknown error';
             if (axios.isAxiosError(error))
@@ -86,7 +90,13 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
         ? null
         : (
             <span className={'mt-[0.62rem]'}>
-                Forgot your password? <span className={'text-[#21A1D3] cursor-pointer'}>Reset</span>
+                Forgot your password?&nbsp;
+                <span
+                    className={'text-[#21A1D3] cursor-pointer'}
+                    onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
+                >
+                    Reset
+                </span>
             </span>
         );
 
@@ -99,7 +109,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
             </div>
             <form
                 className={'flex flex-col'}
-                onSubmit={(event) => handleFormSubmit(event)}
+                onSubmit={handleFormSubmit}
             >
                 <fieldset className={'flex flex-col gap-[0.94rem]'}>
                     <Input
@@ -125,6 +135,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                     {PasswordConfirm}
                 </fieldset>
                 {PasswordReset}
+                {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
                 <Button className={`py-[0.92rem] mt-[1.56rem] text-[1.125rem] font-bold rounded-full
                                     w-[18.93rem] place-self-center border-small border-control 
                                     ${isLoginForm ? 'text-form bg-white' : 'text-primary'}`}>

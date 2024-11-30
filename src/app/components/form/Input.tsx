@@ -9,13 +9,12 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement>, PropsWithChi
     classNameWrapper?: string;
     classNameLabel?: string;
     icons?: string[];
-    toggleVisibility?: boolean;
 }
 
 const Input: FC<InputProps> = (props: InputProps) => {
     const {
         children, classNameWrapper, classNameLabel, className,
-        icons, toggleVisibility, ...inputProps
+        icons, ...inputProps
     } = props;
 
     const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -60,11 +59,13 @@ const Input: FC<InputProps> = (props: InputProps) => {
                 </label>
             );
         default:
+            const isPassword = props.type === 'password';
+
             const Label = children ?
                 <span className={classNameLabel}>{children}</span> : null;
 
-            const inputIcons: string[] = props.type === 'password' ? [SVG_EYE] : (icons ?? []);
-            const IconsSVGs: ReactElement[] | undefined = inputIcons?.map((icon) => {
+            const inputIcons: string[] = isPassword ? [SVG_EYE] : (icons ?? []);
+            const IconsSVGs: ReactElement[] = inputIcons.map((icon) => {
                 const alt = JSON.stringify(icon);
                 return (
                     <Image
@@ -75,19 +76,19 @@ const Input: FC<InputProps> = (props: InputProps) => {
                     />
                 );
             });
-            const Icons = IconsSVGs
+            const Icons = props.type === 'password'
                 ? (
                     <span
                         className={'absolute flex gap-[0.13rem] right-[0.81rem]'}
                         onClick={() => {
                             if (inputRef.current)
-                                inputRef.current.type = ['password', 'text'][+(!toggleVisibility || inputRef.current?.type === 'password')];
+                                inputRef.current.type = ['password', 'text'][+(isPassword && inputRef.current?.type === 'password')];
                         }}
                     >
                         {IconsSVGs}
                     </span>
                 )
-                : null;
+                : IconsSVGs;
 
             return (
                 <label

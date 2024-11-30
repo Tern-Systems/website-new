@@ -150,7 +150,7 @@ const ARCodeToolView: FC = () => {
             </div>
             <form
                 className={'flex flex-col justify-between w-[21rem]'}
-                onSubmit={(event) => handleFormSubmit(event)}
+                onSubmit={handleFormSubmit}
             >
                 <div>
                     <span className={'text-primary text-[3.75rem] font-oxygen font-bold'}>ARCH</span>
