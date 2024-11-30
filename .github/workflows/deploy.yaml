@@ -3,9 +3,10 @@ name: Deploy Website to GCP Compute Engine
 env: 
   DEBUG: true  # Enable debugging mode for more verbose output
 
-on:
-  push:
-    branches: [main]  # Trigger deployment on push to the main branch
+  on:
+    repository_dispatch:
+      types: [deploy-g]
+    # Trigger deployment on push to the main branch
 
 jobs:
   deploy:
