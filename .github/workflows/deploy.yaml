@@ -54,5 +54,5 @@ jobs:
       run: |
         STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
         curl -X POST -H "Content-Type: application/json" \
-        -d "{\"content\":\"**Deploy G**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $STATUS\"}" \
+        -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $STATUS\"}" \
         ${{ secrets.DISCORD_WEBHOOK_URL }}
