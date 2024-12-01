@@ -1,6 +1,6 @@
 import {FC} from "react";
 
-import {PLAN} from "@/app/components/views/Pricing";
+import {PLAN} from "@/app/static/constants";
 
 import {PlanRecurrency, PlanType} from "@/app/context";
 
@@ -8,14 +8,14 @@ import {Button} from "@/app/components/form";
 
 interface PaymentInfoProps {
     planType: NonNullable<PlanType>;
-    reccurency: PlanRecurrency;
+    recurrency: PlanRecurrency;
 }
 
 const PaymentInfo: FC<PaymentInfoProps> = (props: PaymentInfoProps) => {
-    const {planType, reccurency} = props;
+    const {planType, recurrency} = props;
 
-    const price = PLAN[planType]?.priceUSD[reccurency].toFixed(2);
-    const subtotal = (+price * (reccurency === 'annual' ? 12 : 1)).toFixed(2);
+    const price = PLAN[planType]?.priceUSD[recurrency].toFixed(2);
+    const subtotal = (+price * (recurrency === 'annual' ? 12 : 1)).toFixed(2);
 
     return (
         <div className={'flex-1 pt-[7.44rem] w-1/2 bg-white overflow-y-scroll'}>
@@ -32,7 +32,7 @@ const PaymentInfo: FC<PaymentInfoProps> = (props: PaymentInfoProps) => {
                 <div className={'grid grid-rows-2 grid-cols-[1fr,min-content] gap-y-[0.2rem]'}>
                     <span className={'font-bold text-[1.3125rem]'}>ARCH {planType} Subscription</span>
                     <span className={'font-bold text-[1.3125rem]'}>${price}</span>
-                    <span>Billed {reccurency}</span>
+                    <span>Billed {recurrency}</span>
                 </div>
                 <hr className={'my-[1.5rem] border-control3'}/>
                 <div className={'grid auto-rows-min grid-cols-2 gap-y-[0.95rem]'}>
