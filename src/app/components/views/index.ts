@@ -1,4 +1,5 @@
 export {ARCodeToolView} from './Services/ARCodeTool'
+export {BillingView} from './Billing'
 export {ContactView} from './Contact'
 export {CredoView} from './Credo'
 export {DocumentationView} from './Documentation'

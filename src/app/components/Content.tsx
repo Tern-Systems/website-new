@@ -10,11 +10,9 @@ import {withSectionLink} from "@/app/hocs/withSectionLink";
 
 import {Button} from "@/app/components/form";
 
-import styles from '../page.module.css';
-
-
 import {
     ARCodeToolView,
+    BillingView,
     ContactView,
     CredoView,
     DocumentationView,
@@ -23,6 +21,8 @@ import {
     SavedARCodes,
     SubscribeView,
 } from "@/app/components/views";
+
+import styles from '../page.module.css';
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import SVG_QR from "@/assets/images/qr.png";
@@ -134,22 +134,35 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 Content = <ARCodeToolView/>
                 break
             case 'Saved Codes':
-                if (!userCtx.userData?.planType)
-                    navigate(SectionsEnum.Pricing);
+                // if (!userCtx.userData?.planType) {
+                //     navigate(SectionsEnum.Pricing);
+                //     break;
+                // }
                 Content = <SavedARCodes/>;
                 break;
             case 'Pricing and Plans':
                 Content = <PricingView/>
                 break;
             case 'Subscribe':
-                if (!userCtx.isLoggedIn)
-                    navigate(SectionsEnum.Home);
+                // if (!userCtx.isLoggedIn) {
+                //     navigate(SectionsEnum.Home);
+                //     break;
+                // }
                 setHeadingsHidden(true);
                 Content = <SubscribeView/>
                 break;
+            case 'Billing':
+                // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {
+                //     navigate(SectionsEnum.Home);
+                //     break;
+                // }
+                Content = <BillingView/>
+                break;
             case 'Manage Subscriptions':
-                if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased)
-                    navigate(SectionsEnum.Home);
+                // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {
+                //     navigate(SectionsEnum.Home);
+                //     break;
+                // }
                 setHeadingsHidden(true);
                 Content = <ManageSubscriptionsView/>
                 break;

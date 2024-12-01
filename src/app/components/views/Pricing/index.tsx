@@ -12,6 +12,7 @@ import {AuthModal, BaseModal} from "@/app/components/modals";
 import {LimitsModal} from "./LimitsModal";
 
 import {Button} from "@/app/components/form";
+import {BillingModal} from "@/app/components/modals/BillingResolution";
 
 
 const PLAN_TIME_RANGE: PlanRecurrency[] = ['monthly', 'annual'];
@@ -34,30 +35,10 @@ const PricingView: FC = () => {
         );
     }
 
-    const showBillingModal = () => {
-        const BillingModal = (
-            <BaseModal title={'Billing Resolution Center'}>
-                <div className={'flex flex-col items-center w-[26.31rem]'}>
-                    <span className={'mb-[1.22rem]'}>
-                        Email: <a href={'mailto:brc@tern.ac'} target={'_blank'}>brc@tern.ac</a>
-                    </span>
-                    <span>
-                        Phone: <a href={'tel:+19143065528'} target={'_blank'}>+1 (914) 306-5528</a>
-                    </span>
-                </div>
-            </BaseModal>
-        );
-        modalCtx.openModal(BillingModal);
-    }
-
-    const showLimitsModal = () =>
-        modalCtx.openModal(<LimitsModal/>);
-
-
     const BillingResolution = (
         <span
             className={'underline cursor-pointer'}
-            onClick={() => showBillingModal()}
+            onClick={() => modalCtx.openModal(<BillingModal/>)}
         >
             billing resolution center
         </span>
@@ -101,7 +82,7 @@ const PricingView: FC = () => {
         const Limits: ReactElement = (
             <span
                 className={'underline cursor-pointer'}
-                onClick={() => showLimitsModal()}
+                onClick={() => modalCtx.openModal(<LimitsModal/>)}
             >
                 Limits apply
             </span>
