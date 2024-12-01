@@ -1,36 +1,49 @@
-import React, {InputHTMLAttributes, ReactElement, useState} from 'react';
+import React, {InputHTMLAttributes, PropsWithChildren, ReactElement, useState} from 'react';
 import Image from "next/image";
 
 import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";
 
-interface SelectProps<T extends string> extends InputHTMLAttributes<HTMLInputElement> {
-    options: Record<string, T>;
-    value: T;
+const EMPTY_KEY = 'empty'
+
+interface SelectProps extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren {
+    options: Record<string, string>;
+    value: string;
     onChangeCustom: (value: string) => void;
-    classNameOptions?: string;
+    classNameWrapper?: string;
+    classNameLabel?: string;
 }
 
-function Select<T extends string>(props: SelectProps<T>) {
-    const {options, value, className, classNameOptions, onChangeCustom,placeholder, ...selectPropsRest} = props;
+function Select(props: SelectProps) {
+    const {
+        children, options, value,
+        classNameWrapper, className, classNameLabel, hidden,
+        onChangeCustom, placeholder, ...selectPropsRest
+    } = props;
 
     const [isSelectExpanded, setSelectExpanded] = useState<boolean>(false);
 
     const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
 
+
     // Options list
-    const Options = Object.entries(options).map(([key, value], index) =>
+    const selectedOptionIdx: number = Object.values(options).indexOf(options[value]);
+
+    if (!Object.keys(options).length || selectedOptionIdx > -1 && Object.keys(options).length === 1)
+        options[EMPTY_KEY] = 'Empty list';
+
+    const Options: ReactElement[] = Object.entries(options).map(([key, value], index) =>
         <option
             key={value + index}
             value={value}
             className={`px-[0.74rem] py-[0.8rem] border-small border-control3 [&:not(:last-of-type)]:border-b-0
-                        [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden`}
-            onClick={() => onChangeCustom(key)}
+                        [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
+                        ${EMPTY_KEY === key ? 'text-placeholder' : ''}`}
+            onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
         >
             {value}
         </option>
     );
 
-    const selectedOptionIdx: number = Object.values(options).indexOf(options[value]);
     const OptionsJSX: ReactElement[] = selectedOptionIdx < 0
         ? Options
         : [
@@ -39,32 +52,35 @@ function Select<T extends string>(props: SelectProps<T>) {
         ];
 
     return (
-        <div className={'relative'}>
+        <div className={`relative flex items-center ${classNameWrapper} ${hidden ? 'hidden' : ''}`}>
             <input
                 {...selectPropsRest}
                 value={value}
                 placeholder={placeholder}
                 className={'absolute -z-10 bottom-0 left-[34%] [&&]:w-1 [&&]:h-0 [&&]:p-0'}
             />
+            <span hidden={!children} className={classNameLabel}>{children}</span>
             <label
-                className={`flex items-center cursor-pointer select-none ${className} ${isSelectExpanded ? '[&]:rounded-b-none' : ''}`}
+                className={`flex items-center cursor-pointer select-none bg-white capitalize w-full
+                            ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
                 onClick={() => toggleSelectExpand()}
                 onBlur={() => setSelectExpanded(false)}
             >
-                <div className={'text-nowrap'}>
-                    <div>
-                        <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
-                            {selectedOptionIdx < 0 ? placeholder : options[value]}
-                        </span>
-                    </div>
-                    <ul className={`absolute z-10 left-0 top-full w-full max-h-[20rem] overflow-y-scroll ${classNameOptions} ${isSelectExpanded ? '' : 'invisible'}`}>
-                        {OptionsJSX}
-                    </ul>
+                <div>
+                    <span className={selectedOptionIdx < 0 ? 'text-placeholder w-full' : ''}>
+                        {selectedOptionIdx < 0 ? placeholder : options[value]}
+                    </span>
                 </div>
+                <ul
+                    hidden={!isSelectExpanded}
+                    className={`absolute z-10 left-0 top-full w-full max-h-[20rem] overflow-y-scroll bg-inherit`}
+                >
+                    {OptionsJSX}
+                </ul>
                 <Image
                     src={SVG_CHEVRON}
                     alt={'select chevron'}
-                    className={`absolute top-[1.3rem] right-[0.8rem] w-[1rem] brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
+                    className={`absolute right-[0.8rem] w-[1rem] brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
                 />
             </label>
         </div>

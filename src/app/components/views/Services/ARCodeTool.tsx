@@ -48,8 +48,11 @@ const ARCodeToolView: FC = () => {
     }, [modalCtx, formValue.name])
 
     useEffect(() => {
-        const arCode = JSON.parse(params.get('ar-code') ?? '{}') as ARCode;
-        setFormValueState(arCode);
+        const arCodeParam = params.get('ar-code');
+        if (!arCodeParam)
+            return;
+
+        setFormValueState(JSON.parse(arCodeParam) as ARCode);
         setEditState(true);
     }, [params, setFormValueState])
 

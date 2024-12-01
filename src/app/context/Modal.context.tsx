@@ -3,10 +3,7 @@
 import React, {createContext, FC, PropsWithChildren, ReactElement, useContext, useState} from 'react';
 
 
-type ModalConfig = {
-    hideContent?: boolean;
-    darkenBg?: boolean;
-}
+type ModalConfig = { hideContent?: boolean; }
 
 type OpenModal = (Component: ReactElement, config?: ModalConfig) => void;
 
@@ -19,31 +16,28 @@ interface IModalContext {
 const ModalContext = createContext<IModalContext | null>(null);
 
 const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-    const [darkenBg, setSimpleModal] = useState(false);
     const [hideContent, setHideContent] = useState(false);
     const [Modal, setModal] = useState<ReactElement | null>(null);
 
-    const handleModalChange = (Component: ReactElement | null, isSimple: boolean, hideContent: boolean) => {
+    const handleModalChange = (Component: ReactElement | null, hideContent: boolean) => {
         setModal(Component);
-        setSimpleModal(isSimple);
         setHideContent(hideContent);
     }
 
-    const closeModal = () => handleModalChange(null, false, false);
+    const closeModal = () => handleModalChange(null, false);
 
     const openModal = (ModalElem: ReactElement, config?: ModalConfig) =>
-        handleModalChange(ModalElem, config?.darkenBg === true, config?.hideContent === true);
-
-    const ModalElem = Modal ? (
-        <div className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden pointer-events-none`}>
-            {Modal}
-        </div>
-    ) : null;
+        handleModalChange(ModalElem, config?.hideContent === true);
 
     return (
         <ModalContext.Provider value={{hideContent, openModal, closeModal}}>
-            {ModalElem}
-            <div className={Modal && darkenBg ? 'brightness-[60%]' : 'brightness-100'}>
+            <div
+                hidden={!Modal}
+                className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden pointer-events-none`}
+            >
+                {Modal}
+            </div>
+            <div className={Modal ? 'brightness-[60%]' : 'brightness-100'}>
                 {props.children}
             </div>
         </ModalContext.Provider>

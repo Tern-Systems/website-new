@@ -9,7 +9,7 @@ import {BaseService} from "@/app/services/base.service";
 
 type FormCardData = Omit<CardData, 'nickName' | 'isDefault' | 'cardId'>;
 type SubscribeData = FormCardData & {
-    savedMethodIdx: string;
+    savedCardIdx: string;
     acceptTerms: boolean;
 }
 

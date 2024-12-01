@@ -29,6 +29,9 @@ export enum SectionsEnum {
     TernKey = 'TernKey',
     Documentation = 'Documentation',
     Contact = 'Contact',
+    Cookies = 'Cookies',
+    Privacy = 'Privacy',
+    Terms = 'Terms',
 
     // Managing
     Subscribe = 'Subscribe',

@@ -8,7 +8,7 @@ import {UserData} from "@/app/context";
 type UserBaseData = Pick<UserData, 'email' | 'isEmailVerified' | 'isPurchased'>
 
 interface IUserService {
-    getUser: (token: string) => Promise<Res<UserBaseData>>;
+    getUser(token: string): Promise<Res<UserBaseData>>;
 }
 
 class UserServiceImpl extends BaseService implements IUserService {

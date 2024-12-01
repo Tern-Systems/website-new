@@ -13,7 +13,6 @@ import {BaseModal, ResetPasswordModal} from "@/app/components/modals";
 import {Button, Input} from "@/app/components/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
-import SVG_EYE from '@/assets/images/icons/eye.svg'
 
 
 type FormData = SignUpData;
@@ -67,35 +66,6 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
         }
     }
 
-    const PasswordConfirm = isLoginForm
-        ? null
-        : (
-            <Input
-                type={"password"}
-                name={'password-repeat'}
-                placeholder={'Confirm Password'}
-                value={formValue.passwordConfirm}
-                onChange={setFormValue('passwordConfirm')}
-                className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
-                icons={[SVG_EYE]}
-                required={!isLoginForm}
-            />
-        );
-
-    const PasswordReset = !isLoginForm
-        ? null
-        : (
-            <span className={'mt-[0.62rem]'}>
-                Forgot your password?&nbsp;
-                <span
-                    className={'text-[#21A1D3] cursor-pointer'}
-                    onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
-                >
-                    Reset
-                </span>
-            </span>
-        );
-
     const Content = (
         <>
             <div className={'flex flex-col items-center w-[26.18rem]'}>
@@ -109,11 +79,10 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
             >
                 <fieldset className={'flex flex-col gap-[0.94rem]'}>
                     <Input
-                        name={'email'}
                         placeholder={'Email'}
                         value={formValue.email}
                         onChange={setFormValue('email')}
-                        classNameWrapper={'flex-col [&]:items-start'}
+                        classNameWrapper={'flex-col [&]:items-start gap-[0.63rem]'}
                         className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
                         required
                     >
@@ -121,16 +90,31 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                     </Input>
                     <Input
                         type={"password"}
-                        name={'password'}
                         placeholder={'Password'}
                         value={formValue.password}
                         onChange={setFormValue('password')}
                         className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
                         required
                     />
-                    {PasswordConfirm}
+                    <Input
+                        hidden={!isLoginForm}
+                        type={"password"}
+                        placeholder={'Confirm Password'}
+                        value={formValue.passwordConfirm}
+                        onChange={setFormValue('passwordConfirm')}
+                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                        required={!isLoginForm}
+                    />
                 </fieldset>
-                {PasswordReset}
+                <span hidden={!isLoginForm} className={'mt-[0.62rem]'}>
+                    Forgot your password?&nbsp;
+                        <span
+                            className={'text-[#21A1D3] cursor-pointer'}
+                            onClick={() => modalCtx.openModal(<ResetPasswordModal/>)}
+                        >
+                        Reset
+                    </span>
+                </span>
                 {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
                 <Button className={`py-[0.92rem] mt-[1.56rem] text-[1.125rem] font-bold rounded-full
                                     w-[18.93rem] place-self-center border-small border-control 

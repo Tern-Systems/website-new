@@ -142,17 +142,6 @@ const DocumentationView = (props: IDocumentationViewProps) => {
             />
         </div>
     );
-    const MenuContent = (
-        <div
-            className={`mt-[1.86rem] overflow-y-scroll w-full ${isSelectExpanded ? 'opacity-25' : ''}`}>
-            <div className={'mb-[0.74rem]'}>
-                <span>Table of Contents</span>
-            </div>
-            <ul style={{marginLeft: '-0.9rem'}}>
-                {renderAnchorList(ViewDict[selectedOption].anchors, ViewDict[selectedOption].isChapter)}
-            </ul>
-        </div>
-    );
 
     return (
         <>
@@ -166,7 +155,17 @@ const DocumentationView = (props: IDocumentationViewProps) => {
                     {MenuBtn}
                     {ViewSelect}
                 </div>
-                {!isMenuOpened ? null : MenuContent}
+                <div
+                    hidden={!isMenuOpened}
+                    className={`mt-[1.86rem] overflow-y-scroll w-full ${isSelectExpanded ? 'opacity-25' : ''}`}
+                >
+                    <div className={'mb-[0.74rem]'}>
+                        <span>Table of Contents</span>
+                    </div>
+                    <ul style={{marginLeft: '-0.9rem'}}>
+                        {renderAnchorList(ViewDict[selectedOption].anchors, ViewDict[selectedOption].isChapter)}
+                    </ul>
+                </div>
             </aside>
             <div
                 className={`max-h-full pt-[3.88rem] ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60 lg:pl-[23.69rem] md:landscape:pl-[23.69rem]' : ''}`}>

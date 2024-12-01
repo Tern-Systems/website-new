@@ -4,6 +4,7 @@ import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-
 import {useNavigate} from "@/app/hooks/useNavigate";
 import {useFlow} from "@/app/context";
 
+// TODO use React Router
 interface SectionLinkProps<T extends string> extends AnchorHTMLAttributes<HTMLAnchorElement>, PropsWithChildren {
     section: T;
 }
@@ -19,13 +20,15 @@ const withSectionLink = function <T extends string, P extends string>(router: Ap
             flowCtx.clear();
         }
 
-        return <span
-            {...propsRest}
-            className={`capitalize flex items-center ${className}`}
-            onClick={() => handleClick()}
-        >
-            {children ?? section}
-        </span>;
+        return (
+            <span
+                {...propsRest}
+                className={`capitalize flex items-center cursor-pointer ${className}`}
+                onClick={() => handleClick()}
+            >
+                {children ?? section}
+            </span>
+        );
     }
 }
 

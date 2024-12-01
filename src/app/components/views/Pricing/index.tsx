@@ -4,6 +4,8 @@ import Image from "next/image";
 import {SectionsEnum} from "@/app/utils/sections";
 import {PlanRecurrency, PlanType, useModal, useUser} from "@/app/context";
 
+import {PLAN} from "@/app/static/constants";
+
 import {useNavigate} from "@/app/hooks/useNavigate";
 
 import {AuthModal, BaseModal} from "@/app/components/modals";
@@ -11,57 +13,24 @@ import {LimitsModal} from "./LimitsModal";
 
 import {Button} from "@/app/components/form";
 
-import SVG_DIAMOND from '@/assets/images/icons/diamond.svg'
-import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg'
-
-
-type Plan = Record<NonNullable<PlanType>, {
-    icon: string;
-    priceUSD: Record<PlanRecurrency, number>;
-    benefits: string[];
-}>
 
 const PLAN_TIME_RANGE: PlanRecurrency[] = ['monthly', 'annual'];
-const PLAN: Plan = {
-    standard: {
-        icon: SVG_DIAMOND_ACE,
-        priceUSD: {monthly: 10, annual: 8},
-        benefits: [
-            'Create and manage one AR code',
-            '100 scans per month',
-            'Detailed scan analytics',
-            'Custom personalization features',
-            'Data import and export',
-        ]
-    },
-    pro: {
-        icon: SVG_DIAMOND,
-        priceUSD: {monthly: 50, annual: 40},
-        benefits: [
-            'Manage up to 5 AR codes',
-            '1,000 scans per month',
-            'AR code design customization',
-            'Video support up to 30 seconds',
-            'Access to dedicated support team'
-        ]
-    }
-}
 
 const PricingView: FC = () => {
     const [navigate] = useNavigate();
     const modalCtx = useModal();
     const userCtx = useUser();
 
-    const [selectedReccurency, setSelectedReccurency] = useState<PlanRecurrency>('monthly');
+    const [selectedRecurrency, setSelectedRecurrency] = useState<PlanRecurrency>('monthly');
 
-    const handleSubscribeClick = (planType: NonNullable<PlanType>, reccurency: PlanRecurrency) => {
+    const handleSubscribeClick = (planType: NonNullable<PlanType>, recurrency: PlanRecurrency) => {
         if (!userCtx.isLoggedIn) {
             const info = 'You must have a TernKey account to subscribe. Please create or log in to your account below.';
-            return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>, {darkenBg: true});
+            return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>);
         }
 
         navigate<SectionsEnum, NonNullable<PlanType> & PlanRecurrency>(
-            SectionsEnum.Subscribe, {['plan-type']: planType, reccurency}
+            SectionsEnum.Subscribe, {['plan-type']: planType, recurrency}
         );
     }
 
@@ -82,7 +51,7 @@ const PricingView: FC = () => {
     }
 
     const showLimitsModal = () =>
-        modalCtx.openModal(<LimitsModal/>, {darkenBg: true});
+        modalCtx.openModal(<LimitsModal/>);
 
 
     const BillingResolution = (
@@ -121,11 +90,11 @@ const PricingView: FC = () => {
             Benefits.unshift(Additional);
         }
 
-        const isAnnualOption = selectedReccurency === 'annual';
+        const isAnnualOption = selectedRecurrency === 'annual';
         const isMonthlyPlan = userData?.planRecurrency === 'monthly';
         const isCurrentPlan = userData?.planType === key;
-        const isCurrentReccurency = userData?.planRecurrency === selectedReccurency;
-        const isBtnDisabled = isCurrentPlan && isCurrentReccurency;
+        const isCurrentRecurrency = userData?.planRecurrency === selectedRecurrency;
+        const isBtnDisabled = isCurrentPlan && isCurrentRecurrency;
 
         let subscribeBtnText: string;
         let Links: ReactElement | null;
@@ -143,7 +112,7 @@ const PricingView: FC = () => {
             Links = Limits;
         } else {
 
-            if (isCurrentReccurency) {
+            if (isCurrentRecurrency) {
                 if (isCurrentPlan) {
                     subscribeBtnText = 'Your current plan';
                     Links = (
@@ -181,11 +150,11 @@ const PricingView: FC = () => {
                 </h2>
                 <div className={'text-secondary mb-[2.2rem] text-[1.25rem]'}>
                     <span>
-                        ${value.priceUSD[selectedReccurency]}/month{isAnnualOption ? '*' : null}
+                        ${value.priceUSD[selectedRecurrency]}/month{isAnnualOption ? '*' : null}
                     </span>
                 </div>
                 <Button
-                    onClick={() => handleSubscribeClick(key as NonNullable<PlanType>, selectedReccurency)}
+                    onClick={() => handleSubscribeClick(key as NonNullable<PlanType>, selectedRecurrency)}
                     className={`bg-control3 font-bold text-[1.125rem] disabled:bg-inherit disabled:border-small disabled:border-control
                                 disabled:text-secondary rounded-full py-[1.13rem]`}
                     disabled={isBtnDisabled}
@@ -204,23 +173,13 @@ const PricingView: FC = () => {
     const Switch: ReactElement[] = PLAN_TIME_RANGE.map((entry) => (
             <div
                 key={entry}
-                className={`px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold ${selectedReccurency === entry ? 'bg-control2' : 'text-secondary'}`}
-                onClick={() => setSelectedReccurency(entry)}
+                className={`px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold ${selectedRecurrency === entry ? 'bg-control2' : 'text-secondary'}`}
+                onClick={() => setSelectedRecurrency(entry)}
             >
                 {entry}
             </div>
         )
     );
-
-    const BillingResolutionBlock = typeof userCtx.userData?.planType === 'string'
-        ? null
-        : (
-            <div className={'flex mt-[--py]'}>
-                <span className={'font-oxygen text-[0.75rem] text-secondary self-end'}>
-                    Have an existing plan? See the <span>{BillingResolution}</span>
-                </span>
-            </div>
-        )
 
     return (
         <>
@@ -232,9 +191,16 @@ const PricingView: FC = () => {
                     {Columns}
                 </div>
             </div>
-            {BillingResolutionBlock}
+            <div
+                hidden={typeof userCtx.userData?.planType === 'string'}
+                className={'flex mt-[--py]'}
+            >
+                <span className={'font-oxygen text-[0.75rem] text-secondary self-end'}>
+                    Have an existing plan? See the <span>{BillingResolution}</span>
+                </span>
+            </div>
         </>
     )
 }
 
-export {PricingView, PLAN}
+export {PricingView}

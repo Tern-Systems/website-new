@@ -26,10 +26,8 @@ const DeleteModal: FC<Props> = (props: Props) => {
             className={'text-center w-[30.31rem]'}
             classNameContent={'flex flex-col w-[19.65rem] items-center mx-auto'}
         >
-            <span>Are you sure you want to proceed with this action?</span>
-            <span className={'mt-[1.56rem]'}>
-                This will delete <span className={'font-bold'}>{adCode.name}</span>.
-            </span>
+            <p>Are you sure you want to proceed with this action?</p>
+            <p> This will delete <span className={'font-bold'}>{adCode.name}</span>. </p>
             <span className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-[0.875rem]'}>
                 <Button
                     className={'text-[#F42200] border-[#F42200] border-small px-[1rem] h-[1.43rem] rounded-full'}

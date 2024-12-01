@@ -58,9 +58,9 @@ export default function Home() {
     const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, index) => (
         <div
             key={index}
+            hidden={state}
             className={`
                     absolute z-10 size-[11.5rem] bg-transparent
-                    ${state ? 'hidden' : ''}
                     ${isInsigniaMoved ? 'after:absolute after:top-0 after:w-full after:h-full cursor-pointer' : ''}
                     ${isInsigniaMoved ? 'animate-[insignia_0.3s_ease-in-out_forwards]' : 'animate-[insignia_0.3s_ease-in-out_forwards_reverse]'}
                     `}
@@ -70,22 +70,6 @@ export default function Home() {
         </div>
     ));
 
-    const HeaderElem = isHeadingsHidden ? null
-        : (
-            <Header
-                activeSection={activeSection}
-                profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]}
-            />
-        );
-    const FooterElem = isHeadingsHidden ? null
-        : (
-            <footer
-                className={`flex w-full justify-between font-neo text-primary border-t-small border-section px-[--px] py-[--py] place-self-end`}>
-                <span>© Copyright 2025 Tern Systems LLC</span>
-                <span>New York, New York</span>
-            </footer>
-        );
-
     const Layout = activeSection === 'Start'
         ? (
             <span className={`text-primary text-center mt-auto mb-[--py]`}>
@@ -94,12 +78,27 @@ export default function Home() {
         )
         : (
             <>
-                {HeaderElem}
+                <Header
+                    hidden={isHeadingsHidden}
+                    activeSection={activeSection}
+                    profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]}
+                />
                 <Content
                     activeSection={activeSection}
                     headingsHiddenState={[isHeadingsHidden, setHeadingsHidden]}
                 />
-                {FooterElem}
+                <footer
+                    className={`flex w-full justify-between font-neo text-primary border-t-small border-section 
+                                px-[--px] py-[--py] place-self-end ${isHeadingsHidden ? 'hidden' : ''}`}>
+                    <span>© Copyright 2025 Tern Systems LLC</span>
+                    <span className={'flex'}>
+                        <SectionLink section={SectionsEnum.Cookies}/>
+                        &nbsp;·&nbsp;
+                        <SectionLink section={SectionsEnum.Privacy}/>
+                        &nbsp;·&nbsp;
+                        <SectionLink section={SectionsEnum.Terms}/>
+                    </span>
+                </footer>
             </>
         );
 

@@ -10,12 +10,15 @@ import {withSectionLink} from "@/app/hocs/withSectionLink";
 
 import {Button} from "@/app/components/form";
 
+import styles from '../page.module.css';
+
+
 import {
     ARCodeToolView,
     ContactView,
     CredoView,
     DocumentationView,
-    ManageSubscriptions,
+    ManageSubscriptionsView,
     PricingView,
     SavedARCodes,
     SubscribeView,
@@ -44,18 +47,22 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     let Content: ReactElement | null = null;
     if (!modalCtx.hideContent) {
         switch (activeSection) {
+            case 'Cookies':
+                break;
             case 'Home':
                 Content = (
-                    <div className={'flex flex-col w-[58.625rem] text-left mt-[5.87rem] ml-[5.94rem] gap-[1.5rem]'}>
-                        <h1 className={'text-blue w-0 text-[6.25rem]'}>All Ways</h1>
-                        <span className={'text-[2.25rem] text-primary font-bold'}>We develop, manufacture, preserve, and enhance fundamental computer software and hardware.</span>
+                    <div className={`${styles.highlight} w-[58.625rem] gap-[1.5rem]`}>
+                        <h1 className={'text-blue text-[6.25rem]'}>All Ways</h1>
+                        <span className={'text-[2.25rem] text-primary font-bold'}>
+                            We develop, manufacture, preserve, and enhance fundamental computer software and hardware.
+                        </span>
                     </div>
                 );
                 break;
             case 'About':
                 Content = (
                     <div
-                        className={'w-[58.625rem] text-left my-auto ml-[5.94rem]'}>
+                        className={`${styles.highlight} w-[62.5625rem]`}>
                         <div className={'leading-normal text-[2.25rem] font-bold'}>
                             <h1 className={'text-[3.75rem]'}>We are Tern.</h1>
                             <p className={"mb-4"}>A technology company based out of the United States.</p>
@@ -70,8 +77,8 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                         </div>
                         <SectionLink
                             section={SectionsEnum.Credo}
-                            className={`text-primary rounded-full border-small border-control5 font-bold px-[0.91rem]
-                                        h-[1.4375rem] w-fit mt-[3.31rem]`}
+                            className={`rounded-full border-small border-control5 px-[0.91rem] h-[1.4375rem] w-fit
+                                        mt-[3.31rem] text-[0.875rem]`}
                         />
                     </div>
                 )
@@ -97,14 +104,21 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 break;
             case 'TernKey':
                 Content = (
-                    <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
-                        <Image src={SVG_INSIGNIA} alt={'insignia'} className={'h-[33.6dvh] max-h-[10.42rem]'}/>
-                    </a>
+                    <div
+                        className={`${styles.highlight} w-[58.625rem]`}>
+                        <span
+                            className={'text-[3.75rem] font-oxygen'}>Unlocking the potential of ternary programming.</span>
+                        <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
+                            <Image src={SVG_INSIGNIA} alt={'insignia'}
+                                   className={'h-[33.6dvh] max-h-[10.42rem] my-[3.15rem]'}/>
+                        </a>
+                        <span className={'text-[2.25rem]'}>Unlocking the potential of ternary programming.</span>
+                    </div>
                 );
                 break;
             case 'ARCH':
                 Content = (
-                    <>
+                    <div className={'my-auto'}>
                         <Image src={SVG_QR} alt={'qr'}
                                className={'mb-[1.87rem] max-w-[37.69rem] cursor-pointer place-self-center'}/>
                         <Button
@@ -113,7 +127,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                         >
                             Create
                         </Button>
-                    </>
+                    </div>
                 );
                 break;
             case 'Creation Tool':
@@ -133,6 +147,12 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 setHeadingsHidden(true);
                 Content = <SubscribeView/>
                 break;
+            case 'Manage Subscriptions':
+                if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased)
+                    navigate(SectionsEnum.Home);
+                setHeadingsHidden(true);
+                Content = <ManageSubscriptionsView/>
+                break;
             default:
                 Content = null;
         }
@@ -150,7 +170,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
         >
             <div className={'h-full w-full flex flex-col p-[--py] pb-0'}>
                 {Content}
-                <span className={'pb-[1rem]'}/>
+                <span className={'pb-[1rem] block'}/>
             </div>
         </div>
     );

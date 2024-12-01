@@ -26,7 +26,7 @@ import styles from './Subscribe.module.css'
 
 
 const FORM_DEFAULT: SubscribeData = {
-    savedMethodIdx: '-1',
+    savedCardIdx: '-1',
     type: '',
     cardNumber: '',
     expirationDate: '',
@@ -60,9 +60,9 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
     const [isBillingExpanded, setBillingExpandedState] = useState(false);
 
-    const [isSavedPaymentMethod, setSavedPaymentMethod] = useState(true); // TODO
+    const [isSavedCard, setSavedPaymentMethod] = useState(true); // TODO
     const [paymentStatus, setPaymentStatus] = useState<boolean | null>(null);
-    const [savedMethods, setSavedMethods] = useState<CardData[]>([]);
+    const [savedCards, setSavedCards] = useState<CardData[]>([]);
 
     // Fetch saved cards
     useEffect(() => {
@@ -70,13 +70,13 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
             if (!userCtx.userData)
                 return;
             const {payload: cards} = await BillingService.getCards(userCtx.userData.email);
-            setSavedMethods(cards);
+            setSavedCards(cards);
         }
         try {
             fetchCards();
         } catch (error: unknown) {
         }
-    }, [setSavedMethods, userCtx.userData])
+    }, [setSavedCards, userCtx.userData])
 
     // Flow / payment status
     useEffect(() => {
@@ -104,7 +104,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
             const price = PLAN[planType].priceUSD[recurrency]; // TODO
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
 
-            if (isSavedPaymentMethod)
+            if (isSavedCard)
                 await BillingService.postProcessSavedPayment(formData, planType, recurrencyMapped, price, userCtx.userData.email);
             else
                 await BillingService.postProcessPayment(formData, planType, recurrencyMapped, price, userCtx.userData.email);
@@ -114,20 +114,19 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
     }
 
     // Elements
-    const SavedPaymentMethods: Record<string, string> = {}
-    for (const key in savedMethods)
-        SavedPaymentMethods[key] = key + ' ' + savedMethods[key].cardNumber;
+    const SavedCards: Record<string, string> = {}
+    for (const key in savedCards)
+        SavedCards[key] = key + ' ' + savedCards[key].cardNumber;
 
     let FormInputs: ReactElement;
-    if (isSavedPaymentMethod) {
+    if (isSavedCard) {
         FormInputs = (
             <Select
-                options={SavedPaymentMethods}
-                value={formData.savedMethodIdx}
+                options={SavedCards}
+                value={formData.savedCardIdx}
                 placeholder={'Select'}
-                onChangeCustom={(value) => setFormData('savedMethodIdx')(value)}
+                onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
                 className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-[0.375rem] border-control3 `}
-                classNameOptions={'bg-white rounded-b-small'}
                 required
             />
         )
@@ -195,7 +194,6 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-b-none border-small
                                         rounded-[0.375rem] border-control3 `}
-                        classNameOptions={'bg-white rounded-b-small'}
                         required
                     />
                     {isBillingExpanded
@@ -239,37 +237,33 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                             </div>
                             <Select
                                 options={STATES}
+                                hidden={!isBillingExpanded || formData.billingCountry !== 'US'}
                                 value={formData.state}
                                 placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
                                 className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-t-none [&&]:border-t-0
                                             ${formData.billingCountry === 'US' ? '' : 'hidden'}`}
-                                classNameOptions={'bg-white rounded-b-small'}
                                 required={isBillingExpanded && formData.billingCountry === 'US'}
                             />
                         </>
                         : (
                             <Input
+                                hidden={isBillingExpanded}
                                 value={formData.billingAddress}
                                 onChange={setFormData('billingAddress')}
                                 placeholder={'Address'}
-                                className={isBillingExpanded ? 'hidden' : '[&&]:rounded-t-none [&&]:border-t-0'}
+                                className={'[&&]:rounded-t-none [&&]:border-t-0'}
                                 required={!isBillingExpanded}
                             />
                         )}
                 </fieldset>
-                {
-                    isBillingExpanded
-                        ? null
-                        : (
-                            <span
-                                className={'mt-[0.65rem text-[0.875rem] underline cursor-pointer'}
-                                onClick={() => toggleBillingDetails()}
-                            >
-                                Enter address manually
-                            </span>
-                        )
-                }
+                <span
+                    hidden={isBillingExpanded}
+                    className={'mt-[0.65rem text-[0.875rem] underline cursor-pointer'}
+                    onClick={() => toggleBillingDetails()}
+                >
+                    Enter address manually
+                </span>
             </>
         );
     }
@@ -279,13 +273,13 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
         <div className={'flex-1 pt-[7.44rem] w-1/2 bg-control4 text-[1.3125rem] overflow-y-scroll'}>
             <div className={'w-[29.0625rem] mx-auto'}>
                 <form className={styles.form} onSubmit={handleFormSubmit}>
-                    <h2 className={`font-bold mb-[2.12rem]`}>{isSavedPaymentMethod ? 'Choose' : ''} Payment Method</h2>
+                    <h2 className={`font-bold mb-[2.12rem]`}>{isSavedCard ? 'Choose' : ''} Payment Method</h2>
                     {FormInputs}
                     <Input
                         type={'checkbox'}
                         checked={formData.acceptTerms}
                         onChange={setFormData('acceptTerms')}
-                        classNameWrapper={'flex-row-reverse mt-[1.46rem] [&&]:items-start'}
+                        classNameWrapper={'flex-row-reverse mt-[1.46rem] [&&]:items-start gap-[0.47rem]'}
                         classNameLabel={'flex'}
                         className={'max-w-[1rem] max-h-[1rem]'}
                         required

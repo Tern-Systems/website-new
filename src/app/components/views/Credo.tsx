@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../../page.module.css';
 
 const PARAGRAPHS: string[] = [
     "We abide by the following doctrine, which outlines our core ideology's six core values and exclusive purpose.",
@@ -18,8 +19,8 @@ const PARAGRAPHS: string[] = [
 const CredoView = () => {
     const Paragraphs = PARAGRAPHS.map((p, index) => <p key={p.slice(5) + index} className={'mb-[2.3rem]'}>{p}</p>)
     return (
-        <div className='text-left text-[1.6875rem] mt-[5.87rem] ml-[5.94rem] font-bold w-[65.125rem]'>
-            <h1 className={'text-[2.25rem] mb-[2.3rem]'}>Our Credo</h1>
+        <div className={`${styles.highlight} w-[69.125rem]`}>
+            <h1 className={'text-[3.75rem] mb-[2.3rem]'}>Our Credo</h1>
             {Paragraphs}
         </div>
     );

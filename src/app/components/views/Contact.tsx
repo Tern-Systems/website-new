@@ -1,6 +1,8 @@
 import React, {FC} from "react";
 import Image from "next/image";
 
+import styles from '../../page.module.css';
+
 import SVG_DISCORD from "@/assets/images/icons/discord.svg";
 import SVG_STACKOVERFLOW from "@/assets/images/icons/stack-overflow.svg";
 import SVG_GITHUB from "@/assets/images/icons/github.svg";
@@ -28,10 +30,12 @@ const ContactView: FC = () => {
 
     return (
         <div
-            className={'flex flex-col w-[58.625rem] text-left ml-[5.94rem] gap-[3.12rem] text-[2.25rem] font-bold my-auto'}>
+            className={`${styles.highlight} w-[26.5rem] gap-[3.12rem]`}>
             <p className={'font-oxygen text-[2.8125rem]'}>Tern</p>
             <p>New York, New York</p>
-            <p className={'font-normal'}><a href="mailto:info@tern.ac" target={'_blank'}>info@tern.ac</a></p>
+            <p className={'font-normal'}>
+                <a href="mailto:info@tern.ac" target={'_blank'}>info@tern.ac</a>
+            </p>
             <span className={'flex gap-[0.84rem]'}>{Links}</span>
         </div>
     )

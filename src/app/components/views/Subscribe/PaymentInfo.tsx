@@ -14,7 +14,7 @@ interface PaymentInfoProps {
 const PaymentInfo: FC<PaymentInfoProps> = (props: PaymentInfoProps) => {
     const {planType, recurrency} = props;
 
-    const price = PLAN[planType]?.priceUSD[recurrency].toFixed(2);
+    const price = PLAN[planType]?.priceUSD[recurrency]?.toFixed(2);
     const subtotal = (+price * (recurrency === 'annual' ? 12 : 1)).toFixed(2);
 
     return (

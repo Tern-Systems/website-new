@@ -15,8 +15,9 @@ type SignUpData = LoginData & {
 }
 
 interface IAuthService {
-    postSignUp: (data: SignUpData) => Promise<Res>;
-    postLogIn: (data: LoginData) => Promise<Res<string>>;
+    postSignUp(data: SignUpData): Promise<Res>;
+
+    postLogIn(data: LoginData): Promise<Res<string>>;
 }
 
 class AuthServiceImpl extends BaseService implements IAuthService {

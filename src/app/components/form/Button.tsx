@@ -9,32 +9,36 @@ import SVG_DOWNLOAD from "@/assets/images/icons/download.svg";
 import SVG_SHARE from "@/assets/images/icons/share.svg";
 import SVG_DELETE from "@/assets/images/icons/delete.svg";
 import SVG_DOTS_V from "@/assets/images/icons/dots-v.svg";
+import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";
+import SVG_PLUS from '@/assets/images/icons/plus.svg';
 
-type ButtonIcon = 'close' | 'back' | 'info' | 'pencil' | 'download' | 'share' | 'delete' | 'dots';
+type ButtonIcon = 'close' | 'back' | 'info' | 'pencil' | 'download' | 'share' | 'delete' | 'dots' | 'chevron' | 'plus';
 const ICON: Record<ButtonIcon, string> = {
     back: SVG_BACK,
+    chevron: SVG_CHEVRON,
     close: SVG_CLOSE,
+    delete: SVG_DELETE,
+    dots: SVG_DOTS_V,
+    download: SVG_DOWNLOAD,
     info: SVG_INFO,
     pencil: SVG_PENCIL,
-    download: SVG_DOWNLOAD,
+    plus: SVG_PLUS,
     share: SVG_SHARE,
-    delete: SVG_DELETE,
-    dots: SVG_DOTS_V
 }
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: ButtonIcon;
+    isIconFlippedY?: boolean;
 }
 
 const Button: FC<ButtonProps> = (props: ButtonProps) => {
-    const {children, icon, className} = props;
-
-    const Children = children
-        ? <span>{props.children}</span>
-        : null;
+    const {children, icon, isIconFlippedY, className} = props;
 
     const Icon = icon
-        ? <Image src={ICON[icon]} alt={icon} className={'inline size-[1rem]'}/>
+        ? <Image
+            src={ICON[icon]}
+            alt={icon}
+            className={`inline size-[1rem] ${isIconFlippedY ? 'rotate-180' : ''}`}/>
         : null;
 
     return (
@@ -43,7 +47,7 @@ const Button: FC<ButtonProps> = (props: ButtonProps) => {
             className={`${icon ? 'flex items-center gap-[0.52rem]' : ''} text-nowrap ${className}`}
         >
             {Icon}
-            {Children}
+            <span hidden={!children}>{children}</span>
         </button>);
 }
 
