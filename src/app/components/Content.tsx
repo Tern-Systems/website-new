@@ -6,9 +6,11 @@ import {SectionsEnum} from "@/app/utils/sections";
 import {useModal, useUser} from "@/app/context";
 import {useNavigate} from "@/app/hooks/useNavigate";
 
-import {withSectionLink} from "@/app/hocs/withSectionLink";
+import {withSectionLink} from "@/app/hocs";
 
 import {Button} from "@/app/components/form";
+
+import {FullscreenViewWrapper} from "@/app/components/FullscreenViewWrapper";
 
 import {
     ARCodeToolView,
@@ -18,6 +20,7 @@ import {
     DocumentationView,
     ManageSubscriptionsView,
     PricingView,
+    PurchasingInformationView,
     SavedARCodes,
     SubscribeView,
 } from "@/app/components/views";
@@ -26,6 +29,7 @@ import styles from '../page.module.css';
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import SVG_QR from "@/assets/images/qr.png";
+import {PaymentMethodToolView} from "@/app/components/views/ManageSubscriptions/PaymentMethodTool";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -148,23 +152,63 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 //     navigate(SectionsEnum.Home);
                 //     break;
                 // }
-                setHeadingsHidden(true);
-                Content = <SubscribeView/>
+                Content = (
+                    <FullscreenViewWrapper
+                        setHeadingsHidden={setHeadingsHidden}
+                        backButtonSection={SectionsEnum.Pricing}
+                    >
+                        <SubscribeView/>
+                    </FullscreenViewWrapper>
+                )
                 break;
             case 'Billing':
                 // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {
                 //     navigate(SectionsEnum.Home);
                 //     break;
                 // }
-                Content = <BillingView/>
+                Content = <BillingView/>;
                 break;
             case 'Manage Subscriptions':
                 // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {
                 //     navigate(SectionsEnum.Home);
                 //     break;
                 // }
-                setHeadingsHidden(true);
-                Content = <ManageSubscriptionsView/>
+                Content = (
+                    <FullscreenViewWrapper
+                        setHeadingsHidden={setHeadingsHidden}
+                        backButtonSection={SectionsEnum.Billing}
+                    >
+                        <ManageSubscriptionsView/>
+                    </FullscreenViewWrapper>
+                )
+                break;
+            case 'Payment Method Edit':
+                // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {
+                //     navigate(SectionsEnum.Home);
+                //     break;
+                // }
+                Content = (
+                    <FullscreenViewWrapper
+                        setHeadingsHidden={setHeadingsHidden}
+                        backButtonSection={SectionsEnum.PurchasingInformation}
+                    >
+                        <PaymentMethodToolView/>
+                    </FullscreenViewWrapper>
+                )
+                break;
+            case 'Purchasing Information':
+                // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {
+                //     navigate(SectionsEnum.Home);
+                //     break;
+                // }
+                Content = (
+                    <FullscreenViewWrapper
+                        setHeadingsHidden={setHeadingsHidden}
+                        backButtonSection={SectionsEnum.Billing}
+                    >
+                        <PurchasingInformationView/>
+                    </FullscreenViewWrapper>
+                )
                 break;
             default:
                 Content = null;
@@ -183,7 +227,6 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
         >
             <div className={'h-full w-full flex flex-col p-[--py] pb-0'}>
                 {Content}
-                <span className={'pb-[1rem] block'}/>
             </div>
         </div>
     );

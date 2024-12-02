@@ -25,4 +25,13 @@ type Plan = Record<NonNullable<PlanType>, {
 }>
 
 
-export type {CardData, Plan}
+type Invoice = {
+    id: number;
+    date: number;
+    card: string;
+    cost: number;
+    status: string;
+    item: string
+}
+
+export type {CardData, Plan, Invoice}

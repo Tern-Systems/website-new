@@ -26,7 +26,7 @@ const PricingView: FC = () => {
 
     const handleSubscribeClick = (planType: NonNullable<PlanType>, recurrency: PlanRecurrency) => {
         if (!userCtx.isLoggedIn) {
-            const info = 'You must have a TernKey account to subscribe. Please create or log in to your account below.';
+            const info = 'You must have a TernKey account to subscribe. Please create or login to your account below.';
             return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>);
         }
 

@@ -1,23 +1,15 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, ReactElement, useEffect, useState} from "react";
 
+import {Invoice} from "@/app/static/types";
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {withSectionLink} from "@/app/hocs/withSectionLink";
+import {withSectionLink} from "@/app/hocs";
 import {useRouter} from "next/navigation";
 import {BillingModal} from "@/app/components/modals/BillingResolution";
 import {useModal} from "@/app/context";
 
-
-type Order = {
-    id: number;
-    date: number;
-    cost: number;
-    status: string;
-    item: string
-}
-
 const BillingView: FC = () => {
-    const [orders, setOrders] = useState<Order[] | null>(null);
+    const [orders, setOrders] = useState<Invoice[]>([]);
 
     const router = useRouter();
     const modalCtx = useModal();
@@ -29,25 +21,25 @@ const BillingView: FC = () => {
             // TODO fetch orders
             setOrders(
                 [
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
+                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
                 ])
         } catch (error: unknown) {
         }
     }, [])
 
     // Elements
-    const OrderRows = (orders ?? []).map((order, index) => (
+    const OrderRows: ReactElement[] = (orders ?? []).map((order, index) => (
         <tr key={order.id + index} className={'h-[3.125rem] odd:bg-[#b3b3b326]'}>
             <td className={'rounded-l-[0.5625rem]'}>{order.id}</td>
             <td>{order.date}</td>
@@ -82,7 +74,9 @@ const BillingView: FC = () => {
                 <div className={'inline-flex flex-col gap-[1.56rem] text-[0.875rem]'}>
                     <SectionLink section={SectionsEnum.ManageSubscriptions}/>
                     <SectionLink section={SectionsEnum.PurchasingInformation}/>
-                    <span className={'cursor-pointer'} onClick={() => modalCtx.openModal(<BillingModal/>)}>Billing resolution center</span>
+                    <span className={'cursor-pointer'} onClick={() => modalCtx.openModal(<BillingModal/>)}>
+                        Billing resolution center
+                    </span>
                 </div>
             </div>
         </div>

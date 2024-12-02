@@ -2,8 +2,10 @@ import {FC, useState} from "react";
 import Image from "next/image";
 
 import {CardData} from "@/app/static/types";
+import {SectionsEnum} from "@/app/utils/sections";
 
 import {useModal} from "@/app/context";
+import {useNavigate} from "@/app/hooks/useNavigate";
 
 import {BaseModal} from "@/app/components/modals";
 
@@ -20,6 +22,7 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
     const {savedCards} = props;
 
     const modalCtx = useModal();
+    const [navigate] = useNavigate();
 
     const [selectedCardIdx, setSelectedCardIdx] = useState(-1);
 
@@ -54,8 +57,13 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             classNameContent={'text-form text-center'}
         >
             <ul className={'list-none flex flex-col gap-y-[0.84rem]'}>{SavedCards}</ul>
-            <Button icon={'plus'} className={'font-bold text-[1.3125rem] mt-[1.51rem]'}>Add alternative payment
-                method</Button>
+            <Button
+                icon={'plus'}
+                className={'font-bold text-[1.3125rem] mt-[1.51rem]'}
+                onClick={() => navigate(SectionsEnum.PaymentMethodTool, {action: 'create'})}
+            >
+                Add alternative payment method
+            </Button>
             <span
                 className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-[0.875rem] justify-center text-primary'}>
                         <Button

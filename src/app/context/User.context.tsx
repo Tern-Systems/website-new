@@ -24,7 +24,13 @@ const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [isLoggedIn, setLoggedState] = useState<boolean>(false);
-    const [userData, setUserDataHelper] = useState<UserData | null>(null);
+    const [userData, setUserDataHelper] = useState<UserData | null>({
+        email: 'admin@gmail.com',
+        planType: 'pro',
+        isPurchased: true,
+        isEmailVerified: true,
+        planRecurrency: 'monthly'
+    });
 
     const setUserData = (userData: UserData) => {
         setUserDataHelper(userData);

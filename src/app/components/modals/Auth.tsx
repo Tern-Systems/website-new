@@ -86,7 +86,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                         className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
                         required
                     >
-                        Please enter email to {isLoginForm ? 'create' : 'log into'} your Tern account
+                        Please enter email to {isLoginForm ? 'create' : 'loginto'} your Tern account
                     </Input>
                     <Input
                         type={"password"}
@@ -119,7 +119,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                 <Button className={`py-[0.92rem] mt-[1.56rem] text-[1.125rem] font-bold rounded-full
                                     w-[18.93rem] place-self-center border-small border-control 
                                     ${isLoginForm ? 'text-form bg-white' : 'text-primary'}`}>
-                    {!isLoginForm ? 'Sign Up' : 'Log In'}
+                    {!isLoginForm ? 'Sign Up' : 'Login'}
                 </Button>
             </form>
             <div className={'mt-[1.55rem]'}>
@@ -129,7 +129,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                         className={'text-[#21A1D3] cursor-pointer'}
                         onClick={() => setLoginFormState(prevState => !prevState)}
                     >
-                      {isLoginForm ? 'Sign Up' : 'Log In'}
+                      {isLoginForm ? 'Sign Up' : 'Login'}
                     </span>
                 </span>
             </div>

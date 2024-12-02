@@ -37,6 +37,7 @@ function Select(props: SelectProps) {
             value={value}
             className={`px-[0.74rem] py-[0.8rem] border-small border-control3 [&:not(:last-of-type)]:border-b-0
                         [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
+                        bg-white
                         ${EMPTY_KEY === key ? 'text-placeholder' : ''}`}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
         >
@@ -73,7 +74,7 @@ function Select(props: SelectProps) {
                 </div>
                 <ul
                     hidden={!isSelectExpanded}
-                    className={`absolute z-10 left-0 top-full w-full max-h-[20rem] overflow-y-scroll bg-inherit`}
+                    className={`absolute z-10 left-0 top-full w-full max-h-[20rem] overflow-y-scroll`}
                 >
                     {OptionsJSX}
                 </ul>

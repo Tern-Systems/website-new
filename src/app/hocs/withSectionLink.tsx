@@ -23,7 +23,7 @@ const withSectionLink = function <T extends string, P extends string>(router: Ap
         return (
             <span
                 {...propsRest}
-                className={`capitalize flex items-center cursor-pointer ${className}`}
+                className={`flex items-center cursor-pointer ${className}`}
                 onClick={() => handleClick()}
             >
                 {children ?? section}

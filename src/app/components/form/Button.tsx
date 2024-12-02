@@ -2,18 +2,32 @@ import {ButtonHTMLAttributes, FC} from "react";
 import Image from "next/image";
 
 import SVG_BACK from '@/assets/images/icons/back.svg';
+import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";
 import SVG_CLOSE from '@/assets/images/icons/close.svg';
-import SVG_INFO from '@/assets/images/icons/info.svg';
-import SVG_PENCIL from "@/assets/images/icons/pencil.svg";
-import SVG_DOWNLOAD from "@/assets/images/icons/download.svg";
-import SVG_SHARE from "@/assets/images/icons/share.svg";
 import SVG_DELETE from "@/assets/images/icons/delete.svg";
 import SVG_DOTS_V from "@/assets/images/icons/dots-v.svg";
-import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";
+import SVG_DOWNLOAD from "@/assets/images/icons/download.svg";
+import SVG_EDIT from '@/assets/images/icons/edit-line.svg';
+import SVG_INFO from '@/assets/images/icons/info.svg';
+import SVG_PENCIL from "@/assets/images/icons/pencil.svg";
 import SVG_PLUS from '@/assets/images/icons/plus.svg';
+import SVG_SHARE from "@/assets/images/icons/share.svg";
 
-type ButtonIcon = 'close' | 'back' | 'info' | 'pencil' | 'download' | 'share' | 'delete' | 'dots' | 'chevron' | 'plus';
+type ButtonIcon =
+    | 'close'
+    | 'back'
+    | 'info'
+    | 'pencil'
+    | 'download'
+    | 'share'
+    | 'delete'
+    | 'dots'
+    | 'chevron'
+    | 'plus'
+    | 'edit';
+
 const ICON: Record<ButtonIcon, string> = {
+    edit: SVG_EDIT,
     back: SVG_BACK,
     chevron: SVG_CHEVRON,
     close: SVG_CLOSE,

@@ -1,15 +1,11 @@
 import React, {FC, useEffect, useState} from "react";
 import Image from "next/image";
 
-import {SectionsEnum} from "@/app/utils/sections";
-
-import {useNavigate} from "@/app/hooks/useNavigate";
-
 import {useModal} from "@/app/context";
 
 import {CancelModal} from "./CancelModal";
 import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
-import {PaymentMethodToolView, Subscription} from "./PaymentMethodTool";
+import {Subscription} from "./PaymentMethodTool";
 
 import {Button, Editable, Select} from "@/app/components/form";
 
@@ -17,16 +13,11 @@ import SVG_CARD from "@/assets/images/icons/card.svg";
 
 
 const ManageSubscriptionsView: FC = () => {
-    const [navigate] = useNavigate();
     const modalCtx = useModal();
 
     const [subscriptions, setSubscriptions] = useState<Subscription[] | null>(null);
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
-
-    // TODO move up
-    const [editCardIdx, setEditCardIdx] = useState(0)
-    const [isPaymentCreation, setPaymentCreationState] = useState(true);
 
     useEffect(() => {
         // TODO fetch data
@@ -121,7 +112,7 @@ const ManageSubscriptionsView: FC = () => {
                     <div className={'grid grid-rows-2 grid-cols-[max-content,1fr] gap-y-[0.93rem] mb-[0.93rem]'}>
                         <span>ARCH {selectedPlan.plan.planType} Plan</span>
                         <span className={'text-[1.125rem] text-right'}>
-                            Your plan renews on January {renewDate.getDate()}th, {renewDate.getFullYear()}
+                            Your plan renews on {renewDate.toLocaleString('default', {month: 'long'})} {renewDate.getDate()}th, {renewDate.getFullYear()}
                         </span>
                         <span className={'font-bold'}>
                             ${selectedPlan.plan.priceUSD.toFixed(2)} per {selectedPlan.plan.planRecurrency === 'monthly' ? 'month' : 'year'}
@@ -162,50 +153,27 @@ const ManageSubscriptionsView: FC = () => {
         );
     }
 
-    const Content = selectedPlan && (editCardIdx !== -1 || isPaymentCreation)
-        ? (
-            <PaymentMethodToolView
-                editCardState={[editCardIdx, setEditCardIdx]}
-                savedCards={selectedPlan.savedCards}
-                creationState={[isPaymentCreation, setPaymentCreationState]}
-            />
-        )
-        : (
-            <>
-                <Button
-                    icon={'back'}
-                    onClick={() => navigate(SectionsEnum.Billing, navigate)}
-                    className={'mt-[1.7rem] font-oxygen font-bold'}
-                >
-                    {SectionsEnum.Billing}
-                </Button>
-                <div className={'w-[29.0625rem] text-nowrap mb-[3.7rem]'}>
-                    <h1 className={'text-[3rem] py-[7.24rem] font-bold mb-[1.25rem]'}>
-                        Manage Subscriptions
-                    </h1>
-                    <Select
-                        options={subscriptionOptions}
-                        value={selectedSubscriptionIdx.toString()}
-                        placeholder={'Select'}
-                        onChangeCustom={(value) => setSelectedSubscriptionsIdx(+value)}
-                        classNameWrapper={'flex-col gap-y-[0.94rem]'}
-                        className={`px-[0.62rem] w-full py-[0.8rem] h-[3.25rem] border-small rounded-[0.375rem] border-control3`}
-                        classNameLabel={'font-bold place-self-start'}
-                    >
-                        Choose Subscription to Manage
-                    </Select>
-                </div>
-                {RenderPlanInfo()}
-            </>
-        )
-
     return (
-        <div
-            className={'font-oxygen text-form h-full bg-control4 px-[1.83rem] text-[1.3125rem] overflow-y-scroll'}>
-            {Content}
-            <span className={'pb-[1rem] block'}/>
-        </div>
-    )
+        <>
+            <div className={'w-[29.0625rem] text-nowrap mb-[3.7rem]'}>
+                <h1 className={'text-[3rem] py-[7.24rem] font-bold mb-[1.25rem]'}>
+                    Manage Subscriptions
+                </h1>
+                <Select
+                    options={subscriptionOptions}
+                    value={selectedSubscriptionIdx.toString()}
+                    placeholder={'Select'}
+                    onChangeCustom={(value) => setSelectedSubscriptionsIdx(+value)}
+                    classNameWrapper={'flex-col gap-y-[0.94rem]'}
+                    className={`px-[0.62rem] w-full py-[0.8rem] h-[3.25rem] border-small rounded-[0.375rem] border-control3`}
+                    classNameLabel={'font-bold place-self-start'}
+                >
+                    Choose Subscription to Manage
+                </Select>
+            </div>
+            {RenderPlanInfo()}
+        </>
+    );
 }
 
 export {ManageSubscriptionsView}

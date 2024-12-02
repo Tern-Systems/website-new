@@ -6,7 +6,7 @@ import {SectionsEnum} from "@/app/utils/sections";
 
 import {useModal, useUser} from "@/app/context";
 
-import {withSectionLink} from "@/app/hocs/withSectionLink";
+import {withSectionLink} from "@/app/hocs";
 
 import {AuthModal} from "@/app/components/modals";
 
@@ -16,13 +16,12 @@ import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service;
 
 const NAV_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.Product, SectionsEnum.Service, SectionsEnum.Contact];
-const AUTH_BTNS: string[] = ['Log In', 'Sign Up'];
+const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
 const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
     Profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
     Service: [
         SectionsEnum.ARCH,
         SectionsEnum.ARCodeTool,
-        SectionsEnum.MappingTool,
         SectionsEnum.Pricing,
         SectionsEnum.SavedCodes,
         SectionsEnum.UserManual
@@ -78,7 +77,6 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
         case 'Service':
         case 'ARCH':
         case 'Creation Tool':
-        case 'Mapping Tool':
         case 'Pricing and Plans':
         case 'Saved Codes':
         case 'User Manual':
