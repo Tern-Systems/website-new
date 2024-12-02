@@ -13,18 +13,15 @@ jobs:
     runs-on: ubuntu-latest  # Use the latest Ubuntu image for the job
 
     steps:
-      # Step 1: Checkout the code from the repository
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
-      # Step 2: Set up SSH key for secure connection to GCP instance
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh  # Create .ssh directory if it doesn't exist
           echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
           chmod 600 ~/.ssh/id_rsa  # Set appropriate permissions for the SSH key
 
-      # Step 3: Verify SSH connection and check Node.js and npm versions on the server
       - name: Verify SSH connection
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
@@ -32,9 +29,7 @@ jobs:
             node -v
             npm -v
           EOF
-        # shell: /usr/bin/bash -e {0}
 
-      # Step 4: SSH into the GCP instance and run deployment commands
       - name: SSH into the GCP instance and run the deployment script
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
@@ -49,11 +44,10 @@ jobs:
             # Restart the application service to apply updates
             sudo service website-app restart
           EOF
-        # shell: /usr/bin/bash -e {0}
       
       - name: Send Deployment Status Notification to Discord
-      run: |
-        STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
-        curl -X POST -H "Content-Type: application/json" \
-        -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $STATUS\"}" \
-        ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\":\"**Deploy G**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $STATUS\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
