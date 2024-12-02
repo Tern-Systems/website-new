@@ -25,14 +25,6 @@ const PurchasingInformationView: FC = () => {
     useEffect(() => {
         try {
             // TODO fetch cards, invoices
-            setInvoices([{
-                cost: 123.123,
-                date: 33412,
-                id: 123123,
-                item: 'adsada',
-                status: 'paid',
-                card: 'casd'
-            }]);
         } catch (error: unknown) {
         }
     }, [])
@@ -73,8 +65,8 @@ const PurchasingInformationView: FC = () => {
 
     return (
         <>
-            <div className={'w-[29.0625rem] text-nowrap mb-[3.7rem]'}>
-                <h1 className={'text-[3rem] py-[7.24rem] font-bold mb-[1.25rem]'}>
+            <div className={'w-[29.0625rem] text-nowrap mb-[5.76rem] mt-[4.17rem]'}>
+                <h1 className={'text-[3rem] font-bold'}>
                     Purchasing Information
                 </h1>
             </div>

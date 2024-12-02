@@ -34,8 +34,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
         >
                 <span className={'inline-block'}>
                     <span>Remove {card.nickName}</span>
-                    <span className={`bg-[#D3D3D3] inline-block rounded-[0.5625rem] p-[1.25rem] flex items-center
-                                      mt-[1.56rem] gap-[1.25rem]`}>
+                    <span className={`bg-[#D3D3D3] rounded-[0.5625rem] p-[1.25rem] flex items-center mt-[1.56rem] gap-[1.25rem]`}>
                         <Image src={SVG_CARD} alt={'card'} className={'w-[4.6875rem]'}/>
                         <span><span
                             className={'capitalize'}>{card.type}</span> Ending in •••• {card.cardNumber.slice(-4)}</span>

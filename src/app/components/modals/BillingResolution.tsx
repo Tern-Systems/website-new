@@ -8,7 +8,7 @@ const BillingModal: FC = () => (
                         Email: <a href={'mailto:brc@tern.ac'} target={'_blank'}>brc@tern.ac</a>
                     </span>
             <span>
-                        Phone: <a href={'tel:+19143065528'} target={'_blank'}>+1 (914) 306-5528</a>
+                        Phone: <a href={'tel:19143065528'} target={'_blank'}>+1 (914) 306-5528</a>
                     </span>
         </div>
     </BaseModal>

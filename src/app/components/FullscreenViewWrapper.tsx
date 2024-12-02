@@ -32,6 +32,7 @@ const FullscreenViewWrapper: FC<Props> = (props: Props) => {
                 {backButtonSection}
             </Button>
             {children}
+            <span className={'block pt-[--py]'}/>
         </div>
     )
 }

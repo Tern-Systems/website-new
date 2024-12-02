@@ -93,6 +93,7 @@ const PaymentMethodToolView: FC = () => {
     }, [params, setPaymentCreationState])
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         try {
             // TOOD;
             if (isPaymentCreation) {
@@ -279,14 +280,15 @@ const PaymentMethodToolView: FC = () => {
                 </fieldset>
             </form>
             <div className={'mt-[6.57rem]'} hidden={isPaymentCreation}>
-                    <span
-                        className={'text-[#F42200] text-[0.875rem] cursor-pointer'}
-                        onClick={() => modalCtx.openModal(
-                            <RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>
-                        )}
-                    >
-                        Remove Payment Method
-                    </span>
+                <span
+                    className={'text-[#F42200] text-[0.875rem] cursor-pointer'}
+                    onClick={() => {
+                        if (savedCards[+editCardIdx])
+                            modalCtx.openModal(<RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>)
+                    }}
+                >
+                    Remove Payment Method
+                </span>
             </div>
         </div>
     )

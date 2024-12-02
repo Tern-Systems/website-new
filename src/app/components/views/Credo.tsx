@@ -19,9 +19,11 @@ const PARAGRAPHS: string[] = [
 const CredoView = () => {
     const Paragraphs = PARAGRAPHS.map((p, index) => <p key={p.slice(5) + index} className={'mb-[2.3rem]'}>{p}</p>)
     return (
-        <div className={`${styles.highlight} w-[69.125rem]`}>
-            <h1 className={'text-[3.75rem] mb-[2.3rem]'}>Our Credo</h1>
-            {Paragraphs}
+        <div className={`${styles.highlight} max-w-[69.125rem] max-h-[41.625rem]`}>
+            <h1 className={'mb-[2.3rem]'}>Our Credo</h1>
+            <div className={'overflow-y-scroll [&&]:text-[1.6875rem]'}>
+                {Paragraphs}
+            </div>
         </div>
     );
 };

@@ -15,14 +15,14 @@ import {FullscreenViewWrapper} from "@/app/components/FullscreenViewWrapper";
 import {
     ARCodeToolView,
     BillingView,
-    ContactView,
+    ContactView, CookieView,
     CredoView,
     DocumentationView,
     ManageSubscriptionsView,
-    PricingView,
+    PricingView, PrivacyView,
     PurchasingInformationView,
     SavedARCodes,
-    SubscribeView,
+    SubscribeView, TermsView,
 } from "@/app/components/views";
 
 import styles from '../page.module.css';
@@ -52,6 +52,13 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     if (!modalCtx.hideContent) {
         switch (activeSection) {
             case 'Cookies':
+                Content = <CookieView/>
+                break;
+            case 'Privacy':
+                Content = <PrivacyView/>
+                break;
+            case 'Terms':
+                Content = <TermsView/>
                 break;
             case 'Home':
                 Content = (
@@ -227,6 +234,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
         >
             <div className={'h-full w-full flex flex-col p-[--py] pb-0'}>
                 {Content}
+                <span className={'block pt-[--py]'}/>
             </div>
         </div>
     );

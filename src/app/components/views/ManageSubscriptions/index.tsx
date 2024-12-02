@@ -97,7 +97,7 @@ const ManageSubscriptionsView: FC = () => {
             renewDate = new Date(new Date(billingDate).setFullYear(billingDate.getFullYear() + 1));
 
         return (
-            <div className={'grid gap-[10rem] grid-rows-1 grid-cols-2'}>
+            <div className={'grid gap-[10rem] grid-rows-1 grid-cols-2 mt-[3.7rem]'}>
                 <div>
                     <div className={'flex justify-between items-center'}>
                         <h2 className={'text-[1.6875rem] font-bold'}>Current Plan</h2>
@@ -155,8 +155,8 @@ const ManageSubscriptionsView: FC = () => {
 
     return (
         <>
-            <div className={'w-[29.0625rem] text-nowrap mb-[3.7rem]'}>
-                <h1 className={'text-[3rem] py-[7.24rem] font-bold mb-[1.25rem]'}>
+            <div className={'w-[29.0625rem] text-nowrap'}>
+                <h1 className={'text-[3rem] font-bold mb-[3.12rem] mt-[4.17rem]'}>
                     Manage Subscriptions
                 </h1>
                 <Select
