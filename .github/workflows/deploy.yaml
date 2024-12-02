@@ -3,9 +3,10 @@ name: Deploy Website to GCP Compute Engine
 env: 
   DEBUG: true  # Enable debugging mode for more verbose output
 
-on:
-  push:
-    branches: [main]  # Trigger deployment on push to the main branch
+  on:
+    repository_dispatch:
+      types: [deploy]
+    # Trigger deployment on push to the main branch
 
 jobs:
   deploy:
@@ -50,56 +51,9 @@ jobs:
           EOF
         # shell: /usr/bin/bash -e {0}
       
-      # Step 5: Fetch details of the Pull Request (PR) to extract creator, approver, and merger info
-      - name: Fetch PR Details
-        id: pr_details
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Fetch PR information based on the current branch and repository
-          PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository }}:${{ github.ref_name }})
-          
-          # Check if PR_INFO is empty or if there are no PRs found
-          if [ "$(echo "$PR_INFO" | jq 'length')" -eq 0 ]; then
-            echo "No pull request found for the specified branch. Retrieving commit information."
-      
-            # Fetch latest commit information on the branch
-            COMMIT_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              https://api.github.com/repos/${{ github.repository }}/commits/${{ github.ref_name }})
-      
-            # Extract the username of the commit author
-            CREATOR=$(echo "$COMMIT_INFO" | jq -r '.commit.author.name')
-            APPROVER="none"  # No approver in this case
-            MERGER="none"    # No merger in this case
-      
-          else
-            # Extract the username of the PR creator
-            CREATOR=$(echo "$PR_INFO" | jq -r '.[0].user.login')
-      
-            # Fetch latest review to identify the actual approver, even if they weren't originally requested
-            REVIEWS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              $(echo "$PR_INFO" | jq -r '.[0]._links.self.href')/reviews)
-            
-            APPROVER=$(echo "$REVIEWS" | jq -r 'map(select(.state == "APPROVED")) | last | .user.login // "none"')
-            
-            # Extract the username of the person who merged the PR, if merged
-            MERGER=$(echo "$PR_INFO" | jq -r '.[0].merged_by.login // "none"')
-          fi
-      
-          # Write outputs to GITHUB_OUTPUT for later steps to access these values
-          echo "creator=$CREATOR" >> $GITHUB_OUTPUT
-          echo "approver=$APPROVER" >> $GITHUB_OUTPUT
-          echo "merger=$MERGER" >> $GITHUB_OUTPUT
-
-
-      # Step 6: Send a deployment status notification to Discord with PR details
       - name: Send Deployment Status Notification to Discord
-        if: always()  # Run this step regardless of success or failure of previous steps
-        run: |
-          # Determine deployment status based on the job outcome
-          STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
-          # Send a formatted message to Discord including deployment details and status
-          curl -X POST -H "Content-Type: application/json" \
-          -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ steps.pr_details.outputs.creator }}\n**Approver:** ${{ steps.pr_details.outputs.approver }}\n**Merger:** ${{ steps.pr_details.outputs.merger }}\n**Status:** $STATUS\"}" \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+      run: |
+        STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
+        curl -X POST -H "Content-Type: application/json" \
+        -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $STATUS\"}" \
+        ${{ secrets.DISCORD_WEBHOOK_URL }}
