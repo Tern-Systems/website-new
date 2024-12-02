@@ -1,16 +1,15 @@
 name: Deploy Website to GCP Compute Engine
 
 env: 
-  DEBUG: true  # Enable debugging mode for more verbose output
-
-  on:
-    repository_dispatch:
-      types: [deploy]
-    # Trigger deployment on push to the main branch
-
+  DEBUG: true 
+  
+on:
+  repository_dispatch:
+    types: [deploy]
+  
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu image for the job
+    runs-on: ubuntu-latest  
 
     steps:
       - name: 'Checkout repository'
