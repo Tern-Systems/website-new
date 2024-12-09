@@ -37,4 +37,5 @@ export enum SectionsEnum {
     ManageSubscriptions = 'Manage Subscriptions',
     PaymentMethodTool = 'Payment Method Edit',
     PurchasingInformation = 'Purchasing Information',
+    Invoice = 'Invoice',
 }

@@ -40,8 +40,9 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 title={'Email Sent'}
                 className={'w-[30.3125rem] border-control4 border-small text-center'}
             >
-                <Image src={SVG_INSIGNIA} alt={'insignia'} className={'mb-[1.25rem] w-[10.42rem] h-[9rem] place-self-center'}/>
-                <span>To reset your password, please verify your email address by clicking the verification link sent to your inbox.</span>
+                <Image src={SVG_INSIGNIA} alt={'insignia'}
+                       className={'mb-[1.25rem] w-[10.42rem] h-[9rem] place-self-center'}/>
+                <span>To reset your password, please click the link provided in the email sent to your registered email address.</span>
             </BaseModal>
         );
 

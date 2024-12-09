@@ -55,10 +55,10 @@ const PurchasingInformationView: FC = () => {
             <tr key={order.id + index}>
                 <td>{order.id}</td>
                 <td>{invoiceDate.toLocaleString('default', {month: 'long'})} {invoiceDate.getDate()}th, {invoiceDate.getFullYear()}</td>
-                <td>{order.cost}</td>
+                <td>{order.totalDue.toFixed(2)}</td>
                 <td>{order.status}</td>
-                <td>{order.card}</td>
-                <td className={'text-right'}>{order.item}</td>
+                <td>{order.card.nickName}</td>
+                <td className={'text-right'}>{order.item.name}</td>
             </tr>
         )
     });

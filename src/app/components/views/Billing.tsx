@@ -3,49 +3,54 @@ import React, {FC, ReactElement, useEffect, useState} from "react";
 import {Invoice} from "@/app/static/types";
 import {SectionsEnum} from "@/app/utils/sections";
 
+
+import {INVOICE_TEMPLATE} from "@/app/static/constants";
+
 import {withSectionLink} from "@/app/hocs";
-import {useRouter} from "next/navigation";
-import {BillingModal} from "@/app/components/modals/BillingResolution";
+
 import {useModal} from "@/app/context";
+
+import {BillingModal} from "@/app/components/modals/BillingResolution";
+import {useNavigate} from "@/app/hooks/useNavigate";
+
+
+const ORDERS_TEMPLATE: Invoice[] = [
+    INVOICE_TEMPLATE,
+]
 
 const BillingView: FC = () => {
     const [orders, setOrders] = useState<Invoice[]>([]);
 
-    const router = useRouter();
     const modalCtx = useModal();
+    const [navigate, router] = useNavigate();
 
     const SectionLink = withSectionLink(router);
 
     useEffect(() => {
         try {
             // TODO fetch orders
-            setOrders(
-                [
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                    {id: 1231232, status: 'paid', cost: 23.94, date: 123412, card: 'asdsa', item: 'Asdasdadas'},
-                ])
+            const orders: Invoice[] = ORDERS_TEMPLATE;
+            if (orders)
+                setOrders(ORDERS_TEMPLATE)
         } catch (error: unknown) {
         }
     }, [])
 
     // Elements
     const OrderRows: ReactElement[] = (orders ?? []).map((order, index) => (
-        <tr key={order.id + index} className={'h-[3.125rem] odd:bg-[#b3b3b326]'}>
-            <td className={'rounded-l-[0.5625rem]'}>{order.id}</td>
+        <tr
+            key={order.id + index}
+            className={'h-[3.125rem] odd:bg-[#b3b3b326] cursor-pointer'}
+            onClick={() => {
+                localStorage.setItem('invoice', JSON.stringify(order));
+                navigate(SectionsEnum.Invoice);
+            }}
+        >
+            <td className={'rounded-l-[0.5625rem] px-[0.75rem]'}>{order.id}</td>
             <td>{order.date}</td>
-            <td>{order.cost}</td>
+            <td>{order.subtotalUSD}</td>
             <td>{order.status}</td>
-            <td className={'rounded-r-[0.5625rem]'}>{order.item}</td>
+            <td className={'rounded-r-[0.5625rem]'}>{order.item.name}</td>
         </tr>
     ));
 

@@ -1,3 +1,5 @@
+import {Invoice} from "@/app/static/types";
+
 const COUNTRIES: Record<string, string> = {
     'US': 'United States',
     'CA': 'Canada',
@@ -56,4 +58,21 @@ const STATES: Record<string, string> = {
     'WY': 'Wyoming'
 }
 
-export {STATES, COUNTRIES}
+
+const INVOICE_TEMPLATE: Invoice = {
+    id: 111111111111,
+    date: Date.now(),
+    to: 'John Doe',
+    from: 'Tern Systems, LLC',
+    card: {cardNumber: '1111222233334444', type: 'visa', nickName: 'john doe'},
+    item: {name: 'ARCH Standard Subscription', priceUSD: 10},
+    subtotalUSD: 10,
+    totalDue: 10.60,
+    taxPercent: 0.06,
+    paidUSD: 10.6,
+    state: 'PA',
+    type: 'monthly',
+    status: 'paid'
+}
+
+export {STATES, COUNTRIES, INVOICE_TEMPLATE}

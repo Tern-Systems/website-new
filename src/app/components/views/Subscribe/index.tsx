@@ -20,10 +20,15 @@ const SubscribeView: FC = () => {
     return (
         <div className={'flex font-oxygen text-form h-full'}>
             <PaymentInfo subscription={subscription}/>
-            <PaymentForm type={subscription?.type} recurrency={subscription?.recurrency}
-                         priceUSD={subscription?.priceUSD}/>
+            <PaymentForm
+                type={subscription?.type}
+                recurrency={subscription?.recurrency}
+                priceUSD={subscription?.priceUSD}
+            />
         </div>
     );
 };
 
-export {SubscribeView}
+import {InvoiceView} from "./Invoice";
+
+export {SubscribeView, InvoiceView}

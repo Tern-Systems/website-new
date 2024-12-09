@@ -58,7 +58,7 @@ const Button: FC<ButtonProps> = (props: ButtonProps) => {
     return (
         <button
             {...props}
-            className={`${icon ? 'flex items-center gap-[0.52rem]' : ''} text-nowrap ${className}`}
+            className={`${icon ? 'flex items-center justify-center gap-[0.52rem]' : ''} text-nowrap ${className}`}
         >
             {Icon}
             <span hidden={!children}>{children}</span>

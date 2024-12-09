@@ -1,6 +1,8 @@
 import React, {FC, useEffect, useState} from "react";
 import Image from "next/image";
 
+import {formatDate} from "@/app/utils/data";
+
 import {useModal} from "@/app/context";
 
 import {Subscription, PaymentMethodToolView} from "./PaymentMethodTool";
@@ -115,7 +117,7 @@ const ManageSubscriptionsView: FC = () => {
                     <div className={'grid grid-rows-2 grid-cols-[max-content,1fr] gap-y-[0.93rem] mb-[0.93rem]'}>
                         <span>ARCH {selectedPlan.plan.type} Plan</span>
                         <span className={'text-[1.125rem] text-right'}>
-                            Your plan renews on {renewDate.toLocaleString('default', {month: 'long'})} {renewDate.getDate()}th, {renewDate.getFullYear()}
+                            Your plan renews on {formatDate(renewDate)}
                         </span>
                         <span className={'font-bold'}>
                             ${selectedPlan.plan.priceUSD.toFixed(2)} per {selectedPlan.plan.recurrency === 'monthly' ? 'month' : 'year'}

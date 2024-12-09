@@ -19,10 +19,17 @@ type CardData = {
 type Invoice = {
     id: number;
     date: number;
-    card: string;
-    cost: number;
-    status: string;
-    item: string
+    to: string;
+    from: string;
+    card: Pick<CardData, 'cardNumber' | 'type' | 'nickName'>;
+    item: { name: string, priceUSD: number };
+    subtotalUSD: number;
+    totalDue: number;
+    taxPercent: number;
+    paidUSD: number;
+    state: string;
+    status: 'paid' | 'unpaid';
+    type: SubscriptionRecurrency;
 }
 
 // Subscription

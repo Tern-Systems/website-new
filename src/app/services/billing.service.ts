@@ -87,31 +87,37 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     }
 
     async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
-        const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: this.API + `process-payment-saved`,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data: JSON.stringify({
-                user: email,
-                cardId: data.cardNumber,
-                cvv: data.cvc,
-                planName: planType,
-                price: planPrice,
-                duration: planDuration,
-                state: data.state
-            }),
-            withCredentials: true,
-        };
-
         try {
+            const taxResponse = await this._fetchTaxes('place');
+
+            const config: AxiosRequestConfig = {
+                method: 'POST',
+                url: this.API + `process-payment-saved`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: JSON.stringify({
+                    user: email,
+                    cardId: data.cardNumber,
+                    cvv: data.cvc,
+                    planName: planType,
+                    price: planPrice * (1 + taxResponse),
+                    duration: planDuration,
+                    state: data.state
+                }),
+                withCredentials: true,
+            };
+
             const response = await axios(config);
             return response.data;
         } catch (error: unknown) {
             throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
         }
     };
+
+    private async _fetchTaxes(place: string): Promise<number> { // TODO
+        return 0;
+    }
 }
 
 const BillingService = new BillingServiceImpl();

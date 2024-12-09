@@ -26,7 +26,7 @@ import {
     SavedARCodes,
     SubscribeView,
     TermsView,
-    PaymentMethodToolView
+    PaymentMethodToolView, InvoiceView
 } from "@/app/components/views";
 
 import styles from '../page.module.css';
@@ -216,9 +216,12 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                                     border-small border-control2 rounded-small text-[5rem] text-center place-items-center`}
                     >
                         <span className={'mx-auto'}>Coming soon</span>
-                        <Image src={SVG_MENU_FALLBACK} alt={'menu-fallback'} className={'absolute top-[1.25rem] left-[1.25rem]'}/>
-                        <Image src={SVG_FULLSCREEN} alt={'fullscreen'} className={'absolute top-[1.25rem] right-[1.25rem]'}/>
-                        <Image src={SVG_VIEW_VIEW} alt={'view-view'} className={'absolute bottom-[1.25rem] right-[1.25rem]'}/>
+                        <Image src={SVG_MENU_FALLBACK} alt={'menu-fallback'}
+                               className={'absolute top-[1.25rem] left-[1.25rem]'}/>
+                        <Image src={SVG_FULLSCREEN} alt={'fullscreen'}
+                               className={'absolute top-[1.25rem] right-[1.25rem]'}/>
+                        <Image src={SVG_VIEW_VIEW} alt={'view-view'}
+                               className={'absolute bottom-[1.25rem] right-[1.25rem]'}/>
                     </div>
                 )
                 break;
@@ -233,6 +236,20 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                         backButtonSection={SectionsEnum.Billing}
                     >
                         <PurchasingInformationView/>
+                    </FullscreenViewWrapper>
+                )
+                break;
+            case 'Invoice':
+                // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {
+                //     navigate(SectionsEnum.Home);
+                //     break;
+                // }
+                Content = (
+                    <FullscreenViewWrapper
+                        setHeadingsHidden={setHeadingsHidden}
+                        backButtonSection={SectionsEnum.Billing}
+                    >
+                        <InvoiceView/>
                     </FullscreenViewWrapper>
                 )
                 break;
