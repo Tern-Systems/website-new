@@ -1,17 +1,34 @@
 'use client'
 
 import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
+import {Subscription} from "@/app/static/types";
 
-type PlanType = 'standard' | 'pro' | null;
-type PlanRecurrency = 'monthly' | 'annual';
+
+type UserSubscription = Pick<Subscription, 'subscription' | 'type' | 'recurrency' | 'isBasicKind'>
 
 interface UserData {
     email: string;
     telephone: string;
     isEmailVerified: boolean;
-    isPurchased: boolean
-    planType: PlanType;
-    planRecurrency: PlanRecurrency;
+    isPurchased: boolean;
+    isActivated2FA: boolean;
+    subscriptions: UserSubscription[];
+}
+
+const USER_TEMPLATE: UserData = {
+    email: 'admin@gmail.com',
+    telephone: '1234567788',
+    subscriptions: [
+        {
+            type: 'pro',
+            recurrency: 'monthly',
+            isBasicKind: true,
+            subscription: 'ternKey',
+        }
+    ],
+    isPurchased: true,
+    isEmailVerified: true,
+    isActivated2FA: false,
 }
 
 interface IUserContext {
@@ -25,7 +42,7 @@ const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [isLoggedIn, setLoggedState] = useState<boolean>(false);
-    const [userData, setUserDataHelper] = useState<UserData | null>(null);
+    const [userData, setUserDataHelper] = useState<UserData | null>(USER_TEMPLATE);
 
     const setUserData = (userData: UserData) => {
         setUserDataHelper(userData);
@@ -55,4 +72,4 @@ const useUser = (): IUserContext => {
 };
 
 export {UserProvider, useUser}
-export type {UserData, PlanType, PlanRecurrency}
+export type {UserData, UserSubscription}

@@ -76,7 +76,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                         className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
                         required
                     >
-                        Please enter email to {!isLoginForm ? 'create' : 'login to'} your Tern account
+                        Please enter credentials {!isLoginForm ? 'create' : 'login to'} your Tern account
                     </Input>
                     <Input
                         type={"password"}

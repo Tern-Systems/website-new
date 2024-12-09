@@ -1,24 +1,27 @@
 "use client";
 
-import React, {FC} from "react";
-import {useSearchParams} from "next/navigation";
+import React, {FC, useEffect, useState} from "react";
 
-import {PlanRecurrency, PlanType} from "@/app/context";
+import {Subscription} from "@/app/static/types";
 
 import {PaymentInfo} from "./PaymentInfo";
 import {PaymentForm} from "./PaymentForm";
 
 
 const SubscribeView: FC = () => {
-    const params = useSearchParams();
+    const [subscription, setSubscription] = useState<Subscription | null>(null);
 
-    const planType = params.get('plan-type') as NonNullable<PlanType>;
-    const recurrency = params.get('recurrency') as PlanRecurrency;
+    useEffect(() => {
+        const subscriptionData = localStorage.getItem('subscription');
+        if (subscriptionData)
+            setSubscription(JSON.parse(subscriptionData) as Subscription);
+    }, [])
 
     return (
         <div className={'flex font-oxygen text-form h-full'}>
-            <PaymentInfo planType={planType} recurrency={recurrency}/>
-            <PaymentForm planType={planType} recurrency={recurrency}/>
+            <PaymentInfo subscription={subscription}/>
+            <PaymentForm type={subscription?.type} recurrency={subscription?.recurrency}
+                         priceUSD={subscription?.priceUSD}/>
         </div>
     );
 };

@@ -1,5 +1,4 @@
-import {PlanRecurrency, PlanType} from "@/app/context";
-
+// Payment
 type CardData = {
     type: string;
     cardNumber: string;
@@ -17,14 +16,6 @@ type CardData = {
     isDefault: boolean;
 }
 
-
-type Plan = Record<NonNullable<PlanType>, {
-    icon: string;
-    priceUSD: Record<PlanRecurrency, number>;
-    benefits: string[];
-}>
-
-
 type Invoice = {
     id: number;
     date: number;
@@ -34,4 +25,22 @@ type Invoice = {
     item: string
 }
 
-export type {CardData, Plan, Invoice}
+// Subscription
+type SubscriptionRecurrency = 'annually' | 'monthly';
+type Subscription = {
+    subscription: string;
+    recurrency: SubscriptionRecurrency;
+    priceUSD: number;
+    type: string;
+    isBasicKind: boolean;
+}
+type SubscriptionPreviewData = {
+    icon: string;
+    priceUSD: Record<SubscriptionRecurrency, number>;
+    benefits: string[];
+}
+type SubscriptionPreview = Pick<Subscription, 'subscription' | 'isBasicKind'> & {
+    type: Record<string, SubscriptionPreviewData>
+}
+
+export type {CardData, SubscriptionPreview, SubscriptionPreviewData, Invoice, SubscriptionRecurrency, Subscription}

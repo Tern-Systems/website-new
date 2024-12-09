@@ -90,7 +90,7 @@ export default function Home() {
                 <footer
                     className={`flex w-full justify-between font-neo text-primary border-t-small border-section 
                                 px-[--px] py-[--py] place-self-end ${isHeadingsHidden ? 'hidden' : ''}`}>
-                    <span>© Copyright 2025 Tern Systems LLC</span>
+                    <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
                         <SectionLink section={SectionsEnum.Cookies}/>
                         &nbsp;·&nbsp;

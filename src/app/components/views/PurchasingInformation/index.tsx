@@ -64,8 +64,8 @@ const PurchasingInformationView: FC = () => {
     });
 
     return (
-        <>
-            <div className={'w-[29.0625rem] text-nowrap mb-[5.76rem] mt-[5.87rem]'}>
+        <div className={'pt-[9.14rem] px-[1.83rem]'}>
+            <div className={'w-[29.0625rem] text-nowrap mb-[5.76rem]'}>
                 <h1 className={'text-[3rem] font-bold'}>
                     Purchasing Information
                 </h1>
@@ -124,7 +124,7 @@ const PurchasingInformationView: FC = () => {
                 </div>
             </div>
             <span className={'block pt-[--py]'}/>
-        </>
+        </div>
     )
 }
 

@@ -1,8 +1,3 @@
-import {Plan} from "@/app/static/types";
-
-import SVG_DIAMOND_ACE from "@/assets/images/icons/diamond-ace.svg";
-import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
-
 const COUNTRIES: Record<string, string> = {
     'US': 'United States',
     'CA': 'Canada',
@@ -61,30 +56,4 @@ const STATES: Record<string, string> = {
     'WY': 'Wyoming'
 }
 
-
-const PLAN: Plan = {
-    standard: {
-        icon: SVG_DIAMOND_ACE,
-        priceUSD: {monthly: 10, annual: 8},
-        benefits: [
-            'Create and manage one AR code',
-            '100 scans per month',
-            'Detailed scan analytics',
-            'Custom personalization features',
-            'Data import and export',
-        ]
-    },
-    pro: {
-        icon: SVG_DIAMOND,
-        priceUSD: {monthly: 50, annual: 40},
-        benefits: [
-            'Manage up to 5 AR codes',
-            '1,000 scans per month',
-            'AR code design customization',
-            'Video support up to 30 seconds',
-            'Access to dedicated support team'
-        ]
-    }
-}
-
-export {STATES, COUNTRIES, PLAN}
+export {STATES, COUNTRIES}

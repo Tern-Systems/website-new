@@ -65,7 +65,8 @@ const Input: FC<InputProps> = (props: InputProps) => {
                     .map((char, index) => (
                         <span
                             key={char + index}
-                            className={'inline-block w-[1.9375rem] border-b-small border-control3 cursor-pointer -mb-[0.37rem]'}>
+                            className={`inline-block w-[1.9375rem] border-b-small cursor-pointer -mb-[0.37rem]
+                                        ${code.length === index ? 'border-control6' : 'border-control3'}`}>
                             {char}
                         </span>
                     ));
@@ -75,7 +76,8 @@ const Input: FC<InputProps> = (props: InputProps) => {
                     htmlFor={props.id}
                     className={`relative`}
                 >
-                    <span className={'flex gap-x-[0.94rem] font-oxygen text-[1.5rem] text-center justify-center h-[1.5rem]'}>
+                    <span
+                        className={'flex gap-x-[0.94rem] font-oxygen text-[1.5rem] text-center justify-center h-[1.5rem]'}>
                         {Code}
                     </span>
                     <input
@@ -110,7 +112,7 @@ const Input: FC<InputProps> = (props: InputProps) => {
                     className={`relative flex items-center last-of-type:mb-0 cursor-pointer text-left
                                 ${classNameWrapper} ${props.hidden ? 'hidden' : ''}`}>
                     <span hidden={!children} className={classNameLabel}>{children}</span>
-                    <div className={`relative flex items-center flex-grow`}>
+                    <div className={`relative flex items-center ${props.type === 'checkbox' ? 'flex-grow' : 'w-full'}`}>
                        <span
                            hidden={!IconsSVGs}
                            className={'absolute flex gap-[0.13rem] right-0 pr-[0.81rem]'}

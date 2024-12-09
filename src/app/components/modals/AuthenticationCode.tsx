@@ -79,7 +79,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             title={'Account Authentication'}
             className={`place-self-center mx-auto relative [&]:bg-control border-small border-control`}
         >
-            <div className={'flex flex-col items-center w-[26.18rem] mb-[1.88rem] text-center'}>
+            <div className={'flex flex-col items-center w-[26.18rem] mb-[1.88rem] text-center leading-[120%]'}>
                 <Image src={SVG_SAFE} alt={'safe'} className={'mb-[1.88rem] size-[9.905rem]'}/>
                 <span>
                     Please confirm your account by entering the authorization code sent to&nbsp;
@@ -105,8 +105,8 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                     required
                 />
                 {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
-                <Button className={`py-[0.37rem] mt-[1.2rem] text-[0.875rem] font-bold rounded-full
-                                    w-[9.38563rem] place-self-center border-small border-control6   `}>
+                <Button className={`py-[0.37rem] mt-[1.88rem] text-[0.875rem] font-bold rounded-full
+                                    w-[9.38563rem] place-self-center border-small border-control6`}>
                     Submit and Login
                 </Button>
             </form>

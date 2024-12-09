@@ -1,12 +1,13 @@
 import React, {FC, FormEvent, useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 
-import {PlanRecurrency, PlanType, useModal} from "@/app/context";
-import {CardData} from "@/app/static/types";
+import {CardData, SubscriptionRecurrency} from "@/app/static/types";
 
 import {COUNTRIES, STATES} from "@/app/static/constants";
 
 import {useForm} from "@/app/hooks/useForm";
+
+import {useModal} from "@/app/context";
 
 import {RemovePaymentMethodModal} from "./RemovePaymentMethodModal";
 
@@ -21,9 +22,28 @@ import SVG_CARD_NUM from "@/assets/images/icons/card-num.svg";
 import styles from './Form.module.css'
 
 
+const CARDS_TEMPLATE: CardData[] = [
+    {
+        type: 'visa',
+        cardNumber: '1234123412341234',
+        expirationDate: '01/01',
+        cvc: '000',
+        cardholderName: 'NAME SURNAME',
+        billingCountry: 'US',
+        billingAddress: '123 St',
+        addressLine1: '',
+        addressLine2: '',
+        city: 'City',
+        postalCode: '98738',
+        state: 'State',
+        nickName: 'John’s Personal Debit Card',
+        isDefault: true
+    }
+]
+
 type Plan = {
-    planType: PlanType;
-    planRecurrency: PlanRecurrency;
+    type: string;
+    recurrency: SubscriptionRecurrency;
     priceUSD: number;
     tax: number;
     lastBillingDate: number;
@@ -58,7 +78,7 @@ const PaymentMethodToolView: FC = () => {
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
 
     const [isPaymentCreation, setPaymentCreationState] = useState(false);
-    const [formData, setFormData] = useForm<CardData>(FORM_DATA_DEFAULT);
+    const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
 
 
     useEffect(() => {
@@ -70,24 +90,7 @@ const PaymentMethodToolView: FC = () => {
 
         try {
             // TODO fetch cards
-            setSavedCards([
-                {
-                    type: 'visa',
-                    cardNumber: '1234123412341234',
-                    expirationDate: '01/01',
-                    cvc: '000',
-                    cardholderName: 'NAME SURNAME',
-                    billingCountry: 'US',
-                    billingAddress: '123 St',
-                    addressLine1: '',
-                    addressLine2: '',
-                    city: 'City',
-                    postalCode: '98738',
-                    state: 'State',
-                    nickName: 'John’s Personal Debit Card',
-                    isDefault: true
-                }
-            ]);
+            setSavedCards(CARDS_TEMPLATE);
         } catch (error: unknown) {
         }
     }, [params, setPaymentCreationState])
@@ -103,6 +106,11 @@ const PaymentMethodToolView: FC = () => {
         }
     }
 
+    useEffect(() => {
+        if (editCardIdx > -1)
+            setFormDataState(savedCards[editCardIdx])
+    }, [savedCards, editCardIdx, setFormDataState])
+
     // Elements
     const SavedCardOptions: Record<string, string> = Object.fromEntries(
         savedCards?.map((card, index) =>
@@ -111,9 +119,9 @@ const PaymentMethodToolView: FC = () => {
     );
 
     return (
-        <div className={'text-nowrap mt-[5.87rem]'}>
+        <div className={'text-nowrap pt-[9.14rem] px-[1.83rem]'}>
             <h1 className={'text-[3rem] font-bold mb-[4.14rem]'}>
-                Edit payment method details
+                {isPaymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
             </h1>
             <form className={styles.form} onSubmit={handleFormSubmit}>
                 <fieldset>
@@ -175,7 +183,6 @@ const PaymentMethodToolView: FC = () => {
                         type={'number'}
                         value={formData.nickName}
                         onChange={setFormData('nickName')}
-                        placeholder={'Nickname'}
                         classNameWrapper={'flex-col [&]:items-start'}
                         required
                     >
@@ -205,7 +212,6 @@ const PaymentMethodToolView: FC = () => {
                     <Input
                         value={formData.cardholderName}
                         onChange={setFormData('cardholderName')}
-                        placeholder={'Full name on card'}
                         classNameWrapper={'flex-col [&]:items-start'}
                         required
                     >
@@ -214,7 +220,6 @@ const PaymentMethodToolView: FC = () => {
                     <Input
                         value={formData.addressLine1}
                         onChange={setFormData('addressLine1')}
-                        placeholder={'Address Line #1'}
                         classNameWrapper={'flex-col [&]:items-start'}
                         required
                     >
@@ -227,7 +232,6 @@ const PaymentMethodToolView: FC = () => {
                             if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
                                 event.preventDefault();
                         }}
-                        placeholder={'City / Locality'}
                         classNameWrapper={'flex-col [&]:items-start'}
                         required
                     >
@@ -238,7 +242,6 @@ const PaymentMethodToolView: FC = () => {
                         value={formData.postalCode}
                         maxLength={5}
                         onChange={setFormData('postalCode')}
-                        placeholder={'Postal / Zip Code'}
                         classNameWrapper={'flex-col [&]:items-start'}
                         required
                     >
@@ -249,7 +252,6 @@ const PaymentMethodToolView: FC = () => {
                     <Input
                         value={formData.addressLine2}
                         onChange={setFormData('addressLine2')}
-                        placeholder={'Address Line #2'}
                         classNameWrapper={'flex-col [&]:items-start'}
                     >
                         Street Address #2
@@ -257,7 +259,6 @@ const PaymentMethodToolView: FC = () => {
                     <Select
                         options={STATES}
                         value={formData.state}
-                        placeholder={'State / Province'}
                         onChangeCustom={(value) => setFormData('state')(value)}
                         classNameWrapper={'flex-col [&]:items-start'}
                         className={`px-[0.62rem] py-[0.8rem] bg-white`}
@@ -269,7 +270,6 @@ const PaymentMethodToolView: FC = () => {
                     <Select
                         options={COUNTRIES}
                         value={formData.billingCountry}
-                        placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         classNameWrapper={'flex-col [&]:items-start'}
                         className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-[0.375rem] border-control3 `}

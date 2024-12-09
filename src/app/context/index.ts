@@ -5,4 +5,4 @@ export {FlowProvider, useFlow} from './Flow.context';
 export type {FlowQueue} from './Flow.context';
 
 export {UserProvider, useUser} from './User.context';
-export type {PlanType, UserData, PlanRecurrency} from './User.context';
+export type {UserData, UserSubscription} from './User.context';

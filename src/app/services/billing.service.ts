@@ -1,7 +1,6 @@
 import axios, {AxiosRequestConfig} from "axios";
 
 import {CardData} from "@/app/static/types";
-import {PlanType} from "@/app/context";
 import {Res} from "@/app/utils/service";
 
 import {BaseService} from "@/app/services/base.service";
@@ -16,9 +15,9 @@ type SubscribeData = FormCardData & {
 interface IBillingService {
     getCards(email: string): Promise<Res<CardData[]>>;
 
-    postProcessPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string): Promise<Res>;
+    postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
 
-    postProcessSavedPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string): Promise<Res>;
+    postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
@@ -42,7 +41,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postProcessPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string): Promise<Res> {
+    async postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
         const cardDetails = {
             cardNumber: data.cardNumber,
             expiryDate: data.expirationDate,
@@ -87,7 +86,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postProcessSavedPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string): Promise<Res> {
+    async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this.API + `process-payment-saved`,

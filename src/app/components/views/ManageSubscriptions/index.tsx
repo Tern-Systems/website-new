@@ -13,6 +13,46 @@ import {Button, Editable, Select} from "@/app/components/form";
 import SVG_CARD from "@/assets/images/icons/card.svg";
 
 
+const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
+    {
+        plan: {
+            type: 'pro',
+            recurrency: 'monthly',
+            tax: 4.5,
+            priceUSD: 55.2,
+            lastBillingDate: 123,
+        },
+        savedCards: [
+            {
+                type: 'visa',
+                cardNumber: '1234123412341234',
+                expirationDate: '01/01',
+                cvc: '000',
+                cardholderName: 'NAME SURNAME',
+                billingCountry: 'US',
+                billingAddress: '123 St',
+                addressLine1: '',
+                addressLine2: '',
+                city: 'City',
+                postalCode: '98738',
+                state: 'State',
+                nickName: 'John’s Personal Debit Card',
+                isDefault: true
+            }
+        ]
+    },
+    {
+        plan: {
+            type: 'standard',
+            recurrency: 'annually',
+            tax: 5.5,
+            priceUSD: 40.1,
+            lastBillingDate: 1234
+        },
+        savedCards: [],
+    },
+];
+
 const ManageSubscriptionsView: FC = () => {
     const modalCtx = useModal();
 
@@ -22,51 +62,13 @@ const ManageSubscriptionsView: FC = () => {
 
     useEffect(() => {
         // TODO fetch data
-        setSubscriptions([
-            {
-                plan: {
-                    planType: 'pro',
-                    planRecurrency: 'monthly',
-                    tax: 4.5,
-                    priceUSD: 55.2,
-                    lastBillingDate: 123,
-                },
-                savedCards: [
-                    {
-                        type: 'visa',
-                        cardNumber: '1234123412341234',
-                        expirationDate: '01/01',
-                        cvc: '000',
-                        cardholderName: 'NAME SURNAME',
-                        billingCountry: 'US',
-                        billingAddress: '123 St',
-                        addressLine1: '',
-                        addressLine2: '',
-                        city: 'City',
-                        postalCode: '98738',
-                        state: 'State',
-                        nickName: 'John’s Personal Debit Card',
-                        isDefault: true
-                    }
-                ]
-            },
-            {
-                plan: {
-                    planType: 'standard',
-                    planRecurrency: 'annual',
-                    tax: 5.5,
-                    priceUSD: 40.1,
-                    lastBillingDate: 1234
-                },
-                savedCards: [],
-            },
-        ]);
+        setSubscriptions(SUBSCRIPTIONS_TEMPLATE);
     }, [])
 
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
         subscriptions?.map((subscription, index) =>
-            [index, 'ARCH ' + subscription.plan.planType + ' Plan'])
+            [index, 'ARCH ' + subscription.plan.type + ' Plan'])
         ?? []
     );
 
@@ -92,7 +94,7 @@ const ManageSubscriptionsView: FC = () => {
 
         let renewDate: Date;
         const billingDate = new Date(selectedPlan.plan.lastBillingDate ?? 0);
-        if (selectedPlan.plan.planRecurrency === 'monthly')
+        if (selectedPlan.plan.recurrency === 'monthly')
             renewDate = new Date(new Date(billingDate).setMonth(billingDate.getMonth() + 1));
         else
             renewDate = new Date(new Date(billingDate).setFullYear(billingDate.getFullYear() + 1));
@@ -111,12 +113,12 @@ const ManageSubscriptionsView: FC = () => {
                     </div>
                     <hr className={'border-control3 mt-[0.81rem] mb-[1.17rem]'}/>
                     <div className={'grid grid-rows-2 grid-cols-[max-content,1fr] gap-y-[0.93rem] mb-[0.93rem]'}>
-                        <span>ARCH {selectedPlan.plan.planType} Plan</span>
+                        <span>ARCH {selectedPlan.plan.type} Plan</span>
                         <span className={'text-[1.125rem] text-right'}>
                             Your plan renews on {renewDate.toLocaleString('default', {month: 'long'})} {renewDate.getDate()}th, {renewDate.getFullYear()}
                         </span>
                         <span className={'font-bold'}>
-                            ${selectedPlan.plan.priceUSD.toFixed(2)} per {selectedPlan.plan.planRecurrency === 'monthly' ? 'month' : 'year'}
+                            ${selectedPlan.plan.priceUSD.toFixed(2)} per {selectedPlan.plan.recurrency === 'monthly' ? 'month' : 'year'}
                         </span>
                     </div>
                     <Button
@@ -128,10 +130,9 @@ const ManageSubscriptionsView: FC = () => {
                         {isDetailsExpanded ? 'Hide' : 'Show'} Details
                     </Button>
                     <div
-                        hidden={!isDetailsExpanded}
                         className={`grid grid-rows-5 grid-cols-[1fr,min-content] bg-[#D9D9D9] w-[25.9375rem]
-                                rounded-[1.4375rem] px-[1.56rem] py-[1.22rem] gap-y-[1rem] mt-[1rem]`}>
-                        <span>ARCH {selectedPlan.plan.planType} Subscription</span>
+                                rounded-[1.4375rem] px-[1.56rem] py-[1.22rem] gap-y-[1rem] mt-[1rem] ${isDetailsExpanded ? '' : 'hidden'}`}>
+                        <span>ARCH {selectedPlan.plan.type} Subscription</span>
                         <span className={'text-right'}>${selectedPlan.plan.priceUSD.toFixed(2)}</span>
                         <span className={'font-bold'}>Subtotal</span>
                         <span className={'font-bold text-right'}>${selectedPlan.plan.priceUSD.toFixed(2)}</span>
@@ -155,9 +156,9 @@ const ManageSubscriptionsView: FC = () => {
     }
 
     return (
-        <>
+        <div className={'pt-[9.14rem] px-[1.83rem]'}>
             <div className={'w-[29.0625rem] text-nowrap'}>
-                <h1 className={'text-[3rem] font-bold mb-[3.12rem] mt-[4.17rem]'}>
+                <h1 className={'text-[3rem] font-bold mb-[3.12rem]'}>
                     Manage Subscriptions
                 </h1>
                 <Select
@@ -174,7 +175,7 @@ const ManageSubscriptionsView: FC = () => {
             </div>
             {RenderPlanInfo()}
             <span className={'block pt-[--py]'}/>
-        </>
+        </div>
     );
 }
 

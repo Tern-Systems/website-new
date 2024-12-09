@@ -1,20 +1,20 @@
 import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 
-import {CardData} from "@/app/static/types";
+import {CardData, SubscriptionRecurrency} from "@/app/static/types";
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {COUNTRIES, PLAN, STATES} from "@/app/static/constants";
+import {COUNTRIES, STATES} from "@/app/static/constants";
 
 import {BillingService, SubscribeData} from "@/app/services/billing.service";
-
-import {PlanRecurrency, PlanType, useFlow, useModal, useUser} from "@/app/context";
 
 import {useForm} from "@/app/hooks/useForm";
 import {useNavigate} from "@/app/hooks/useNavigate";
 
-import {DeclinedModal} from "@/app/components/views/Subscribe/DeclinedModal";
+import {useFlow, useModal, useUser} from "@/app/context";
 
 import {Button, Input, Select} from '@/app/components/form';
+
+import {DeclinedModal} from "./DeclinedModal";
 
 import SVG_VISA from '@/assets/images/icons/card-visa.svg';
 import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';
@@ -44,12 +44,13 @@ const FORM_DEFAULT: SubscribeData = {
 
 
 interface PaymentFormProps {
-    planType: NonNullable<PlanType>;
-    recurrency: PlanRecurrency;
+    type: string | undefined;
+    recurrency: SubscriptionRecurrency | undefined;
+    priceUSD: number | undefined;
 }
 
 const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
-    const {planType, recurrency} = props
+    const {type, recurrency, priceUSD} = props
 
     const [navigate] = useNavigate();
 
@@ -97,16 +98,15 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
         event.preventDefault();
 
         try {
-            if (!userCtx.userData)
+            if (!userCtx.userData || !priceUSD || !recurrency || !type)
                 return;
 
-            const price = PLAN[planType].priceUSD[recurrency]; // TODO
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
 
             if (savedCards.length)
-                await BillingService.postProcessSavedPayment(formData, planType, recurrencyMapped, price, userCtx.userData.email);
+                await BillingService.postProcessSavedPayment(formData, type, recurrencyMapped, priceUSD, userCtx.userData.email);
             else
-                await BillingService.postProcessPayment(formData, planType, recurrencyMapped, price, userCtx.userData.email);
+                await BillingService.postProcessPayment(formData, type, recurrencyMapped, priceUSD, userCtx.userData.email);
         } catch (error: unknown) {
             setPaymentStatus(false);
         }
