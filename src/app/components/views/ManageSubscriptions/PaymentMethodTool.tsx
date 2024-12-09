@@ -1,4 +1,4 @@
-import {FC, FormEvent, useEffect, useState} from "react";
+import React, {FC, FormEvent, useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 
 import {PlanRecurrency, PlanType, useModal} from "@/app/context";
@@ -111,7 +111,7 @@ const PaymentMethodToolView: FC = () => {
     );
 
     return (
-        <div className={'text-nowrap mt-[4.17rem]'}>
+        <div className={'text-nowrap mt-[5.87rem]'}>
             <h1 className={'text-[3rem] font-bold mb-[4.14rem]'}>
                 Edit payment method details
             </h1>
@@ -290,6 +290,7 @@ const PaymentMethodToolView: FC = () => {
                     Remove Payment Method
                 </span>
             </div>
+            <span className={'block pt-[--py]'}/>
         </div>
     )
 }

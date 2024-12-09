@@ -108,9 +108,9 @@ const Input: FC<InputProps> = (props: InputProps) => {
             return (
                 <label
                     className={`relative flex items-center last-of-type:mb-0 cursor-pointer text-left
-                    ${classNameWrapper} ${props.hidden ? 'hidden' : ''}`}>
+                                ${classNameWrapper} ${props.hidden ? 'hidden' : ''}`}>
                     <span hidden={!children} className={classNameLabel}>{children}</span>
-                    <div className={`relative flex items-center w-full`}>
+                    <div className={`relative flex items-center flex-grow`}>
                        <span
                            hidden={!IconsSVGs}
                            className={'absolute flex gap-[0.13rem] right-0 pr-[0.81rem]'}

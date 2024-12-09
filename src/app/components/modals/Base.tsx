@@ -30,7 +30,11 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                             bg-control2 rounded-[0.375rem] ${className} pointer-events-auto`}
             >
                 <span className={classNameContent}>{children}</span>
-                <Button icon={'close'} className={'place-self-start'} onClick={() => handleClose()}/>
+                <Button
+                    icon={'close'}
+                    className={'place-self-start min-w-[0.5625rem] inline-block'}
+                    onClick={() => handleClose()}
+                />
             </span>
         );
     } else {

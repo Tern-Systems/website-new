@@ -3,9 +3,10 @@ import Image from "next/image";
 
 import {useModal} from "@/app/context";
 
+import {Subscription, PaymentMethodToolView} from "./PaymentMethodTool";
+
 import {CancelModal} from "./CancelModal";
 import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
-import {Subscription} from "./PaymentMethodTool";
 
 import {Button, Editable, Select} from "@/app/components/form";
 
@@ -97,7 +98,7 @@ const ManageSubscriptionsView: FC = () => {
             renewDate = new Date(new Date(billingDate).setFullYear(billingDate.getFullYear() + 1));
 
         return (
-            <div className={'grid gap-[10rem] grid-rows-1 grid-cols-2 mt-[3.7rem]'}>
+            <div className={'grid gap-[10rem] grid-rows-1 grid-cols-2 mt-[5.4rem]'}>
                 <div>
                     <div className={'flex justify-between items-center'}>
                         <h2 className={'text-[1.6875rem] font-bold'}>Current Plan</h2>
@@ -172,8 +173,9 @@ const ManageSubscriptionsView: FC = () => {
                 </Select>
             </div>
             {RenderPlanInfo()}
+            <span className={'block pt-[--py]'}/>
         </>
     );
 }
 
-export {ManageSubscriptionsView}
+export {ManageSubscriptionsView, PaymentMethodToolView}

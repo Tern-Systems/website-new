@@ -18,7 +18,7 @@ const PaymentInfo: FC<PaymentInfoProps> = (props: PaymentInfoProps) => {
     const subtotal = (+price * (recurrency === 'annual' ? 12 : 1)).toFixed(2);
 
     return (
-        <div className={'flex-1 pt-[7.44rem] w-1/2 bg-white overflow-y-scroll'}>
+        <div className={'flex-1 pt-[9.14rem] w-1/2 bg-white overflow-y-scroll'}>
             <div className={'w-[28.125rem] mx-auto'}>
                 <h2 className={`mb-[1.25rem] font-bold text-[1.3125rem]`}>
                     Subscribe to TernKey Pro Subscription

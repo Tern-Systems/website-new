@@ -15,21 +15,27 @@ import {FullscreenViewWrapper} from "@/app/components/FullscreenViewWrapper";
 import {
     ARCodeToolView,
     BillingView,
-    ContactView, CookieView,
+    ContactView,
+    CookieView,
     CredoView,
     DocumentationView,
     ManageSubscriptionsView,
-    PricingView, PrivacyView,
+    PricingView,
+    PrivacyView,
     PurchasingInformationView,
     SavedARCodes,
-    SubscribeView, TermsView,
+    SubscribeView,
+    TermsView,
+    PaymentMethodToolView
 } from "@/app/components/views";
 
 import styles from '../page.module.css';
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import SVG_QR from "@/assets/images/qr.png";
-import {PaymentMethodToolView} from "@/app/components/views/ManageSubscriptions/PaymentMethodTool";
+import SVG_MENU_FALLBACK from "@/assets/images/icons/menu-fallback.svg";
+import SVG_FULLSCREEN from "@/assets/images/icons/fullscreen.svg";
+import SVG_VIEW_VIEW from "@/assets/images/icons/view-view.svg";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -116,12 +122,12 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
             case 'TernKey':
                 Content = (
                     <div
-                        className={`${styles.highlight} w-[58.625rem]`}>
+                        className={`${styles.highlight} w-[33.875rem] place-items-center [&&]:mx-auto [&&]:text-center`}>
                         <span
-                            className={'text-[3.75rem] font-oxygen'}>Unlocking the potential of ternary programming.</span>
+                            className={'text-[3.75rem] font-oxygen font-bold'}>TernKey</span>
                         <a href={"https://www.tern.ac/ternkey/"} target={'_blank'}>
                             <Image src={SVG_INSIGNIA} alt={'insignia'}
-                                   className={'h-[33.6dvh] max-h-[10.42rem] my-[3.15rem]'}/>
+                                   className={'h-[23.6dvh] max-h-[15.937rem] my-[3.15rem]'}/>
                         </a>
                         <span className={'text-[2.25rem]'}>Unlocking the potential of ternary programming.</span>
                     </div>
@@ -201,6 +207,19 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                     >
                         <PaymentMethodToolView/>
                     </FullscreenViewWrapper>
+                )
+                break;
+            case 'User Manual':
+                Content = (
+                    <div
+                        className={`relative flex place-self-center my-auto px-[4.31rem] w-[78.375rem] h-[49.25rem] bg-section 
+                                    border-small border-control2 rounded-small text-[5rem] text-center place-items-center`}
+                    >
+                        <span className={'mx-auto'}>Coming soon</span>
+                        <Image src={SVG_MENU_FALLBACK} alt={'menu-fallback'} className={'absolute top-[1.25rem] left-[1.25rem]'}/>
+                        <Image src={SVG_FULLSCREEN} alt={'fullscreen'} className={'absolute top-[1.25rem] right-[1.25rem]'}/>
+                        <Image src={SVG_VIEW_VIEW} alt={'view-view'} className={'absolute bottom-[1.25rem] right-[1.25rem]'}/>
+                    </div>
                 )
                 break;
             case 'Purchasing Information':

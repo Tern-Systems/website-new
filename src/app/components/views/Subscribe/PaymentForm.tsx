@@ -1,4 +1,4 @@
-import {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
+import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 
 import {CardData} from "@/app/static/types";
 import {SectionsEnum} from "@/app/utils/sections";
@@ -60,7 +60,6 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
     const [isBillingExpanded, setBillingExpandedState] = useState(false);
 
-    const [isSavedCard, setSavedPaymentMethod] = useState(true); // TODO
     const [paymentStatus, setPaymentStatus] = useState<boolean | null>(null);
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
 
@@ -104,7 +103,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
             const price = PLAN[planType].priceUSD[recurrency]; // TODO
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
 
-            if (isSavedCard)
+            if (savedCards.length)
                 await BillingService.postProcessSavedPayment(formData, planType, recurrencyMapped, price, userCtx.userData.email);
             else
                 await BillingService.postProcessPayment(formData, planType, recurrencyMapped, price, userCtx.userData.email);
@@ -119,16 +118,27 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
         SavedCards[key] = key + ' ' + savedCards[key].cardNumber;
 
     let FormInputs: ReactElement;
-    if (isSavedCard) {
+    if (savedCards.length) {
         FormInputs = (
-            <Select
-                options={SavedCards}
-                value={formData.savedCardIdx}
-                placeholder={'Select'}
-                onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
-                className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-[0.375rem] border-control3 `}
-                required
-            />
+            <>
+                <Select
+                    options={SavedCards}
+                    value={formData.savedCardIdx}
+                    placeholder={'Select'}
+                    onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
+                    className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-[0.375rem] border-control3 mb-[0.94rem]`}
+                    required
+                />
+                <Input
+                    type={'number'}
+                    value={formData.cvc}
+                    maxLength={3}
+                    onChange={setFormData('cvc')}
+                    placeholder={'CVC'}
+                    icons={[SVG_CARD_NUM]}
+                    required
+                />
+            </>
         )
     } else {
         FormInputs = (
@@ -193,7 +203,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-b-none border-small
-                                        rounded-[0.375rem] border-control3 `}
+                                        rounded-[0.375rem] border-control3`}
                         required
                     />
                     {isBillingExpanded
@@ -201,14 +211,14 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                             <Input
                                 value={formData.addressLine1}
                                 onChange={setFormData('addressLine1')}
-                                placeholder={'Address Line #1'}
+                                placeholder={'Street Address #1'}
                                 className={'[&&]:border-y-0 [&&]:rounded-none'}
                                 required={isBillingExpanded}
                             />
                             <Input
                                 value={formData.addressLine2}
                                 onChange={setFormData('addressLine2')}
-                                placeholder={'Address Line #2'}
+                                placeholder={'Street Address #2'}
                                 className={'[&&]:border-b-0 [&&]:rounded-none'}
                             />
                             <div className={'flex'}>
@@ -220,9 +230,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                                         if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
                                             event.preventDefault();
                                     }}
-                                    className={`[&&]:border-r-0 [&&]:rounded-r-none ${formData.billingCountry === 'US'
-                                        ? '[&&]:rounded-none'
-                                        : '[&&]:rounded-tl-none'}`}
+                                    className={'[&&]:rounded-none [&&]:border-r-0'}
                                     required={isBillingExpanded}
                                 />
                                 <Input
@@ -230,20 +238,20 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                                     value={formData.postalCode}
                                     maxLength={5}
                                     onChange={setFormData('postalCode')}
-                                    className={`${formData.billingCountry === 'US' ? '[&&]:rounded-none' : '[&&]:rounded-l-none [&&]:rounded-tr-none'}`}
+                                    className={'[&&]:rounded-none'}
                                     placeholder={'Postal / Zip Code'}
                                     required={isBillingExpanded}
                                 />
                             </div>
                             <Select
                                 options={STATES}
-                                hidden={!isBillingExpanded || formData.billingCountry !== 'US'}
+                                hidden={!isBillingExpanded}
                                 value={formData.state}
                                 placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
-                                className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-t-none [&&]:border-t-0
-                                            ${formData.billingCountry === 'US' ? '' : 'hidden'}`}
-                                required={isBillingExpanded && formData.billingCountry === 'US'}
+                                className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-t-none [&&]:border-t-0 border-control3
+                                            border-small rounded-[0.375rem]`}
+                                required={isBillingExpanded}
                             />
                         </>
                         : (
@@ -270,10 +278,10 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
 
     // TODO links
     return (
-        <div className={'flex-1 pt-[7.44rem] w-1/2 bg-control4 text-[1.3125rem] overflow-y-scroll'}>
+        <div className={'flex-1 pt-[9.14rem] w-1/2 bg-control4 text-[1.3125rem] overflow-y-scroll'}>
             <div className={'w-[29.0625rem] mx-auto'}>
                 <form className={styles.form} onSubmit={handleFormSubmit}>
-                    <h2 className={`font-bold mb-[2.12rem]`}>{isSavedCard ? 'Choose' : ''} Payment Method</h2>
+                    <h2 className={`font-bold mb-[2.12rem]`}>{savedCards.length ? 'Choose' : ''} Payment Method</h2>
                     {FormInputs}
                     <Input
                         type={'checkbox'}
@@ -303,6 +311,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                     </Button>
                 </form>
             </div>
+            <span className={'block pt-[--py]'}/>
         </div>
     );
 };

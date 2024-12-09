@@ -13,7 +13,7 @@ import {AuthModal} from "@/app/components/modals";
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 
 
-type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service;
+type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service | SectionsEnum.Product;
 
 const NAV_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.Product, SectionsEnum.Service, SectionsEnum.Contact];
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
@@ -34,6 +34,11 @@ const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
         SectionsEnum.TernHandbook,
         SectionsEnum.BTMC,
         SectionsEnum.Standards
+    ],
+    Product: [
+        SectionsEnum.TernKey,
+        SectionsEnum.Pricing,
+        SectionsEnum.UserManual,
     ]
 }
 
@@ -69,6 +74,11 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
 
     let subNavItems: SectionsEnum[];
     switch (activeSection) {
+        case 'Product':
+        case 'Pricing and Plans':
+        case 'User Manual':
+            subNavItems = SUBNAVS.Product;
+            break
         case 'My Tern':
         case 'Profile':
         case 'Billing':

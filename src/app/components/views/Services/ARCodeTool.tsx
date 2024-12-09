@@ -15,6 +15,7 @@ import {AuthModal, BaseModal} from "@/app/components/modals";
 import {Button, Input} from "@/app/components/form";
 
 import SVG_QR from "@/assets/images/qr.png";
+import SVG_ARCH from "@/assets/images/arch-logo.svg";
 
 type ARCodeToolForm = Omit<ARCode, 'file'> & Partial<Pick<ARCode, 'file'>>;
 
@@ -151,9 +152,7 @@ const ARCodeToolView: FC = () => {
                 className={'flex flex-col justify-between w-[21rem]'}
                 onSubmit={handleFormSubmit}
             >
-                <div>
-                    <span className={'text-primary text-[3.75rem] font-oxygen font-bold'}>ARCH</span>
-                </div>
+                <Image src={SVG_ARCH} alt={'arch-logo'} className={'h-[4rem] place-self-center'}/>
                 <Input
                     type={"text"}
                     name={'qr-name'}

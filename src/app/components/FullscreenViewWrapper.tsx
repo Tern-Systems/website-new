@@ -23,16 +23,15 @@ const FullscreenViewWrapper: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={'font-oxygen text-form h-full bg-control4 px-[1.83rem] text-[1.3125rem] overflow-y-scroll'}>
+            className={'relative font-oxygen text-form h-full bg-control4 text-[1.3125rem] overflow-y-scroll'}>
             <Button
                 icon={'back'}
                 onClick={() => navigate(backButtonSection, navigate)}
-                className={'mt-[1.7rem] font-oxygen font-bold'}
+                className={'absolute top-[1.7rem] left-[1.83rem] font-oxygen font-bold'}
             >
                 {backButtonSection}
             </Button>
             {children}
-            <span className={'block pt-[--py]'}/>
         </div>
     )
 }

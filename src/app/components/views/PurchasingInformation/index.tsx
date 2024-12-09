@@ -65,7 +65,7 @@ const PurchasingInformationView: FC = () => {
 
     return (
         <>
-            <div className={'w-[29.0625rem] text-nowrap mb-[5.76rem] mt-[4.17rem]'}>
+            <div className={'w-[29.0625rem] text-nowrap mb-[5.76rem] mt-[5.87rem]'}>
                 <h1 className={'text-[3rem] font-bold'}>
                     Purchasing Information
                 </h1>
@@ -123,6 +123,7 @@ const PurchasingInformationView: FC = () => {
                     </table>
                 </div>
             </div>
+            <span className={'block pt-[--py]'}/>
         </>
     )
 }
