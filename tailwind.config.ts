@@ -41,6 +41,7 @@ const config: Config = {
                 control3: "var(--b-control-3)",
                 control4: "var(--b-control-4)",
                 control5: "var(--b-control-5)",
+                control6: "var(--b-control-6)",
             },
             borderWidth: {
                 small: 'var(--b-small)',

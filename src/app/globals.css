@@ -18,6 +18,7 @@
   --b-control-3: #B3B3B3;
   --b-control-4: var(--bg-control-4);
   --b-control-5: var(--bg-control-2);
+  --b-control-6: var(--bg-control-3);
   --br-small: 0.5625rem;
 
   --color-primary: #ECF0F3;

@@ -55,6 +55,40 @@ const Input: FC<InputProps> = (props: InputProps) => {
                     </span>
                 </label>
             );
+        case 'code':
+            if (!props.maxLength)
+                return <></>;
+            const code = props.value?.toString() ?? '';
+            const Code: ReactElement[] =
+                (code + ' '.repeat(props.maxLength - Math.min(code.length, props.maxLength)))
+                    .split('')
+                    .map((char, index) => (
+                        <span
+                            key={char + index}
+                            className={'inline-block w-[1.9375rem] border-b-small border-control3 cursor-pointer -mb-[0.37rem]'}>
+                            {char}
+                        </span>
+                    ));
+
+            return (
+                <label
+                    htmlFor={props.id}
+                    className={`relative`}
+                >
+                    <span className={'flex gap-x-[0.94rem] font-oxygen text-[1.5rem] text-center justify-center h-[1.5rem]'}>
+                        {Code}
+                    </span>
+                    <input
+                        {...inputProps}
+                        type={'number'}
+                        className={'absolute w-1 h-1 -z-10 left-[30%]'}
+                        onInput={(event) => {
+                            if (event.currentTarget.maxLength > 0)
+                                event.currentTarget.value = event.currentTarget.value.slice(0, event.currentTarget.maxLength);
+                        }}
+                    />
+                </label>
+            );
         default:
             const isPassword = props.type === 'password';
 

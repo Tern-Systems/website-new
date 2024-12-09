@@ -7,6 +7,7 @@ type PlanRecurrency = 'monthly' | 'annual';
 
 interface UserData {
     email: string;
+    telephone: string;
     isEmailVerified: boolean;
     isPurchased: boolean
     planType: PlanType;
@@ -24,13 +25,7 @@ const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [isLoggedIn, setLoggedState] = useState<boolean>(false);
-    const [userData, setUserDataHelper] = useState<UserData | null>({
-        email: 'admin@gmail.com',
-        planType: 'pro',
-        isPurchased: true,
-        isEmailVerified: true,
-        planRecurrency: 'monthly'
-    });
+    const [userData, setUserDataHelper] = useState<UserData | null>(null);
 
     const setUserData = (userData: UserData) => {
         setUserDataHelper(userData);

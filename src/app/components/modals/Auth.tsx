@@ -3,12 +3,11 @@ import axios from "axios";
 import Image from "next/image";
 
 import {AuthService, SignUpData} from "@/app/services/auth.service";
-import {UserService} from "@/app/services/user.service";
 
 import {useForm} from "@/app/hooks/useForm";
 import {useFlow, useModal, useUser} from "@/app/context";
 
-import {BaseModal, ResetPasswordModal} from "@/app/components/modals";
+import {AuthenticationCode, BaseModal, ResetPasswordModal} from "@/app/components/modals";
 
 import {Button, Input} from "@/app/components/form";
 
@@ -29,7 +28,6 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
-    const userCtx = useUser();
 
     const [isLoginForm, setLoginFormState] = useState(isLoginAction);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
@@ -39,16 +37,8 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                const {payload: token} = await AuthService.postLogIn(formValue);
-                const {payload: userBaseData} = await UserService.getUser(token);
-
-                localStorage.setItem('tern-jwt', token);
-                localStorage.setItem('tern-email', userBaseData.email);
-                localStorage.setItem('tern-email-verified', userBaseData.isEmailVerified.toString());
-                localStorage.setItem('tern-plan-purchased', userBaseData.isPurchased.toString());
-
-                // TODO userCtx.save
-                console.log(userBaseData)
+                // const {payload: token} = await AuthService.postLogIn(formValue);
+                modalCtx.openModal(<AuthenticationCode token={'token'}/>) // TODO confirm token usage here
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
@@ -71,7 +61,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
             <div className={'flex flex-col items-center w-[26.18rem]'}>
                 <span>{info}</span>
                 <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10.42rem] h-[9rem]'}/>
-                {isLoginForm ? <span className={'mb-[1.88rem] font-oxygen text-[1.6875rem]'}>Tern</span> : null}
+                {!isLoginForm ? <span className={'mb-[1.88rem] font-oxygen text-[1.6875rem]'}>Tern</span> : null}
             </div>
             <form
                 className={'flex flex-col'}
@@ -86,7 +76,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                         className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
                         required
                     >
-                        Please enter email to {isLoginForm ? 'create' : 'loginto'} your Tern account
+                        Please enter email to {!isLoginForm ? 'create' : 'login to'} your Tern account
                     </Input>
                     <Input
                         type={"password"}
@@ -97,7 +87,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                         required
                     />
                     <Input
-                        hidden={!isLoginForm}
+                        hidden={isLoginForm}
                         type={"password"}
                         placeholder={'Confirm Password'}
                         value={formValue.passwordConfirm}
@@ -110,7 +100,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                     Forgot your password?&nbsp;
                         <span
                             className={'text-[#21A1D3] cursor-pointer'}
-                            onClick={() => modalCtx.openModal(<ResetPasswordModal/>)}
+                            onClick={() => modalCtx.openModal(<ResetPasswordModal isEmailAction={true}/>)}
                         >
                         Reset
                     </span>
@@ -122,7 +112,7 @@ const AuthModal: FC<AuthModalProps> = (props: AuthModalProps): ReactElement => {
                     {!isLoginForm ? 'Sign Up' : 'Login'}
                 </Button>
             </form>
-            <div className={'mt-[1.55rem]'}>
+            <div className={'mt-[1.55rem] text-center'}>
                 <span>
                     {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
                     <span

@@ -1,4 +1,4 @@
-import {FC, FormEvent, ReactElement, useState} from "react";
+import React, {FC, FormEvent, ReactElement, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
@@ -19,27 +19,41 @@ type FormData = Pick<SignUpData, 'email' | 'password' | 'passwordConfirm'>;
 
 const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 
-const ResetPasswordModal: FC = (): ReactElement => {
+interface Props {
+    isEmailAction: boolean;
+}
+
+const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
+    const {isEmailAction} = props;
+
     const modalCtx = useModal();
 
-    const [isEmailAction, setEmailActionState] = useState(true);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
 
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        const EmailSentModal: FC = () => (
+            <BaseModal
+                title={'Email Sent'}
+                className={'w-[30.3125rem] border-control4 border-small text-center'}
+            >
+                <Image src={SVG_INSIGNIA} alt={'insignia'} className={'mb-[1.25rem] w-[10.42rem] h-[9rem] place-self-center'}/>
+                <span>To reset your password, please verify your email address by clicking the verification link sent to your inbox.</span>
+            </BaseModal>
+        );
+
         try {
             // TODO
             if (isEmailAction) {
 
-                setEmailActionState(false);
-            } else if (formValue.password !== formValue.passwordConfirm) {
+                modalCtx.openModal(<EmailSentModal/>);
+            } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
-            } else {
-
+            else
                 modalCtx.closeModal();
-            }
         } catch (error: unknown) {
             let message: string = 'Unknown error';
             if (axios.isAxiosError(error))
