@@ -26,7 +26,7 @@ import {
     SavedARCodes,
     SubscribeView,
     TermsView,
-    PaymentMethodToolView, InvoiceView
+    PaymentMethodToolView, InvoiceView, ProfileView
 } from "@/app/components/views";
 
 import styles from '../page.module.css';
@@ -252,6 +252,13 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                         <InvoiceView/>
                     </FullscreenViewWrapper>
                 )
+                break;
+            case 'Profile':
+                // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {
+                //     navigate(SectionsEnum.Home);
+                //     break;
+                // }
+                Content = <ProfileView/>;
                 break;
             default:
                 Content = null;

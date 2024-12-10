@@ -42,7 +42,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
             <div
                 className={`p-[--py] rounded-[0.5625rem] border-small border-control3 bg-control
                             text-primary place-self-center mx-auto ${className} pointer-events-auto`}>
-                <div className={`flex items-center justify-between font-oxygen text-primary`}>
+                <div className={`flex items-center justify-between font-oxygen`}>
                     <h2 className={'text-inherit font-oxygen text-[1.6875rem] font-bold'}>
                         {title ?? ''}
                     </h2>

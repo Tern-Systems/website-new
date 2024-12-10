@@ -129,7 +129,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
         ProfileLinks.push(
             <li
                 className={'border-t-small pt-[1.2rem]'}
-                onClick={() => userCtx.removeUserData()}
+                onClick={() => userCtx.logOut()}
             >
                 <a href="#">Log Out</a>
             </li>

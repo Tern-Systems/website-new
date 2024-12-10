@@ -13,6 +13,7 @@ interface UserData {
     isPurchased: boolean;
     isActivated2FA: boolean;
     subscriptions: UserSubscription[];
+    lastLogin: number,
 }
 
 const USER_TEMPLATE: UserData = {
@@ -29,13 +30,14 @@ const USER_TEMPLATE: UserData = {
     isPurchased: true,
     isEmailVerified: true,
     isActivated2FA: false,
+    lastLogin: Date.now(),
 }
 
 interface IUserContext {
     userData: UserData | null;
     isLoggedIn: boolean;
     setUserData: (data: UserData) => void;
-    removeUserData: () => void;
+    logOut: () => void;
 }
 
 const UserContext = createContext<IUserContext | null>(null);
@@ -48,7 +50,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         setUserDataHelper(userData);
         setLoggedState(true);
     }
-    const removeUserData = () => {
+    const logOut = () => {
         setUserDataHelper(null);
         setLoggedState(false);
     }
@@ -58,7 +60,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     }, [])
 
     return (
-        <UserContext.Provider value={{userData, isLoggedIn, setUserData, removeUserData}}>
+        <UserContext.Provider value={{userData, isLoggedIn, setUserData, logOut}}>
             {props.children}
         </UserContext.Provider>
     );
