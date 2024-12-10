@@ -74,6 +74,8 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         }
     }
 
+    const PrimaryPhone = userCtx.userData.phones.find((phone) => phone.isPrimary);
+
     return (
         <BaseModal
             title={'Account Authentication'}
@@ -83,7 +85,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 <Image src={SVG_SAFE} alt={'safe'} className={'mb-[1.88rem] size-[9.905rem]'}/>
                 <span>
                     Please confirm your account by entering the authorization code sent to&nbsp;
-                    <span className={'font-bond'}>***-***-{userCtx.userData.telephone.slice(-4)}</span>.
+                    <span className={'font-bond'}>***-***-{PrimaryPhone?.number.slice(-4)}</span>.
                 </span>
             </div>
             <form
@@ -96,7 +98,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                     placeholder={'Code'}
                     maxLength={6}
                     value={formValue.code}
-                    onChange={(event)=> {
+                    onChange={(event) => {
                         setFormValue('code')(event);
                         setWarningMsg(null);
                     }}

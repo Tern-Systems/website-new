@@ -82,12 +82,13 @@ const ManageSubscriptionsView: FC = () => {
         let SavedCards = selectedPlan.savedCards.map((method, index) => (
             <li key={method.nickName + index} className={'flex'}>
                 <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem] mr-[0.65rem]'}/>
-                <Editable
-                    initialValue={method.nickName}
-                    customEdit={() => modalCtx.openModal(
-                        <ChangePaymentMethodModal savedCards={selectedPlan.savedCards}/>
-                    )}
-                />
+                {/*<Editable*/}
+                {/*    icon={'pencil'}*/}
+                {/*    initialValue={method.nickName}*/}
+                {/*    customEdit={() => modalCtx.openModal(*/}
+                {/*        <ChangePaymentMethodModal savedCards={selectedPlan.savedCards}/>*/}
+                {/*    )}*/}
+                {/*/>*/}
             </li>
         ));
 

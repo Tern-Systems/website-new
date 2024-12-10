@@ -4,6 +4,7 @@ import Image from "next/image";
 import SVG_BACK from '@/assets/images/icons/back.svg';
 import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";
 import SVG_CLOSE from '@/assets/images/icons/close.svg';
+import SVG_CHECK_SQUARE from '@/assets/images/icons/checkmark-square.svg';
 import SVG_DELETE from "@/assets/images/icons/delete.svg";
 import SVG_DELETE_SQUARE from "@/assets/images/icons/delete-square.svg";
 import SVG_DOTS_V from "@/assets/images/icons/dots-v.svg";
@@ -13,6 +14,8 @@ import SVG_INFO from '@/assets/images/icons/info.svg';
 import SVG_LOCK from "@/assets/images/icons/lock.svg";
 import SVG_PENCIL from "@/assets/images/icons/pencil.svg";
 import SVG_PLUS from '@/assets/images/icons/plus.svg';
+import SVG_PLUS_FLOWER from '@/assets/images/icons/plus-flower.svg';
+import SVG_PLUS_SQUARE from '@/assets/images/icons/plus-square.svg';
 import SVG_SHARE from "@/assets/images/icons/share.svg";
 import SVG_WARN from "@/assets/images/icons/warn.svg";
 
@@ -20,6 +23,7 @@ type ButtonIcon =
     | 'back'
     | 'chevron'
     | 'close'
+    | 'mark-square'
     | 'delete'
     | 'delete-square'
     | 'dots'
@@ -29,6 +33,8 @@ type ButtonIcon =
     | 'lock'
     | 'pencil'
     | 'plus'
+    | 'plus-flower'
+    | 'plus-square'
     | 'share'
     | 'warn';
 
@@ -36,6 +42,7 @@ const ICON: Record<ButtonIcon, string> = {
     back: SVG_BACK,
     chevron: SVG_CHEVRON,
     close: SVG_CLOSE,
+    'mark-square': SVG_CHECK_SQUARE,
     delete: SVG_DELETE,
     'delete-square': SVG_DELETE_SQUARE,
     dots: SVG_DOTS_V,
@@ -45,6 +52,8 @@ const ICON: Record<ButtonIcon, string> = {
     lock: SVG_LOCK,
     pencil: SVG_PENCIL,
     plus: SVG_PLUS,
+    'plus-flower': SVG_PLUS_FLOWER,
+    'plus-square': SVG_PLUS_SQUARE,
     share: SVG_SHARE,
     warn: SVG_WARN,
 }
@@ -67,7 +76,8 @@ const Button: FC<ButtonProps> = (props: ButtonProps) => {
     return (
         <button
             {...props}
-            className={`${icon ? 'flex items-center justify-center gap-[0.52rem]' : ''} text-nowrap ${className}`}
+            className={`text-nowrap cursor-pointer ${className}
+                        ${icon ? 'flex items-center justify-center gap-[0.52rem]' : ''}`}
         >
             {Icon}
             <span hidden={!children}>{children}</span>

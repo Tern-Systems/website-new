@@ -24,10 +24,11 @@ const ICON: Record<Icon, string> = {
 interface Props extends PropsWithChildren {
     title: string;
     icon?: Icon;
+    className?: string;
 }
 
 const Collapsible: FC<Props> = (props: Props) => {
-    const {title, icon, children} = props;
+    const {title, icon, children, className} = props;
 
     const [isCollapsed, setCollapsedState] = useState(false);
 
@@ -40,6 +41,7 @@ const Collapsible: FC<Props> = (props: Props) => {
 
     return (
         <div
+            id={title.toLowerCase().split(' ').join('')}
             className={`p-[--py] rounded-[0.5625rem] bg-control text-primary w-full max-w-[62.5rem] min-w-[62.5rem]
                         place-self-center ${isCollapsed ? 'pb-0' : ''}`}>
             <div className={`flex items-center justify-between`}>
@@ -55,7 +57,8 @@ const Collapsible: FC<Props> = (props: Props) => {
                 />
             </div>
             <hr className={'scale-[105%] mt-[1.25rem] mb-[1.54rem]'}/>
-            <div className={`grid grid-cols-[1fr,1fr,max-content] text-left items-center ${isCollapsed ? 'hidden' : ''}`}>
+            <div className={`grid grid-cols-[1fr,1fr,max-content] gap-y-[0.56rem] text-left items-start ${className}
+                            ${isCollapsed ? 'hidden' : ''}`}>
                 {children}
             </div>
         </div>
