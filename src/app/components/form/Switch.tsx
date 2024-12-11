@@ -19,7 +19,7 @@ const Switch: FC<Props> = (props: Props) => {
             >
                 <div
                     className={`w-1/2 h-full rounded-full cursor-pointer font-bold capitalize bg-white border-small border-control5 
-                            ${state ? 'ml-auto bg-[#24B47E]' : ''}`}
+                            ${state ? 'ml-auto bg-[#23af7a]' : ''}`}
                 />
             </div>
             <span className={'leading-none'}>{state ? 'On' : 'Off'}</span>

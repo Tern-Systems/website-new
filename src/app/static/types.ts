@@ -33,7 +33,7 @@ type Invoice = {
 }
 
 // Subscription
-type SubscriptionRecurrency = 'annually' | 'monthly';
+type SubscriptionRecurrency = 'annual' | 'monthly';
 type Subscription = {
     subscription: string;
     recurrency: SubscriptionRecurrency;

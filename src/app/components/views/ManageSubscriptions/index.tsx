@@ -46,7 +46,7 @@ const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
     {
         plan: {
             type: 'standard',
-            recurrency: 'annually',
+            recurrency: 'annual',
             tax: 5.5,
             priceUSD: 40.1,
             lastBillingDate: 1234

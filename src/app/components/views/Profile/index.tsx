@@ -1,12 +1,12 @@
 import React, {FC, ReactElement, useState} from "react";
 
-import {Address, Phone, useModal, useUser} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {formatDate} from "@/app/utils/data";
 
 import {Collapsible} from "@/app/components/Collapsible";
 
-import {Button, Editable, EditableTypeEnum, Input} from "@/app/components/form";
+import {Button, Editable, Input} from "@/app/components/form";
 
 import {DeleteAccountModal} from "./DeleteAccountModal";
 
@@ -77,53 +77,56 @@ const ProfileView: FC = () => {
     ));
 
     // Third-Party Apps
-    const renderConnectedApps = (apps: string[], userApps: string[] | undefined): ReactElement[] => {
+    const renderConnectedApps = (apps: string[], userApps: { name: string; link: string }[]): ReactElement[] => {
         return apps.map((app) => {
-            const isConnected: boolean | undefined = userApps?.includes(app);
+            const userApp = userApps.find(userApp => userApp.name === app);
+            const isFound = userApp !== undefined;
             return (
                 <>
-                    <span className={'capitalize col-start-2'}>{app}</span>
-                    {isConnected === undefined
-                        ? <span>--</span>
-                        : (
-                            <Button
-                                icon={isConnected ? 'mark-square' : 'plus-square'}
-                                className={'col-start-3 flex-row-reverse place-self-end'}
-                                disabled={isConnected}
-                            >
-                                Connect{isConnected ? 'ed' : ''}
-                            </Button>
-                        )
+                    {isFound
+                        ? <a href={userApp?.link} className={'capitalize col-start-2'}
+                             target={'_blank'}>{userApp?.name}</a>
+                        : <span className={'capitalize col-start-2'}>{app}</span>
                     }
+                    <Button
+                        icon={isFound ? 'mark-square' : 'plus-square'}
+                        className={'col-start-3 flex-row-reverse place-self-end'}
+                        disabled={isFound}
+                    >
+                        Connect{isFound ? 'ed' : ''}
+                    </Button>
                 </>
             );
         })
     }
 
     // Contact
-    const Phones = userData.phones.map((phone: Phone, index) => (
-        <span key={phone.type + index} className={'col-start-2'}>
-            <span className={'text-[0.875rem] block mb-[0.62rem] mt-[1rem] capitalize'}>{phone.type}</span>
-            <span>{phone.number + (phone.ext ? ' - ' + phone.ext : '')}</span>
-            {phone.isPrimary ? Primary : null}
-        </span>
-    ));
+    const Phones = Object.entries(userData.phone).map(([type, phone], index) =>
+        phone
+            ? (
+                <span key={type + index}>
+                    <span className={'text-[0.875rem] block mb-[0.62rem] mt-[1rem] capitalize'}>{type}</span>
+                    <span>{phone.number + ('ext' in phone ? ' - ' + phone.ext : '')}</span>
+                    {phone.isPrimary ? Primary : null}
+                </span>
+            )
+            : null
+    );
 
     // Addresses
-    const Addresses = userData.addresses.map((address: Address, index) => {
+    const Addresses = Object.entries(userData.address).map(([type, address], index) => {
         const addressFull = address.line1
             + ' ' + address.line2
             + ' ' + address.cityZipState
             + ' ' + address.country;
         return (
-            <span key={address.type + index} className={'col-start-3'}>
-                <span className={'text-[0.875rem] mt-[0.76rem] capitalize block'}>{address.type} Address</span>
+            <span key={type + index} className={'col-start-3'}>
+                <span className={'text-[0.875rem] mt-[0.76rem] capitalize block'}>{type} Address</span>
                 <span className={'inline-block w-[14.69rem]'}>{addressFull}</span>
                 {address.isPrimary ? Primary : null}
             </span>
         )
     });
-    const personalAddress = userData.addresses.find((address) => address.type === 'personal');
 
     return (
         <div className={'flex mt-[3.88rem]'}>
@@ -152,24 +155,24 @@ const ProfileView: FC = () => {
                         data={{
                             className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
                             title: 'Update your TernID',
-                            values: [userData.email],
-                            onSave: async (values) => {
+                            value: {value: userData.email},
+                            onSave: async (formData) => {
                             } //TODO
                         }}
                     >
-                        <span className={'col-start-2'}>{userData.email}</span>
+                        <span>{userData.email}</span>
                     </Editable>
 
                     <span className={'col-start-1 text-[1.31rem]'}>Password</span>
                     <Editable
-                        type={EditableTypeEnum.PASSWORD}
+                        type={'password'}
                         classNameWrapper={'w-[21.625rem] gap-y-[0.94rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
                             className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
                             title: 'Update password',
-                            onSave: async (values) => {
-                                if (values[1] !== values[2])
+                            onSave: async (formData) => {
+                                if ('passwordConfirm' in formData && formData.passwordConfirm !== formData.newPassword)
                                     throw `Passwords don't match`
                             } //TODO
                         }}
@@ -184,19 +187,23 @@ const ProfileView: FC = () => {
 
                     <span className={'col-start-1 text-[1.31rem]'}>Security</span>
                     <Editable
-                        type={EditableTypeEnum.FA2}
+                        type={'2FA'}
                         classNameWrapper={'w-[21.625rem] gap-y-[0.94rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            onSave: async () => {
+                            value: {
+                                isEmailAdded: userData.state2FA.email !== null,
+                                isPhoneAdded: userData.state2FA.phone !== null,
+                                suggestedPhone: userData.phone.personal?.number ?? null,
                             },
-                            values: userData.state2FA
-                                ? [
-                                    (userData.state2FA.email !== null || userData.state2FA.phone !== null).toString(), // If 2FA is enabled
-                                    userData.state2FA.email,
-                                    userData.state2FA.phone,
-                                ]
-                                : []
+                            onSave: async (formData) => {
+                                if (!('value' in formData))
+                                    return;
+                                Object.values(formData).forEach((number: string) => {
+                                    if (number.length < 10)
+                                        throw `Number must contain 10 digits`
+                                })
+                            },
                         }}
                     >
                         <span>Enable / disable your two-factor authentication</span>
@@ -204,68 +211,138 @@ const ProfileView: FC = () => {
                 </Collapsible>
                 <Collapsible title={SECTIONS[1]} icon={'book'} className={'gap-y-[1.95rem]'}>
                     <span className={'col-start-1 text-[1.31rem]'}>Name</span>
-                    <span className={'col-start-2'}>{userData.name}</span>
-                    {/*<Editable*/}
-                    {/*    icon={'pencil-square'}*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <Editable
+                        classNameWrapper={'w-[21.625rem]'}
+                        classNameToggle={'col-start-3'}
+                        data={{
+                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            title: 'Update your TernID',
+                            value: {value: userData.name},
+                            onSave: async (formData) => {
+                            } //TODO
+                        }}
+                    >
+                        <span>{userData.name}</span>
+                    </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Name</span>
-                    <span className={'col-start-2'}>{userData.displayName}</span>
-                    {/*<Editable*/}
-                    {/*    icon={'pencil-square'}*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <span className={'col-start-1 text-[1.31rem]'}>Display Name (optional)</span>
+                    {userData.displayName
+                        ? (
+                            <Editable
+                                classNameWrapper={'w-[21.625rem]'}
+                                classNameToggle={'col-start-3'}
+                                data={{
+                                    className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                                    title: 'Update your TernID',
+                                    value: {value: userData.displayName},
+                                    onSave: async (formData) => {
+                                    } //TODO
+                                }}
+                            >
+                                <span>{userData.displayName}</span>
+                            </Editable>
+                        )
+                        : (
+                            <>
+                                <span>--</span>
+                                <span>--</span>
+                            </>
+                        )
+                    }
 
                     <span className={'col-start-1 text-[1.31rem]'}>Email Address</span>
-                    <span className={'col-start-2'}>{userData.email}</span>
-                    {/*<Editable*/}
-                    {/*    icon={'pencil-square'}*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <Editable
+                        classNameWrapper={'w-[21.625rem]'}
+                        classNameToggle={'col-start-3'}
+                        data={{
+                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            title: 'Update your TernID',
+                            value: {
+                                value: userData.email,
+                                verify: async (formData) => {
+                                } //TODO
+                            },
+                            onSave: async (formData) => {
+                            } //TODO
+                        }}
+                    >
+                        <span>{userData.email}</span>
+                    </Editable>
 
                     <span className={'col-start-1 text-[1.31rem]'}>Phone Number</span>
-                    <span>{Phones}</span>
-                    {/*<Editable*/}
-                    {/*    icon={'pencil-square'}*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <Editable
+                        type={'phone'}
+                        classNameWrapper={'w-[21.625rem]'}
+                        classNameToggle={'col-start-3'}
+                        data={{
+                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            value: {...userData.phone},
+                            onSave: async (formData) => {
+                                if (!('business' in formData))
+                                    return;
+                                Object.entries(formData).forEach(([type, number]) => {
+                                    if (number.number !== '' && number.number.length < 10)
+                                        throw type + ` number must contain 10 digits`
+                                })
+                            } //TODO
+                        }}
+                    >
+                        <span>{Phones}</span>
+                    </Editable>
 
                     <span className={'col-start-1 text-[1.31rem]'}>Country or Region of Residence</span>
-                    <span className={'col-start-2'}>{personalAddress?.country}</span>
-                    {/*<Editable*/}
-                    {/*    icon={'pencil-square'}*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <Editable
+                        type={'select'}
+                        classNameWrapper={'w-[21.625rem]'}
+                        classNameToggle={'col-start-3'}
+                        data={{
+                            className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4',
+                            title: 'Country / Region',
+                            value: {
+                                options: {'US': 'united States of America', 'FR': 'France'},
+                                value: 'US'
+                            },
+                            onSave: async (formData) => {
+                            } //TODO
+                        }}
+                    >
+                        <span>{userData.address.personal.country}</span>
+                    </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Name</span>
-                    <span className={'col-start-2'}>{userData.name}</span>
-                    {/*<Editable*/}
-                    {/*    icon={'pencil-square'}*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <span className={'col-start-1 text-[1.31rem]'}>Preferred Language</span>
+                    <Editable
+                        type={'select'}
+                        classNameWrapper={'w-[21.625rem]'}
+                        classNameToggle={'col-start-3'}
+                        data={{
+                            className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4',
+                            title: 'Language',
+                            value: {
+                                options: {'EN': 'English', 'FR': 'French'},
+                                value: 'EN'
+                            },
+                            onSave: async (formData) => {
+                            } //TODO
+                        }}
+                    >
+                        <span>{userData.preferredLanguage}</span>
+                    </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[2]} icon={'building'} className={'gap-y-[1.88rem]'}>
                     <span className={'col-start-1 text-[1.31rem]'}>Organizational Information</span>
-                    <span className={'col-start-2'}>{userData.company.name}</span>
-                    {/*<Editable*/}
-                    {/*    icon={'pencil-square'}*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <Editable
+                        classNameWrapper={'w-[21.625rem]'}
+                        classNameToggle={'col-start-3'}
+                        data={{
+                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            title: 'Update your TernID',
+                            value: {value: userData.company.name},
+                            onSave: async (formData) => {
+                            } //TODO
+                        }}
+                    >
+                        <span>{userData.company.name}</span>
+                    </Editable>
 
                     <span className={'col-start-1 text-[1.31rem]'}>Career Information</span>
                     {/*<Editable*/}
@@ -278,15 +355,15 @@ const ProfileView: FC = () => {
                         <span className={'col-start-2 text-[0.875rem] block mb-[0.62rem]'}>Job Title</span>
                         <span>{userData.company.jobTitle}</span>
                     </span>
-                    <span className={'col-start-2'}>
+                    <span>
                         <span className={'col-start-2 text-[0.875rem] block mb-[0.62rem]'}>Job Function</span>
                         <span>{userData.company.jobFunction}</span>
                     </span>
-                    <span className={'col-start-2'}>
+                    <span>
                         <span className={'col-start-2 text-[0.875rem] block mb-[0.62rem]'}>Industry</span>
                         <span>{userData.company.industry}</span>
                     </span>
-                    <span className={'col-start-2'}>
+                    <span>
                         <span className={'col-start-2 text-[0.875rem] block mb-[0.62rem]'}>Sub-Industry</span>
                         <span>{userData.company.subIndustry}</span>
                     </span>
@@ -305,11 +382,13 @@ const ProfileView: FC = () => {
                     {userData.personalDomain
                         ? (
                             <>
-                                <span>{userData.personalDomain.link}</span>
+                                <a href={userData.personalDomain.link} target={'_blank'}>
+                                    {userData.personalDomain.link}
+                                </a>
                                 <Button
-                                    icon={userData.personalDomain.isVerified ? 'mark-square' : 'plus-flower'}
-                                    className={'col-start-3 flex-row-reverse place-self-end'}
                                     disabled={userData.personalDomain.isVerified}
+                                    icon={userData.personalDomain.isVerified ? 'mark-flower' : 'plus-flower'}
+                                    className={'col-start-3 flex-row-reverse place-self-end'}
                                 >
                                     Verif{userData.personalDomain.isVerified ? 'ied' : 'y'}
                                 </Button>
@@ -324,11 +403,11 @@ const ProfileView: FC = () => {
                     }
                     <span className={'mt-[1.88rem] text-[1.31rem]'}>Data Storage</span>
                     <span className={'col-start-2 text-[0.875rem] self-end'}>Applications</span>
-                    {renderConnectedApps(DATA_STORAGE, userData.connectedDataStorage)}
+                    {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
                     <span className={'mt-[1.88rem] text-[1.31rem]'}>Social Media</span>
                     <span className={'col-start-2 text-[0.875rem] self-end'}>Applications</span>
-                    {renderConnectedApps(SOCIAL_MEDIA, userData.connectedSocialMedia)}
+                    {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
                 </Collapsible>
                 <Collapsible title={SECTIONS[5]}>
                     <span className={'text-[1.31rem]'}>Account Offboarding</span>

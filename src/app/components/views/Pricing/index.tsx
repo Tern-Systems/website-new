@@ -26,7 +26,7 @@ const PLAN_TEMPLATE: SubscriptionPreview = {
     type: {
         basic: {
             icon: SVG_DIAMOND_ACE,
-            priceUSD: {monthly: 10, annually: 8},
+            priceUSD: {monthly: 10, annual: 8},
             benefits: [
                 'Create and manage one AR code',
                 '100 scans per month',
@@ -37,7 +37,7 @@ const PLAN_TEMPLATE: SubscriptionPreview = {
         },
         pro: {
             icon: SVG_DIAMOND,
-            priceUSD: {monthly: 50, annually: 40},
+            priceUSD: {monthly: 50, annual: 40},
             benefits: [
                 'Manage up to 5 AR codes',
                 '1,000 scans per month',
@@ -50,7 +50,7 @@ const PLAN_TEMPLATE: SubscriptionPreview = {
 }
 
 
-const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ['monthly', 'annually'];
+const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ['monthly', 'annual'];
 
 const PricingView: FC = () => {
     const [navigate] = useNavigate();
@@ -136,7 +136,7 @@ const PricingView: FC = () => {
             Benefits.unshift(Additional);
         }
 
-        const isAnnualSwitchOption = selectedRecurrency === 'annually';
+        const isAnnualSwitchOption = selectedRecurrency === 'annual';
         const isUserMonthlySubscriber = userSubscription
             ? userSubscription.recurrency === 'monthly'
             : false;
@@ -187,8 +187,8 @@ const PricingView: FC = () => {
             } else {
                 subscribeBtnText = (
                     <>
-                        Switch to <span
-                        className={'capitalize'}>{PLAN_TIME_RANGE[+(isUserMonthlySubscriber)]}</span> Plan
+                        Switch to&nbsp;
+                        <span className={'capitalize'}>{PLAN_TIME_RANGE[+(isUserMonthlySubscriber)]}</span> Plan
                     </>
                 );
                 Links = (
@@ -273,14 +273,6 @@ const PricingView: FC = () => {
                 <div className={'flex place-self-center gap-[4.13rem] mt-[3.12rem]'}>
                     {renderColumns()}
                 </div>
-            </div>
-            <div
-                hidden={Boolean(userCtx.userData?.subscriptions?.length)}
-                className={'flex mt-[--py]'}
-            >
-                <span className={'font-oxygen text-[0.75rem] text-secondary self-end'}>
-                    Have an existing plan? See the <span>{BillingResolution}</span>
-                </span>
             </div>
         </>
     )

@@ -6,27 +6,29 @@ import {Subscription} from "@/app/static/types";
 
 type UserSubscription = Pick<Subscription, 'subscription' | 'type' | 'recurrency' | 'isBasicKind'>
 
+type AddressType = 'business' | 'personal';
 type Address = {
-    type: 'business' | 'personal';
     line1: string;
     line2: string;
     cityZipState: string;
     country: string;
     isPrimary: boolean;
 }
-type Phone = {
-    type: 'mobile' | 'business' | 'personal',
+
+type PhoneType = 'mobile' | 'business' | 'personal';
+type PhoneBase = {
     number: string;
-    ext?: string;
     isPrimary: boolean;
 }
+type Phone = PhoneBase | PhoneBase & { ext: string; }
 
 interface UserData {
     name: string;
     ternID: string;
-    displayName: string;
+    displayName?: string;
+    preferredLanguage: string,
     email: string;
-    phones: Phone[];
+    phone: Record<PhoneType, Phone | null>;
     isEmailVerified: boolean;
     isPurchased: boolean;
     state2FA: {
@@ -35,10 +37,12 @@ interface UserData {
     };
     subscriptions: UserSubscription[];
     lastLogin: number;
-    connectedSocialMedia: string[];
-    connectedDataStorage: string[];
+    connectedApps: {
+        social: { name: string; link: string }[];
+        data: { name: string; link: string }[];
+    }
     personalDomain: { link: string, isVerified: boolean } | null;
-    addresses: Address[];
+    address: Record<AddressType, Address>;
     company: {
         name: string;
         jobTitle: string;
@@ -54,12 +58,13 @@ const USER_TEMPLATE: UserData = {
     ternID: 'ternID',
     name: 'John Doe',
     displayName: 'Display_Name',
+    preferredLanguage: 'English',
     passwordUpdateDate: Date.now(),
-    phones: [
-        {type: 'mobile', number: '1234567788', isPrimary: true},
-        {type: 'business', number: '1234567788', isPrimary: false, ext: '4324'},
-        {type: 'personal', number: '1234567788', isPrimary: false},
-    ],
+    phone: {
+        mobile: null,
+        business: {number: '1234567788', isPrimary: false, ext: '4324'},
+        personal: {number: '1234567788', isPrimary: false},
+    },
     subscriptions: [
         {
             type: 'pro',
@@ -72,30 +77,30 @@ const USER_TEMPLATE: UserData = {
     isEmailVerified: true,
     state2FA: {
         email: null,
-        phone: '123456782',
+        phone: null,
     },
     lastLogin: Date.now(),
-    connectedSocialMedia: ['Discord'],
-    connectedDataStorage: ['Google Drive'],
-    personalDomain: {link: 'http://domain.com', isVerified: false},
-    addresses: [
-        {
-            type: 'business',
+    connectedApps: {
+        social: [{name: 'Discord', link: 'http://discord.com/'}],
+        data: [{name: 'Google Drive', link: 'http://drive.google.com/'}]
+    },
+    personalDomain: {link: 'http://domain.com', isVerified: true},
+    address: {
+        business: {
             line1: '1120 Avenue of the Americas',
             line2: 'FL 4 UNIT 4189',
             cityZipState: 'New York, New York 10036',
             country: 'United States of America',
             isPrimary: true,
         },
-        {
-            type: 'personal',
+        personal: {
             line1: '542 Spring Hill Road Skillman',
             line2: '',
             cityZipState: 'New Jersey 08558',
             country: 'United States of America',
             isPrimary: false,
         },
-    ],
+    },
     company: {
         name: 'Tern Systems LLC',
         jobTitle: 'President',

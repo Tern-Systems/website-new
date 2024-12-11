@@ -11,12 +11,13 @@ interface SelectProps extends InputHTMLAttributes<HTMLInputElement>, PropsWithCh
     onChangeCustom: (value: string) => void;
     classNameWrapper?: string;
     classNameLabel?: string;
+    classNameOption?: string;
 }
 
 function Select(props: SelectProps) {
     const {
         children, options, value,
-        classNameWrapper, className, classNameLabel, hidden,
+        classNameWrapper, classNameOption, className, classNameLabel, hidden,
         onChangeCustom, placeholder, ...selectPropsRest
     } = props;
 
@@ -37,7 +38,7 @@ function Select(props: SelectProps) {
             value={value}
             className={`px-[0.74rem] py-[0.8rem] border-small border-control3 [&:not(:last-of-type)]:border-b-0
                         [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
-                        bg-white
+                        bg-white ${classNameOption}
                         ${EMPTY_KEY === key ? 'text-placeholder' : ''}`}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
         >
@@ -62,7 +63,7 @@ function Select(props: SelectProps) {
             />
             <span hidden={!children} className={classNameLabel}>{children}</span>
             <label
-                className={`flex items-center cursor-pointer select-none bg-white capitalize w-full
+                className={`flex items-center cursor-pointer select-none capitalize w-full
                             ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
                 onClick={() => toggleSelectExpand()}
                 onBlur={() => setSelectExpanded(false)}

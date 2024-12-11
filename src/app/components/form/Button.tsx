@@ -5,6 +5,7 @@ import SVG_BACK from '@/assets/images/icons/back.svg';
 import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";
 import SVG_CLOSE from '@/assets/images/icons/close.svg';
 import SVG_CHECK_SQUARE from '@/assets/images/icons/checkmark-square.svg';
+import SVG_CHECK_FLOWER from '@/assets/images/icons/checkmark-flower.svg';
 import SVG_DELETE from "@/assets/images/icons/delete.svg";
 import SVG_DELETE_SQUARE from "@/assets/images/icons/delete-square.svg";
 import SVG_DOTS_V from "@/assets/images/icons/dots-v.svg";
@@ -24,6 +25,7 @@ type ButtonIcon =
     | 'chevron'
     | 'close'
     | 'mark-square'
+    | 'mark-flower'
     | 'delete'
     | 'delete-square'
     | 'dots'
@@ -43,6 +45,7 @@ const ICON: Record<ButtonIcon, string> = {
     chevron: SVG_CHEVRON,
     close: SVG_CLOSE,
     'mark-square': SVG_CHECK_SQUARE,
+    'mark-flower': SVG_CHECK_FLOWER,
     delete: SVG_DELETE,
     'delete-square': SVG_DELETE_SQUARE,
     dots: SVG_DOTS_V,
@@ -76,7 +79,7 @@ const Button: FC<ButtonProps> = (props: ButtonProps) => {
     return (
         <button
             {...props}
-            className={`text-nowrap cursor-pointer ${className}
+            className={`text-nowrap cursor-pointer disabled:cursor-default ${className}
                         ${icon ? 'flex items-center justify-center gap-[0.52rem]' : ''}`}
         >
             {Icon}

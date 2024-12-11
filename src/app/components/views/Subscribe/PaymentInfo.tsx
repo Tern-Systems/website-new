@@ -12,7 +12,7 @@ const PaymentInfo: FC<PaymentInfoProps> = (props: PaymentInfoProps) => {
 
     const price: string | undefined = subscription?.priceUSD.toFixed(2).toString();
     const subtotal: string | undefined = subscription?.priceUSD
-        ? (subscription?.priceUSD * (subscription?.recurrency === 'annually' ? 12 : 1)).toFixed(2)
+        ? (subscription?.priceUSD * (subscription?.recurrency === 'annual' ? 12 : 1)).toFixed(2)
         : undefined;
 
     return (
