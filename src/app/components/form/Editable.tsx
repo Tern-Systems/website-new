@@ -210,6 +210,23 @@ const Editable: FC<Props> = (props: Props) => {
             </span>
         );
 
+    // Styles
+    const CHECKBOX_CN = {
+        classNameWrapper: 'flex-row-reverse place-self-start',
+        classNameLabel: 'text-[0.875rem]',
+    }
+    const SELECT_CN = {
+        classNameWrapper: 'flex-col gap-y-[0.62rem]',
+        classNameLabel: 'self-start text-[0.875rem]',
+        className: `${data?.className} rounded-[0.375rem]`,
+        classNameOption: `${data?.className} rounded-none`,
+    }
+    const INPUT_CN = {
+        className: data?.className,
+        classNameWrapper: 'flex-col gap-y-[0.62rem] w-full',
+        classNameLabel: 'place-self-start text-[0.875rem]',
+    }
+
     // Form controls
     let Form: ReactElement | null = null;
     switch (type) {
@@ -217,7 +234,6 @@ const Editable: FC<Props> = (props: Props) => {
         case 'input':
             if (!('value' in formData))
                 break;
-
             Form = (
                 <>
                     <span className={'flex items-center'}>
@@ -227,9 +243,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 setWarning(null);
                                 setFormState({value: event.currentTarget.value});
                             }}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
+                            {...INPUT_CN}
                             required
                         >
                             {data?.title}
@@ -257,10 +271,8 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.value ?? ''}
                         placeholder={'Select'}
                         onChangeCustom={(value) => setFormState({value})}
-                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
-                        classNameLabel={'self-start text-[0.875rem]'}
+                        {...SELECT_CN}
                         classNameOption={data?.className}
-                        className={`${data?.className} rounded-[0.375rem]`}
                         required
                     >
                         {data?.title}
@@ -282,9 +294,7 @@ const Editable: FC<Props> = (props: Props) => {
                             const currentPassword = event.currentTarget.value;
                             setFormState(prevState => ({...prevState, currentPassword}))
                         }}
-                        className={data?.className}
-                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
-                        classNameLabel={'place-self-start text-[0.875rem]'}
+                        {...INPUT_CN}
                         required
                     >
                         Current Password
@@ -298,9 +308,7 @@ const Editable: FC<Props> = (props: Props) => {
                             const newPassword = event.currentTarget.value;
                             setFormState(prevState => ({...prevState, newPassword}))
                         }}
-                        className={data?.className}
-                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
-                        classNameLabel={'place-self-start text-[0.875rem]'}
+                        {...INPUT_CN}
                         required
                     >
                         New Password
@@ -319,9 +327,7 @@ const Editable: FC<Props> = (props: Props) => {
                             const passwordConfirm = event.currentTarget.value;
                             setFormState(prevState => ({...prevState, passwordConfirm}))
                         }}
-                        className={data?.className}
-                        classNameWrapper={'flex-col gap-y-[0.62rem] mt-[0.31rem]'}
-                        classNameLabel={'place-self-start text-[0.875rem]'}
+                        {...INPUT_CN}
                         required
                     >
                         Confirm New Password
@@ -393,16 +399,14 @@ const Editable: FC<Props> = (props: Props) => {
             }
 
             Form = (
-                <>
+                <div className={'flex flex-col gap-y-[0.81rem]'}>
                     <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem]'}>
                         <Input
                             type={'number'}
                             value={formData.business?.number ?? ''}
                             maxLength={10}
                             onChange={requireOnChangePhone('business', 'number')}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
+                            {...INPUT_CN}
                             required
                         >
                             Business
@@ -412,9 +416,7 @@ const Editable: FC<Props> = (props: Props) => {
                             value={'ext' in formData.business ? formData.business?.ext : ''}
                             maxLength={4}
                             onChange={requireOnChangePhone('business', 'ext')}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
+                            {...INPUT_CN}
                             required
                         >
                             Ext
@@ -424,8 +426,7 @@ const Editable: FC<Props> = (props: Props) => {
                         type={'checkbox'}
                         checked={formData.business?.isPrimary ?? false}
                         onChange={requireOnChangePhone('business', 'isPrimary', true)}
-                        classNameWrapper={'flex-row-reverse place-self-start mt-[0.81rem]'}
-                        classNameLabel={'text-[0.875rem]'}
+                        {...CHECKBOX_CN}
                         required
                     >
                         Set as primary
@@ -435,9 +436,7 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.mobile?.number ?? ''}
                         maxLength={10}
                         onChange={requireOnChangePhone('mobile', 'number')}
-                        className={data?.className}
-                        classNameWrapper={'flex-col gap-y-[0.62rem] w-full mt-[1.13rem]'}
-                        classNameLabel={'place-self-start text-[0.875rem]'}
+                        {...INPUT_CN}
                         required
                     >
                         Mobile
@@ -446,8 +445,7 @@ const Editable: FC<Props> = (props: Props) => {
                         type={'checkbox'}
                         checked={formData.mobile?.isPrimary ?? false}
                         onChange={requireOnChangePhone('mobile', 'isPrimary', true)}
-                        classNameWrapper={'flex-row-reverse place-self-start mt-[0.81rem]'}
-                        classNameLabel={'text-[0.875rem]'}
+                        {...CHECKBOX_CN}
                         required
                     >
                         Set as primary
@@ -457,9 +455,7 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.personal?.number ?? ''}
                         maxLength={10}
                         onChange={requireOnChangePhone('personal', 'number')}
-                        className={data?.className}
-                        classNameWrapper={'flex-col gap-y-[0.62rem] w-full mt-[1.13rem]'}
-                        classNameLabel={'place-self-start text-[0.875rem]'}
+                        {...INPUT_CN}
                         required
                     >
                         Personal
@@ -468,46 +464,40 @@ const Editable: FC<Props> = (props: Props) => {
                         type={'checkbox'}
                         checked={formData.personal?.isPrimary ?? false}
                         onChange={requireOnChangePhone('personal', 'isPrimary', true)}
-                        classNameWrapper={'flex-row-reverse place-self-start mt-[0.81rem]'}
-                        classNameLabel={'text-[0.875rem]'}
+                        {...CHECKBOX_CN}
                         required
                     >
                         Set as primary
                     </Input>
                     <span className={`first-letter:capitalize mt-[1rem] ${waring ? '' : 'hidden'}`}>{waring}</span>
                     {ControlBtns}
-                </>
+                </div>
             );
             break
         case 'name':
             if (!('initial' in formData) || !('options' in data))
                 break;
             Form = (
-                <>
+                <div className={'flex flex-col gap-y-[0.94rem]'}>
                     <Select
                         options={data.options}
                         value={formData.salutation}
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
                             setFormState(prevState => ({...prevState, salutation: value as keyof typeof SALUTATION}))}
-                        classNameWrapper={'flex-col gap-y-[0.62rem] w-[9.25rem]'}
-                        classNameLabel={'self-start text-[0.875rem]'}
-                        classNameOption={`${data?.className} rounded-none`}
-                        className={`${data?.className} rounded-[0.375rem]`}
+                        {...SELECT_CN}
                         required
                     >
                         Salutations
                     </Select>
-                    <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem] mt-[0.94rem]'}>
+                    <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem]'}>
                         <Input
                             value={formData.firstname}
                             onChange={(event) => {
                                 const firstname = event.currentTarget.value;
                                 setFormState(prevState => ({...prevState, firstname}))
                             }}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
+                            {...INPUT_CN}
                             required
                         >
                             First Name
@@ -518,9 +508,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 const initial = event.currentTarget.value;
                                 setFormState(prevState => ({...prevState, initial}))
                             }}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
+                            {...INPUT_CN}
                             required
                         >
                             Initial (optional)
@@ -532,15 +520,13 @@ const Editable: FC<Props> = (props: Props) => {
                             const lastname = event.currentTarget.value;
                             setFormState(prevState => ({...prevState, lastname}))
                         }}
-                        className={data?.className}
-                        classNameWrapper={'flex-col gap-y-[0.62rem] w-full mt-[0.94rem]'}
-                        classNameLabel={'place-self-start text-[0.875rem]'}
+                        {...INPUT_CN}
                         required
                     >
                         Last Name
                     </Input>
                     {ControlBtns}
-                </>
+                </div>
             );
             break;
         case 'address':
@@ -566,91 +552,78 @@ const Editable: FC<Props> = (props: Props) => {
                 const isPersonal = key === 'personalAddress';
                 return (
                     <>
-                    <span className={`grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-[1.25rem] 
-                                        ${isPersonal ? 'mt-[1.25rem] bg-[#686868] p-[0.81rem] rounded-[0.5625rem]' : 'mt-[0.94rem]'}`}>
-                        <span className={'flex col-span-2 capitalize text-[0.875rem] justify-between'}>
-                            <span>{key.slice(0, 'Address'.length + 1)} Address</span>
-                            <span
-                                onClick={() =>
-                                    setFormState(prevState => ({...prevState, personalAddress: null}))}
-                                className={isPersonal ? 'underline cursor-pointer' : 'hidden'}
-                            >
-                                Delete
+                        <span className={`grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-[1.25rem] 
+                                            ${isPersonal ? 'mt-[1.25rem] bg-[#686868] p-[0.81rem] rounded-[0.5625rem]' : 'mt-[0.94rem]'}`}>
+                            <span className={'flex col-span-2 capitalize text-[0.875rem] justify-between'}>
+                                <span>{key.slice(0, 'Address'.length + 1)} Address</span>
+                                <span
+                                    onClick={() =>
+                                        setFormState(prevState => ({...prevState, personalAddress: null}))}
+                                    className={isPersonal ? 'underline cursor-pointer' : 'hidden'}
+                                >
+                                    Delete
+                                </span>
                             </span>
+                            <Select
+                                options={COUNTRY}
+                                value={formData[key]?.country ?? ''}
+                                placeholder={'Select'}
+                                onChangeCustom={(value) => requireOnChangeAddress(key, 'country')(value)}
+                                {...SELECT_CN}
+                                required
+                            >
+                                Country / Region
+                            </Select>
+                            <Select
+                                options={STATE}
+                                value={formData[key]?.state ?? ''}
+                                placeholder={'Select'}
+                                onChangeCustom={(value) => requireOnChangeAddress(key, 'state')(value)}
+                                {...SELECT_CN}
+                                required
+                            >
+                                State / Province
+                            </Select>
+                            <Input
+                                value={formData[key]?.line1 ?? ''}
+                                onChange={requireOnChangeAddress(key, 'line1')}
+                                {...INPUT_CN}
+                                classNameWrapper={INPUT_CN.classNameWrapper + ' col-span-2'}
+                                required
+                            >
+                                Street Address #1
+                            </Input>
+                            <Input
+                                value={formData[key]?.line2 ?? ''}
+                                onChange={requireOnChangeAddress(key, 'line2')}
+                                {...INPUT_CN}
+                                classNameWrapper={INPUT_CN.classNameWrapper + ' col-span-2'}
+                                required
+                            >
+                                Street Address #2
+                            </Input>
+                            <Input
+                                value={formData[key]?.city ?? ''}
+                                onChange={requireOnChangeAddress(key, 'city')}
+                                {...INPUT_CN}
+                                required
+                            >
+                                City / Locality
+                            </Input>
+                            <Input
+                                value={formData[key]?.zip ?? ''}
+                                onChange={requireOnChangeAddress(key, 'zip')}
+                                {...INPUT_CN}
+                                required
+                            >
+                                Postal / ZIP Code
+                            </Input>
                         </span>
-                        <Select
-                            options={COUNTRY}
-                            value={formData[key]?.country ?? ''}
-                            placeholder={'Select'}
-                            onChangeCustom={(value) => requireOnChangeAddress(key, 'country')(value)}
-                            classNameWrapper={'flex-col gap-y-[0.62rem]'}
-                            classNameLabel={'self-start text-[0.875rem]'}
-                            classNameOption={`${data?.className} rounded-none`}
-                            className={`${data?.className} rounded-[0.375rem]`}
-                            required
-                        >
-                            Country / Region
-                        </Select>
-                        <Select
-                            options={STATE}
-                            value={formData[key]?.state ?? ''}
-                            placeholder={'Select'}
-                            onChangeCustom={(value) => requireOnChangeAddress(key, 'state')(value)}
-                            classNameWrapper={'flex-col gap-y-[0.62rem]'}
-                            classNameLabel={'self-start text-[0.875rem]'}
-                            classNameOption={`${data?.className} rounded-none`}
-                            className={`${data?.className} rounded-[0.375rem]`}
-                            required
-                        >
-                            State / Province
-                        </Select>
-                        <Input
-                            value={formData[key]?.line1 ?? ''}
-                            onChange={requireOnChangeAddress(key, 'line1')}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full col-span-2'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
-                            required
-                        >
-                            Street Address #1
-                        </Input>
-                        <Input
-                            value={formData[key]?.line2 ?? ''}
-                            onChange={requireOnChangeAddress(key, 'line2')}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full col-span-2'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
-                            required
-                        >
-                            Street Address #2
-                        </Input>
-                        <Input
-                            value={formData[key]?.city ?? ''}
-                            onChange={requireOnChangeAddress(key, 'city')}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
-                            required
-                        >
-                            City / Locality
-                        </Input>
-                        <Input
-                            value={formData[key]?.zip ?? ''}
-                            onChange={requireOnChangeAddress(key, 'zip')}
-                            className={data?.className}
-                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
-                            classNameLabel={'place-self-start text-[0.875rem]'}
-                            required
-                        >
-                            Postal / ZIP Code
-                        </Input>
-                    </span>
                         <Input
                             type={'checkbox'}
                             checked={formData[key]?.isPrimary ?? false}
                             onChange={requireOnChangeAddress(key, 'isPrimary', true)}
-                            classNameWrapper={'flex-row-reverse place-self-start mt-[0.81rem]'}
-                            classNameLabel={'text-[0.875rem]'}
+                            {...CHECKBOX_CN}
                         >
                             Set as primary
                         </Input>
@@ -685,9 +658,8 @@ const Editable: FC<Props> = (props: Props) => {
                             const jobTitle = event.currentTarget.value;
                             setFormState(prevState => ({...prevState, jobTitle}));
                         }}
-                        className={data?.className}
-                        classNameWrapper={'flex-col gap-y-[0.62rem] w-full col-span-2'}
-                        classNameLabel={'place-self-start text-[0.875rem]'}
+                        {...INPUT_CN}
+                        classNameWrapper={INPUT_CN.classNameWrapper + ' col-span-2'}
                         required
                     >
                         Job Title
@@ -698,10 +670,7 @@ const Editable: FC<Props> = (props: Props) => {
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
                             setFormState(prevState => ({...prevState, jobFunction: value as JobFunctionKey}))}
-                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
-                        classNameLabel={'self-start text-[0.875rem]'}
-                        classNameOption={`${data?.className} rounded-none`}
-                        className={`${data?.className} rounded-[0.375rem]`}
+                        {...SELECT_CN}
                         required
                     >
                         Job Function
@@ -712,10 +681,7 @@ const Editable: FC<Props> = (props: Props) => {
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
                             setFormState(prevState => ({...prevState, industry: value as IndustyKey}))}
-                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
-                        classNameLabel={'self-start text-[0.875rem]'}
-                        classNameOption={`${data?.className} rounded-none`}
-                        className={`${data?.className} rounded-[0.375rem]`}
+                        {...SELECT_CN}
                         required
                     >
                         Industry
@@ -726,10 +692,7 @@ const Editable: FC<Props> = (props: Props) => {
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
                             setFormState(prevState => ({...prevState, subIndustry: value as SubIndustryKey}))}
-                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
-                        classNameLabel={'self-start text-[0.875rem]'}
-                        classNameOption={`${data?.className} rounded-none`}
-                        className={`${data?.className} rounded-[0.375rem]`}
+                        {...SELECT_CN}
                         required
                     >
                         Industry

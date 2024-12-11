@@ -44,6 +44,12 @@ const SOCIAL_MEDIA: string[] = [
 ]
 
 
+// Styles
+const SINGLE_INPUT_CN = 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem]';
+const COMMON_CN = 'px-[0.76rem] border-small border-control4';
+const SELECT_CN = '[&]:bg-control2 [&]:py-[0.35rem]';
+const ROUNDED_W_FULL_CN = 'rounded-[0.375rem] w-full';
+
 const ProfileView: FC = () => {
     const modalCtx = useModal();
     const {userData} = useUser();
@@ -172,7 +178,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update your TernID',
                             value: {value: userData.email},
                             onSave: async (formData) => {
@@ -190,7 +196,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem] gap-y-[0.94rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update password',
                             value: null,
                             onSave: async (formData) => {
@@ -240,7 +246,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4 rounded-[0.375rem] w-full',
+                            className: `${SELECT_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
                             title: 'Update your TernID',
                             value: userData.name,
                             options: SALUTATION,
@@ -251,7 +257,8 @@ const ProfileView: FC = () => {
                         isToggleBlocked={isEditState}
                     >
                         <span className={'capitalize'}>
-                            {userData.name.salutation} {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
+                            {userData.name.salutation ? SALUTATION[userData.name.salutation] : '--'}&nbsp;
+                            {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
                         </span>
                     </Editable>
 
@@ -262,7 +269,7 @@ const ProfileView: FC = () => {
                                 classNameWrapper={'w-[21.625rem]'}
                                 classNameToggle={'col-start-3'}
                                 data={{
-                                    className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                                    className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                                     title: 'Update your TernID',
                                     value: {value: userData.displayName},
                                     onSave: async (formData) => {
@@ -287,7 +294,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update your TernID',
                             value: {
                                 value: userData.email,
@@ -309,7 +316,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             value: userData.phone,
                             onSave: async (formData) => {
                                 if (!('business' in formData))
@@ -332,7 +339,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4',
+                            className: `${SELECT_CN} ${COMMON_CN}`,
                             title: 'Country / Region',
                             value: {value: 'US'},
                             options: COUNTRY,
@@ -353,7 +360,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4',
+                            className: `${SELECT_CN} ${COMMON_CN}`,
                             title: 'Language',
                             value: {value: 'EN'},
                             options: LANGUAGE,
@@ -372,7 +379,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update your TernID',
                             value: {value: userData.company?.name ?? '-'},
                             onSave: async (formData) => {
@@ -390,7 +397,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: `[&]:bg-control2 [&]:py-[0.35rem] w-full px-[0.76rem] border-small rounded-[0.375rem]`,
+                            className: `${SELECT_CN} px-[0.76rem] border-small ${ROUNDED_W_FULL_CN}`,
                             title: 'Update your TernID',
                             value: userData.company,
                             onSave: async (formData) => {
@@ -435,7 +442,7 @@ const ProfileView: FC = () => {
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4 rounded-[0.375rem] w-full',
+                            className: `${SELECT_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
                             title: 'Update your TernID',
                             value: userData.address,
                             onSave: async (formData) => {
