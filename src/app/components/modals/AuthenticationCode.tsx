@@ -74,7 +74,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         }
     }
 
-    const PrimaryPhone = userCtx.userData.phone.find((phone) => phone.isPrimary);
+    const PrimaryPhone = Object.values(userCtx.userData.phone).find((phone) => phone?.isPrimary);
 
     return (
         <BaseModal

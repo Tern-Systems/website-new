@@ -212,17 +212,21 @@ const ProfileView: FC = () => {
                 <Collapsible title={SECTIONS[1]} icon={'book'} className={'gap-y-[1.95rem]'}>
                     <span className={'col-start-1 text-[1.31rem]'}>Name</span>
                     <Editable
+                        type={'name'}
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
                         data={{
-                            className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                            className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4 rounded-[0.375rem] w-full',
                             title: 'Update your TernID',
-                            value: {value: userData.name},
+                            value: userData.name,
+                            options: {'Mr.': 'Mr.', 'Ms.': 'Ms.'},
                             onSave: async (formData) => {
                             } //TODO
                         }}
                     >
-                        <span>{userData.name}</span>
+                        <span className={'capitalize'}>
+                            {userData.name.salutation} {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
+                        </span>
                     </Editable>
 
                     <span className={'col-start-1 text-[1.31rem]'}>Display Name (optional)</span>
@@ -298,10 +302,8 @@ const ProfileView: FC = () => {
                         data={{
                             className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4',
                             title: 'Country / Region',
-                            value: {
-                                options: {'US': 'united States of America', 'FR': 'France'},
-                                value: 'US'
-                            },
+                            value: {value: 'US'},
+                            options: {'US': 'united States of America', 'FR': 'France'},
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -317,10 +319,8 @@ const ProfileView: FC = () => {
                         data={{
                             className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4',
                             title: 'Language',
-                            value: {
-                                options: {'EN': 'English', 'FR': 'French'},
-                                value: 'EN'
-                            },
+                            value: {value: 'EN'},
+                            options: {'EN': 'English', 'FR': 'French'},
                             onSave: async (formData) => {
                             } //TODO
                         }}

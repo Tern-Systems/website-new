@@ -1,35 +1,39 @@
 import React, {ChangeEvent, FC, PropsWithChildren, ReactElement, useState} from "react";
 import Image from "next/image";
 
-import {Phone} from "@/app/context";
+import {FullName, Phone, UserPhone} from "@/app/context";
 
 import {useForm} from "@/app/hooks/useForm";
 import {Button, Input, Select, Switch} from "@/app/components/form";
 
 import SVG_PENCIL from "@/assets/images/icons/edit-line.svg";
+import {copyObject} from "@/app/utils/data";
 
 
-type PhoneData = { business: Phone | null; mobile: Phone | null; personal: Phone | null };
 type FormData =
     | { value: string }
     | { currentPassword: string; newPassword: string; passwordConfirm: string }
-    | { [P in keyof PhoneData]: NonNullable<PhoneData[P]> };
+    | { [P in keyof UserPhone]: NonNullable<UserPhone[P]> }
+    | FullName;
 
 type Value =
     | { value: string; verify?: (formData: FormData) => Promise<void>; }
-    | { options: Record<string, string>; value: string }
+    | { value: string }
     | { isEmailAdded: boolean; isPhoneAdded: boolean; suggestedPhone: string | null }
-    | PhoneData;
+    | UserPhone
+    | FullName;
+
+type DataBase = {
+    className?: string;
+    title?: string;
+    onSave: (formData: FormData) => Promise<void>;
+    value?: Value;
+}
 
 interface Props extends PropsWithChildren {
-    type?: 'input' | 'select' | 'password' | '2FA' | 'phone';
+    type?: 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name';
     toggleType?: 'icon' | 'button',
-    data: {
-        className?: string;
-        title?: string;
-        value?: Value;
-        onSave: (formData: FormData) => Promise<void>;
-    };
+    data: DataBase | DataBase & { options: Record<string, string> }
 
     isToggleBlocked?: boolean;
     isSimpleSwitch?: boolean;
@@ -55,12 +59,17 @@ const Editable: FC<Props> = (props: Props) => {
     else if ('business' in data.value) {
         const defaultPhone: Phone = {number: '', isPrimary: false}
         defaultFormValue = {
-            business: data.value.business ?? {...defaultPhone, ext: ''},
-            personal: data.value.personal ?? defaultPhone,
-            mobile: data.value.mobile ?? defaultPhone,
+            business: data.value.business ? copyObject(data.value.business) : {...defaultPhone, ext: ''},
+            personal: data.value.business ? copyObject(data.value.business) : defaultPhone,
+            mobile: data.value.mobile ? copyObject(data.value.mobile) : defaultPhone,
         };
-    } else
+    } else if ('initial' in data.value) {
+        defaultFormValue = copyObject(data.value);
+    } else if ('isEmailAdded' in data.value)
         defaultFormValue = {value: data.value.suggestedPhone ?? ''};
+    else
+        defaultFormValue = {value: ''};
+
 
     const [isEditState, setEditState] = useState<boolean>(
         data.value !== undefined
@@ -89,6 +98,17 @@ const Editable: FC<Props> = (props: Props) => {
         }
     }
 
+    const checkUpdateBtnDisabledState = () => {
+        if (checkEmpty)
+            return Object.values(formData).some((value) => value?.length === 0)
+        return Object.entries(formData).every(([key, value]) => {
+            const dataValue = data.value?.[key as keyof typeof data.value];
+            return dataValue === null || dataValue === undefined || dataValue === ''
+                ? JSON.stringify(defaultFormValue?.[key as keyof typeof defaultFormValue]) === JSON.stringify(value)
+                : JSON.stringify(dataValue) === JSON.stringify(value) && value !== ''
+        })
+    }
+
     // Elements
     const Hr = <hr className={'border-control3'}/>;
 
@@ -101,16 +121,7 @@ const Editable: FC<Props> = (props: Props) => {
                 Cancel
             </Button>
             <Button
-                disabled={
-                    checkEmpty
-                        ? Object.values(formData).some((value) => value?.length === 0)
-                        : Object.entries(formData).every(([key, value]) =>
-                            data.value?.[key as keyof typeof data.value] === null
-                                ? JSON.stringify(defaultFormValue?.[key as keyof typeof defaultFormValue]) === JSON.stringify(value)
-                                : JSON.stringify(data.value?.[key as keyof typeof data.value]) === JSON.stringify(value) && value
-                        )
-                }
-
+                disabled={checkUpdateBtnDisabledState()}
                 onClick={() => handleUpdateClick()}
                 className={'bg-[#00397F] px-[1rem] h-[1.43rem] rounded-full disabled:bg-control2 disabled:text-form'}
             >
@@ -192,29 +203,25 @@ const Editable: FC<Props> = (props: Props) => {
                             Verify
                         </span>
                     </span>
-                    <span hidden={!waring} className={'block mt-[1rem]'}>{waring}</span>
+                    <span className={`block mt-[1rem] ${waring ? '' : 'hidden'}`}>{waring}</span>
                     {ControlBtns}
                 </>
             )
             break;
         case 'select':
-            if (!('value' in formData) || !data.value || !('options' in data.value))
+            if (!('value' in formData) || !('options' in data))
                 break;
             Form = (
                 <>
                     <Select
-                        options={data.value.options}
+                        options={data.options}
                         value={formData.value}
                         placeholder={'Select'}
-                        onChangeCustom={(value) => {
-                            setWarning(null);
-                            setFormState({value})
-                        }}
+                        onChangeCustom={(value) => setFormState({value})}
                         classNameWrapper={'flex-col gap-y-[0.62rem]'}
                         classNameLabel={'self-start text-[0.875rem]'}
-                        classNameOption={`${data?.className}`}
+                        classNameOption={data?.className}
                         className={`${data?.className} rounded-[0.375rem]`}
-                        // className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-[0.375rem] border-control3 mb-[0.94rem]`}
                         required
                     >
                         {data?.title}
@@ -278,7 +285,7 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         Confirm New Password
                     </Input>
-                    <span hidden={!waring}>{waring}</span>
+                    <span className={waring ? '' : 'hidden'}>{waring}</span>
                     {ControlBtns}
                 </>
             );
@@ -332,7 +339,7 @@ const Editable: FC<Props> = (props: Props) => {
             if (!('business' in formData))
                 break;
 
-            const requireOnChange = (key: keyof PhoneData, subKey: string, isCheckBox?: boolean) => {
+            const requireOnChange = (key: keyof UserPhone, subKey: string, isCheckBox?: boolean) => {
                 return (event: ChangeEvent<HTMLInputElement>) => {
                     setWarning(null);
                     const value = isCheckBox ? event.currentTarget.checked : event.currentTarget.value;
@@ -348,7 +355,7 @@ const Editable: FC<Props> = (props: Props) => {
 
             Form = (
                 <>
-                    <span className={'grid grid-cols-[3fr,1fr] gap-x-[0.62rem]'}>
+                    <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem]'}>
                         <Input
                             type={'number'}
                             value={formData.business?.number ?? ''}
@@ -421,11 +428,72 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         Set as primary
                     </Input>
-                    <span hidden={!waring} className={'first-letter:capitalize mt-[1rem]'}>{waring}</span>
+                    <span className={`first-letter:capitalize mt-[1rem] ${waring ? '' : 'hidden'}`}>{waring}</span>
                     {ControlBtns}
                 </>
             );
             break
+        case 'name':
+            if (!('initial' in formData) || !('options' in data))
+                break;
+            Form = (
+                <>
+                    <Select
+                        options={data.options}
+                        value={formData.salutation}
+                        placeholder={'Select'}
+                        onChangeCustom={(event) =>
+                            setFormState(prevState => ({...prevState, salutation: event}))}
+                        classNameWrapper={'flex-col gap-y-[0.62rem] w-[9.25rem]'}
+                        classNameLabel={'self-start text-[0.875rem]'}
+                        classNameOption={`${data?.className} rounded-none`}
+                        className={`${data?.className} rounded-[0.375rem]`}
+                        required
+                    >
+                        Salutations
+                    </Select>
+                    <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem] mt-[0.94rem]'}>
+                        <Input
+                            value={formData.firstname}
+                            onChange={(event) => {
+                                const firstname = event.currentTarget.value;
+                                setFormState(prevState => ({...prevState, firstname}))
+                            }}
+                            className={data?.className}
+                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
+                            classNameLabel={'place-self-start text-[0.875rem]'}
+                        >
+                            First Name
+                        </Input>
+                        <Input
+                            value={formData.initial}
+                            onChange={(event) => {
+                                const initial = event.currentTarget.value;
+                                setFormState(prevState => ({...prevState, initial}))
+                            }}
+                            className={data?.className}
+                            classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
+                            classNameLabel={'place-self-start text-[0.875rem]'}
+                        >
+                            Initial (optional)
+                        </Input>
+                    </span>
+                    <Input
+                        value={formData.lastname}
+                        onChange={(event) => {
+                            const lastname = event.currentTarget.value;
+                            setFormState(prevState => ({...prevState, lastname}))
+                        }}
+                        className={data?.className}
+                        classNameWrapper={'flex-col gap-y-[0.62rem] w-full mt-[0.94rem]'}
+                        classNameLabel={'place-self-start text-[0.875rem]'}
+                    >
+                        Last Name
+                    </Input>
+                    {ControlBtns}
+                </>
+            );
+            break;
     }
 
     const isFormShown = isEditState && Form && !isSimpleSwitch;

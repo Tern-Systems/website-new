@@ -21,14 +21,22 @@ type PhoneBase = {
     isPrimary: boolean;
 }
 type Phone = PhoneBase | PhoneBase & { ext: string; }
+type UserPhone = Record<PhoneType, Phone | null>;
+
+type FullName = {
+    salutation: string;
+    firstname: string;
+    lastname: string;
+    initial?: string;
+}
 
 interface UserData {
-    name: string;
+    name: FullName;
     ternID: string;
     displayName?: string;
     preferredLanguage: string,
     email: string;
-    phone: Record<PhoneType, Phone | null>;
+    phone: UserPhone;
     isEmailVerified: boolean;
     isPurchased: boolean;
     state2FA: {
@@ -56,7 +64,12 @@ interface UserData {
 const USER_TEMPLATE: UserData = {
     email: 'admin@gmail.com',
     ternID: 'ternID',
-    name: 'John Doe',
+    name: {
+        salutation: 'Mr.',
+        firstname: 'John',
+        lastname: 'Doe',
+        initial: '',
+    },
     displayName: 'Display_Name',
     preferredLanguage: 'English',
     passwordUpdateDate: Date.now(),
@@ -151,4 +164,4 @@ const useUser = (): IUserContext => {
 };
 
 export {UserProvider, useUser}
-export type {UserData, UserSubscription, Address, Phone}
+export type {UserData, UserSubscription, Address, Phone, UserPhone, FullName}
