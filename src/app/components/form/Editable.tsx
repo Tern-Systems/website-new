@@ -1,4 +1,13 @@
-import React, {ChangeEvent, FC, PropsWithChildren, ReactElement, useState} from "react";
+import React, {
+    ChangeEvent,
+    Dispatch,
+    FC,
+    FormEvent,
+    PropsWithChildren,
+    ReactElement,
+    SetStateAction,
+    useState
+} from "react";
 import Image from "next/image";
 
 import {NonNullableKeys} from "@/app/static/types";
@@ -13,6 +22,7 @@ import {useForm} from "@/app/hooks/useForm";
 import {Button, Input, Select, Switch} from "@/app/components/form";
 
 import SVG_PENCIL from "@/assets/images/icons/edit-line.svg";
+
 
 const DEFAULT_PHONE: Phone = {number: '', isPrimary: false};
 const DEFAULT_ADDRESS: Address = {
@@ -55,6 +65,8 @@ interface Props extends PropsWithChildren {
     toggleType?: 'icon' | 'button',
     data: DataBase | DataBase & { options: Record<string, string> }
 
+    setParentEditState?: Dispatch<SetStateAction<boolean>>;
+
     isToggleBlocked?: boolean;
     isSimpleSwitch?: boolean;
     keepChildrenOnEdit?: boolean;
@@ -66,7 +78,8 @@ interface Props extends PropsWithChildren {
 
 const Editable: FC<Props> = (props: Props) => {
     const {
-        type, checkEmpty, toggleType, keepChildrenOnEdit, isSimpleSwitch, isToggleBlocked
+        type, checkEmpty, toggleType, keepChildrenOnEdit,
+        isSimpleSwitch, isToggleBlocked, setParentEditState
         , classNameWrapper, classNameToggle, data, children
     } = props;
 
@@ -108,11 +121,13 @@ const Editable: FC<Props> = (props: Props) => {
         setEditState(prevState => {
             if (prevState)
                 setFormState(defaultFormValue);
+            setParentEditState?.(!prevState);
             return !prevState;
         });
     }
 
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = async (event: FormEvent) => {
+        event.preventDefault();
         try {
             await data?.onSave(formData);
             toggleEditState();
@@ -186,7 +201,7 @@ const Editable: FC<Props> = (props: Props) => {
         ? renderToggleBtn()
         : (
             <span
-                onClick={() => toggleEditState()}
+                onClick={() => !isToggleBlocked && toggleEditState()}
                 className={`cursor-pointer font-neo text-[0.875rem] flex gap-[0.39rem] items-center ${classNameToggle}
                             ${isEditState ? 'hidden' : ''}`}
             >

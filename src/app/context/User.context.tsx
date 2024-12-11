@@ -2,10 +2,10 @@
 
 import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
 
-import {KeysOfUnion, Subscription} from "@/app/static/types";
+import {Subscription} from "@/app/static/types";
+import {IndustyKey, JobFunctionKey, SubIndustryKey} from "@/app/static/company";
 
 import {COUNTRY, LANGUAGE, SALUTATION, STATE} from "@/app/static/constants";
-import {INDUSTRY, IndustyKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey} from "@/app/static/company";
 
 
 type UserSubscription = Pick<Subscription, 'subscription' | 'type' | 'recurrency' | 'isBasicKind'>

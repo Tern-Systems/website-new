@@ -35,8 +35,8 @@ const DocumentationView = (props: IDocumentationViewProps) => {
 
     // Click checking
     useEffect(() => {
-        const handleClick = (e: MouseEvent) => {
-            if (isMenuOpened && !document.querySelector('#documentation-menu')?.contains(e.target as Node))
+        const handleClick = (event: MouseEvent) => {
+            if (isMenuOpened && !document.querySelector('#documentation-menu')?.contains(event.target as Node))
                 setMenuOpened(false);
         }
         window.addEventListener('click', handleClick);

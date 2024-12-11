@@ -49,6 +49,7 @@ const ProfileView: FC = () => {
     const {userData} = useUser();
 
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
+    const [isEditState, setEditState] = useState(false);
 
     if (!userData)
         return <></>;
@@ -148,7 +149,7 @@ const ProfileView: FC = () => {
 
     return (
         <div className={'flex mt-[3.88rem]'}>
-            <aside className={'text-left ml-[14.89rem] text-nowrap fixed'}>
+            <aside className={'text-left ml-[14.89rem] text-nowrap sticky self-start top-[5.94rem]'}>
                 <div className={'text-[1.69rem] font-bold mb-[1.56rem]'}>
                     <span>Sections</span>
                 </div>
@@ -156,7 +157,7 @@ const ProfileView: FC = () => {
                     {SectionsNav}
                 </ul>
             </aside>
-            <div className={'flex-grow flex flex-col gap-y-[0.62rem] ml-[42.81rem]'}>
+            <div className={'flex-grow flex flex-col gap-y-[0.62rem] ml-[10rem]'}>
                 <Collapsible title={SECTIONS[0]} icon={'key'} className={'gap-y-[2.09rem]'}>
                     <span className={'col-start-1 text-[1.31rem]'}>Profile Picture</span>
                     <Input
@@ -177,6 +178,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span>{userData.email}</span>
                     </Editable>
@@ -195,6 +198,8 @@ const ProfileView: FC = () => {
                                     throw `Passwords don't match`
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span>
                             <span className={'block'}>•••••••••••••••</span>
@@ -242,6 +247,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span className={'capitalize'}>
                             {userData.name.salutation} {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
@@ -261,6 +268,8 @@ const ProfileView: FC = () => {
                                     onSave: async (formData) => {
                                     } //TODO
                                 }}
+                                setParentEditState={setEditState}
+                                isToggleBlocked={isEditState}
                             >
                                 <span>{userData.displayName}</span>
                             </Editable>
@@ -288,6 +297,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span>{userData.email}</span>
                     </Editable>
@@ -309,6 +320,8 @@ const ProfileView: FC = () => {
                                 })
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span>{Phones}</span>
                     </Editable>
@@ -326,6 +339,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span>
                             {userData.address.personalAddress?.country ? COUNTRY[userData.address.personalAddress?.country] : '--'}
@@ -345,6 +360,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span>{LANGUAGE[userData.preferredLanguage]}</span>
                     </Editable>
@@ -361,6 +378,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span>{userData.company?.name ?? '--'}</span>
                     </Editable>
@@ -377,6 +396,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         {userData.company
                             ? (
@@ -420,6 +441,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
+                        setParentEditState={setEditState}
+                        isToggleBlocked={isEditState}
                     >
                         <span>{Addresses}</span>
                     </Editable>

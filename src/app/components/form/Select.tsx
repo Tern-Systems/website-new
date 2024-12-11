@@ -1,4 +1,12 @@
-import React, {InputHTMLAttributes, PropsWithChildren, ReactElement, useState} from 'react';
+import React, {
+    InputHTMLAttributes,
+    MutableRefObject,
+    PropsWithChildren,
+    ReactElement,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import Image from "next/image";
 
 import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";
@@ -21,10 +29,20 @@ function Select(props: SelectProps) {
         onChangeCustom, placeholder, ...selectPropsRest
     } = props;
 
+    const ref: MutableRefObject<HTMLLabelElement | null> = useRef(null);
     const [isSelectExpanded, setSelectExpanded] = useState<boolean>(false);
 
     const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
 
+
+    useEffect(() => {
+        const handleClick = (event: MouseEvent) => {
+            if (isSelectExpanded && !ref.current?.contains(event.target as Node))
+                setSelectExpanded(false);
+        }
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
+    }, [isSelectExpanded, setSelectExpanded])
 
     // Options list
     const selectedOptionIdx: number = Object.values(options).indexOf(options[value]);
@@ -63,10 +81,11 @@ function Select(props: SelectProps) {
             />
             <span hidden={!children} className={classNameLabel}>{children}</span>
             <label
-                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control3
-                            ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
+                ref={ref}
                 onClick={() => toggleSelectExpand()}
                 onBlur={() => setSelectExpanded(false)}
+                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control3
+                            ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
             >
                 <div className={'w-[85%] text-nowrap overflow-ellipsis overflow-hidden'}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
@@ -75,7 +94,7 @@ function Select(props: SelectProps) {
                 </div>
                 <ul
                     hidden={!isSelectExpanded}
-                    className={`absolute z-10 left-0 top-full w-full max-h-[20rem] overflow-y-scroll rounded-b-[0.375rem]`}
+                    className={`absolute z-10 left-0 top-full w-full max-h-[20rem] overflow-y-scroll rounded-b-[0.375rem] pointer-events-auto`}
                 >
                     {OptionsJSX}
                 </ul>
