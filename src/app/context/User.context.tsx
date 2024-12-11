@@ -2,9 +2,10 @@
 
 import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
 
-import {Subscription} from "@/app/static/types";
+import {KeysOfUnion, Subscription} from "@/app/static/types";
 
 import {COUNTRY, LANGUAGE, SALUTATION, STATE} from "@/app/static/constants";
+import {INDUSTRY, IndustyKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey} from "@/app/static/company";
 
 
 type UserSubscription = Pick<Subscription, 'subscription' | 'type' | 'recurrency' | 'isBasicKind'>
@@ -36,6 +37,15 @@ type FullName = {
     initial?: string;
 }
 
+type Company = {
+    name: string;
+    jobTitle: string;
+    jobFunction: JobFunctionKey;
+    industry: IndustyKey;
+    subIndustry: SubIndustryKey;
+}
+
+// User data
 interface UserData {
     name: FullName;
     ternID: string;
@@ -57,13 +67,7 @@ interface UserData {
     }
     personalDomain: { link: string, isVerified: boolean } | null;
     address: UserAddress;
-    company: {
-        name: string;
-        jobTitle: string;
-        jobFunction: string;
-        industry: string;
-        subIndustry: string;
-    };
+    company: Company | null;
     passwordUpdateDate: number;
 }
 
@@ -119,9 +123,9 @@ const USER_TEMPLATE: UserData = {
     company: {
         name: 'Tern Systems LLC',
         jobTitle: 'President',
-        jobFunction: 'Chief Executive Officer - CEO',
-        industry: 'Energy & Utilities',
-        subIndustry: 'Electric',
+        jobFunction: 'C01',
+        industry: 'U',
+        subIndustry: 'UA',
     }
 }
 
@@ -166,4 +170,4 @@ const useUser = (): IUserContext => {
 };
 
 export {UserProvider, useUser}
-export type {UserData, UserSubscription, Address, Phone, UserPhone, FullName, UserAddress}
+export type {UserData, UserSubscription, Address, Phone, UserPhone, FullName, UserAddress, Company}

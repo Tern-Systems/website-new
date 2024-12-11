@@ -2,6 +2,9 @@ import React, {FC, ReactElement, useState} from "react";
 
 import {useModal, useUser} from "@/app/context";
 
+import {COUNTRY, LANGUAGE, SALUTATION, STATE} from "@/app/static/constants";
+import {INDUSTRY, JOB_FUNCTION, SUB_INDUSTRY} from "@/app/static/company";
+
 import {formatDate} from "@/app/utils/data";
 
 import {Collapsible} from "@/app/components/Collapsible";
@@ -11,7 +14,6 @@ import {Button, Editable, Input} from "@/app/components/form";
 import {DeleteAccountModal} from "./DeleteAccountModal";
 
 import styles from './Profile.module.css';
-import {COUNTRY, LANGUAGE, SALUTATION, STATE} from "@/app/static/constants";
 
 
 const SECTIONS: string[] = [
@@ -140,6 +142,10 @@ const ProfileView: FC = () => {
         )
     });
 
+    // Company
+    // @ts-expect-error wrong sub-industry key
+    const subIndustry = SUB_INDUSTRY[userData.company.industry][userData.company.subIndustry];
+
     return (
         <div className={'flex mt-[3.88rem]'}>
             <aside className={'text-left ml-[14.89rem] text-nowrap fixed'}>
@@ -183,6 +189,7 @@ const ProfileView: FC = () => {
                         data={{
                             className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
                             title: 'Update password',
+                            value: null,
                             onSave: async (formData) => {
                                 if ('passwordConfirm' in formData && formData.passwordConfirm !== formData.newPassword)
                                     throw `Passwords don't match`
@@ -211,8 +218,8 @@ const ProfileView: FC = () => {
                             onSave: async (formData) => {
                                 if (!('value' in formData))
                                     return;
-                                Object.values(formData).forEach((number: string) => {
-                                    if (number.length < 10)
+                                Object.values(formData).forEach((number: string | null) => {
+                                    if (number?.length && number.length < 10)
                                         throw `Number must contain 10 digits`
                                 })
                             },
@@ -292,7 +299,7 @@ const ProfileView: FC = () => {
                         classNameToggle={'col-start-3'}
                         data={{
                             className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
-                            value: {...userData.phone},
+                            value: userData.phone,
                             onSave: async (formData) => {
                                 if (!('business' in formData))
                                     return;
@@ -350,37 +357,55 @@ const ProfileView: FC = () => {
                         data={{
                             className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
                             title: 'Update your TernID',
-                            value: {value: userData.company.name},
+                            value: {value: userData.company?.name ?? '-'},
                             onSave: async (formData) => {
                             } //TODO
                         }}
                     >
-                        <span>{userData.company.name}</span>
+                        <span>{userData.company?.name ?? '--'}</span>
                     </Editable>
 
                     <span className={'col-start-1 text-[1.31rem]'}>Career Information</span>
-                    {/*<Editable*/}
-                    {/*    icon={'pencil-square'}*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
-                    <span className={'col-start-2 row-start-2'}>
-                        <span className={'col-start-2 text-[0.875rem] block mb-[0.62rem]'}>Job Title</span>
-                        <span>{userData.company.jobTitle}</span>
-                    </span>
-                    <span>
-                        <span className={'col-start-2 text-[0.875rem] block mb-[0.62rem]'}>Job Function</span>
-                        <span>{userData.company.jobFunction}</span>
-                    </span>
-                    <span>
-                        <span className={'col-start-2 text-[0.875rem] block mb-[0.62rem]'}>Industry</span>
-                        <span>{userData.company.industry}</span>
-                    </span>
-                    <span>
-                        <span className={'col-start-2 text-[0.875rem] block mb-[0.62rem]'}>Sub-Industry</span>
-                        <span>{userData.company.subIndustry}</span>
-                    </span>
+                    <Editable
+                        type={'company'}
+                        classNameWrapper={'w-[21.625rem]'}
+                        classNameToggle={'col-start-3'}
+                        data={{
+                            className: `[&]:bg-control2 [&]:py-[0.35rem] w-full px-[0.76rem] border-small rounded-[0.375rem]`,
+                            title: 'Update your TernID',
+                            value: userData.company,
+                            onSave: async (formData) => {
+                            } //TODO
+                        }}
+                    >
+                        {userData.company
+                            ? (
+                                <>
+                                    <span className={'col-start-2 row-start-2'}>
+                                        <span
+                                            className={'col-start-2 text-[0.875rem] block mb-[0.2rem]'}>Job Title</span>
+                                        <span>{userData.company.jobTitle}</span>
+                                    </span>
+                                    <span className={'mt-[1.25rem]'}>
+                                        <span
+                                            className={'col-start-2 text-[0.875rem] block mb-[0.2rem]'}>Job Function</span>
+                                        <span>{JOB_FUNCTION[userData.company.jobFunction]}</span>
+                                    </span>
+                                    <span className={'mt-[1.25rem]'}>
+                                        <span
+                                            className={'col-start-2 text-[0.875rem] block mb-[0.2rem]'}>Industry</span>
+                                        <span>{INDUSTRY[userData.company.industry]}</span>
+                                    </span>
+                                    <span className={'mt-[1.25rem]'}>
+                                        <span
+                                            className={'col-start-2 text-[0.875rem] block mb-[0.2rem]'}>Sub-Industry</span>
+                                        <span>{subIndustry}</span>
+                                    </span>
+                                </>
+                            )
+                            : <>--</>
+                        }
+                    </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[3]} icon={'geo'} className={'[&]:items-start'}>
                     <span className={'col-start-1 text-[1.31rem]'}>Address Information</span>

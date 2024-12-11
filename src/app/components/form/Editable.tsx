@@ -1,9 +1,11 @@
 import React, {ChangeEvent, FC, PropsWithChildren, ReactElement, useState} from "react";
 import Image from "next/image";
 
-import {Address, FullName, Phone, UserAddress, UserPhone} from "@/app/context";
+import {NonNullableKeys} from "@/app/static/types";
+import {Address, Company, FullName, Phone, UserAddress, UserPhone} from "@/app/context";
 
 import {COUNTRY, SALUTATION, STATE} from "@/app/static/constants";
+import {INDUSTRY, IndustyKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey} from "@/app/static/company";
 
 import {copyObject} from "@/app/utils/data";
 
@@ -25,29 +27,31 @@ const DEFAULT_ADDRESS: Address = {
 
 
 type FormData =
-    | { value: string }
+    | { value: string | null }
     | { currentPassword: string; newPassword: string; passwordConfirm: string }
-    | { [P in keyof UserPhone]: NonNullable<UserPhone[P]> }
+    | NonNullableKeys<UserPhone>
     | FullName
-    | UserAddress;
+    | UserAddress
+    | Company;
 
 type Value =
     | { value: string; verify?: (formData: FormData) => Promise<void>; }
-    | { value: string }
+    | { value: string | null }
     | { isEmailAdded: boolean; isPhoneAdded: boolean; suggestedPhone: string | null }
     | UserPhone
     | FullName
-    | UserAddress;
+    | UserAddress
+    | Company;
 
 type DataBase = {
     className?: string;
     title?: string;
     onSave: (formData: FormData) => Promise<void>;
-    value?: Value;
+    value: Value | null;
 }
 
 interface Props extends PropsWithChildren {
-    type?: 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'address';
+    type?: 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'address' | 'company';
     toggleType?: 'icon' | 'button',
     data: DataBase | DataBase & { options: Record<string, string> }
 
@@ -69,8 +73,11 @@ const Editable: FC<Props> = (props: Props) => {
 
     // State
     let defaultFormValue: FormData;
-    if (data.value === undefined)
-        defaultFormValue = {currentPassword: '', newPassword: '', passwordConfirm: ''};
+    if (data.value === null)
+        if (isSimpleSwitch)
+            defaultFormValue = {value: 'false'}
+        else
+            defaultFormValue = {currentPassword: '', newPassword: '', passwordConfirm: ''};
     else if ('business' in data.value) {
         defaultFormValue = {
             business: data.value.business ? copyObject(data.value.business) : {...DEFAULT_PHONE, ext: ''},
@@ -88,10 +95,11 @@ const Editable: FC<Props> = (props: Props) => {
         defaultFormValue = copyObject(data.value);
 
     const [isEditState, setEditState] = useState<boolean>(
-        data.value !== undefined
+        data.value !== null
         && 'isEmailAdded' in data.value
         && (data.value.isEmailAdded || data.value.isPhoneAdded)
     );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [formData, _, setFormState] = useForm<FormData>(defaultFormValue);
     const [waring, setWarning] = useState<string | null>(null);
 
@@ -199,7 +207,7 @@ const Editable: FC<Props> = (props: Props) => {
                 <>
                     <span className={'flex items-center'}>
                         <Input
-                            value={formData.value}
+                            value={formData.value ?? ''}
                             onChange={(event) => {
                                 setWarning(null);
                                 setFormState({value: event.currentTarget.value});
@@ -207,6 +215,7 @@ const Editable: FC<Props> = (props: Props) => {
                             className={data?.className}
                             classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
                             classNameLabel={'place-self-start text-[0.875rem]'}
+                            required
                         >
                             {data?.title}
                         </Input>
@@ -230,7 +239,7 @@ const Editable: FC<Props> = (props: Props) => {
                 <>
                     <Select
                         options={data.options}
-                        value={formData.value}
+                        value={formData.value ?? ''}
                         placeholder={'Select'}
                         onChangeCustom={(value) => setFormState({value})}
                         classNameWrapper={'flex-col gap-y-[0.62rem]'}
@@ -261,7 +270,7 @@ const Editable: FC<Props> = (props: Props) => {
                         className={data?.className}
                         classNameWrapper={'flex-col gap-y-[0.62rem]'}
                         classNameLabel={'place-self-start text-[0.875rem]'}
-
+                        required
                     >
                         Current Password
                     </Input>
@@ -277,6 +286,7 @@ const Editable: FC<Props> = (props: Props) => {
                         className={data?.className}
                         classNameWrapper={'flex-col gap-y-[0.62rem]'}
                         classNameLabel={'place-self-start text-[0.875rem]'}
+                        required
                     >
                         New Password
                     </Input>
@@ -297,6 +307,7 @@ const Editable: FC<Props> = (props: Props) => {
                         className={data?.className}
                         classNameWrapper={'flex-col gap-y-[0.62rem] mt-[0.31rem]'}
                         classNameLabel={'place-self-start text-[0.875rem]'}
+                        required
                     >
                         Confirm New Password
                     </Input>
@@ -320,6 +331,7 @@ const Editable: FC<Props> = (props: Props) => {
                             data={{
                                 className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
                                 title: 'Add your Email as a two-factor authentication option',
+                                value: null,
                                 onSave: data.onSave
                             }}
                         >
@@ -359,10 +371,7 @@ const Editable: FC<Props> = (props: Props) => {
                     setWarning(null);
                     const value = isCheckBox ? event.currentTarget.checked : event.currentTarget.value;
                     setFormState((prevState) => 'business' in prevState
-                        ? ({
-                            ...prevState,
-                            [key]: {...prevState[key], [subKey]: value}
-                        })
+                        ? ({...prevState, [key]: {...prevState[key], [subKey]: value}})
                         : prevState
                     );
                 }
@@ -379,6 +388,7 @@ const Editable: FC<Props> = (props: Props) => {
                             className={data?.className}
                             classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
                             classNameLabel={'place-self-start text-[0.875rem]'}
+                            required
                         >
                             Business
                         </Input>
@@ -390,6 +400,7 @@ const Editable: FC<Props> = (props: Props) => {
                             className={data?.className}
                             classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
                             classNameLabel={'place-self-start text-[0.875rem]'}
+                            required
                         >
                             Ext
                         </Input>
@@ -400,6 +411,7 @@ const Editable: FC<Props> = (props: Props) => {
                         onChange={requireOnChangePhone('business', 'isPrimary', true)}
                         classNameWrapper={'flex-row-reverse place-self-start mt-[0.81rem]'}
                         classNameLabel={'text-[0.875rem]'}
+                        required
                     >
                         Set as primary
                     </Input>
@@ -411,6 +423,7 @@ const Editable: FC<Props> = (props: Props) => {
                         className={data?.className}
                         classNameWrapper={'flex-col gap-y-[0.62rem] w-full mt-[1.13rem]'}
                         classNameLabel={'place-self-start text-[0.875rem]'}
+                        required
                     >
                         Mobile
                     </Input>
@@ -420,6 +433,7 @@ const Editable: FC<Props> = (props: Props) => {
                         onChange={requireOnChangePhone('mobile', 'isPrimary', true)}
                         classNameWrapper={'flex-row-reverse place-self-start mt-[0.81rem]'}
                         classNameLabel={'text-[0.875rem]'}
+                        required
                     >
                         Set as primary
                     </Input>
@@ -431,6 +445,7 @@ const Editable: FC<Props> = (props: Props) => {
                         className={data?.className}
                         classNameWrapper={'flex-col gap-y-[0.62rem] w-full mt-[1.13rem]'}
                         classNameLabel={'place-self-start text-[0.875rem]'}
+                        required
                     >
                         Personal
                     </Input>
@@ -440,6 +455,7 @@ const Editable: FC<Props> = (props: Props) => {
                         onChange={requireOnChangePhone('personal', 'isPrimary', true)}
                         classNameWrapper={'flex-row-reverse place-self-start mt-[0.81rem]'}
                         classNameLabel={'text-[0.875rem]'}
+                        required
                     >
                         Set as primary
                     </Input>
@@ -477,6 +493,7 @@ const Editable: FC<Props> = (props: Props) => {
                             className={data?.className}
                             classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
                             classNameLabel={'place-self-start text-[0.875rem]'}
+                            required
                         >
                             First Name
                         </Input>
@@ -489,6 +506,7 @@ const Editable: FC<Props> = (props: Props) => {
                             className={data?.className}
                             classNameWrapper={'flex-col gap-y-[0.62rem] w-full'}
                             classNameLabel={'place-self-start text-[0.875rem]'}
+                            required
                         >
                             Initial (optional)
                         </Input>
@@ -502,6 +520,7 @@ const Editable: FC<Props> = (props: Props) => {
                         className={data?.className}
                         classNameWrapper={'flex-col gap-y-[0.62rem] w-full mt-[0.94rem]'}
                         classNameLabel={'place-self-start text-[0.875rem]'}
+                        required
                     >
                         Last Name
                     </Input>
@@ -522,10 +541,7 @@ const Editable: FC<Props> = (props: Props) => {
                             ? value.currentTarget.checked
                             : value.currentTarget.value;
                     setFormState((prevState) => 'businessAddress' in prevState
-                        ? ({
-                            ...prevState,
-                            [key]: {...prevState[key], [subKey]: formValue}
-                        })
+                        ? ({...prevState, [key]: {...prevState[key], [subKey]: formValue}})
                         : prevState
                     );
                 }
@@ -640,6 +656,71 @@ const Editable: FC<Props> = (props: Props) => {
                     {formData.personalAddress ? renderAddressForm('personalAddress') : null}
                     {ControlBtns}
                 </>
+            );
+            break;
+        case 'company':
+            if (!('jobTitle' in formData))
+                break;
+
+            Form = (
+                <div className={'flex flex-col gap-y-[1.25rem]'}>
+                    <Input
+                        value={formData.jobTitle ?? ''}
+                        onChange={(event) => {
+                            const jobTitle = event.currentTarget.value;
+                            setFormState(prevState => ({...prevState, jobTitle}));
+                        }}
+                        className={data?.className}
+                        classNameWrapper={'flex-col gap-y-[0.62rem] w-full col-span-2'}
+                        classNameLabel={'place-self-start text-[0.875rem]'}
+                        required
+                    >
+                        Job Title
+                    </Input>
+                    <Select
+                        options={JOB_FUNCTION}
+                        value={formData.jobFunction ?? ''}
+                        placeholder={'Select'}
+                        onChangeCustom={(value) =>
+                            setFormState(prevState => ({...prevState, jobFunction: value as JobFunctionKey}))}
+                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
+                        classNameLabel={'self-start text-[0.875rem]'}
+                        classNameOption={`${data?.className} rounded-none`}
+                        className={`${data?.className} rounded-[0.375rem]`}
+                        required
+                    >
+                        Job Function
+                    </Select>
+                    <Select
+                        options={INDUSTRY}
+                        value={formData.industry ?? ''}
+                        placeholder={'Select'}
+                        onChangeCustom={(value) =>
+                            setFormState(prevState => ({...prevState, industry: value as IndustyKey}))}
+                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
+                        classNameLabel={'self-start text-[0.875rem]'}
+                        classNameOption={`${data?.className} rounded-none`}
+                        className={`${data?.className} rounded-[0.375rem]`}
+                        required
+                    >
+                        Industry
+                    </Select>
+                    <Select
+                        options={SUB_INDUSTRY[formData.industry]}
+                        value={formData.subIndustry ?? ''}
+                        placeholder={'Select'}
+                        onChangeCustom={(value) =>
+                            setFormState(prevState => ({...prevState, subIndustry: value as SubIndustryKey}))}
+                        classNameWrapper={'flex-col gap-y-[0.62rem]'}
+                        classNameLabel={'self-start text-[0.875rem]'}
+                        classNameOption={`${data?.className} rounded-none`}
+                        className={`${data?.className} rounded-[0.375rem]`}
+                        required
+                    >
+                        Industry
+                    </Select>
+                    {ControlBtns}
+                </div>
             );
             break;
     }

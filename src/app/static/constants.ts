@@ -1,5 +1,6 @@
 import {Invoice} from "@/app/static/types";
 
+// Misc
 const LANGUAGE = {
     'EN': 'English',
     'FR': 'French',
@@ -10,6 +11,7 @@ const SALUTATION = {
     'MS': 'Ms.',
 }
 
+// Address
 const COUNTRY = {
     'US': 'United States of America',
     'CA': 'Canada',
@@ -69,7 +71,7 @@ const STATE = {
     'WY': 'Wyoming'
 }
 
-
+// Temp
 const INVOICE_TEMPLATE: Invoice = {
     id: 111111111111,
     date: Date.now(),

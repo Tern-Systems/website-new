@@ -63,7 +63,7 @@ function Select(props: SelectProps) {
             />
             <span hidden={!children} className={classNameLabel}>{children}</span>
             <label
-                className={`flex items-center cursor-pointer select-none capitalize w-full
+                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control3
                             ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
                 onClick={() => toggleSelectExpand()}
                 onBlur={() => setSelectExpanded(false)}
@@ -75,7 +75,7 @@ function Select(props: SelectProps) {
                 </div>
                 <ul
                     hidden={!isSelectExpanded}
-                    className={`absolute z-10 left-0 top-full w-full max-h-[20rem] overflow-y-scroll`}
+                    className={`absolute z-10 left-0 top-full w-full max-h-[20rem] overflow-y-scroll rounded-b-[0.375rem]`}
                 >
                     {OptionsJSX}
                 </ul>

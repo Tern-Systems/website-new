@@ -1,6 +1,12 @@
 // Payment
 import {STATE} from "@/app/static/constants";
 
+// Utils
+type NonNullableKeys<T extends object> = { [P in keyof T]: NonNullable<T[P]> }
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+
+
+// Billing
 type CardData = {
     type: string;
     cardNumber: string;
@@ -52,4 +58,5 @@ type SubscriptionPreview = Pick<Subscription, 'subscription' | 'isBasicKind'> & 
     type: Record<string, SubscriptionPreviewData>
 }
 
+export type {NonNullableKeys, KeysOfUnion}
 export type {CardData, SubscriptionPreview, SubscriptionPreviewData, Invoice, SubscriptionRecurrency, Subscription}
