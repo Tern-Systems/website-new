@@ -3,7 +3,7 @@ import {useSearchParams} from "next/navigation";
 
 import {CardData, SubscriptionRecurrency} from "@/app/static/types";
 
-import {COUNTRIES, STATES} from "@/app/static/constants";
+import {COUNTRY, STATE} from "@/app/static/constants";
 
 import {useForm} from "@/app/hooks/useForm";
 
@@ -257,7 +257,7 @@ const PaymentMethodToolView: FC = () => {
                         Street Address #2
                     </Input>
                     <Select
-                        options={STATES}
+                        options={STATE}
                         value={formData.state}
                         onChangeCustom={(value) => setFormData('state')(value)}
                         classNameWrapper={'flex-col [&]:items-start'}
@@ -268,7 +268,7 @@ const PaymentMethodToolView: FC = () => {
                         State / Province
                     </Select>
                     <Select
-                        options={COUNTRIES}
+                        options={COUNTRY}
                         value={formData.billingCountry}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         classNameWrapper={'flex-col [&]:items-start'}

@@ -1,19 +1,25 @@
 'use client'
 
 import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
+
 import {Subscription} from "@/app/static/types";
+
+import {COUNTRY, LANGUAGE, SALUTATION, STATE} from "@/app/static/constants";
 
 
 type UserSubscription = Pick<Subscription, 'subscription' | 'type' | 'recurrency' | 'isBasicKind'>
 
-type AddressType = 'business' | 'personal';
+type AddressType = 'businessAddress' | 'personalAddress';
 type Address = {
     line1: string;
     line2: string;
-    cityZipState: string;
-    country: string;
+    city: string;
+    zip: string;
+    state: keyof typeof STATE | '';
+    country: keyof typeof COUNTRY | '';
     isPrimary: boolean;
 }
+type UserAddress = Record<AddressType, Address | null>
 
 type PhoneType = 'mobile' | 'business' | 'personal';
 type PhoneBase = {
@@ -24,7 +30,7 @@ type Phone = PhoneBase | PhoneBase & { ext: string; }
 type UserPhone = Record<PhoneType, Phone | null>;
 
 type FullName = {
-    salutation: string;
+    salutation: keyof typeof SALUTATION | '';
     firstname: string;
     lastname: string;
     initial?: string;
@@ -34,7 +40,7 @@ interface UserData {
     name: FullName;
     ternID: string;
     displayName?: string;
-    preferredLanguage: string,
+    preferredLanguage: keyof typeof LANGUAGE,
     email: string;
     phone: UserPhone;
     isEmailVerified: boolean;
@@ -50,7 +56,7 @@ interface UserData {
         data: { name: string; link: string }[];
     }
     personalDomain: { link: string, isVerified: boolean } | null;
-    address: Record<AddressType, Address>;
+    address: UserAddress;
     company: {
         name: string;
         jobTitle: string;
@@ -65,18 +71,18 @@ const USER_TEMPLATE: UserData = {
     email: 'admin@gmail.com',
     ternID: 'ternID',
     name: {
-        salutation: 'Mr.',
+        salutation: 'MR',
         firstname: 'John',
         lastname: 'Doe',
         initial: '',
     },
     displayName: 'Display_Name',
-    preferredLanguage: 'English',
+    preferredLanguage: 'EN',
     passwordUpdateDate: Date.now(),
     phone: {
         mobile: null,
         business: {number: '1234567788', isPrimary: false, ext: '4324'},
-        personal: {number: '1234567788', isPrimary: false},
+        personal: {number: '1984327389', isPrimary: false},
     },
     subscriptions: [
         {
@@ -99,20 +105,16 @@ const USER_TEMPLATE: UserData = {
     },
     personalDomain: {link: 'http://domain.com', isVerified: true},
     address: {
-        business: {
+        businessAddress: {
             line1: '1120 Avenue of the Americas',
             line2: 'FL 4 UNIT 4189',
-            cityZipState: 'New York, New York 10036',
-            country: 'United States of America',
+            state: 'NY',
+            zip: '10036',
+            city: 'New York',
+            country: 'US',
             isPrimary: true,
         },
-        personal: {
-            line1: '542 Spring Hill Road Skillman',
-            line2: '',
-            cityZipState: 'New Jersey 08558',
-            country: 'United States of America',
-            isPrimary: false,
-        },
+        personalAddress: null,
     },
     company: {
         name: 'Tern Systems LLC',
@@ -164,4 +166,4 @@ const useUser = (): IUserContext => {
 };
 
 export {UserProvider, useUser}
-export type {UserData, UserSubscription, Address, Phone, UserPhone, FullName}
+export type {UserData, UserSubscription, Address, Phone, UserPhone, FullName, UserAddress}

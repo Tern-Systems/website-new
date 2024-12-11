@@ -3,7 +3,7 @@ import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 import {CardData, SubscriptionRecurrency} from "@/app/static/types";
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {COUNTRIES, STATES} from "@/app/static/constants";
+import {COUNTRY, STATE} from "@/app/static/constants";
 
 import {BillingService, SubscribeData} from "@/app/services/billing.service";
 
@@ -198,7 +198,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                 <fieldset>
                     <legend>Billing Address</legend>
                     <Select
-                        options={COUNTRIES}
+                        options={COUNTRY}
                         value={formData.billingCountry}
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
@@ -244,7 +244,7 @@ const PaymentForm: FC<PaymentFormProps> = (props: PaymentFormProps) => {
                                 />
                             </div>
                             <Select
-                                options={STATES}
+                                options={STATE}
                                 hidden={!isBillingExpanded}
                                 value={formData.state}
                                 placeholder={'State / Province'}

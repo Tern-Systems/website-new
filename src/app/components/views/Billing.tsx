@@ -3,7 +3,6 @@ import React, {FC, ReactElement, useEffect, useState} from "react";
 import {Invoice} from "@/app/static/types";
 import {SectionsEnum} from "@/app/utils/sections";
 
-
 import {INVOICE_TEMPLATE} from "@/app/static/constants";
 
 import {withSectionLink} from "@/app/hocs";
@@ -14,9 +13,7 @@ import {BillingModal} from "@/app/components/modals/BillingResolution";
 import {useNavigate} from "@/app/hooks/useNavigate";
 
 
-const ORDERS_TEMPLATE: Invoice[] = [
-    INVOICE_TEMPLATE,
-]
+const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE]
 
 const BillingView: FC = () => {
     const [orders, setOrders] = useState<Invoice[]>([]);

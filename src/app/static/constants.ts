@@ -1,11 +1,22 @@
 import {Invoice} from "@/app/static/types";
 
-const COUNTRIES: Record<string, string> = {
-    'US': 'United States',
+const LANGUAGE = {
+    'EN': 'English',
+    'FR': 'French',
+}
+
+const SALUTATION = {
+    'MR': 'Mr.',
+    'MS': 'Ms.',
+}
+
+const COUNTRY = {
+    'US': 'United States of America',
     'CA': 'Canada',
     'GB': 'United Kingdom'
 }
-const STATES: Record<string, string> = {
+
+const STATE = {
     'AL': 'Alabama',
     'AK': 'Alaska',
     'AZ': 'Arizona',
@@ -75,4 +86,4 @@ const INVOICE_TEMPLATE: Invoice = {
     status: 'paid'
 }
 
-export {STATES, COUNTRIES, INVOICE_TEMPLATE}
+export {STATE, COUNTRY, INVOICE_TEMPLATE, LANGUAGE, SALUTATION}

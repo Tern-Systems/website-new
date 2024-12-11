@@ -109,7 +109,7 @@ const Input: FC<InputProps> = (props: InputProps) => {
 
             return (
                 <label
-                    className={`relative flex items-center last-of-type:mb-0 cursor-pointer text-left
+                    className={`relative flex items-center last-of-type:mb-0 cursor-pointer text-left gap-x-[0.38rem]
                                 ${classNameWrapper} ${props.hidden ? 'hidden' : ''}`}>
                     <span hidden={!children} className={classNameLabel}>{children}</span>
                     <div className={`relative flex items-center ${props.type === 'checkbox' ? '' : 'w-full'}`}>

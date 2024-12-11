@@ -1,4 +1,6 @@
 // Payment
+import {STATE} from "@/app/static/constants";
+
 type CardData = {
     type: string;
     cardNumber: string;
@@ -27,7 +29,7 @@ type Invoice = {
     totalDue: number;
     taxPercent: number;
     paidUSD: number;
-    state: string;
+    state: keyof typeof STATE;
     status: 'paid' | 'unpaid';
     type: SubscriptionRecurrency;
 }

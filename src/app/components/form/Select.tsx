@@ -68,8 +68,8 @@ function Select(props: SelectProps) {
                 onClick={() => toggleSelectExpand()}
                 onBlur={() => setSelectExpanded(false)}
             >
-                <div>
-                    <span className={selectedOptionIdx < 0 ? 'text-placeholder w-full' : ''}>
+                <div className={'w-[85%] text-nowrap overflow-ellipsis overflow-hidden'}>
+                    <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
                         {selectedOptionIdx < 0 ? placeholder : options[value]}
                     </span>
                 </div>

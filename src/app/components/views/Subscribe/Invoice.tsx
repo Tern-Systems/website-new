@@ -4,7 +4,7 @@ import Image from "next/image";
 import {Invoice} from "@/app/static/types";
 import {SectionsEnum} from "@/app/utils/sections";
 
-import {INVOICE_TEMPLATE, STATES} from "@/app/static/constants";
+import {INVOICE_TEMPLATE, STATE} from "@/app/static/constants";
 
 import {formatDate} from "@/app/utils/data";
 
@@ -147,7 +147,7 @@ const InvoiceView: FC = () => {
                         <span>Total excluding tax</span>
                         <span className={'text-right'}>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
                         <span className={'text-secondary'}>
-                        Sales tax - {invoice?.state ? STATES[invoice.state] : '--'} ({invoice?.taxPercent !== undefined ? invoice.taxPercent * 100 : '--'}%)
+                        Sales tax - {invoice?.state ? STATE[invoice.state] : '--'} ({invoice?.taxPercent !== undefined ? invoice.taxPercent * 100 : '--'}%)
                     </span>
                         <span
                             className={'text-secondary text-right'}>${taxAmount?.toFixed(2) ?? '--'}</span>

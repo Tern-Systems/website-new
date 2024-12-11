@@ -11,6 +11,7 @@ import {Button, Editable, Input} from "@/app/components/form";
 import {DeleteAccountModal} from "./DeleteAccountModal";
 
 import styles from './Profile.module.css';
+import {COUNTRY, LANGUAGE, SALUTATION, STATE} from "@/app/static/constants";
 
 
 const SECTIONS: string[] = [
@@ -115,15 +116,26 @@ const ProfileView: FC = () => {
 
     // Addresses
     const Addresses = Object.entries(userData.address).map(([type, address], index) => {
-        const addressFull = address.line1
-            + ' ' + address.line2
-            + ' ' + address.cityZipState
-            + ' ' + address.country;
+        const addressInfo: ReactElement = address && address.state && address.country
+            ? (
+                <>
+                    <span className={'w-[14.69rem] flex flex-col'}>
+                        <span>{address.line1}</span>
+                        <span>{address.line2}</span>
+                        <span>{address.city} {STATE[address.state]} {address.zip}</span>
+                        <span>{COUNTRY[address.country]}</span>
+                    </span>
+                    {address.isPrimary ? Primary : null}
+                </>
+            )
+            : <span>--</span>;
+
         return (
-            <span key={type + index} className={'col-start-3'}>
-                <span className={'text-[0.875rem] mt-[0.76rem] capitalize block'}>{type} Address</span>
-                <span className={'inline-block w-[14.69rem]'}>{addressFull}</span>
-                {address.isPrimary ? Primary : null}
+            <span key={type + index} className={'col-start-2'}>
+                <span className={'text-[0.875rem] mt-[0.76rem] mb-[0.2rem] capitalize block'}>
+                    {type.slice(0, 'Address'.length + 1)} Address
+                </span>
+                {addressInfo}
             </span>
         )
     });
@@ -219,7 +231,7 @@ const ProfileView: FC = () => {
                             className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4 rounded-[0.375rem] w-full',
                             title: 'Update your TernID',
                             value: userData.name,
-                            options: {'Mr.': 'Mr.', 'Ms.': 'Ms.'},
+                            options: SALUTATION,
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -303,12 +315,14 @@ const ProfileView: FC = () => {
                             className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4',
                             title: 'Country / Region',
                             value: {value: 'US'},
-                            options: {'US': 'united States of America', 'FR': 'France'},
+                            options: COUNTRY,
                             onSave: async (formData) => {
                             } //TODO
                         }}
                     >
-                        <span>{userData.address.personal.country}</span>
+                        <span>
+                            {userData.address.personalAddress?.country ? COUNTRY[userData.address.personalAddress?.country] : '--'}
+                        </span>
                     </Editable>
 
                     <span className={'col-start-1 text-[1.31rem]'}>Preferred Language</span>
@@ -320,12 +334,12 @@ const ProfileView: FC = () => {
                             className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4',
                             title: 'Language',
                             value: {value: 'EN'},
-                            options: {'EN': 'English', 'FR': 'French'},
+                            options: LANGUAGE,
                             onSave: async (formData) => {
                             } //TODO
                         }}
                     >
-                        <span>{userData.preferredLanguage}</span>
+                        <span>{LANGUAGE[userData.preferredLanguage]}</span>
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[2]} icon={'building'} className={'gap-y-[1.88rem]'}>
@@ -370,12 +384,20 @@ const ProfileView: FC = () => {
                 </Collapsible>
                 <Collapsible title={SECTIONS[3]} icon={'geo'} className={'[&]:items-start'}>
                     <span className={'col-start-1 text-[1.31rem]'}>Address Information</span>
-                    <span>{Addresses}</span>
-                    {/*<Editable*/}
-                    {/*    classNameValue={'col-start-3'}*/}
-                    {/*    customEdit={() => {*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <Editable
+                        type={'address'}
+                        classNameWrapper={'w-[21.625rem]'}
+                        classNameToggle={'col-start-3'}
+                        data={{
+                            className: '[&]:bg-control2 [&]:py-[0.35rem] px-[0.76rem] border-small border-control4 rounded-[0.375rem] w-full',
+                            title: 'Update your TernID',
+                            value: userData.address,
+                            onSave: async (formData) => {
+                            } //TODO
+                        }}
+                    >
+                        <span>{Addresses}</span>
+                    </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[4]} icon={'blocks'}>
                     <span className={'text-[1.31rem]'}>Domain</span>
