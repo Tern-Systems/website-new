@@ -5,6 +5,8 @@ export enum SectionsEnum {
     ARHostingManual = 'AR Hosting User Manual',
     TernKitManual = 'TernKit User Manual',
     TernHandbook = 'TERN Handbook',
+    ARCHManual = 'ARCH Manual',
+    BTMCHandbook = 'BTMC Handbook',
     BTMC = 'BTMC',
     Standards = 'Standards & Specifications',
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {TListEntry} from "@/app/components/views/Documentation";
+import {TListEntry} from "./DocumentationWrapper";
 
 const ManualAnchors: TListEntry = [
     'Overview',

@@ -19,23 +19,24 @@ import {
     CookieView,
     CredoView,
     DocumentationView,
+    InvoiceView,
     ManageSubscriptionsView,
+    MyTernView,
+    PaymentMethodToolView,
     PricingView,
     PrivacyView,
+    ProfileView,
     PurchasingInformationView,
     SavedARCodes,
     SubscribeView,
     TermsView,
-    PaymentMethodToolView, InvoiceView, ProfileView, MyTernView
+    DocumentationWrapper,
 } from "@/app/components/views";
 
 import styles from '../page.module.css';
 
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 import SVG_QR from "@/assets/images/qr.png";
-import SVG_MENU_FALLBACK from "@/assets/images/icons/menu-fallback.svg";
-import SVG_FULLSCREEN from "@/assets/images/icons/fullscreen.svg";
-import SVG_VIEW_VIEW from "@/assets/images/icons/view-view.svg";
 
 interface IContentProps {
     activeSection: SectionsEnum;
@@ -46,7 +47,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     const {activeSection, headingsHiddenState} = props;
     const [isHeadingsHidden, setHeadingsHidden] = headingsHiddenState;
 
-    const [navigate, router] = useNavigate();
+    const [navigate] = useNavigate();
     const modalCtx = useModal();
     const userCtx = useUser();
 
@@ -105,17 +106,7 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 Content = <CredoView/>;
                 break;
             case 'Documentation':
-                Content = (
-                    <>
-                        <SectionLink section={SectionsEnum.TernKey}
-                                     className={'block mb-[8.88rem] sm:landscape:mb-[4.44em] font-oxygen text-primary'}/>
-                        <SectionLink section={SectionsEnum.GHandbook} className={'block font-oxygen text-primary'}/>
-                    </>
-                );
-                break;
-            case 'TernKey Manual':
-            case 'G Handbook':
-                Content = <DocumentationView view={activeSection}/>;
+                Content = <DocumentationView/>;
                 break;
             case 'Contact':
                 Content = <ContactView/>;
@@ -211,20 +202,12 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 )
                 break;
             case 'User Manual':
-                Content = (
-                    <div
-                        className={`relative flex place-self-center my-auto px-[4.31rem] w-[78.375rem] h-[49.25rem] bg-section 
-                                    border-small border-control2 rounded-small text-[5rem] text-center place-items-center`}
-                    >
-                        <span className={'mx-auto'}>Coming soon</span>
-                        <Image src={SVG_MENU_FALLBACK} alt={'menu-fallback'}
-                               className={'absolute top-[1.25rem] left-[1.25rem]'}/>
-                        <Image src={SVG_FULLSCREEN} alt={'fullscreen'}
-                               className={'absolute top-[1.25rem] right-[1.25rem]'}/>
-                        <Image src={SVG_VIEW_VIEW} alt={'view-view'}
-                               className={'absolute bottom-[1.25rem] right-[1.25rem]'}/>
-                    </div>
-                )
+            case 'ARCH Manual':
+            case 'TernKit User Manual':
+            case 'TernKey Manual':
+            case 'BTMC Handbook':
+            case 'TERN Handbook':
+                Content = <DocumentationWrapper view={activeSection}/>
                 break;
             case 'Purchasing Information':
                 // if (!userCtx.isLoggedIn || !userCtx.userData?.isPurchased) {

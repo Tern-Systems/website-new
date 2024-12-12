@@ -66,11 +66,7 @@ const renderTable = (table: TableSection, navigate?: (link: string) => void) => 
                         }
                     }}
                 >
-                    <Image
-                        src={SVG_ARROW}
-                        alt={'arrow'}
-                        className={''}
-                    />
+                    <Image src={SVG_ARROW} alt={'arrow'}/>
                 </a>
             </td>
         </tr>
@@ -98,7 +94,7 @@ const renderTable = (table: TableSection, navigate?: (link: string) => void) => 
 
 const MyTernView: FC = () => {
     const userCtx = useUser();
-    const [navigate, router] = useNavigate();
+    const [navigate] = useNavigate();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
