@@ -60,7 +60,7 @@ If you have questions about this policy or believe we have not adhered to its te
 
 const CookieView = () => {
     const router = useRouter();
-    const SectionLink = withSectionLink(router);
+    const SectionLink = withSectionLink();
 
     return (
         <div className={`${styles.highlight} max-w-[112.25rem] max-h-[41.625rem]`}>

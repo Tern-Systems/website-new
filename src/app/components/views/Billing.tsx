@@ -21,7 +21,7 @@ const BillingView: FC = () => {
     const modalCtx = useModal();
     const [navigate, router] = useNavigate();
 
-    const SectionLink = withSectionLink(router);
+    const SectionLink = withSectionLink();
 
     useEffect(() => {
         try {

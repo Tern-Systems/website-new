@@ -14,6 +14,8 @@ export enum SectionsEnum {
     Pricing = 'Pricing and Plans',
     SavedCodes = 'Saved Codes',
     UserManual = 'User Manual',
+    ExploreKeys = 'Explore Keys',
+    CreateKey = 'Create Key',
 
     // Common
     Start = 'Start',
@@ -27,10 +29,14 @@ export enum SectionsEnum {
     Credo = 'Our Credo',
     TernKey = 'TernKey',
     Documentation = 'Documentation',
+    HelpFAQ = 'Help & FAQs',
+    SupportHub = 'Support Hub',
     Contact = 'Contact',
     Cookies = 'Cookies',
     Privacy = 'Privacy',
     Terms = 'Terms',
+    OpenCase = 'Open a Case',
+    Feedback = 'Feedback',
 
     // Managing
     Subscribe = 'Subscribe',

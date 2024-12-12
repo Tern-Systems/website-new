@@ -50,7 +50,7 @@ export default function Home() {
         }, FADE_DURATION);
     }, [section, activeSection, modalCtx]);
 
-    const SectionLink = withSectionLink(router);
+    const SectionLink = withSectionLink();
 
     // Elements
 

@@ -52,6 +52,7 @@ interface UserData {
     displayName?: string;
     preferredLanguage: keyof typeof LANGUAGE,
     email: string;
+    registrationDate: number;
     phone: UserPhone;
     isEmailVerified: boolean;
     isPurchased: boolean;
@@ -74,6 +75,7 @@ interface UserData {
 const USER_TEMPLATE: UserData = {
     email: 'admin@gmail.com',
     ternID: 'ternID',
+    registrationDate: Date.now(),
     name: {
         salutation: 'MR',
         firstname: 'John',

@@ -58,7 +58,7 @@ const Header: FC<IHeaderProps> = (props: IHeaderProps): ReactElement => {
     const modalCtx = useModal();
 
     // HOC
-    const SectionLink = withSectionLink(router);
+    const SectionLink = withSectionLink();
 
     // Elements
     const NavLinks: ReactElement[] = NAV_LINKS.map((link: SectionsEnum, index) => {

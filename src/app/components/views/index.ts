@@ -5,6 +5,7 @@ export {CookieView} from './Cookies'
 export {CredoView} from './Credo'
 export {DocumentationView} from './Documentation'
 export {ManageSubscriptionsView, PaymentMethodToolView} from './ManageSubscriptions'
+export {MyTernView} from "@/app/components/views/MyTern";
 export {PricingView} from './Pricing'
 export {PrivacyView} from './Privacy'
 export {ProfileView} from './Profile'

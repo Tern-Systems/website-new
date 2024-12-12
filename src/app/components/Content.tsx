@@ -26,7 +26,7 @@ import {
     SavedARCodes,
     SubscribeView,
     TermsView,
-    PaymentMethodToolView, InvoiceView, ProfileView
+    PaymentMethodToolView, InvoiceView, ProfileView, MyTernView
 } from "@/app/components/views";
 
 import styles from '../page.module.css';
@@ -51,21 +51,13 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
     const userCtx = useUser();
 
     // HOC
-    const SectionLink = withSectionLink(router);
+    const SectionLink = withSectionLink();
 
     // Elements
     let Content: ReactElement | null = null;
     if (!modalCtx.hideContent) {
         switch (activeSection) {
-            case 'Cookies':
-                Content = <CookieView/>
-                break;
-            case 'Privacy':
-                Content = <PrivacyView/>
-                break;
-            case 'Terms':
-                Content = <TermsView/>
-                break;
+            default:
             case 'Home':
                 Content = (
                     <div className={`${styles.highlight} w-[58.625rem] gap-[1.5rem]`}>
@@ -75,6 +67,15 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                         </span>
                     </div>
                 );
+                break;
+            case 'Cookies':
+                Content = <CookieView/>
+                break;
+            case 'Privacy':
+                Content = <PrivacyView/>
+                break;
+            case 'Terms':
+                Content = <TermsView/>
                 break;
             case 'About':
                 Content = (
@@ -260,8 +261,9 @@ const Content: FC<IContentProps> = (props: IContentProps): ReactElement => {
                 // }
                 Content = <ProfileView/>;
                 break;
-            default:
-                Content = null;
+            case 'My Tern':
+                Content = <MyTernView/>;
+                break;
         }
     }
 
