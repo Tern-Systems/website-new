@@ -31,8 +31,6 @@ export enum SectionsEnum {
     Credo = 'Our Credo',
     TernKey = 'TernKey',
     Documentation = 'Documentation',
-    HelpFAQ = 'Help & FAQs',
-    SupportHub = 'Support Hub',
     Contact = 'Contact',
     Cookies = 'Cookies',
     Privacy = 'Privacy',

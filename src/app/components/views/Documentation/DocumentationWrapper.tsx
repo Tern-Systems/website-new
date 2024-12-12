@@ -134,7 +134,7 @@ const DocumentationWrapper = (props: IDocumentationViewProps) => {
 
     return (
         <div
-            className={`max-h-full pt-[3.88rem] self-center max-h-[49.25rem]
+            className={`pt-[3.88rem] self-center max-h-[49.25rem]
                         ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60' : ''}`}>
             <div
                 className={`relative flex max-h-full rounded-small border-small border-control2 bg-section text-primary font-neo

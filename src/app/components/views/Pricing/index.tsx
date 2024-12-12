@@ -11,7 +11,7 @@ import {useNavigate} from "@/app/hooks/useNavigate";
 
 import {useModal, UserSubscription, useUser} from "@/app/context";
 
-import {AuthModal, BillingModal} from "@/app/components/modals";
+import {AuthModal, HelpModal} from "@/app/components/modals";
 import {LimitsModal} from "./LimitsModal";
 
 import {Button} from "@/app/components/form";
@@ -99,7 +99,7 @@ const PricingView: FC = () => {
     const BillingResolution = (
         <span
             className={'underline cursor-pointer'}
-            onClick={() => modalCtx.openModal(<BillingModal/>)}
+            onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>)}
         >
             billing resolution center
         </span>

@@ -9,7 +9,7 @@ import {withSectionLink} from "@/app/hocs";
 
 import {useModal} from "@/app/context";
 
-import {BillingModal} from "@/app/components/modals/BillingResolution";
+import {HelpModal} from "@/app/components/modals";
 import {useNavigate} from "@/app/hooks/useNavigate";
 
 
@@ -76,7 +76,10 @@ const BillingView: FC = () => {
                 <div className={'inline-flex flex-col gap-[1.56rem] text-[0.875rem]'}>
                     <SectionLink section={SectionsEnum.ManageSubscriptions}/>
                     <SectionLink section={SectionsEnum.PurchasingInformation}/>
-                    <span className={'cursor-pointer'} onClick={() => modalCtx.openModal(<BillingModal/>)}>
+                    <span
+                        className={'cursor-pointer'}
+                        onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>)}
+                    >
                         Billing resolution center
                     </span>
                 </div>

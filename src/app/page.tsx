@@ -29,7 +29,7 @@ export default function Home() {
 
     const handleInsigniaClick = () => {
         history.pushState({}, '', window.location.href);
-        router.replace(`/?section=${SectionsEnum.Home}`);
+        router.replace(`/?section=${SectionsEnum.Start}`);
     };
 
     const section = params.get('section') as SectionsEnum;
@@ -72,8 +72,8 @@ export default function Home() {
 
     const Layout = activeSection === 'Start'
         ? (
-            <span className={`text-primary text-center mt-auto mb-[--py]`}>
-                <SectionLink section={SectionsEnum.Home} className={'cursor-pointer'}>Tern</SectionLink>
+            <span className={`text-primary mt-auto mb-[--py] text-[1.3125rem] font-oxygen`}>
+                <SectionLink section={SectionsEnum.Home} className={'place-content-center'}>Tern</SectionLink>
             </span>
         )
         : (

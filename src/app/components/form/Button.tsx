@@ -4,7 +4,7 @@ import Image from "next/image";
 import SVG_BACK from '@/assets/images/icons/back.svg';
 import SVG_CHECK_FLOWER from '@/assets/images/icons/checkmark-flower.svg';
 import SVG_CHECK_SQUARE from '@/assets/images/icons/checkmark-square.svg';
-import SVG_CHEVRON from "@/assets/images/icons/select-chewron.svg";
+import SVG_CHEVRON from "@/assets/images/icons/chewron.svg";
 import SVG_CLOSE from '@/assets/images/icons/close.svg';
 import SVG_DELETE from "@/assets/images/icons/delete.svg";
 import SVG_DELETE_SQUARE from "@/assets/images/icons/delete-square.svg";

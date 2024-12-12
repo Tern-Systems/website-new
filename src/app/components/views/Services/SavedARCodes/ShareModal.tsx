@@ -4,7 +4,7 @@ import Image from "next/image";
 import {BaseModal} from "@/app/components/modals";
 
 import SVG_FIGURE_FALLBACK from '@/assets/images/figure.svg';
-import SVG_CHEVRON from '@/assets/images/icons/select-chewron.svg';
+import SVG_CHEVRON from '@/assets/images/icons/chewron.svg';
 import SVG_COPY from '@/assets/images/icons/copy.svg';
 import SVG_DISCORD from "@/assets/images/icons/discord.svg";
 

@@ -5,12 +5,15 @@ import {SectionsEnum} from "@/app/utils/sections";
 
 import {useNavigate} from "@/app/hooks/useNavigate";
 
-import {useUser} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
+
+import {withSectionLink} from "@/app/hocs";
+
+import {FAQsModal, HelpModal} from "@/app/components/modals";
 
 import {Button, ButtonIcon} from "@/app/components/form";
 
 import SVG_ARROW from "@/assets/images/icons/arrow-right.svg";
-import {withSectionLink} from "@/app/hocs";
 
 
 type TableEntry = {
@@ -94,6 +97,7 @@ const renderTable = (table: TableSection, navigate?: (link: string) => void) => 
 
 const MyTernView: FC = () => {
     const userCtx = useUser();
+    const modalCtx = useModal();
     const [navigate] = useNavigate();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
@@ -153,8 +157,12 @@ const MyTernView: FC = () => {
             <div className={'flex-col flex gap-y-[1.6rem] mt-[3rem]'}>
                 <span className={'text-[1.69rem] font-bold mb-[0.3rem]'}>Additional Resources</span>
                 <SectionLink section={SectionsEnum.Documentation}/>
-                <SectionLink section={SectionsEnum.HelpFAQ}/>
-                <SectionLink section={SectionsEnum.SupportHub}/>
+                <span className={'cursor-pointer'} onClick={() => modalCtx.openModal(<FAQsModal/>)}>Help & FAQs</span>
+                <span
+                    className={'cursor-pointer'}
+                    onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>)}>
+                    Support Hub
+                </span>
             </div>
         </div>
     );
