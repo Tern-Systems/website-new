@@ -4,17 +4,18 @@ import {ReactElement, useEffect, useState} from "react";
 import {useRouter, useSearchParams} from "next/navigation";
 import Spline from '@splinetool/react-spline';
 
-import {SectionsEnum} from "@/app/utils/sections";
+import {SectionsEnum} from "@/app/static";
 
-import {withSectionLink} from "@/app/hocs";
 import {useModal} from "@/app/context";
 
-import Header from "@/app/components/Header";
-import Content from "@/app/components/Content";
+import {withSectionLink} from "@/app/hocs";
+import {Content, Header} from "@/app/ui/layout";
 
 import styles from './page.module.css';
 
+
 const FADE_DURATION = 300;
+
 
 export default function Home() {
     const router = useRouter();
@@ -55,9 +56,9 @@ export default function Home() {
     // Elements
 
     // 2 pre-rendered insignias for moving without flickering
-    const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, index) => (
+    const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, idx) => (
         <div
-            key={index}
+            key={idx}
             hidden={state}
             className={`
                     absolute z-10 size-[11.5rem] bg-transparent

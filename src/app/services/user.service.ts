@@ -1,9 +1,11 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-import {BaseService} from "@/app/services/base.service";
-import {Res} from "@/app/utils/service";
+import {Res} from "@/app/types/service";
 
 import {UserData} from "@/app/context";
+
+import {BaseService} from "./base.service";
+
 
 type UserBaseData = Pick<UserData, 'email' | 'isEmailVerified' | 'isPurchased'>
 

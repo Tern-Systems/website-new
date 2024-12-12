@@ -1,15 +1,16 @@
 import {AnchorHTMLAttributes, FC, PropsWithChildren, ReactElement} from "react";
 
-import {useNavigate} from "@/app/hooks/useNavigate";
+import {useNavigate} from "@/app/hooks";
 import {useFlow} from "@/app/context";
 
+
 // TODO use React Router
-interface SectionLinkProps<T extends string> extends AnchorHTMLAttributes<HTMLAnchorElement>, PropsWithChildren {
+interface Props<T extends string> extends AnchorHTMLAttributes<HTMLAnchorElement>, PropsWithChildren {
     section: T;
 }
 
-const withSectionLink = function <T extends string, P extends string>(): FC<SectionLinkProps<T>> {
-    return function Component(props: SectionLinkProps<T>): ReactElement {
+const withSectionLink = function <T extends string, P extends string>(): FC<Props<T>> {
+    return function Component(props: Props<T>): ReactElement {
         const {children, section, className, ...propsRest} = props;
         const [navigate] = useNavigate();
         const flowCtx = useFlow();

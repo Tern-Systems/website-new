@@ -1,4 +1,4 @@
-import {KeysOfUnion} from "@/app/static/types";
+import {KeysOfUnion} from "@/app/types/utils";
 
 const JOB_FUNCTION = {
     D19: 'Academic Executive',
@@ -397,10 +397,10 @@ const SUB_INDUSTRY = {
     ,
 }
 type JobFunctionKey = keyof typeof JOB_FUNCTION;
-type IndustyKey = keyof typeof INDUSTRY;
+type IndustryKey = keyof typeof INDUSTRY;
 
 type SubIndustry = typeof SUB_INDUSTRY[keyof typeof SUB_INDUSTRY];
 type SubIndustryKey = KeysOfUnion<SubIndustry>;
 
-export type {JobFunctionKey, IndustyKey, SubIndustryKey}
+export type {JobFunctionKey, IndustryKey, SubIndustryKey}
 export {JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY};

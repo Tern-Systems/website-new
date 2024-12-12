@@ -2,10 +2,10 @@
 
 import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
 
-import {Subscription} from "@/app/static/types";
-import {IndustyKey, JobFunctionKey, SubIndustryKey} from "@/app/static/company";
+import {Subscription} from "@/app/types/subscription";
+import {IndustryKey, JobFunctionKey, SubIndustryKey} from "@/app/static/company";
 
-import {COUNTRY, LANGUAGE, SALUTATION, STATE} from "@/app/static/constants";
+import {COUNTRY, LANGUAGE, SALUTATION, StateKey} from "@/app/static";
 
 
 type UserSubscription = Pick<Subscription, 'subscription' | 'type' | 'recurrency' | 'isBasicKind'>
@@ -16,7 +16,7 @@ type Address = {
     line2: string;
     city: string;
     zip: string;
-    state: keyof typeof STATE | '';
+    state: StateKey | '';
     country: keyof typeof COUNTRY | '';
     isPrimary: boolean;
 }
@@ -41,7 +41,7 @@ type Company = {
     name: string;
     jobTitle: string;
     jobFunction: JobFunctionKey;
-    industry: IndustyKey;
+    industry: IndustryKey;
     subIndustry: SubIndustryKey;
 }
 

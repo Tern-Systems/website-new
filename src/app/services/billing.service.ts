@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-import {CardData} from "@/app/static/types";
-import {Res} from "@/app/utils/service";
+import {CardData} from "@/app/types/billing";
+import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
 

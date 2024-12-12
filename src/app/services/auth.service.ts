@@ -1,9 +1,10 @@
 import {genSalt, hashSync} from "bcryptjs";
 import axios, {AxiosRequestConfig} from "axios";
 
-import {BaseService} from "@/app/services/base.service";
+import {Res} from "@/app/types/service";
 
-import {Res} from "@/app/utils/service";
+import {BaseService} from "./base.service";
+
 
 type LoginData = {
     email: string;
