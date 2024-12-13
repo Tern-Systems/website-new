@@ -18,7 +18,7 @@ type Content =
     | Route.ARCHManual
     | Route.BTMCHandbook;
 
-const DOCUMENTATION_CONTENTS: Record<Content, DocumentationContent> = {
+const CONTENTS: Record<Content, DocumentationContent> = {
     [Route.TernKeyManual]: {anchors: TernKeyManualAnchors, children: <TernKeyManualContent/>},
     [Route.GHandbook]: {anchors: GHandbookAnchors, children: <GHandbookContent/>, isChapter: true},
     [Route.ARHostingManual]: COMING_SOON_DOC,
@@ -29,7 +29,7 @@ const DOCUMENTATION_CONTENTS: Record<Content, DocumentationContent> = {
 }
 
 
-const DocumentationPage: FC = () => <DocumentationScreenTool contents={DOCUMENTATION_CONTENTS}/>;
+const DocumentationPage: FC = () => <DocumentationScreenTool contents={CONTENTS}/>;
 
 
 export default DocumentationPage;

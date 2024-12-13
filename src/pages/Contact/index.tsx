@@ -12,7 +12,7 @@ import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
 import SVG_FACEBOOK from "@/assets/images/icons/facebook.svg";
 
 
-const LINKS: { svg: string, href: string }[] = [ // TODO
+const LINKS: { svg: string, href: string }[] = [
     {svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
     {svg: SVG_STACKOVERFLOW, href: 'https://stackoverflow.com/users/24470835/tern'},
     {svg: SVG_GITHUB, href: 'https://github.com/Tern-Systems'},

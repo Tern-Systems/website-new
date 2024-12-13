@@ -11,10 +11,8 @@ import React, {
     useState
 } from 'react';
 
-import styles from "@/app/common.module.css";
 
-
-type ModalConfig = { hideContent?: boolean; }
+type ModalConfig = { hideContent?: boolean; darkenBg?: boolean }
 
 type OpenModal = (Component: ReactElement, config?: ModalConfig) => void;
 
@@ -29,23 +27,24 @@ interface IModalContext {
 const ModalContext = createContext<IModalContext | null>(null);
 
 const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-    const [hideContent, setHideContent] = useState(false);
+    const [config, setConfig] = useState<ModalConfig>({darkenBg: false, hideContent: false});
     const [Modal, setModal] = useState<ReactElement | null>(null);
     const [isFade, setFadeState] = useState<boolean>(false);
 
 
-    const handleModalChange = (Component: ReactElement | null, hideContent: boolean) => {
+    const handleModalChange = (Component: ReactElement | null, config: ModalConfig) => {
         setModal(Component);
-        setHideContent(hideContent);
+        setConfig(config);
     }
 
-    const closeModal = () => handleModalChange(null, false);
+    const closeModal = () => handleModalChange(null, {});
 
     const openModal = (ModalElem: ReactElement, config?: ModalConfig) =>
-        handleModalChange(ModalElem, config?.hideContent === true);
+        handleModalChange(ModalElem, config ?? {});
 
     return (
-        <ModalContext.Provider value={{hideContent, openModal, closeModal, setFadeState, isFade}}>
+        <ModalContext.Provider
+            value={{hideContent: config.hideContent == true, openModal, closeModal, setFadeState, isFade}}>
             <div
                 hidden={!Modal}
                 className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden pointer-events-none`}
@@ -53,7 +52,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 {Modal}
             </div>
             <div
-                className={`${Modal ? 'brightness-[60%]' : 'brightness-100'} ${isFade ? styles.fadeOut : styles.fadeIn}`}>
+                className={config.darkenBg && !config.hideContent ? 'brightness-[60%]' : 'brightness-100'}>
                 {props.children}
             </div>
         </ModalContext.Provider>

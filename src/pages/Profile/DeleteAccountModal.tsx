@@ -32,7 +32,7 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
             <span className={'flex gap-[0.62rem] mt-[1.25rem] justify-center'}>
                 <Button
                     className={'text-[#F42200] border-[#F42200] border-small px-[1rem] h-[1.43rem] rounded-full'}
-                    onClick={() => modalCtx.openModal(<DeleteAccountConfirmModal userData={userData}/>)}
+                    onClick={() => modalCtx.openModal(<DeleteAccountConfirmModal userData={userData}/>, {darkenBg: true})}
                 >
                     Continue
                 </Button>

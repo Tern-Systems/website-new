@@ -275,7 +275,6 @@ const PaymentForm: FC<Props> = (props: Props) => {
         );
     }
 
-    // TODO links
     return (
         <div className={'flex-1 pt-[9.14rem] w-1/2 bg-control4 text-[1.3125rem] overflow-y-scroll'}>
             <div className={'w-[29.0625rem] mx-auto'}>

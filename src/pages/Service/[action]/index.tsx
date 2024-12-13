@@ -4,8 +4,9 @@ import {ARCodeTool} from "@/app/ui/templates";
 
 
 const ARCodeToolPage = () => {
-    const {action} = useParams() as { action: string };
-    return <ARCodeTool isEditMode={action === 'edit'}/>;
+    const {id} = useParams() as { id: string } ?? {};
+    return <ARCodeTool editID={id}/>;
 }
+
 
 export default ARCodeToolPage;

@@ -492,7 +492,7 @@ const ProfilePage: FC = () => {
                     <Button
                         icon={'delete-square'}
                         className={'flex-row-reverse'}
-                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData}/>)}
+                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData}/>, {darkenBg: true})}
                     >
                         Delete
                     </Button>

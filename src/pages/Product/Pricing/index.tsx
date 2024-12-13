@@ -79,7 +79,7 @@ const PricingPage: FC = () => {
     const handleSubscribeClick = (type: string) => {
         if (!userCtx.isLoggedIn) {
             const info = 'You must log into a Tern account to subscribe to TernKey. Please login or create an account to purchase a Plan.';
-            return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>);
+            return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>, {darkenBg: true});
         }
 
         if (!subscriptionPreview)
@@ -99,7 +99,7 @@ const PricingPage: FC = () => {
     const BillingResolution = (
         <span
             className={'underline cursor-pointer'}
-            onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>)}
+            onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
         >
             billing resolution center
         </span>
@@ -153,7 +153,7 @@ const PricingPage: FC = () => {
         const Limits: ReactElement = (
             <span
                 className={'underline cursor-pointer'}
-                onClick={() => modalCtx.openModal(<LimitsModal/>)}
+                onClick={() => modalCtx.openModal(<LimitsModal/>, {darkenBg: true})}
             >
                 Limits apply
             </span>

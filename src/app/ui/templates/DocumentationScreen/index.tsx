@@ -14,11 +14,20 @@ interface Props {
 
 const DocumentationScreenTool: FC<Props> = (props: Props) => {
     const {contents} = props;
-    const {content} = useParams() as { content: string };
+    const {content} = useParams() as { content: string } ?? {};
+
 
     const [isMenuOpened, setMenuOpened] = useState<boolean>(false);
+    const [contentParam, setContentParam] = useState<string | null>(null);
+
+    const documentationContent: DocumentationContent | null = contentParam ? contents[contentParam] : null;
+
 
     const toggleMenuOpen = () => setMenuOpened((prevState) => !prevState);
+
+    useEffect(() => {
+        setContentParam('/' + content);
+    }, [content]);
 
     // Click checking
     useEffect(() => {
@@ -61,7 +70,10 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
 
             return (
                 <li key={anchorText + idx} className={'pl-[1rem]'}>
-                    <span onClick={() => document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'})}>
+                    <span
+                        onClick={() => document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'})}
+                        className={'cursor-pointer'}
+                    >
                         {anchorText}
                     </span>
                     <ul>{SubListOptions}</ul>
@@ -70,10 +82,10 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
         });
         return <>{ListOptions}</>
     }
-    const renderAnchorList = (list: ContentAnchors, isChapters: boolean): ReactElement => {
+    const renderAnchorList = (list: ContentAnchors | undefined, isChapters: boolean | undefined): ReactElement => {
         const chapterCounter = 0;
         const chapterFlag = false;
-        return renderAnchorListHelper(list, isChapters, chapterFlag, chapterCounter);
+        return renderAnchorListHelper(list ?? [], isChapters === true, chapterFlag, chapterCounter);
     }
 
     // Misc
@@ -89,7 +101,7 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`pt-[3.88rem] self-center max-h-[49.25rem]
+            className={`pt-[--py] self-center max-h-[49.25rem]
                         ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60' : ''}`}>
             <div
                 className={`relative flex max-h-full rounded-small border-small border-control2 bg-section text-primary font-neo
@@ -108,7 +120,7 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
                         className={`mt-[1.86rem] overflow-y-scroll w-full`}
                     >
                         <ul style={{marginLeft: '-0.9rem'}}>
-                            {renderAnchorList(contents[content].anchors, contents[content].isChapter === true)}
+                            {renderAnchorList(documentationContent?.anchors, documentationContent?.isChapter)}
                         </ul>
                     </div>
                 </aside>
@@ -117,8 +129,9 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
                 <Image src={SVG_VIEW_VIEW} alt={'view-view'}
                        className={'absolute bottom-[1.25rem] right-[1.25rem]'}/>
                 <div
-                    className={'px-[0.44rem] py-[0.59rem] w-[78.375rem] overflow-y-scroll pr-[4.31rem] min-h-[49.25rem]'}>
-                    {contents[content].children}
+                    className={`px-[0.44rem] py-[0.59rem] w-[78.375rem] overflow-y-scroll pr-[4.31rem] min-h-[49.25rem]
+                                text-left`}>
+                    {documentationContent?.children}
                 </div>
             </div>
         </div>

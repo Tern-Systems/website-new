@@ -104,7 +104,7 @@ function PurchasingInformationView() {
                 <h2 className={'text-[1.6875rem] font-bold text-left'}>Invoice History</h2>
                 <Button
                     className={'border-small border-control3 px-[1rem] text-[0.875rem] h-[1.44rem] rounded-full font-bold'}
-                    onClick={() => modalCtx.openModal(<ExportInvoiceModal/>)}
+                    onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
                 >
                     Export
                 </Button>

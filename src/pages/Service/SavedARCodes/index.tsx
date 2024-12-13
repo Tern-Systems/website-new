@@ -20,6 +20,7 @@ const SAVED_CODES_TEMPLATE: ARCode[] = [
     {name: 'Example Name 9', file: '/', moduleColor: '#000', backgroundColor: '#fff'}
 ]
 
+
 const SavedARCodes: FC = () => {
     const [menuData, setMenuData] = useState<CodeMenuData>({arCode: null, x: 0, y: 0, isOpened: false});
     const [codeId, setCodeId] = useState<string | null>(null);

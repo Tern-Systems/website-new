@@ -283,7 +283,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     className={'text-[#F42200] text-[0.875rem] cursor-pointer'}
                     onClick={() => {
                         if (savedCards[+editCardIdx])
-                            modalCtx.openModal(<RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>)
+                            modalCtx.openModal(<RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>, {darkenBg: true})
                     }}
                 >
                     Remove Payment Method

@@ -8,36 +8,36 @@ import SVG_ARROW from "@/assets/images/icons/arrow-right.svg";
 import {PageLink} from "@/app/ui/layout";
 
 
-const LINKS: { title: string; text: string; link: Route }[] = [
+const LINKS: { title: string; text: string; dynamicParam: Route }[] = [
     {
         title: 'TernKey Manual',
         text: 'Discover the sandbox application that unlocks the potential of ternary programming.',
-        link: Route.TernKeyManual
+        dynamicParam: Route.TernKeyManual
     },
     {
         title: 'ARCH Manual',
         text: 'Maximize your AR code\'s potential with this comprehensive user manual.',
-        link: Route.ARCHManual
+        dynamicParam: Route.ARCHManual
     },
     {
         title: 'TernKit Manual',
         text: 'Research and test ternary code on a machine equipped for ternary logic execution.',
-        link: Route.TernKitManual
+        dynamicParam: Route.TernKitManual
     },
     {
         title: 'G Handbook',
         text: 'Master the G high-level programming language, optimized for ternary-based computing.',
-        link: Route.GHandbook
+        dynamicParam: Route.GHandbook
     },
     {
         title: 'TERN Handbook',
         text: 'Discover the TERN assembly programming language and redefine coding beyond binary limits.',
-        link: Route.TernHandbook
+        dynamicParam: Route.TernHandbook
     },
     {
         title: 'BTMC Textbook',
         text: 'This textbook outlines BTMC fundamentals and the implementation of balanced ternary logic in systems.',
-        link: Route.BTMCHandbook
+        dynamicParam: Route.BTMCHandbook
     },
 ]
 
@@ -48,7 +48,7 @@ const DocumentationPage: FC = () => {
             key={link.text + idx}
         >
             <PageLink
-                href={link.link}
+                href={Route.Documentation + link.dynamicParam}
                 className={`bg-control rounded-[1rem] flex-col flex justify-between h-[16.18rem] px-[1.25rem] py-[--py]
                             [&]:items-start`}
             >
@@ -63,9 +63,11 @@ const DocumentationPage: FC = () => {
     ));
 
     return (
-        <div className={'px-[15rem] pt-[9rem] text-left'}>
-            <h1 className={'text-[2.25rem] font-bold mb-[1.9rem]'}>Documentation</h1>
-            <ul className={'grid grid-cols-3 grid-rows-2 gap-[0.12rem]'}>{Links}</ul>
+        <div className={'px-[15rem] text-left my-auto place-items-center'}>
+            <div>
+                <h1 className={'text-[2.25rem] font-bold mb-[1.9rem] block'}>Documentation</h1>
+                <ul className={'grid grid-cols-[repeat(3,30rem)] grid-rows-2 gap-[0.12rem]'}>{Links}</ul>
+            </div>
         </div>
     );
 }

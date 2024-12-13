@@ -72,7 +72,7 @@ const BillingPage: FC = () => {
                     <PageLink href={Route.PurchasingInformation}/>
                     <span
                         className={'cursor-pointer'}
-                        onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>)}
+                        onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
                     >
                         Billing resolution center
                     </span>

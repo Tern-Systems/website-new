@@ -29,7 +29,7 @@ const NAV_BTNS: { title: string; icon: ButtonIcon; href: Route }[] = [
     {title: 'Build Key', icon: 'plus', href: Route.CreateKey},
     {title: 'Try TernKey Pro', icon: 'diamond', href: Route.Pricing},
     {title: 'Explore Keys', icon: 'glass', href: Route.ExploreKeys},
-    {title: 'Create AR Code', icon: 'plus', href: Route.ARCodeTool},
+    {title: 'Create AR Code', icon: 'plus', href: Route.ARCodeToolEdit},
     {title: 'Open a Case', icon: 'label', href: Route.OpenCase},
     {title: 'Give Feedback', icon: 'notepad', href: Route.Feedback},
 ];
@@ -147,13 +147,13 @@ const MyTernPage: FC = () => {
                 <PageLink href={Route.Documentation}/>
                 <span
                     className={'cursor-pointer'}
-                    onClick={() => modalCtx.openModal(<FAQsModal/>)}
+                    onClick={() => modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
                 >
                     Help & FAQs
                 </span>
                 <span
                     className={'cursor-pointer'}
-                    onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>)}>
+                    onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}>
                     Support Hub
                 </span>
             </div>
