@@ -12,9 +12,9 @@ import Image from "next/image";
 
 import {NonNullableKeys} from "@/app/types/utils";
 import {INDUSTRY, IndustryKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey} from "@/app/static/company";
-import {COUNTRY, SALUTATION, STATE} from "@/app/static";
+import {COUNTRY, SALUTATION, STATE_PROVINCE} from "@/app/static";
 
-import {Address, Company, FullName, Phone, UserAddress, UserPhone} from "@/app/context";
+import {Address, FullName, Phone, UserAddress, UserPhone, Company} from "@/app/context/User.context";
 
 import {copyObject} from "@/app/utils";
 import {useForm} from "@/app/hooks";
@@ -480,7 +480,7 @@ const Editable: FC<Props> = (props: Props) => {
             Form = (
                 <div className={'flex flex-col gap-y-[0.94rem]'}>
                     <Select
-                        options={data.options}
+                        options={SALUTATION}
                         value={formData.salutation}
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
@@ -509,7 +509,6 @@ const Editable: FC<Props> = (props: Props) => {
                                 setFormState(prevState => ({...prevState, initial}))
                             }}
                             {...INPUT_CN}
-                            required
                         >
                             Initial (optional)
                         </Input>
@@ -550,9 +549,12 @@ const Editable: FC<Props> = (props: Props) => {
 
             const renderAddressForm = (key: keyof UserAddress) => {
                 const isPersonal = key === 'personalAddress';
+                if (!formData[key])
+                    return <></>;
+
                 return (
                     <>
-                        <span className={`grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-[1.25rem] 
+                        <span className={`grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-[1.25rem] mb-[0.62rem]
                                             ${isPersonal ? 'mt-[1.25rem] bg-[#686868] p-[0.81rem] rounded-[0.5625rem]' : 'mt-[0.94rem]'}`}>
                             <span className={'flex col-span-2 capitalize text-[0.875rem] justify-between'}>
                                 <span>{key.slice(0, 'Address'.length + 1)} Address</span>
@@ -566,7 +568,7 @@ const Editable: FC<Props> = (props: Props) => {
                             </span>
                             <Select
                                 options={COUNTRY}
-                                value={formData[key]?.country ?? ''}
+                                value={formData[key].country ?? ''}
                                 placeholder={'Select'}
                                 onChangeCustom={(value) => requireOnChangeAddress(key, 'country')(value)}
                                 {...SELECT_CN}
@@ -575,7 +577,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 Country / Region
                             </Select>
                             <Select
-                                options={STATE}
+                                options={STATE_PROVINCE[formData[key].country]}
                                 value={formData[key]?.state ?? ''}
                                 placeholder={'Select'}
                                 onChangeCustom={(value) => requireOnChangeAddress(key, 'state')(value)}

@@ -198,8 +198,7 @@ const SUB_INDUSTRY = {
         BI: 'Computer Leasing and Rental',
         BJ: 'CSI Selected Accounts',
         BW: 'Computer Services NetGen',
-    }
-    ,
+    },
     D: {
         D9: 'HQ Allocation for CP and Wholesale Distribution & Services',
         DI: 'CP- Food Manufacturing',
@@ -207,22 +206,19 @@ const SUB_INDUSTRY = {
         DK: 'CP- Household/Health & Beauty',
         DL: 'CP- General Processing',
         DW: 'Consumer Products NetGen',
-    }
-    ,
+    },
     E: {
         E9: 'HQ Allocation for Education',
         EA: 'Higher Education',
         ER: 'Basic/Secondary Education',
         EW: 'Education NetGen',
-    }
-    ,
+    },
     L: {
         L9: 'HQ Allocation for Electronics',
         LA: 'Electrical and Electronics',
         LB: 'Technology Systems and Microelectronics',
         LW: 'Electronics NetGen',
-    }
-    ,
+    },
     U: {
         U9: 'HQ Allocation for Energy & Utilities',
         UA: 'Electric',
@@ -232,8 +228,7 @@ const SUB_INDUSTRY = {
         UE: 'Waste',
         UW: 'Energy & Utilities NetGen',
         UZ: 'Electric and Gas Energy Services Traders',
-    }
-    ,
+    },
     Z: {
         ZA: 'Supplies Wholesalers',
         ZB: 'PC Retailer or Super Channel',
@@ -243,16 +238,14 @@ const SUB_INDUSTRY = {
         ZF: 'IBM Internal',
         ZG: 'Second Hand Dealers',
         ZZ: 'Unassigned Accounts',
-    }
-    ,
+    },
     S: {
         S9: 'HQ Allocation for Financial Markets',
         SB: 'Financial Markets - Other',
         SE: 'Financial Markets - Focus 65',
         SG: 'Financial Markets - Global Customer Management',
         SW: 'Financial Markets NetGen',
-    }
-    ,
+    },
     Y: {
         Y9: 'HQ Allocation for Government',
         YA: 'Finance and Administration',
@@ -263,8 +256,7 @@ const SUB_INDUSTRY = {
         YF: 'Postal',
         YG: 'Scientific',
         YW: 'Government-Central/Federal NetGen',
-    }
-    ,
+    },
     G: {
         GA: 'Fin. & Admin, State/Prov./Reg.',
         GB: 'Fin. & Admin, City/Municipal',
@@ -283,8 +275,7 @@ const SUB_INDUSTRY = {
         GR: 'Env/Trans/PubWrks, Spec. Dist.',
         GW: 'Government-State/Provincial/Reg NetGen',
         GZ: 'Other Government',
-    }
-    ,
+    },
     H: {
         H9: 'HQ Allocation for Health',
         HA: 'Integrated Healthcare Systems / Hospitals',
@@ -293,8 +284,7 @@ const SUB_INDUSTRY = {
         HD: 'Health Plans / Payors',
         HE: 'Healthcare Other',
         HW: 'Healthcare NetGen',
-    }
-    ,
+    },
     M: {
         MC: 'Fabrication & Assembly',
         ME: 'Construction/Architecture/Engineering',
@@ -304,8 +294,7 @@ const SUB_INDUSTRY = {
         MK: 'Mining',
         ML: 'Other Process',
         MW: 'Industrial Products NetGen',
-    }
-    ,
+    },
     N: {
         N9: 'HQ Allocation for Insurance',
         NA: 'Insurance Carriers - Life & Asset Management (L&AM)',
@@ -313,13 +302,11 @@ const SUB_INDUSTRY = {
         NI: 'Insurance Intermediaries',
         NW: 'Insurance NetGen',
         NZ: 'Other Insurance, N.E.C.',
-    }
-    ,
+    },
     X: {
         XF: 'Pharmaceuticals',
         XW: 'Life Sciences NetGen',
-    }
-    ,
+    },
     K: {
         K9: 'HQ Allocation for Media & Entertainment',
         KA: 'Cable',
@@ -330,8 +317,7 @@ const SUB_INDUSTRY = {
         KF: 'Advertising',
         KW: 'Media & Entertainment NetGen',
         KZ: 'Associations',
-    }
-    ,
+    },
     C: {
         CB: 'Management Consulting',
         CC: 'Legal Services',
@@ -339,8 +325,7 @@ const SUB_INDUSTRY = {
         CE: 'Marketing & Public Opinion Research',
         CF: 'Business Services',
         CW: 'Professional Services NetGen',
-    }
-    ,
+    },
     R: {
         R9: 'HQ Allocation for Retail',
         RA: 'Retail- Apparel Manufacturing',
@@ -353,16 +338,14 @@ const SUB_INDUSTRY = {
         RH: 'Retail- Food Services',
         RR: 'Retail- Hard Goods',
         RW: 'Retail NetGen',
-    }
-    ,
+    },
     A: {
         A9: 'HQ Allocation for Telecommunications',
         AA: 'Wireline',
         AB: 'Wireless',
         AC: 'Broadband',
         AW: 'Telecommunications NetGen',
-    }
-    ,
+    },
     T: {
         T9: 'HQ Allocation for Travel & Transportation',
         TA: 'Passenger Airlines',
@@ -384,8 +367,7 @@ const SUB_INDUSTRY = {
         TQ: 'Passenger Water Transportation',
         TR: 'Port Operations',
         TW: 'Travel & Transportation NetGen',
-    }
-    ,
+    },
     W: {
         WM: 'Wholesale- General Trading Co.',
         WN: 'Wholesale- Food/Food Svc/Drug',
@@ -393,14 +375,16 @@ const SUB_INDUSTRY = {
         WP: 'Wholesale- Durables',
         WQ: 'Wholesale- Services',
         WW: 'Wholesale Distribution & Services NetGen',
-    }
-    ,
+    },
 }
+
+
 type JobFunctionKey = keyof typeof JOB_FUNCTION;
 type IndustryKey = keyof typeof INDUSTRY;
 
 type SubIndustry = typeof SUB_INDUSTRY[keyof typeof SUB_INDUSTRY];
 type SubIndustryKey = KeysOfUnion<SubIndustry>;
+
 
 export type {JobFunctionKey, IndustryKey, SubIndustryKey}
 export {JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY};

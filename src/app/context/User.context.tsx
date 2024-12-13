@@ -5,7 +5,7 @@ import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useS
 import {Subscription} from "@/app/types/subscription";
 import {IndustryKey, JobFunctionKey, SubIndustryKey} from "@/app/static/company";
 
-import {COUNTRY, LANGUAGE, SALUTATION, StateKey} from "@/app/static";
+import {CountryKey, LANGUAGE, SALUTATION, StateKey} from "@/app/static";
 
 
 type UserSubscription = Pick<Subscription, 'subscription' | 'type' | 'recurrency' | 'isBasicKind'>
@@ -16,8 +16,8 @@ type Address = {
     line2: string;
     city: string;
     zip: string;
-    state: StateKey | '';
-    country: keyof typeof COUNTRY | '';
+    state: StateKey;
+    country: CountryKey;
     isPrimary: boolean;
 }
 type UserAddress = Record<AddressType, Address | null>
@@ -83,7 +83,7 @@ const USER_TEMPLATE: UserData = {
         initial: '',
     },
     displayName: 'Display_Name',
-    preferredLanguage: 'EN',
+    preferredLanguage: 'en-US',
     passwordUpdateDate: Date.now(),
     phone: {
         mobile: null,

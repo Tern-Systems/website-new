@@ -1,1 +1,0 @@
-export {withSectionLink} from './withSectionLink';

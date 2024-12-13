@@ -1,107 +1,84 @@
 import {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
-import {useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 
-import {SectionsEnum} from "@/app/static";
+import {Route} from "@/app/static";
 
 import {useModal, useUser} from "@/app/context";
 
-import {withSectionLink} from "@/app/hocs";
+import {PageLink} from "@/app/ui/layout";
 import {AuthModal} from "@/app/ui/modals";
 
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 
 
-type SubNav = SectionsEnum.Profile | SectionsEnum.Documentation | SectionsEnum.Service | SectionsEnum.Product;
+type SubNav = Route.Profile | Route.Documentation | Route.Services | Route.Product;
 
-const NAV_LINKS: SectionsEnum[] = [SectionsEnum.About, SectionsEnum.Product, SectionsEnum.Service, SectionsEnum.Contact];
+const NAV_LINKS: Route[] = [Route.About, Route.Product, Route.Services, Route.Contact];
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
-const SUBNAVS: Record<SubNav, SectionsEnum[]> = {
-    Profile: [SectionsEnum.MyTern, SectionsEnum.Profile, SectionsEnum.Billing],
-    Service: [
-        SectionsEnum.ARCH,
-        SectionsEnum.ARCodeTool,
-        SectionsEnum.Pricing,
-        SectionsEnum.SavedCodes,
-        SectionsEnum.UserManual
+const SUB_NAVS: Record<SubNav, Route[]> = {
+    [Route.Profile]: [Route.MyTern, Route.Profile, Route.Billing],
+    [Route.Services]: [
+        Route.ARCH,
+        Route.ARCodeTool,
+        Route.Pricing,
+        Route.SavedCodes,
+        Route.UserManual
     ],
-    Documentation: [
-        SectionsEnum.TernKeyManual,
-        SectionsEnum.ARHostingManual,
-        SectionsEnum.TernKitManual,
-        SectionsEnum.GHandbook,
-        SectionsEnum.TernHandbook,
-        SectionsEnum.BTMC,
-        SectionsEnum.Standards
+    [Route.Documentation]: [
+        Route.TernKeyManual,
+        Route.ARHostingManual,
+        Route.TernKitManual,
+        Route.GHandbook,
+        Route.TernHandbook,
+        Route.BTMC,
+        Route.Standards
     ],
-    Product: [
-        SectionsEnum.TernKey,
-        SectionsEnum.Pricing,
-        SectionsEnum.UserManual,
+    [Route.Product]: [
+        Route.TernKey,
+        Route.Pricing,
+        Route.UserManual,
     ]
 }
 
 interface Props {
-    hidden: boolean;
     profileMenuState: [boolean, Dispatch<SetStateAction<boolean>>];
-    activeSection: SectionsEnum;
 }
 
 const Header: FC<Props> = (props: Props): ReactElement => {
-    const {profileMenuState, activeSection, hidden} = props;
+    const {profileMenuState} = props;
 
     const [isProfileMenuVisible, setProfileMenuVisibility] = profileMenuState;
 
+    const route = usePathname();
     const userCtx = useUser();
     const modalCtx = useModal();
 
-    // HOC
-    const SectionLink = withSectionLink();
-
     // Elements
-    const NavLinks: ReactElement[] = NAV_LINKS.map((link: SectionsEnum, idx) => {
+    const NavLinks: ReactElement[] = NAV_LINKS.map((link: Route, idx) => {
         return (
-            <SectionLink
+            <PageLink
                 key={link + idx}
-                section={link}
+                href={link}
                 className={`relative flex justify-center
-                            ${activeSection === link ? 'after:absolute after:bottom-[-0.22rem] after:w-[3.125rem] after:border-b-small' : ''}`}
-            />
+                            ${route === link && !modalCtx.isFade ? 'after:absolute after:bottom-[-0.22rem] after:w-[3.125rem] after:border-b-small' : ''}`}
+            >
+                {link.slice(1)}
+            </PageLink>
         );
     });
 
-    let subNavItems: SectionsEnum[];
-    switch (activeSection) {
-        case 'Product':
-        case 'Pricing and Plans':
-        case 'User Manual':
-            subNavItems = SUBNAVS.Product;
-            break
-        case 'My Tern':
-        case 'Profile':
-        case 'Billing':
-            subNavItems = SUBNAVS.Profile;
-            break
-        case 'Service':
-        case 'ARCH':
-        case 'Creation Tool':
-        case 'Pricing and Plans':
-        case 'Saved Codes':
-        case 'User Manual':
-            subNavItems = SUBNAVS.Service;
-            break
-        default:
-            subNavItems = [];
-    }
+    const rootRoute: string | undefined = route?.split('/').shift();
+    const subNavItems: Route[] = rootRoute ? SUB_NAVS[rootRoute as SubNav] : [];
 
     let SubNav: ReactElement | null = null;
     if (subNavItems.length) {
         const SubNavItems = subNavItems.map((link) => (
-            <SectionLink
+            <PageLink
                 key={link}
-                section={link}
+                href={link}
                 className={`relative flex justify-center
-                                ${activeSection === link ? 'after:absolute after:bottom-[-0.5rem] after:w-[3.125rem] after:border-b-small' : ''}`}
+                                ${route === link ? 'after:absolute after:bottom-[-0.5rem] after:w-[3.125rem] after:border-b-small' : ''}`}
             />
         ));
 
@@ -115,10 +92,10 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     let userBtns: ReactElement | ReactElement[];
     if (userCtx.isLoggedIn) {
-        const ProfileLinks: ReactElement[] = SUBNAVS.Profile.map((link) => (
+        const ProfileLinks: ReactElement[] = SUB_NAVS[Route.Profile].map((link) => (
             <li key={link}>
-                <SectionLink
-                    section={link}
+                <PageLink
+                    href={link}
                     className={`relative flex justify-center bg-control`}
                 />
             </li>
@@ -165,7 +142,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     return (
-        <header hidden={hidden} className={'font-neo text-primary'}>
+        <header className={'font-neo text-primary'}>
             <div
                 className={`relative flex w-full h-[5.13rem] px-[--px] justify-between items-center border-b-small border-section`}>
                 <nav

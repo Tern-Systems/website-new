@@ -1,8 +1,7 @@
 import axios, {AxiosRequestConfig} from "axios";
 
 import {Res} from "@/app/types/service";
-
-import {UserData} from "@/app/context";
+import {UserData} from "@/app/context/User.context";
 
 import {BaseService} from "./base.service";
 

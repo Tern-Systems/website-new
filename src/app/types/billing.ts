@@ -1,4 +1,4 @@
-import {StateKey} from "@/app/static";
+import {CountryKey, StateKey} from "@/app/static";
 import {SubscriptionRecurrency} from "./subscription";
 
 type CardData = {
@@ -7,13 +7,13 @@ type CardData = {
     expirationDate: string;
     cvc: string;
     cardholderName: string;
-    billingCountry: string;
+    billingCountry: CountryKey;
     billingAddress: string;
     addressLine1: string;
     addressLine2: string;
     city: string;
     postalCode: string;
-    state: string;
+    state: StateKey;
     nickName: string;
     isDefault: boolean;
 }
@@ -29,6 +29,7 @@ type Invoice = {
     totalDue: number;
     taxPercent: number;
     paidUSD: number;
+    country: CountryKey;
     state: StateKey;
     status: 'paid' | 'unpaid';
     type: SubscriptionRecurrency;
