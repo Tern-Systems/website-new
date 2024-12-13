@@ -20,6 +20,8 @@ import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
 import styles from './Subscribe.module.css'
+import {PageLink} from "@/app/ui/layout";
+import Terms from "@/pages/Terms";
 
 
 const FORM_DEFAULT: SubscribeData = {
@@ -291,12 +293,14 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     >
                         <span className={'text-form text-[0.875rem] leading-normal'}>
                             You will be charged the amount and at the frequency listed above
-                            until you cancel. We may charge our prices as described in our{' '}
-                            <a className='underline'>Terms & Conditions</a>. You can{' '}
-                            <a className='underline'>cancel at any time</a> . By subscribing,
-                            you agree to Tern Systems’{' '}
-                            <a className='underline'>Terms & Conditions</a> and{' '}
-                            <a className='underline'>Privacy Policy</a>.
+                            until you cancel. We may charge our prices as described in our&nbsp;
+                            <PageLink href={Route.Terms}
+                                      className='underline'>Terms & Conditions</PageLink>. You can&nbsp;
+                            <PageLink href={Route.ManageSubscriptions}
+                                      className='underline'>cancel at any time</PageLink> . By subscribing,
+                            you agree to Tern System&apos;s&nbsp;
+                            <PageLink href={Route.Terms} className='underline'>Terms & Conditions</PageLink> and&nbsp;
+                            <PageLink href={Route.Privacy} className='underline'>Privacy Policy</PageLink>.
                         </span>
                     </Input>
                     <Button

@@ -19,16 +19,18 @@ const FullPageLayout: FC<Props> = (props: Props) => {
     }, [setHeadingsHidden])
 
     return (
-        <div
-            className={'relative font-oxygen text-form h-full bg-control4 text-[1.3125rem] overflow-y-scroll'}>
-            <PageLink
-                href={backButtonSection}
-                icon={'back'}
-                className={'absolute top-[1.7rem] left-[1.83rem] font-oxygen font-bold'}
-            />
-            {children}
+        <div className={"h-dvh max-h-dvh relative"}>
+            <div
+                className={'relative font-oxygen text-form h-full bg-control4 text-[1.3125rem] overflow-y-scroll'}>
+                <PageLink
+                    href={backButtonSection}
+                    icon={'back'}
+                    className={'absolute top-[1.7rem] left-[1.83rem] font-oxygen font-bold'}
+                />
+                {children}
+            </div>
         </div>
-    )
+    );
 }
 
 export {FullPageLayout}

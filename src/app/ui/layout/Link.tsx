@@ -44,12 +44,17 @@ const PageLink: FC<Props> = (props: Props) => {
             <Image
                 src={ICON[icon]}
                 alt={icon}
-                className={`inline size-[1rem]`}/>
+                className={`inline size-[1rem] mr-[0.5rem]`}/>
         )
         : null;
 
     return (
-        <Link {...linkProps} href={route ?? '/'} onClick={() => handleLinkClick()}>
+        <Link
+            {...linkProps}
+            className={'items-center inline-flex ' + linkProps.className}
+            href={route ?? '/'}
+            onClick={() => handleLinkClick()}
+        >
             {Icon}
             {children ?? <span>{props.href?.split('/').pop()}</span>}
         </Link>

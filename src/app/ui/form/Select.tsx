@@ -1,4 +1,5 @@
 import React, {
+    FC,
     InputHTMLAttributes,
     MutableRefObject,
     PropsWithChildren,
@@ -24,7 +25,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
     classNameOption?: string;
 }
 
-function Select(props: Props) {
+const Select: FC<Props> = (props: Props) => {
     const {
         children, options, value,
         classNameWrapper, classNameOption, className, classNameLabel, hidden,
@@ -91,7 +92,7 @@ function Select(props: Props) {
             >
                 <div className={'w-[85%] text-nowrap overflow-ellipsis overflow-hidden'}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
-                        {selectedOptionIdx < 0 ? placeholder : options[value]}
+                        {selectedOptionIdx < 0 || !options[value] ? placeholder : options[value]}
                     </span>
                 </div>
                 <ul

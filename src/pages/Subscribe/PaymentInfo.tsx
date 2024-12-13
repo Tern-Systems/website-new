@@ -40,7 +40,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                 <div className={'grid auto-rows-min grid-cols-2 gap-y-[0.95rem]'}>
                     <span className={'font-bold text-[1.3125rem]'}>Subtotal</span>
                     <span className={`font-bold text-[1.3125rem] justify-self-end`}>${subtotal ?? '--'}</span>
-                    <span className={'flex'}><span>Tax&nbsp;</span><Button icon={'info'}/></span>
+                    <span className={'flex'}><span>Tax&nbsp;</span><Button icon={'info'} className={'cursor-default'}/></span>
                     <span className={'justify-self-end'}>Calculated by address</span>
                 </div>
                 <hr className={'my-[1.5rem] border-control3'}/>
