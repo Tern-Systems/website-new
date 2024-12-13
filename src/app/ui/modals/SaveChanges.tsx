@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 
 import {useModal} from "@/app/context";
 
@@ -7,12 +7,12 @@ import {Button} from "@/app/ui/form";
 
 
 interface Props {
-    onSave: () => void;
-    onLeave: () => void;
+    onSave: () => Promise<void>;
+    onDontSave?: () => Promise<void>;
 }
 
 const SaveChangesModal: FC<Props> = (props: Props) => {
-    const {onSave, onLeave} = props;
+    const {onSave, onDontSave} = props;
 
     const modalCtx = useModal();
 
@@ -25,18 +25,14 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
             <span className={'flex mt-[1.25rem] gap-[0.62rem] text-[0.875rem] font-bold justify-center'}>
                 <Button
                     className={'px-[1rem] bg-white text-form rounded-full h-[1.44rem]'}
-                    onClick={() => {
-                        onSave();
-                        // TODO continue page leave
-                    }}
+                    onClick={() => onSave()}
                 >
                     Save
                 </Button>
                 <Button
                     className={'px-[1rem] border-small border-control rounded-full h-[1.44rem] text-white'}
                     onClick={() => {
-                        // TODO continue page leave
-                        onLeave();
+                        onDontSave?.();
                         modalCtx.closeModal();
                     }}
                 >

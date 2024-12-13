@@ -5,10 +5,10 @@ import {ARCode} from "@/app/types/arcode";
 import {FlowQueue} from "@/app/context/Flow.context";
 import {Route} from "@/app/static";
 
-import {useForm, useNavigate} from "@/app/hooks";
-import { useFlow, useModal, useUser} from "@/app/context";
+import {useForm, useNavigate, useSaveOnLeave} from "@/app/hooks";
+import {useFlow, useModal, useUser} from "@/app/context";
 
-import {AuthModal, BaseModal, SaveChangesModal} from "@/app/ui/modals";
+import {AuthModal, BaseModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_QR from "@/assets/images/qr.png";
@@ -17,16 +17,16 @@ import SVG_ARCH from "@/assets/images/arch-logo.svg";
 
 type ARCodeToolForm = Omit<ARCode, 'file'> & Partial<Pick<ARCode, 'file'>>;
 
-const FORM_DEFAULT: ARCodeToolForm = {backgroundColor: '#ffffff', moduleColor: '#ffffff', name: ''}
+const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#ffffff', moduleColor: '#ffffff', name: ''}
 const FORM_COLOR_PICKERS = ['module', 'background'];
 
 
 interface Props {
-    isEditMode?: boolean;
+    editID?: string;
 }
 
 const ARCodeTool: FC<Props> = (props: Props) => {
-    const {isEditMode} = props;
+    const {editID} = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -34,7 +34,10 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     const [navigate] = useNavigate();
     const {isPurchased} = userData || {};
 
-    const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>(FORM_DEFAULT);
+    const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>({
+        ...FORM_DEFAULT,
+        id: editID ?? FORM_DEFAULT.id
+    });
 
     const processCode = useCallback(async () => {
         const result = null; // TODO
@@ -51,22 +54,14 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         modalCtx.openModal(<SuccessModal/>);
     }, [modalCtx, formValue.name])
 
+    useSaveOnLeave(processCode);
+
+
     useEffect(() => {
         const arCodeParam = localStorage.getItem('ar-code');
         if (arCodeParam)
             setFormValueState(JSON.parse(arCodeParam) as ARCode);
     }, [setFormValueState])
-
-    useEffect(() => {
-        const handlePageLeave = () => {
-            if (isEditMode)
-                return;
-
-            modalCtx.openModal(<SaveChangesModal onSave={() => processCode()} onLeave={() => {
-                // TODO prevent leaving
-            }}/>);
-        }
-    }, [modalCtx, processCode, isEditMode])
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -137,7 +132,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     classNameWrapper={'h-[3.125rem] font-bold text-[1.3125rem] text-black bg-white rounded-full'}
                     required
                 >
-                    {isEditMode ? formValue.file : 'Upload Media'}
+                    {editID ? formValue.file : 'Upload Media'}
                 </Input>
                 {ColorPickers}
                 <Button

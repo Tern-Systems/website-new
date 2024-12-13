@@ -20,7 +20,7 @@ const SUB_NAVS: Record<SubNav, Route[]> = {
     [Route.Profile]: [Route.MyTern, Route.Profile, Route.Billing],
     [Route.Service]: [
         Route.Service,
-        Route.ARCodeTool,
+        Route.ARCodeToolEdit,
         Route.Pricing,
         Route.SavedCodes,
         Route.UserManual
@@ -132,7 +132,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-small border-section
                                 text-small font-bold capitalize cursor-pointer 
                                 ${idx ? 'bg-black text-white' : 'bg-white text-black'}`}
-                    onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>)}
+                    onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>, {darkenBg: true})}
                 >
                     {name}
                 </div>

@@ -9,10 +9,13 @@ import {FADE_DURATION, Route} from "@/app/static";
 import {Header, PageLink} from "@/app/ui/layout";
 
 import "@/app/globals.css";
+import styles from "@/app/common.module.css";
+import {useModal} from "@/app/context";
 
 
 const Layout: FC<PropsWithChildren> = ({children}) => {
     const route = usePathname();
+    const modalCtx = useModal();
 
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
@@ -29,20 +32,27 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     // Elements
 
     // 2 pre-rendered insignias for moving without flickering
-    const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, idx) => (
-        <PageLink
-            href={Route.Start}
-            key={idx}
-            hidden={state}
-            className={`
-                    absolute z-10 size-[11.5rem] bg-transparent
-                    ${isInsigniaMoved ? 'after:absolute after:top-0 after:w-full after:h-full cursor-pointer' : ''}
-                    ${isInsigniaMoved ? 'animate-[insignia_0.3s_ease-in-out_forwards]' : 'animate-[insignia_0.3s_ease-in-out_forwards_reverse]'}
-                    `}
-        >
-            <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
-        </PageLink>
-    ));
+
+    const SplineElem = <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
+    const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, idx) => {
+        const cn = `absolute z-10 size-[11.5rem] bg-transparent pointer-events-auto
+                        ${isInsigniaMoved ? 'after:absolute after:top-0 after:w-full after:h-full cursor-pointer' : ''}
+                        ${isInsigniaMoved ? 'animate-[insignia_0.3s_ease-in-out_forwards]' : 'animate-[insignia_0.3s_ease-in-out_forwards_reverse]'}
+                        ${state ? 'hidden' : ''}`
+        return (
+            route === Route.Start
+                ? <div className={cn}>{SplineElem}</div>
+                : (
+                    <PageLink
+                        key={idx}
+                        onDrag={(event) => event.preventDefault()}
+                        className={cn}
+                    >
+                        {SplineElem}
+                    </PageLink>
+                )
+        )
+    });
 
     const Layout = route === Route.Start
         ? (
@@ -82,7 +92,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         <div className={"h-dvh max-h-dvh relative"}>
             {Insignia}
             <div
-                className={`flex flex-col flex-grow justify-between h-full`}>
+                className={`flex flex-col flex-grow justify-between h-full ${modalCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                 {Layout}
             </div>
         </div>
