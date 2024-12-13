@@ -1,26 +1,20 @@
-import React, {FC, PropsWithChildren, ReactElement, useEffect, useState} from 'react'
+import React, {FC, ReactElement, useEffect, useState} from 'react'
+import {useParams} from "next/navigation";
 import Image from "next/image";
+
+import {ContentAnchors, DocumentationContent} from "@/app/types/documentation";
 
 import SVG_FULLSCREEN from "@/assets/images/icons/fullscreen.svg";
 import SVG_VIEW_VIEW from "@/assets/images/icons/view-view.svg";
 
 
-type ContentAnchors = Array<string | Record<string, ContentAnchors>>;
-
-const COMING_SOON_DOC = {
-    elem: () => <span className={'mx-auto text-[5rem]'}>Coming soon...</span>,
-    anchors: [],
-    isChapter: false
-};
-
-
-interface Props extends PropsWithChildren {
-    anchors: ContentAnchors;
-    isChapter?: boolean;
+interface Props {
+    contents: Record<string, DocumentationContent>;
 }
 
-const DocumentationScreen = (props: Props) => {
-    const {anchors, isChapter, children} = props;
+const DocumentationScreenTool: FC<Props> = (props: Props) => {
+    const {contents} = props;
+    const {content} = useParams() as { content: string };
 
     const [isMenuOpened, setMenuOpened] = useState<boolean>(false);
 
@@ -114,7 +108,7 @@ const DocumentationScreen = (props: Props) => {
                         className={`mt-[1.86rem] overflow-y-scroll w-full`}
                     >
                         <ul style={{marginLeft: '-0.9rem'}}>
-                            {renderAnchorList(anchors, isChapter === true)}
+                            {renderAnchorList(contents[content].anchors, contents[content].isChapter === true)}
                         </ul>
                     </div>
                 </aside>
@@ -124,7 +118,7 @@ const DocumentationScreen = (props: Props) => {
                        className={'absolute bottom-[1.25rem] right-[1.25rem]'}/>
                 <div
                     className={'px-[0.44rem] py-[0.59rem] w-[78.375rem] overflow-y-scroll pr-[4.31rem] min-h-[49.25rem]'}>
-                    {children}
+                    {contents[content].children}
                 </div>
             </div>
         </div>
@@ -132,12 +126,4 @@ const DocumentationScreen = (props: Props) => {
 }
 
 
-const CommingSoonDoc: FC = () => (
-    <DocumentationScreen anchors={COMING_SOON_DOC.anchors}>
-        {COMING_SOON_DOC.elem()}
-    </DocumentationScreen>
-);
-
-
-export type {ContentAnchors};
-export {DocumentationScreen, CommingSoonDoc};
+export {DocumentationScreenTool};

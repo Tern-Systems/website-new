@@ -22,10 +22,10 @@ const FORM_COLOR_PICKERS = ['module', 'background'];
 
 
 interface Props {
-    isEditMode: boolean;
+    isEditMode?: boolean;
 }
 
-const ARCodeToolPage: FC<Props> = (props: Props) => {
+const ARCodeTool: FC<Props> = (props: Props) => {
     const {isEditMode} = props;
 
     const flowCtx = useFlow();
@@ -150,4 +150,4 @@ const ARCodeToolPage: FC<Props> = (props: Props) => {
 }
 
 export type {ARCodeToolForm}
-export default ARCodeToolPage;
+export {ARCodeTool};

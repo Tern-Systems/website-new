@@ -7,17 +7,21 @@ enum Route {
     TernHandbook = '/TERN Handbook',
     ARCHManual = '/ARCH Manual',
     BTMCHandbook = '/BTMC Handbook',
-    BTMC = '/BTMC',
-    Standards = '/Standards & Specifications',
 
     // /Service
-    ARCH = '/ARCH',
+    Service = '/Service',
     ARCodeTool = '/Service/Create',
+
+    UserManual = '/Service/UserManual',
+
     Pricing = '/Pricing and Plans',
     SavedCodes = '/Saved Codes',
-    UserManual = '/User Manual',
     ExploreKeys = '/Explore Keys',
     CreateKey = '/Create Key',
+
+    // /Product
+    TernKey = '/Product/TernKey',
+
 
     // Common
     Start = '/',
@@ -27,14 +31,15 @@ enum Route {
     Billing = '/Billing',
     About = '/About',
     Product = '/Product',
-    Services = '/Services',
     Credo = '/Credo',
-    TernKey = '/TernKey',
     Documentation = '/Documentation',
+
+    // /
     Contact = '/Contact',
     Cookies = '/Cookies',
     Privacy = '/Privacy',
     Terms = '/Terms',
+
     OpenCase = '/Open a Case',
     Feedback = '/Feedback',
 

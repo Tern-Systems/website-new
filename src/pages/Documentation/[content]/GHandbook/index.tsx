@@ -1,11 +1,9 @@
 import React from 'react'
 
-import {ContentAnchors} from "@/app/ui/templates/DocumentationScreen";
-
-import {DocumentationScreen} from "@/app/ui/templates";
+import {ContentAnchors} from "@/app/types/documentation";
 
 
-const Anchors: ContentAnchors = [
+const GHandbookAnchors: ContentAnchors = [
     'Terms and Abbreviations',
     'Introduction',
     {'Overview': ['Comments', 'Literals', 'Data Types', 'Keywords', 'Variables', 'Inference']},
@@ -17,9 +15,9 @@ const Anchors: ContentAnchors = [
 ];
 
 
-const GHandbookPage = () => {
+const GHandbookContent = () => {
     return (
-        <DocumentationScreen anchors={Anchors}>
+        <>
             <p id={'Introduction'}> Introduction</p>
             <p>
                 Life-cycle, memory instructions, blah blah blah and some history stuff about how the language
@@ -159,8 +157,8 @@ const GHandbookPage = () => {
                 the
                 decimal value 45. The final result is stored in the result variable and returned by the program.
             </p>
-        </DocumentationScreen>
+        </>
     )
 }
 
-export default GHandbookPage;
+export {GHandbookContent, GHandbookAnchors};

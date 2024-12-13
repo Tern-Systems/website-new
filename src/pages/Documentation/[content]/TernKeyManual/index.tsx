@@ -1,11 +1,9 @@
 import React from 'react'
 
-import {ContentAnchors} from "@/app/ui/templates/DocumentationScreen";
-
-import {DocumentationScreen} from "@/app/ui/templates";
+import {ContentAnchors} from "@/app/types/documentation";
 
 
-const Anchors: ContentAnchors = [
+const TernKeyManualAnchors: ContentAnchors = [
     'Overview',
     'Introduction',
     {'Languages': ['BTMC', 'TERN', 'G']},
@@ -25,9 +23,9 @@ const Anchors: ContentAnchors = [
 ];
 
 
-const TernKeyManualPage = () => {
+const TernKeyManualContent = () => {
     return (
-        <DocumentationScreen anchors={Anchors}>
+        <>
             <p id={'Overview'}>Overview</p>
             <p>
                 TernKey, developed by Tern Systems, is a pioneering Software-as-a-Service (SaaS) platform aimed at
@@ -153,8 +151,8 @@ const TernKeyManualPage = () => {
                 carefully designed instruction set, combined with the capabilities of BTMC, ensures optimal
                 performance in ternary computing environments.
             </p>
-        </DocumentationScreen>
+        </>
     )
 }
 
-export default TernKeyManualPage;
+export {TernKeyManualContent, TernKeyManualAnchors};

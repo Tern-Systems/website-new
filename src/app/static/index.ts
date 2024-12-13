@@ -1,4 +1,4 @@
-export {Route} from "./sections";
+export {Route} from "./routing";
 
 export {INVOICE_TEMPLATE, LANGUAGE, SALUTATION} from './misc';
 

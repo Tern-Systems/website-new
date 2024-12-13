@@ -12,14 +12,14 @@ import {AuthModal} from "@/app/ui/modals";
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 
 
-type SubNav = Route.Profile | Route.Documentation | Route.Services | Route.Product;
+type SubNav = Route.Profile | Route.Documentation | Route.Service | Route.Product;
 
-const NAV_LINKS: Route[] = [Route.About, Route.Product, Route.Services, Route.Contact];
+const NAV_LINKS: Route[] = [Route.About, Route.Product, Route.Service, Route.Contact];
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
 const SUB_NAVS: Record<SubNav, Route[]> = {
     [Route.Profile]: [Route.MyTern, Route.Profile, Route.Billing],
-    [Route.Services]: [
-        Route.ARCH,
+    [Route.Service]: [
+        Route.Service,
         Route.ARCodeTool,
         Route.Pricing,
         Route.SavedCodes,
@@ -31,8 +31,7 @@ const SUB_NAVS: Record<SubNav, Route[]> = {
         Route.TernKitManual,
         Route.GHandbook,
         Route.TernHandbook,
-        Route.BTMC,
-        Route.Standards
+        Route.BTMCHandbook,
     ],
     [Route.Product]: [
         Route.TernKey,

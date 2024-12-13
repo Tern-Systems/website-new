@@ -220,7 +220,7 @@ const PricingPage: FC = () => {
                     <Button
                         onClick={() => handleSubscribeClick(type)}
                         className={`bg-control3 font-bold text-[1.125rem] disabled:bg-inherit disabled:border-small disabled:border-control
-                                disabled:text-secondary rounded-full py-[1.13rem]`}
+                                disabled:text-secondary rounded-full py-[1.13rem] w-full`}
                         disabled={isBtnDisabled}
                     >
                         {subscribeBtnText}
