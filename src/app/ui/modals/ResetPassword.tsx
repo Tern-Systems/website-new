@@ -2,7 +2,7 @@ import React, {FC, FormEvent, ReactElement, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
-import {SignUpData} from "@/app/services";
+import {SignUpData} from "@/app/services/auth.service";
 
 import {useForm} from "@/app/hooks";
 import {useModal} from "@/app/context";

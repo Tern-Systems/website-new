@@ -2,7 +2,9 @@ import {FC, FormEvent, ReactElement, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
-import {AuthService, SignUpData} from "@/app/services";
+import {SignUpData} from "@/app/services/auth.service";
+
+import {AuthService} from "@/app/services";
 
 import {useForm} from "@/app/hooks";
 import {useFlow, useModal} from "@/app/context";
@@ -14,8 +16,8 @@ import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
 
 
 type FormData = SignUpData;
-
 const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
+
 
 interface Props {
     info?: string;

@@ -1,1 +1,1 @@
-export {Collapsible} from "@/app/ui/misc/Collapsible";
+export {Collapsible} from "./Collapsible";
