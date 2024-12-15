@@ -75,7 +75,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     icon={isAllowedToDelete ? 'warn' : 'lock'}
                     className={`mt-[1.25rem] text-[0.875rem] h-[2.0625rem] rounded-full font-bold place-self-center w-full
                                 ${isAllowedToDelete ? 'bg-[#F42200] text-primary' : 'text-secondary'}`}
-                    onClick={() => userCtx.logOut()}
+                    onClick={() => userCtx.removeSession()}
                 >
                     {isAllowedToDelete ? 'Permanently Delete My Account' : 'Locked'}
                 </Button>
@@ -96,7 +96,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                         <Button
                             className={`bg-control2 mt-[1.25rem] px-[1rem] text-[0.875rem] h-[1.44rem] rounded-full font-bold
                                 text-form bg-white max-w-[7.88rem]`}
-                            onClick={() => userCtx.logOut()}
+                            onClick={() => userCtx.removeSession()}
                         >
                             Restore Login
                         </Button>

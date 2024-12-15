@@ -10,6 +10,7 @@ import {useModal} from "@/app/context";
 
 import SVG_BACK from "@/assets/images/icons/back.svg";
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
+import {getRouteName} from "@/app/utils";
 
 
 type Icon = 'back' | 'insignia';
@@ -48,6 +49,10 @@ const PageLink: FC<Props> = (props: Props) => {
         )
         : null;
 
+    const splitHref = children
+        ? children
+        : <span>{getRouteName(props.href)}</span>;
+
     return (
         <Link
             {...linkProps}
@@ -55,8 +60,7 @@ const PageLink: FC<Props> = (props: Props) => {
             href={route ?? '/'}
             onClick={() => handleLinkClick()}
         >
-            {Icon}
-            {children ?? <span>{props.href?.split('/').pop()}</span>}
+            {Icon} {splitHref}
         </Link>
     );
 }

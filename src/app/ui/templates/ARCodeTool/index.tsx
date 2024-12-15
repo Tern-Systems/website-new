@@ -75,7 +75,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
             });
         }
         if (!isPurchased)
-            flow.push(() => navigate(Route.Pricing))
+            flow.push(() => navigate(Route.ServicePricing))
 
         if (!flow.length)
             return processCode();

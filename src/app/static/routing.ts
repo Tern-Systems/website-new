@@ -1,47 +1,43 @@
 enum Route {
-    // /
     Start = '/',
     Home = '/Home',
 
     About = '/About',
-    Credo = '/Credo',
+    Credo = '/About/Credo',
     Contact = '/Contact',
     Terms = '/Terms',
     Cookies = '/Cookies',
     Privacy = '/Privacy',
 
-    Pricing = '/Pricing and Plans',
-    SavedCodes = '/Saved Codes',
-    ExploreKeys = '/Explore Keys',
-    CreateKey = '/Create Key',
-    Billing = '/Billing',
+    ExploreKeys = '/ExploreKeys',
+    CreateKey = '/CreateKey',
 
     // /Service
     Service = '/Service',
     ARCodeToolCreate = '/Service/Create',
-    ARCodeToolEdit = '/Service/Edit',
-    UserManual = '/Service/UserManual',
+    ARCodeToolEdit = '/Service/SavedCodes/Edit',
+    ServiceUserManual = '/Service/UserManual',
+    ServicePricing = '/Service/PricingAndPlans',
+    SavedCodes = '/Service/SavedCodes',
 
     // /Product
     Product = '/Product',
-    TernKey = '/Product/TernKey',
+    ProductUserManual = '/Product/UserManual',
+    ProductPricing = '/Product/PricingAndPlans',
 
     // /Profile
     Profile = '/Profile',
+    Billing = '/Profile/Billing',
+    MyTern = '/Profile/MyTern',
 
-    // /Profile/MyTern
-    MyTern = '/Profile/MyTerm',
-
-    // /Profile/MyTern/Documentation
     Documentation = '/Profile/MyTern/Documentation',
-    // Dynamic params
-    TernKeyManual = '/TernKeyManual',
-    GHandbook = '/GHandbook',
-    ARHostingManual = '/ARHostingManual',
-    TernKitManual = '/TernKitManual',
-    TernHandbook = '/TERNHandbook',
-    ARCHManual = '/ARCHManual',
-    BTMCHandbook = '/BTMCHandbook',
+    TernKeyManual = '/Profile/MyTern/Documentation/TernKeyManual',
+    GHandbook = '/Profile/MyTern/Documentation/GHandbook',
+    ARHostingManual = '/Profile/MyTern/Documentation/ARHostingManual',
+    TernKitManual = '/Profile/MyTern/Documentation/TernKitManual',
+    TernHandbook = '/Profile/MyTern/Documentation/TERNHandbook',
+    ARCHManual = '/Profile/MyTern/Documentation/ARCHManual',
+    BTMCHandbook = '/Profile/MyTern/Documentation/BTMCHandbook',
 
     OpenCase = '/Open a Case',
     Feedback = '/Feedback',
@@ -49,10 +45,11 @@ enum Route {
     // Managing
     Subscribe = '/Subscribe',
     ManageSubscriptions = '/ManageSubscriptions',
-    EditPaymentMethod = '/PaymentMethod Edit',
-    AddPaymentMethod = '/Payment Method Add',
-    PurchasingInformation = '/Purchasing Information',
+    EditPaymentMethod = '/PaymentMethodEdit',
+    AddPaymentMethod = '/PaymentMethodAdd',
+    PurchasingInformation = '/PurchasingInformation',
     Invoice = '/Invoice',
 }
+
 
 export {Route}

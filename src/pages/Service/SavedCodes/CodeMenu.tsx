@@ -13,7 +13,7 @@ import {ShareModal} from "./ShareModal";
 import {DeleteModal} from "./DeleteModal";
 
 
-type MenuItems = 'edit' | 'download' | 'share' | 'delete_';
+type MenuItems = 'Edit' | 'Download' | 'Share' | 'Delete';
 type MenuItem = Record<MenuItems, {
     svg: ButtonIcon;
     action: (args: any) => void;
@@ -27,23 +27,23 @@ type CodeMenuData = {
 }
 
 const MENU_ITEMS: MenuItem = {
-    edit: {
+    Edit: {
         svg: 'pencil',
         action: (args: { arCode: ARCode, navigate: (route: string) => void }) => {
             const {arCode, navigate} = args;
             navigate(Route.ARCodeToolEdit + '/' + arCode.id);
         }
     },
-    download: {
+    Download: {
         svg: 'download',
         action: async () => null
     }, // TODO
-    share: {
+    Share: {
         svg: 'share',
         action: (args: { openModal: OpenModal, arCode: ARCode }) =>
             args.openModal(<ShareModal name={args.arCode.name} file={args.arCode.file}/>, {darkenBg: true})
     },
-    delete_: {
+    Delete: {
         svg: 'delete',
         action: async (args: { openModal: OpenModal, arCode: ARCode }) =>
             args.openModal(<DeleteModal adCode={args.arCode}/>, {darkenBg: true})

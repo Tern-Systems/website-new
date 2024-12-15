@@ -32,7 +32,7 @@ function SubscribePage() {
 }
 
 SubscribePage.getLayout = (page: ReactElement) => (
-    <FullPageLayout backButtonSection={Route.Pricing}>{page}</FullPageLayout>
+    <FullPageLayout backButtonSection={Route.ServicePricing}>{page}</FullPageLayout>
 );
 
 

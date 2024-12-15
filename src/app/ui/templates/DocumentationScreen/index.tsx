@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react'
-import {useParams} from "next/navigation";
+import {usePathname} from "next/navigation";
 import Image from "next/image";
 
 import {ContentAnchors, DocumentationContent} from "@/app/types/documentation";
@@ -14,20 +14,14 @@ interface Props {
 
 const DocumentationScreenTool: FC<Props> = (props: Props) => {
     const {contents} = props;
-    const {content} = useParams() as { content: string } ?? {};
-
+    const route = usePathname();
 
     const [isMenuOpened, setMenuOpened] = useState<boolean>(false);
-    const [contentParam, setContentParam] = useState<string | null>(null);
 
-    const documentationContent: DocumentationContent | null = contentParam ? contents[contentParam] : null;
-
+    const documentationContent: DocumentationContent | null = route ? contents[route] : null;
 
     const toggleMenuOpen = () => setMenuOpened((prevState) => !prevState);
 
-    useEffect(() => {
-        setContentParam('/' + content);
-    }, [content]);
 
     // Click checking
     useEffect(() => {
@@ -130,7 +124,7 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
                        className={'absolute bottom-[1.25rem] right-[1.25rem]'}/>
                 <div
                     className={`px-[0.44rem] py-[0.59rem] w-[78.375rem] overflow-y-scroll pr-[4.31rem] min-h-[49.25rem]
-                                text-left`}>
+                                text-left content-center`}>
                     {documentationContent?.children}
                 </div>
             </div>

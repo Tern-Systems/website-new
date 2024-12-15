@@ -134,31 +134,32 @@ const USER_TEMPLATE: UserData = {
 interface IUserContext {
     userData: UserData | null;
     isLoggedIn: boolean;
-    setUserData: (data: UserData) => void;
-    logOut: () => void;
+    setSession: (data: UserData) => void;
+    removeSession: () => void;
 }
 
 const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [isLoggedIn, setLoggedState] = useState<boolean>(false);
-    const [userData, setUserDataHelper] = useState<UserData | null>(USER_TEMPLATE);
+    const [userData, setUserDataHelper] = useState<UserData | null>(null);
 
-    const setUserData = (userData: UserData) => {
+    const setSession = (userData: UserData) => {
         setUserDataHelper(userData);
         setLoggedState(true);
     }
-    const logOut = () => {
+    const removeSession = () => {
         setUserDataHelper(null);
         setLoggedState(false);
     }
 
     useEffect(() => {
         // TODO
+        setSession(USER_TEMPLATE);
     }, [])
 
     return (
-        <UserContext.Provider value={{userData, isLoggedIn, setUserData, logOut}}>
+        <UserContext.Provider value={{userData, isLoggedIn, setSession, removeSession}}>
             {props.children}
         </UserContext.Provider>
     );

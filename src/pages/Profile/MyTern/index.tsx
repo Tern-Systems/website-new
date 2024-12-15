@@ -25,9 +25,9 @@ type TableSection = {
     data: TableEntry[];
 }
 
-const NAV_BTNS: { title: string; icon: ButtonIcon; href: Route }[] = [
+const NAV_BTNS: { title: string; icon: ButtonIcon; href: Route }[] = [ // TODO
     {title: 'Build Key', icon: 'plus', href: Route.CreateKey},
-    {title: 'Try TernKey Pro', icon: 'diamond', href: Route.Pricing},
+    {title: 'Try TernKey Pro', icon: 'diamond', href: Route.ServicePricing},
     {title: 'Explore Keys', icon: 'glass', href: Route.ExploreKeys},
     {title: 'Create AR Code', icon: 'plus', href: Route.ARCodeToolEdit},
     {title: 'Open a Case', icon: 'label', href: Route.OpenCase},
@@ -38,8 +38,8 @@ const SUBSCRIPTION_TABLE: TableSection = {
     title: 'Subscription',
     columnNames: ['Item', 'Plan Type'],
     data: [
-        {name: 'TernKey', data: 'Pro (Annual)', href: Route.Pricing},
-        {name: 'ARCH', data: 'Standard (Monthly)', href: Route.Pricing},
+        {name: 'TernKey', data: 'Pro (Annual)', href: Route.ServicePricing},
+        {name: 'ARCH', data: 'Standard (Monthly)', href: Route.ServicePricing},
     ]
 }
 

@@ -8,20 +8,20 @@ import {Button} from "@/app/ui/form";
 
 
 const SAVED_CODES_TEMPLATE: ARCode[] = [
-    {name: 'Example Name 0', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 1', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 2', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 3', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 4', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 5', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 6', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 7', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 8', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {name: 'Example Name 9', file: '/', moduleColor: '#000', backgroundColor: '#fff'}
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 0', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 1', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 2', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 3', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 4', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 5', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 6', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 7', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 8', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 9', file: '/', moduleColor: '#000', backgroundColor: '#fff'}
 ]
 
 
-const SavedARCodes: FC = () => {
+const SavedCodes: FC = () => {
     const [menuData, setMenuData] = useState<CodeMenuData>({arCode: null, x: 0, y: 0, isOpened: false});
     const [codeId, setCodeId] = useState<string | null>(null);
 
@@ -94,4 +94,4 @@ const SavedARCodes: FC = () => {
     );
 }
 
-export default SavedARCodes;
+export default SavedCodes;

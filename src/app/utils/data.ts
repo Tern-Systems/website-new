@@ -5,4 +5,5 @@ const formatDate = (date: Date): string =>
 
 const copyObject = <T extends object>(object: T): T => JSON.parse(JSON.stringify(object));
 
-export {generateFallbackEntries, formatDate, copyObject}
+
+export {generateFallbackEntries, formatDate, copyObject};
