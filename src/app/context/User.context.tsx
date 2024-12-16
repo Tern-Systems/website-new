@@ -49,13 +49,12 @@ type Company = {
 interface UserData {
     name: FullName;
     ternID: string;
-    displayName?: string;
+    displayName: string;
     preferredLanguage: keyof typeof LANGUAGE,
     email: string;
     registrationDate: number;
     phone: UserPhone;
-    isEmailVerified: boolean;
-    isPurchased: boolean;
+    hasPurchasedPlan: boolean;
     state2FA: {
         email: string | null;
         phone: string | null;
@@ -70,65 +69,13 @@ interface UserData {
     address: UserAddress;
     company: Company | null;
     passwordUpdateDate: number;
-}
-
-const USER_TEMPLATE: UserData = {
-    email: 'admin@gmail.com',
-    ternID: 'ternID',
-    registrationDate: Date.now(),
-    name: {
-        salutation: 'MR',
-        firstname: 'John',
-        lastname: 'Doe',
-        initial: '',
+    photo: string | null;
+    verification: {
+        phone: boolean,
+        email: boolean
     },
-    displayName: 'Display_Name',
-    preferredLanguage: 'en-US',
-    passwordUpdateDate: Date.now(),
-    phone: {
-        mobile: null,
-        business: {number: '1234567788', isPrimary: false, ext: '4324'},
-        personal: {number: '1984327389', isPrimary: false},
-    },
-    subscriptions: [
-        {
-            type: 'pro',
-            recurrency: 'monthly',
-            isBasicKind: true,
-            subscription: 'ternKey',
-        }
-    ],
-    isPurchased: true,
-    isEmailVerified: true,
-    state2FA: {
-        email: null,
-        phone: null,
-    },
-    lastLogin: Date.now(),
-    connectedApps: {
-        social: [{name: 'Discord', link: 'http://discord.com/'}],
-        data: [{name: 'Google Drive', link: 'http://drive.google.com/'}]
-    },
-    personalDomain: {link: 'http://domain.com', isVerified: true},
-    address: {
-        businessAddress: {
-            line1: '1120 Avenue of the Americas',
-            line2: 'FL 4 UNIT 4189',
-            state: 'NY',
-            zip: '10036',
-            city: 'New York',
-            country: 'US',
-            isPrimary: true,
-        },
-        personalAddress: null,
-    },
-    company: {
-        name: 'Tern Systems LLC',
-        jobTitle: 'President',
-        jobFunction: 'C01',
-        industry: 'U',
-        subIndustry: 'UA',
-    }
+    twoFA: boolean;
+    history: boolean;
 }
 
 interface IUserContext {
@@ -155,11 +102,6 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         setUserDataHelper(null);
         setLoggedState(false);
     }
-
-    useEffect(() => {
-        // TODO
-        setSession(USER_TEMPLATE, 'some token');
-    }, [])
 
     return (
         <UserContext.Provider value={{userData, isLoggedIn, setSession, removeSession, token}}>

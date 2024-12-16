@@ -4,15 +4,16 @@ import Image from "next/image";
 
 import {SignUpData} from "@/app/services/auth.service";
 
-import {AuthService} from "@/app/services";
+import {AuthService, UserService} from "@/app/services";
 
 import {useForm} from "@/app/hooks";
-import {useFlow, useModal} from "@/app/context";
+import {useFlow, useModal, useUser} from "@/app/context";
 
 import {AuthenticationCode, BaseModal, ResetPasswordModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
+import {Phone, UserData} from "@/app/context/User.context";
 
 
 type FormData = SignUpData;
@@ -29,6 +30,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
+    const userCtx = useUser();
 
     const [isLoginForm, setLoginFormState] = useState(isLoginAction);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
@@ -38,8 +40,21 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                // const {payload: token} = await AuthService.postLogIn(formValue);
-                modalCtx.openModal(<AuthenticationCode token={'token'}/>) // TODO confirm token usage here
+                const {payload: token} = await AuthService.postLogIn(formValue);
+                const {payload: userData} = await UserService.getUser(token);
+
+                if (!userData.verification.phone) {
+                    const primaryPhone: Phone | null | undefined = Object.values(userData.phone).find((phone) => phone?.isPrimary);
+
+                    if (primaryPhone)
+                        modalCtx.openModal(<AuthenticationCode token={token} phone={primaryPhone.number}/>)
+                    else
+                        setWarningMsg('Error checking verified phone, please try to login again later');
+                } else {
+                    userCtx.setSession(userData as UserData, token); // TODO remove type casting
+                    modalCtx.closeModal();
+                    flowCtx.next();
+                }
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
@@ -53,7 +68,15 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 message = error.cause?.message ?? message;
             else if (typeof error === 'string')
                 message = error;
-            modalCtx.openModal(<BaseModal isSimple className={'place-self-center mx-auto'}>{message}</BaseModal>);
+            const MessageModal = (
+                <BaseModal
+                    isSimple
+                    className={'place-self-center mx-auto left-[--py] bottom-[7.2rem]'}
+                >
+                    {message}
+                </BaseModal>
+            );
+            modalCtx.openModal(MessageModal);
         }
     }
 
@@ -101,7 +124,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     Forgot your password?&nbsp;
                     <span
                         className={'text-[#21A1D3] cursor-pointer'}
-                        onClick={() => modalCtx.openModal(<ResetPasswordModal />)}
+                        onClick={() => modalCtx.openModal(<ResetPasswordModal/>)}
                     >
                         Reset
                     </span>

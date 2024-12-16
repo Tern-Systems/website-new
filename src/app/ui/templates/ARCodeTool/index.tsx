@@ -32,7 +32,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     const modalCtx = useModal();
     const {isLoggedIn, userData} = useUser();
     const [navigate] = useNavigate();
-    const {isPurchased} = userData || {};
+    const {hasPurchasedPlan} = userData || {};
 
     const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>({
         ...FORM_DEFAULT,
@@ -74,7 +74,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>, {hideContent: true});
             });
         }
-        if (!isPurchased)
+        if (!hasPurchasedPlan)
             flow.push(() => navigate(Route.ServicePricing))
 
         if (!flow.length)

@@ -2,6 +2,8 @@ import React, {FC, FormEvent, ReactElement, useCallback, useEffect, useState} fr
 import axios from "axios";
 import Image from "next/image";
 
+import {UserData} from "@/app/context/User.context";
+
 import {UserService} from "@/app/services";
 
 import {useForm} from "@/app/hooks";
@@ -19,10 +21,11 @@ const FORM_DEFAULT: FormData = {code: ''};
 
 interface Props {
     token: string;
+    phone: string;
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const {token} = props;
+    const {token,phone} = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -39,9 +42,6 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             handleSendNewCode();
     }, [userCtx.userData, handleSendNewCode])
 
-    if (!userCtx.userData)
-        return <></>
-
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!userCtx.userData)
@@ -53,16 +53,9 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             if (isCodeCorrect === false)
                 return setWarningMsg("The code is not correct");
 
-            const {payload: userBaseData} = await UserService.getUser(token);
+            const {payload: userData} = await UserService.getUser(token);
 
-            localStorage.setItem('tern-jwt', token);
-            localStorage.setItem('tern-email', userBaseData.email);
-            localStorage.setItem('tern-email-verified', userBaseData.isEmailVerified.toString());
-            localStorage.setItem('tern-plan-purchased', userBaseData.isPurchased.toString());
-
-            // TODO userCtx.save
-            console.log(userBaseData)
-
+            userCtx.setSession(userData as UserData, token); // TODO remove type casting
             modalCtx.closeModal();
         } catch (error: unknown) {
             let message: string = 'Unknown error';
@@ -74,8 +67,6 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         }
     }
 
-    const PrimaryPhone = Object.values(userCtx.userData.phone).find((phone) => phone?.isPrimary);
-
     return (
         <BaseModal
             title={'Account Authentication'}
@@ -85,7 +76,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 <Image src={SVG_SAFE} alt={'safe'} className={'mb-[1.88rem] size-[9.905rem]'}/>
                 <span>
                     Please confirm your account by entering the authorization code sent to&nbsp;
-                    <span className={'font-bond'}>***-***-{PrimaryPhone?.number.slice(-4)}</span>.
+                    <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
                 </span>
             </div>
             <form
