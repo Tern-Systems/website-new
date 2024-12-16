@@ -11,6 +11,7 @@ import {PageLink} from "@/app/ui/layout";
 import {AuthModal} from "@/app/ui/modals";
 
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
+import {AuthService} from "@/app/services";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
@@ -20,7 +21,7 @@ const NAV_LINKS: Route[] = [Route.About, Route.Product, Route.Service, Route.Con
 const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit];
 
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
-    [Route.Product]: '/MyTern',
+    [Route.Product]: '/TernKey',
     [Route.Service]: '/ARCH',
     [Route.ARCodeToolCreate]: '/CreationTool',
 }
@@ -63,7 +64,6 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         return (
             <span key={link + idx} className={'contents'}>
                 <PageLink
-                    key={link + idx}
                     href={link}
                     className={`relative flex justify-center ${getRouteRoot(route) === link && !isBreadCrumbsNav ? UNDERLINE_CN : ''}`}
                 />
@@ -117,13 +117,13 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     // Find section with sub nav
     let SubNav: ReactElement | null = null;
     if (subNav) {
-        const SubNavItems = subNav.map((link) => (
+        const SubNavItems = subNav.map((link, idx) => (
             <PageLink
-                key={link}
+                key={link + idx}
                 href={link}
                 className={`relative flex justify-center ${checkSubRoute(route, link, true) ? UNDERLINE_CN : ''}`}
             >
-                {getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], false)}
+                {getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], idx === 0)}
             </PageLink>
         ));
 
@@ -137,8 +137,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     let userBtns: ReactElement | ReactElement[];
     if (userCtx.isLoggedIn) {
-        const ProfileLinks: ReactElement[] = PROFILE_ROUTES.map((link) => (
-            <li key={link}>
+        const ProfileLinks: ReactElement[] = PROFILE_ROUTES.map((link, idx) => (
+            <li key={link + idx}>
                 <PageLink
                     href={link}
                     className={`relative flex justify-center bg-control`}
@@ -148,6 +148,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
         ProfileLinks.push(
             <li
+                key={'logout' + PROFILE_ROUTES.length}
                 onClick={() => userCtx.removeSession()}
                 className={'border-t-small pt-[1.2rem] cursor-pointer'}
             >
@@ -158,9 +159,11 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         userBtns = (
             <div className={'relative'}>
                 <Image
-                    src={SVG_PROFILE}
+                    src={userCtx.userData?.photo ? AuthService.getAPI + userCtx.userData?.photo : SVG_PROFILE}
+                    width={29}
+                    height={29}
                     alt={'profile icon'}
-                    className={'h-full cursor-pointer'}
+                    className={'cursor-pointer rounded-full'}
                     onClick={() => setProfileMenuVisibility(prevState => !prevState)}
                 />
                 <ul
@@ -173,7 +176,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         )
     } else {
         userBtns = AUTH_BTNS.map((name, idx) => (
-            <div key={name}>
+            <div key={name + idx}>
                 <div
                     className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-small border-section
                                 text-small font-bold capitalize cursor-pointer 

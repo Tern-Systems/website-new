@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import Image from "next/image";
 
-import {NonNullableKeys} from "@/app/types/utils";
+import {KeysOfUnion, NonNullableKeys} from "@/app/types/utils";
 import {INDUSTRY, IndustryKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey} from "@/app/static/company";
 import {COUNTRY, SALUTATION, STATE_PROVINCE} from "@/app/static";
 
@@ -57,6 +57,7 @@ type DataBase = {
     className?: string;
     title?: string;
     onSave: (formData: FormData) => Promise<void>;
+    onSwitch?: () => Promise<void>;
     value: Value | null;
 }
 
@@ -224,7 +225,7 @@ const Editable: FC<Props> = (props: Props) => {
     const INPUT_CN = {
         className: data?.className,
         classNameWrapper: 'flex-col gap-y-[0.62rem] w-full',
-        classNameLabel: 'place-self-start text-[0.875rem]',
+        classNameLabel: 'place-self-start text-[0.875rem] capitalize',
     }
 
     // Form controls
@@ -378,8 +379,11 @@ const Editable: FC<Props> = (props: Props) => {
             );
             EditToggle = (
                 <Switch
-                    state={isEditState}
-                    handleSwitch={() => toggleEditState()}
+                    state={data.value.isPhoneAdded || data.value.isEmailAdded}
+                    handleSwitch={async () => {
+                        await data.onSwitch?.();
+                        toggleEditState();
+                    }}
                 />
             );
             break;
@@ -387,88 +391,100 @@ const Editable: FC<Props> = (props: Props) => {
             if (!('business' in formData))
                 break;
 
-            const requireOnChangePhone = (key: keyof UserPhone, subKey: string, isCheckBox?: boolean) => {
+            const requireOnChangePhone = (key: keyof UserPhone, subKey: KeysOfUnion<Phone>, isCheckBox?: boolean) => {
                 return (event: ChangeEvent<HTMLInputElement>) => {
                     setWarning(null);
                     const value = isCheckBox ? event.currentTarget.checked : event.currentTarget.value;
-                    setFormState((prevState) => 'business' in prevState
-                        ? ({...prevState, [key]: {...prevState[key], [subKey]: value}})
-                        : prevState
-                    );
+                    setFormState((prevState) => {
+                        if (!('business' in prevState))
+                            return prevState;
+
+                        const newState = {
+                            ...prevState,
+                            [key]: {...prevState[key], [subKey]: value}
+                        };
+
+                        // handle set-as-primary checkboxes
+                        if (isCheckBox && 'business' in newState) {
+                            let isAllDefault = false;
+                            for (const stateKey in newState) {
+                                // @ts-expect-error no error - the keys are checked above
+                                newState[stateKey][subKey] = key === stateKey && value && newState[stateKey].number;
+                                // @ts-expect-error no error - duplicate
+                                isAllDefault = isAllDefault || newState[stateKey][subKey];
+                            }
+
+                            // Set primary automatically if no one is checked
+                            if (!isAllDefault) {
+                                for (const stateKey in newState) {
+                                    // @ts-expect-error no error - the keys are checked above
+                                    newState[stateKey].isPrimary = newState[stateKey].number;
+                                    // @ts-expect-error no error - the keys are checked above
+                                    if (newState[stateKey].isPrimary)
+                                        break;
+                                }
+                            }
+                        }
+
+                        return newState;
+                    });
                 }
+            }
+
+            const renderPhoneFieldset = (field: keyof UserPhone, ext?: string) => {
+                const InputField = (
+                    <Input
+                        type={'number'}
+                        value={formData[field].number ?? ''}
+                        maxLength={10}
+                        onChange={requireOnChangePhone(field, 'number')}
+                        {...INPUT_CN}
+                        required
+                    >
+                        {field}
+                    </Input>
+                );
+
+                const InputFieldFinal = ext !== undefined
+                    ? (
+                        <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem]'}>
+                       {InputField}
+                            <Input
+                                type={'number'}
+                                value={ext}
+                                maxLength={4}
+                                onChange={requireOnChangePhone(field, 'ext')}
+                                {...INPUT_CN}
+                                required
+                            >
+                            Ext
+                        </Input>
+                    </span>
+                    )
+                    : InputField;
+
+                return (
+                    <>
+                        {InputFieldFinal}
+                        <Input
+                            type={'checkbox'}
+                            checked={(formData[field]?.isPrimary && formData[field].number.length > 0) || false}
+                            disabled={!formData[field].number}
+                            onChange={requireOnChangePhone(field, 'isPrimary', true)}
+                            {...CHECKBOX_CN}
+                            required
+                        >
+                            Set as primary
+                        </Input>
+                    </>
+                );
             }
 
             Form = (
                 <div className={'flex flex-col gap-y-[0.81rem]'}>
-                    <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem]'}>
-                        <Input
-                            type={'number'}
-                            value={formData.business?.number ?? ''}
-                            maxLength={10}
-                            onChange={requireOnChangePhone('business', 'number')}
-                            {...INPUT_CN}
-                            required
-                        >
-                            Business
-                        </Input>
-                        <Input
-                            type={'number'}
-                            value={'ext' in formData.business ? formData.business?.ext : ''}
-                            maxLength={4}
-                            onChange={requireOnChangePhone('business', 'ext')}
-                            {...INPUT_CN}
-                            required
-                        >
-                            Ext
-                        </Input>
-                    </span>
-                    <Input
-                        type={'checkbox'}
-                        checked={formData.business?.isPrimary ?? false}
-                        onChange={requireOnChangePhone('business', 'isPrimary', true)}
-                        {...CHECKBOX_CN}
-                        required
-                    >
-                        Set as primary
-                    </Input>
-                    <Input
-                        type={'number'}
-                        value={formData.mobile?.number ?? ''}
-                        maxLength={10}
-                        onChange={requireOnChangePhone('mobile', 'number')}
-                        {...INPUT_CN}
-                        required
-                    >
-                        Mobile
-                    </Input>
-                    <Input
-                        type={'checkbox'}
-                        checked={formData.mobile?.isPrimary ?? false}
-                        onChange={requireOnChangePhone('mobile', 'isPrimary', true)}
-                        {...CHECKBOX_CN}
-                        required
-                    >
-                        Set as primary
-                    </Input>
-                    <Input
-                        type={'number'}
-                        value={formData.personal?.number ?? ''}
-                        maxLength={10}
-                        onChange={requireOnChangePhone('personal', 'number')}
-                        {...INPUT_CN}
-                        required
-                    >
-                        Personal
-                    </Input>
-                    <Input
-                        type={'checkbox'}
-                        checked={formData.personal?.isPrimary ?? false}
-                        onChange={requireOnChangePhone('personal', 'isPrimary', true)}
-                        {...CHECKBOX_CN}
-                        required
-                    >
-                        Set as primary
-                    </Input>
+                    {renderPhoneFieldset('business', 'ext' in formData.business ? formData.business?.ext : '')}
+                    {renderPhoneFieldset('mobile')}
+                    {renderPhoneFieldset('personal')}
                     <span className={`first-letter:capitalize mt-[1rem] ${waring ? '' : 'hidden'}`}>{waring}</span>
                     {ControlBtns}
                 </div>

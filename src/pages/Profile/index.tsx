@@ -86,13 +86,13 @@ const ProfilePage: FC = () => {
 
     // Third-Party Apps
     const renderConnectedApps = (apps: string[], userApps: { name: string; link: string }[]): ReactElement[] => {
-        return apps.map((app) => {
+        return apps.map((app, idx) => {
             const userApp = userApps.find(userApp => userApp.name === app);
             const isFound = userApp !== undefined;
             const text: string = `Connect${isFound ? 'ed' : ''}`;
 
             return (
-                <>
+                <span key={text + idx} className={'contents'}>
                     {isFound
                         ? <a href={userApp?.link} className={'capitalize col-start-2'}
                              target={'_blank'}>{userApp?.name}</a>
@@ -108,7 +108,7 @@ const ProfilePage: FC = () => {
                     >
                         {text}
                     </Button>
-                </>
+                </span>
             );
         })
     }
@@ -241,6 +241,9 @@ const ProfilePage: FC = () => {
                                         throw `Number must contain 10 digits`
                                 })
                             },
+                            onSwitch: async () => {
+                                // TODO disable 2FA
+                            }
                         }}
                     >
                         <span>Enable / disable your two-factor authentication</span>

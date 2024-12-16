@@ -35,7 +35,7 @@ const BillingPage: FC = () => {
             className={'h-[3.125rem] odd:bg-[#b3b3b326] cursor-pointer'}
             onClick={() => localStorage.setItem('invoice', JSON.stringify(order))}
         >
-            <PageLink href={Route.Invoice} className={'contents'}>
+            <PageLink href={Route.Invoice} className={'contents align-middle'}>
                 <td className={'rounded-l-[0.5625rem] px-[0.75rem]'}>{order.id}</td>
                 <td>{order.date}</td>
                 <td>{order.subtotalUSD}</td>

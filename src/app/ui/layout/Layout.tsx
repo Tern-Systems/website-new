@@ -66,7 +66,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <div
                     id={'content'}
                     className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
-                        bg-content bg-cover bg-no-repeat text-primary text-center font-neo text-[1rem]`}
+                                bg-content bg-cover bg-no-repeat text-primary text-center font-neo text-[1rem]
+                                 ${modalCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
                 >
                     <div className={'h-full w-full flex flex-col p-[--py] pb-0'}>
                         {children}
@@ -92,7 +93,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         <div className={"h-dvh max-h-dvh relative"}>
             {Insignia}
             <div
-                className={`flex flex-col flex-grow justify-between h-full ${modalCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
+                className={`flex flex-col flex-grow justify-between h-full`}>
                 {Layout}
             </div>
         </div>
