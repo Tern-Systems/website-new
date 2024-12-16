@@ -75,18 +75,19 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <div
                     id={'content'}
                     className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
-                                bg-content bg-cover bg-no-repeat text-primary text-center font-neo text-[1rem]
-                                 ${modalCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
+                                bg-content bg-cover bg-no-repeat bg-fixed text-primary text-center font-neo text-[1rem]`}
                 >
                     <div
-                        className={`h-full w-full flex flex-col p-[--py] pb-0 ${modalCtx.hideContent ? 'hidden' : ''}`}>
+                        className={`h-full w-full flex flex-col p-[--py] pb-0
+                                    ${modalCtx.hideContent ? 'hidden' : ''}
+                                    ${modalCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                         {children}
                         <span className={'block pt-[--py]'}/>
                     </div>
                 </div>
                 <footer
                     className={`flex w-full justify-between font-neo text-primary border-t-small border-section 
-                                px-[--px] py-[--py] place-self-end`}>
+                                px-[--px] py-[1rem] place-self-end text-[0.6rem]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
                         <PageLink href={Route.Cookies}/>

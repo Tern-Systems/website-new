@@ -4,14 +4,18 @@ import {usePathname} from "next/navigation";
 
 import {Route} from "@/app/static";
 
+import {AuthService} from "@/app/services";
+
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
 import {useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
 import {AuthModal} from "@/app/ui/modals";
+import {Button} from "@/app/ui/form";
+
+import styles from '@/app/common.module.css'
 
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
-import {AuthService} from "@/app/services";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
@@ -26,7 +30,7 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.ARCodeToolCreate]: '/CreationTool',
 }
 
-const UNDERLINE_CN = 'after:absolute after:bottom-[-0.22rem] after:w-[3.125rem] after:border-b-small after:border-control6';
+const UNDERLINE_CN = 'after:absolute after:bottom-[-0.22rem] after:w-[2.5rem] after:border-b-small after:border-control6';
 
 
 interface Props {
@@ -115,9 +119,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     // Find section with sub nav
-    let SubNav: ReactElement | null = null;
+    let SubNavItems: ReactElement[] | null = null;
     if (subNav) {
-        const SubNavItems = subNav.map((link, idx) => (
+        SubNavItems = subNav.map((link, idx) => (
             <PageLink
                 key={link + idx}
                 href={link}
@@ -126,14 +130,14 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 {getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], idx === 0)}
             </PageLink>
         ));
-
-        SubNav = (
-            <ul className={`flex gap-[calc(2*var(--px))] px-[--px] w-full h-[3.88rem]
-                            items-center bg-black border-b-small border-section cursor-pointer`}>
-                {SubNavItems}
-            </ul>
-        );
     }
+
+    const SubNav = (
+        <ul className={`relative flex gap-[--px] px-[--px] w-full items-center bg-transparent border-b-small
+                        border-section cursor-pointer ${SubNavItems ? 'py-[1rem] '+styles.slideIn : styles.slideOut}`}>
+            {SubNavItems}
+        </ul>
+    );
 
     let userBtns: ReactElement | ReactElement[];
     if (userCtx.isLoggedIn) {
@@ -176,27 +180,25 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         )
     } else {
         userBtns = AUTH_BTNS.map((name, idx) => (
-            <div key={name + idx}>
-                <div
-                    className={`flex items-center px-[1.06rem] py-[0.37rem] rounded-full border-small border-section
-                                text-small font-bold capitalize cursor-pointer 
-                                ${idx ? 'bg-black text-white' : 'bg-white text-black'}`}
-                    onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>, {darkenBg: true})}
-                >
-                    {name}
-                </div>
-            </div>
+            <Button
+                key={name + idx}
+                onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>, {darkenBg: true})}
+                className={`px-[0.75rem] py-[0.15rem] rounded-full border-small border-section font-bold capitalize 
+                            text-[0.7rem] ${idx ? 'bg-black text-white' : 'bg-white text-black'}`}
+            >
+                {name}
+            </Button>
         ))
     }
 
     return (
-        <header className={'font-neo text-primary'}>
+        <header className={'font-neo text-primary text-[0.85rem]'}>
             <div
-                className={`relative flex w-full h-[5.13rem] px-[--px] justify-between items-center border-b-small border-section`}>
+                className={`relative z-[2] bg-black flex w-full py-[1rem] px-[--px] justify-between items-center border-b-small border-section`}>
                 <nav
-                    className={`relative flex items-center ml-[6.22rem] before:absolute before:h-[3.44rem] before:-left-[--py]
-                                before:border-small before:border-section`}>
-                    <ul className={`flex ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[calc(2*var(--px))]'} cursor-pointer`}>{NavLinks}</ul>
+                    className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.4rem)] before:absolute before:h-[2rem] before:-left-[--py]
+                                before:border-r-small before:border-section`}>
+                    <ul className={`flex ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[calc(1*var(--px))]'} cursor-pointer`}>{NavLinks}</ul>
                 </nav>
                 <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </div>

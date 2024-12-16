@@ -14,7 +14,7 @@ const config: Config = {
                 lg: {min: '1440px'}
             },
             backgroundImage: {
-                content: "url('../assets/images/bg-content.png')"
+                content: "url('../assets/images/bg-content.gif')"
             },
             colors: {
                 primary: "var(--color-primary)",
@@ -67,7 +67,7 @@ const config: Config = {
                     '100%': {
                         top: '0',
                         left: '0',
-                        transform: 'translate(calc(var(--px)), var(--insignia-pt-moved)) scale(var(--insignia-scale-moved))',
+                        transform: 'translate(calc(var(--insignia-pl-moved)), var(--insignia-pt-moved)) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
                 }

@@ -12,6 +12,8 @@ import Image from "next/image";
 
 import SVG_CHEVRON from "@/assets/images/icons/chewron.svg";
 
+import styles from '@/app/common.module.css'
+
 
 const EMPTY_KEY = 'empty'
 
@@ -79,6 +81,7 @@ const Select: FC<Props> = (props: Props) => {
             <input
                 {...selectPropsRest}
                 value={value}
+                onChange={()=>{}}
                 placeholder={placeholder}
                 className={'absolute -z-10 bottom-0 left-[34%] [&&]:w-1 [&&]:h-0 [&&]:p-0'}
             />
@@ -88,7 +91,7 @@ const Select: FC<Props> = (props: Props) => {
                 onClick={() => toggleSelectExpand()}
                 onBlur={() => setSelectExpanded(false)}
                 className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control3
-                            ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
+                            ${styles.clickable} ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
             >
                 <div className={'w-[85%] text-nowrap overflow-ellipsis overflow-hidden'}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>

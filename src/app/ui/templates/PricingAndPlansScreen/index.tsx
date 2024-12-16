@@ -75,9 +75,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     ): ReactElement => {
         const benefitsData = data?.benefits ?? generateFallbackEntries(5);
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => {
-            let listImage = 'list-image-[url("/assets/images/icons/bullet.svg")]';
+            let listImage = 'list-image-[url("../assets/images/icons/bullet.svg")]';
             if (type === 'pro')
-                listImage = 'list-image-[url("/assets/images/icons/star.svg")]';
+                listImage = 'list-image-[url("../assets/images/icons/star.svg")]';
 
             return (
                 <li
@@ -206,14 +206,12 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             ? Object.entries(subscriptionData.type).slice(+isBasicView)
             : generateFallbackEntries(isBasicView ? 1 : 2);
 
-        return columnsData.map(([type, data], idx) =>
-            renderColumn(userSubscription, type, data, idx)
-        )
+        return columnsData.map(([type, data], idx) => renderColumn(userSubscription, type, data, idx))
     }
 
-    const Switch: ReactElement[] = PLAN_TIME_RANGE.map((entry) => (
+    const Switch: ReactElement[] = PLAN_TIME_RANGE.map((entry, idx) => (
             <div
-                key={entry}
+                key={entry + idx}
                 className={`px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold capitalize
                             ${selectedRecurrency === entry ? 'bg-control2' : 'text-secondary'}`}
                 onClick={() => setSelectedRecurrency(entry)}

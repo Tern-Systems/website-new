@@ -19,9 +19,9 @@ import SVG_AMEX from '@/assets/images/icons/card-amex.svg';
 import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
-import styles from './Subscribe.module.css'
 import {PageLink} from "@/app/ui/layout";
-import Terms from "@/pages/Terms";
+
+import styles from './Subscribe.module.css'
 
 
 const FORM_DEFAULT: SubscribeData = {

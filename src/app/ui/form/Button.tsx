@@ -1,6 +1,8 @@
 import {ButtonHTMLAttributes, FC, ReactElement, useState} from "react";
 import Image from "next/image";
 
+import styles from '@/app/common.module.css'
+
 import SVG_BACK from '@/assets/images/icons/back.svg';
 import SVG_CHECK_FLOWER from '@/assets/images/icons/checkmark-flower.svg';
 import SVG_CHECK_SQUARE from '@/assets/images/icons/checkmark-square.svg';
@@ -109,12 +111,13 @@ const Button: FC<Props> = (props: Props) => {
                 setHoverState(false);
                 props.onMouseLeave?.(event);
             }}
-            className={`text-nowrap cursor-pointer disabled:cursor-default ${className}
+            className={`text-nowrap cursor-pointer disabled:cursor-default ${className} ${styles.clickable}
                         ${icon ? 'flex items-center justify-center gap-[0.52rem]' : ''}`}
         >
             {Icon}
             <span hidden={!children}>{isHovered && hovered?.text ? hovered.text : children}</span>
-        </button>);
+        </button>
+    );
 }
 
 export {Button}

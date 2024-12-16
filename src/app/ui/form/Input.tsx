@@ -1,6 +1,8 @@
 import React, {FC, InputHTMLAttributes, MutableRefObject, PropsWithChildren, ReactElement, useRef} from "react";
 import Image from "next/image";
 
+import styles from '@/app/common.module.css'
+
 import SVG_UPLOAD from "@/assets/images/icons/upload.png";
 import SVG_COLOR_PICKER_BORDER from "@/assets/images/color-picker-border.svg";
 import SVG_EYE from "@/assets/images/icons/eye.svg";
@@ -25,13 +27,13 @@ const Input: FC<Props> = (props: Props) => {
             return (
                 <label
                     htmlFor={props.id}
-                    className={`relative flex items-center justify-center cursor-pointer ${classNameWrapper}`}
+                    className={`relative flex items-center justify-center cursor-pointer ${classNameWrapper} ${styles.clickable}`}
                 >
                     <Image src={SVG_UPLOAD} alt={'upload icon'} className={'inline size-[2rem]'}/>
                     <span hidden={!children} className={classNameLabel}>{children}</span>
                     <input
                         {...inputProps}
-                        className={`absolute bottom-0 -z-10 h-1 w-1 ${className}`}
+                        className={`absolute bottom-0 -z-10 h-1 w-1 hover:hidden ${className}`}
                     />
                 </label>
             );
@@ -46,12 +48,12 @@ const Input: FC<Props> = (props: Props) => {
                         className={`relative inline-flex items-center justify-center size-[2.25rem] rounded-full`}>
                             <span
                                 style={props.style}
-                                className={'absolute inline-block size-[70%] rounded-full'}
+                                className={`absolute inline-block size-[70%] rounded-full`}
                             />
                             <Image src={SVG_COLOR_PICKER_BORDER} alt={'color picker border'}/>
                             <input
                                 {...inputProps}
-                                className={`absolute bottom-0 -z-10 h-1 w-1 ${className}`}
+                                className={`absolute bottom-0 -z-10 h-1 w-1 hover:hidden ${className}`}
                             />
                     </span>
                 </label>

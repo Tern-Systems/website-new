@@ -25,9 +25,11 @@ const LINKS: { svg: string, href: string }[] = [
 
 const ContactPage: FC = () => {
     const Links = LINKS.map((link) => (
-        <a key={link.href} href={link.href} target={'_blank'} className={'size-[2rem]'}>
-            <Image src={link.svg} alt={link.href}/>
-        </a>
+        <li key={link.href} className={`size-[2rem] ${styles.clickable}`}>
+            <a href={link.href} target={'_blank'}>
+                <Image src={link.svg} alt={link.href}/>
+            </a>
+        </li>
     ));
 
     return (
@@ -36,9 +38,9 @@ const ContactPage: FC = () => {
             <p className={'font-oxygen text-[2.8125rem]'}>Tern</p>
             <p>New York, New York</p>
             <p className={'font-normal'}>
-                <a href="mailto:info@tern.ac" target={'_blank'}>info@tern.ac</a>
+                <a href={'mailto:info@tern.ac'} target={'_blank'} className={styles.clickable}>info@tern.ac</a>
             </p>
-            <span className={'flex gap-[0.84rem]'}>{Links}</span>
+            <ul className={'flex gap-[0.84rem]'}>{Links}</ul>
         </div>
     )
 }

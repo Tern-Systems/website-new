@@ -52,7 +52,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
         try {
             if (!token) {
                 await AuthService.postForgotPassword(formValue.email);
-                modalCtx.openModal(<EmailSentModal/>);
+                modalCtx.openModal(<EmailSentModal/>, {darkenBg: true});
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {

@@ -26,7 +26,7 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
         setTimeout(() => {
             if (currentRoute === route)
                 modalCtx.setFadeState(false);
-        }, 3 * FADE_DURATION);
+        }, 5 * FADE_DURATION);
     }, [modalCtx.isFade]);
 
     const navigate = async (route: Route) => {

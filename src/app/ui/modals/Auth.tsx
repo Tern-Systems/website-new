@@ -2,6 +2,7 @@ import {FC, FormEvent, ReactElement, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
+import {Phone, UserData} from "@/app/context/User.context";
 import {SignUpData} from "@/app/services/auth.service";
 
 import {AuthService, UserService} from "@/app/services";
@@ -13,7 +14,6 @@ import {AuthenticationCode, BaseModal, MessageModal, ResetPasswordModal} from "@
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
-import {Phone, UserData} from "@/app/context/User.context";
 
 
 type FormData = SignUpData;
@@ -121,16 +121,16 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 </fieldset>
                 <span hidden={!isLoginForm} className={'mt-[0.62rem]'}>
                     Forgot your password?&nbsp;
-                    <span
-                        className={'text-[#21A1D3] cursor-pointer'}
-                        onClick={() => modalCtx.openModal(<ResetPasswordModal/>)}
+                    <Button
+                        className={'text-[#21A1D3]'}
+                        onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
                     >
                         Reset
-                    </span>
+                    </Button>
                 </span>
                 {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
                 <Button className={`py-[0.92rem] mt-[1.56rem] text-[1.125rem] font-bold rounded-full
-                                    w-[18.93rem] place-self-center border-small border-control 
+                                    w-[18.93rem] place-self-center border-small border-control
                                     ${isLoginForm ? 'text-form bg-white' : 'text-primary'}`}>
                     {!isLoginForm ? 'Sign Up' : 'Login'}
                 </Button>
@@ -138,12 +138,12 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             <div className={'mt-[1.55rem] text-center'}>
                 <span>
                     {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
-                    <span
-                        className={'text-[#21A1D3] cursor-pointer'}
+                    <Button
+                        className={'text-[#21A1D3]'}
                         onClick={() => setLoginFormState(prevState => !prevState)}
                     >
                       {isLoginForm ? 'Sign Up' : 'Login'}
-                    </span>
+                    </Button>
                 </span>
             </div>
         </>

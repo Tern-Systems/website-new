@@ -1,16 +1,18 @@
-import {AnchorHTMLAttributes, FC, ReactElement, useEffect} from "react";
+import {AnchorHTMLAttributes, FC, ReactElement} from "react";
 import {usePathname} from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 import {Route} from "@/app/static";
 
+import {getRouteName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
 import SVG_BACK from "@/assets/images/icons/back.svg";
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
-import {getRouteName} from "@/app/utils";
+
+import styles from '@/app/common.module.css'
 
 
 type Icon = 'back' | 'insignia';
@@ -37,9 +39,6 @@ const PageLink: FC<Props> = (props: Props) => {
         navigate(href as Route ?? Route.Start);
     }
 
-    useEffect(() => {
-    }, [route])
-
     const Icon: ReactElement | null = icon
         ? (
             <Image
@@ -56,7 +55,7 @@ const PageLink: FC<Props> = (props: Props) => {
     return (
         <Link
             {...linkProps}
-            className={'items-center inline-flex ' + linkProps.className}
+            className={`items-center inline-flex ${styles.clickable} ${linkProps.className}`}
             href={route ?? '/'}
             onClick={() => handleLinkClick()}
         >

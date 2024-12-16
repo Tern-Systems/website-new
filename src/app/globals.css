@@ -34,9 +34,14 @@
   --px: 2rem;
   --py: 2.06rem;
 
-  --insignia-pt-moved: 1.2rem;
+  --insignia-pt-moved: 0.6rem;
+  --insignia-pl-moved: calc(var(--px) + var(--insignia-pt-moved));
   --insignia-scale-init: 0.8;
-  --insignia-scale-moved: 0.2;
+  --insignia-scale-moved: 0.175;
+}
+
+html {
+  font-size: 14px;
 }
 
 body {

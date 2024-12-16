@@ -8,6 +8,16 @@
   transition: opacity 0.5s ease-out;
 }
 
+.slideIn {
+  transform: translateY(0);
+  transition: 0.2s ease-in;
+}
+
+.slideOut {
+  transform: translateY(-100%);
+  transition: 0.2s ease-out;
+}
+
 .highlight {
   display: flex;
   flex-direction: column;
@@ -19,4 +29,14 @@
   padding: var(--py);
   font-size: 2.25rem;
   font-weight: 700;
+}
+
+.clickable:hover {
+  transform: translateY(0.5px);
+  transition: 0.1s ease-in-out;
+}
+
+.clickable:active {
+  transform: translateY(1.5px);
+  transition: 0.1s ease-in-out;
 }
