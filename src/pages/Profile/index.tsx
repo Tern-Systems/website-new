@@ -2,6 +2,8 @@ import React, {FC, ReactElement, useState} from "react";
 
 import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY} from "@/app/static";
 
+import {AuthService} from "@/app/services";
+
 import {formatDate} from "@/app/utils/data";
 import {useModal, useUser} from "@/app/context";
 
@@ -48,7 +50,7 @@ const ROUNDED_W_FULL_CN = 'rounded-[0.375rem] w-full';
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
-    const {userData} = useUser();
+    const {userData, token} = useUser();
 
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
     const [isEditState, setEditState] = useState(false);
@@ -100,7 +102,7 @@ const ProfilePage: FC = () => {
                         icon={isFound ? 'mark-square' : 'plus-square'}
                         hovered={{icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : ''}}
                         className={'col-start-3 flex-row-reverse place-self-end'}
-                        onClick={()=>{
+                        onClick={() => {
                             // TODO
                         }}
                     >
@@ -201,9 +203,13 @@ const ProfilePage: FC = () => {
                             title: 'Update password',
                             value: null,
                             onSave: async (formData) => {
-                                if ('passwordConfirm' in formData && formData.passwordConfirm !== formData.newPassword)
+                                if (!('passwordConfirm' in formData) || !token)
+                                    return;
+
+                                if (formData.passwordConfirm !== formData.newPassword)
                                     throw `Passwords don't match`
-                            } //TODO
+                                await AuthService.postResetPassword(token, formData.passwordConfirm);
+                            }
                         }}
                         setParentEditState={setEditState}
                         isToggleBlocked={isEditState}

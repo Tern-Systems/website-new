@@ -1,8 +1,11 @@
 import React, {FC, FormEvent, ReactElement, useState} from "react";
+import {useRouter} from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 
-import {SignUpData} from "@/app/services/auth.service";
+import {Route} from "@/app/static";
+
+import {AuthService, SignUpData} from "@/app/services/auth.service";
 
 import {useForm} from "@/app/hooks";
 import {useModal} from "@/app/context";
@@ -19,13 +22,14 @@ type FormData = Pick<SignUpData, 'email' | 'password' | 'passwordConfirm'>;
 const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 
 interface Props {
-    isEmailAction: boolean;
+    token?: string;
 }
 
 const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
-    const {isEmailAction} = props;
+    const {token} = props;
 
     const modalCtx = useModal();
+    const router = useRouter();
 
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
 
@@ -46,39 +50,30 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
         );
 
         try {
-            // TODO
-            if (isEmailAction) {
-
+            if (!token) {
+                await AuthService.postForgotPassword(formValue.email);
                 modalCtx.openModal(<EmailSentModal/>);
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
-            else
+            else {
+                await AuthService.postResetPassword(token, formValue.passwordConfirm);
+                router.replace(Route.Home);
                 modalCtx.closeModal();
+            }
         } catch (error: unknown) {
             let message: string = 'Unknown error';
             if (axios.isAxiosError(error))
                 message = error.cause?.message ?? message;
             else if (typeof error === 'string')
                 message = error;
-            modalCtx.openModal(<BaseModal isSimple className={'place-self-center mx-auto'}>{message}</BaseModal>);
+            modalCtx.openModal(<BaseModal isSimple className={'place-self-center mx-auto right-[--py] bottom-[7.2rem]'}>{message}</BaseModal>);
+            router.replace(Route.Home);
         }
     }
 
-    const Controls = isEmailAction
+    const Controls = token
         ? (
-            <Input
-                name={'email'}
-                placeholder={'Email'}
-                value={formValue.email}
-                onChange={setFormValue('email')}
-                classNameWrapper={'flex-col [&]:items-start'}
-                className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
-                required
-            />
-        )
-        : (
             <>
-
                 <Input
                     type={"password"}
                     name={'password'}
@@ -96,9 +91,20 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     onChange={setFormValue('passwordConfirm')}
                     className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
                     icons={[SVG_EYE]}
-                    required={!isEmailAction}
+                    required={!!token}
                 />
             </>
+        )
+        : (
+            <Input
+                name={'email'}
+                placeholder={'Email'}
+                value={formValue.email}
+                onChange={setFormValue('email')}
+                classNameWrapper={'flex-col [&]:items-start'}
+                className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                required
+            />
         );
 
     return (
@@ -117,7 +123,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
             >
                 <fieldset className={'flex flex-col gap-[0.94rem]'}>
                     <legend className={'mb-[0.63rem]'}>
-                        Please {isEmailAction ? 'enter email to reset your password' : 'create your new password'}
+                        Please {token ? 'create your new password' : 'enter email to reset your password'}
                     </legend>
                     {Controls}
                 </fieldset>

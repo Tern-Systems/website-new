@@ -15,10 +15,13 @@ type SignUpData = LoginData & {
     passwordConfirm: string;
 }
 
+
 interface IAuthService {
     postSignUp(data: SignUpData): Promise<Res>;
 
     postLogIn(data: LoginData): Promise<Res<string>>;
+
+    postForgotPassword(email: string): Promise<void>;
 }
 
 class AuthServiceImpl extends BaseService implements IAuthService {
@@ -63,6 +66,38 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         try {
             const response = await axios(config);
             return {payload: response.data.token};
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+        }
+    }
+
+    async postForgotPassword(email: string): Promise<void> {
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this.API + `forgot-password`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({email}),
+            withCredentials: true,
+        };
+
+        try {
+            await axios(config);
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+        }
+    }
+
+    async postResetPassword(token: string, newPassword: string): Promise<void> {
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this.API + `reset-password/` + token,
+            headers: {'Content-Type': 'application/json',},
+            data: {newPassword},
+            withCredentials: true,
+        };
+
+        try {
+            await axios(config);
         } catch (error: unknown) {
             throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
         }

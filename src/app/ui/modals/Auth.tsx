@@ -101,7 +101,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     Forgot your password?&nbsp;
                     <span
                         className={'text-[#21A1D3] cursor-pointer'}
-                        onClick={() => modalCtx.openModal(<ResetPasswordModal isEmailAction={true}/>)}
+                        onClick={() => modalCtx.openModal(<ResetPasswordModal />)}
                     >
                         Reset
                     </span>
