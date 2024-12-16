@@ -1,11 +1,21 @@
 abstract class BaseService {
-    readonly API: string;
+    protected readonly _API: string;
+    protected readonly _serviceName: string;
 
-    constructor() {
+    constructor(name: string) {
         const api: string | undefined = process.env.NEXT_PUBLIC_API;
         if (!api)
             throw 'API URL is not defined!'
-        this.API = api;
+        this._API = api;
+        this._serviceName = name;
+    }
+
+    get getAPI() {
+        return this._API;
+    }
+
+    protected log(method: string): void {
+        console.log(this._serviceName + ' - ' + method + '...');
     }
 }
 

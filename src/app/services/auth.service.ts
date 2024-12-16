@@ -26,14 +26,15 @@ interface IAuthService {
 
 class AuthServiceImpl extends BaseService implements IAuthService {
     constructor() {
-        super()
+        super(AuthServiceImpl.name)
     }
 
     async postSignUp(data: SignUpData): Promise<Res> {
+        this.log(this.postSignUp.name);
         const salt = await genSalt(10);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this.API + 'signup',
+            url: this._API + 'signup',
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -52,9 +53,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     }
 
     async postLogIn(data: LoginData): Promise<Res<string>> {
+        this.log(this.postLogIn.name);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this.API + `login`,
+            url: this._API + `login`,
             headers: {'Content-Type': 'application/json',},
             data: JSON.stringify({
                 email: data.email,
@@ -72,9 +74,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     }
 
     async postForgotPassword(email: string): Promise<void> {
+        this.log(this.postForgotPassword.name);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this.API + `forgot-password`,
+            url: this._API + `forgot-password`,
             headers: {'Content-Type': 'application/json',},
             data: JSON.stringify({email}),
             withCredentials: true,
@@ -88,9 +91,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     }
 
     async postResetPassword(token: string, newPassword: string): Promise<void> {
+        this.log(this.postResetPassword.name);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this.API + `reset-password/` + token,
+            url: this._API + `reset-password/` + token,
             headers: {'Content-Type': 'application/json',},
             data: {newPassword},
             withCredentials: true,

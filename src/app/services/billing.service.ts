@@ -22,13 +22,14 @@ interface IBillingService {
 
 class BillingServiceImpl extends BaseService implements IBillingService {
     constructor() {
-        super()
+        super(BillingServiceImpl.name)
     }
 
     async getCards(email: string): Promise<Res<CardData[]>> {
+        this.log(this.getCards.name);
         const config: AxiosRequestConfig = {
             method: 'GET',
-            url: this.API + `get-saved-cards`,
+            url: this._API + `get-saved-cards`,
             params: {email},
             withCredentials: true,
         };
@@ -42,6 +43,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     }
 
     async postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
+        this.log(this.postProcessPayment.name);
         const cardDetails = {
             cardNumber: data.cardNumber,
             expiryDate: data.expirationDate,
@@ -65,7 +67,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this.API + `process-payment`,
+            url: this._API + `process-payment`,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -87,12 +89,13 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     }
 
     async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
+        this.log(this.postProcessSavedPayment.name);
         try {
             const taxResponse = await this._fetchTaxes('place');
 
             const config: AxiosRequestConfig = {
                 method: 'POST',
-                url: this.API + `process-payment-saved`,
+                url: this._API + `process-payment-saved`,
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -116,6 +119,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     };
 
     private async _fetchTaxes(place: string): Promise<number> { // TODO
+        this.log(this._fetchTaxes.name);
         return 0;
     }
 }

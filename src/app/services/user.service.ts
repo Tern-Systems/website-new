@@ -6,21 +6,20 @@ import {UserData} from "@/app/context/User.context";
 import {BaseService} from "./base.service";
 
 
-type UserBaseData = Pick<UserData, 'email' | 'isEmailVerified' | 'isPurchased'>
-
 interface IUserService {
-    getUser(token: string): Promise<Res<UserBaseData>>;
+    getUser(token: string): Promise<Res<UserData>>;
 }
 
 class UserServiceImpl extends BaseService implements IUserService {
     constructor() {
-        super()
+        super(UserServiceImpl.name)
     }
 
-    async getUser(token: string): Promise<Res<UserBaseData>> {
+    async getUser(token: string): Promise<Res<UserData>> {
+        this.log(this.getUser.name);
         const config: AxiosRequestConfig = {
             method: 'GET',
-            url: this.API + `get-user-data`,
+            url: this._API + `get-user-data`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
