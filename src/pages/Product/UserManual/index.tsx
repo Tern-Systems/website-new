@@ -7,9 +7,7 @@ import {COMING_SOON_DOC} from "@/app/static/documentation";
 import {DocumentationScreenTool} from "@/app/ui/templates";
 
 
-type Content = Route.ServiceUserManual;
-
-const DOCUMENTATION_CONTENTS: Record<Content, DocumentationContent> = {
+const DOCUMENTATION_CONTENTS: Record<Route.ServiceUserManual, DocumentationContent> = {
     [Route.ServiceUserManual]: COMING_SOON_DOC,
 }
 

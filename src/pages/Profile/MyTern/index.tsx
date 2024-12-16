@@ -6,11 +6,11 @@ import {Route} from "@/app/static";
 
 import {useModal, useUser} from "@/app/context";
 
+import {PageLink} from "@/app/ui/layout";
 import {FAQsModal, HelpModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
 import SVG_ARROW from "@/assets/images/icons/arrow-right.svg";
-import {PageLink} from "@/app/ui/layout";
 
 
 type TableEntry = {

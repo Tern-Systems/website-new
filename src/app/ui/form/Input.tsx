@@ -58,7 +58,7 @@ const Input: FC<Props> = (props: Props) => {
             );
         case 'code':
             if (!props.maxLength)
-                return <></>;
+                return null;
             const code = props.value?.toString() ?? '';
             const Code: ReactElement[] =
                 (code + ' '.repeat(props.maxLength - Math.min(code.length, props.maxLength)))

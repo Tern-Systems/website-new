@@ -18,7 +18,7 @@ function OrderPage() {
 
     useEffect(() => {
         try {
-            const subscriptionData = localStorage.getItem('invoice');
+            const subscriptionData = sessionStorage.getItem('invoice');
             if (!subscriptionData)
                 throw 'Error retrieving invoice data';
 

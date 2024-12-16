@@ -5,6 +5,11 @@ import {ARCode} from "@/app/types/arcode";
 
 import {CodeMenu, CodeMenuData} from "./CodeMenu";
 import {Button} from "@/app/ui/form";
+import {useLoginCheck} from "@/app/hooks/useLoginCheck";
+import {AuthModal} from "@/app/ui/modals";
+import {useNavigate} from "@/app/hooks";
+import {useUser} from "@/app/context";
+import {Route} from "@/app/static";
 
 
 const SAVED_CODES_TEMPLATE: ARCode[] = [
@@ -21,9 +26,18 @@ const SAVED_CODES_TEMPLATE: ARCode[] = [
 ]
 
 
-const SavedCodes: FC = () => {
+const SavedCodesPage: FC = () => {
     const [menuData, setMenuData] = useState<CodeMenuData>({arCode: null, x: 0, y: 0, isOpened: false});
     const [codeId, setCodeId] = useState<string | null>(null);
+    const [navigate] = useNavigate();
+    const userCtx = useUser();
+
+
+    useEffect(() => {
+        if (!userCtx.isLoggedIn)
+            navigate(Route.ServicePricing);
+    }, [userCtx.isLoggedIn])
+
 
     const SavedCodes: ReactElement[] = SAVED_CODES_TEMPLATE.map((arCode, idx) => {
         const id = (arCode.name + idx).toLowerCase().split(' ').join('-');
@@ -94,4 +108,4 @@ const SavedCodes: FC = () => {
     );
 }
 
-export default SavedCodes;
+export default SavedCodesPage;

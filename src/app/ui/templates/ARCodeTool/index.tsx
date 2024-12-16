@@ -58,7 +58,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
 
 
     useEffect(() => {
-        const arCodeParam = localStorage.getItem('ar-code');
+        const arCodeParam = sessionStorage.getItem('ar-code');
         if (arCodeParam)
             setFormValueState(JSON.parse(arCodeParam) as ARCode);
     }, [setFormValueState])

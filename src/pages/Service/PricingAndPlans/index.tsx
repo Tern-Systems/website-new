@@ -10,9 +10,9 @@ import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
 
 const PLAN_TEMPLATE: SubscriptionPreview = {
     subscription: 'ternKey',
-    isBasicKind: true,
+    isBasicKind: false,
     type: {
-        basic: {
+        standard: {
             icon: SVG_DIAMOND_ACE,
             priceUSD: {monthly: 10, annual: 8},
             benefits: [

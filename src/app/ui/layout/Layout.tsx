@@ -26,7 +26,6 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
 
     useEffect(() => {
         const token = params?.get('resetToken');
-        console.log(1)
         if (token)
             router.replace(Route.Home + '?resetToken=' + token);
     }, []);
@@ -79,7 +78,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                                 bg-content bg-cover bg-no-repeat text-primary text-center font-neo text-[1rem]
                                  ${modalCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
                 >
-                    <div className={'h-full w-full flex flex-col p-[--py] pb-0'}>
+                    <div
+                        className={`h-full w-full flex flex-col p-[--py] pb-0 ${modalCtx.hideContent ? 'hidden' : ''}`}>
                         {children}
                         <span className={'block pt-[--py]'}/>
                     </div>

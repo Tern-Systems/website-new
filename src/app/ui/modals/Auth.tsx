@@ -81,7 +81,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     const Content = (
         <>
-            <div className={'flex flex-col items-center w-[26.18rem]'}>
+            <div className={'flex flex-col items-center w-[26.18rem] text-center'}>
                 <span>{info}</span>
                 <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10.42rem] h-[9rem]'}/>
                 {!isLoginForm ? <span className={'mb-[1.88rem] font-oxygen text-[1.6875rem]'}>Tern</span> : null}

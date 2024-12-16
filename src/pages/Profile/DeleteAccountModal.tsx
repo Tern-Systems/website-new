@@ -20,7 +20,7 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
     const modalCtx = useModal();
 
     if (!userData)
-        return <></>
+        return null;
 
     return (
         <BaseModal title={'Account Offboarding'} className={'w-[34.06rem] text-center leading-[120%]'}>

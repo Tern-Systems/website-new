@@ -14,7 +14,7 @@ function SubscribePage() {
     const [subscription, setSubscription] = useState<Subscription | null>(null);
 
     useEffect(() => {
-        const subscriptionData = localStorage.getItem('subscription');
+        const subscriptionData = sessionStorage.getItem('subscription');
         if (subscriptionData)
             setSubscription(JSON.parse(subscriptionData) as Subscription);
     }, [])

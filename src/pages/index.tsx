@@ -1,9 +1,9 @@
 'use client'
 
-import React, {FC} from "react";
+import {FC} from "react";
 
 
-const StartPage: FC = () => <></>;
+const StartPage: FC = () => null;
 
 
 export default StartPage;

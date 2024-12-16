@@ -566,7 +566,7 @@ const Editable: FC<Props> = (props: Props) => {
             const renderAddressForm = (key: keyof UserAddress) => {
                 const isPersonal = key === 'personalAddress';
                 if (!formData[key])
-                    return <></>;
+                    return null;
 
                 return (
                     <>

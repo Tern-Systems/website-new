@@ -11,6 +11,8 @@ import React, {
     useState
 } from 'react';
 
+import styles from "@/app/common.module.css";
+
 
 type ModalConfig = { hideContent?: boolean; darkenBg?: boolean }
 
@@ -18,6 +20,7 @@ type OpenModal = (Component: ReactElement, config?: ModalConfig) => void;
 
 interface IModalContext {
     hideContent: boolean;
+    isOpened: boolean;
     closeModal: () => void;
     openModal: OpenModal;
     setFadeState: Dispatch<SetStateAction<boolean>>;
@@ -44,10 +47,18 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     return (
         <ModalContext.Provider
-            value={{hideContent: config.hideContent == true, openModal, closeModal, setFadeState, isFade}}>
+            value={{
+                hideContent: config.hideContent == true,
+                isOpened: Modal !== null,
+                openModal,
+                closeModal,
+                setFadeState,
+                isFade
+            }}>
             <div
                 hidden={!Modal}
-                className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden pointer-events-none`}
+                className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden pointer-events-none
+                            ${isFade ? styles.fadeOut : styles.fadeIn}`}
             >
                 {Modal}
             </div>
