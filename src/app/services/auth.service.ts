@@ -22,6 +22,10 @@ interface IAuthService {
     postLogIn(data: LoginData): Promise<Res<string>>;
 
     postForgotPassword(email: string): Promise<void>;
+
+    postSendOTP(email: string): Promise<void>;
+
+    postVerifyOTP(otp: string, userEmail: string): Promise<void>;
 }
 
 class AuthServiceImpl extends BaseService implements IAuthService {
@@ -48,7 +52,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         try {
             await axios(config);
         } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
 
@@ -69,7 +73,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             const response = await axios(config);
             return {payload: response.data.token};
         } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
 
@@ -86,7 +90,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         try {
             await axios(config);
         } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
 
@@ -103,7 +107,41 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         try {
             await axios(config);
         } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
+
+    async postSendOTP(email: string): Promise<void> {
+        this.log(this.postSendOTP.name);
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `send-otp`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({userEmail: email}),
+            withCredentials: true,
+        };
+
+        try {
+            await axios(config);
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
+
+    async postVerifyOTP(otp: string, userEmail: string): Promise<void> {
+        this.log(this.postVerifyOTP.name);
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `verify-otp`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({userEmail, otp}),
+            withCredentials: true,
+        };
+
+        try {
+            await axios(config);
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
 }

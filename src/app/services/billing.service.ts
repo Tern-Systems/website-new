@@ -38,7 +38,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             const response = await axios(config);
             return response.data;
         } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
 
@@ -84,7 +84,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             const response = await axios(config);
             return response.data;
         } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
 
@@ -114,7 +114,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             const response = await axios(config);
             return response.data;
         } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     };
 

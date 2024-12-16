@@ -31,7 +31,7 @@ class UserServiceImpl extends BaseService implements IUserService {
             const response = await axios(config);
             return {payload: response.data};
         } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error.response?.data.msg : 'Unknown error!';
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
 

@@ -1,15 +1,15 @@
 import React, {FC, FormEvent, ReactElement, useCallback, useEffect, useState} from "react";
-import axios from "axios";
 import Image from "next/image";
+import axios from "axios";
 
 import {UserData} from "@/app/context/User.context";
 
-import {UserService} from "@/app/services";
+import {AuthService, UserService} from "@/app/services";
 
 import {useForm} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
-import {BaseModal} from "@/app/ui/modals";
+import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_SAFE from '@/assets/images/safe.svg'
@@ -22,10 +22,11 @@ const FORM_DEFAULT: FormData = {code: ''};
 interface Props {
     token: string;
     phone: string;
+    email: string;
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const {token,phone} = props;
+    const {token, phone, email} = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -34,36 +35,28 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
 
     const handleSendNewCode = useCallback(async () => {
-        // TODO
-    }, [])
+        await AuthService.postSendOTP(email);
+    }, [email])
 
     useEffect(() => {
-        if (userCtx.userData)
-            handleSendNewCode();
-    }, [userCtx.userData, handleSendNewCode])
+        handleSendNewCode();
+    }, [handleSendNewCode])
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!userCtx.userData)
-            return;
 
         try {
-            // TODO
-            const isCodeCorrect = false;
-            if (isCodeCorrect === false)
-                return setWarningMsg("The code is not correct");
-
+            await AuthService.postVerifyOTP(formValue.code, email);
             const {payload: userData} = await UserService.getUser(token);
-
             userCtx.setSession(userData as UserData, token); // TODO remove type casting
             modalCtx.closeModal();
         } catch (error: unknown) {
             let message: string = 'Unknown error';
-            if (axios.isAxiosError(error))
-                message = error.cause?.message ?? message;
+            if (axios.isAxiosError(error) && error.status === 401)
+                return setWarningMsg("The code is not correct");
             else if (typeof error === 'string')
                 message = error;
-            modalCtx.openModal(<BaseModal isSimple className={'place-self-center mx-auto'}>{message}</BaseModal>);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
         }
     }
 

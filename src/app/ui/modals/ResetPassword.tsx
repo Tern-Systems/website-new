@@ -10,7 +10,7 @@ import {AuthService, SignUpData} from "@/app/services/auth.service";
 import {useForm} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
-import {BaseModal} from "@/app/ui/modals";
+import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
@@ -66,7 +66,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 message = error.cause?.message ?? message;
             else if (typeof error === 'string')
                 message = error;
-            modalCtx.openModal(<BaseModal isSimple className={'place-self-center mx-auto right-[--py] bottom-[7.2rem]'}>{message}</BaseModal>);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             router.replace(Route.Home);
         }
     }

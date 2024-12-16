@@ -9,7 +9,7 @@ import {AuthService, UserService} from "@/app/services";
 import {useForm} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
-import {AuthenticationCode, BaseModal, ResetPasswordModal} from "@/app/ui/modals";
+import {AuthenticationCode, BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
@@ -46,9 +46,16 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 if (!userData.verification.phone) {
                     const primaryPhone: Phone | null | undefined = Object.values(userData.phone).find((phone) => phone?.isPrimary);
 
-                    if (primaryPhone)
-                        modalCtx.openModal(<AuthenticationCode token={token} phone={primaryPhone.number}/>)
-                    else
+                    if (primaryPhone) {
+                        const AuthCodeModal = (
+                            <AuthenticationCode
+                                token={token}
+                                email={userData.email}
+                                phone={primaryPhone.number}
+                            />
+                        );
+                        modalCtx.openModal(AuthCodeModal, {darkenBg: true});
+                    } else
                         setWarningMsg('Error checking verified phone, please try to login again later');
                 } else {
                     userCtx.setSession(userData as UserData, token); // TODO remove type casting
@@ -68,15 +75,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 message = error.cause?.message ?? message;
             else if (typeof error === 'string')
                 message = error;
-            const MessageModal = (
-                <BaseModal
-                    isSimple
-                    className={'place-self-center mx-auto left-[--py] bottom-[7.2rem]'}
-                >
-                    {message}
-                </BaseModal>
-            );
-            modalCtx.openModal(MessageModal);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
         }
     }
 
