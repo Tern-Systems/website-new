@@ -1,7 +1,9 @@
 'use client'
 
 import React, {FC, useEffect} from "react";
-import {useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
+
+import {Route} from "@/app/static";
 
 import {useModal} from "@/app/context";
 
@@ -13,11 +15,14 @@ import styles from "@/app/common.module.css";
 const HomePage: FC = () => {
     const params = useSearchParams();
     const modalCtx = useModal();
+    const router = useRouter();
 
     useEffect(() => {
         const token = params?.get('resetToken');
-        if (token)
+        if (token) {
             modalCtx.openModal(<ResetPasswordModal token={token}/>);
+            router.replace(Route.Home);
+        }
     }, [params]);
 
     return (

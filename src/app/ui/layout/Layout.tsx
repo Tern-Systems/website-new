@@ -1,7 +1,7 @@
 'use client'
 
 import React, {FC, PropsWithChildren, ReactElement, useEffect, useState} from "react";
-import {usePathname} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Spline from "@splinetool/react-spline";
 
 import {FADE_DURATION, Route} from "@/app/static";
@@ -16,10 +16,20 @@ import {useModal} from "@/app/context";
 const Layout: FC<PropsWithChildren> = ({children}) => {
     const route = usePathname();
     const modalCtx = useModal();
+    const params = useSearchParams();
+    const router = useRouter();
+
 
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
 
+
+    useEffect(() => {
+        const token = params?.get('resetToken');
+        console.log(1)
+        if (token)
+            router.replace(Route.Home + '?resetToken=' + token);
+    }, []);
 
     useEffect(() => {
         if (route !== null)
@@ -29,8 +39,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         }, FADE_DURATION);
     }, [route]);
 
-    // Elements
 
+    // Elements
     // 2 pre-rendered insignias for moving without flickering
 
     const SplineElem = <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
@@ -41,10 +51,10 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                         ${state ? 'hidden' : ''}`
         return (
             route === Route.Start
-                ? <div className={cn}>{SplineElem}</div>
+                ? <div key={state.toString() + idx} className={cn}>{SplineElem}</div>
                 : (
                     <PageLink
-                        key={idx}
+                        key={state.toString() + idx}
                         onDrag={(event) => event.preventDefault()}
                         className={cn}
                     >
