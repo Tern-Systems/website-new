@@ -13,6 +13,7 @@ import {CancelModal} from "./CancelModal";
 import {FullPageLayout} from "@/app/ui/layout";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
+import {useLoginCheck} from "@/app/hooks";
 
 
 const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
@@ -57,6 +58,7 @@ const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
 
 function ManageSubscriptionsPage() {
     const modalCtx = useModal();
+    const isLoggedIn = useLoginCheck();
 
     const [subscriptions, setSubscriptions] = useState<Subscription[] | null>(null);
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
@@ -66,6 +68,9 @@ function ManageSubscriptionsPage() {
         // TODO fetch data
         setSubscriptions(SUBSCRIPTIONS_TEMPLATE);
     }, [])
+
+    if (!isLoggedIn)
+        return null;
 
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(

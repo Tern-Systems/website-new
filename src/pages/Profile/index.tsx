@@ -5,6 +5,7 @@ import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, S
 import {AuthService} from "@/app/services";
 
 import {formatDate} from "@/app/utils/data";
+import {useLoginCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {Collapsible} from "@/app/ui/misc";
@@ -51,12 +52,13 @@ const ROUNDED_W_FULL_CN = 'rounded-[0.375rem] w-full';
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const {userData, token} = useUser();
+    const isLoggedIn = useLoginCheck();
 
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
     const [isEditState, setEditState] = useState(false);
 
-    if (!userData)
-        return <></>;
+    if (!userData || !isLoggedIn)
+        return null;
 
     // Elements
     const Primary = (

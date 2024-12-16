@@ -3,9 +3,11 @@ import Image from "next/image";
 
 import {Route} from "@/app/static";
 
+import {PageLink} from "@/app/ui/layout";
+
+import {useLoginCheck} from "@/app/hooks";
 
 import SVG_ARROW from "@/assets/images/icons/arrow-right.svg";
-import {PageLink} from "@/app/ui/layout";
 
 
 const LINKS: { title: string; text: string; route: Route }[] = [
@@ -43,6 +45,10 @@ const LINKS: { title: string; text: string; route: Route }[] = [
 
 
 const DocumentationPage: FC = () => {
+    const isLoggedIn = useLoginCheck();
+    if (!isLoggedIn)
+        return null;
+
     const Links: ReactElement[] = LINKS.map((link, idx) => (
         <li
             key={link.text + idx}

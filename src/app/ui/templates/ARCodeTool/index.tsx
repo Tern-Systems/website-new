@@ -128,8 +128,10 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 />
                 <Input
                     type={"file"}
+                    accept='image/png,image/jpeg,image/svg,image/jpg,image/webp,image/jpeg,image/gif,image/tiff,image/heif,image/heic'
                     name={'qr-file'}
                     classNameWrapper={'h-[3.125rem] font-bold text-[1.3125rem] text-black bg-white rounded-full'}
+
                     required
                 >
                     {editID ? formValue.file : 'Upload Media'}

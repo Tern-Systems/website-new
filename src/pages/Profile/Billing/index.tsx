@@ -7,16 +7,17 @@ import {useModal} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
 import {HelpModal} from "@/app/ui/modals";
+import {useLoginCheck} from "@/app/hooks";
 
 
 const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE]
 
 
 const BillingPage: FC = () => {
-    const [orders, setOrders] = useState<Invoice[]>([]);
-
     const modalCtx = useModal();
+    const isLoggedIn = useLoginCheck();
 
+    const [orders, setOrders] = useState<Invoice[]>([]);
 
     useEffect(() => {
         try {
@@ -27,6 +28,9 @@ const BillingPage: FC = () => {
         } catch (error: unknown) {
         }
     }, [])
+
+    if (!isLoggedIn)
+        return null;
 
     // Elements
     const OrderRows: ReactElement[] = (orders ?? []).map((order, idx) => (

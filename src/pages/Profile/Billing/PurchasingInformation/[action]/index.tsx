@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import {useParams} from "next/navigation";
 
 import {Route} from "@/app/static";
 
@@ -7,7 +8,8 @@ import {PaymentMethodTool} from "@/app/ui/templates";
 
 
 function AddPurchasingMethodPage() {
-    return <PaymentMethodTool isPaymentCreation/>;
+    const {type} = useParams() as { type: string };
+    return <PaymentMethodTool isPaymentCreation={type === 'Add'}/>;
 }
 
 AddPurchasingMethodPage.getLayout = (page: ReactElement) => (

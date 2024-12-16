@@ -11,11 +11,13 @@ import {Button} from "@/app/ui/form";
 import {ExportInvoiceModal} from "./ExportInvoiceModal";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
+import {useLoginCheck} from "@/app/hooks";
 
 
 function PurchasingInformationView() {
     const userCtx = useUser();
     const modalCtx = useModal();
+    const isLoggedIn = useLoginCheck();
 
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
@@ -27,6 +29,9 @@ function PurchasingInformationView() {
         } catch (error: unknown) {
         }
     }, [])
+
+    if (!isLoggedIn)
+        return null;
 
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
         if (card.isDefault)

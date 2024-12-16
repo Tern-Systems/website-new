@@ -5,6 +5,7 @@ import {ButtonIcon} from "@/app/ui/form/Button";
 import {Route} from "@/app/static";
 
 import {useModal, useUser} from "@/app/context";
+import {useLoginCheck} from "@/app/hooks";
 
 import {PageLink} from "@/app/ui/layout";
 import {FAQsModal, HelpModal} from "@/app/ui/modals";
@@ -90,6 +91,7 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
 const MyTernPage: FC = () => {
     const userCtx = useUser();
     const modalCtx = useModal();
+    const isLoggedIn = useLoginCheck();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
@@ -106,6 +108,8 @@ const MyTernPage: FC = () => {
         }
     }, []);
 
+    if (!isLoggedIn)
+        return null;
 
     // Elements
     const NavBtns: ReactElement[] = NAV_BTNS.map((btn, idx) => (

@@ -2,14 +2,13 @@ import React, {FC, ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
 
 import {ARCode} from "@/app/types/arcode";
+import {FADE_DURATION, Route} from "@/app/static";
+
+import {useNavigate} from "@/app/hooks";
+import {useUser} from "@/app/context";
 
 import {CodeMenu, CodeMenuData} from "./CodeMenu";
 import {Button} from "@/app/ui/form";
-import {useLoginCheck} from "@/app/hooks/useLoginCheck";
-import {AuthModal} from "@/app/ui/modals";
-import {useNavigate} from "@/app/hooks";
-import {useUser} from "@/app/context";
-import {Route} from "@/app/static";
 
 
 const SAVED_CODES_TEMPLATE: ARCode[] = [
@@ -34,10 +33,15 @@ const SavedCodesPage: FC = () => {
 
 
     useEffect(() => {
-        if (!userCtx.isLoggedIn)
-            navigate(Route.ServicePricing);
+        if (!userCtx.isLoggedIn) {
+            setTimeout(() => {
+                navigate(Route.ServicePricing);
+            }, FADE_DURATION);
+        }
     }, [userCtx.isLoggedIn])
 
+    if (!userCtx.isLoggedIn)
+        return null;
 
     const SavedCodes: ReactElement[] = SAVED_CODES_TEMPLATE.map((arCode, idx) => {
         const id = (arCode.name + idx).toLowerCase().split(' ').join('-');
