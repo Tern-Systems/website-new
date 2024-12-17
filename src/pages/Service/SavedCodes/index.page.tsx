@@ -17,16 +17,16 @@ import SVG_QR from "@/assets/images/qr.svg";
 
 
 const SAVED_CODES_TEMPLATE: ARCode[] = [
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 0', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#000'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 1', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#123'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 2', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#456'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 3', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#147'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 4', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#280'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 5', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#163'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 6', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#692'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 7', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#027'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 8', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#835'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 9', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#100'}
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 0', file: '', moduleColor: '#000', backgroundColor: '#000'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 1', file: '', moduleColor: '#000', backgroundColor: '#123'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 2', file: '', moduleColor: '#000', backgroundColor: '#456'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 3', file: '', moduleColor: '#000', backgroundColor: '#147'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 4', file: '', moduleColor: '#000', backgroundColor: '#280'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 5', file: '', moduleColor: '#000', backgroundColor: '#163'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 6', file: '', moduleColor: '#000', backgroundColor: '#692'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 7', file: '', moduleColor: '#000', backgroundColor: '#027'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 8', file: '', moduleColor: '#000', backgroundColor: '#835'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 9', file: '', moduleColor: '#000', backgroundColor: '#100'}
 ]
 
 
@@ -44,6 +44,7 @@ const SavedCodesPage: FC = () => {
                 navigate(Route.ServicePricing);
             }, FADE_DURATION);
         }
+        //eslint-disable-next-line
     }, [userCtx.isLoggedIn])
 
     useEffect(() => {
