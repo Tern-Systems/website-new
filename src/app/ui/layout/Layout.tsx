@@ -10,7 +10,7 @@ import {Header, PageLink} from "@/app/ui/layout";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
-import {useModal} from "@/app/context";
+import {useLayout, useModal} from "@/app/context";
 
 
 const Layout: FC<PropsWithChildren> = ({children}) => {
@@ -18,6 +18,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const modalCtx = useModal();
     const params = useSearchParams();
     const router = useRouter();
+    const layoutCtx = useLayout();
 
 
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
@@ -80,7 +81,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     <div
                         className={`h-full w-full flex flex-col p-[--py] pb-0
                                     ${modalCtx.hideContent ? 'hidden' : ''}
-                                    ${modalCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
+                                    ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                         {children}
                         <span className={'block pt-[--py]'}/>
                     </div>
@@ -100,15 +101,19 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             </>
         );
 
-    return (
-        <div className={"h-dvh max-h-dvh relative"}>
-            {Insignia}
-            <div
-                className={`flex flex-col flex-grow justify-between h-full`}>
-                {Layout}
-            </div>
-        </div>
-    );
+    const LayoutFinal = layoutCtx.isNoLayout
+        ? children
+        : (
+            <>
+                {Insignia}
+                <div
+                    className={`flex flex-col flex-grow justify-between h-full`}>
+                    {Layout}
+                </div>
+            </>
+        );
+
+    return <div className={"h-dvh max-h-dvh relative"}>{LayoutFinal}</div>;
 }
 
 export {Layout};

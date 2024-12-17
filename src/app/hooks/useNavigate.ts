@@ -4,13 +4,13 @@ import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-
 
 import {FADE_DURATION, Route} from "@/app/static";
 
-import {useModal} from "@/app/context";
+import {useLayout} from "@/app/context";
 
 
 const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => {
     const route = usePathname();
     const router = useRouter();
-    const modalCtx = useModal();
+    const layoutCtx = useLayout();
 
     const [currentRoute, setCurrentRoute] = useState<string | null>(null);
 
@@ -19,18 +19,18 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
     }, []);
 
     useEffect(() => {
-        modalCtx.setFadeState(false);
+        layoutCtx.setFadeState(false);
     }, [route]);
 
     useEffect(() => {
         setTimeout(() => {
             if (currentRoute === route)
-                modalCtx.setFadeState(false);
+                layoutCtx.setFadeState(false);
         }, 5 * FADE_DURATION);
-    }, [modalCtx.isFade]);
+    }, [layoutCtx.isFade]);
 
     const navigate = async (route: Route) => {
-        modalCtx.setFadeState(true);
+        layoutCtx.setFadeState(true);
         history.pushState(null, '', window.location.href);
         setTimeout(() => {
             router.replace(route);

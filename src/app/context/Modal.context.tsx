@@ -1,15 +1,8 @@
 'use client';
 
-import React, {
-    createContext,
-    Dispatch,
-    FC,
-    PropsWithChildren,
-    ReactElement,
-    SetStateAction,
-    useContext,
-    useState
-} from 'react';
+import React, {createContext, FC, PropsWithChildren, ReactElement, useContext, useEffect, useState} from 'react';
+
+import {useLayout} from "@/app/context/Layout.context";
 
 import styles from "@/app/common.module.css";
 
@@ -23,8 +16,6 @@ interface IModalContext {
     isOpened: boolean;
     closeModal: () => void;
     openModal: OpenModal;
-    setFadeState: Dispatch<SetStateAction<boolean>>;
-    isFade: boolean;
 }
 
 const ModalContext = createContext<IModalContext | null>(null);
@@ -32,8 +23,21 @@ const ModalContext = createContext<IModalContext | null>(null);
 const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [config, setConfig] = useState<ModalConfig>({darkenBg: false, hideContent: false});
     const [Modal, setModal] = useState<ReactElement | null>(null);
-    const [isFade, setFadeState] = useState<boolean>(false);
 
+    const layoutCtx = useLayout();
+
+
+    useEffect(() => {
+        const handleKeyPress = (event: KeyboardEvent) => {
+            if (event.key === 'Escape')
+                closeModal();
+        }
+
+        window.addEventListener('keydown', handleKeyPress);
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        }
+    }, [])
 
     const handleModalChange = (Component: ReactElement | null, config: ModalConfig) => {
         setModal(Component);
@@ -52,13 +56,10 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 isOpened: Modal !== null,
                 openModal,
                 closeModal,
-                setFadeState,
-                isFade
             }}>
             <div
-                hidden={!Modal}
-                className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden pointer-events-none
-                            ${isFade ? styles.fadeOut : styles.fadeIn}`}
+                className={`absolute z-50 w-full h-full flex text-primary font-neo overflow-hidden pointer-events-auto
+                            ${Modal ? '' : 'hidden'} ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
             >
                 {Modal}
             </div>

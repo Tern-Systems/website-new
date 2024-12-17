@@ -4,6 +4,10 @@ import Image from "next/image";
 
 import {ContentAnchors, DocumentationContent} from "@/app/types/documentation";
 
+import {useLayout} from "@/app/context";
+
+import {Button} from "@/app/ui/form";
+
 import SVG_FULLSCREEN from "@/assets/images/icons/fullscreen.svg";
 import SVG_VIEW_VIEW from "@/assets/images/icons/view-view.svg";
 
@@ -12,9 +16,12 @@ interface Props {
     contents: Record<string, DocumentationContent>;
 }
 
-const DocumentationScreenTool: FC<Props> = (props: Props) => {
+const DocumentationScreen: FC<Props> = (props: Props) => {
     const {contents} = props;
     const route = usePathname();
+    const layoutCtx = useLayout();
+    const [isPiPMode, setPiPModeState] = useState(false);
+    const [isPiPModeChild, setPiPModeChildState] = useState(false);
 
     const [isMenuOpened, setMenuOpened] = useState<boolean>(false);
 
@@ -22,6 +29,29 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
 
     const toggleMenuOpen = () => setMenuOpened((prevState) => !prevState);
 
+    const handleEnablePiP = () => {
+        if (!route)
+            return;
+        const newWindow = window.open(route, '_blank no', 'width=600,height=400');
+        newWindow?.sessionStorage.setItem('pip-mode-child', '');
+
+        const handleLoad = () => {
+            setPiPModeState(true);
+            sessionStorage.setItem('pip-mode-parent', '');
+        }
+        const handleUnload = () => {
+            setPiPModeState(false);
+            sessionStorage.removeItem('pip-mode-parent');
+        }
+
+        newWindow?.addEventListener('load', handleLoad);
+        newWindow?.addEventListener('unload', handleUnload);
+    }
+
+    useEffect(() => {
+        setPiPModeState(sessionStorage.getItem('pip-mode-parent') !== null)
+        setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null)
+    }, []);
 
     // Click checking
     useEffect(() => {
@@ -32,7 +62,6 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
         window.addEventListener('click', handleClick);
         return () => window.removeEventListener('click', handleClick);
     }, [isMenuOpened, setMenuOpened])
-
 
     // Renders an anchor list for the opened document
     const renderAnchorListHelper = (list: ContentAnchors, isChapters: boolean, chapterFlag: boolean, chapterCounter: number): ReactElement => {
@@ -83,27 +112,47 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
     }
 
     // Misc
-    const MenuBtn = (
-        <div
-            className={'cursor-pointer flex items-center align-middle p-[0.2rem] h-[1.8125rem] w-[1.8125rem] rounded-[0.3125rem] border-2 border-white border-solid'}
-            onClick={() => toggleMenuOpen()}
-        >
-            <div
-                className={`bg-white box-border h-[100%] rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
-        </div>
-    );
+    const MenuBtn = isPiPMode
+        ? null
+        : (
+            <Button
+                className={'p-[0.2rem] h-[1.8125rem] min-w-[1.8125rem] rounded-[0.3125rem] border-2 border-white'}
+                onClick={() => toggleMenuOpen()}
+            >
+                <div
+                    className={`bg-white box-border h-[100%] rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
+            </Button>
+        );
+
+    const ControlBtns = isPiPMode || isPiPModeChild
+        ? null
+        : (
+            <>
+                <Button
+                    onClick={() => layoutCtx.toggleFullscreen()}
+                    className={'absolute top-[1.25rem] right-[1.25rem]'}
+                >
+                    <Image src={SVG_FULLSCREEN} alt={'fullscreen'}/>
+                </Button>
+                <Button
+                    onClick={() => handleEnablePiP()}
+                    className={'absolute bottom-[1.25rem] right-[1.25rem]'}
+                >
+                    <Image src={SVG_VIEW_VIEW} alt={'view-view'}/>
+                </Button>
+            </>
+        );
 
     return (
         <div
-            className={`pt-[--py] self-center max-h-[49.25rem]
-                        ${isMenuOpened ? 'sm:landscape:opacity-60 md:portrait:opacity-60' : ''}`}>
+            className={`self-center ${layoutCtx.isNoLayout ? 'h-full' : 'max-h-[90%] pt-[--py]'}`}>
             <div
                 className={`relative flex max-h-full rounded-small border-small border-control2 bg-section text-primary font-neo
                             text-[1.5rem] leading-[130%]box-content overflow-hidden`}>
                 <aside
                     id={'documentation-menu'}
                     className={`flex flex-col px-[--px] py-[--py] max-h-screen text-primary text-[1.0625rem] text-left
-                    z-[1] ${isMenuOpened ? 'bg-[#4D4D4D] w-[19.44rem] sm:portrait:w-screen' : 'h-fit bg-none'}`}
+                    z-[1] ${isMenuOpened ? 'bg-[#4D4D4D] min-w-[19.44rem] sm:portrait:w-screen' : 'h-fit bg-none'}`}
                 >
                     <div className={`flex items-center`}>
                         {MenuBtn}
@@ -118,14 +167,15 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
                         </ul>
                     </div>
                 </aside>
-                <Image src={SVG_FULLSCREEN} alt={'fullscreen'}
-                       className={'absolute top-[1.25rem] right-[1.25rem]'}/>
-                <Image src={SVG_VIEW_VIEW} alt={'view-view'}
-                       className={'absolute bottom-[1.25rem] right-[1.25rem]'}/>
+                {ControlBtns}
                 <div
-                    className={`px-[0.44rem] py-[0.59rem] w-[78.375rem] overflow-y-scroll pr-[4.31rem] min-h-[49.25rem]
-                                text-left content-center`}>
-                    {documentationContent?.children}
+                    className={`px-[0.44rem] py-[0.59rem] overflow-y-scroll pr-[4.31rem] min-h-[49.25rem] text-left content-center
+                                ${isMenuOpened ? 'opacity-60' : ''}
+                                ${layoutCtx.isNoLayout ? '' : 'w-[78.375rem]'} `}>
+                    {isPiPMode
+                        ? <span
+                            className={'block place-self-center text-[2rem] mt-[-8rem]'}>Picture in picture mode</span>
+                        : documentationContent?.children}
                 </div>
             </div>
         </div>
@@ -133,4 +183,4 @@ const DocumentationScreenTool: FC<Props> = (props: Props) => {
 }
 
 
-export {DocumentationScreenTool};
+export {DocumentationScreen};

@@ -40,6 +40,35 @@ const SavedCodesPage: FC = () => {
         }
     }, [userCtx.isLoggedIn])
 
+    useEffect(() => {
+        const handleClick = (event: MouseEvent) => {
+            setMenuData((prevState) => {
+                const codeMenu = document.querySelector('#code-menu');
+                const targetCodeCard = document.querySelector('#' + codeId);
+                const contentDiv = document.querySelector('#content');
+
+                if (!targetCodeCard || !contentDiv || !codeMenu)
+                    return prevState;
+                if (menuData.isOpened && !targetCodeCard.contains(event.target as Node))
+                    return ({...prevState, isOpened: false, x: 0})
+
+                if (menuData.isOpened && menuData.x !== 0)
+                    return prevState;
+
+                const x = contentDiv.clientWidth < event.x + codeMenu.clientWidth
+                    ? event.x - codeMenu.clientWidth
+                    : event.x + 10;
+                const y = contentDiv.clientHeight < event.y - 144 + codeMenu.clientHeight
+                    ? event.y + contentDiv.scrollTop - 144 - codeMenu.clientHeight
+                    : event.y + contentDiv.scrollTop - 144;
+                return ({...prevState, x, y})
+            })
+        }
+
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
+    }, [codeId, menuData])
+
     if (!userCtx.isLoggedIn)
         return null;
 
@@ -73,35 +102,6 @@ const SavedCodesPage: FC = () => {
             </div>
         )
     });
-
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            setMenuData((prevState) => {
-                const codeMenu = document.querySelector('#code-menu');
-                const targetCodeCard = document.querySelector('#' + codeId);
-                const contentDiv = document.querySelector('#content');
-
-                if (!targetCodeCard || !contentDiv || !codeMenu)
-                    return prevState;
-                if (menuData.isOpened && !targetCodeCard.contains(event.target as Node))
-                    return ({...prevState, isOpened: false, x: 0})
-
-                if (menuData.isOpened && menuData.x !== 0)
-                    return prevState;
-
-                const x = contentDiv.clientWidth < event.x + codeMenu.clientWidth
-                    ? event.x - codeMenu.clientWidth
-                    : event.x + 10;
-                const y = contentDiv.clientHeight < event.y - 144 + codeMenu.clientHeight
-                    ? event.y + contentDiv.scrollTop - 144 - codeMenu.clientHeight
-                    : event.y + contentDiv.scrollTop - 144;
-                return ({...prevState, x, y})
-            })
-        }
-
-        window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
-    }, [codeId, menuData])
 
     return (
         <div

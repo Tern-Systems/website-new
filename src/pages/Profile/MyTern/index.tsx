@@ -46,7 +46,7 @@ const SUBSCRIPTION_TABLE: TableSection = {
 
 const renderLink = (href: string, isExternalLink: boolean, children: ReactNode) => (
     isExternalLink
-        ? (<a key={href} href={href} target={'_blank'}>{children}</a>)
+        ? (<a key={href} href={href} target={'_blank'} rel={'noopener noreferrer'}>{children}</a>)
         : <PageLink href={href as Route}>{children}</PageLink>
 );
 

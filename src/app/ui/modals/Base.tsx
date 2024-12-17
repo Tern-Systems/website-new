@@ -29,6 +29,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     if (isSimple) {
         return (
             <span
+                id={'modal'}
                 className={`absolute flex items-center gap-[1rem] px-[0.62rem] py-[0.8rem]
                             bg-control2 rounded-[0.375rem] ${className} pointer-events-auto`}
             >
@@ -43,6 +44,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     } else {
         return (
             <div
+                id={'modal'}
                 className={`p-[--py] rounded-[0.5625rem] border-small border-control3 bg-control
                             text-primary place-self-center mx-auto ${className} pointer-events-auto`}>
                 <div className={`flex items-center justify-between font-oxygen`}>

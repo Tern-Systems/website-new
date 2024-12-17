@@ -6,7 +6,7 @@ import {COMING_SOON_DOC} from "@/app/static/documentation";
 
 import {useLoginCheck} from "@/app/hooks";
 
-import {DocumentationScreenTool} from "@/app/ui/templates/DocumentationScreen";
+import {DocumentationScreen} from "@/app/ui/templates/DocumentationScreen";
 import {TernKeyManualAnchors, TernKeyManualContent} from "./TernKeyManual";
 import {GHandbookAnchors, GHandbookContent} from "./GHandbook";
 
@@ -33,7 +33,7 @@ const CONTENTS: Record<Content, DocumentationContent> = {
 
 const DocumentationPage: FC = () => {
     const isLoggedIn = useLoginCheck();
-    return isLoggedIn ? <DocumentationScreenTool contents={CONTENTS}/> : null;
+    return isLoggedIn ? <DocumentationScreen contents={CONTENTS}/> : null;
 };
 
 
