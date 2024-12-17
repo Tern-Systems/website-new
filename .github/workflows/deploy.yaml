@@ -39,14 +39,23 @@ jobs:
             # Install any new dependencies
             npm install
             # Build the application for production
-            npm run build
+            npm run build || {echo "Build failed!"; exit 1;}
             # Restart the application service to apply updates
             sudo service website-app restart
           EOF
       
       - name: Send Deployment Status Notification to Discord
+        if: always()  # Run this step regardless of success or failure
         run: |
-          STATUS=$([[ ${{ job.status }} == 'success' ]] && echo ":white_check_mark: Deployment successful" || echo ":x: Deployment failed")
+          # Capture the job status
+          STATUS="${{ job.status }}"
+          MESSAGE=":x: Deployment failed"
+          if [ "$STATUS" == "success" ]; then
+            MESSAGE=":white_check_mark: Deployment successful"
+          fi
+
+          # Send message to Discord
           curl -X POST -H "Content-Type: application/json" \
-          -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $STATUS\"}" \
+          -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $MESSAGE\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
+
