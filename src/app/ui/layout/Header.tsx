@@ -167,7 +167,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     width={29}
                     height={29}
                     alt={'profile icon'}
-                    className={'cursor-pointer rounded-full'}
+                    className={'cursor-pointer rounded-full max-h-[1.8rem]'}
                     onClick={() => setProfileMenuVisibility(prevState => !prevState)}
                 />
                 <ul

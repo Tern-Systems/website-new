@@ -12,9 +12,6 @@ const useLoginCheck = () => {
     useEffect(() => {
         if (!userCtx.isLoggedIn)
             modalCtx.openModal(<AuthModal isLoginAction/>, {hideContent: true});
-        return () => {
-            modalCtx.closeModal();
-        }
     }, [userCtx.isLoggedIn, modalCtx.isOpened])
 
 

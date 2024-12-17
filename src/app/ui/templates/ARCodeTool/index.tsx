@@ -11,13 +11,13 @@ import {useFlow, useModal, useUser} from "@/app/context";
 import {AuthModal, BaseModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
-import SVG_QR from "@/assets/images/qr.png";
+import SVG_QR from "@/assets/images/qr.svg";
 import SVG_ARCH from "@/assets/images/arch-logo.svg";
 
 
 type ARCodeToolForm = Omit<ARCode, 'file'> & Partial<Pick<ARCode, 'file'>>;
 
-const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#ffffff', moduleColor: '#ffffff', name: ''}
+const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#000000', moduleColor: '#ffffff', name: ''}
 const FORM_COLOR_PICKERS = ['module', 'background'];
 
 
@@ -108,8 +108,11 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     return (
         <div
             className={'flex place-self-center my-auto p-[4.06rem] w-[69.65rem] bg-section border-small border-control2 rounded-small'}>
-            <div className={'p-[0.91rem] mr-[7.7rem] size-[32.375rem] bg-section2 cursor-pointer'}>
-                <Image src={SVG_QR} alt={'qr'} className={'h-full'}/>
+            <div
+                style={{backgroundColor: formValue.backgroundColor}}
+                className={`p-[0.91rem] mr-[7.7rem] size-[32.375rem] cursor-pointer`}
+            >
+                <Image src={SVG_QR} alt={'qr'} className={'h-full '}/>
             </div>
             <form
                 className={'flex flex-col justify-between w-[21rem]'}

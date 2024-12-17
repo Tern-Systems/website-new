@@ -1,27 +1,32 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
 
+import {UserSubscription} from "@/app/context/User.context";
 import {ARCode} from "@/app/types/arcode";
 import {FADE_DURATION, Route} from "@/app/static";
 
-import {useNavigate} from "@/app/hooks";
+import {AuthService} from "@/app/services";
+
+import {useLoginCheck, useNavigate} from "@/app/hooks";
 import {useUser} from "@/app/context";
 
 import {CodeMenu, CodeMenuData} from "./CodeMenu";
 import {Button} from "@/app/ui/form";
 
+import SVG_QR from "@/assets/images/qr.svg";
+
 
 const SAVED_CODES_TEMPLATE: ARCode[] = [
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 0', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 1', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 2', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 3', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 4', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 5', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 6', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 7', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 8', file: '/', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'Example Name 9', file: '/', moduleColor: '#000', backgroundColor: '#fff'}
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 0', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#000'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 1', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#123'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 2', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#456'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 3', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#147'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 4', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#280'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 5', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#163'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 6', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#692'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 7', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#027'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 8', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#835'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 9', file: 'media/qr.svg', moduleColor: '#000', backgroundColor: '#100'}
 ]
 
 
@@ -30,10 +35,11 @@ const SavedCodesPage: FC = () => {
     const [codeId, setCodeId] = useState<string | null>(null);
     const [navigate] = useNavigate();
     const userCtx = useUser();
-
+    const isLoggedIn = useLoginCheck();
 
     useEffect(() => {
-        if (!userCtx.isLoggedIn) {
+        const subscription: UserSubscription | undefined = userCtx.userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
+        if (!subscription) {
             setTimeout(() => {
                 navigate(Route.ServicePricing);
             }, FADE_DURATION);
@@ -69,15 +75,24 @@ const SavedCodesPage: FC = () => {
         return () => window.removeEventListener('click', handleClick);
     }, [codeId, menuData])
 
-    if (!userCtx.isLoggedIn)
+    if (isLoggedIn)
         return null;
 
     const SavedCodes: ReactElement[] = SAVED_CODES_TEMPLATE.map((arCode, idx) => {
         const id = (arCode.name + idx).toLowerCase().split(' ').join('-');
         return (
             <div key={id} id={id}>
-                <div className={'p-[0.44rem] bg-section2 cursor-pointer mb-[0.94rem] min-h-[14.76rem]'}>
-                    <Image src={arCode.file} alt={'qr'} width={10} height={10} className={'h-full w-full'}/>
+                <div
+                    style={{backgroundColor: arCode.backgroundColor}}
+                    className={'p-[0.44rem] cursor-pointer mb-[0.94rem] min-h-[14.76rem]'}
+                >
+                    <Image
+                        src={arCode.file ? AuthService.getAPI + arCode.file : SVG_QR}
+                        alt={'qr'}
+                        width={10}
+                        height={10}
+                        className={'h-full w-full'}
+                    />
                 </div>
                 <div
                     className={'relative flex bg-control h-[2.3125rem] items-center justify-center rounded-[0.375rem]'}>

@@ -53,7 +53,7 @@ const Input: FC<Props> = (props: Props) => {
                             <Image src={SVG_COLOR_PICKER_BORDER} alt={'color picker border'}/>
                             <input
                                 {...inputProps}
-                                className={`absolute bottom-0 -z-10 h-1 w-1 hover:hidden ${className}`}
+                                className={`absolute bottom-0 -z-10 h-1 w-1 ${className}`}
                             />
                     </span>
                 </label>

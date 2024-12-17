@@ -31,7 +31,6 @@ const BillingPage: FC = () => {
 
     if (!isLoggedIn)
         return null;
-
     // Elements
     const OrderRows: ReactElement[] = (orders ?? []).map((order, idx) => (
         <tr

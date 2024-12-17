@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, useState} from "react";
+import React, {FC, ReactElement, useEffect, useState} from "react";
 
 import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY} from "@/app/static";
 
@@ -56,6 +56,23 @@ const ProfilePage: FC = () => {
 
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
     const [isEditState, setEditState] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            SECTIONS.forEach((section, index) => {
+                const elem = document.getElementById(section.toLowerCase().split(' ').join(''));
+                if (!elem)
+                    return;
+                if (elem?.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * 500)
+                    setActiveSectionIdx(index);
+            });
+        }
+
+        window.addEventListener('wheel', handleScroll);
+        return () => {
+            window.removeEventListener('wheel', handleScroll);
+        }
+    }, [])
 
     if (!userData || !isLoggedIn)
         return null;

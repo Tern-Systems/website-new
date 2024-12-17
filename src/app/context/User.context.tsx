@@ -1,6 +1,6 @@
 'use client'
 
-import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
+import React, {createContext, FC, PropsWithChildren, useContext, useState} from "react";
 
 import {Subscription} from "@/app/types/subscription";
 import {IndustryKey, JobFunctionKey, SubIndustryKey} from "@/app/static/company";
@@ -86,11 +86,76 @@ interface IUserContext {
     removeSession: () => void;
 }
 
+const TEMPLATE_USER :UserData= {
+    email: 'admin@gmail.com',
+    ternID: 'ternID',
+    registrationDate: Date.now(),
+    history: false,
+    photo: null,
+    twoFA: false,
+    name: {
+        salutation: 'MR',
+        firstname: 'John',
+        lastname: 'Doe',
+        initial: '',
+    },
+    displayName: 'Display_Name',
+    preferredLanguage: 'en-US',
+    passwordUpdateDate: Date.now(),
+    phone: {
+        mobile: null,
+        business: {number: '1234567788', isPrimary: false, ext: '4324'},
+        personal: {number: '1984327389', isPrimary: false},
+    },
+    subscriptions: [
+        {
+            type: 'pro',
+            recurrency: 'monthly',
+            isBasicKind: true,
+            subscription: 'ternKey',
+        }
+    ],
+    hasPurchasedPlan: true,
+    verification: {
+        phone: false,
+        email: true
+    },
+    state2FA: {
+        email: null,
+        phone: null,
+    },
+    lastLogin: Date.now(),
+    connectedApps: {
+        social: [{name: 'Discord', link: 'http://discord.com/'}],
+        data: [{name: 'Google Drive', link: 'http://drive.google.com/'}]
+    },
+    personalDomain: {link: 'http://domain.com', isVerified: true},
+    address: {
+        businessAddress: {
+            line1: '1120 Avenue of the Americas',
+            line2: 'FL 4 UNIT 4189',
+            state: 'NY',
+            zip: '10036',
+            city: 'New York',
+            country: 'US',
+            isPrimary: true,
+        },
+        personalAddress: null,
+    },
+    company: {
+        name: 'Tern Systems LLC',
+        jobTitle: 'President',
+        jobFunction: 'C01',
+        industry: 'U',
+        subIndustry: 'UA',
+    }
+}
+
 const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-    const [isLoggedIn, setLoggedState] = useState<boolean>(false);
-    const [userData, setUserDataHelper] = useState<UserData | null>(null);
+    const [isLoggedIn, setLoggedState] = useState<boolean>(true); // TODO
+    const [userData, setUserDataHelper] = useState<UserData | null>(TEMPLATE_USER); // TODO
     const [token, setToken] = useState<string | null>(null);
 
     const setSession = (userData: UserData, token: string) => {

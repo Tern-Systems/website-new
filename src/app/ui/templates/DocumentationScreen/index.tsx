@@ -20,9 +20,9 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
     const {contents} = props;
     const route = usePathname();
     const layoutCtx = useLayout();
+
     const [isPiPMode, setPiPModeState] = useState(false);
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
-
     const [isMenuOpened, setMenuOpened] = useState<boolean>(false);
 
     const documentationContent: DocumentationContent | null = route ? contents[route] : null;
@@ -48,20 +48,22 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         newWindow?.addEventListener('unload', handleUnload);
     }
 
-    useEffect(() => {
-        setPiPModeState(sessionStorage.getItem('pip-mode-parent') !== null)
-        setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null)
-    }, []);
-
     // Click checking
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
             if (isMenuOpened && !document.querySelector('#documentation-menu')?.contains(event.target as Node))
                 setMenuOpened(false);
         }
+
+        setPiPModeState(sessionStorage.getItem('pip-mode-parent') !== null)
+        setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null)
+
         window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
-    }, [isMenuOpened, setMenuOpened])
+        return () => {
+            sessionStorage.removeItem('pip-mode-parent');
+            window.removeEventListener('click', handleClick);
+        }
+    }, [])
 
     // Renders an anchor list for the opened document
     const renderAnchorListHelper = (list: ContentAnchors, isChapters: boolean, chapterFlag: boolean, chapterCounter: number): ReactElement => {
@@ -145,37 +147,38 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`self-center ${layoutCtx.isNoLayout ? 'h-full' : 'max-h-[90%] pt-[--py]'}`}>
+            className={`self-center flex-grow ${layoutCtx.isNoLayout ? 'h-full' : 'max-h-[90%] max-w-[90%] pt-[--py]'}`}>
             <div
-                className={`relative flex max-h-full rounded-small border-small border-control2 bg-section text-primary font-neo
-                            text-[1.5rem] leading-[130%]box-content overflow-hidden`}>
+                className={`relative flex h-full rounded-small border-small border-control2 bg-section text-primary font-neo
+                            text-[1.5rem] leading-[130%] box-content overflow-hidden`}>
                 <aside
                     id={'documentation-menu'}
-                    className={`flex flex-col px-[--px] py-[--py] max-h-screen text-primary text-[1.0625rem] text-left
-                    z-[1] ${isMenuOpened ? 'bg-[#4D4D4D] min-w-[19.44rem] sm:portrait:w-screen' : 'h-fit bg-none'}`}
+                    className={`px-[--px] py-[--py] text-primary text-[1.0625rem] text-left overflow-y-hidden
+                                ${isMenuOpened ? 'bg-[#4D4D4D] min-w-[19.44rem] sm:portrait:w-screen' : 'h-fit bg-none'}`}
                 >
                     <div className={`flex items-center`}>
                         {MenuBtn}
                         <span hidden={!isMenuOpened} className={'ml-[2.31rem] text-[1.125rem]'}>Table of Contents</span>
                     </div>
-                    <div
-                        hidden={!isMenuOpened}
-                        className={`mt-[1.86rem] overflow-y-scroll w-full`}
-                    >
-                        <ul style={{marginLeft: '-0.9rem'}}>
+                    <div className={'mt-[1.86rem] h-full overflow-y-scroll'}>
+                        <ul
+                            hidden={!isMenuOpened}
+                            className={'ml-[-0.9rem]'}
+                        >
                             {renderAnchorList(documentationContent?.anchors, documentationContent?.isChapter)}
                         </ul>
                     </div>
                 </aside>
                 {ControlBtns}
                 <div
-                    className={`px-[0.44rem] py-[0.59rem] overflow-y-scroll pr-[4.31rem] min-h-[49.25rem] text-left content-center
-                                ${isMenuOpened ? 'opacity-60' : ''}
-                                ${layoutCtx.isNoLayout ? '' : 'w-[78.375rem]'} `}>
-                    {isPiPMode
-                        ? <span
-                            className={'block place-self-center text-[2rem] mt-[-8rem]'}>Picture in picture mode</span>
-                        : documentationContent?.children}
+                    className={`pl-[0.44rem] py-[--py] pr-[4.31rem] text-left content-center 
+                                ${layoutCtx.isNoLayout ? '' : 'max-w-[78.375rem]'} `}>
+                    <div className={`h-full overflow-y-scroll `}>
+                        {isPiPMode
+                            ? <span
+                                className={'block text-center content-center text-[2rem] w-[70rem] h-full'}>Picture in picture mode</span>
+                            : documentationContent?.children}
+                    </div>
                 </div>
             </div>
         </div>

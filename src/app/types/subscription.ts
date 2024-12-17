@@ -1,6 +1,6 @@
 type SubscriptionRecurrency = 'annual' | 'monthly';
 type Subscription = {
-    subscription: string;
+    subscription: 'arch' | 'ternKey';
     recurrency: SubscriptionRecurrency;
     priceUSD: number;
     type: string;

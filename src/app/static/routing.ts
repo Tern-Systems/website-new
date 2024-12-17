@@ -28,6 +28,11 @@ enum Route {
     // /Profile
     Profile = '/Profile',
     Billing = '/Profile/Billing',
+    Invoice = '/Profile/Billing/Order',
+    ManageSubscriptions = '/Profile/Billing/ManageSubscriptions',
+    PurchasingInformation = '/Profile/Billing/PurchasingInformation',
+    EditPaymentMethod = '/Profile/Billing/PurchasingInformation/Edit',
+    AddPaymentMethod = '/Profile/Billing/PurchasingInformation/Add',
     MyTern = '/Profile/MyTern',
 
     Documentation = '/Profile/MyTern/Documentation',
@@ -44,11 +49,6 @@ enum Route {
 
     // Managing
     Subscribe = '/Subscribe',
-    ManageSubscriptions = '/ManageSubscriptions',
-    EditPaymentMethod = '/PaymentMethodEdit',
-    AddPaymentMethod = '/PaymentMethodAdd',
-    PurchasingInformation = '/PurchasingInformation',
-    Invoice = '/Invoice',
 }
 
 
