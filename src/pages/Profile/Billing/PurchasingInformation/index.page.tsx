@@ -19,8 +19,10 @@ function PurchasingInformationView() {
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
 
+    // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
+    // eslint-disable-next-line
     const [invoices, setInvoices] = useState<Invoice[]>([]);
 
     useEffect(() => {

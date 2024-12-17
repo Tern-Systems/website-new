@@ -31,8 +31,6 @@ const NAV_BTNS: { title: string; icon: ButtonIcon; href: Route }[] = [ // TODO
     {title: 'Try TernKey Pro', icon: 'diamond', href: Route.ServicePricing},
     {title: 'Explore Keys', icon: 'glass', href: Route.ExploreKeys},
     {title: 'Create AR Code', icon: 'plus', href: Route.ARCodeToolEdit},
-    {title: 'Open a Case', icon: 'label', href: Route.OpenCase},
-    {title: 'Give Feedback', icon: 'notepad', href: Route.Feedback},
 ];
 
 const SUBSCRIPTION_TABLE: TableSection = {

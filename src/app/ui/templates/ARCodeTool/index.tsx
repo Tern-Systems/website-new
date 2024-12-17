@@ -40,6 +40,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     });
 
     const processCode = useCallback(async () => {
+        // eslint-disable-next-line
         const result = null; // TODO
 
         const SuccessModal = () => {

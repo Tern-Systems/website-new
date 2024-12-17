@@ -6,11 +6,13 @@ import Spline from "@splinetool/react-spline";
 
 import {FADE_DURATION, Route} from "@/app/static";
 
+import {useNavigate} from "@/app/hooks";
+import {useLayout, useModal} from "@/app/context";
+
 import {Header, PageLink} from "@/app/ui/layout";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
-import {useLayout, useModal} from "@/app/context";
 
 
 const Layout: FC<PropsWithChildren> = ({children}) => {
@@ -19,6 +21,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const params = useSearchParams();
     const router = useRouter();
     const layoutCtx = useLayout();
+    const [navigate] = useNavigate();
 
 
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
@@ -32,7 +35,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     }, []);
 
     useEffect(() => {
-        if (route !== null)
+        if (route)
             setInsigniaMoved(route !== Route.Start);
         setTimeout(() => {
             setProfileLinksVisibility(false);
@@ -42,32 +45,38 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
 
     // Elements
     // 2 pre-rendered insignias for moving without flickering
-
-    const SplineElem = <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
     const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, idx) => {
-        const cn = `absolute z-10 size-[11.5rem] bg-transparent pointer-events-auto
-                        ${isInsigniaMoved ? 'after:absolute after:top-0 after:w-full after:h-full cursor-pointer' : ''}
-                        ${isInsigniaMoved ? 'animate-[insignia_0.3s_ease-in-out_forwards]' : 'animate-[insignia_0.3s_ease-in-out_forwards_reverse]'}
+        const cn = `absolute z-10 size-[15rem] bg-transparent pointer-events-auto 
+                        ${isInsigniaMoved ? 'animate-[insignia_1s_ease-in-out_forwards] cursor-pointer' : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}
                         ${state ? 'hidden' : ''}`
         return (
-            route === Route.Start
-                ? <div key={state.toString() + idx} className={cn}>{SplineElem}</div>
-                : (
-                    <PageLink
-                        key={state.toString() + idx}
-                        onDrag={(event) => event.preventDefault()}
-                        className={cn}
-                    >
-                        {SplineElem}
-                    </PageLink>
-                )
-        )
+            <div
+                key={state.toString() + idx}
+                onClick={() => {
+                    if (route !== Route.Start)
+                        navigate(Route.Home);
+                }}
+                className={cn}
+            >
+                <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
+            </div>
+        );
     });
 
     const Layout = route === Route.Start
         ? (
-            <div className={`text-primary mt-auto mb-[--py] text-[1.3125rem] font-oxygen text-center`}>
-                <PageLink href={Route.Home} className={'inline-block place-self-center'}>Tern</PageLink>
+            <div
+                className={`text-primary mt-auto mb-[--py] text-[1.3125rem] font-oxygen text-center`}
+            >
+                <span
+                    onClick={() => {
+                        setInsigniaMoved(true);
+                        setTimeout(() => navigate(Route.Home), 2 * FADE_DURATION);
+                    }}
+                    className={`cursor-pointer ${styles.clickable}`}
+                >
+                    Tern
+                </span>
             </div>
         )
         : (

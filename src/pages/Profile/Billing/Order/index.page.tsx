@@ -31,6 +31,7 @@ function OrderPage() {
     }, [])
 
 
+    // eslint-disable-next-line
     const handleDocumentDownload = async (isReceipt: boolean) => {
         // TODO
         try {

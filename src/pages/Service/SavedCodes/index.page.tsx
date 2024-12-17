@@ -75,7 +75,7 @@ const SavedCodesPage: FC = () => {
         return () => window.removeEventListener('click', handleClick);
     }, [codeId, menuData])
 
-    if (isLoggedIn)
+    if (!isLoggedIn)
         return null;
 
     const SavedCodes: ReactElement[] = SAVED_CODES_TEMPLATE.map((arCode, idx) => {

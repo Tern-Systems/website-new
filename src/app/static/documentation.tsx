@@ -4,7 +4,7 @@ import {DocumentationContent} from "@/app/types/documentation";
 
 
 const COMING_SOON_DOC: DocumentationContent = {
-    children: <span className={'block place-self-center text-[5rem]'}> Coming soon...</span>,
+    children: <span className={'block text-center content-center text-[2rem] w-[70rem] h-full'}> Coming soon...</span>,
     anchors: [],
     isChapter: false
 };

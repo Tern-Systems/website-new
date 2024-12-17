@@ -36,7 +36,7 @@ const PageLink: FC<Props> = (props: Props) => {
 
     const handleLinkClick = () => {
         modalCtx.closeModal();
-        navigate(href as Route ?? Route.Start);
+        navigate(href as Route ?? Route.Home);
     }
 
     const Icon: ReactElement | null = icon
