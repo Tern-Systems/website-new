@@ -1,7 +1,9 @@
 import React, {FC, FormEvent, useCallback, useEffect} from "react";
 import Image from "next/image";
+import {useQRCode} from "next-qrcode";
 
 import {ARCode} from "@/app/types/arcode";
+import {UserSubscription} from "@/app/context/User.context";
 import {FlowQueue} from "@/app/context/Flow.context";
 import {Route} from "@/app/static";
 
@@ -11,14 +13,14 @@ import {useFlow, useModal, useUser} from "@/app/context";
 import {AuthModal, BaseModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
-import SVG_QR from "@/assets/images/qr.svg";
 import SVG_ARCH from "@/assets/images/arch-logo.svg";
 
 
 type ARCodeToolForm = Omit<ARCode, 'file'> & Partial<Pick<ARCode, 'file'>>;
 
-const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#000000', moduleColor: '#ffffff', name: ''}
+const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#000000', moduleColor: '#ffffff', name: '', file: ''}
 const FORM_COLOR_PICKERS = ['module', 'background'];
+const AR_CODE_WIDTH = 440;
 
 
 interface Props {
@@ -32,7 +34,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     const modalCtx = useModal();
     const {isLoggedIn, userData} = useUser();
     const [navigate] = useNavigate();
-    const {hasPurchasedPlan} = userData || {};
+    const {SVG} = useQRCode();
 
     const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>({
         ...FORM_DEFAULT,
@@ -75,7 +77,9 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>, {hideContent: true});
             });
         }
-        if (!hasPurchasedPlan)
+
+        const subscription: UserSubscription | undefined = userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
+        if (!subscription)
             flow.push(() => navigate(Route.ServicePricing))
 
         if (!flow.length)
@@ -110,10 +114,18 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         <div
             className={'flex place-self-center my-auto p-[4.06rem] w-[69.65rem] bg-section border-small border-control2 rounded-small'}>
             <div
-                style={{backgroundColor: formValue.backgroundColor}}
-                className={`p-[0.91rem] mr-[7.7rem] size-[32.375rem] cursor-pointer`}
-            >
-                <Image src={SVG_QR} alt={'qr'} className={'h-full '}/>
+                className={`p-[0.91rem] mr-[7.7rem] size-[32.375rem] cursor-pointer content-center place-items-center`}>
+                <SVG
+                    text={'https://arch.tern.ac/'}
+                    options={{
+                        width: AR_CODE_WIDTH,
+                        margin: 1,
+                        color: {
+                            dark: formValue.backgroundColor,
+                            light: formValue.moduleColor,
+                        }
+                    }}
+                />
             </div>
             <form
                 className={'flex flex-col justify-between w-[21rem]'}

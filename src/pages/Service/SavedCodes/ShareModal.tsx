@@ -59,7 +59,7 @@ const ShareModal: FC<Props> = (props: Props) => {
         <BaseModal title={'Share AR Code'} className={'w-[30.31rem]'}
                    classNameContent={'flex flex-col place-items-center'}>
             <Image
-                src={file ?? SVG_FIGURE_FALLBACK}
+                src={file || SVG_FIGURE_FALLBACK}
                 width={85}
                 height={85}
                 alt={'figure'}

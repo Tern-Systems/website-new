@@ -108,7 +108,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const isCurrentRecurrency = userSubscription
             ? userSubscription.recurrency === selectedRecurrency
             : false;
-        const isBtnDisabled = isCurrentPlan && isCurrentRecurrency || !subscriptionData;
+        const isBtnDisabled =
+            type === 'basic' && subscriptionData?.isBasicKind
+            || (isCurrentPlan && isCurrentRecurrency || !subscriptionData);
 
         let subscribeBtnText: string | ReactElement;
         let Links: ReactElement | null;
@@ -121,8 +123,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             </span>
         );
 
-        if (!userSubscription) {
-            subscribeBtnText = 'Subscribe';
+        if (isBtnDisabled) {
+            subscribeBtnText = isBtnDisabled ? 'Your current plan' : 'Subscribe';
             Links = Limits;
         } else {
             if (isCurrentRecurrency) {
@@ -139,8 +141,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         </>
                     );
                 } else {
-                    subscribeBtnText = <>{idx ? 'Up' : 'Down'}grade to <span
-                        className={'capitalize'}>{type}</span></>;
+                    subscribeBtnText = (
+                        <>{idx ? 'Up' : 'Down'}grade to <span className={'capitalize'}>{type}</span></>
+                    );
                     Links = Limits;
                 }
             } else {
@@ -162,7 +165,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         }
 
         const pricing: string = data
-            ? data.priceUSD[selectedRecurrency].toFixed(2).toString()
+            ? (data.priceUSD[selectedRecurrency] ? '$' + data.priceUSD[selectedRecurrency].toFixed(2) + '/month' : 'Free')
             : '--'
 
         return (
@@ -176,7 +179,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     <span>{type}</span>
                 </h2>
                 <div className={'text-secondary mb-[2.2rem] text-[1.25rem]'}>
-                    <span>${pricing + '/month' + (isAnnualSwitchOption ? '*' : '')}</span>
+                    <span>{pricing + (isAnnualSwitchOption ? '*' : '')}</span>
                 </div>
                 <Button
                     onClick={() => handleSubscribeClick(type)}
@@ -198,13 +201,13 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const renderColumns = (): ReactElement[] => {
         const {userData} = userCtx;
         const userSubscription: UserSubscription | undefined = userData?.subscriptions.find(
-            (subscription: UserSubscription) => subscription.subscription === subscription?.subscription
+            (subscription: UserSubscription) => subscription.subscription === subscriptionData?.subscription
         );
-        const isBasicView = userSubscription?.isBasicKind === subscriptionData?.isBasicKind;
+        const isCutBasicColumn = subscriptionData?.isBasicKind === true && userSubscription?.type !== 'basic';
 
         const columnsData = subscriptionData?.type
-            ? Object.entries(subscriptionData.type).slice(+isBasicView)
-            : generateFallbackEntries(isBasicView ? 1 : 2);
+            ? Object.entries(subscriptionData.type).slice(+isCutBasicColumn)
+            : generateFallbackEntries(isCutBasicColumn ? 1 : 2);
 
         return columnsData.map(([type, data], idx) => renderColumn(userSubscription, type, data, idx))
     }
