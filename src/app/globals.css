@@ -34,14 +34,14 @@
   --px: 2rem;
   --py: 2.06rem;
 
-  --insignia-pt-moved: 0.6rem;
-  --insignia-pl-moved: calc(var(--px) + var(--insignia-pt-moved));
+  --insignia-pt-moved: 0.5rem;
+  --insignia-pl-moved: 1.8rem;
   --insignia-scale-init: 0.8;
   --insignia-scale-moved: 0.175;
 }
 
 html {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 body {
@@ -78,5 +78,12 @@ body ::-webkit-scrollbar {
   font-family: "Neo Sans W1G";
   src: url("/public/fonts/NeoSansW1G-Regular.otf") format("truetype");
   font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Old English Five';
+  src: url('/public/fonts/OldEnglishFive.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
 }

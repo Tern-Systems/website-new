@@ -7,8 +7,8 @@ import {COMING_SOON_DOC} from "@/app/static/documentation";
 import {DocumentationScreen} from "@/app/ui/templates";
 
 
-const DOCUMENTATION_CONTENTS: Record<Route.ProductUserManual, DocumentationContent> = {
-    [Route.ProductUserManual]: COMING_SOON_DOC,
+const DOCUMENTATION_CONTENTS: Record<Route.ServiceUserManual, DocumentationContent> = {
+    [Route.ServiceUserManual]: COMING_SOON_DOC,
 }
 
 

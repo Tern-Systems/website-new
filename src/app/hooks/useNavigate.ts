@@ -8,28 +8,31 @@ import {useLayout} from "@/app/context";
 
 
 const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => {
-    const route = usePathname();
+    const pageRoute = usePathname();
     const router = useRouter();
     const layoutCtx = useLayout();
 
     const [currentRoute, setCurrentRoute] = useState<string | null>(null);
 
     useEffect(() => {
-        setCurrentRoute(route);
+        setCurrentRoute(pageRoute);
     }, []);
 
     useEffect(() => {
         layoutCtx.setFadeState(false);
-    }, [route]);
+    }, [pageRoute]);
 
     useEffect(() => {
         setTimeout(() => {
-            if (currentRoute === route)
+            if (currentRoute === pageRoute)
                 layoutCtx.setFadeState(false);
         }, 5 * FADE_DURATION);
     }, [layoutCtx.isFade]);
 
     const navigate = async (route: Route) => {
+        if (pageRoute === route)
+            return;
+
         layoutCtx.setFadeState(true);
         history.pushState(null, '', window.location.href);
         setTimeout(() => {

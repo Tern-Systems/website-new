@@ -63,7 +63,7 @@ const ProfilePage: FC = () => {
                 const elem = document.getElementById(section.toLowerCase().split(' ').join(''));
                 if (!elem)
                     return;
-                if (elem?.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * 500)
+                if (elem?.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * 350)
                     setActiveSectionIdx(index);
             });
         }
@@ -203,6 +203,7 @@ const ProfilePage: FC = () => {
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update your TernID',
                             value: {value: userData.email},
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -278,6 +279,7 @@ const ProfilePage: FC = () => {
                             className: `${SELECT_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
                             title: 'Update your TernID',
                             value: userData.name,
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -300,6 +302,7 @@ const ProfilePage: FC = () => {
                                     className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                                     title: 'Update your TernID',
                                     value: {value: userData.displayName},
+                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                     onSave: async (formData) => {
                                     } //TODO
                                 }}
@@ -326,9 +329,11 @@ const ProfilePage: FC = () => {
                             title: 'Update your TernID',
                             value: {
                                 value: userData.email,
+                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                 verify: async (formData) => {
                                 } //TODO
                             },
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -371,6 +376,7 @@ const ProfilePage: FC = () => {
                             title: 'Country / Region',
                             value: {value: 'US'},
                             options: COUNTRY,
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -392,6 +398,7 @@ const ProfilePage: FC = () => {
                             title: 'Language',
                             value: {value: 'EN'},
                             options: LANGUAGE,
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -410,6 +417,7 @@ const ProfilePage: FC = () => {
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update your TernID',
                             value: {value: userData.company?.name ?? '-'},
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -428,6 +436,7 @@ const ProfilePage: FC = () => {
                             className: `${SELECT_CN} px-[0.76rem] border-small ${ROUNDED_W_FULL_CN}`,
                             title: 'Update your TernID',
                             value: userData.company,
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
@@ -473,6 +482,7 @@ const ProfilePage: FC = () => {
                             className: `${SELECT_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
                             title: 'Update your TernID',
                             value: userData.address,
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}

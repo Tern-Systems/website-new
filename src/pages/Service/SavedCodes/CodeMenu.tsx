@@ -16,6 +16,7 @@ import {DeleteModal} from "./DeleteModal";
 type MenuItems = 'Edit' | 'Download' | 'Share' | 'Delete';
 type MenuItem = Record<MenuItems, {
     svg: ButtonIcon;
+    // eslint-disable-next-line
     action: (args: any) => void;
 }>
 

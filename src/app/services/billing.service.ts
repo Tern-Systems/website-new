@@ -118,6 +118,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     };
 
+    // eslint-disable-next-line
     private async _fetchTaxes(place: string): Promise<number> { // TODO
         this.log(this._fetchTaxes.name);
         return 0;

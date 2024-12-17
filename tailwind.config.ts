@@ -49,6 +49,7 @@ const config: Config = {
             fontFamily: {
                 caslon: ['"Adobe Caslon Pro"', 'serif'],
                 neo: ['"Neo Sans W1G"', 'sans-serif'],
+                english: ['"Old English Five"', 'serif'],
                 oxygen: ['"Oxygen"', 'sans-serif'],
             },
             fontSize: {
@@ -62,12 +63,12 @@ const config: Config = {
                         top: '45%',
                         left: '50%',
                         transform: 'translate(-50%, -50%) scale(var(--insignia-scale-init))',
-                        transformOrigin: 'center center'
+                        transformOrigin: 'center center',
                     },
                     '100%': {
                         top: '0',
                         left: '0',
-                        transform: 'translate(calc(var(--insignia-pl-moved)), var(--insignia-pt-moved)) scale(var(--insignia-scale-moved))',
+                        transform: 'translate(var(--insignia-pl-moved), var(--insignia-pt-moved)) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
                 }

@@ -196,7 +196,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             <div
                 className={`relative z-[2] bg-black flex w-full py-[1rem] px-[--px] justify-between items-center border-b-small border-section`}>
                 <nav
-                    className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.4rem)] before:absolute before:h-[2rem] before:-left-[--py]
+                    className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)] before:absolute before:h-[2rem] before:-left-[--py]
                                 before:border-r-small before:border-section`}>
                     <ul className={`flex ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[calc(1*var(--px))]'} cursor-pointer`}>{NavLinks}</ul>
                 </nav>
