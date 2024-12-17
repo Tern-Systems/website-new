@@ -63,6 +63,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
             sessionStorage.removeItem('pip-mode-parent');
             window.removeEventListener('click', handleClick);
         }
+        //eslint-disable-next-line
     }, [])
 
     // Renders an anchor list for the opened document

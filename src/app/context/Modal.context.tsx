@@ -37,6 +37,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         return () => {
             window.removeEventListener('keydown', handleKeyPress);
         }
+        //eslint-disable-next-line
     }, [])
 
     const handleModalChange = (Component: ReactElement | null, config: ModalConfig) => {
