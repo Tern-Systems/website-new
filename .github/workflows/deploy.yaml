@@ -39,7 +39,7 @@ jobs:
             # Install any new dependencies
             npm install
             # Build the application for production
-            npm run build
+            npm run build || {echo "Build failed!"; exit 1;}
             # Restart the application service to apply updates
             sudo service website-app restart
           EOF
