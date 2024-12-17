@@ -3,26 +3,66 @@
 @tailwind utilities;
 
 :root {
-  --bg-background: #000000;
-  --bg-foreground: #171717;
-  --color-title: #178AB7;
+  --bg-main: #000000;
+  --bg-control: #4D4D4D;
+  --bg-control-2: #808080;
+  --bg-control-3: #178AB7;
+  --bg-control-4: #f2f2f2;
+  --bg-section: #001125;
+  --bg-section-2: var(--bg-control-3);
+
+  --b-small: 0.0625rem;
+  --b-section: var(--bg-control);
+  --b-control: #999999;
+  --b-control-2: #192131;
+  --b-control-3: #B3B3B3;
+  --b-control-4: var(--bg-control-4);
+  --b-control-5: var(--bg-control-2);
+  --b-control-6: var(--bg-control-3);
+  --br-small: 0.5625rem;
+
   --color-primary: #ECF0F3;
+  --color-secondary: var(--bg-control-2);
+  --color-form: var(--bg-control);
+  --color-placeholder: var(--b-control-3);
+  --color-blue: var(--bg-control-3);
+
+  --fz-small: 0.875rem;
   --fz-content: 1.3125rem;
+  --fz-header: 1.6875rem;
+
   --px: 2rem;
   --py: 2.06rem;
+
+  --insignia-pt-moved: 0.6rem;
+  --insignia-pl-moved: calc(var(--px) + var(--insignia-pt-moved));
   --insignia-scale-init: 0.8;
-  --insignia-scale-moved: 0.2;
+  --insignia-scale-moved: 0.175;
+}
+
+html {
+  font-size: 14px;
 }
 
 body {
-  color: var(--bg-foreground);
-  background: var(--bg-background);
+  background: var(--bg-main);
   font-family: Arial, Helvetica, sans-serif;
   overflow: hidden;
 
   -ms-overflow-style: none;
   scrollbar-width: none;
+  line-height: normal;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 body ::-webkit-scrollbar {
   display: none;
 }
@@ -36,7 +76,7 @@ body ::-webkit-scrollbar {
 
 @font-face {
   font-family: "Neo Sans W1G";
-  src: url("/public/fonts/NeoSansW1G-Regular.otf") format("opentype");
+  src: url("/public/fonts/NeoSansW1G-Regular.otf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }

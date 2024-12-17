@@ -82,7 +82,7 @@ Minimalistic-Website follows a modular structure for ease of scalability and mai
 
 - **`pages/`** - Contains the main route-based components.
 - **`public/`** - Hosts static assets like images and fonts.
-- **`components/`** - Holds reusable UI components.
+- **`ui/`** - Holds reusable UI components.
 - **`styles/`** - Manages global and component-specific styles.
 
 This structure ensures a clear separation of concerns, making it easier to maintain and expand the project.
