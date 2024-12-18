@@ -6,7 +6,7 @@ import {BaseModal} from "@/app/ui/modals/Base";
 const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => (
     <BaseModal
         isSimple
-        className={'place-self-center mx-auto right-[--py] bottom-[7.2rem]'}
+        className={'place-self-center mx-auto right-[--p-small] bottom-[7.2rem]'}
     >
         {props.children}
     </BaseModal>

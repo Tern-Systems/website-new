@@ -48,7 +48,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         const SuccessModal = () => {
             return (
                 <BaseModal isSimple
-                           className={'w-[18rem] h-[3.58rem] bottom-[7.19rem] right-[--py] border-control4 border-small'}>
+                           className={'w-[18rem] h-[3.6rem] bottom-[7.2rem] right-[--p-small] border-control-white border-small'}>
                     Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully saved
                 </BaseModal>
             );
@@ -112,9 +112,9 @@ const ARCodeTool: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={'flex place-self-center my-auto p-[4.06rem] w-[69.65rem] bg-section border-small border-control2 rounded-small'}>
+            className={'flex place-self-center my-auto p-[4rem] w-[69rem] bg-control-navy border-small border-control-gray rounded-small'}>
             <div
-                className={`p-[0.91rem] mr-[7.7rem] size-[32.375rem] cursor-pointer content-center place-items-center`}>
+                className={`p-[0.9rem] mr-[7.7rem] size-[32.375rem] cursor-pointer content-center place-items-center`}>
                 <SVG
                     text={'https://arch.tern.ac/'}
                     options={{
@@ -138,15 +138,15 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     placeholder={'Name'}
                     value={formValue.name}
                     onChange={setFormValue('name')}
-                    className={`px-[0.68rem] h-[2.3125rem] w-full text-[1.6875rem] placeholder:text-primary bg-control2
-                                border-small border-control4 rounded-[0.375rem]`}
+                    className={`px-[0.68rem] h-[2.3125rem] w-full text-header bg-control-gray-l0
+                                border-small border-control-white rounded-smallest`}
                     required
                 />
                 <Input
                     type={"file"}
                     accept='image/png,image/jpeg,image/svg,image/jpg,image/webp,image/jpeg,image/gif,image/tiff,image/heif,image/heic'
                     name={'qr-file'}
-                    classNameWrapper={'h-[3.125rem] font-bold text-[1.3125rem] text-black bg-white rounded-full'}
+                    classNameWrapper={'h-[3.125rem] font-bold text-content text-black bg-white rounded-full'}
 
                     required
                 >
@@ -154,7 +154,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 </Input>
                 {ColorPickers}
                 <Button
-                    className={'px-[4.34rem] h-[3.125rem] text-[1.3125rem] font-bold border-small border-control5 rounded-full'}>
+                    className={'px-[4.34rem] h-[3.125rem] text-content font-bold border-small border-control-gray-l0 rounded-full'}>
                     Save AR Code
                 </Button>
             </form>

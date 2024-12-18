@@ -86,7 +86,7 @@ const SavedCodesPage: FC = () => {
                 <div
                     className={'p-[0.44rem] cursor-pointer mb-[0.94rem] min-h-[14.76rem] content-center place-items-center'}>
                     <SVG
-                        text={'https://arch.tern.ac/' + arCode.id}
+                        text={'https://arch.tern.ac/media/' + arCode.id}
                         options={{
                             width: AR_CODE_WIDTH,
                             margin: 1,
@@ -98,9 +98,9 @@ const SavedCodesPage: FC = () => {
                     />
                 </div>
                 <div
-                    className={'relative flex bg-control h-[2.3125rem] items-center justify-center rounded-[0.375rem]'}>
+                    className={'relative flex bg-control-gray h-[2.3125rem] items-center justify-center rounded-smallest'}>
               <span
-                  className={'px-[1rem] text-primary text-[1.6875rem] overflow-ellipsis text-nowrap overflow-x-hidden'}>
+                  className={'px-[1rem] text-header overflow-ellipsis text-nowrap overflow-x-hidden'}>
                   {arCode.name}
               </span>
                     <Button

@@ -118,8 +118,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     );
 
     return (
-        <div className={'text-nowrap pt-[9.14rem] px-[1.83rem]'}>
-            <h1 className={'text-[3rem] font-bold mb-[4.14rem]'}>
+        <div className={'text-nowrap pt-[9rem] px-[1.85rem]'}>
+            <h1 className={'text-[3rem] font-bold mb-[4.15rem]'}>
                 {isPaymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
             </h1>
             <form className={styles.form} onSubmit={handleFormSubmit}>
@@ -131,8 +131,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={editCardIdx.toString()}
                         placeholder={'Select'}
                         onChangeCustom={(value) => setEditCardIdx(+value)}
-                        classNameWrapper={'flex-col [&]:items-start mb-[3.24rem]'}
-                        className={`px-[0.62rem] py-[0.8rem]  h-[3.25rem] bg-white border-small rounded-[0.375rem] border-control3`}
+                        classNameWrapper={'flex-col [&]:items-start mb-[3.25rem]'}
+                        className={`px-[0.62rem] py-[0.8rem] h-[3.25rem] bg-white border-small rounded-smallest border-control-white-d0`}
                     >
                         Choose Payment Method
                     </Select>
@@ -192,7 +192,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         checked={formData.isDefault}
                         onChange={setFormData('isDefault')}
                         classNameWrapper={'flex-row-reverse place-self-start gap-x-[0.4rem]'}
-                        classNameLabel={'flex text-[0.875rem] [&&]:mb-0'}
+                        classNameLabel={'flex text-small [&&]:mb-0'}
                         className={'max-w-[1rem] max-h-[1rem]'}
                         required
                     >
@@ -200,7 +200,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        className={`p-x-[1.12rem] h-[3.25rem] bg-control text-primary font-sans text-[1.125rem] font-bold
+                        className={`p-x-[1.12rem] h-[3.25rem] bg-control-gray font-sans text-content-small font-bold
                                             w-full rounded-full`}
                     >
                         {isPaymentCreation ? 'Add' : 'Update'}
@@ -271,7 +271,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={formData.billingCountry}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         classNameWrapper={'flex-col [&]:items-start'}
-                        className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-[0.375rem] border-control3 `}
+                        className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-smallest border-control-white-d0 `}
                         required
                     >
                         Country / Region
@@ -280,7 +280,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             </form>
             <div className={'mt-[6.57rem]'} hidden={isPaymentCreation}>
                 <span
-                    className={'text-[#F42200] text-[0.875rem] cursor-pointer'}
+                    className={'text-red text-small cursor-pointer'}
                     onClick={() => {
                         if (savedCards[+editCardIdx])
                             modalCtx.openModal(<RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>, {darkenBg: true})
@@ -289,7 +289,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     Remove Payment Method
                 </span>
             </div>
-            <span className={'block pt-[--py]'}/>
+            <span className={'block pt-[--p-small]'}/>
         </div>
     )
 }

@@ -20,8 +20,8 @@ const CancelModal: FC = () => {
     return (
         <BaseModal
             title={'Cancel Plan'}
-            className={'bg-control4 [&_hr]:border-control5 [&_h2]:text-form [&_h2+button]:brightness-50 w-[33rem]'}
-            classNameContent={'text-form text-center'}
+            className={'bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_h2+button]:brightness-50 w-[33rem]'}
+            classNameContent={'text-gray text-center'}
         >
                 <span className={'inline-block w-[25.3135rem]'}>
                     <p className={'mb-[1rem] text-nowrap'}>You‘re about to cancel your ARCH Pro Plan subscription.</p>
@@ -31,15 +31,15 @@ const CancelModal: FC = () => {
                         <span className={'font-bold'}>Return to Billing</span> button to return to managing your ARCH subscription billing settings.
                     </p>
                     <span
-                        className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-[0.875rem] justify-center text-primary'}>
+                        className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-small justify-center'}>
                         <Button
-                            className={'bg-[#F42200] px-[1rem] h-[1.43rem] rounded-full'}
+                            className={'bg-control-red px-[1rem] h-[1.43rem] rounded-full'}
                             onClick={() => handleDelete()}
                         >
                           Cancel Subscription
                         </Button>
                         <PageLink href={Route.Billing}>
-                            <Button className={'bg-control2 px-[1rem] h-[1.43rem] rounded-full'}>
+                            <Button className={'bg-control-gray-l0 px-[1rem] h-[1.43rem] rounded-full'}>
                               Return to Billing
                             </Button>
                         </PageLink>

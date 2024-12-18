@@ -59,10 +59,10 @@ const Select: FC<Props> = (props: Props) => {
         <option
             key={value + idx}
             value={value}
-            className={`px-[0.74rem] py-[0.8rem] border-small border-control3 [&:not(:last-of-type)]:border-b-0
+            className={`px-[0.75rem] py-[0.8rem] border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0
                         [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
                         bg-white ${classNameOption}
-                        ${EMPTY_KEY === key ? 'text-placeholder text-[1rem]' : ''}`}
+                        ${EMPTY_KEY === key ? 'text-placeholder' : ''}`}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
         >
             {value}
@@ -91,7 +91,7 @@ const Select: FC<Props> = (props: Props) => {
                 ref={ref}
                 onClick={() => toggleSelectExpand()}
                 onBlur={() => setSelectExpanded(false)}
-                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control3
+                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0
                             ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
             >
                 <div className={'w-[85%] text-nowrap overflow-ellipsis overflow-hidden'}>

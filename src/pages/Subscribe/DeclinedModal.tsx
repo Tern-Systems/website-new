@@ -10,7 +10,7 @@ const DeclinedModal: FC = () => (
     <BaseModal
         isSimple
         title={'Payment Declined'}
-        className={`max-w-[19.3125rem] border-control5 [&_hr]:border-control5 right-[--py] bottom-[7.19rem]`}
+        className={`max-w-[19.3125rem] border-control-gray-l0 [&_hr]:border-control-gray-l0 right-[--p-small] bottom-[7.19rem]`}
         classNameContent={'flex px-[1rem] gap-[0.69rem]'}
     >
         <Image src={SVG_DECLINED} alt={'declined'} className={'size-[1.6875rem] mb-[1.76rem]'}/>

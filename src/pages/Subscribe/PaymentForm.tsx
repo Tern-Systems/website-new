@@ -144,7 +144,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
-                    className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-[0.375rem] border-control3 mb-[0.94rem]`}
+                    className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-smallest border-control-white-d0 mb-[0.94rem]`}
                     required
                 />
                 <Input
@@ -221,7 +221,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-b-none border-small
-                                        rounded-[0.375rem] border-control3`}
+                                        rounded-smallest border-control-white-d0`}
                         required
                     />
                     {isBillingExpanded
@@ -267,8 +267,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 value={formData.state}
                                 placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
-                                className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-t-none [&&]:border-t-0 border-control3
-                                            border-small rounded-[0.375rem]`}
+                                className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-t-none [&&]:border-t-0 border-control-white-d0
+                                            border-small rounded-smallest`}
                                 required={isBillingExpanded}
                             />
                         </>
@@ -285,7 +285,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 </fieldset>
                 <span
                     hidden={isBillingExpanded}
-                    className={'mt-[0.65rem text-[0.875rem] underline cursor-pointer'}
+                    className={'mt-[0.65rem text-small underline cursor-pointer'}
                     onClick={() => toggleBillingDetails()}
                 >
                     Enter address manually
@@ -295,7 +295,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className={'flex-1 pt-[9.14rem] w-1/2 bg-control4 text-[1.3125rem] overflow-y-scroll'}>
+        <div className={'flex-1 pt-[9.14rem] w-1/2 bg-control-white text-content overflow-y-scroll'}>
             <div className={'w-[29.0625rem] mx-auto'}>
                 <form className={styles.form} onSubmit={handleFormSubmit}>
                     <h2 className={`font-bold mb-[2.12rem]`}>{savedCards.length ? 'Choose' : ''} Payment Method</h2>
@@ -309,7 +309,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         className={'max-w-[1rem] max-h-[1rem]'}
                         required
                     >
-                        <span className={'text-form text-[0.875rem] leading-normal'}>
+                        <span className={'text-gray text-small leading-normal'}>
                             You will be charged the amount and at the frequency listed above
                             until you cancel. We may charge our prices as described in our&nbsp;
                             <PageLink href={Route.Terms}
@@ -325,14 +325,14 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         type={'submit'}
                         onClick={() =>
                             setPaymentStatus(true)}
-                        className={`mt-[1.87rem] p-[1.12rem] bg-control text-primary font-sans text-[1.125rem] font-bold
+                        className={`mt-[1.87rem] p-[1.12rem] bg-control-gray font-sans text-content-small font-bold
                                     w-full rounded-full`}
                     >
                         Subscribe
                     </Button>
                 </form>
             </div>
-            <span className={'block pt-[--py]'}/>
+            <span className={'block pt-[--p-small]'}/>
         </div>
     );
 };

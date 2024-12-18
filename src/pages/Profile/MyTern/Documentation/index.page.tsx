@@ -55,10 +55,10 @@ const DocumentationPage: FC = () => {
         >
             <PageLink
                 href={link.route}
-                className={`bg-control rounded-[1rem] flex-col flex justify-between h-[16.18rem] px-[1.25rem] py-[--py]
+                className={`bg-control-gray rounded-[1rem] flex-col flex justify-between h-[16.18rem] px-[1.25rem] py-[--p-small]
                             [&]:items-start`}
             >
-                <span className={'text-[1.69rem] font-bold'}>{link.title}</span>
+                <span className={'text-header font-bold'}>{link.title}</span>
                 <span>{link.text}</span>
                 <Image
                     src={SVG_ARROW}

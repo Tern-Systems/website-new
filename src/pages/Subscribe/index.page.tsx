@@ -27,7 +27,7 @@ const SubscribePage: FC = () => {
         return null;
 
     return (
-        <div className={'flex font-oxygen text-form h-full'}>
+        <div className={'flex font-oxygen text-gray h-full'}>
             <PaymentInfo subscription={subscription}/>
             <PaymentForm
                 type={subscription?.type}

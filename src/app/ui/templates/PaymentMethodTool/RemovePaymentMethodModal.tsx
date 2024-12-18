@@ -28,27 +28,27 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal
             title={'Remove Payment Method'}
-            className={'bg-control4 [&_hr]:border-control5 [&_h2]:text-form [&_h2+button]:brightness-50 w-[33rem]'}
-            classNameContent={'text-form text-center'}
+            className={'bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_h2+button]:brightness-50 w-[33rem]'}
+            classNameContent={'text-gray text-center'}
         >
                 <span className={'inline-block'}>
                     <span>Remove {card.nickName}</span>
                     <span
-                        className={`bg-[#D3D3D3] rounded-[0.5625rem] p-[1.25rem] flex items-center mt-[1.56rem] gap-[1.25rem]`}>
-                        <Image src={SVG_CARD} alt={'card'} className={'w-[4.6875rem]'}/>
+                        className={`bg-control-white-d1 rounded-small p-[1.25rem] flex items-center mt-[1.55rem] gap-[1.25rem]`}>
+                        <Image src={SVG_CARD} alt={'card'} className={'w-[4.75rem]'}/>
                         <span><span
                             className={'capitalize'}>{card.type}</span> Ending in •••• {card.cardNumber.slice(-4)}</span>
                     </span>
                     <span
-                        className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-[0.875rem] justify-center text-primary'}>
+                        className={'flex gap-[0.625rem] font-bold mt-[1.55rem] text-small justify-center'}>
                         <Button
-                            className={'bg-[#F42200] px-[1rem] h-[1.43rem] rounded-full'}
+                            className={'bg-control-red px-[1rem] h-[1.45rem] rounded-full'}
                             onClick={() => handleRemove()}
                         >
                           Remove
                         </Button>
                         <Button
-                            className={'bg-control2 px-[1rem] h-[1.43rem] rounded-full'}
+                            className={'bg-control-gray-l0 px-[1rem] h-[1.45rem] rounded-full'}
                             onClick={() => modalCtx.closeModal()}
                         >
                             Cancel
