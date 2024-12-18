@@ -1,6 +1,6 @@
-import {AnchorHTMLAttributes, FC, ReactElement} from "react";
+import {AnchorHTMLAttributes, FC, MouseEvent, ReactElement} from "react";
+import {ReactSVG} from "react-svg";
 import {usePathname} from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 
 import {Route} from "@/app/static";
@@ -9,16 +9,17 @@ import {getRouteName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
-import SVG_BACK from "@/assets/images/icons/back.svg";
+import SVG_ARROW from "@/assets/images/icons/arrow.svg";
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 
 import styles from '@/app/common.module.css'
 
 
-type Icon = 'back' | 'insignia';
+type Icon = 'back' | 'forward' | 'insignia';
 
-const ICON: Record<Icon, string> = {
-    back: SVG_BACK,
+const ICON: Record<Icon, { src: string }> = {
+    back: SVG_ARROW,
+    forward: SVG_ARROW,
     insignia: SVG_INSIGNIA,
 }
 
@@ -34,22 +35,19 @@ const PageLink: FC<Props> = (props: Props) => {
     const route = usePathname();
     const [navigate] = useNavigate();
 
-    const handleLinkClick = () => {
+    const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
+        linkProps.onClick?.(event);
         modalCtx.closeModal();
         navigate(href as Route ?? Route.Home);
     }
 
     const Icon: ReactElement | null = icon
-        ? (
-            <Image
-                src={ICON[icon]}
-                alt={icon}
-                className={`inline size-[1rem] mr-[0.5rem]`}/>
-        )
+        ? <ReactSVG src={ICON[icon].src}
+                    className={`inline size-[1rem] mr-[0.5rem] ${icon === 'forward' ? 'rotate-180' : ''}`}/>
         : null;
 
     const splitHref = children
-        ? children
+        ? <span>{children}</span>
         : <span>{getRouteName(props.href)}</span>;
 
     return (
@@ -57,7 +55,7 @@ const PageLink: FC<Props> = (props: Props) => {
             {...linkProps}
             className={`items-center inline-flex ${styles.clickable} ${linkProps.className}`}
             href={route ?? '/'}
-            onClick={() => handleLinkClick()}
+            onClick={handleLinkClick}
         >
             {Icon} {splitHref}
         </Link>

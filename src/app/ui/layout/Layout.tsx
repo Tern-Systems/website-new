@@ -47,9 +47,9 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     // Elements
     // 2 pre-rendered insignias for moving without flickering
     const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, idx) => {
-        const cn = `absolute z-10 size-[15rem] bg-transparent pointer-events-auto 
-                        ${isInsigniaMoved ? 'animate-[insignia_1s_ease-in-out_forwards] cursor-pointer' : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}
-                        ${state ? 'hidden' : ''}`
+        const cn = `absolute z-10 size-[15rem] bg-transparent sm:-ml-[0.75rem] ${state ? 'hidden' : ''}
+                    ${isInsigniaMoved ? 'animate-[insignia_1s_ease-in-out_forwards] cursor-pointer' : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`;
+
         return (
             <div
                 key={state.toString() + idx}
@@ -59,7 +59,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 }}
                 className={cn}
             >
-                <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>
+                <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
+                        className={'pointer-events-none'}/>
             </div>
         );
     });
@@ -67,7 +68,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const Layout = route === Route.Start
         ? (
             <div
-                className={`text-primary mt-auto mb-[--py] text-[1.3125rem] font-oxygen text-center`}
+                className={`mt-auto mb-[--p-small] text-content font-oxygen text-center`}
             >
                 <span
                     onClick={() => {
@@ -86,19 +87,19 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <div
                     id={'content'}
                     className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
-                                bg-content bg-cover bg-no-repeat bg-fixed text-primary text-center font-neo text-[1rem]`}
+                                bg-content bg-cover bg-no-repeat bg-fixed text-center`}
                 >
                     <div
-                        className={`h-full w-full flex flex-col p-[--py] pb-0
+                        className={`h-full w-full flex flex-col p-[min(5.3dvw,var(--p-small))] pb-0
                                     ${modalCtx.hideContent ? 'hidden' : ''}
                                     ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                         {children}
-                        <span className={'block pt-[--py]'}/>
+                        <span className={'block pt-[--p-small]'}/>
                     </div>
                 </div>
                 <footer
-                    className={`flex w-full justify-between font-neo text-primary border-t-small border-section 
-                                px-[--px] py-[1rem] place-self-end text-[0.6rem]`}>
+                    className={`flex w-full justify-between border-t-small border-section text-note px-[--p-small] py-[1rem]
+                                sm:flex-col sm:items-center sm:gap-y-[0.95rem]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
                         <PageLink href={Route.Cookies}/>
@@ -123,7 +124,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             </>
         );
 
-    return <div className={"h-dvh max-h-dvh relative"}>{LayoutFinal}</div>;
+    return <div className={"h-dvh max-h-dvh relative font-neo text-primary"}>{LayoutFinal}</div>;
 }
 
 export {Layout};
