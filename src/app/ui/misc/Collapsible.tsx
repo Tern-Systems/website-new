@@ -48,7 +48,7 @@ const Collapsible: FC<Props> = (props: Props) => {
         ? <Image
             src={ICON[icon]}
             alt={icon}
-            className={`inline size-[1.8125rem]`}/>
+            className={`inline size-[1.8rem]`}/>
         : null;
 
     const CollapseIcon = isChevron
@@ -62,20 +62,20 @@ const Collapsible: FC<Props> = (props: Props) => {
     return (
         <div
             id={title.toLowerCase().split(' ').join('')}
-            className={`p-[--py] rounded-[0.5625rem] bg-control text-primary w-full max-w-[62.5rem] min-w-[62.5rem]
+            className={`p-[--p-small] rounded-small bg-control-gray w-full max-w-[62rem] min-w-[62rem]
                         place-self-center ${isExpandedFinal ? '' : 'pb-0'}`}>
             <div
                 onClick={() => handleToggle()}
                 className={`flex items-center justify-between cursor-pointer ${isChevron ? 'mb-[3.75rem]' : ''}`}
             >
-                <h2 className={'text-inherit font-neo text-[1.6875rem] font-bold flex gap-[0.66rem] items-center'}>
+                <h2 className={'text-inherit text-header font-bold flex gap-[0.65rem] items-center'}>
                     {Icon}
                     <span>{title}</span>
                 </h2>
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline size-[1.8125rem] ${collapseCN}`} // brightness for the dark Plus svg
+                    className={`inline size-[1.8rem] ${collapseCN}`} // brightness for the dark Plus svg
                 />
             </div>
             <hr className={`scale-[105%] mt-[1.25rem] mb-[1.54rem] ${isChevron ? 'hidden' : ''}`}/>

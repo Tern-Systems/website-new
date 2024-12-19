@@ -9,9 +9,6 @@ enum Route {
     Cookies = '/Cookies',
     Privacy = '/Privacy',
 
-    ExploreKeys = '/ExploreKeys',
-    CreateKey = '/CreateKey',
-
     // /Service
     Service = '/Service',
     ARCodeToolCreate = '/Service/Create',
@@ -44,12 +41,11 @@ enum Route {
     ARCHManual = '/Profile/MyTern/Documentation/ARCHManual',
     BTMCHandbook = '/Profile/MyTern/Documentation/BTMCHandbook',
 
-    OpenCase = '/Open a Case',
-    Feedback = '/Feedback',
-
     // Managing
     Subscribe = '/Subscribe',
 }
 
+const TERN_AC_HREF = 'https://tern.ac/ternkey';
 
-export {Route}
+
+export {Route, TERN_AC_HREF};

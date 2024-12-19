@@ -53,7 +53,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     value={formData.email}
                     onChange={setFormValue('email')}
                     classNameWrapper={'flex-col [&]:items-start gap-[0.63rem] mt-[1.9rem]'}
-                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
                     classNameLabel={'font-bold'}
                     required
                 >
@@ -63,7 +63,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     value={formData.confirm}
                     onChange={setFormValue('confirm')}
                     classNameWrapper={'flex-col [&]:items-start gap-[0.63rem] mt-[0.96rem]'}
-                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
                     classNameLabel={'font-bold'}
                     required
                 >
@@ -73,8 +73,8 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     type={'submit'}
                     disabled={!isAllowedToDelete}
                     icon={isAllowedToDelete ? 'warn' : 'lock'}
-                    className={`mt-[1.25rem] text-[0.875rem] h-[2.0625rem] rounded-full font-bold place-self-center w-full
-                                ${isAllowedToDelete ? 'bg-[#F42200] text-primary' : 'text-secondary'}`}
+                    className={`mt-[1.25rem] text-small h-[2.0625rem] rounded-full font-bold place-self-center w-full
+                                ${isAllowedToDelete ? 'bg-control-red' : 'text-secondary'}`}
                     onClick={() => userCtx.removeSession()}
                 >
                     {isAllowedToDelete ? 'Permanently Delete My Account' : 'Locked'}
@@ -89,13 +89,13 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
         return (!isAllowedToDelete
                 ? (
                     <div className={'flex flex-col place-items-center'}>
-                        <span className={'inline-block w-[26.69rem] text-[0.75rem] text-center mt-[1.88rem]'}>
+                        <span className={'inline-block w-[26.69rem] text-note text-center mt-[1.88rem]'}>
                             You may only delete your account if you have logged in within the last 5 minutes. Please login again,
                             then return here to continue.
                         </span>
                         <Button
-                            className={`bg-control2 mt-[1.25rem] px-[1rem] text-[0.875rem] h-[1.44rem] rounded-full font-bold
-                                text-form bg-white max-w-[7.88rem]`}
+                            className={`bg-control-gray-l0 mt-[1.25rem] px-[1rem] text-small h-[1.44rem] rounded-full font-bold
+                                text-gray bg-white max-w-[7.88rem]`}
                             onClick={() => userCtx.removeSession()}
                         >
                             Restore Login

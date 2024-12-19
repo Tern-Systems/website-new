@@ -81,22 +81,22 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     const Content = (
         <>
-            <div className={'flex flex-col items-center w-[26.18rem] text-center'}>
+            <div className={'flex flex-col items-center w-[26rem] text-center'}>
                 <span>{info}</span>
-                <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10.42rem] h-[9rem]'}/>
-                {!isLoginForm ? <span className={'mb-[1.88rem] font-oxygen text-[1.6875rem]'}>Tern</span> : null}
+                <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10rem] h-[9rem]'}/>
+                {!isLoginForm ? <span className={'mb-[1.9rem] font-oxygen text-header'}>Tern</span> : null}
             </div>
             <form
                 className={'flex flex-col'}
                 onSubmit={handleFormSubmit}
             >
-                <fieldset className={'flex flex-col gap-[0.94rem]'}>
+                <fieldset className={'flex flex-col gap-[0.95rem]'}>
                     <Input
                         placeholder={'Email'}
                         value={formValue.email}
                         onChange={setFormValue('email')}
-                        classNameWrapper={'flex-col [&]:items-start gap-[0.63rem]'}
-                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                        classNameWrapper={'flex-col [&]:items-start gap-[0.625rem]'}
+                        className={'h-[1.875rem] w-full px-[0.75rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
                         required
                     >
                         Please enter credentials {!isLoginForm ? 'create' : 'login to'} your Tern account
@@ -106,7 +106,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         placeholder={'Password'}
                         value={formValue.password}
                         onChange={setFormValue('password')}
-                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
                         required
                     />
                     <Input
@@ -115,23 +115,23 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         placeholder={'Confirm Password'}
                         value={formValue.passwordConfirm}
                         onChange={setFormValue('passwordConfirm')}
-                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
                         required={!isLoginForm}
                     />
                 </fieldset>
                 <span hidden={!isLoginForm} className={'mt-[0.62rem]'}>
                     Forgot your password?&nbsp;
                     <Button
-                        className={'text-[#21A1D3]'}
+                        className={'text-blueL0'}
                         onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
                     >
                         Reset
                     </Button>
                 </span>
                 {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
-                <Button className={`py-[0.92rem] mt-[1.56rem] text-[1.125rem] font-bold rounded-full
+                <Button className={`py-[0.92rem] mt-[1.56rem] text-content-small font-bold rounded-full
                                     w-[18.93rem] place-self-center border-small border-control
-                                    ${isLoginForm ? 'text-form bg-white' : 'text-primary'}`}>
+                                    ${isLoginForm ? 'text-gray bg-white' : ''}`}>
                     {!isLoginForm ? 'Sign Up' : 'Login'}
                 </Button>
             </form>
@@ -139,7 +139,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 <span>
                     {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
                     <Button
-                        className={'text-[#21A1D3]'}
+                        className={'text-blueL0'}
                         onClick={() => setLoginFormState(prevState => !prevState)}
                     >
                       {isLoginForm ? 'Sign Up' : 'Login'}

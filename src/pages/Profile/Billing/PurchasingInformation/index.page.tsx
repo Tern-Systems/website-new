@@ -39,12 +39,12 @@ function PurchasingInformationView() {
         if (card.isDefault)
             setDefaultCardIdx(idx);
         return (
-            <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-[1.3125rem] items-center'}>
+            <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
                 <Image src={SVG_CARD} alt={'card'} className={'size-[1.35419rem]'}/>
                 <span>{card.nickName}</span>
                 <span
                     hidden={!card.isDefault}
-                    className={'text-[0.75rem] py-[0.28rem] px-[0.76rem] bg-[#D9D9D9] rounded-[0.25rem]'}
+                    className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
                 >
                 Preferred
             </span>
@@ -53,7 +53,7 @@ function PurchasingInformationView() {
     })
 
     if (!Cards.length)
-        Cards = [<span key={0} className={'text-[1rem]'}>No saved cards</span>];
+        Cards = [<span key={0}>No saved cards</span>];
 
     const InvoiceRows: ReactElement[] = invoices.map((order, idx) => {
         const invoiceDate = new Date(order.date);
@@ -79,26 +79,26 @@ function PurchasingInformationView() {
             <div className={'grid gap-[10rem] grid-rows-1 grid-cols-2 mb-[7rem]'}>
                 <div>
                     <div className={'flex justify-between'}>
-                        <h2 className={'text-[1.6875rem] font-bold'}>Payment Method</h2>
+                        <h2 className={'text-header font-bold'}>Payment Method</h2>
                         <PageLink href={Route.EditPaymentMethod}>
-                            <Button icon={'edit'} className={'px-[1rem] text-[0.875rem] flex-row-reverse'}>
+                            <Button icon={'edit'} className={'px-[1rem] text-small flex-row-reverse'}>
                                 Edit
                             </Button>
                         </PageLink>
                     </div>
-                    <hr className={'border-control3 mt-[0.81rem] mb-[1.57rem]'}/>
+                    <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
                     <ul className={'flex flex-col gap-[0.93rem]'}>
                         {Cards}
                     </ul>
                     <PageLink href={Route.AddPaymentMethod}>
-                        <Button icon={'plus'} className={'font-bold text-[1.3125rem] mt-[1.51rem]'}>
+                        <Button icon={'plus'} className={'font-bold text-content mt-[1.51rem]'}>
                             Add alternative payment method
                         </Button>
                     </PageLink>
                 </div>
                 <div>
-                    <h2 className={'text-[1.6875rem] font-bold'}>Billing Details</h2>
-                    <hr className={'border-control3 mt-[0.81rem] mb-[1.57rem]'}/>
+                    <h2 className={'text-header font-bold'}>Billing Details</h2>
+                    <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
                     <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
                         <span>Name</span>
                         <span>{userCtx.userData?.email ?? '--'}</span>
@@ -108,24 +108,24 @@ function PurchasingInformationView() {
                 </div>
             </div>
             <div className={'flex justify-between items-center'}>
-                <h2 className={'text-[1.6875rem] font-bold text-left'}>Invoice History</h2>
+                <h2 className={'text-header font-bold text-left'}>Invoice History</h2>
                 <Button
-                    className={'border-small border-control3 px-[1rem] text-[0.875rem] h-[1.44rem] rounded-full font-bold'}
+                    className={'border-small border-control-white-d0 px-[1rem] text-small h-[1.44rem] rounded-full font-bold'}
                     onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
                 >
                     Export
                 </Button>
             </div>
-            <hr className={'border-control3 mt-[0.81rem] mb-[1.57rem]'}/>
-            <div className={'overflow-hidden rounded-[0.5625rem] p-[--py] h-[26.875rem]'}>
+            <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
+            <div className={'overflow-hidden rounded-small p-[--p-small] h-[26.875rem]'}>
                 <div
-                    className={`overflow-y-scroll h-full text-[1.3125rem] capitalize`}>
+                    className={`overflow-y-scroll h-full text-content capitalize`}>
                     <table className={'w-full'} cellPadding={'1.25'}>
                         <tbody>{InvoiceRows}</tbody>
                     </table>
                 </div>
             </div>
-            <span className={'block pt-[--py]'}/>
+            <span className={'block pt-[--p-small]'}/>
         </div>
     )
 }

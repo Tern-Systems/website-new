@@ -9,7 +9,7 @@ const config: Config = {
     theme: {
         extend: {
             screens: {
-                sm: {min: '375px', max: '833.9px'},
+                sm: {max: '833.9px'},
                 md: {min: '834px', max: '1439.9px'},
                 lg: {min: '1440px'}
             },
@@ -19,29 +19,35 @@ const config: Config = {
             colors: {
                 primary: "var(--color-primary)",
                 secondary: "var(--color-secondary)",
-                form: "var(--color-form)",
+                gray: "var(--color-gray)",
                 placeholder: "var(--color-placeholder)",
                 blue: "var(--color-blue)",
+                blueL0: "var(--color-blue-l0)",
+                red: "var(--color-red)",
             },
             backgroundColor: {
-                control: "var(--bg-control)",
-                control2: "var(--bg-control-2)",
-                control3: "var(--bg-control-3)",
-                control4: "var(--bg-control-4)",
-                section: "var(--bg-section)",
-                section2: "var(--bg-section-2)",
+                'control-gray': "var(--bg-control-gray)",
+                'control-gray-l0': "var(--bg-control-gray-l0)",
+                'control-white-d1': "var(--bg-control-white-d1)",
+                'control-white-d0': "var(--bg-control-white-d0)",
+                'control-white': "var(--bg-control-white)",
+                'control-blue': "var(--bg-control-blue)",
+                'control-red': "var(--bg-control-red)",
+                'control-navy': "var(--bg-section-navy)",
             },
             borderRadius: {
+                smallest1: 'var(--br-smallest-1)',
+                smallest: 'var(--br-smallest)',
                 small: 'var(--br-small)',
             },
             borderColor: {
                 section: "var(--b-section)",
-                control: "var(--b-control)",
-                control2: "var(--b-control-2)",
-                control3: "var(--b-control-3)",
-                control4: "var(--b-control-4)",
-                control5: "var(--b-control-5)",
-                control6: "var(--b-control-6)",
+                'control-gray': "var(--b-control-gray)",
+                'control-gray-l0': "var(--b-control-gray-l0)",
+                'control-grayL1': "var(--b-control-gray-l1)",
+                'control-white-d0': "var(--b-control-white-d0)",
+                'control-white': "var(--b-control-white)",
+                'control-blue': "var(--b-control-blue)",
             },
             borderWidth: {
                 small: 'var(--b-small)',
@@ -53,8 +59,10 @@ const config: Config = {
                 oxygen: ['"Oxygen"', 'sans-serif'],
             },
             fontSize: {
+                note: 'var(--fz-note)',
                 small: 'var(--fz-small)',
                 content: 'var(--fz-content)',
+                contentSmall: 'var(--fz-content-small)',
                 header: 'var(--fz-header)'
             },
             keyframes: {

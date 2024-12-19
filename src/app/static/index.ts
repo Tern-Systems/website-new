@@ -1,4 +1,4 @@
-export {Route} from "./routing";
+export {Route, TERN_AC_HREF} from "./routing";
 
 export {INVOICE_TEMPLATE, LANGUAGE, SALUTATION} from './misc';
 

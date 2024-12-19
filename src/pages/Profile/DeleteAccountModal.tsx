@@ -31,13 +31,13 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
             </span>
             <span className={'flex gap-[0.62rem] mt-[1.25rem] justify-center'}>
                 <Button
-                    className={'text-[#F42200] border-[#F42200] border-small px-[1rem] h-[1.43rem] rounded-full'}
+                    className={'text-red border-control-blue border-small px-[1rem] h-[1.43rem] rounded-full'}
                     onClick={() => modalCtx.openModal(<DeleteAccountConfirmModal userData={userData}/>, {darkenBg: true})}
                 >
                     Continue
                 </Button>
                 <Button
-                    className={'bg-control2 px-[1rem] text-[0.875rem] h-[1.44rem] rounded-full font-bold'}
+                    className={'bg-control-gray-l0 px-[1rem] text-small h-[1.44rem] rounded-full font-bold'}
                     onClick={() => modalCtx.closeModal()}
                 >
                     Cancel

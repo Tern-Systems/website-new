@@ -1,26 +1,30 @@
-import {FC} from "react";
-
 import {Route} from "@/app/static";
 
 import "@/app/globals.css";
 import styles from '@/app/common.module.css'
 
 
-const NotFound: FC = () => (
-    <div className={`relative flex flex-col justify-center items-center h-screen text-white 
+const NotFound = () => (
+    <html>
+    <body>
+    <div className={`flex flex-col justify-center items-center h-screen text-white 
                     bg-content bg-cover bg-no-repeat`}>
-        <div className={'flex flex-col gap-y-[1rem] italic text-center'}>
-            <p className={`mb-[1rem] text-[1.5rem] font-english ${styles.typewriter}`}>Page not found</p>
+        <div>
+            <p className={`text-header font-english ${styles.typewriter}`}>Page not found</p>
+        </div>
+        <div className={'flex flex-col gap-y-[1rem] italic text-center mt-[2rem]'}>
             <p>A fork in the road, three ways to go</p>
             <p>The rapturous traveler seeks to forge his own</p>
             <p>This path you tread, is but a mirage</p>
             <p>An empty husk; A hollow facade...</p>
         </div>
-        <div className={'absolute underline bottom-[--py] text-[0.75rem]'}>
+        <div className={'absolute underline bottom-[--p-small] text-note'}>
             <a href={Route.Home}>Return to Home page</a>
         </div>
     </div>
-)
+    </body>
+    </html>
+);
 
 
 export default NotFound;
