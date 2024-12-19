@@ -212,7 +212,16 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const isCutBasicColumn = subscriptionData?.isBasicKind === true && userSubscription?.type !== 'basic';
 
         const columnsData = subscriptionData?.type
-            ? Object.entries(subscriptionData.type).slice(+isCutBasicColumn)
+            ? Object.entries(subscriptionData.type).slice(+isCutBasicColumn).filter(([type, _data]) => {
+                if (
+                    userSubscription?.recurrency === 'monthly' &&
+                    userSubscription?.type === 'pro' &&
+                    type === 'standard'
+                ) {
+                    return false;
+                }
+                return true;
+            })
             : generateFallbackEntries(isCutBasicColumn ? 1 : 2);
 
         return columnsData.map(([type, data], idx) => renderColumn(userSubscription, type, data, idx))
