@@ -1,6 +1,5 @@
 import {AnchorHTMLAttributes, FC, MouseEvent, ReactElement} from "react";
 import {ReactSVG} from "react-svg";
-import {usePathname} from "next/navigation";
 import Link from "next/link";
 
 import {Route} from "@/app/static";
@@ -26,17 +25,19 @@ const ICON: Record<Icon, { src: string }> = {
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
     icon?: Icon;
+    isExternal?: boolean;
 }
 
 const PageLink: FC<Props> = (props: Props) => {
-    const {icon, children, href, ...linkProps} = props;
+    const {icon, children, href, isExternal, ...linkProps} = props;
 
     const modalCtx = useModal();
-    const route = usePathname();
     const [navigate] = useNavigate();
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
         linkProps.onClick?.(event);
+        if (isExternal)
+            return;
         modalCtx.closeModal();
         navigate(href as Route ?? Route.Home);
     }
@@ -54,8 +55,9 @@ const PageLink: FC<Props> = (props: Props) => {
         <Link
             {...linkProps}
             className={`items-center inline-flex ${styles.clickable} ${linkProps.className}`}
-            href={route ?? '/'}
+            href={href ?? '/'}
             onClick={handleLinkClick}
+            {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
         >
             {Icon} {splitHref}
         </Link>

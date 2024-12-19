@@ -5,5 +5,7 @@ const formatDate = (date: Date): string =>
 
 const copyObject = <T extends object>(object: T): T => JSON.parse(JSON.stringify(object));
 
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-export {generateFallbackEntries, formatDate, copyObject};
+
+export {generateFallbackEntries, formatDate, copyObject, capitalize};
