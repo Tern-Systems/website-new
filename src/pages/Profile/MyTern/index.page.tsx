@@ -43,20 +43,14 @@ const SUBSCRIPTION_LINK_DICT: Record<Subscription['subscription'], string> = {
     trial: '',
 }
 
-
-const GAP_CN = 'min(2.7dvw,1.25rem)';
-
-const PX_CN = 'min(3.6dvw,0.81rem)';
-const PY_CN = 'min(2.7dvw,0.75rem)';
 const renderTable = (table: TableSection, isExternal?: boolean) => {
     const renderTd = (title: ReactElement | string, href: string, type?: 'first' | 'last') => {
-        const side = type === 'first' ? 'l' : 'r';
         return (
-            <td className={`${type ? `p${side}-[${PX_CN}] rounded-${side}-[1rem]` : ''}
+            <td className={`${type === undefined ? '' : (type === 'first' ? `pl-[min(3.6dvw,0.81rem)] rounded-l-[1rem]` : 'pr-[min(3.6dvw,0.81rem)] rounded-r-[1rem]')}
                             ${type === 'last' ? 'w-[1.3rem]' : (type === 'first' ? 'max-w-[9.7rem]' : '')}`}
             >
                 <PageLink href={href} isExternal={isExternal}
-                          className={`w-full py-[${PY_CN}] overflow-x-hidden overflow-ellipsis sm:max-w-[41.4dvw] text-nowrap sm:table-cell`}>
+                          className={`w-full py-[min(2.7dvw,0.75rem)] overflow-x-hidden overflow-ellipsis sm:max-w-[41.4dvw] text-nowrap sm:table-cell`}>
                     {title}
                 </PageLink>
             </td>
@@ -79,13 +73,13 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     return (
         <div
             className={'bg-control-gray rounded-smallest p-[min(4dvw,var(--p-small))] max-h-[20rem] sm:max-h-[10rem]'}>
-            <h3 className={`pl-[${PX_CN}] text-[min(4.8dvw,theme(fontSize.header))] font-bold`}>{table.title}</h3>
-            <hr className={`border-control-white-d0 mt-[${GAP_CN}] mb-[min(1.35dvw,1.25rem)]`}/>
+            <h3 className={`pl-[min(3.6dvw,0.81rem)] text-[min(4.8dvw,theme(fontSize.header))] font-bold`}>{table.title}</h3>
+            <hr className={`border-control-white-d0 mt-[min(2.7dvw,1.25rem)] mb-[min(1.35dvw,1.25rem)]`}/>
             <div className={'overflow-y-scroll max-h-[70%]'}>
                 <table className={`w-full text-content`}>
                     <thead className={`sticky top-0 z-10 text-[min(2.6dvw,theme(fontSize.small))] bg-control-gray`}>
                     <tr>
-                        <td className={`pl-[${PX_CN}] py-[${PY_CN}]`}>{table.columnNames[0]}</td>
+                        <td className={`pl-[min(3.6dvw,0.81rem)] py-[min(2.7dvw,0.75rem)]`}>{table.columnNames[0]}</td>
                         <td>{table.columnNames[1]}</td>
                         <td/>
                     </tr>
@@ -175,9 +169,9 @@ const MyTernPage: FC = () => {
     return (
         // <div className={'pt-[min(3.5dvw,3rem)] px-[min(14rem)] text-left'}>
         <div className={'mt-[min(3.5dvw,3rem)] min-w-[75%] max-w-full text-left mx-auto'}>
-            <h1 className={`text-[min(5.5dvw,2.25rem)] font-bold mb-[${GAP_CN}]`}>Dashboard</h1>
+            <h1 className={`text-[min(5.5dvw,2.25rem)] font-bold mb-[min(2.7dvw,1.25rem)]`}>Dashboard</h1>
             {renderSinceDate(userCtx.userData?.registrationDate)}
-            <div className={`flex flex-wrap gap-[${GAP_CN}] my-[min(5.4dvw,1.9rem)]`}>{NavBtns}</div>
+            <div className={`flex flex-wrap gap-[min(2.7dvw,1.25rem)] my-[min(5.4dvw,1.9rem)]`}>{NavBtns}</div>
             <div className={'grid gap-[0.63rem] grid-cols-2 sm:grid-rows-2 sm:grid-cols-1'}>
                 {renderTable(subscriptionTable)}
                 {renderTable({title: 'Community Events', columnNames: ['Event', 'Date'], data: communityEvents}, true)}
