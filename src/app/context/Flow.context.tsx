@@ -8,7 +8,7 @@ type FlowQueue = FlowItem[];
 
 interface IFlowContext {
     run: (flow: FlowQueue) => void;
-    next: () => (() => void) | undefined;
+    next: () => FlowItem | undefined;
     clear: () => void;
 }
 
@@ -23,7 +23,7 @@ const FlowProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             return toExecute;
         }
 
-        const next = (): (() => void) | undefined => {
+        const next = (): FlowItem | undefined => {
             if (flowQueue.length)
                 return get(flowQueue);
         };

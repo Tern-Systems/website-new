@@ -1,6 +1,6 @@
 "use client";
 
-import React, {ReactElement, useEffect, useState} from "react";
+import React, {FC, ReactElement, useEffect, useState} from "react";
 
 import {Subscription} from "@/app/types/subscription";
 import {Route} from "@/app/static";
@@ -12,7 +12,7 @@ import {PaymentInfo} from "./PaymentInfo";
 import {PaymentForm} from "./PaymentForm";
 
 
-function SubscribePage() {
+const SubscribePage: FC = () => {
     const [subscription, setSubscription] = useState<Subscription | null>(null);
     const isLoggedIn = useLoginCheck();
 

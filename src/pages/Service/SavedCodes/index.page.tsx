@@ -1,11 +1,9 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
-import Image from "next/image";
+import {useQRCode} from "next-qrcode";
 
 import {UserSubscription} from "@/app/context/User.context";
 import {ARCode} from "@/app/types/arcode";
 import {FADE_DURATION, Route} from "@/app/static";
-
-import {AuthService} from "@/app/services";
 
 import {useLoginCheck, useNavigate} from "@/app/hooks";
 import {useUser} from "@/app/context";
@@ -13,12 +11,10 @@ import {useUser} from "@/app/context";
 import {CodeMenu, CodeMenuData} from "./CodeMenu";
 import {Button} from "@/app/ui/form";
 
-import SVG_QR from "@/assets/images/qr.svg";
-
 
 const SAVED_CODES_TEMPLATE: ARCode[] = [
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 0', file: '', moduleColor: '#000', backgroundColor: '#000'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 1', file: '', moduleColor: '#000', backgroundColor: '#123'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 0', file: '', moduleColor: '#000', backgroundColor: '#fff'},
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 1', file: '', moduleColor: '#000', backgroundColor: '#129'},
     {id: '9uhrgqhi03fjpo-j', name: 'QR 2', file: '', moduleColor: '#000', backgroundColor: '#456'},
     {id: '9uhrgqhi03fjpo-j', name: 'QR 3', file: '', moduleColor: '#000', backgroundColor: '#147'},
     {id: '9uhrgqhi03fjpo-j', name: 'QR 4', file: '', moduleColor: '#000', backgroundColor: '#280'},
@@ -26,8 +22,11 @@ const SAVED_CODES_TEMPLATE: ARCode[] = [
     {id: '9uhrgqhi03fjpo-j', name: 'QR 6', file: '', moduleColor: '#000', backgroundColor: '#692'},
     {id: '9uhrgqhi03fjpo-j', name: 'QR 7', file: '', moduleColor: '#000', backgroundColor: '#027'},
     {id: '9uhrgqhi03fjpo-j', name: 'QR 8', file: '', moduleColor: '#000', backgroundColor: '#835'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 9', file: '', moduleColor: '#000', backgroundColor: '#100'}
+    {id: '9uhrgqhi03fjpo-j', name: 'QR 9', file: '', moduleColor: '#000', backgroundColor: '#500'}
 ]
+
+
+const AR_CODE_WIDTH = 300;
 
 
 const SavedCodesPage: FC = () => {
@@ -36,6 +35,7 @@ const SavedCodesPage: FC = () => {
     const [navigate] = useNavigate();
     const userCtx = useUser();
     const isLoggedIn = useLoginCheck();
+    const {SVG} = useQRCode();
 
     useEffect(() => {
         const subscription: UserSubscription | undefined = userCtx.userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
@@ -84,15 +84,17 @@ const SavedCodesPage: FC = () => {
         return (
             <div key={id} id={id}>
                 <div
-                    style={{backgroundColor: arCode.backgroundColor}}
-                    className={'p-[0.44rem] cursor-pointer mb-[0.94rem] min-h-[14.76rem]'}
-                >
-                    <Image
-                        src={arCode.file ? AuthService.getAPI + arCode.file : SVG_QR}
-                        alt={'qr'}
-                        width={10}
-                        height={10}
-                        className={'h-full w-full'}
+                    className={'p-[0.44rem] cursor-pointer mb-[0.94rem] min-h-[14.76rem] content-center place-items-center'}>
+                    <SVG
+                        text={'https://arch.tern.ac/' + arCode.id}
+                        options={{
+                            width: AR_CODE_WIDTH,
+                            margin: 1,
+                            color: {
+                                dark: arCode.backgroundColor,
+                                light: arCode.moduleColor,
+                            }
+                        }}
                     />
                 </div>
                 <div

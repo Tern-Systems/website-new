@@ -60,14 +60,14 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 } else {
                     userCtx.setSession(userData as UserData, token); // TODO remove type casting
                     modalCtx.closeModal();
-                    flowCtx.next();
+                    flowCtx.next()?.();
                 }
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
                 await AuthService.postSignUp(formValue);
                 modalCtx.closeModal();
-                flowCtx.next();
+                flowCtx.next()?.();
             }
         } catch (error: unknown) {
             let message: string = 'Unknown error';

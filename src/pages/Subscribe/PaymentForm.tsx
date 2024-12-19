@@ -24,6 +24,24 @@ import {PageLink} from "@/app/ui/layout";
 import styles from './Subscribe.module.css'
 
 
+const CARD_TEMPLATE: CardData = {
+    type: 'asd',
+    billingCountry: 'US',
+    billingAddress: 'asd',
+    addressLine1: 'asd',
+    cardNumber: 'asd',
+    addressLine2: 'asd',
+    state: 'SC',
+    cvc: '123',
+    city: 'VAD',
+    cardholderName: '12312',
+    expirationDate: '123123',
+    postalCode: '12312',
+    nickName: '123',
+    isDefault: true
+}
+
+
 const FORM_DEFAULT: SubscribeData = {
     savedCardIdx: '-1',
     type: '',
@@ -68,13 +86,13 @@ const PaymentForm: FC<Props> = (props: Props) => {
         const fetchCards = async () => {
             if (!userCtx.userData)
                 return;
-            const {payload: cards} = await BillingService.getCards(userCtx.userData.email);
-            setSavedCards(cards);
+            try {
+                const {payload: cards} = await BillingService.getCards(userCtx.userData.email);
+                setSavedCards(cards);
+            } catch (error: unknown) {
+            }
         }
-        try {
-            fetchCards();
-        } catch (error: unknown) {
-        }
+        fetchCards();
     }, [setSavedCards, userCtx.userData])
 
     // Flow / payment status
@@ -85,10 +103,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
         } else if (paymentStatus) {
             const next = flowCtx.next();
             if (next)
-                return next();
-            navigate(Route.Home);
+                next();
+            else
+                navigate(Route.Home);
         }
-    }, [paymentStatus, modalCtx, flowCtx, setPaymentStatus, navigate]);
+    }, [paymentStatus]);
 
 
     const toggleBillingDetails = () => setBillingExpandedState((prev) => !prev);
@@ -304,6 +323,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
+                        onClick={() =>
+                            setPaymentStatus(true)}
                         className={`mt-[1.87rem] p-[1.12rem] bg-control text-primary font-sans text-[1.125rem] font-bold
                                     w-full rounded-full`}
                     >
