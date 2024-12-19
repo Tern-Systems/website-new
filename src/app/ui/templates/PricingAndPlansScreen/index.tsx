@@ -125,7 +125,16 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         if (isBtnDisabled) {
             subscribeBtnText = isBtnDisabled ? 'Your current plan' : 'Subscribe';
-            Links = Limits;
+            Links = isCurrentPlan ? (
+                    <>
+                        <span className={'mb-[0.45rem] underline'}>
+                            <PageLink href={Route.ManageSubscriptions} className={'cursor-pointer'}>
+                                Manage subscription
+                            </PageLink>
+                        </span>
+                        <span className={'first-letter:capitalize'}>{BillingResolution}</span>
+                    </>
+            ) : Limits;
         } else {
             if (isCurrentRecurrency) {
                 if (isCurrentPlan) {
