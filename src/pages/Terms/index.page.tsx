@@ -75,7 +75,8 @@ Tern Systems LLC
 1120 Avenue of the Americas
 New York, NY 10036
 Email: <a href='mailto:info@tern.ac' target="_blank" class="underline">info@tern.ac</a>
-Phone: <a href='tel:19735908753' target="_blank" class="underline">+1 (973) 590-8753</a>
+Phone: <a href='tel:19735908753' target="_blank">+1 (973) 590-8753</a>
+By using the Site, you acknowledge your agreement to these Terms and Conditions.
 `;
 
 
