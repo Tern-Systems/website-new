@@ -34,6 +34,7 @@ const MenuModal: FC<Props> = (props: Props) => {
     const renderSubNav = (): ReactElement[] | undefined => subNavLinks?.map((link, idx, array) => {
         const isActive = checkSubRoute(route, link, true);
         const isNextActive = getRouteRoot(route) === array[idx + 1]; // last+1 always undefined
+        const routeName = getRouteName(mappedRoutes?.[link], idx === 0);
 
         return (
             <PageLink
@@ -45,7 +46,7 @@ const MenuModal: FC<Props> = (props: Props) => {
                 className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive ? ACTIVE_ROUTE_CN : ''}
                                  place-content-start pr-[1.125rem] ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
             >
-                {getRouteName(mappedRoutes?.[link], idx === 0)}
+                {routeName ? <span>{routeName}</span> : null}
             </PageLink>
         );
     });
