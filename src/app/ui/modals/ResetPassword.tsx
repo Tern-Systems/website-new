@@ -41,10 +41,10 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
         const EmailSentModal: FC = () => (
             <BaseModal
                 title={'Email Sent'}
-                className={'w-[30.3125rem] border-control4 border-small text-center'}
+                className={'w-[30rem] border-control-white border-small text-center'}
             >
                 <Image src={SVG_INSIGNIA} alt={'insignia'}
-                       className={'mb-[1.25rem] w-[10.42rem] h-[9rem] place-self-center'}/>
+                       className={'mb-[1.25rem] w-[10rem] h-[9rem] place-self-center'}/>
                 <span>To reset your password, please click the link provided in the email sent to your registered email address.</span>
             </BaseModal>
         );
@@ -80,7 +80,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     placeholder={'Password'}
                     value={formValue.password}
                     onChange={setFormValue('password')}
-                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
                     required
                 />
                 <Input
@@ -89,7 +89,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     placeholder={'Confirm Password'}
                     value={formValue.passwordConfirm}
                     onChange={setFormValue('passwordConfirm')}
-                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
                     icons={[SVG_EYE]}
                     required={!!token}
                 />
@@ -102,7 +102,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 value={formValue.email}
                 onChange={setFormValue('email')}
                 classNameWrapper={'flex-col [&]:items-start'}
-                className={'h-[1.875rem] w-full px-[0.73rem] bg-control2 border-small b-control4 placeholder:text-primary rounded-[0.375rem]'}
+                className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
                 required
             />
         );
@@ -110,12 +110,12 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
     return (
         <BaseModal
             isSimple
-            className={`place-self-center mx-auto relative [&]:bg-control border-small border-control`}
+            className={`place-self-center mx-auto relative [&]:bg-control-gray border-small border-control`}
             classNameContent={'py-[1.5rem] pl-[1.7rem] pr-0'}
         >
             <div className={'flex flex-col items-center w-[26.18rem]'}>
                 <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10.42rem] h-[9rem]'}/>
-                <span className={'mb-[1.88rem] font-oxygen text-[1.6875rem]'}>Tern</span>
+                <span className={'mb-[1.88rem] font-oxygen text-header'}>Tern</span>
             </div>
             <form
                 className={'flex flex-col'}
@@ -128,8 +128,8 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     {Controls}
                 </fieldset>
                 {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
-                <Button className={`py-[0.92rem] mt-[1.56rem] text-[1.125rem] font-bold rounded-full
-                                    w-[18.93rem] place-self-center bg-white text-form`}>
+                <Button className={`py-[0.92rem] mt-[1.56rem] text-content-small font-bold rounded-full
+                                    w-[18.93rem] place-self-center bg-white text-gray`}>
                     Reset Password
                 </Button>
             </form>

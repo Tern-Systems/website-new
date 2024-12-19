@@ -51,11 +51,11 @@ const BillingPage: FC = () => {
     return (
         <div className={'place-self-center my-auto text-left w-[90.625rem]'}>
             <h1 className={'text-[2.25rem] font-bold mb-[1.87rem] text-left'}>Order Information</h1>
-            <div className={'bg-control overflow-hidden rounded-[0.5625rem] p-[--py] h-[26.875rem]'}>
+            <div className={'bg-control-gray overflow-hidden rounded-small p-[--p-small] h-[26.875rem]'}>
                 <div
-                    className={`overflow-y-scroll h-full text-[1.3125rem] capitalize`}>
+                    className={`overflow-y-scroll h-full text-content capitalize`}>
                     <table className={'w-full'}>
-                        <thead className={'text-[1.6875rem]'}>
+                        <thead className={'text-header'}>
                         <tr>
                             <td className={'pb-[0.94rem]'}>Order No.</td>
                             <td className={'pb-[0.94rem]'}>Date</td>
@@ -69,8 +69,8 @@ const BillingPage: FC = () => {
                 </div>
             </div>
             <div className={'mt-[3.12rem]'}>
-                <h2 className={'text-[1.6875rem] mb-[1.87rem] font-bold'}>Additional Resources</h2>
-                <div className={'inline-flex flex-col gap-[1.56rem] text-[0.875rem]'}>
+                <h2 className={'text-header mb-[1.87rem] font-bold'}>Additional Resources</h2>
+                <div className={'inline-flex flex-col gap-[1.56rem] text-small'}>
                     <PageLink href={Route.ManageSubscriptions}/>
                     <PageLink href={Route.PurchasingInformation}/>
                     <span

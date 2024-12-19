@@ -36,8 +36,8 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
         return (
             <li
                 key={card.nickName + idx}
-                className={`flex justify-between text-[1.3125rem] items-center px-[0.8rem] py-[0.7rem] rounded-[0.5625rem]
-                        ${!isPreferred && selectedCardIdx === idx ? 'bg-[#D3D3D3]' : ''}`}
+                className={`flex justify-between text-content items-center px-[0.8rem] py-[0.7rem] rounded-small
+                        ${!isPreferred && selectedCardIdx === idx ? 'bg-control-white-d1' : ''}`}
                 onClick={() => setSelectedCardIdx(idx)}
             >
             <span className={`flex ${isPreferred ? 'brightness-150' : ''}`}>
@@ -52,28 +52,28 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal
             title={'Change Payment method'}
-            className={'bg-control4 [&_hr]:border-control5 [&_h2]:text-form [&_h2+button]:brightness-50 w-[30.31rem]'}
-            classNameContent={'text-form text-center'}
+            className={'bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_h2+button]:brightness-50 w-[30.31rem]'}
+            classNameContent={'text-gray text-center'}
         >
             <ul className={'list-none flex flex-col gap-y-[0.84rem]'}>{SavedCards}</ul>
             <PageLink href={Route.EditPaymentMethod}>
                 <Button
                     icon={'plus'}
-                    className={'font-bold text-[1.3125rem] mt-[1.51rem]'}
+                    className={'font-bold text-content mt-[1.51rem]'}
                 >
                     Add alternative payment method
                 </Button>
             </PageLink>
             <span
-                className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-[0.875rem] justify-center text-primary'}>
+                className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-small justify-center'}>
                 <Button
-                    className={'border-small border-control3 text-form px-[1rem] h-[1.43rem] rounded-full'}
+                    className={'border-small border-control-white-d0 text-gray px-[1rem] h-[1.43rem] rounded-full'}
                     onClick={() => handleSave()}
                 >
                     Done
                 </Button>
                 <Button
-                    className={'bg-control2 px-[1rem] h-[1.43rem] rounded-full'}
+                    className={'bg-control-gray-l0 px-[1rem] h-[1.43rem] rounded-full'}
                     onClick={() => modalCtx.closeModal()}
                 >
                   Cancel

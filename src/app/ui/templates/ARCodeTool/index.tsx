@@ -1,7 +1,9 @@
 import React, {FC, FormEvent, useCallback, useEffect} from "react";
 import Image from "next/image";
+import {useQRCode} from "next-qrcode";
 
 import {ARCode} from "@/app/types/arcode";
+import {UserSubscription} from "@/app/context/User.context";
 import {FlowQueue} from "@/app/context/Flow.context";
 import {Route} from "@/app/static";
 
@@ -11,14 +13,14 @@ import {useFlow, useModal, useUser} from "@/app/context";
 import {AuthModal, BaseModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
-import SVG_QR from "@/assets/images/qr.svg";
 import SVG_ARCH from "@/assets/images/arch-logo.svg";
 
 
 type ARCodeToolForm = Omit<ARCode, 'file'> & Partial<Pick<ARCode, 'file'>>;
 
-const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#000000', moduleColor: '#ffffff', name: ''}
+const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#000000', moduleColor: '#ffffff', name: '', file: ''}
 const FORM_COLOR_PICKERS = ['module', 'background'];
+const AR_CODE_WIDTH = 440;
 
 
 interface Props {
@@ -32,7 +34,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     const modalCtx = useModal();
     const {isLoggedIn, userData} = useUser();
     const [navigate] = useNavigate();
-    const {hasPurchasedPlan} = userData || {};
+    const {SVG} = useQRCode();
 
     const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>({
         ...FORM_DEFAULT,
@@ -46,7 +48,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         const SuccessModal = () => {
             return (
                 <BaseModal isSimple
-                           className={'w-[18rem] h-[3.58rem] bottom-[7.19rem] right-[--py] border-control4 border-small'}>
+                           className={'w-[18rem] h-[3.6rem] bottom-[7.2rem] right-[--p-small] border-control-white border-small'}>
                     Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully saved
                 </BaseModal>
             );
@@ -75,7 +77,9 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>, {hideContent: true});
             });
         }
-        if (!hasPurchasedPlan)
+
+        const subscription: UserSubscription | undefined = userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
+        if (!subscription)
             flow.push(() => navigate(Route.ServicePricing))
 
         if (!flow.length)
@@ -108,12 +112,20 @@ const ARCodeTool: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={'flex place-self-center my-auto p-[4.06rem] w-[69.65rem] bg-section border-small border-control2 rounded-small'}>
+            className={'flex place-self-center my-auto p-[4rem] w-[69rem] bg-control-navy border-small border-control-gray rounded-small'}>
             <div
-                style={{backgroundColor: formValue.backgroundColor}}
-                className={`p-[0.91rem] mr-[7.7rem] size-[32.375rem] cursor-pointer`}
-            >
-                <Image src={SVG_QR} alt={'qr'} className={'h-full '}/>
+                className={`p-[0.9rem] mr-[7.7rem] size-[32.375rem] cursor-pointer content-center place-items-center`}>
+                <SVG
+                    text={'https://arch.tern.ac/'}
+                    options={{
+                        width: AR_CODE_WIDTH,
+                        margin: 1,
+                        color: {
+                            dark: formValue.backgroundColor,
+                            light: formValue.moduleColor,
+                        }
+                    }}
+                />
             </div>
             <form
                 className={'flex flex-col justify-between w-[21rem]'}
@@ -126,15 +138,15 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     placeholder={'Name'}
                     value={formValue.name}
                     onChange={setFormValue('name')}
-                    className={`px-[0.68rem] h-[2.3125rem] w-full text-[1.6875rem] placeholder:text-primary bg-control2
-                                border-small border-control4 rounded-[0.375rem]`}
+                    className={`px-[0.68rem] h-[2.3125rem] w-full text-header bg-control-gray-l0
+                                border-small border-control-white rounded-smallest`}
                     required
                 />
                 <Input
                     type={"file"}
                     accept='image/png,image/jpeg,image/svg,image/jpg,image/webp,image/jpeg,image/gif,image/tiff,image/heif,image/heic'
                     name={'qr-file'}
-                    classNameWrapper={'h-[3.125rem] font-bold text-[1.3125rem] text-black bg-white rounded-full'}
+                    classNameWrapper={'h-[3.125rem] font-bold text-content text-black bg-white rounded-full'}
 
                     required
                 >
@@ -142,7 +154,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 </Input>
                 {ColorPickers}
                 <Button
-                    className={'px-[4.34rem] h-[3.125rem] text-[1.3125rem] font-bold border-small border-control5 rounded-full'}>
+                    className={'px-[4.34rem] h-[3.125rem] text-content font-bold border-small border-control-gray-l0 rounded-full'}>
                     Save AR Code
                 </Button>
             </form>

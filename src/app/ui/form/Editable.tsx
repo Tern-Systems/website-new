@@ -150,12 +150,12 @@ const Editable: FC<Props> = (props: Props) => {
     }
 
     // Elements
-    const Hr = <hr className={'border-control3'}/>;
+    const Hr = <hr className={'border-control-white-d0'}/>;
 
     const ControlBtns = (
-        <span className={'block mt-[0.94rem] text-[0.875rem] font-bold'}>
+        <span className={'block mt-[0.95rem] text-small font-bold'}>
             <Button
-                className={'bg-control2 px-[1rem] h-[1.43rem] rounded-full mr-[0.75rem]'}
+                className={'bg-control-gray-l0 px-[1rem] h-[1.45rem] rounded-full mr-[0.75rem]'}
                 onClick={() => toggleEditState()}
             >
                 Cancel
@@ -163,7 +163,7 @@ const Editable: FC<Props> = (props: Props) => {
             <Button
                 type={'submit'}
                 disabled={checkUpdateBtnDisabledState()}
-                className={'bg-[#00397F] px-[1rem] h-[1.43rem] rounded-full disabled:bg-control2 disabled:text-form'}
+                className={'bg-[#00397F] px-[1rem] h-[1.45rem] rounded-full disabled:bg-control-gray-l0 disabled:text-gray'}
             >
                 Update
             </Button>
@@ -183,9 +183,9 @@ const Editable: FC<Props> = (props: Props) => {
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
-                className={`text-[0.75rem] font-oxygen py-[0.3rem] w-[4.26rem] rounded-[0.25rem] bg-[#0C545C] leading-none 
-                            ${isDisabled ? '' : 'hover:bg-control3 hover:text-primary'}
-                            ${classNameToggle} ${isEditState ? '[&]:bg-control3' : '[&]:bg-[#D9D9D9] text-form'}`}
+                className={`text-note font-oxygen py-[0.3rem] w-[4.25rem] rounded-smallest1 bg-[#0C545C] 
+                            ${isDisabled ? '' : 'hover:bg-control-blue hover:text-primary'}
+                            ${classNameToggle} ${isEditState ? '[&]:bg-control-blue' : '[&]:bg-control-white-d0 text-gray'}`}
             >
                 {
                     isToggleBlocked
@@ -203,29 +203,29 @@ const Editable: FC<Props> = (props: Props) => {
         : (
             <span
                 onClick={() => !isToggleBlocked && toggleEditState()}
-                className={`cursor-pointer font-neo text-[0.875rem] flex gap-[0.39rem] items-center ${classNameToggle}
+                className={`cursor-pointer text-small flex gap-[0.4rem] items-center ${classNameToggle}
                             ${isEditState ? 'hidden' : ''}`}
             >
                 <span>Edit</span>
-                <Image src={SVG_PENCIL} alt={'edit'} className={'size-[0.8125rem] brightness-[300%]'}/>
+                <Image src={SVG_PENCIL} alt={'edit'} className={'size-[0.8rem] brightness-[300%]'}/>
             </span>
         );
 
     // Styles
     const CHECKBOX_CN = {
         classNameWrapper: 'flex-row-reverse place-self-start',
-        classNameLabel: 'text-[0.875rem]',
+        classNameLabel: 'text-small',
     }
     const SELECT_CN = {
-        classNameWrapper: 'flex-col gap-y-[0.62rem]',
-        classNameLabel: 'self-start text-[0.875rem]',
-        className: `${data?.className} rounded-[0.375rem]`,
+        classNameWrapper: 'flex-col gap-y-[0.6rem]',
+        classNameLabel: 'self-start text-small',
+        className: `${data?.className} rounded-smallest`,
         classNameOption: `${data?.className} rounded-none`,
     }
     const INPUT_CN = {
         className: data?.className,
-        classNameWrapper: 'flex-col gap-y-[0.62rem] w-full',
-        classNameLabel: 'place-self-start text-[0.875rem] capitalize',
+        classNameWrapper: 'flex-col gap-y-[0.6rem] w-full',
+        classNameLabel: 'place-self-start text-small capitalize',
     }
 
     // Form controls
@@ -252,7 +252,7 @@ const Editable: FC<Props> = (props: Props) => {
                         <span
                             hidden={!data.value || !('verify' in data.value) || data.value.verify === undefined}
                             onClick={() => data.value && 'verify' in data.value && data.value.verify?.(formData)}
-                            className={'cursor-pointer underline ml-[0.81rem] mt-[1.5rem]'}
+                            className={'cursor-pointer underline ml-[0.8rem] mt-[1.5rem]'}
                         >
                             Verify
                         </span>
@@ -314,7 +314,7 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         New Password
                     </Input>
-                    <ul className={'grid grid-cols-2 list-disc ml-[2rem] text-[0.75rem]'}>
+                    <ul className={'grid grid-cols-2 list-disc ml-[2rem] text-note'}>
                         <li>Minimum of 9 characters</li>
                         <li>One uppercase letter</li>
                         <li>One lowercase letter</li>
@@ -344,14 +344,14 @@ const Editable: FC<Props> = (props: Props) => {
             Form = (
                 <>
                     {children}
-                    <hr className={'border-control3'}/>
+                    <hr className={'border-control-white-d0'}/>
                     <div className={'flex justify-between'}>
                         <Editable
                             toggleType={'button'}
                             keepChildrenOnEdit
                             isSimpleSwitch
                             data={{
-                                className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                                className: 'bg-control-gray-l0 py-[0.35rem] w-full rounded-smallest px-[0.75rem] border-small border-control-white',
                                 title: 'Add your Email as a two-factor authentication option',
                                 value: null,
                                 onSave: data.onSave
@@ -366,7 +366,7 @@ const Editable: FC<Props> = (props: Props) => {
                             keepChildrenOnEdit
                             checkEmpty
                             data={{
-                                className: 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem] px-[0.76rem] border-small border-control4',
+                                className: 'bg-control-gray-l0 py-[0.35rem] w-full rounded-smallest px-[0.76rem] border-small border-control-white',
                                 title: 'Add your Phone as a two-factor authentication option',
                                 value: data.value.isPhoneAdded ? {value: ''} : formData,
                                 onSave: data.onSave
@@ -571,8 +571,8 @@ const Editable: FC<Props> = (props: Props) => {
                 return (
                     <>
                         <span className={`grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-[1.25rem] mb-[0.62rem]
-                                            ${isPersonal ? 'mt-[1.25rem] bg-[#686868] p-[0.81rem] rounded-[0.5625rem]' : 'mt-[0.94rem]'}`}>
-                            <span className={'flex col-span-2 capitalize text-[0.875rem] justify-between'}>
+                                            ${isPersonal ? 'mt-[1.25rem] bg-[#686868] p-[0.81rem] rounded-small' : 'mt-[0.94rem]'}`}>
+                            <span className={'flex col-span-2 capitalize text-small justify-between'}>
                                 <span>{key.slice(0, 'Address'.length + 1)} Address</span>
                                 <span
                                     onClick={() =>
@@ -648,7 +648,7 @@ const Editable: FC<Props> = (props: Props) => {
                         <span
                             onClick={() =>
                                 setFormState(prevState => ({...prevState, personalAddress: DEFAULT_ADDRESS}))}
-                            className={`underline cursor-pointer text-[0.875rem] mt-[1.25rem]
+                            className={`underline cursor-pointer text-small mt-[1.25rem]
                                         ${isPersonal || formData.personalAddress !== null ? 'hidden' : ''}`}
                         >
                             Add a Personal Address

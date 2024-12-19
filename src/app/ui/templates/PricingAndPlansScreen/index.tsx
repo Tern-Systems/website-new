@@ -108,7 +108,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const isCurrentRecurrency = userSubscription
             ? userSubscription.recurrency === selectedRecurrency
             : false;
-        const isBtnDisabled = isCurrentPlan && isCurrentRecurrency || !subscriptionData;
+        const isBtnDisabled =
+            type === 'basic' && subscriptionData?.isBasicKind
+            || (isCurrentPlan && isCurrentRecurrency || !subscriptionData);
 
         let subscribeBtnText: string | ReactElement;
         let Links: ReactElement | null;
@@ -121,8 +123,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             </span>
         );
 
-        if (!userSubscription) {
-            subscribeBtnText = 'Subscribe';
+        if (isBtnDisabled) {
+            subscribeBtnText = isBtnDisabled ? 'Your current plan' : 'Subscribe';
             Links = Limits;
         } else {
             if (isCurrentRecurrency) {
@@ -130,7 +132,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     subscribeBtnText = 'Your current plan';
                     Links = (
                         <>
-                            <span className={'mb-[0.44rem] underline'}>
+                            <span className={'mb-[0.45rem] underline'}>
                                 <PageLink href={Route.ManageSubscriptions} className={'cursor-pointer'}>
                                     Manage subscription
                                 </PageLink>
@@ -139,8 +141,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         </>
                     );
                 } else {
-                    subscribeBtnText = <>{idx ? 'Up' : 'Down'}grade to <span
-                        className={'capitalize'}>{type}</span></>;
+                    subscribeBtnText = (
+                        <>{idx ? 'Up' : 'Down'}grade to <span className={'capitalize'}>{type}</span></>
+                    );
                     Links = Limits;
                 }
             } else {
@@ -152,7 +155,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 );
                 Links = (
                     <>
-                        <span className={'mb-[0.44rem]'}>
+                        <span className={'mb-[0.45rem]'}>
                             *Price billed {isUserMonthlySubscriber ? 'annually' : 'monthly'}
                         </span>
                         {Limits}
@@ -162,25 +165,25 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         }
 
         const pricing: string = data
-            ? data.priceUSD[selectedRecurrency].toFixed(2).toString()
+            ? (data.priceUSD[selectedRecurrency] ? '$' + data.priceUSD[selectedRecurrency].toFixed(2) + '/month' : 'Free')
             : '--'
 
         return (
             <div
                 key={type + idx}
-                className={`flex flex-col flex-grow p-[--py] w-[25.125rem] max-h-[35.21rem] rounded-[0.5625rem]
-                            border-small border-control3 bg-control text-left text-primary`}
+                className={`flex flex-col flex-shrink-0 p-[--p-small] w-[25rem] rounded-small
+                            border-small border-control-white-d0 bg-control-gray text-left`}
             >
                 <h2 className={'flex mb-[0.95rem] font-oxygen text-header font-bold capitalize'}>
                     {data?.icon ? <Image src={data.icon} alt={type + ' icon'} className={'mr-[0.32rem]'}/> : '--'}
                     <span>{type}</span>
                 </h2>
                 <div className={'text-secondary mb-[2.2rem] text-[1.25rem]'}>
-                    <span>${pricing + '/month' + (isAnnualSwitchOption ? '*' : '')}</span>
+                    <span>{pricing + (isAnnualSwitchOption ? '*' : '')}</span>
                 </div>
                 <Button
                     onClick={() => handleSubscribeClick(type)}
-                    className={`bg-control3 font-bold text-[1.125rem] disabled:bg-inherit disabled:border-small disabled:border-control
+                    className={`bg-control-blue font-bold text-content-small disabled:bg-inherit disabled:border-small disabled:border-control
                                 disabled:text-secondary rounded-full py-[1.13rem] w-full`}
                     disabled={isBtnDisabled}
                 >
@@ -188,7 +191,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 </Button>
                 <ul className={'flex flex-col gap-[1.5rem] mt-[1.56rem]'}>{Benefits}</ul>
                 <div
-                    className={'flex flex-col mt-[2.07rem] font-oxygen text-[0.75rem] text-secondary flex-grow justify-end'}>
+                    className={'flex flex-col mt-[2.07rem] font-oxygen text-note text-secondary flex-grow justify-end'}>
                     {Links}
                 </div>
             </div>
@@ -198,13 +201,13 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const renderColumns = (): ReactElement[] => {
         const {userData} = userCtx;
         const userSubscription: UserSubscription | undefined = userData?.subscriptions.find(
-            (subscription: UserSubscription) => subscription.subscription === subscription?.subscription
+            (subscription: UserSubscription) => subscription.subscription === subscriptionData?.subscription
         );
-        const isBasicView = userSubscription?.isBasicKind === subscriptionData?.isBasicKind;
+        const isCutBasicColumn = subscriptionData?.isBasicKind === true && userSubscription?.type !== 'basic';
 
         const columnsData = subscriptionData?.type
-            ? Object.entries(subscriptionData.type).slice(+isBasicView)
-            : generateFallbackEntries(isBasicView ? 1 : 2);
+            ? Object.entries(subscriptionData.type).slice(+isCutBasicColumn)
+            : generateFallbackEntries(isCutBasicColumn ? 1 : 2);
 
         return columnsData.map(([type, data], idx) => renderColumn(userSubscription, type, data, idx))
     }
@@ -213,7 +216,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             <div
                 key={entry + idx}
                 className={`px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold capitalize
-                            ${selectedRecurrency === entry ? 'bg-control2' : 'text-secondary'}`}
+                            ${selectedRecurrency === entry ? 'bg-control-gray-l0' : 'text-secondary'}`}
                 onClick={() => setSelectedRecurrency(entry)}
             >
                 {entry}
@@ -222,16 +225,14 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     );
 
     return (
-        <>
-            <div className={'flex flex-col my-auto'}>
-                <div className={'flex place-self-center p-[0.19rem] border-small rounded-full text-small'}>
-                    {Switch}
-                </div>
-                <div className={'flex place-self-center gap-[4.13rem] mt-[3.12rem]'}>
-                    {renderColumns()}
-                </div>
+        <div className={'flex flex-col my-auto'}>
+            <div className={'flex place-self-center p-[0.19rem] border-small rounded-full text-small'}>
+                {Switch}
             </div>
-        </>
+            <div className={'flex place-self-center gap-[4.13rem] mt-[3.12rem]'}>
+                {renderColumns()}
+            </div>
+        </div>
     )
 }
 

@@ -65,8 +65,8 @@ If you have questions about this policy or believe we have not adhered to its te
 const CookiePage = () => (
     <div className={`${styles.highlight} max-w-[112.25rem] max-h-[41.625rem]`}>
         <h1 className={'mb-[2.3rem]'}>Cookies Policy</h1>
-        <span className={'overflow-y-scroll [&&]:text-[1.6875rem]'}>
-            <pre className={'font-neo'} dangerouslySetInnerHTML={{__html: PARAGRAPHS}}/>
+        <span className={'overflow-y-scroll [&&]:text-header'}>
+            <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}}/>
            <span>
                For additional information, please refer to our&nbsp;
                <PageLink href={Route.Privacy} className={'inline-flex underline'}>

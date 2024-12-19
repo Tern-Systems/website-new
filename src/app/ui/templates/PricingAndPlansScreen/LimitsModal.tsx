@@ -3,8 +3,8 @@ import {BaseModal} from "@/app/ui/modals";
 
 const LimitsModal = () => (
     <BaseModal title={'Limits Apply'}>
-        <div className={'w-[56.25rem]'}>
-            <h2 className={'mb-[0.51rem] font-bold text-[1.125rem]'}>TernKey Pro Plan Subscription Limitations</h2>
+        <div className={'w-[56rem]'}>
+            <h2 className={'mb-[0.5rem] font-bold text-content-small'}>TernKey Pro Plan Subscription Limitations</h2>
             <div>
             <span>
                 As part of the TernKey Pro plan, specific usage limitations are implemented to maintain optimal

@@ -110,9 +110,15 @@ const TEMPLATE_USER :UserData= {
     subscriptions: [
         {
             type: 'pro',
-            recurrency: 'monthly',
-            isBasicKind: true,
+            recurrency: 'annual',
+            isBasicKind: false,
             subscription: 'ternKey',
+        },
+        {
+            type: 'pro',
+            recurrency: 'annual',
+            isBasicKind: true,
+            subscription: 'arch',
         }
     ],
     hasPurchasedPlan: true,
