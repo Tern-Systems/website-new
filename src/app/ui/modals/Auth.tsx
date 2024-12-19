@@ -82,7 +82,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     const Content = (
         <>
-            <div className={'flex flex-col items-center w-[26rem] text-center'}>
+            <div className={'flex flex-col items-center text-center'}>
                 <span>{info}</span>
                 <div className={isSmScreen ? 'hidden' : 'mb-[1.9rem]'}>
                     <Image src={SVG_INSIGNIA} alt={'insignia'}
@@ -100,8 +100,8 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         value={formValue.email}
                         onChange={setFormValue('email')}
                         classNameWrapper={'flex-col [&]:items-start gap-[0.625rem]'}
-                        className={`h-[1.875rem] w-full px-[0.75rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
-                                    ${isSmScreen ? 'placeholder:text-primary' : ''}`}
+                        className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
+                                    sm:text-primary placeholder:sm:text-primary`}
                         required
                     >
                         Please enter credentials to {!isLoginForm ? 'create your Tern account' : 'login'}
@@ -112,7 +112,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         value={formValue.password}
                         onChange={setFormValue('password')}
                         className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
-                                    ${isSmScreen ? 'placeholder:text-primary' : ''}`}
+                                    sm:text-primary placeholder:sm:text-primary`}
                         required
                     />
                     <Input
@@ -122,7 +122,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         value={formValue.passwordConfirm}
                         onChange={setFormValue('passwordConfirm')}
                         className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
-                                    ${isSmScreen ? 'placeholder:text-primary' : ''}`}
+                                    sm:text-primary placeholder:sm:text-primary`}
                         required={!isLoginForm}
                     />
                 </fieldset>
@@ -130,14 +130,14 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     Forgot your password?&nbsp;
                     <Button
                         className={'text-blue-l0'}
-                        onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
+                        onClick={() => modalCtx.openModal(<ResetPasswordModal  token={'asd'}/>, {darkenBg: true})}
                     >
                         Reset
                     </Button>
                 </span>
                 {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
                 <Button className={`py-[0.92rem] mt-[1.56rem] text-content-small font-bold rounded-full
-                                    w-[18.93rem] place-self-center border-small border-control
+                                    w-full place-self-center border-small border-control sm:w-[90%]
                                         ${isLoginForm
                     ? isSmScreen ? 'bg-control-blue text-primary' : 'text-gray bg-white'
                     : isSmScreen ? 'border-b-small border-blue' : ''}`}
@@ -159,8 +159,15 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         </>
     );
 
-    return <BaseModal adaptSmScreen
-                      title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}>{Content}</BaseModal>
+    return (
+        <BaseModal
+            adaptSmScreen
+            title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
+            classNameContent={'w-[26rem] sm:p-[1.25rem] sm:max-w-[21rem] sm:place-self-center'}
+        >
+            {Content}
+        </BaseModal>
+    );
 }
 
 

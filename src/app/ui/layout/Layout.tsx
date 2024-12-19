@@ -91,7 +91,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 >
                     <div
                         className={`h-full w-full flex flex-col p-[min(5.3dvw,var(--p-small))] pb-0
-                                    ${modalCtx.hideContent ? 'hidden' : ''}
+                                    ${modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100')}
                                     ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                         {children}
                         <span className={'block pt-[--p-small]'}/>

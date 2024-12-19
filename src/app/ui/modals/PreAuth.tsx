@@ -15,7 +15,7 @@ const PreAuthModal: FC = () => {
             adaptSmScreen
             title={'Tern Account'}
             classNameTitle={'place-self-center -ml-[8rem]'}
-            classNameContent={'place-items-center'}
+            classNameContent={'place-items-center p-[1.25rem]'}
         >
             <div>
                 <p>Your Tern account provides you with:</p>
@@ -26,7 +26,7 @@ const PreAuthModal: FC = () => {
                     <li>And many more exclusive benefits</li>
                 </ul>
             </div>
-            <div className={'px-[0.25rem] font-bold text-small max-w-[19rem] w-full'}>
+            <div className={'px-[1rem] font-bold text-small max-w-[19rem] w-full'}>
                 <Button
                     onClick={() => modalCtx.openModal(<AuthModal isLoginAction/>)}
                     className={'h-[2.7rem] bg-control-blue rounded-full w-full text-primary mb-[0.94rem]'}
