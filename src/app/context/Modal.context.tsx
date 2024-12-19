@@ -57,15 +57,16 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 isOpened: Modal !== null,
                 openModal,
                 closeModal,
-            }}>
-            <div
-                className={`absolute z-50 w-full h-full flex overflow-hidden pointer-events-auto font-neo text-primary
-                            ${Modal ? '' : 'hidden'} ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
-            >
-                {Modal}
-            </div>
+            }}
+        >
             <div
                 className={config.darkenBg && !config.hideContent ? 'brightness-[60%]' : 'brightness-100'}>
+                <div
+                    className={`absolute z-50 w-full h-full flex overflow-hidden pointer-events-auto font-neo text-primary
+                            ${Modal ? '' : 'hidden'} ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
+                >
+                    {Modal}
+                </div>
                 {props.children}
             </div>
         </ModalContext.Provider>

@@ -1,19 +1,17 @@
-import {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
+import {Dispatch, FC, ReactElement, SetStateAction, useState} from "react";
 import Image from "next/image";
 import {usePathname} from "next/navigation";
-
-import resolveConfig from 'tailwindcss/resolveConfig';
-import tailwindConfig from '../../../../tailwind.config';
 
 import {LANGUAGE, Route} from "@/app/static";
 
 import {AuthService} from "@/app/services";
 
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
+import {useBreakpointCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
-import {AuthModal} from "@/app/ui/modals";
+import {AuthModal, PreAuthModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
 import styles from '@/app/common.module.css'
@@ -21,8 +19,6 @@ import styles from '@/app/common.module.css'
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 import SVG_GLOBE from "@/assets/images/icons/globe.svg";
 
-
-const {theme} = resolveConfig(tailwindConfig);
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
 const PROFILE_LINKS: Route[] = [Route.MyTern, Route.Profile, Route.Billing];
@@ -35,6 +31,7 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.Service]: '/ARCH',
     [Route.ARCodeToolCreate]: '/CreationTool',
 }
+
 
 const SM_NAV_CN = 'sm:justify-between sm:flex-row-reverse sm:[&_span]:mr-auto sm:py-[1.25rem] sm:[&_path]:fill-[--bg-control-blue]';
 const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.22rem] after:w-[2.5rem] after:border-b-small after:border-control-blue after:sm:hidden
@@ -52,31 +49,23 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     // For sm breakpoint only
     const [isMenuOpened, setMenuOpenState] = useState(false);
-    const [isSmScreen, setSmScreenState] = useState(false);
 
 
     const route = usePathname();
     const userCtx = useUser();
     const modalCtx = useModal();
-
-
-    useEffect(() => {
-        const handleResize = () => {
-            setSmScreenState(parseFloat(theme.screens.md?.min ?? '') > window.innerWidth);
-        }
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-    }, [])
+    const isSmScreen = useBreakpointCheck();
 
 
     const toggleProfileMenu = () => {
-        setProfileMenuOpenState(prevState => {
-            setMenuOpenState(!prevState);
-            return !prevState;
-        });
+        if (userCtx.isLoggedIn) {
+            modalCtx.openModal(<PreAuthModal/>);
+        } else {
+            setProfileMenuOpenState(prevState => {
+                setMenuOpenState(!prevState);
+                return !prevState;
+            });
+        }
     }
 
     const toggleNav = () => {
@@ -224,7 +213,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 />
                 <ul
                     className={`absolute z-10 right-0 flex flex-col items-start gap-[1.2rem] mt-[0.6rem] p-[0.75rem]
-                                border-small border-control-grayL1rounded-smallest bg-control-gray text-nowrap
+                                border-small border-control-grayL1 rounded-smallest bg-control-gray text-nowrap
                                 ${!isProfileMenuOpened ? 'hidden' : 'sm:hidden'}`}>
                     {ProfileLinks}
                 </ul>
@@ -269,6 +258,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     >
                         {NavLinks}
                     </ul>
+                    {/*TODO add language support*/}
                     <div
                         className={`lg:hidden md:hidden ${isMenuOpened ? 'flex gap-x-[0.63rem] items-center self-start p-[1.25rem]' : 'hidden'}`}
                     >
