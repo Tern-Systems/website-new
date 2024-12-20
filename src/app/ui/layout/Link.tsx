@@ -1,5 +1,6 @@
 import {AnchorHTMLAttributes, FC, MouseEvent, ReactElement} from "react";
 import {ReactSVG} from "react-svg";
+import {usePathname} from "next/navigation";
 import Link from "next/link";
 
 import {Route} from "@/app/static";
@@ -31,6 +32,7 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 const PageLink: FC<Props> = (props: Props) => {
     const {icon, children, href, isExternal, ...linkProps} = props;
 
+    const route = usePathname();
     const modalCtx = useModal();
     const [navigate] = useNavigate();
 
@@ -55,7 +57,7 @@ const PageLink: FC<Props> = (props: Props) => {
         <Link
             {...linkProps}
             className={`items-center inline-flex ${styles.clickable} ${linkProps.className}`}
-            href={href ?? '/'}
+            href={route ?? '/'}
             onClick={handleLinkClick}
             {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
         >

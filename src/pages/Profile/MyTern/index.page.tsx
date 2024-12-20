@@ -7,11 +7,13 @@ import {Route, TERN_AC_HREF} from "@/app/static";
 
 import {capitalize, copyObject} from "@/app/utils";
 import {useModal, useUser} from "@/app/context";
-import {useLoginCheck} from "@/app/hooks";
+import {useBreakpointCheck, useLoginCheck, useNavigate} from "@/app/hooks";
 
 import {PageLink} from "@/app/ui/layout";
-import {FAQsModal, HelpModal} from "@/app/ui/modals";
+import {HelpModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
+import {FAQsModal} from "./FAQs/index.page";
+
 
 import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 
@@ -98,6 +100,8 @@ const MyTernPage: FC = () => {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
+    const [navigate] = useNavigate();
+    const isSmScreen = useBreakpointCheck();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
@@ -167,7 +171,7 @@ const MyTernPage: FC = () => {
     }
 
     return (
-        <div className={'mt-[3rem] min-w-[75%] text-left mx-auto sm:mt-0 sm:overflow-y-hidden sm:max-h-full'}>
+        <div className={'mt-[3rem] min-w-[75%] text-left mx-auto sm:mt-0'}>
             <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.25rem)] block sm:mb-0`}>
                 Dashboard
             </h1>
@@ -187,15 +191,18 @@ const MyTernPage: FC = () => {
                     <PageLink href={Route.Documentation}/>
                     <span
                         className={`cursor-pointer ${styles.clickable}`}
-                        onClick={() => modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
+                        onClick={() => isSmScreen
+                            ? navigate(Route.Help)
+                            : modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
                     >
-                    Help & FAQs
-                </span>
+                        Help & FAQs
+                    </span>
                     <span
                         className={`cursor-pointer ${styles.clickable}`}
-                        onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}>
-                    Support Hub
-                </span>
+                        onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}
+                    >
+                        Support Hub
+                    </span>
                 </div>
             </div>
         </div>

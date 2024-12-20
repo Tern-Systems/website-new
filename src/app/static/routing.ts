@@ -32,6 +32,7 @@ enum Route {
     AddPaymentMethod = '/Profile/Billing/PurchasingInformation/Add',
     MyTern = '/Profile/MyTern',
 
+    Help = '/Profile/MyTern/FAQs',
     Documentation = '/Profile/MyTern/Documentation',
     TernKeyManual = '/Profile/MyTern/Documentation/TernKeyManual',
     GHandbook = '/Profile/MyTern/Documentation/GHandbook',

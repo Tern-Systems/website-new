@@ -74,7 +74,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             default:
                 break;
         }
-    } else if (route?.includes(Route.Profile))
+    } else if (route?.includes(Route.Profile) && isSmScreen)
         navLinks = PROFILE_LINKS;
 
     let subNavLinks: Route[] | null = null;

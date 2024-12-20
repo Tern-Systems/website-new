@@ -25,6 +25,9 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
     }, [pageRoute]);
 
     useEffect(() => {
+        if (!layoutCtx.isFade)
+            return;
+
         setTimeout(() => {
             if (currentRoute === pageRoute)
                 layoutCtx.setFadeState(false);
@@ -35,12 +38,11 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
     const navigate = async (route: Route) => {
         if (pageRoute === route)
             return;
-
         layoutCtx.setFadeState(true);
         history.pushState(null, '', window.location.href);
         setTimeout(() => {
-            router.replace(route);
-        }, FADE_DURATION);
+            router.push(route);
+        }, FADE_DURATION + 1000);
     };
 
     return [navigate, router];

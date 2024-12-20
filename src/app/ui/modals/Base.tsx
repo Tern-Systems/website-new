@@ -62,7 +62,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 id={'modal'}
                 className={`${isSmRullesApplied
                     ? 'bg-control-white-d0 text-gray w-dvw h-dvh'
-                    : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--p-small]'}
+                    : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[min(4dvw,var(--p-small))]'}
                             ${className} pointer-events-auto`}>
                 <div
                     className={`flex items-center justify-between font-oxygen ${isSmRullesApplied ? 'h-[4.3rem] p-[1.25rem]' : ''}`}>
@@ -73,7 +73,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                         className={isSmRullesApplied ? '[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]' : ''}
                     />
                 </div>
-                <hr className={`${isSmRullesApplied ? '' : 'mt-[1.25rem] scale-[105%] mb-[1.55rem]'}`}/>
+                <hr className={`${isSmRullesApplied ? '' : 'mt-[min(2.7dvw,1.25rem)] scale-[105%] mb-[min(2.7dvw,1.55rem)]'}`}/>
                 <div className={classNameContent}>
                     {isSmRullesApplied ? Heading : null}
                     {children}

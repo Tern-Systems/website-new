@@ -21,7 +21,7 @@ const HomePage: FC = () => {
         const token = params?.get('resetToken');
         if (token) {
             modalCtx.openModal(<ResetPasswordModal token={token}/>);
-            router.replace(Route.Home);
+            router.push(Route.Home);
         }
         //eslint-disable-next-line
     }, [params]);
