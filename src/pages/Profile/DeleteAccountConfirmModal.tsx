@@ -116,7 +116,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
 
     return (
         <BaseModal title={'Delete Account Confirmation'} className={'w-[min(90dvw,34rem)] leading-[120%]'}>
-            <ul className={'list-disc pl-[min(3dvw,1rem)] flex flex-col gap-y-[min(2.7dvw,1.88rem)] text-[min(2.6dvw,1rem)]'}>{ListItems}</ul>
+            <ul className={'list-disc pl-[min(3dvw,1rem)] flex flex-col gap-y-[min(2.7dvw,1.88rem)]'}>{ListItems}</ul>
             {renderDeleteBlock()}
         </BaseModal>
     );

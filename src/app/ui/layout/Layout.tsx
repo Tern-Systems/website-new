@@ -87,7 +87,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <div
                     id={'content'}
                     className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
-                                bg-content bg-cover bg-no-repeat bg-fixed text-center p-[min(5.3dvw,var(--p-small))]
+                                bg-content bg-cover bg-no-repeat bg-fixed text-center p-[min(5.3dvw,var(--p-small))] text-[min(2.6dvw,1rem)]
                                 sm:pt-[3.1rem]`}
                 >
                     <div

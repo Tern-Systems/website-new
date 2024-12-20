@@ -26,7 +26,7 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
         return null;
 
     return (
-        <BaseModal title={'Account Offboarding'} className={'w-[min(90dvw,34rem)] text-center leading-[120%] text-[min(2.6dvw,1rem)]'}>
+        <BaseModal title={'Account Offboarding'} className={'w-[min(90dvw,34rem)] text-center leading-[120%]'}>
             <span>
                 You are about to delete your Tern account associated with&nbsp;
                 <span className={'font-bold'}>{userData.email}</span>.
