@@ -1,9 +1,9 @@
-import {genSalt, hashSync} from "bcryptjs";
-import axios, {AxiosRequestConfig} from "axios";
+import { genSalt, hashSync } from "bcryptjs";
+import axios, { AxiosRequestConfig } from "axios";
 
-import {Res} from "@/app/types/service";
+import { Res } from "@/app/types/service";
 
-import {BaseService} from "./base.service";
+import { BaseService } from "./base.service";
 
 
 type LoginData = {
@@ -23,9 +23,9 @@ interface IAuthService {
 
     postForgotPassword(email: string): Promise<void>;
 
-    postSendOTP(email: string): Promise<void>;
+    postLoginSendOTP(email: string): Promise<void>;
 
-    postVerifyOTP(otp: string, userEmail: string): Promise<void>;
+    postLoginVerifyOTP(otp: string, userEmail: string): Promise<void>;
 }
 
 class AuthServiceImpl extends BaseService implements IAuthService {
@@ -38,7 +38,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const salt = await genSalt(10);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + 'signup',
+            url: this._API + 'signup01',
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -61,7 +61,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `login`,
-            headers: {'Content-Type': 'application/json',},
+            headers: { 'Content-Type': 'application/json', },
             data: JSON.stringify({
                 email: data.email,
                 password: data.password
@@ -71,7 +71,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
 
         try {
             const response = await axios(config);
-            return {payload: response.data.token};
+            return { payload: response.data.token };
         } catch (error: unknown) {
             throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
@@ -82,8 +82,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `forgot-password`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({email}),
+            headers: { 'Content-Type': 'application/json', },
+            data: JSON.stringify({ email }),
             withCredentials: true,
         };
 
@@ -99,8 +99,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `reset-password/` + token,
-            headers: {'Content-Type': 'application/json',},
-            data: {newPassword},
+            headers: { 'Content-Type': 'application/json', },
+            data: { newPassword },
             withCredentials: true,
         };
 
@@ -111,13 +111,47 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         }
     }
 
-    async postSendOTP(email: string): Promise<void> {
-        this.log(this.postSendOTP.name);
+    async postLoginSendOTP(email: string): Promise<void> {
+        this.log(this.postLoginSendOTP.name);
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `send-otp`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail: email}),
+            headers: { 'Content-Type': 'application/json', },
+            data: JSON.stringify({ userEmail: email }),
+            withCredentials: true,
+        };
+
+        try {
+            await axios(config);
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
+
+    async postLoginVerifyOTP(otp: string, userEmail: string): Promise<void> {
+        this.log(this.postLoginVerifyOTP.name);
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `2FA-login-verify-otp`,
+            headers: { 'Content-Type': 'application/json', },
+            data: JSON.stringify({ userEmail, otp }),
+            withCredentials: true,
+        };
+
+        try {
+            await axios(config);
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
+
+    async postSendOTP(email: string, phone: string): Promise<void> {
+        this.log(this.postLoginSendOTP.name);
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `2FA-send-otp`,
+            headers: { 'Content-Type': 'application/json', },
+            data: JSON.stringify({ userEmail: email, phone: phone }),
             withCredentials: true,
         };
 
@@ -132,9 +166,9 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         this.log(this.postVerifyOTP.name);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `verify-otp`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail, otp}),
+            url: this._API + `2FA-verify-otp`,
+            headers: { 'Content-Type': 'application/json', },
+            data: JSON.stringify({ userEmail, otp }),
             withCredentials: true,
         };
 
@@ -147,5 +181,5 @@ class AuthServiceImpl extends BaseService implements IAuthService {
 }
 
 const AuthService = new AuthServiceImpl();
-export {AuthService}
-export type {SignUpData, LoginData}
+export { AuthService }
+export type { SignUpData, LoginData }

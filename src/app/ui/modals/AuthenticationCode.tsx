@@ -1,23 +1,23 @@
-import React, {FC, FormEvent, ReactElement, useCallback, useEffect, useState} from "react";
+import React, { FC, FormEvent, ReactElement, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 
-import {UserData} from "@/app/context/User.context";
+import { UserData } from "@/app/context/User.context";
 
-import {AuthService, UserService} from "@/app/services";
+import { AuthService, UserService } from "@/app/services";
 
-import {useForm} from "@/app/hooks";
-import {useModal, useUser} from "@/app/context";
+import { useForm } from "@/app/hooks";
+import { useModal, useUser } from "@/app/context";
 
-import {BaseModal, MessageModal} from "@/app/ui/modals";
-import {Button, Input} from "@/app/ui/form";
+import { BaseModal, MessageModal } from "@/app/ui/modals";
+import { Button, Input } from "@/app/ui/form";
 
 import SVG_SAFE from '@/assets/images/safe.svg'
 
 
 type FormData = { code: string };
 
-const FORM_DEFAULT: FormData = {code: ''};
+const FORM_DEFAULT: FormData = { code: '' };
 
 interface Props {
     token: string;
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const {token, phone, email} = props;
+    const { token, phone, email } = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -35,7 +35,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
 
     const handleSendNewCode = useCallback(async () => {
-        await AuthService.postSendOTP(email);
+        await AuthService.postLoginSendOTP(email);
     }, [email])
 
     useEffect(() => {
@@ -46,8 +46,8 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         event.preventDefault();
 
         try {
-            await AuthService.postVerifyOTP(formValue.code, email);
-            const {payload: userData} = await UserService.getUser(token);
+            await AuthService.postLoginVerifyOTP(formValue.code, email);
+            const { payload: userData } = await UserService.getUser(token);
             userCtx.setSession(userData as UserData, token); // TODO remove type casting
             modalCtx.closeModal();
         } catch (error: unknown) {
@@ -66,7 +66,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             className={`place-self-center mx-auto relative [&]:bg-control-gray border-small border-control`}
         >
             <div className={'flex flex-col items-center w-[26rem] mb-[1.875rem] text-center leading-[120%]'}>
-                <Image src={SVG_SAFE} alt={'safe'} className={'mb-[1.875rem] size-[9.9rem]'}/>
+                <Image src={SVG_SAFE} alt={'safe'} className={'mb-[1.875rem] size-[9.9rem]'} />
                 <span>
                     Please confirm your account by entering the authorization code sent to&nbsp;
                     <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
@@ -107,4 +107,4 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 }
 
 
-export {AuthenticationCode}
+export { AuthenticationCode }

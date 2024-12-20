@@ -1,16 +1,16 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
+import React, { FC, ReactElement, useEffect, useState } from "react";
 
-import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY} from "@/app/static";
+import { COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY } from "@/app/static";
 
-import {AuthService} from "@/app/services";
+import { AuthService } from "@/app/services";
 
-import {formatDate} from "@/app/utils/data";
-import {useLoginCheck} from "@/app/hooks";
-import {useModal, useUser} from "@/app/context";
+import { formatDate } from "@/app/utils/data";
+import { useLoginCheck } from "@/app/hooks";
+import { useModal, useUser } from "@/app/context";
 
-import {Collapsible} from "@/app/ui/misc";
-import {Button, Editable, Input} from "@/app/ui/form";
-import {DeleteAccountModal} from "./DeleteAccountModal";
+import { Collapsible } from "@/app/ui/misc";
+import { Button, Editable, Input } from "@/app/ui/form";
+import { DeleteAccountModal } from "./DeleteAccountModal";
 
 import styles from './Profile.module.css';
 
@@ -51,7 +51,7 @@ const ROUNDED_W_FULL_CN = 'rounded-smallest w-full';
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
-    const {userData, token} = useUser();
+    const { userData, token } = useUser();
     const isLoggedIn = useLoginCheck();
 
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
@@ -91,15 +91,15 @@ const ProfilePage: FC = () => {
             className={`pl-[1.88rem] leading-[200%] cursor-pointer
                         ${idx === activeSectionIdx ? `before:bg-control-blue ${styles.line}` : ''}`}
         >
-                <span
-                    onClick={() => {
-                        setActiveSectionIdx(idx);
-                        const id = '#' + link.toLowerCase().split(' ').join('');
-                        document.querySelector(id)?.scrollIntoView({behavior: 'smooth', inline: 'center'});
-                    }}
-                >
-                    {link}
-                </span>
+            <span
+                onClick={() => {
+                    setActiveSectionIdx(idx);
+                    const id = '#' + link.toLowerCase().split(' ').join('');
+                    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                }}
+            >
+                {link}
+            </span>
         </li>
     ));
 
@@ -114,12 +114,12 @@ const ProfilePage: FC = () => {
                 <span key={text + idx} className={'contents'}>
                     {isFound
                         ? <a href={userApp?.link} className={'capitalize col-start-2'}
-                             target={'_blank'}>{userApp?.name}</a>
+                            target={'_blank'}>{userApp?.name}</a>
                         : <span className={'capitalize col-start-2'}>{app}</span>
                     }
                     <Button
                         icon={isFound ? 'mark-square' : 'plus-square'}
-                        hovered={{icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : ''}}
+                        hovered={{ icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : '' }}
                         className={'col-start-3 flex-row-reverse place-self-end'}
                         onClick={() => {
                             // TODO
@@ -202,7 +202,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update your TernID',
-                            value: {value: userData.email},
+                            value: { value: userData.email },
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
@@ -254,12 +254,14 @@ const ProfilePage: FC = () => {
                                 suggestedPhone: userData.phone.personal?.number ?? null,
                             },
                             onSave: async (formData) => {
-                                if (!('value' in formData))
-                                    return;
-                                Object.values(formData).forEach((number: string | null) => {
-                                    if (number?.length && number.length < 10)
-                                        throw `Number must contain 10 digits`
-                                })
+                                console.log(formData);
+                                // if (!('value' in formData))
+                                //     return;
+                                // Object.values(formData).forEach((number: string | null) => {
+                                //     if (number?.length && number.length < 10)
+                                //         throw `Number must contain 10 digits`
+                                // })
+                                // console.log(formData);
                             },
                             onSwitch: async () => {
                                 // TODO disable 2FA
@@ -301,7 +303,7 @@ const ProfilePage: FC = () => {
                                 data={{
                                     className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                                     title: 'Update your TernID',
-                                    value: {value: userData.displayName},
+                                    value: { value: userData.displayName },
                                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                     onSave: async (formData) => {
                                     } //TODO
@@ -358,7 +360,7 @@ const ProfilePage: FC = () => {
                                     if (number.number !== '' && number.number.length < 10)
                                         throw type + ` number must contain 10 digits`
                                 })
-                            } //TODO
+                            }
                         }}
                         setParentEditState={setEditState}
                         isToggleBlocked={isEditState}
@@ -374,7 +376,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${SELECT_CN} ${COMMON_CN}`,
                             title: 'Country / Region',
-                            value: {value: 'US'},
+                            value: { value: 'US' },
                             options: COUNTRY,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -396,7 +398,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${SELECT_CN} ${COMMON_CN}`,
                             title: 'Language',
-                            value: {value: 'EN'},
+                            value: { value: 'EN' },
                             options: LANGUAGE,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -416,7 +418,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update your TernID',
-                            value: {value: userData.company?.name ?? '-'},
+                            value: { value: userData.company?.name ?? '-' },
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
@@ -530,7 +532,7 @@ const ProfilePage: FC = () => {
                     <Button
                         icon={'delete-square'}
                         className={'flex-row-reverse'}
-                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData}/>, {darkenBg: true})}
+                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData} />, { darkenBg: true })}
                     >
                         Delete
                     </Button>
