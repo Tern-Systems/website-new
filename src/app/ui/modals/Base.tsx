@@ -47,13 +47,13 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 id={'modal'}
                 className={`p-[--p-small] rounded-small border-small border-control-white-d0 bg-control-gray
                             place-self-center mx-auto ${className} pointer-events-auto`}>
-                <div className={`flex items-center justify-between font-oxygen`}>
-                    <h2 className={'text-inherit font-oxygen text-header font-bold'}>
+                <div className={`flex items-center justify-between p-[-100px]`}>
+                    <h2 className={'text-inherit text-header font-bold'}>
                         {title ?? ''}
                     </h2>
                     <Button icon={'close'} onClick={() => handleClose()}/>
                 </div>
-                <hr className={'scale-[105%] mt-[1.25rem] mb-[1.55rem]'}/>
+                <hr className={'scale-[105%] mt-[0.90rem] mb-[1.55rem]'}/>
                 <div className={classNameContent}>{children}</div>
             </div>
         )

@@ -20,18 +20,18 @@ const CancelModal: FC = () => {
     return (
         <BaseModal
             title={'Cancel Plan'}
-            className={'bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_h2+button]:brightness-50 w-[33rem]'}
-            classNameContent={'text-gray text-center'}
+            className={'bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_h2+button]:brightness-50 w-[528px] h-[276.19px]'}
+            classNameContent={'text-gray text-center mt-[-10px]'}
         >
                 <span className={'inline-block w-[25.3135rem]'}>
                     <p className={'mb-[1rem] text-nowrap'}>You‘re about to cancel your ARCH Pro Plan subscription.</p>
                     <p>
                         If you wish to proceed, please click the red <span
                         className={'font-bold'}>Cancel Subscription</span> button. Otherwise, click the
-                        <span className={'font-bold'}>Return to Billing</span> button to return to managing your ARCH subscription billing settings.
+                        <span className={'font-bold'}> Return to Billing</span> button to return to managing your ARCH subscription billing settings.
                     </p>
                     <span
-                        className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-small justify-center'}>
+                        className={'flex gap-[0.62rem] font-bold mt-[1.25rem] text-small justify-center text-[#FFFFFF]'}>
                         <Button
                             className={'bg-control-red px-[1rem] h-[1.43rem] rounded-full'}
                             onClick={() => handleDelete()}
