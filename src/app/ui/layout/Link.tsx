@@ -57,7 +57,7 @@ const PageLink: FC<Props> = (props: Props) => {
         <Link
             {...linkProps}
             className={`items-center inline-flex ${styles.clickable} ${linkProps.className}`}
-            href={route ?? '/'}
+            href={(isExternal ? href : route) ?? '/'}
             onClick={handleLinkClick}
             {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
         >

@@ -20,7 +20,9 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
     }, []);
 
     useEffect(() => {
-        layoutCtx.setFadeState(false);
+        setTimeout(() => {
+            layoutCtx.setFadeState(false);
+        }, 1.5 * FADE_DURATION);
         //eslint-disable-next-line
     }, [pageRoute]);
 
@@ -42,7 +44,7 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
         history.pushState(null, '', window.location.href);
         setTimeout(() => {
             router.push(route);
-        }, FADE_DURATION + 1000);
+        }, 1.5 * FADE_DURATION);
     };
 
     return [navigate, router];

@@ -231,7 +231,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             >
                 <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)]
                                 before:absolute before:h-[2rem] before:-left-[--p-small] before:border-r-small before:border-section
-                                sm:ml-[--p-small]`}
+                                sm:ml-[--p-small] sm:before:border-control-gray-l0`}
                 >
                     <Button
                         onClick={() => toggleNav()}

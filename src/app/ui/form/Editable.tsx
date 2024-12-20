@@ -17,7 +17,7 @@ import {COUNTRY, SALUTATION, STATE_PROVINCE} from "@/app/static";
 import {Address, FullName, Phone, UserAddress, UserPhone, Company} from "@/app/context/User.context";
 
 import {copyObject} from "@/app/utils";
-import {useForm} from "@/app/hooks";
+import {useBreakpointCheck, useForm} from "@/app/hooks";
 
 import {Button, Input, Select, Switch} from "@/app/ui/form";
 
@@ -33,6 +33,13 @@ const DEFAULT_ADDRESS: Address = {
     state: '',
     isPrimary: false,
     country: '',
+}
+
+
+const FA2_INPUT_CN = 'bg-control-gray-l0 py-[min(1.7dvw,0.35rem)] w-full rounded-smallest px-[min(16dvw,0.76rem)] border-small border-control-white';
+const CHECKBOX_CN = {
+    classNameWrapper: 'flex-row-reverse place-self-start',
+    classNameLabel: 'text-small',
 }
 
 
@@ -61,6 +68,7 @@ type DataBase = {
     value: Value | null;
 }
 
+
 interface Props extends PropsWithChildren {
     type?: 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'address' | 'company';
     toggleType?: 'icon' | 'button',
@@ -80,9 +88,10 @@ interface Props extends PropsWithChildren {
 const Editable: FC<Props> = (props: Props) => {
     const {
         type, checkEmpty, toggleType, keepChildrenOnEdit,
-        isSimpleSwitch, isToggleBlocked, setParentEditState
-        , classNameWrapper, classNameToggle, data, children
+        isSimpleSwitch, isToggleBlocked, setParentEditState,
+        classNameWrapper, classNameToggle, data, children
     } = props;
+    const isSmScreen = useBreakpointCheck();
 
 
     // State
@@ -153,9 +162,10 @@ const Editable: FC<Props> = (props: Props) => {
     const Hr = <hr className={'border-control-white-d0'}/>;
 
     const ControlBtns = (
-        <span className={'block mt-[0.95rem] text-small font-bold'}>
+        <span
+            className={`flex gap-x-[min(1dvw,0.75rem)] h-[min(4.3dvw,1.45rem)] mt-[min(1.3dvw,0.95rem)] text-small font-bold`}>
             <Button
-                className={'bg-control-gray-l0 px-[1rem] h-[1.45rem] rounded-full mr-[0.75rem]'}
+                className={'bg-control-gray-l0 px-[min(2.5dvw,1rem)] h-full rounded-full'}
                 onClick={() => toggleEditState()}
             >
                 Cancel
@@ -163,7 +173,7 @@ const Editable: FC<Props> = (props: Props) => {
             <Button
                 type={'submit'}
                 disabled={checkUpdateBtnDisabledState()}
-                className={'bg-[#00397F] px-[1rem] h-[1.45rem] rounded-full disabled:bg-control-gray-l0 disabled:text-gray'}
+                className={'bg-[#00397F] px-[min(2.5dvw,1rem)] rounded-full disabled:bg-control-gray-l0 disabled:text-gray'}
             >
                 Update
             </Button>
@@ -183,7 +193,7 @@ const Editable: FC<Props> = (props: Props) => {
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
-                className={`text-note font-oxygen py-[0.3rem] w-[4.25rem] rounded-smallest1 bg-[#0C545C] 
+                className={`text-note font-oxygen py-[0.3rem] px-[min(1.6dvw,0.75rem)] rounded-smallest1 bg-[#0C545C] box-content
                             ${isDisabled ? '' : 'hover:bg-control-blue hover:text-primary'}
                             ${classNameToggle} ${isEditState ? '[&]:bg-control-blue' : '[&]:bg-control-white-d0 text-gray'}`}
             >
@@ -203,29 +213,25 @@ const Editable: FC<Props> = (props: Props) => {
         : (
             <span
                 onClick={() => !isToggleBlocked && toggleEditState()}
-                className={`cursor-pointer text-small flex gap-[0.4rem] items-center ${classNameToggle}
+                className={`cursor-pointer text-small flex gap-[0.4rem] items-center ${classNameToggle} place-self-end self-start
                             ${isEditState ? 'hidden' : ''}`}
             >
-                <span>Edit</span>
-                <Image src={SVG_PENCIL} alt={'edit'} className={'size-[0.8rem] brightness-[300%]'}/>
+                <span className={'sm:hidden'}>Edit</span>
+                <Image src={SVG_PENCIL} alt={'edit'} className={'size-[min(3.4dvw,0.8rem)] brightness-[300%]'}/>
             </span>
         );
 
     // Styles
-    const CHECKBOX_CN = {
-        classNameWrapper: 'flex-row-reverse place-self-start',
-        classNameLabel: 'text-small',
-    }
     const SELECT_CN = {
-        classNameWrapper: 'flex-col gap-y-[0.6rem]',
-        classNameLabel: 'self-start text-small',
+        classNameWrapper: 'flex-col gap-y-[min(1.3dvw,0.6rem)]',
+        classNameLabel: `self-start text-small`,
         className: `${data?.className} rounded-smallest`,
-        classNameOption: `${data?.className} rounded-none`,
+        classNameOption: `${data?.className} [&&]:rounded-none`,
     }
     const INPUT_CN = {
         className: data?.className,
-        classNameWrapper: 'flex-col gap-y-[0.6rem] w-full',
-        classNameLabel: 'place-self-start text-small capitalize',
+        classNameWrapper: 'flex-col gap-y-[min(1.3dvw,0.6rem)] w-full',
+        classNameLabel: `first-letter:capitalize place-self-start text-small`,
     }
 
     // Form controls
@@ -252,12 +258,12 @@ const Editable: FC<Props> = (props: Props) => {
                         <span
                             hidden={!data.value || !('verify' in data.value) || data.value.verify === undefined}
                             onClick={() => data.value && 'verify' in data.value && data.value.verify?.(formData)}
-                            className={'cursor-pointer underline ml-[0.8rem] mt-[1.5rem]'}
+                            className={`cursor-pointer underline ml-[min(1.7dvw,0.8rem)] mt-[min(4.3dvw,1.5rem)] text-small`}
                         >
                             Verify
                         </span>
                     </span>
-                    <span className={`block mt-[1rem] ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span className={`block mt-[min(2.5dvw,1rem)] ${waring ? '' : 'hidden'}`}>{waring}</span>
                     {ControlBtns}
                 </>
             )
@@ -314,11 +320,11 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         New Password
                     </Input>
-                    <ul className={'grid grid-cols-2 list-disc ml-[2rem] text-note'}>
-                        <li>Minimum of 9 characters</li>
-                        <li>One uppercase letter</li>
-                        <li>One lowercase letter</li>
-                        <li>One number</li>
+                    <ul className={'grid grid-cols-2 list-disc list-inside ml-[min(2dvw,1rem)] text-note'}>
+                        <li>{isSmScreen ? '' : 'Minimum of'} 9 characters</li>
+                        <li>{isSmScreen ? 'U' : 'One u'}ppercase letter</li>
+                        <li>{isSmScreen ? 'L' : 'One l'}owercase leter</li>
+                        <li>{isSmScreen ? 'N' : 'One n'}umber</li>
                     </ul>
                     <Input
                         type={'password'}
@@ -351,7 +357,7 @@ const Editable: FC<Props> = (props: Props) => {
                             keepChildrenOnEdit
                             isSimpleSwitch
                             data={{
-                                className: 'bg-control-gray-l0 py-[0.35rem] w-full rounded-smallest px-[0.75rem] border-small border-control-white',
+                                className: FA2_INPUT_CN,
                                 title: 'Add your Email as a two-factor authentication option',
                                 value: null,
                                 onSave: data.onSave
@@ -366,24 +372,25 @@ const Editable: FC<Props> = (props: Props) => {
                             keepChildrenOnEdit
                             checkEmpty
                             data={{
-                                className: 'bg-control-gray-l0 py-[0.35rem] w-full rounded-smallest px-[0.76rem] border-small border-control-white',
+                                className: FA2_INPUT_CN,
                                 title: 'Add your Phone as a two-factor authentication option',
                                 value: data.value.isPhoneAdded ? {value: ''} : formData,
                                 onSave: data.onSave
                             }}
                         >
-                            Phone Number
+                            Phone {isSmScreen ? '' : 'number'}
                         </Editable>
                     </div>
                 </>
             );
             EditToggle = (
                 <Switch
-                    state={data.value.isPhoneAdded || data.value.isEmailAdded}
+                    state={data.value.isPhoneAdded || data.value.isEmailAdded || isEditState}
                     handleSwitch={async () => {
                         await data.onSwitch?.();
                         toggleEditState();
                     }}
+                    className={'place-self-end self-start'}
                 />
             );
             break;
@@ -447,7 +454,7 @@ const Editable: FC<Props> = (props: Props) => {
 
                 const InputFieldFinal = ext !== undefined
                     ? (
-                        <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem]'}>
+                        <span className={'grid grid-cols-[2fr,1fr] gap-x-[min(1.3dvw,0.62rem)]'}>
                        {InputField}
                             <Input
                                 type={'number'}
@@ -481,20 +488,24 @@ const Editable: FC<Props> = (props: Props) => {
             }
 
             Form = (
-                <div className={'flex flex-col gap-y-[0.81rem]'}>
-                    {renderPhoneFieldset('business', 'ext' in formData.business ? formData.business?.ext : '')}
-                    {renderPhoneFieldset('mobile')}
-                    {renderPhoneFieldset('personal')}
-                    <span className={`first-letter:capitalize mt-[1rem] ${waring ? '' : 'hidden'}`}>{waring}</span>
+                <>
+                    <div className={'flex flex-col gap-y-[min(2dvw,0.81rem)]'}>
+                        {renderPhoneFieldset('business', 'ext' in formData.business ? formData.business?.ext : '')}
+                        {renderPhoneFieldset('mobile')}
+                        {renderPhoneFieldset('personal')}
+                        <span className={`first-letter:capitalize mt-[min(2.5dvw,1rem)] ${waring ? '' : 'hidden'}`}>
+                            {waring}
+                        </span>
+                    </div>
                     {ControlBtns}
-                </div>
+                </>
             );
             break
         case 'name':
-            if (!('initial' in formData) || !('options' in data))
+            if (!('initial' in formData))
                 break;
             Form = (
-                <div className={'flex flex-col gap-y-[0.94rem]'}>
+                <div className={'flex flex-col gap-y-[min(2.6dvw,0.94rem)]'}>
                     <Select
                         options={SALUTATION}
                         value={formData.salutation}
@@ -502,11 +513,12 @@ const Editable: FC<Props> = (props: Props) => {
                         onChangeCustom={(value) =>
                             setFormState(prevState => ({...prevState, salutation: value as keyof typeof SALUTATION}))}
                         {...SELECT_CN}
+                        classNameWrapper={SELECT_CN.classNameWrapper + ' w-[43%]'}
                         required
                     >
                         Salutations
                     </Select>
-                    <span className={'grid grid-cols-[2fr,1fr] gap-x-[0.62rem]'}>
+                    <span className={'grid grid-cols-[minmax(0,2fr),minmax(0,1fr)] gap-x-[min(1.3dvw,0.62rem)]'}>
                         <Input
                             value={formData.firstname}
                             onChange={(event) => {
@@ -526,7 +538,7 @@ const Editable: FC<Props> = (props: Props) => {
                             }}
                             {...INPUT_CN}
                         >
-                            Initial (optional)
+                            Initial {isSmScreen ? '' : '(optional)'}
                         </Input>
                     </span>
                     <Input
@@ -569,10 +581,11 @@ const Editable: FC<Props> = (props: Props) => {
                     return null;
 
                 return (
+                    // gap-x is not used for sm breakpoints
                     <>
-                        <span className={`grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-[1.25rem] mb-[0.62rem]
-                                            ${isPersonal ? 'mt-[1.25rem] bg-[#686868] p-[0.81rem] rounded-small' : 'mt-[0.94rem]'}`}>
-                            <span className={'flex col-span-2 capitalize text-small justify-between'}>
+                        <span className={`grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-[min(2.6dvw,1.25rem)] mb-[min(1.3dvw,0.62rem)]
+                                            ${isPersonal ? 'mt-[min(2.6dvw,1.25rem)] bg-[#686868] p-[min(2.6dvw,0.81rem)] rounded-small' : 'mt-[min(0.75dvw,0.94rem)]'}`}>
+                            <span className={`flex col-span-2 capitalize text-small justify-between`}>
                                 <span>{key.slice(0, 'Address'.length + 1)} Address</span>
                                 <span
                                     onClick={() =>
@@ -588,6 +601,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 placeholder={'Select'}
                                 onChangeCustom={(value) => requireOnChangeAddress(key, 'country')(value)}
                                 {...SELECT_CN}
+                                classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
                                 required
                             >
                                 Country / Region
@@ -598,6 +612,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 placeholder={'Select'}
                                 onChangeCustom={(value) => requireOnChangeAddress(key, 'state')(value)}
                                 {...SELECT_CN}
+                                classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
                                 required
                             >
                                 State / Province
@@ -624,6 +639,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 value={formData[key]?.city ?? ''}
                                 onChange={requireOnChangeAddress(key, 'city')}
                                 {...INPUT_CN}
+                                classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
                                 required
                             >
                                 City / Locality
@@ -632,6 +648,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 value={formData[key]?.zip ?? ''}
                                 onChange={requireOnChangeAddress(key, 'zip')}
                                 {...INPUT_CN}
+                                classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
                                 required
                             >
                                 Postal / ZIP Code
@@ -648,7 +665,7 @@ const Editable: FC<Props> = (props: Props) => {
                         <span
                             onClick={() =>
                                 setFormState(prevState => ({...prevState, personalAddress: DEFAULT_ADDRESS}))}
-                            className={`underline cursor-pointer text-small mt-[1.25rem]
+                            className={`underline cursor-pointer text-small mt-[min(2.6dvw,1.25rem)]
                                         ${isPersonal || formData.personalAddress !== null ? 'hidden' : ''}`}
                         >
                             Add a Personal Address
@@ -669,7 +686,7 @@ const Editable: FC<Props> = (props: Props) => {
                 break;
 
             Form = (
-                <div className={'flex flex-col gap-y-[1.25rem]'}>
+                <div className={'flex flex-col gap-y-[min(2.6dvw,1.25rem)]'}>
                     <Input
                         value={formData.jobTitle ?? ''}
                         onChange={(event) => {
@@ -725,7 +742,7 @@ const Editable: FC<Props> = (props: Props) => {
 
     if (keepChildrenOnEdit) {
         return (
-            <form onSubmit={handleFormSubmit} className={'w-full'}>
+            <form onSubmit={handleFormSubmit} className={'w-full overflow-x-hidden overflow-ellipsis'}>
                 <div
                     className={`flex justify-between ${isFormShown ? 'mb-[0.94rem]' : ''}`}>{children}{EditToggle}</div>
                 {isFormShown ? Form : null}
@@ -743,6 +760,5 @@ const Editable: FC<Props> = (props: Props) => {
     }
 }
 
-export {
-    Editable
-}
+export type {Props as EditableProps};
+export {Editable};
