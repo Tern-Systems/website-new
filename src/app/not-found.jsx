@@ -7,7 +7,7 @@ import styles from '@/app/common.module.css'
 const NotFound = () => (
     <html>
     <body>
-    <div className={`flex flex-col justify-center items-center h-screen text-white 
+    <div className={`flex flex-col justify-center items-center h-screen text-primary 
                     bg-content bg-cover bg-no-repeat`}>
         <div>
             <p className={`text-header font-english ${styles.typewriter}`}>Page not found</p>

@@ -49,7 +49,7 @@ const ShareModal: FC<Props> = (props: Props) => {
             key={icon.href + idx}
             href={icon.href}
             target={'_blank'}
-            className={'inline-block [&_path]:bg-white'}
+            className={'inline-block [&_path]:bg-control-white'}
         >
             <Image src={icon.svg} alt={icon.href + idx} className={`min-w-[2.5rem] rounded-full`}/>
         </a>

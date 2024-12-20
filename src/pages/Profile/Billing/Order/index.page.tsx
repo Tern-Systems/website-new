@@ -62,7 +62,7 @@ const OrderPage: FC = () => {
 
     return (
         <div className={'flex h-full font-oxygen'}>
-            <div className={'flex-1 pt-[8.17rem] px-[--p-small] w-1/2 bg-white overflow-y-scroll'}>
+            <div className={'flex-1 pt-[8.17rem] px-[--p-small] w-1/2 bg-control-white overflow-y-scroll'}>
                 <h2 className={`mb-[1.25rem] font-bold text-[3rem] flex gap-[0.92rem] text-nowrap items-center`}>
                     <Image src={SVG_TERN_LOGO} alt={'tern-logo'} className={'size-[2.48rem]'}/>
                     Tern Systems, LLC

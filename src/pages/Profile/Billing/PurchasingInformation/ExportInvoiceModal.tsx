@@ -44,7 +44,7 @@ const ExportInvoiceModal: FC = () => {
                     onChangeCustom={(value) => setFormData('timeRange', value)}
                     classNameWrapper={'flex-col [&]:items-start gap-[1.25rem] flex-grow'}
                     classNameLabel={'text-content font-bold'}
-                    className={`px-[0.62rem] py-[0.8rem]  h-[3.25rem] bg-white border-small rounded-smallest border-control-white-d0`}
+                    className={`px-[0.62rem] py-[0.8rem]  h-[3.25rem] bg-control-white border-small rounded-smallest border-control-white-d0`}
                 >
                     Choose timeframe to export invoices
                 </Select>

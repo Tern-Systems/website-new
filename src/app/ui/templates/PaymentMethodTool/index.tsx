@@ -132,7 +132,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         placeholder={'Select'}
                         onChangeCustom={(value) => setEditCardIdx(+value)}
                         classNameWrapper={'flex-col [&]:items-start mb-[3.25rem]'}
-                        className={`px-[0.62rem] py-[0.8rem] h-[3.25rem] bg-white border-small rounded-smallest border-control-white-d0`}
+                        className={`px-[0.62rem] py-[0.8rem] h-[3.25rem] bg-control-white border-small rounded-smallest border-control-white-d0`}
                     >
                         Choose Payment Method
                     </Select>
@@ -260,7 +260,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={formData.state}
                         onChangeCustom={(value) => setFormData('state')(value)}
                         classNameWrapper={'flex-col [&]:items-start'}
-                        className={`px-[0.62rem] py-[0.8rem] bg-white`}
+                        className={`px-[0.62rem] py-[0.8rem] bg-control-white`}
                         hidden={formData.billingCountry !== 'US'}
                         required={formData.billingCountry === 'US'}
                     >
@@ -271,7 +271,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={formData.billingCountry}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         classNameWrapper={'flex-col [&]:items-start'}
-                        className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-smallest border-control-white-d0 `}
+                        className={`px-[0.62rem] py-[0.8rem] bg-control-white border-small rounded-smallest border-control-white-d0 `}
                         required
                     >
                         Country / Region

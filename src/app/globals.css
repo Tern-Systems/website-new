@@ -23,6 +23,7 @@
   --b-control-white-d0: #B3B3B3;
   --b-control-white: var(--bg-control-white);
   --b-control-blue: var(--bg-control-blue);
+  --b-control-red: var(--bg-control-red);
 
   --br-smallest-1: 0.25rem;
   --br-smallest: 0.375rem;

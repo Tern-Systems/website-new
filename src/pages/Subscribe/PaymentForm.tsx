@@ -144,7 +144,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
-                    className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-smallest border-control-white-d0 mb-[0.94rem]`}
+                    className={`px-[0.62rem] py-[0.8rem] bg-control-white border-small rounded-smallest border-control-white-d0 mb-[0.94rem]`}
                     required
                 />
                 <Input
@@ -220,7 +220,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         value={formData.billingCountry}
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
-                        className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-b-none border-small
+                        className={`px-[0.62rem] py-[0.8rem] bg-control-white [&&]:rounded-b-none border-small
                                         rounded-smallest border-control-white-d0`}
                         required
                     />
@@ -267,7 +267,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 value={formData.state}
                                 placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
-                                className={`px-[0.62rem] py-[0.8rem] bg-white [&&]:rounded-t-none [&&]:border-t-0 border-control-white-d0
+                                className={`px-[0.62rem] py-[0.8rem] bg-control-white [&&]:rounded-t-none [&&]:border-t-0 border-control-white-d0
                                             border-small rounded-smallest`}
                                 required={isBillingExpanded}
                             />

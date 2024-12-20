@@ -202,7 +202,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     onClick={() => toggleProfileMenu()}
                 />
                 <ul className={`absolute z-10 right-0 flex flex-col items-start mt-[0.6rem] p-[1.25rem] min-w-[8.75rem]
-                                border-small border-control-grayL1 rounded-smallest bg-control-gray text-nowrap
+                                border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap
                                 sm:bg-control-white-d0 sm:text-gray sm:rounded-none sm:py-0
                                 ${!isProfileMenuOpened ? 'hidden' : ''}`}
                 >
@@ -216,7 +216,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 key={name + idx}
                 onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>, {darkenBg: true})}
                 className={`px-[0.75rem] py-[0.2rem] rounded-full border-small border-section font-bold capitalize 
-                            text-[1rem] ${idx ? 'bg-black text-white' : 'bg-white text-black'}`}
+                            text-[1rem] ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
             >
                 {name}
             </Button>

@@ -7,7 +7,7 @@ import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, S
 import {AuthService} from "@/app/services";
 
 import {formatDate} from "@/app/utils/data";
-import {useBreakpointCheck, useLoginCheck} from "@/app/hooks";
+import {useBreakpointCheck, useLoginCheck, useSaveOnLeave} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {Collapsible} from "@/app/ui/misc";
@@ -70,6 +70,7 @@ const ProfilePage: FC = () => {
     const {userData, token} = useUser();
     const isLoggedIn = useLoginCheck();
     const isSmScreen = useBreakpointCheck();
+    useSaveOnLeave();
 
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
     const [isEditState, setEditState] = useState(false);
@@ -207,7 +208,7 @@ const ProfilePage: FC = () => {
                     <span className={LEFT_COL_CN}>Profile Picture</span>
                     <Input
                         type={'file'}
-                        classNameWrapper={`bg-white text-gray px-[min(3dvw,1rem)] w-fit font-bold rounded-full
+                        classNameWrapper={`bg-control-white text-gray px-[min(3dvw,1rem)] w-fit font-bold rounded-full
                                             h-[min(6.1dvw,1.43rem)] text-small box-content`}
                     >
                         Upload Media

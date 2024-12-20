@@ -139,7 +139,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 <Button className={`py-[0.92rem] mt-[1.56rem] text-content-small font-bold rounded-full
                                     w-full place-self-center border-small border-control sm:w-[90%]
                                         ${isLoginForm
-                    ? isSmScreen ? 'bg-control-blue text-primary' : 'text-gray bg-white'
+                    ? isSmScreen ? 'bg-control-blue text-primary' : 'text-gray bg-control-white'
                     : isSmScreen ? 'border-b-small border-blue' : ''}`}
                 >
                     {!isLoginForm ? 'Sign Up' : 'Login'}
