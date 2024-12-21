@@ -37,7 +37,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
     const handleEnablePiP = () => {
         if (!route)
             return;
-        const newWindow = window.open(route, '_blank no', 'width=600,height=400');
+        const newWindow = window.open(route, '_blank', 'width=600,height=400');
         newWindow?.sessionStorage.setItem('pip-mode-child', '');
 
         const handleLoad = () => {
@@ -129,7 +129,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 className={`p-[0.2rem] h-[1.8rem] min-w-[1.8125rem] rounded-smallest border-2 border-white`}
             >
                 <div
-                    className={`bg-control-white box-border h-[100%] rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
+                    className={`bg-control-white box-border h-full rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
             </Button>
         );
 

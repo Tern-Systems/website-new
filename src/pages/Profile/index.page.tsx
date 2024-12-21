@@ -58,7 +58,7 @@ const COLLAPSIBLE_GAP_Y = 'gap-y-[min(4dvw,2rem)]';
 
 const getSimpleToggleProps = (setEditState: Dispatch<SetStateAction<boolean>>, isEditState: boolean)
     : Pick<EditableProps, 'classNameWrapper' | 'classNameToggle' | 'setParentEditState' | 'isToggleBlocked'> => ({
-    classNameWrapper: 'w-[min(100%,21.625rem)]',
+    classNameWrapper: 'w-[min(full,21.625rem)]',
     classNameToggle: 'col-start-3',
     setParentEditState: setEditState,
     isToggleBlocked: isEditState,
