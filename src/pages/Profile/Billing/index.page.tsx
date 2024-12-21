@@ -39,10 +39,10 @@ const BillingPage: FC = () => {
     const OrderRows: ReactElement[] = (orders ?? []).map((order, idx) => {
         const renderTd = (title: string | number, type?: 'first' | 'last') => {
             const cn = type === undefined
-                ? ''
-                : (type === 'first' ? `rounded-l-[0.5625rem] pl-[0.75rem]` : `rounded-r-[0.5625rem] pr-[0.75rem]`);
+                ? 'sm:hidden'
+                : (type === 'first' ? `rounded-l-[0.56rem] px-[min(1.6dvw,0.75rem)]` : `rounded-r-[0.56rem] px-[min(1.6dvw,0.75rem)]`);
             return (
-                <td className={cn}>
+                <td className={`overflow-ellipsis overflow-hidden ${cn}`}>
                     <PageLink href={Route.Invoice} className={'hover:transform-none w-full'}>{title}</PageLink>
                 </td>
             );
@@ -51,8 +51,9 @@ const BillingPage: FC = () => {
         return (
             <tr
                 key={order.id + idx}
-                className={`h-[3.125rem] odd:bg-[#b3b3b326] cursor-pointer align-middle hover:bg-control-gray-l0 ${styles.clickable}`}
                 onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
+                className={`h-[min(5.3dvw,3.125rem)]  text-content odd:bg-[#b3b3b326] cursor-pointer align-middle
+                            hover:bg-control-gray-l0 ${styles.clickable}`}
             >
                 {renderTd(order.id, 'first')}
                 {renderTd(order.date)}
@@ -64,36 +65,41 @@ const BillingPage: FC = () => {
     });
 
     return (
-        <div className={'place-self-center my-auto text-left w-[90.625rem]'}>
-            <h1 className={'text-[2.25rem] font-bold mb-[1.87rem] text-left'}>Order Information</h1>
-            <div className={'bg-control-gray overflow-hidden rounded-small p-[--p-small] h-[26.875rem]'}>
+        <div className={'place-self-center my-auto text-left w-[min(100%,90rem)]'}>
+            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.25rem)] block sm:mb-0`}>
+                Order Information
+            </h1>
+            <div className={'sm:overflow-y-scroll sm:max-h-[65dvh]'}>
                 <div
-                    className={`overflow-y-scroll h-full text-content capitalize`}>
-                    <table className={'w-full'}>
-                        <thead className={'text-header'}>
-                        <tr>
-                            <td className={'pb-[0.94rem]'}>Order No.</td>
-                            <td className={'pb-[0.94rem]'}>Date</td>
-                            <td className={'pb-[0.94rem]'}>Cost</td>
-                            <td className={'pb-[0.94rem]'}>Status</td>
-                            <td className={'pb-[0.94rem]'}>Item</td>
-                        </tr>
-                        </thead>
-                        <tbody>{OrderRows}</tbody>
-                    </table>
+                    className={'bg-control-gray overflow-hidden rounded-small p-[min(4dvw,var(--p-small))] h-[26.875rem]'}>
+                    <div
+                        className={`overflow-y-scroll h-full text-content capitalize`}>
+                        <table className={'w-full'}>
+                            <thead className={'text-[min(2.7dvw,var(--fz-header-))] [&_td]:pb-[min(1.3dvw,0.94rem)]'}>
+                            <tr>
+                                <td>Order No.</td>
+                                <td className={'sm:hidden'}>Date</td>
+                                <td className={'sm:hidden'}>Cost</td>
+                                <td className={'sm:hidden'}>Status</td>
+                                <td>Item</td>
+                            </tr>
+                            </thead>
+                            <tbody>{OrderRows}</tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div className={'mt-[3.12rem]'}>
-                <h2 className={'text-header mb-[1.87rem] font-bold'}>Additional Resources</h2>
-                <div className={'inline-flex flex-col gap-[1.56rem] text-small'}>
-                    <PageLink href={Route.ManageSubscriptions}/>
-                    <PageLink href={Route.PurchasingInformation}/>
-                    <span
-                        className={'cursor-pointer'}
-                        onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
-                    >
+                <div className={'flex-col inline-flex gap-y-[min(2.6dvw,1.6rem)] mt-[3rem] sm:mt-[3.8rem]'}>
+                    <h2 className={'text-header font-bold mb-[0.3rem]'}>Additional Resources</h2>
+                    <div className={'inline-flex flex-col gap-[1.56rem] text-small'}>
+                        <PageLink href={Route.ManageSubscriptions}/>
+                        <PageLink href={Route.PurchasingInformation}/>
+                        <span
+                            className={'cursor-pointer'}
+                            onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
+                        >
                         Billing resolution center
                     </span>
+                    </div>
                 </div>
             </div>
         </div>

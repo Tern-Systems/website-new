@@ -32,7 +32,7 @@ const CONTENTS: Record<Content, DocumentationContent> = {
 }
 
 
-const DocumentationPage: FC = () => {
+function DocumentationPage() {
     const isLoggedIn = useLoginCheck();
     return isLoggedIn ? <DocumentationScreen contents={CONTENTS}/> : null;
 };
