@@ -88,10 +88,10 @@ This Policy ensures transparency and demonstrates our commitment to safeguarding
 
 
 const PrivacyPage = () => (
-    <div className={`${styles.highlight} max-w-[112.25rem] max-h-[41.625rem]`}>
-        <h1 className={'mb-[2.3rem]'}>Privacy Policy</h1>
+    <div className={`${styles.highlight} max-w-[112rem] max-h-[min(68dvh,42rem)]`}>
+        <h1 className={'mb-[min(4dvw,2.3rem)]'}>Privacy Policy</h1>
         <span className={'overflow-y-scroll [&&]:text-header'}>
-                <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}}/>
+            <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'font-neo whitespace-pre-line'}/>
         </span>
     </div>
 );
