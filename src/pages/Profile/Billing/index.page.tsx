@@ -1,15 +1,35 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 
 import {Invoice} from "@/app/types/billing";
-import {INVOICE_TEMPLATE, Route} from "@/app/static";
+import {Route} from "@/app/static";
 
+import {useBreakpointCheck, useLoginCheck} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
 import {HelpModal} from "@/app/ui/modals";
-import {useLoginCheck} from "@/app/hooks";
+import {OrderModal} from "./Order/index.page";
 
 import styles from '@/app/common.module.css'
+import {usePathname} from "next/navigation";
+
+
+const INVOICE_TEMPLATE: Invoice = {
+    id: 111111111111,
+    date: Date.now(),
+    to: 'John Doe',
+    from: 'Tern Systems, LLC',
+    card: {cardNumber: '1111222233334444', type: 'visa', nickName: 'john doe'},
+    item: {name: 'ARCH Standard Subscription', priceUSD: 10},
+    subtotalUSD: 10,
+    totalDue: 10.60,
+    taxPercent: 0.06,
+    paidUSD: 10.6,
+    country: 'US',
+    state: 'PA',
+    type: 'monthly',
+    status: 'paid'
+}
 
 
 const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE]
@@ -18,6 +38,7 @@ const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE]
 const BillingPage: FC = () => {
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
+    const isSmScreen = useBreakpointCheck();
 
     const [orders, setOrders] = useState<Invoice[]>([]);
 
@@ -43,15 +64,20 @@ const BillingPage: FC = () => {
                 : (type === 'first' ? `rounded-l-[0.56rem] px-[min(1.6dvw,0.75rem)]` : `rounded-r-[0.56rem] px-[min(1.6dvw,0.75rem)]`);
             return (
                 <td className={`overflow-ellipsis overflow-hidden ${cn}`}>
-                    <PageLink href={Route.Invoice} className={'hover:transform-none w-full'}>{title}</PageLink>
+                    <PageLink prevent={isSmScreen} href={Route.Invoice} className={'hover:transform-none w-full'}>
+                        {title}
+                    </PageLink>
                 </td>
             );
         }
-
         return (
             <tr
                 key={order.id + idx}
-                onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
+                onClick={() => {
+                    sessionStorage.setItem('invoice', JSON.stringify(order))
+                    if (isSmScreen)
+                        modalCtx.openModal(<OrderModal/>);
+                }}
                 className={`h-[min(5.3dvw,3.125rem)]  text-content odd:bg-[#b3b3b326] cursor-pointer align-middle
                             hover:bg-control-gray-l0 ${styles.clickable}`}
             >
