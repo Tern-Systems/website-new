@@ -8,10 +8,8 @@ import {useModal} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
 import {HelpModal} from "@/app/ui/modals";
-import {OrderModal} from "./Order/index.page";
 
 import styles from '@/app/common.module.css'
-import {usePathname} from "next/navigation";
 
 
 const INVOICE_TEMPLATE: Invoice = {
@@ -64,7 +62,7 @@ const BillingPage: FC = () => {
                 : (type === 'first' ? `rounded-l-[0.56rem] px-[min(1.6dvw,0.75rem)]` : `rounded-r-[0.56rem] px-[min(1.6dvw,0.75rem)]`);
             return (
                 <td className={`overflow-ellipsis overflow-hidden ${cn}`}>
-                    <PageLink prevent={isSmScreen} href={Route.Invoice} className={'hover:transform-none w-full'}>
+                    <PageLink href={Route.Invoice} className={'hover:transform-none w-full'}>
                         {title}
                     </PageLink>
                 </td>
@@ -73,11 +71,7 @@ const BillingPage: FC = () => {
         return (
             <tr
                 key={order.id + idx}
-                onClick={() => {
-                    sessionStorage.setItem('invoice', JSON.stringify(order))
-                    if (isSmScreen)
-                        modalCtx.openModal(<OrderModal/>);
-                }}
+                onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
                 className={`h-[min(5.3dvw,3.125rem)]  text-content odd:bg-[#b3b3b326] cursor-pointer align-middle
                             hover:bg-control-gray-l0 ${styles.clickable}`}
             >
@@ -123,8 +117,8 @@ const BillingPage: FC = () => {
                             className={'cursor-pointer'}
                             onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
                         >
-                        Billing resolution center
-                    </span>
+                            Billing resolution center
+                        </span>
                     </div>
                 </div>
             </div>

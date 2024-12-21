@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 
 import {Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static";
@@ -9,7 +9,6 @@ import {FullScreenLayout} from "@/app/ui/layout";
 import {Button} from "@/app/ui/form";
 import {OrderDetails} from "./OrderDetails";
 import {OrderPreview} from "./OrderPreview";
-import {BaseModal} from "@/app/ui/modals";
 
 
 const COLUMN_CN = 'flex-1 pt-[min(8dvw,8rem)] px-[min(4dvw,var(--p-small))] w-1/2 overflow-y-scroll sm:w-full';
@@ -85,12 +84,4 @@ OrderPage.getLayout = (page: ReactElement) => (
 OrderPage.getMobileLayout = OrderPage.getLayout;
 
 
-const OrderModal: FC = () => (
-    <BaseModal adaptSmScreen className={'[&]:bg-control-white'} classNameContent={'sm:overflow-y-scroll sm:max-h-[90dvh]'}>
-        <OrderPage/>
-    </BaseModal>
-);
-
-
-export {OrderModal};
 export default OrderPage;
