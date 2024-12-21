@@ -30,6 +30,14 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     useEffect(() => {
         if (sessionStorage.getItem('pip-mode-child') !== null)
             handleNoLayoutState();
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
     }, []);
 
     const handleNoLayoutState = () => setNoLayoutState(document.fullscreenElement === null);

@@ -59,13 +59,13 @@ const ShareModal: FC<Props> = (props: Props) => {
         <BaseModal title={'Share AR Code'} className={'w-[30.31rem]'}
                    classNameContent={'flex flex-col place-items-center'}>
             <Image
-                src={file ?? SVG_FIGURE_FALLBACK}
+                src={file || SVG_FIGURE_FALLBACK}
                 width={85}
                 height={85}
                 alt={'figure'}
-                className={`size-[8.19rem] rounded-full border-[0.1875rem] border-control4 p-[1.44rem]`}
+                className={`size-[8.19rem] rounded-full border-[0.1875rem] border-control-white p-[1.44rem]`}
             />
-            <span className={'font-oxygen text-[1.3125rem] font-bold mt-[1rem] mb-[1.9rem]'}>{name}</span>
+            <span className={'font-oxygen text-content font-bold mt-[1rem] mb-[1.9rem]'}>{name}</span>
             <span className={'flex place-items-center'}>
                 <Image
                     src={SVG_CHEVRON}
@@ -90,7 +90,7 @@ const ShareModal: FC<Props> = (props: Props) => {
                 />
             </span>
             <span
-                className={'px-[0.56rem] flex place-items-center mt-[1.56rem] h-[1.625rem] rounded-[0.375rem] w-[24.74rem] overflow-ellipsis border-small border-control bg-control2'}>
+                className={'px-[0.56rem] flex place-items-center mt-[1.56rem] h-[1.625rem] rounded-smallest w-[24.74rem] overflow-ellipsis border-small border-control-grayL1bg-control-gray-l0'}>
                 <Image
                     src={SVG_COPY}
                     alt={'copy'}

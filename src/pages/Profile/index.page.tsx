@@ -43,10 +43,10 @@ const SOCIAL_MEDIA: string[] = [
 ]
 
 // Styles
-const SINGLE_INPUT_CN = 'bg-control2 py-[0.35rem] w-full rounded-[0.375rem]';
-const COMMON_CN = 'px-[0.76rem] border-small border-control4';
-const SELECT_CN = '[&]:bg-control2 [&]:py-[0.35rem]';
-const ROUNDED_W_FULL_CN = 'rounded-[0.375rem] w-full';
+const SINGLE_INPUT_CN = 'bg-control-gray-l0 py-[0.35rem] w-full rounded-smallest';
+const COMMON_CN = 'px-[0.76rem] border-small border-control-white';
+const SELECT_CN = '[&]:bg-control-gray-l0 [&]:py-[0.35rem]';
+const ROUNDED_W_FULL_CN = 'rounded-smallest w-full';
 
 
 const ProfilePage: FC = () => {
@@ -79,8 +79,8 @@ const ProfilePage: FC = () => {
 
     // Elements
     const Primary = (
-        <span className={`col-start-2 bg-[#D9D9D9] rounded-[0.25rem] w-[4.15rem] py-[0.1rem] block
-                          text-form text-center text-[0.75rem] font-oxygen mt-[0.62rem]`}>
+        <span className={`col-start-2 bg-control-white-d0 rounded-smallest1 w-[4.15rem] py-[0.1rem] block
+                          text-gray text-center text-note font-oxygen mt-[0.62rem]`}>
             Primary
         </span>
     );
@@ -89,7 +89,7 @@ const ProfilePage: FC = () => {
         <li
             key={link + idx}
             className={`pl-[1.88rem] leading-[200%] cursor-pointer
-                        ${idx === activeSectionIdx ? `before:bg-control3 ${styles.line}` : ''}`}
+                        ${idx === activeSectionIdx ? `before:bg-control-blue ${styles.line}` : ''}`}
         >
                 <span
                     onClick={() => {
@@ -137,7 +137,7 @@ const ProfilePage: FC = () => {
         phone
             ? (
                 <span key={type + idx}>
-                    <span className={'text-[0.875rem] block mb-[0.62rem] mt-[1rem] capitalize'}>{type}</span>
+                    <span className={'text-small block mb-[0.62rem] mt-[1rem] capitalize'}>{type}</span>
                     <span>{phone.number + ('ext' in phone ? ' - ' + phone.ext : '')}</span>
                     {phone.isPrimary ? Primary : null}
                 </span>
@@ -163,7 +163,7 @@ const ProfilePage: FC = () => {
 
         return (
             <span key={type + idx} className={'col-start-2'}>
-                <span className={'text-[0.875rem] mt-[0.76rem] mb-[0.2rem] capitalize block'}>
+                <span className={'text-small mt-[0.76rem] mb-[0.2rem] capitalize block'}>
                     {type.slice(0, 'Address'.length + 1)} Address
                 </span>
                 {addressInfo}
@@ -178,24 +178,24 @@ const ProfilePage: FC = () => {
     return (
         <div className={'flex mt-[3.88rem]'}>
             <aside className={'text-left ml-[14.89rem] text-nowrap sticky self-start top-[5.94rem]'}>
-                <div className={'text-[1.69rem] font-bold mb-[1.56rem]'}>
+                <div className={'text-header font-bold mb-[1.56rem]'}>
                     <span>Sections</span>
                 </div>
-                <ul className={`flex flex-col text-[1.125rem] ${styles.line} before:bg-control4`}>
+                <ul className={`flex flex-col text-content-small ${styles.line} before:bg-control-white`}>
                     {SectionsNav}
                 </ul>
             </aside>
             <div className={'flex-grow flex flex-col gap-y-[0.62rem] ml-[10rem]'}>
                 <Collapsible title={SECTIONS[0]} icon={'key'} className={'gap-y-[2.09rem]'}>
-                    <span className={'col-start-1 text-[1.31rem]'}>Profile Picture</span>
+                    <span className={'col-start-1 text-content'}>Profile Picture</span>
                     <Input
                         type={'file'}
-                        classNameWrapper={'bg-white text-form w-[9.8125rem] font-bold rounded-[0.375rem] h-[1.43rem]'}
+                        classNameWrapper={'bg-white text-gray w-[9.8125rem] font-bold rounded-smallest h-[1.43rem]'}
                     >
                         Upload Media
                     </Input>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>TernID</span>
+                    <span className={'col-start-1 text-content'}>TernID</span>
                     <Editable
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
@@ -213,7 +213,7 @@ const ProfilePage: FC = () => {
                         <span>{userData.email}</span>
                     </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Password</span>
+                    <span className={'col-start-1 text-content'}>Password</span>
                     <Editable
                         type={'password'}
                         classNameWrapper={'w-[21.625rem] gap-y-[0.94rem]'}
@@ -236,13 +236,13 @@ const ProfilePage: FC = () => {
                     >
                         <span>
                             <span className={'block'}>•••••••••••••••</span>
-                            <span className={'text-[0.875rem]'}>
+                            <span className={'text-small'}>
                                 Last updated {userData.passwordUpdateDate ? formatDate(new Date(userData.passwordUpdateDate)) : '--'}
                             </span>
                         </span>
                     </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Security</span>
+                    <span className={'col-start-1 text-content'}>Security</span>
                     <Editable
                         type={'2FA'}
                         classNameWrapper={'w-[21.625rem] gap-y-[0.94rem]'}
@@ -270,7 +270,7 @@ const ProfilePage: FC = () => {
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[1]} icon={'book'} className={'gap-y-[1.95rem]'}>
-                    <span className={'col-start-1 text-[1.31rem]'}>Name</span>
+                    <span className={'col-start-1 text-content'}>Name</span>
                     <Editable
                         type={'name'}
                         classNameWrapper={'w-[21.625rem]'}
@@ -292,7 +292,7 @@ const ProfilePage: FC = () => {
                         </span>
                     </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Display Name (optional)</span>
+                    <span className={'col-start-1 text-content'}>Display Name (optional)</span>
                     {userData.displayName
                         ? (
                             <Editable
@@ -320,7 +320,7 @@ const ProfilePage: FC = () => {
                         )
                     }
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Email Address</span>
+                    <span className={'col-start-1 text-content'}>Email Address</span>
                     <Editable
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
@@ -343,7 +343,7 @@ const ProfilePage: FC = () => {
                         <span>{userData.email}</span>
                     </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Phone Number</span>
+                    <span className={'col-start-1 text-content'}>Phone Number</span>
                     <Editable
                         type={'phone'}
                         classNameWrapper={'w-[21.625rem]'}
@@ -366,7 +366,7 @@ const ProfilePage: FC = () => {
                         <span>{Phones}</span>
                     </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Country or Region of Residence</span>
+                    <span className={'col-start-1 text-content'}>Country or Region of Residence</span>
                     <Editable
                         type={'select'}
                         classNameWrapper={'w-[21.625rem]'}
@@ -388,7 +388,7 @@ const ProfilePage: FC = () => {
                         </span>
                     </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Preferred Language</span>
+                    <span className={'col-start-1 text-content'}>Preferred Language</span>
                     <Editable
                         type={'select'}
                         classNameWrapper={'w-[21.625rem]'}
@@ -409,7 +409,7 @@ const ProfilePage: FC = () => {
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[2]} icon={'building'} className={'gap-y-[1.88rem]'}>
-                    <span className={'col-start-1 text-[1.31rem]'}>Organizational Information</span>
+                    <span className={'col-start-1 text-content'}>Organizational Information</span>
                     <Editable
                         classNameWrapper={'w-[21.625rem]'}
                         classNameToggle={'col-start-3'}
@@ -427,7 +427,7 @@ const ProfilePage: FC = () => {
                         <span>{userData.company?.name ?? '--'}</span>
                     </Editable>
 
-                    <span className={'col-start-1 text-[1.31rem]'}>Career Information</span>
+                    <span className={'col-start-1 text-content'}>Career Information</span>
                     <Editable
                         type={'company'}
                         classNameWrapper={'w-[21.625rem]'}
@@ -448,22 +448,22 @@ const ProfilePage: FC = () => {
                                 <>
                                     <span className={'col-start-2 row-start-2'}>
                                         <span
-                                            className={'col-start-2 text-[0.875rem] block mb-[0.2rem]'}>Job Title</span>
+                                            className={'col-start-2 text-small block mb-[0.2rem]'}>Job Title</span>
                                         <span>{userData.company.jobTitle}</span>
                                     </span>
                                     <span className={'mt-[1.25rem]'}>
                                         <span
-                                            className={'col-start-2 text-[0.875rem] block mb-[0.2rem]'}>Job Function</span>
+                                            className={'col-start-2 text-small block mb-[0.2rem]'}>Job Function</span>
                                         <span>{JOB_FUNCTION[userData.company.jobFunction]}</span>
                                     </span>
                                     <span className={'mt-[1.25rem]'}>
                                         <span
-                                            className={'col-start-2 text-[0.875rem] block mb-[0.2rem]'}>Industry</span>
+                                            className={'col-start-2 text-small block mb-[0.2rem]'}>Industry</span>
                                         <span>{INDUSTRY[userData.company.industry]}</span>
                                     </span>
                                     <span className={'mt-[1.25rem]'}>
                                         <span
-                                            className={'col-start-2 text-[0.875rem] block mb-[0.2rem]'}>Sub-Industry</span>
+                                            className={'col-start-2 text-small block mb-[0.2rem]'}>Sub-Industry</span>
                                         <span>{subIndustry}</span>
                                     </span>
                                 </>
@@ -473,7 +473,7 @@ const ProfilePage: FC = () => {
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[3]} icon={'geo'} className={'[&]:items-start'}>
-                    <span className={'col-start-1 text-[1.31rem]'}>Address Information</span>
+                    <span className={'col-start-1 text-content'}>Address Information</span>
                     <Editable
                         type={'address'}
                         classNameWrapper={'w-[21.625rem]'}
@@ -493,7 +493,7 @@ const ProfilePage: FC = () => {
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[4]} icon={'blocks'}>
-                    <span className={'text-[1.31rem]'}>Domain</span>
+                    <span className={'text-content'}>Domain</span>
                     {userData.personalDomain
                         ? (
                             <>
@@ -516,16 +516,16 @@ const ProfilePage: FC = () => {
                             </>
                         )
                     }
-                    <span className={'mt-[1.88rem] text-[1.31rem]'}>Data Storage</span>
-                    <span className={'col-start-2 text-[0.875rem] self-end'}>Applications</span>
+                    <span className={'mt-[1.88rem] text-content'}>Data Storage</span>
+                    <span className={'col-start-2 text-small self-end'}>Applications</span>
                     {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
-                    <span className={'mt-[1.88rem] text-[1.31rem]'}>Social Media</span>
-                    <span className={'col-start-2 text-[0.875rem] self-end'}>Applications</span>
+                    <span className={'mt-[1.88rem] text-content'}>Social Media</span>
+                    <span className={'col-start-2 text-small self-end'}>Applications</span>
                     {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
                 </Collapsible>
                 <Collapsible title={SECTIONS[5]}>
-                    <span className={'text-[1.31rem]'}>Account Offboarding</span>
+                    <span className={'text-content'}>Account Offboarding</span>
                     <span>Delete your account and data</span>
                     <Button
                         icon={'delete-square'}

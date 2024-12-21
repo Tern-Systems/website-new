@@ -119,7 +119,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         ? null
         : (
             <Button
-                className={'p-[0.2rem] h-[1.8125rem] min-w-[1.8125rem] rounded-[0.3125rem] border-2 border-white'}
+                className={'p-[0.2rem] h-[1.8125rem] min-w-[1.8125rem] rounded-smallest border-2 border-white'}
                 onClick={() => toggleMenuOpen()}
             >
                 <div
@@ -148,18 +148,17 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`self-center flex-grow ${layoutCtx.isNoLayout ? 'h-full' : 'max-h-[90%] max-w-[90%] pt-[--py]'}`}>
+            className={`self-center flex-grow ${layoutCtx.isNoLayout ? 'h-full' : 'max-h-[90%] max-w-[90%] pt-[--p-small]'}`}>
             <div
-                className={`relative flex h-full rounded-small border-small border-control2 bg-section text-primary font-neo
-                            text-[1.5rem] leading-[130%] box-content overflow-hidden`}>
+                className={`relative flex h-full rounded-small border-small border-control-gray bg-control-navy                             text-[1.5rem] leading-[130%] box-content overflow-hidden`}>
                 <aside
                     id={'documentation-menu'}
-                    className={`px-[--px] py-[--py] text-primary text-[1.0625rem] text-left overflow-y-hidden
+                    className={`px-[--p-small] py-[--p-small] text-[1.0625rem] text-left overflow-y-hidden
                                 ${isMenuOpened ? 'bg-[#4D4D4D] min-w-[19.44rem] sm:portrait:w-screen' : 'h-fit bg-none'}`}
                 >
                     <div className={`flex items-center`}>
                         {MenuBtn}
-                        <span hidden={!isMenuOpened} className={'ml-[2.31rem] text-[1.125rem]'}>Table of Contents</span>
+                        <span hidden={!isMenuOpened} className={'ml-[2.31rem] text-content-small'}>Table of Contents</span>
                     </div>
                     <div className={'mt-[1.86rem] h-full overflow-y-scroll'}>
                         <ul
@@ -172,7 +171,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 </aside>
                 {ControlBtns}
                 <div
-                    className={`pl-[0.44rem] py-[--py] pr-[4.31rem] text-left content-center 
+                    className={`pl-[0.44rem] py-[--p-small] pr-[4.31rem] text-left content-center 
                                 ${layoutCtx.isNoLayout ? '' : 'max-w-[78.375rem]'} `}>
                     <div className={`h-full overflow-y-scroll `}>
                         {isPiPMode

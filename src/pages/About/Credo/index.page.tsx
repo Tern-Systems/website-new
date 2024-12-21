@@ -23,7 +23,7 @@ const CredoView = () => {
     return (
         <div className={`${styles.highlight} max-w-[69.125rem] max-h-[41.625rem]`}>
             <h1 className={'mb-[2.3rem]'}>Our Credo</h1>
-            <div className={'overflow-y-scroll [&&]:text-[1.6875rem]'}>
+            <div className={'overflow-y-scroll [&&]:text-header'}>
                 {Paragraphs}
             </div>
         </div>

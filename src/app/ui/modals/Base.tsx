@@ -30,13 +30,13 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         return (
             <span
                 id={'modal'}
-                className={`absolute flex items-center gap-[1rem] px-[0.62rem] py-[0.8rem]
-                            bg-control2 rounded-[0.375rem] ${className} pointer-events-auto`}
+                className={`absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem]
+                            bg-control-gray-l0 rounded-smallest ${className} pointer-events-auto`}
             >
                 <span className={classNameContent}>{children}</span>
                 <Button
                     icon={'close'}
-                    className={'place-self-start min-w-[0.5625rem] inline-block'}
+                    className={'place-self-start min-w-[0.55rem] inline-block'}
                     onClick={() => handleClose()}
                 />
             </span>
@@ -45,15 +45,15 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         return (
             <div
                 id={'modal'}
-                className={`p-[--py] rounded-[0.5625rem] border-small border-control3 bg-control
-                            text-primary place-self-center mx-auto ${className} pointer-events-auto`}>
+                className={`p-[--p-small] rounded-small border-small border-control-white-d0 bg-control-gray
+                            place-self-center mx-auto ${className} pointer-events-auto`}>
                 <div className={`flex items-center justify-between font-oxygen`}>
-                    <h2 className={'text-inherit font-oxygen text-[1.6875rem] font-bold'}>
+                    <h2 className={'text-inherit font-oxygen text-header font-bold'}>
                         {title ?? ''}
                     </h2>
                     <Button icon={'close'} onClick={() => handleClose()}/>
                 </div>
-                <hr className={'scale-[105%] mt-[1.25rem] mb-[1.54rem]'}/>
+                <hr className={'scale-[105%] mt-[1.25rem] mb-[1.55rem]'}/>
                 <div className={classNameContent}>{children}</div>
             </div>
         )

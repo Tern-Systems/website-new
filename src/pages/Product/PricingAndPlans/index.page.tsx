@@ -9,12 +9,12 @@ import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
 
 
 const PLAN_TEMPLATE: SubscriptionPreview = {
-    subscription: 'ternKey',
+    subscription: 'arch',
     isBasicKind: true,
     type: {
         basic: {
             icon: SVG_DIAMOND_ACE,
-            priceUSD: {monthly: 10, annual: 8},
+            priceUSD: {monthly: 0, annual: 0},
             benefits: [
                 'Create and manage one AR code',
                 '100 scans per month',

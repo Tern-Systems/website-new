@@ -50,7 +50,7 @@ const FAQsModal: FC = () => {
     ));
 
     return (
-        <BaseModal title={'Help & FAQs'} classNameContent={'h-[26rem] overflow-y-scroll font-oxygen text-[1.125rem]'}>
+        <BaseModal title={'Help & FAQs'} classNameContent={'h-[26rem] overflow-y-scroll font-oxygen text-content-small'}>
             <ul>{FAQsList}</ul>
         </BaseModal>
     )

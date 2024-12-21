@@ -112,7 +112,7 @@ const Button: FC<Props> = (props: Props) => {
                 props.onMouseLeave?.(event);
             }}
             className={`text-nowrap cursor-pointer disabled:cursor-default ${className} ${styles.clickable}
-                        ${icon ? 'flex items-center justify-center gap-[0.52rem]' : ''}`}
+                        ${icon ? 'flex items-center justify-center gap-[0.5rem]' : ''}`}
         >
             {Icon}
             <span hidden={!children}>{isHovered && hovered?.text ? hovered.text : children}</span>

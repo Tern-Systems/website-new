@@ -21,11 +21,11 @@ const FullPageLayout: FC<Props> = (props: Props) => {
     return (
         <div className={"h-dvh max-h-dvh relative"}>
             <div
-                className={'relative font-oxygen text-form h-full bg-control4 text-[1.3125rem] overflow-y-scroll'}>
+                className={'relative font-oxygen text-gray h-full bg-control-white text-content overflow-y-scroll'}>
                 <PageLink
                     href={backButtonSection}
                     icon={'back'}
-                    className={'absolute top-[1.7rem] left-[1.83rem] font-oxygen font-bold'}
+                    className={'absolute top-[1.7rem] left-[1.8rem] font-oxygen font-bold'}
                 />
                 {children}
             </div>

@@ -30,15 +30,15 @@ const DeleteModal: FC<Props> = (props: Props) => {
         >
             <p>Are you sure you want to proceed with this action?</p>
             <p> This will delete <span className={'font-bold'}>{adCode.name}</span>. </p>
-            <span className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-[0.875rem]'}>
+            <span className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-small'}>
                 <Button
-                    className={'text-[#F42200] border-[#F42200] border-small px-[1rem] h-[1.43rem] rounded-full'}
+                    className={'text-red border-control-blue border-small px-[1rem] h-[1.43rem] rounded-full'}
                     onClick={() => handleDelete()}
                 >
                     Delete
                 </Button>
                 <Button
-                    className={'bg-control2 px-[1rem] h-[1.43rem] rounded-full'}
+                    className={'bg-control-gray-l0 px-[1rem] h-[1.43rem] rounded-full'}
                     onClick={() => modalCtx.closeModal()}
                 >
                     Cancel

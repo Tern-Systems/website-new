@@ -78,8 +78,8 @@ Phone: <a href='tel:19735908753' target="_blank" class="underline">+1 (973) 590-
 const TermsPage = () => (
     <div className={`${styles.highlight} max-w-[112.25rem] max-h-[41.625rem]`}>
         <h1 className={'mb-[2.3rem]'}>Terms & Conditions</h1>
-        <span className={'overflow-y-scroll [&&]:text-[1.6875rem]'}>
-            <pre className={'font-neo'}>{PARAGRAPHS}</pre>
+        <span className={'overflow-y-scroll [&&]:text-header'}>
+            <pre>{PARAGRAPHS}</pre>
         </span>
     </div>
 );
