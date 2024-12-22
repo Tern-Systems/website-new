@@ -27,8 +27,9 @@ function SubscribePage() {
         return null;
 
     return (
-        <div className={'flex font-oxygen text-gray h-full'}>
+        <div className={'flex font-oxygen text-gray h-full sm:flex-col'}>
             <PaymentInfo subscription={subscription}/>
+            <hr className={'my-[min(4dvw,1.5rem)] border-control-gray-l0'}/>
             <PaymentForm
                 type={subscription?.type}
                 recurrency={subscription?.recurrency}
@@ -41,6 +42,6 @@ function SubscribePage() {
 SubscribePage.getLayout = (page: ReactElement) => (
     <FullScreenLayout backButtonSection={Route.ServicePricing}>{page}</FullScreenLayout>
 );
-
+SubscribePage.getMobileLayout = SubscribePage.getLayout;
 
 export default SubscribePage;

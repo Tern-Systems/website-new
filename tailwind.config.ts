@@ -63,7 +63,7 @@ const config: Config = {
                 note: 'var(--fz-note)',
                 small: 'var(--fz-small)',
                 content: 'var(--fz-content)',
-                contentSmall: 'var(--fz-content-small)',
+                'content-small': 'var(--fz-content-small)',
                 header: 'var(--fz-header)'
             },
             keyframes: {
