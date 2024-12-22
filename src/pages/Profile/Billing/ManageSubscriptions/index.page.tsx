@@ -9,15 +9,16 @@ import {formatDate} from "@/app/utils";
 import {useLoginCheck} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
+import {ScrollEnd} from "@/app/ui/misc";
 import {BaseModal} from "@/app/ui/modals";
+import {FullScreenLayout} from "@/app/ui/layout";
 import {Button, Select} from "@/app/ui/form";
 import {CancelModal} from "./CancelModal";
+import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
 
-import {FullScreenLayout} from "@/app/ui/layout";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
 import SVG_PENCIL from "@/assets/images/icons/edit.svg";
-import {ChangePaymentMethodModal} from "@/pages/Profile/Billing/ManageSubscriptions/ChangePaymentMethodModal";
 
 
 const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
@@ -200,7 +201,7 @@ function ManageSubscriptionsPage() {
                 </Select>
             </div>
             {RenderPlanInfo()}
-            <span className={'block pt-[--p-small]'}/>
+            <ScrollEnd/>
         </div>
     );
 }

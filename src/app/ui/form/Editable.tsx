@@ -218,7 +218,7 @@ const Editable: FC<Props> = (props: Props) => {
                             ${isEditState ? 'hidden' : ''}`}
             >
                 <span className={'sm:hidden'}>Edit</span>
-                <ReactSVG src={SVG_PENCIL.src} className={'size-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}/>
+                <ReactSVG src={SVG_PENCIL.src} className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}/>
             </span>
         );
 
@@ -226,7 +226,7 @@ const Editable: FC<Props> = (props: Props) => {
     const SELECT_CN = {
         classNameWrapper: 'flex-col gap-y-[min(1.3dvw,0.6rem)]',
         classNameLabel: `self-start text-small`,
-        className: `${data?.className} rounded-smallest`,
+        className: `${data?.className} rounded-smallest h-[min(3.4dvw,2rem)]`,
         classNameOption: `${data?.className} [&&]:rounded-none`,
     }
     const INPUT_CN = {

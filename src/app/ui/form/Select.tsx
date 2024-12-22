@@ -32,10 +32,18 @@ const Select: FC<Props> = (props: Props) => {
         onChangeCustom, placeholder, ...selectPropsRest
     } = props;
 
-    const optionsEntries = Object.entries(options);
+    let optionsEntries = Object.entries(options);
     const hasEmptyOption = optionsEntries.find(([key]) => key === EMPTY_KEY) !== undefined;
-    if (value !== EMPTY_KEY && optionsEntries.length === (1 + +hasEmptyOption) || optionsEntries.length === 0)
+    const isValueNullish = [EMPTY_KEY, -1].includes(value);
+
+    if (
+        optionsEntries.length === (1 + +hasEmptyOption) && isValueNullish
+        || optionsEntries.length === 0
+        || optionsEntries.length === 1 && !isValueNullish
+    ) {
         options[EMPTY_KEY] = 'Empty list';
+    }
+    optionsEntries = Object.entries(options);
 
     const ref: MutableRefObject<HTMLLabelElement | null> = useRef(null);
     const [isSelectExpanded, setSelectExpanded] = useState<boolean>(false);
@@ -62,7 +70,7 @@ const Select: FC<Props> = (props: Props) => {
             value={value}
             className={`px-[min(2dvw,0.75rem)] py-[min(1dvw,0.8rem)] border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0
                         [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
-                        bg-control-white ${classNameOption}
+                        bg-white ${classNameOption}
                         ${EMPTY_KEY === key ? 'text-placeholder' : ''}`}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
         >
@@ -92,12 +100,12 @@ const Select: FC<Props> = (props: Props) => {
                 ref={ref}
                 onClick={() => toggleSelectExpand()}
                 onBlur={() => setSelectExpanded(false)}
-                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0
+                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white
                             ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
             >
                 <div className={`w-[85%] text-nowrap overflow-ellipsis overflow-hidden`}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
-                        {selectedOptionIdx < 0 || !options[value] ? placeholder : options[value]}
+                        {selectedOptionIdx < 0 || !options[value] ? (placeholder ?? 'Select') : options[value]}
                     </span>
                 </div>
                 <ul
