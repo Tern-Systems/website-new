@@ -21,7 +21,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={'flex-1 mt-[min(5.3dvw,9.1rem)] w-1/2 bg-control-white overflow-y-scroll sm:overflow-y-visible sm:w-full'}>
+            className={'relative flex-1 pt-[min(5.3dvw,9.1rem)] w-1/2 bg-control-white overflow-y-scroll shadow-2xl sm:overflow-y-visible sm:w-full sm:shadow-none'}>
             <div className={'max-w-[min(90dvw,28rem)] mx-auto'}>
                 <h2 className={`mb-[1.25rem] font-bold text-content`}>
                     Subscribe to <span className={'capitalize'}>{subscription?.subscription ?? '--'}</span> Subscription
