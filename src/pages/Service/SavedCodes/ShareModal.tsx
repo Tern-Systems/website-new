@@ -51,53 +51,54 @@ const ShareModal: FC<Props> = (props: Props) => {
             target={'_blank'}
             className={'inline-block [&_path]:bg-control-white'}
         >
-            <Image src={icon.svg} alt={icon.href + idx} className={`min-w-[2.5rem] rounded-full`}/>
+            <Image src={icon.svg} alt={icon.href + idx} className={`w-[min(8dvw,2.5rem)] rounded-full`}/>
         </a>
     ));
 
     return (
-        <BaseModal title={'Share AR Code'} className={'w-[30.31rem]'}
+        <BaseModal title={'Share AR Code'} className={'w-[min(90dvw,30rem)]'}
                    classNameContent={'flex flex-col place-items-center'}>
             <Image
                 src={file || SVG_FIGURE_FALLBACK}
                 width={85}
                 height={85}
                 alt={'figure'}
-                className={`size-[8.19rem] rounded-full border-[0.1875rem] border-control-white p-[1.44rem]`}
+                className={`size-[43%] rounded-full border-[0.1875rem] border-control-white p-[min(4dvw,1.44rem)]`}
             />
-            <span className={'font-oxygen text-content font-bold mt-[1rem] mb-[1.9rem]'}>{name}</span>
+            <span className={'font-oxygen text-content font-bold mt-[min(2.7dvw,1rem)] mb-[min(5.3dvw,1.9rem)]'}>
+                {name}
+            </span>
             <span className={'flex place-items-center'}>
                 <Image
                     src={SVG_CHEVRON}
                     alt={'right'}
-                    className={'w-[0.875rem] h-[1.5rem] rotate-90 cursor-pointer'}
-                    onClick={() =>
-                        setIconStartIdx(prevState => prevState > 0 ? prevState - 1 : prevState)
-                    }
+                    className={'w-[min(2.8dvw,0.875rem)] rotate-90 cursor-pointer'}
+                    onClick={() => setIconStartIdx(prevState => prevState > 0 ? prevState - 1 : prevState)}
                 />
-                <span className={`inline-block h-[2.5rem] w-[23.62rem]`}>
-                    <span className={'flex gap-[0.81rem] px-[0.63rem]'}>
+                <span className={`inline-block h-[min(8dvw,2.5rem)] w-[100%]`}>
+                    <span className={'flex gap-x-[min(2.7dvw,0.81rem)] px-[min(1dvw,0.63rem)]'}>
                         {Icons}
                     </span>
                 </span>
                 <Image
                     src={SVG_CHEVRON}
                     alt={'right'}
-                    className={'w-[0.875rem] h-[1.5rem] -rotate-90 cursor-pointer'}
+                    className={'w-[min(2.8dvw,0.875rem)] -rotate-90 cursor-pointer'}
                     onClick={() =>
                         setIconStartIdx(prevState => ICONS.length - prevState > VISIBLE_ICONS_COUNT ? prevState + 1 : prevState)
                     }
                 />
             </span>
             <span
-                className={'px-[0.56rem] flex place-items-center mt-[1.56rem] h-[1.625rem] rounded-smallest w-[24.74rem] overflow-ellipsis border-small border-control-grayL1 bg-control-gray-l0'}>
+                className={`px-[min(4dvw,0.56rem)] flex place-items-center mt-[min(4dvw,1.56rem)] h-[min(6.1dvw,1.6rem)] rounded-smallest
+                            w-[90%] max-w-[20rem] overflow-ellipsis border-small border-control-grayL1 bg-control-gray-l0`}>
                 <Image
                     src={SVG_COPY}
                     alt={'copy'}
-                    className={'cursor-pointer'}
+                    className={'cursor-pointer h-[75%]'}
                     onClick={() => navigator.clipboard.writeText(file)}
                 />
-                <span className={'ml-[0.51rem]'}>{file}</span>
+                <span className={'ml-[min(4dvw,0.51rem)]'}>{file}</span>
             </span>
         </BaseModal>
     )

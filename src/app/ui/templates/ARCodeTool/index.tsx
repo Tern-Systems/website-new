@@ -20,7 +20,6 @@ type ARCodeToolForm = Omit<ARCode, 'file'> & Partial<Pick<ARCode, 'file'>>;
 
 const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#000000', moduleColor: '#ffffff', name: '', file: ''}
 const FORM_COLOR_PICKERS = ['module', 'background'];
-const AR_CODE_WIDTH = 440;
 const MAX_AR_CODE_WIDTH = 440;
 
 
@@ -38,7 +37,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     const {SVG} = useQRCode();
     const isSmScreen = useBreakpointCheck();
 
-    const [qrSize, setQrSize] = useState(AR_CODE_WIDTH);
+    const [qrSize, setQrSize] = useState(MAX_AR_CODE_WIDTH);
     const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>({
         ...FORM_DEFAULT,
         id: editID ?? FORM_DEFAULT.id
@@ -71,7 +70,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
 
 
     useEffect(() => {
-        const handleResize = () => setQrSize(Math.min(MAX_AR_CODE_WIDTH, AR_CODE_WIDTH * window.innerWidth / 1100));
+        const handleResize = () => setQrSize(Math.min(MAX_AR_CODE_WIDTH, MAX_AR_CODE_WIDTH * window.innerWidth / 1100));
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
