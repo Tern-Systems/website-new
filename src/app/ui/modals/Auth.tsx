@@ -1,23 +1,23 @@
-import {FC, FormEvent, ReactElement, useState} from "react";
+import { FC, FormEvent, ReactElement, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 
-import {Phone, UserData} from "@/app/context/User.context";
-import {SignUpData} from "@/app/services/auth.service";
+import { Phone, UserData } from "@/app/context/User.context";
+import { SignUpData } from "@/app/services/auth.service";
 
-import {AuthService, UserService} from "@/app/services";
+import { AuthService, UserService } from "@/app/services";
 
-import {useForm} from "@/app/hooks";
-import {useFlow, useModal, useUser} from "@/app/context";
+import { useForm } from "@/app/hooks";
+import { useFlow, useModal, useUser } from "@/app/context";
 
-import {AuthenticationCode, BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
-import {Button, Input} from "@/app/ui/form";
+import { AuthenticationCode, BaseModal, MessageModal, ResetPasswordModal } from "@/app/ui/modals";
+import { Button, Input } from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
 
 
 type FormData = SignUpData;
-const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
+const FORM_DEFAULT: FormData = { email: '', password: '', passwordConfirm: '' };
 
 
 interface Props {
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const AuthModal: FC<Props> = (props: Props): ReactElement => {
-    const {isLoginAction, info} = props;
+    const { isLoginAction, info } = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -40,8 +40,8 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                const {payload: token} = await AuthService.postLogIn(formValue);
-                const {payload: userData} = await UserService.getUser(token);
+                const { payload: token } = await AuthService.postLogIn(formValue);
+                const { payload: userData } = await UserService.getUser(token);
 
                 if (!userData.verification.phone) {
                     const primaryPhone: Phone | null | undefined = Object.values(userData.phone).find((phone) => phone?.isPrimary);
@@ -52,9 +52,10 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                                 token={token}
                                 email={userData.email}
                                 phone={primaryPhone.number}
+                                isAddPhone={false}
                             />
                         );
-                        modalCtx.openModal(AuthCodeModal, {darkenBg: true});
+                        modalCtx.openModal(AuthCodeModal, { darkenBg: true });
                     } else
                         setWarningMsg('Error checking verified phone, please try to login again later');
                 } else {
@@ -83,7 +84,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         <>
             <div className={'flex flex-col items-center w-[26rem] text-center'}>
                 <span>{info}</span>
-                <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10rem] h-[9rem]'}/>
+                <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10rem] h-[9rem]'} />
                 {!isLoginForm ? <span className={'mb-[1.9rem] font-oxygen text-header'}>Tern</span> : null}
             </div>
             <form
@@ -123,7 +124,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     Forgot your password?&nbsp;
                     <Button
                         className={'text-blueL0'}
-                        onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
+                        onClick={() => modalCtx.openModal(<ResetPasswordModal />, { darkenBg: true })}
                     >
                         Reset
                     </Button>
@@ -142,7 +143,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         className={'text-blueL0'}
                         onClick={() => setLoginFormState(prevState => !prevState)}
                     >
-                      {isLoginForm ? 'Sign Up' : 'Login'}
+                        {isLoginForm ? 'Sign Up' : 'Login'}
                     </Button>
                 </span>
             </div>
@@ -153,4 +154,4 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 }
 
 
-export {AuthModal}
+export { AuthModal }

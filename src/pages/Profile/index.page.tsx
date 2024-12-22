@@ -13,6 +13,7 @@ import { Button, Editable, Input } from "@/app/ui/form";
 import { DeleteAccountModal } from "./DeleteAccountModal";
 
 import styles from './Profile.module.css';
+import { AuthenticationCode } from "@/app/ui/modals";
 
 
 const SECTIONS: string[] = [
@@ -254,14 +255,21 @@ const ProfilePage: FC = () => {
                                 suggestedPhone: userData.phone.personal?.number ?? null,
                             },
                             onSave: async (formData) => {
-                                console.log(formData);
-                                // if (!('value' in formData))
-                                //     return;
-                                // Object.values(formData).forEach((number: string | null) => {
-                                //     if (number?.length && number.length < 10)
-                                //         throw `Number must contain 10 digits`
-                                // })
-                                // console.log(formData);
+                                if (!('value' in formData))
+                                    return;
+                                Object.values(formData).forEach((number: string | null) => {
+                                    if (number?.length && number.length < 10)
+                                        throw `Number must contain 10 digits`
+                                })
+                                const AuthCodeModal = (
+                                    <AuthenticationCode
+                                        token={token || ''}
+                                        email={userData.email}
+                                        phone={formData.value || ''}
+                                        isAddPhone={false}
+                                    />
+                                );
+                                modalCtx.openModal(AuthCodeModal, { darkenBg: true });
                             },
                             onSwitch: async () => {
                                 // TODO disable 2FA

@@ -23,10 +23,11 @@ interface Props {
     token: string;
     phone: string;
     email: string;
+    isAddPhone: boolean; // This field will be true when add phone
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const { token, phone, email } = props;
+    const { token, phone, email, isAddPhone } = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -34,22 +35,41 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
 
-    const handleSendNewCode = useCallback(async () => {
-        await AuthService.postLoginSendOTP(email);
-    }, [email])
+    const handleSendCode = useCallback(async () => {
+        try {
+            if (!isAddPhone) { // if false, send new code to email
+                await AuthService.postLoginSendOTP(email);
+            } else { // if true, send new code to phone
+                await AuthService.postSendOTP(email, phone);
+            }
+        } catch (error: unknown) {
+            let message: string = 'Unknown error';
+            if (axios.isAxiosError(error) && error.status === 401)
+                return setWarningMsg("The code is not correct");
+            else if (typeof error === 'string')
+                message = error;
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+        }
+    }, [email, phone])
 
     useEffect(() => {
-        handleSendNewCode();
-    }, [handleSendNewCode])
+        handleSendCode();
+    }, [handleSendCode])
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
-            await AuthService.postLoginVerifyOTP(formValue.code, email);
+            if (!isAddPhone) {
+                await AuthService.postLoginVerifyOTP(formValue.code, email);
+            } else {
+                await AuthService.postVerifyOTP(formValue.code, email);
+            }
             const { payload: userData } = await UserService.getUser(token);
             userCtx.setSession(userData as UserData, token); // TODO remove type casting
             modalCtx.closeModal();
+            if (isAddPhone)
+                modalCtx.openModal(<MessageModal>The phone number<b>`****-****-${phone.slice(-4)}`</b> has successfully been added to your account</MessageModal>);
         } catch (error: unknown) {
             let message: string = 'Unknown error';
             if (axios.isAxiosError(error) && error.status === 401)
@@ -99,7 +119,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             <div className={'text-note mt-[2.51rem] w-[14.75rem]'}>
                 <span>
                     It may take a minute to receive your code. Haven’t received it?&nbsp;
-                    <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendNewCode()}>Resend a new code.</span>
+                    <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendCode()}>Resend a new code.</span>
                 </span>
             </div>
         </BaseModal>
