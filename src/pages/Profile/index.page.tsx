@@ -1,11 +1,13 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
+import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
+
+import {EditableProps} from "@/app/ui/form/Editable";
 
 import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY} from "@/app/static";
 
 import {AuthService} from "@/app/services";
 
 import {formatDate} from "@/app/utils/data";
-import {useLoginCheck} from "@/app/hooks";
+import {useBreakpointCheck, useLoginCheck, useSaveOnLeave} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {Collapsible} from "@/app/ui/misc";
@@ -42,17 +44,33 @@ const SOCIAL_MEDIA: string[] = [
     'Facebook',
 ]
 
+
 // Styles
-const SINGLE_INPUT_CN = 'bg-control-gray-l0 py-[0.35rem] w-full rounded-smallest';
+const HIDDEN_ELLIPSIS_CN = 'overflow-x-hidden overflow-ellipsis';
+const LEFT_COL_CN = `col-start-1 text-content ${HIDDEN_ELLIPSIS_CN}`;
+const MID_COL_CN = `col-start-2 text-content-small ${HIDDEN_ELLIPSIS_CN} `;
+
+const SINGLE_INPUT_BASE_CN = '[&]:bg-control-gray-l0 [&]:py-[min(1.7dvw,0.35rem)]';
+const SINGLE_INPUT_CN = `${SINGLE_INPUT_BASE_CN} h-[min(5.8dvw,2rem)] w-full rounded-smallest text-content-small`;
 const COMMON_CN = 'px-[0.76rem] border-small border-control-white';
-const SELECT_CN = '[&]:bg-control-gray-l0 [&]:py-[0.35rem]';
 const ROUNDED_W_FULL_CN = 'rounded-smallest w-full';
+const COLLAPSIBLE_GAP_Y = 'gap-y-[min(4dvw,2rem)]';
+
+const getSimpleToggleProps = (setEditState: Dispatch<SetStateAction<boolean>>, isEditState: boolean)
+    : Pick<EditableProps, 'classNameWrapper' | 'classNameToggle' | 'setParentEditState' | 'isToggleBlocked'> => ({
+    classNameWrapper: 'w-[min(100%,21.625rem)]',
+    classNameToggle: 'col-start-3',
+    setParentEditState: setEditState,
+    isToggleBlocked: isEditState,
+});
 
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const {userData, token} = useUser();
     const isLoggedIn = useLoginCheck();
+    const isSmScreen = useBreakpointCheck();
+    useSaveOnLeave();
 
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
     const [isEditState, setEditState] = useState(false);
@@ -61,17 +79,12 @@ const ProfilePage: FC = () => {
         const handleScroll = () => {
             SECTIONS.forEach((section, index) => {
                 const elem = document.getElementById(section.toLowerCase().split(' ').join(''));
-                if (!elem)
-                    return;
-                if (elem?.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * 350)
+                if (elem && elem.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * 350)
                     setActiveSectionIdx(index);
             });
         }
-
         window.addEventListener('wheel', handleScroll);
-        return () => {
-            window.removeEventListener('wheel', handleScroll);
-        }
+        return () => window.removeEventListener('wheel', handleScroll);
     }, [])
 
     if (!userData || !isLoggedIn)
@@ -113,19 +126,23 @@ const ProfilePage: FC = () => {
             return (
                 <span key={text + idx} className={'contents'}>
                     {isFound
-                        ? <a href={userApp?.link} className={'capitalize col-start-2'}
-                             target={'_blank'}>{userApp?.name}</a>
-                        : <span className={'capitalize col-start-2'}>{app}</span>
+                        ? (
+                            <a href={userApp?.link} className={`capitalize col-start-2 ${MID_COL_CN}`}
+                               target={'_blank'}>
+                                {userApp?.name}
+                            </a>
+                        )
+                        : <span className={`capitalize col-start-2 ${MID_COL_CN}`}>{app}</span>
                     }
                     <Button
                         icon={isFound ? 'mark-square' : 'plus-square'}
                         hovered={{icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : ''}}
-                        className={'col-start-3 flex-row-reverse place-self-end'}
+                        className={`col-start-3 flex-row-reverse place-self-end ${HIDDEN_ELLIPSIS_CN}`}
                         onClick={() => {
                             // TODO
                         }}
                     >
-                        {text}
+                        {isSmScreen ? '' : text}
                     </Button>
                 </span>
             );
@@ -146,7 +163,7 @@ const ProfilePage: FC = () => {
     );
 
     // Addresses
-    const Addresses = Object.entries(userData.address).map(([type, address], idx) => {
+    const Addresses = Object.entries(userData.address).filter(([_, address]) => address).map(([type, address], idx) => {
         const addressInfo: ReactElement = address && address.state && address.country
             ? (
                 <>
@@ -176,8 +193,9 @@ const ProfilePage: FC = () => {
     const subIndustry = SUB_INDUSTRY[userData.company.industry][userData.company.subIndustry];
 
     return (
-        <div className={'flex mt-[3.88rem]'}>
-            <aside className={'text-left ml-[14.89rem] text-nowrap sticky self-start top-[5.94rem]'}>
+        <div className={'flex mt-[3.88rem] sm:mt-0'}>
+            <aside
+                className={'text-left ml-[min(5.3dvw,15rem)] text-nowrap sticky self-start top-[min(25.3dvw,5.94rem)] sm:hidden'}>
                 <div className={'text-header font-bold mb-[1.56rem]'}>
                     <span>Sections</span>
                 </div>
@@ -185,20 +203,20 @@ const ProfilePage: FC = () => {
                     {SectionsNav}
                 </ul>
             </aside>
-            <div className={'flex-grow flex flex-col gap-y-[0.62rem] ml-[10rem]'}>
-                <Collapsible title={SECTIONS[0]} icon={'key'} className={'gap-y-[2.09rem]'}>
-                    <span className={'col-start-1 text-content'}>Profile Picture</span>
+            <div className={'flex-grow flex flex-col gap-y-[min(1.3dvw,0.62rem)] ml-[10re)] sm:ml-0'}>
+                <Collapsible title={SECTIONS[0]} icon={'key'} className={COLLAPSIBLE_GAP_Y}>
+                    <span className={LEFT_COL_CN}>Profile Picture</span>
                     <Input
                         type={'file'}
-                        classNameWrapper={'bg-white text-gray w-[9.8125rem] font-bold rounded-smallest h-[1.43rem]'}
+                        classNameWrapper={`bg-control-white text-gray px-[min(3dvw,1rem)] w-fit font-bold rounded-full
+                                            h-[min(6.1dvw,1.43rem)] text-small box-content`}
                     >
                         Upload Media
                     </Input>
 
-                    <span className={'col-start-1 text-content'}>TernID</span>
+                    <span className={LEFT_COL_CN}>TernID</span>
                     <Editable
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update your TernID',
@@ -207,17 +225,15 @@ const ProfilePage: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
-                        <span>{userData.email}</span>
+                        <span className={MID_COL_CN}>{userData.email}</span>
                     </Editable>
 
-                    <span className={'col-start-1 text-content'}>Password</span>
+                    <span className={LEFT_COL_CN}>Password</span>
                     <Editable
                         type={'password'}
-                        classNameWrapper={'w-[21.625rem] gap-y-[0.94rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
+                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + ' gap-y-[min(1.3dvw,0.94rem)]'}
                         data={{
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update password',
@@ -231,22 +247,20 @@ const ProfilePage: FC = () => {
                                 await AuthService.postResetPassword(token, formData.passwordConfirm);
                             }
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
-                        <span>
+                        <span className={MID_COL_CN}>
                             <span className={'block'}>•••••••••••••••</span>
                             <span className={'text-small'}>
-                                Last updated {userData.passwordUpdateDate ? formatDate(new Date(userData.passwordUpdateDate)) : '--'}
+                                Last updated {userData.passwordUpdateDate ? formatDate(new Date(userData.passwordUpdateDate), 'short') : '--'}
                             </span>
                         </span>
                     </Editable>
 
-                    <span className={'col-start-1 text-content'}>Security</span>
+                    <span className={LEFT_COL_CN}>Security</span>
                     <Editable
                         type={'2FA'}
-                        classNameWrapper={'w-[21.625rem] gap-y-[0.94rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
+                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + ' gap-y-[min(3.2dvw,0.94rem)]'}
                         data={{
                             value: {
                                 isEmailAdded: userData.state2FA.email !== null,
@@ -266,41 +280,36 @@ const ProfilePage: FC = () => {
                             }
                         }}
                     >
-                        <span>Enable / disable your two-factor authentication</span>
+                        <span className={MID_COL_CN}>Enable / disable your two-factor authentication</span>
                     </Editable>
                 </Collapsible>
-                <Collapsible title={SECTIONS[1]} icon={'book'} className={'gap-y-[1.95rem]'}>
-                    <span className={'col-start-1 text-content'}>Name</span>
+                <Collapsible title={SECTIONS[1]} icon={'book'} className={COLLAPSIBLE_GAP_Y}>
+                    <span className={LEFT_COL_CN}>Name</span>
                     <Editable
                         type={'name'}
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SELECT_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
-                            title: 'Update your TernID',
+                            className: `${SINGLE_INPUT_BASE_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
                             value: userData.name,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
-                        <span className={'capitalize'}>
+                        <span className={`capitalize ${MID_COL_CN}`}>
                             {userData.name.salutation ? SALUTATION[userData.name.salutation] : '--'}&nbsp;
                             {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
                         </span>
                     </Editable>
 
-                    <span className={'col-start-1 text-content'}>Display Name (optional)</span>
+                    <span className={LEFT_COL_CN}>Display Name</span>
                     {userData.displayName
                         ? (
                             <Editable
-                                classNameWrapper={'w-[21.625rem]'}
-                                classNameToggle={'col-start-3'}
+                                {...getSimpleToggleProps(setEditState, isEditState)}
                                 data={{
                                     className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
-                                    title: 'Update your TernID',
+                                    title: 'Update your Display Name',
                                     value: {value: userData.displayName},
                                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                     onSave: async (formData) => {
@@ -320,13 +329,12 @@ const ProfilePage: FC = () => {
                         )
                     }
 
-                    <span className={'col-start-1 text-content'}>Email Address</span>
+                    <span className={LEFT_COL_CN}>Email Address</span>
                     <Editable
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
-                            title: 'Update your TernID',
+                            title: 'Update your Email Address',
                             value: {
                                 value: userData.email,
                                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -337,17 +345,14 @@ const ProfilePage: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
                         <span>{userData.email}</span>
                     </Editable>
 
-                    <span className={'col-start-1 text-content'}>Phone Number</span>
+                    <span className={LEFT_COL_CN}>Phone Number</span>
                     <Editable
                         type={'phone'}
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             value: userData.phone,
@@ -360,19 +365,16 @@ const ProfilePage: FC = () => {
                                 })
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
                         <span>{Phones}</span>
                     </Editable>
 
-                    <span className={'col-start-1 text-content'}>Country or Region of Residence</span>
+                    <span className={LEFT_COL_CN}>Country or Region {isSmScreen ? '' : 'of Residence'}</span>
                     <Editable
                         type={'select'}
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SELECT_CN} ${COMMON_CN}`,
+                            className: `${SINGLE_INPUT_BASE_CN} ${COMMON_CN}`,
                             title: 'Country / Region',
                             value: {value: 'US'},
                             options: COUNTRY,
@@ -380,21 +382,18 @@ const ProfilePage: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
                         <span>
                             {userData.address.personalAddress?.country ? COUNTRY[userData.address.personalAddress?.country] : '--'}
                         </span>
                     </Editable>
 
-                    <span className={'col-start-1 text-content'}>Preferred Language</span>
+                    <span className={LEFT_COL_CN}>{isSmScreen ? '' : 'Preferred'} Language</span>
                     <Editable
                         type={'select'}
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SELECT_CN} ${COMMON_CN}`,
+                            className: `${SINGLE_INPUT_BASE_CN} ${COMMON_CN}`,
                             title: 'Language',
                             value: {value: 'EN'},
                             options: LANGUAGE,
@@ -402,46 +401,36 @@ const ProfilePage: FC = () => {
                             onSave: async (formData) => {
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
                         <span>{LANGUAGE[userData.preferredLanguage] ?? '--'}</span>
                     </Editable>
                 </Collapsible>
-                <Collapsible title={SECTIONS[2]} icon={'building'} className={'gap-y-[1.88rem]'}>
-                    <span className={'col-start-1 text-content'}>Organizational Information</span>
+                <Collapsible title={SECTIONS[2]} icon={'building'} className={COLLAPSIBLE_GAP_Y}>
+                    <span className={LEFT_COL_CN}>Organization{isSmScreen ? '' : 'al Information'}</span>
                     <Editable
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
-                            title: 'Update your TernID',
                             value: {value: userData.company?.name ?? '-'},
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
                         <span>{userData.company?.name ?? '--'}</span>
                     </Editable>
 
-                    <span className={'col-start-1 text-content'}>Career Information</span>
+                    <span className={LEFT_COL_CN}>Career {isSmScreen ? '' : 'Information'}</span>
                     <Editable
                         type={'company'}
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SELECT_CN} px-[0.76rem] border-small ${ROUNDED_W_FULL_CN}`,
-                            title: 'Update your TernID',
+                            className: `${SINGLE_INPUT_CN} px-[0.76rem] border-small ${ROUNDED_W_FULL_CN}`,
                             value: userData.company,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
                         {userData.company
                             ? (
@@ -473,27 +462,23 @@ const ProfilePage: FC = () => {
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[3]} icon={'geo'} className={'[&]:items-start'}>
-                    <span className={'col-start-1 text-content'}>Address Information</span>
+                    <span className={LEFT_COL_CN}>Address {isSmScreen ? '' : 'Information'}</span>
                     <Editable
                         type={'address'}
-                        classNameWrapper={'w-[21.625rem]'}
-                        classNameToggle={'col-start-3'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SELECT_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
-                            title: 'Update your TernID',
+                            className: `${SINGLE_INPUT_BASE_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
                             value: userData.address,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
-                        setParentEditState={setEditState}
-                        isToggleBlocked={isEditState}
                     >
                         <span>{Addresses}</span>
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[4]} icon={'blocks'}>
-                    <span className={'text-content'}>Domain</span>
+                    <span className={LEFT_COL_CN}>Domain</span>
                     {userData.personalDomain
                         ? (
                             <>
@@ -505,7 +490,7 @@ const ProfilePage: FC = () => {
                                     icon={userData.personalDomain.isVerified ? 'mark-flower' : 'plus-flower'}
                                     className={'col-start-3 flex-row-reverse place-self-end'}
                                 >
-                                    Verif{userData.personalDomain.isVerified ? 'ied' : 'y'}
+                                    {isSmScreen ? '' : `Verif${userData.personalDomain.isVerified ? 'ied' : 'y'}`}
                                 </Button>
                             </>
                         )
@@ -516,23 +501,23 @@ const ProfilePage: FC = () => {
                             </>
                         )
                     }
-                    <span className={'mt-[1.88rem] text-content'}>Data Storage</span>
-                    <span className={'col-start-2 text-small self-end'}>Applications</span>
+                    <span className={`mt-[min(5.3dvw,1.88rem)] ${LEFT_COL_CN}`}>Data Storage</span>
+                    <span className={`col-start-2 text-small self-end ${HIDDEN_ELLIPSIS_CN}`}>Applications</span>
                     {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
-                    <span className={'mt-[1.88rem] text-content'}>Social Media</span>
+                    <span className={`mt-[min(5.3dvw,1.88rem)] ${LEFT_COL_CN}`}>Social Media</span>
                     <span className={'col-start-2 text-small self-end'}>Applications</span>
                     {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
                 </Collapsible>
                 <Collapsible title={SECTIONS[5]}>
-                    <span className={'text-content'}>Account Offboarding</span>
-                    <span>Delete your account and data</span>
+                    <span className={LEFT_COL_CN}>{isSmScreen ? '' : 'Account'} Offboarding</span>
+                    <span className={MID_COL_CN}>Delete your account and data</span>
                     <Button
                         icon={'delete-square'}
                         className={'flex-row-reverse'}
                         onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData}/>, {darkenBg: true})}
                     >
-                        Delete
+                        {isSmScreen ? '' : 'Delete'}
                     </Button>
                 </Collapsible>
             </div>

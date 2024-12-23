@@ -44,10 +44,11 @@ const config: Config = {
                 section: "var(--b-section)",
                 'control-gray': "var(--b-control-gray)",
                 'control-gray-l0': "var(--b-control-gray-l0)",
-                'control-grayL1': "var(--b-control-gray-l1)",
+                'control-gray-l1': "var(--b-control-gray-l1)",
                 'control-white-d0': "var(--b-control-white-d0)",
                 'control-white': "var(--b-control-white)",
                 'control-blue': "var(--b-control-blue)",
+                'control-red': "var(--b-control-red)",
             },
             borderWidth: {
                 small: 'var(--b-small)',

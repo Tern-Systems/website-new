@@ -17,7 +17,7 @@ const ARCHPage: FC = () => (
         />
         <PageLink
             href={Route.ARCodeToolCreate}
-            className={'bg-white text-black rounded-full font-bold px-[2rem] py-[0.1rem] w-fit place-self-center'}
+            className={'bg-control-white text-black rounded-full font-bold px-[2rem] py-[0.1rem] w-fit place-self-center'}
         />
     </div>
 );

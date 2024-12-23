@@ -56,7 +56,7 @@ const DocumentationPage: FC = () => {
                 className={`bg-control-gray rounded-[min(2.4dvw,1rem)] flex-col justify-between min-h-[9rem] h-[min(38.4dvw,16rem)]
                             w-full px-[min(4dvw,1.25rem)] py-[min(4dvw,var(--p-small))] [&]:items-start`}
             >
-                <span className={'text-[min(4.8dvw,theme(fontSize.header))] font-bold block'}>{link.title}</span>
+                <span className={'text-header] font-bold block'}>{link.title}</span>
                 <span className={'text-[min(3.7dvw,1rem)]'}>{link.text}</span>
                 <ReactSVG src={SVG_ARROW.src}
                           className={'[&_path]:fill-[--bg-control-blue] rotate-180 [&_*]:size-[min(3.7dvw,1.3rem)]'}/>

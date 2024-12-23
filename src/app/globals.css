@@ -23,6 +23,7 @@
   --b-control-white-d0: #B3B3B3;
   --b-control-white: var(--bg-control-white);
   --b-control-blue: var(--bg-control-blue);
+  --b-control-red: var(--bg-control-red);
 
   --br-smallest-1: 0.25rem;
   --br-smallest: 0.375rem;
@@ -36,11 +37,11 @@
   --color-blue-l0: #21A1D3;
   --color-red: var(--bg-control-red);
 
-  --fz-note: 0.75rem;
-  --fz-small: 0.875rem;
-  --fz-content: 1.3125rem;
-  --fz-content-small: 1.125rem;
-  --fz-header: 1.685rem;
+  --fz-note: min(1.8dvw, 0.75rem);
+  --fz-small: min(2.7dvw, 0.875rem);
+  --fz-content-small: min(3.2dvw, 1.125rem);
+  --fz-content: min(3.7dvw, 1.3125rem);
+  --fz-header: min(4.8dvw, 1.685rem);
 
   --p-small: 2rem;
 

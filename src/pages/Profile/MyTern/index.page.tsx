@@ -7,11 +7,13 @@ import {Route, TERN_AC_HREF} from "@/app/static";
 
 import {capitalize, copyObject} from "@/app/utils";
 import {useModal, useUser} from "@/app/context";
-import {useLoginCheck} from "@/app/hooks";
+import {useBreakpointCheck, useLoginCheck, useNavigate} from "@/app/hooks";
 
 import {PageLink} from "@/app/ui/layout";
-import {FAQsModal, HelpModal} from "@/app/ui/modals";
+import {HelpModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
+import {FAQsModal} from "./FAQs/index.page";
+
 
 import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 
@@ -73,18 +75,18 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     return (
         <div
             className={'bg-control-gray rounded-smallest p-[min(4dvw,var(--p-small))] max-h-[20rem] sm:max-h-[15rem]'}>
-            <h3 className={`pl-[min(3.6dvw,0.81rem)] text-[min(4.8dvw,theme(fontSize.header))] font-bold`}>{table.title}</h3>
+            <h3 className={`pl-[min(3.6dvw,0.81rem)] text-header font-bold`}>{table.title}</h3>
             <hr className={`border-control-white-d0 mt-[min(2.7dvw,1.25rem)] mb-[min(1.35dvw,1.25rem)]`}/>
             <div className={'overflow-y-scroll max-h-[70%] sm:max-h-[83%]'}>
                 <table className={`w-full text-content`}>
-                    <thead className={`sticky top-0 z-10 text-[min(2.6dvw,theme(fontSize.small))] bg-control-gray`}>
+                    <thead className={`sticky top-0 z-10 text-small bg-control-gray`}>
                     <tr>
                         <td className={`pl-[min(3.6dvw,0.81rem)] py-[min(2.7dvw,0.75rem)]`}>{table.columnNames[0]}</td>
                         <td>{table.columnNames[1]}</td>
                         <td/>
                     </tr>
                     </thead>
-                    <tbody className={'text-[min(3.7dvw,theme(fontSize.content))]'}>
+                    <tbody className={'text-content]'}>
                     {TableItems}
                     </tbody>
                 </table>
@@ -98,6 +100,8 @@ const MyTernPage: FC = () => {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
+    const [navigate] = useNavigate();
+    const isSmScreen = useBreakpointCheck();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
@@ -141,7 +145,7 @@ const MyTernPage: FC = () => {
         const Btn = (
             <Button
                 icon={btn.icon}
-                className={`p-[min(2.4dvw,0.6rem)] bg-control-gray rounded-smallest text-[min(3.7dvw,theme(fontSize.content))] 
+                className={`p-[min(2.4dvw,0.6rem)] bg-control-gray rounded-smallest text-content 
                         ${btn.icon === 'plus' ? '[&_path]:fill-primary' : ''}`}
             >
                 {btn.title}
@@ -167,7 +171,7 @@ const MyTernPage: FC = () => {
     }
 
     return (
-        <div className={'mt-[3rem] min-w-[75%] text-left mx-auto sm:mt-0 sm:overflow-y-hidden sm:max-h-full'}>
+        <div className={'mt-[3rem] min-w-[75%] text-left mx-auto sm:mt-0'}>
             <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.25rem)] block sm:mb-0`}>
                 Dashboard
             </h1>
@@ -187,15 +191,18 @@ const MyTernPage: FC = () => {
                     <PageLink href={Route.Documentation}/>
                     <span
                         className={`cursor-pointer ${styles.clickable}`}
-                        onClick={() => modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
+                        onClick={() => isSmScreen
+                            ? navigate(Route.Help)
+                            : modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
                     >
-                    Help & FAQs
-                </span>
+                        Help & FAQs
+                    </span>
                     <span
                         className={`cursor-pointer ${styles.clickable}`}
-                        onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}>
-                    Support Hub
-                </span>
+                        onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}
+                    >
+                        Support Hub
+                    </span>
                 </div>
             </div>
         </div>

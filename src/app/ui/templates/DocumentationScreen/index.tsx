@@ -129,7 +129,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 className={`p-[0.2rem] h-[1.8rem] min-w-[1.8125rem] rounded-smallest border-2 border-white`}
             >
                 <div
-                    className={`bg-white box-border h-[100%] rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
+                    className={`bg-control-white box-border h-[100%] rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
             </Button>
         );
 

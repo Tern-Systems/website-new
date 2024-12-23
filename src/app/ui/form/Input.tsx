@@ -29,7 +29,7 @@ const Input: FC<Props> = (props: Props) => {
                     htmlFor={props.id}
                     className={`relative flex items-center justify-center cursor-pointer ${classNameWrapper} ${styles.clickable}`}
                 >
-                    <Image src={SVG_UPLOAD} alt={'upload icon'} className={'inline size-[2rem]'}/>
+                    <Image src={SVG_UPLOAD} alt={'upload icon'} className={'inline size-[min(4dvw,2rem)]'}/>
                     <span hidden={!children} className={classNameLabel}>{children}</span>
                     <input
                         {...inputProps}
@@ -45,7 +45,7 @@ const Input: FC<Props> = (props: Props) => {
                 >
                     <span hidden={!children} className={`capitalize ${classNameLabel}`}>{children}</span>
                     <span
-                        className={`relative inline-flex items-center justify-center size-[2.25rem] rounded-full`}>
+                        className={`relative inline-flex items-center justify-center size-[min(9.6dvw,2.25rem)] rounded-full`}>
                             <span
                                 style={props.style}
                                 className={`absolute inline-block size-[70%] rounded-full`}
@@ -68,7 +68,7 @@ const Input: FC<Props> = (props: Props) => {
                     .map((char, idx) => (
                         <span
                             key={char + idx}
-                            className={`inline-block w-[1.95rem] border-b-small cursor-pointer -mb-[0.375rem]
+                            className={`inline-block w-[min(8.3dvw,1.95rem)] border-b-small cursor-pointer -mb-[min(16dvw,0.375rem)]
                                         ${code.length === idx ? 'border-control-blue' : 'border-control-white-d0'}`}>
                             {char}
                         </span>
@@ -80,7 +80,7 @@ const Input: FC<Props> = (props: Props) => {
                     className={`relative`}
                 >
                     <span
-                        className={'flex gap-x-[0.95rem] font-oxygen text-[1.5rem] text-center justify-center h-[1.5rem]'}>
+                        className={'flex gap-x-[min(4dvw,0.95rem)] font-oxygen text-[min(6.4dvw,1.5rem)] text-center justify-center h-[min(6.4dvw,1.5rem)]'}>
                         {Code}
                     </span>
                     <input
@@ -105,20 +105,20 @@ const Input: FC<Props> = (props: Props) => {
                         key={alt}
                         src={icon}
                         alt={alt}
-                        className={'max-w-[1.5rem]'}
+                        className={'max-w-[min(6.4dvw,1.5rem)]'}
                     />
                 );
             });
 
             return (
                 <label
-                    className={`relative flex items-center last-of-type:mb-0 cursor-pointer text-left gap-x-[0.4rem]
+                    className={`relative flex items-center last-of-type:mb-0 cursor-pointer text-left gap-x-[min(1.7dvw,0.4rem)]
                                 ${classNameWrapper} ${props.hidden ? 'hidden' : ''}`}>
                     <span hidden={!children} className={classNameLabel}>{children}</span>
                     <div className={`relative flex items-center ${props.type === 'checkbox' ? '' : 'w-full'}`}>
                        <span
                            hidden={!IconsSVGs}
-                           className={'absolute flex gap-[0.135rem] right-0 pr-[0.81rem]'}
+                           className={'absolute flex gap-[min(0.6dvw,0.135rem)] right-0 pr-[min(3.5dvw,0.81rem)]'}
                            onClick={() => {
                                if (inputRef.current)
                                    inputRef.current.type = ['text', 'password'][+(isPassword && inputRef.current?.type !== 'password')];
@@ -142,4 +142,4 @@ const Input: FC<Props> = (props: Props) => {
     }
 }
 
-export {Input}
+export {Input};

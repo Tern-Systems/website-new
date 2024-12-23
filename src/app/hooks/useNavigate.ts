@@ -20,11 +20,16 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
     }, []);
 
     useEffect(() => {
-        layoutCtx.setFadeState(false);
+        setTimeout(() => {
+            layoutCtx.setFadeState(false);
+        }, 1.5 * FADE_DURATION);
         //eslint-disable-next-line
     }, [pageRoute]);
 
     useEffect(() => {
+        if (!layoutCtx.isFade)
+            return;
+
         setTimeout(() => {
             if (currentRoute === pageRoute)
                 layoutCtx.setFadeState(false);
@@ -35,12 +40,11 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
     const navigate = async (route: Route) => {
         if (pageRoute === route)
             return;
-
         layoutCtx.setFadeState(true);
         history.pushState(null, '', window.location.href);
         setTimeout(() => {
-            router.replace(route);
-        }, FADE_DURATION);
+            router.push(route);
+        }, 1.5 * FADE_DURATION);
     };
 
     return [navigate, router];

@@ -146,7 +146,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     type={"file"}
                     accept='image/png,image/jpeg,image/svg,image/jpg,image/webp,image/jpeg,image/gif,image/tiff,image/heif,image/heic'
                     name={'qr-file'}
-                    classNameWrapper={'h-[3.125rem] font-bold text-content text-black bg-white rounded-full'}
+                    classNameWrapper={'h-[3.125rem] font-bold text-content text-black bg-control-white rounded-full'}
 
                     required
                 >
