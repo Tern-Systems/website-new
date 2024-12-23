@@ -31,7 +31,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     useEffect(() => {
         const token = params?.get('resetToken');
         if (token)
-            router.replace(Route.Home + '?resetToken=' + token);
+            router.push(Route.Home + '?resetToken=' + token);
         //eslint-disable-next-line
     }, []);
 
@@ -87,14 +87,15 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <div
                     id={'content'}
                     className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
-                                bg-content bg-cover bg-no-repeat bg-fixed text-center`}
+                                bg-content bg-cover bg-no-repeat bg-fixed text-center p-[min(5.3dvw,var(--p-small))]
+                                sm:pt-[3.1rem]`}
                 >
                     <div
-                        className={`h-full w-full flex flex-col p-[min(5.3dvw,var(--p-small))] pb-0
-                                    ${modalCtx.hideContent ? 'hidden' : ''}
+                        className={`h-full w-full flex flex-col
+                                    ${modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100')}
                                     ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                         {children}
-                        <span className={'block pt-[--p-small]'}/>
+                        <span className={'block pt-[max(1.7dvw,3.1rem)]'}/>
                     </div>
                 </div>
                 <footer

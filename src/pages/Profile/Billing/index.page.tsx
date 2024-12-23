@@ -38,9 +38,11 @@ const BillingPage: FC = () => {
     // Elements
     const OrderRows: ReactElement[] = (orders ?? []).map((order, idx) => {
         const renderTd = (title: string | number, type?: 'first' | 'last') => {
-            const side = type === 'first' ? 'l' : 'r';
+            const cn = type === undefined
+                ? ''
+                : (type === 'first' ? `rounded-l-[0.5625rem] pl-[0.75rem]` : `rounded-r-[0.5625rem] pr-[0.75rem]`);
             return (
-                <td className={type ? `rounded-${side}-[0.5625rem] p${side}-[0.75rem]` : ''}>
+                <td className={cn}>
                     <PageLink href={Route.Invoice} className={'hover:transform-none w-full'}>{title}</PageLink>
                 </td>
             );
@@ -49,7 +51,7 @@ const BillingPage: FC = () => {
         return (
             <tr
                 key={order.id + idx}
-                className={`h-[3.125rem] odd:bg-[#b3b3b326] cursor-pointer align-middle ${styles.clickable}`}
+                className={`h-[3.125rem] odd:bg-[#b3b3b326] cursor-pointer align-middle hover:bg-control-gray-l0 ${styles.clickable}`}
                 onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
             >
                 {renderTd(order.id, 'first')}

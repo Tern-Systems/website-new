@@ -25,13 +25,14 @@ const ICON: Record<Icon, string> = {
 interface Props extends PropsWithChildren {
     title: string;
     icon?: Icon;
+    classNameWrapper?: string;
     className?: string;
     isChevron?: boolean;
     expandedState?: [boolean, () => void];
 }
 
 const Collapsible: FC<Props> = (props: Props) => {
-    const {isChevron, title, icon, children, className, expandedState} = props;
+    const {isChevron, title, icon, children, className, classNameWrapper, expandedState} = props;
 
     const [isExpanded, setExpandState] = useState<boolean>(true);
 
@@ -62,11 +63,11 @@ const Collapsible: FC<Props> = (props: Props) => {
     return (
         <div
             id={title.toLowerCase().split(' ').join('')}
-            className={`p-[--p-small] rounded-small bg-control-gray w-full max-w-[62rem] min-w-[62rem]
-                        place-self-center ${isExpandedFinal ? '' : 'pb-0'}`}>
+            className={`p-[--p-small] rounded-small bg-control-gray w-full max-w-[62rem] 
+                        place-self-center ${isExpandedFinal ? '' : 'pb-0'} ${classNameWrapper}`}>
             <div
                 onClick={() => handleToggle()}
-                className={`flex items-center justify-between cursor-pointer ${isChevron ? 'mb-[3.75rem]' : ''}`}
+                className={`flex items-center justify-between cursor-pointer gap-x-[0.2rem] ${isChevron ? 'mb-[3.75rem]' : ''}`}
             >
                 <h2 className={'text-inherit text-header font-bold flex gap-[0.65rem] items-center'}>
                     {Icon}

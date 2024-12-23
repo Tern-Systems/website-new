@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from "react";
-import Image from "next/image";
+import {ReactSVG} from "react-svg";
 
 import {Route} from "@/app/static";
 
@@ -7,7 +7,7 @@ import {PageLink} from "@/app/ui/layout";
 
 import {useLoginCheck} from "@/app/hooks";
 
-import SVG_ARROW from "@/assets/images/icons/arrow-right.svg";
+import SVG_ARROW from "@/assets/images/icons/arrow.svg";
 
 
 const LINKS: { title: string; text: string; route: Route }[] = [
@@ -50,29 +50,30 @@ const DocumentationPage: FC = () => {
         return null;
 
     const Links: ReactElement[] = LINKS.map((link, idx) => (
-        <li
-            key={link.text + idx}
-        >
+        <li key={link.text + idx}>
             <PageLink
                 href={link.route}
-                className={`bg-control-gray rounded-[1rem] flex-col flex justify-between h-[16.18rem] px-[1.25rem] py-[--p-small]
-                            [&]:items-start`}
+                className={`bg-control-gray rounded-[min(2.4dvw,1rem)] flex-col justify-between min-h-[9rem] h-[min(38.4dvw,16rem)]
+                            w-full px-[min(4dvw,1.25rem)] py-[min(4dvw,var(--p-small))] [&]:items-start`}
             >
-                <span className={'text-header font-bold'}>{link.title}</span>
-                <span>{link.text}</span>
-                <Image
-                    src={SVG_ARROW}
-                    alt={'arrow'}
-                />
+                <span className={'text-[min(4.8dvw,theme(fontSize.header))] font-bold block'}>{link.title}</span>
+                <span className={'text-[min(3.7dvw,1rem)]'}>{link.text}</span>
+                <ReactSVG src={SVG_ARROW.src}
+                          className={'[&_path]:fill-[--bg-control-blue] rotate-180 [&_*]:size-[min(3.7dvw,1.3rem)]'}/>
             </PageLink>
         </li>
     ));
 
     return (
-        <div className={'px-[15rem] text-left my-auto place-items-center'}>
-            <div>
-                <h1 className={'text-[2.25rem] font-bold mb-[1.9rem] block'}>Documentation</h1>
-                <ul className={'grid grid-cols-[repeat(3,30rem)] grid-rows-2 gap-[0.12rem]'}>{Links}</ul>
+        <div className={'text-left m-auto place-items-center'}>
+            <div className={'sm:overflow-y-hidden sm:max-h-full'}>
+                <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.9rem)] block sm:mb-0`}>
+                    Documentation
+                </h1>
+                <ul className={`grid grid-cols-[repeat(3,30rem)] gap-[0.12rem]
+                                sm:grid-cols-1 sm:overflow-y-scroll sm:max-h-[65dvh]`}>
+                    {Links}
+                </ul>
             </div>
         </div>
     );

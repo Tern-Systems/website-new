@@ -30,7 +30,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     useEffect(() => {
         if (sessionStorage.getItem('pip-mode-child') !== null)
-            handleNoLayoutState();
+            return handleNoLayoutState();
 
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape')

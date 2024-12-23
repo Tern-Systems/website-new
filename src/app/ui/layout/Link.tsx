@@ -26,17 +26,20 @@ const ICON: Record<Icon, { src: string }> = {
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
     icon?: Icon;
+    isExternal?: boolean;
 }
 
 const PageLink: FC<Props> = (props: Props) => {
-    const {icon, children, href, ...linkProps} = props;
+    const {icon, children, href, isExternal, ...linkProps} = props;
 
-    const modalCtx = useModal();
     const route = usePathname();
+    const modalCtx = useModal();
     const [navigate] = useNavigate();
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
         linkProps.onClick?.(event);
+        if (isExternal)
+            return;
         modalCtx.closeModal();
         navigate(href as Route ?? Route.Home);
     }
@@ -47,7 +50,7 @@ const PageLink: FC<Props> = (props: Props) => {
         : null;
 
     const splitHref = children
-        ? <span>{children}</span>
+        ? children
         : <span>{getRouteName(props.href)}</span>;
 
     return (
@@ -56,6 +59,7 @@ const PageLink: FC<Props> = (props: Props) => {
             className={`items-center inline-flex ${styles.clickable} ${linkProps.className}`}
             href={route ?? '/'}
             onClick={handleLinkClick}
+            {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
         >
             {Icon} {splitHref}
         </Link>

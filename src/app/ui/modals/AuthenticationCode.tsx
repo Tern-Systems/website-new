@@ -1,5 +1,5 @@
 import React, {FC, FormEvent, ReactElement, useCallback, useEffect, useState} from "react";
-import Image from "next/image";
+import {ReactSVG} from "react-svg";
 import axios from "axios";
 
 import {UserData} from "@/app/context/User.context";
@@ -35,8 +35,18 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
 
     const handleSendNewCode = useCallback(async () => {
-        await AuthService.postSendOTP(email);
-    }, [email])
+        try {
+            await AuthService.postSendOTP(email);
+        } catch (error: unknown) {
+            let message: string = 'Unknown error';
+            if (axios.isAxiosError(error) && error.status === 401)
+                return setWarningMsg("The code is not correct");
+            else if (typeof error === 'string')
+                message = error;
+            // modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+        }
+        //eslint-disable-next-line
+    }, [])
 
     useEffect(() => {
         handleSendNewCode();
@@ -62,11 +72,13 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <BaseModal
+            adaptSmScreen
             title={'Account Authentication'}
-            className={`place-self-center mx-auto relative [&]:bg-control-gray border-small border-control`}
+            className={`place-self-center mx-auto relative bg-control-gray border-small border-control`}
+            classNameContent={'max-w-[26rem] sm:max-w-[21rem] sm:place-self-center mt-[1.9rem]'}
         >
-            <div className={'flex flex-col items-center w-[26rem] mb-[1.875rem] text-center leading-[120%]'}>
-                <Image src={SVG_SAFE} alt={'safe'} className={'mb-[1.875rem] size-[9.9rem]'}/>
+            <div className={'flex flex-col items-center mb-[1.875rem] text-center leading-[120%]'}>
+                <ReactSVG src={SVG_SAFE.src} className={'mb-[1.875rem] size-[9.9rem] sm:[&_path]:fill-gray'}/>
                 <span>
                     Please confirm your account by entering the authorization code sent to&nbsp;
                     <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
