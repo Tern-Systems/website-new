@@ -1,5 +1,6 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
+import axios from "axios";
 
 import {CardData, Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static";
@@ -12,6 +13,7 @@ import {ExportInvoiceModal} from "./ExportInvoiceModal";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
 import {useLoginCheck} from "@/app/hooks";
+import {SavedCard} from "@/app/types/billing";
 
 
 function PurchasingInformationView() {
@@ -24,12 +26,47 @@ function PurchasingInformationView() {
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     // eslint-disable-next-line
     const [invoices, setInvoices] = useState<Invoice[]>([]);
+    const [billingAddress, setBillingAddress] = useState<{
+        firstName: string,
+        lastName: string,
+        country: string,
+        address: string,
+        city: string,
+        zip: string,
+        state: string,
+    }>();
 
     useEffect(() => {
         try {
             // TODO fetch cards, invoices
         } catch (error: unknown) {
         }
+    }, [])
+
+    const fetchCards = async (): Promise<void> => {
+        try {
+            const result = await axios({
+                method: "POST",
+                url: `${process.env.NEXT_PUBLIC_API}/get-saved-cards`,
+                data: {
+                  email: userCtx.userData?.email
+                },
+                withCredentials: true,
+            });
+            
+            const preferredCardIdx = result.data.findIndex((card: SavedCard) => card.preferred === true);
+            
+            if (preferredCardIdx !== -1) {
+                setBillingAddress(result.data[preferredCardIdx].billingAddress);
+            }
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchCards()
     }, [])
 
     if (!isLoggedIn)
@@ -101,9 +138,20 @@ function PurchasingInformationView() {
                     <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
                     <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
                         <span>Name</span>
-                        <span>{userCtx.userData?.email ?? '--'}</span>
+                        <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
                         <span>Billing Address</span>
-                        <span>{savedCards?.[defaultCardIdx]?.billingAddress ?? '--'}</span>
+                        {billingAddress ? (
+                            <ul>
+                                <li>{billingAddress?.address}</li>
+                                <li>
+                                {billingAddress?.city}, {billingAddress?.state}{" "}
+                                {billingAddress?.zip}
+                                </li>
+                                <li>{billingAddress?.country}</li>
+                            </ul>
+                        ) : (
+                            <span>--</span>
+                        )}
                     </div>
                 </div>
             </div>
