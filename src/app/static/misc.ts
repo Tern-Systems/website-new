@@ -1,6 +1,7 @@
-import {Invoice} from "@/app/types/billing";
-
 // Misc
+import {Invoice} from "@/app/types/billing";
+import {Route} from "@/app/static/routing";
+
 const LANGUAGE = {
     'ab-GE': 'Abkhazian',
     'aa-ET': 'Afar',
@@ -210,6 +211,12 @@ const SALUTATION = {
     'MS': 'Ms.',
 }
 
+
+const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
+    fadeDuration: 300,
+    profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
+}
+
 // Temp
 const INVOICE_TEMPLATE: Invoice = {
     id: 111111111111,
@@ -228,4 +235,4 @@ const INVOICE_TEMPLATE: Invoice = {
     status: 'paid'
 }
 
-export {INVOICE_TEMPLATE, LANGUAGE, SALUTATION};
+export {INVOICE_TEMPLATE, LANGUAGE, SALUTATION, LAYOUT};

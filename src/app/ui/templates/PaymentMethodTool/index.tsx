@@ -4,9 +4,10 @@ import {CardData} from "@/app/types/billing";
 import {SubscriptionRecurrency} from "@/app/types/subscription";
 import {COUNTRY, STATE_PROVINCE} from "@/app/static";
 
-import {useForm} from "@/app/hooks";
+import {useBreakpointCheck, useForm} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
+import {ScrollEnd} from "@/app/ui/misc";
 import {Button, Input, Select} from "@/app/ui/form";
 import {RemovePaymentMethodModal} from "./RemovePaymentMethodModal";
 
@@ -64,8 +65,14 @@ const FORM_DATA_DEFAULT: CardData = {
     postalCode: '',
     state: '',
     nickName: '',
-    isDefault: false
+    isDefault: false,
 }
+
+const SM_ROW_START = 'sm:row-start-auto';
+const FIELDSET_CN = '[&&>*]:sm:col-start-1';
+const LEGEND_CN = `sm:mt-[2.7dvw] sm:[&&]:mb-0 ${SM_ROW_START}`;
+const SELECT_CN = 'px-[min(1.6dvw,0.62rem)] py-[min(1.1dvw,0.8rem) h-[min(5.6dvw,3.25rem)] bg-white';
+const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
 
 
 interface Props {
@@ -76,6 +83,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const {isPaymentCreation} = props;
 
     const modalCtx = useModal();
+    const isSmScreen = useBreakpointCheck();
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
@@ -117,26 +125,36 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         ?? []
     );
 
+    const SubmitBtn = (
+        <Button
+            type={'submit'}
+            className={`px-[1.12rem] h-[min(13dvw,3.25rem)] bg-control-gray font-neo text-header font-bold
+                        w-full rounded-full text-primary col-span-2 sm:mt-[2.7dvw]`}
+        >
+            {isPaymentCreation ? 'Add' : 'Update'}
+        </Button>
+    );
+
     return (
-        <div className={'text-nowrap pt-[9rem] px-[1.85rem]'}>
-            <h1 className={'text-[3rem] font-bold mb-[4.15rem]'}>
+        <div className={'mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)]'}>
+            <h1 className={'text-[min(7.2dvw,3rem)] font-bold mb-[min(5.3dvw,4.15rem)]'}>
                 {isPaymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
             </h1>
-            <form className={styles.form} onSubmit={handleFormSubmit}>
-                <fieldset>
-                    <legend/>
+            <form className={`${styles.form} sm:[&&]:grid-cols-2`} onSubmit={handleFormSubmit}>
+                <fieldset className={`[&>*]:col-start-1 ${FIELDSET_CN}`}>
                     <Select
                         hidden={isPaymentCreation}
                         options={SavedCardOptions}
                         value={editCardIdx.toString()}
                         placeholder={'Select'}
                         onChangeCustom={(value) => setEditCardIdx(+value)}
-                        classNameWrapper={'flex-col [&]:items-start mb-[3.25rem]'}
-                        className={`px-[0.62rem] py-[0.8rem] h-[3.25rem] bg-white border-small rounded-smallest border-control-white-d0`}
+                        classNameWrapper={`${FIELD_CN} mb-[min(5.3dvw,3.25rem)] row-start-1 sm:mb-0`}
+                        classNameOption={'bg-white [&]:border-control-gray-l0'}
+                        className={SELECT_CN}
                     >
                         Choose Payment Method
                     </Select>
-                    <legend>Card Information</legend>
+                    <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
                         type={'number'}
                         value={formData.cardNumber}
@@ -144,74 +162,63 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
                         icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
-                        classNameWrapper={'flex-col [&]:items-start'}
+                        classNameWrapper={`${FIELD_CN} row-start-3`}
                         required
                     >
                         Credit or Debit Card
                     </Input>
-                    <span className={'flex gap-[1.88rem]'}>
-                            <Input
-                                value={formData.expirationDate}
-                                maxLength={5}
-                                onChange={setFormData('expirationDate')}
-                                onKeyDown={(event) => {
-                                    if (!/[0-9]/.test(event.key) && event.key !== 'Backspace')
-                                        event.preventDefault();
-                                    if (event.currentTarget.value.length === 2 && event.key !== 'Backspace')
-                                        event.currentTarget.value = event.currentTarget.value + '/';
-                                }}
-                                placeholder={'MM/YY'}
-                                classNameWrapper={'flex-col [&]:items-start'}
-                                required
-                            >
-                                Expiration
-                            </Input>
-                            <Input
-                                value={formData.cvc}
-                                maxLength={3}
-                                onChange={setFormData('cvc')}
-                                placeholder={'CVC'}
-                                icons={[SVG_CARD_NUM]}
-                                classNameWrapper={'flex-col [&]:items-start'}
-                                required
-                            >
-                                CVC
-                            </Input>
-                        </span>
+                    <Input
+                        type={'expiration'}
+                        value={formData.expirationDate}
+                        maxLength={5}
+                        onChange={setFormData('expirationDate')}
+                        placeholder={'MM/YY'}
+                        classNameWrapper={`${FIELD_CN} [&&]:col-span-1 row-start-4`}
+                        required
+                    >
+                        Expiration
+                    </Input>
+                    <Input
+                        value={formData.cvc}
+                        maxLength={3}
+                        onChange={setFormData('cvc')}
+                        placeholder={'CVC'}
+                        icons={[SVG_CARD_NUM]}
+                        classNameWrapper={`${FIELD_CN} [&&]:col-span-1 row-start-4`}
+                        required
+                    >
+                        CVC
+                    </Input>
                     <Input
                         type={'number'}
                         value={formData.nickName}
                         onChange={setFormData('nickName')}
-                        classNameWrapper={'flex-col [&]:items-start'}
+                        classNameWrapper={`${FIELD_CN} row-start-5`}
                         required
                     >
                         Nickname
                     </Input>
-                    <Input
-                        type={'checkbox'}
-                        checked={formData.isDefault}
-                        onChange={setFormData('isDefault')}
-                        classNameWrapper={'flex-row-reverse place-self-start gap-x-[0.4rem]'}
-                        classNameLabel={'flex text-small [&&]:mb-0'}
-                        className={'max-w-[1rem] max-h-[1rem]'}
-                        required
-                    >
-                        Set as preferred payment method
-                    </Input>
-                    <Button
-                        type={'submit'}
-                        className={`p-x-[1.12rem] h-[3.25rem] bg-control-gray font-sans text-content-small font-bold
-                                            w-full rounded-full`}
-                    >
-                        {isPaymentCreation ? 'Add' : 'Update'}
-                    </Button>
+                    <span className={'row-start-6'}>
+                        <Input
+                            type={'checkbox'}
+                            checked={formData.isDefault}
+                            onChange={setFormData('isDefault')}
+                            classNameWrapper={`flex-row-reverse place-self-start [&&]:mb-[1rem] sm:[&&]:mb-0 sm:[&&]:mt-[1.3dvw]`}
+                            classNameLabel={'text-small [&&]:mb-0'}
+                            className={'max-w-[min(3.2dvw,1rem)] max-h-[min(3.2dvw,1rem)]'}
+                            required
+                        >
+                            Set as preferred payment method
+                        </Input>
+                        {isSmScreen ? null : SubmitBtn}
+                    </span>
                 </fieldset>
-                <fieldset className={'ml-[8.44rem]'}>
-                    <legend>Billing address</legend>
+                <fieldset className={`[&>*]:col-start-3 ${FIELDSET_CN}`}>
+                    <legend className={`row-start-2 ${LEGEND_CN}`}>Billing address</legend>
                     <Input
                         value={formData.cardholderName}
                         onChange={setFormData('cardholderName')}
-                        classNameWrapper={'flex-col [&]:items-start'}
+                        classNameWrapper={`${FIELD_CN} row-start-3`}
                         required
                     >
                         Name
@@ -219,10 +226,17 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <Input
                         value={formData.addressLine1}
                         onChange={setFormData('addressLine1')}
-                        classNameWrapper={'flex-col [&]:items-start'}
+                        classNameWrapper={`${FIELD_CN} row-start-4`}
                         required
                     >
                         Street Address #1
+                    </Input>
+                    <Input
+                        value={formData.addressLine2}
+                        onChange={setFormData('addressLine2')}
+                        classNameWrapper={`${FIELD_CN} row-start-4 sm:[&&]:row-span-1`}
+                    >
+                        Street Address #2
                     </Input>
                     <Input
                         value={formData.city}
@@ -231,68 +245,63 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
                                 event.preventDefault();
                         }}
-                        classNameWrapper={'flex-col [&]:items-start'}
+                        classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}
                         required
                     >
                         City / Locality
-                    </Input>
-                    <Input
-                        type={'number'}
-                        value={formData.postalCode}
-                        maxLength={5}
-                        onChange={setFormData('postalCode')}
-                        classNameWrapper={'flex-col [&]:items-start'}
-                        required
-                    >
-                        Postal / ZIP Code
-                    </Input>
-                </fieldset>
-                <fieldset>
-                    <Input
-                        value={formData.addressLine2}
-                        onChange={setFormData('addressLine2')}
-                        classNameWrapper={'flex-col [&]:items-start'}
-                    >
-                        Street Address #2
                     </Input>
                     <Select
                         options={STATE_PROVINCE[formData.billingCountry]}
                         value={formData.state}
                         onChangeCustom={(value) => setFormData('state')(value)}
-                        classNameWrapper={'flex-col [&]:items-start'}
-                        className={`px-[0.62rem] py-[0.8rem] bg-white`}
-                        hidden={formData.billingCountry !== 'US'}
-                        required={formData.billingCountry === 'US'}
+                        classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}
+                        className={SELECT_CN}
+                        required
                     >
                         State / Province
                     </Select>
+                    <Input
+                        type={'number'}
+                        value={formData.postalCode}
+                        maxLength={5}
+                        onChange={setFormData('postalCode')}
+                        classNameWrapper={`${FIELD_CN} row-start-6 sm:[&&]:col-span-1`}
+                        required
+                    >
+                        Postal / ZIP Code
+                    </Input>
                     <Select
                         options={COUNTRY}
                         value={formData.billingCountry}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
-                        classNameWrapper={'flex-col [&]:items-start'}
-                        className={`px-[0.62rem] py-[0.8rem] bg-white border-small rounded-smallest border-control-white-d0 `}
+                        classNameWrapper={`${FIELD_CN} row-start-6 sm:[&&]:col-span-1`}
+                        className={SELECT_CN}
                         required
                     >
                         Country / Region
                     </Select>
                 </fieldset>
+                {isSmScreen ? SubmitBtn : null}
             </form>
-            <div className={'mt-[6.57rem]'} hidden={isPaymentCreation}>
+            <div className={'mt-[min(5dvw,6.6rem)]'} hidden={isPaymentCreation}>
                 <span
                     className={'text-red text-small cursor-pointer'}
                     onClick={() => {
-                        if (savedCards[+editCardIdx])
-                            modalCtx.openModal(<RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>, {darkenBg: true})
+                        if (savedCards[+editCardIdx]) {
+                            modalCtx.openModal(
+                                <RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>,
+                                {darkenBg: true}
+                            );
+                        }
                     }}
                 >
                     Remove Payment Method
                 </span>
             </div>
-            <span className={'block pt-[--p-small]'}/>
+            <ScrollEnd/>
         </div>
     )
 }
 
-export type {Subscription, Plan}
-export {PaymentMethodTool}
+export type {Subscription, Plan};
+export {PaymentMethodTool};

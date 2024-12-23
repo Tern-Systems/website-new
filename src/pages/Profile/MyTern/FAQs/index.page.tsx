@@ -43,7 +43,8 @@ const FAQsPage: FC = () => {
                 title={faq.question}
                 isChevron
                 expandedState={[openedItemIdx === idx, () => setOpenedItemIdx(prevState => prevState === idx ? -1 : idx)]}
-                classNameWrapper={`text-left sm:[&>div]:mb-[3rem] ${!idx ? '[&]:rounded-b-none' : (idx === array.length - 1 ? '[&]:rounded-t-none' : '[&]:rounded-none')}`}
+                classNameWrapper={`text-left sm:[&>div:first-of-type]:mb-[min(5dvw,3rem)] [&_h2]:text-content [&_h2]:whitespace-pre-wrap 
+                                ${!idx ? '[&]:rounded-b-none' : (idx === array.length - 1 ? '[&]:rounded-t-none' : '[&]:rounded-none')}`}
             >
                 <span className={'col-span-3'}>{faq.answer}</span>
             </Collapsible>
@@ -55,7 +56,7 @@ const FAQsPage: FC = () => {
             <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.25rem)] block sm:mb-0 text-left md:hidden lg:hidden`}>
                 Help & FAQs
             </h1>
-            <ul className={'sm:overflow-y-scroll sm:max-h-[65dvh]'}>{FAQsList}</ul>
+            <ul className={'sm:overflow-y-scroll sm:max-h-[65dvh] sm:max-w-[90dvw]'}>{FAQsList}</ul>
         </div>
     );
 }

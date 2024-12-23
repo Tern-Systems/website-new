@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from "react";
+import React, {ReactElement} from "react";
 
 import {DocumentationContent} from "@/app/types/documentation";
 import {Route} from "@/app/static";
@@ -32,7 +32,7 @@ const CONTENTS: Record<Content, DocumentationContent> = {
 }
 
 
-const DocumentationPage: FC = () => {
+function DocumentationPage() {
     const isLoggedIn = useLoginCheck();
     return isLoggedIn ? <DocumentationScreen contents={CONTENTS}/> : null;
 };

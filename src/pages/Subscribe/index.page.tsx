@@ -1,18 +1,18 @@
 "use client";
 
-import React, {FC, ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 
 import {Subscription} from "@/app/types/subscription";
 import {Route} from "@/app/static";
 
 import {useLoginCheck} from "@/app/hooks";
 
-import {FullPageLayout} from "@/app/ui/layout";
+import {FullScreenLayout} from "@/app/ui/layout";
 import {PaymentInfo} from "./PaymentInfo";
 import {PaymentForm} from "./PaymentForm";
 
 
-const SubscribePage: FC = () => {
+function SubscribePage() {
     const [subscription, setSubscription] = useState<Subscription | null>(null);
     const isLoggedIn = useLoginCheck();
 
@@ -27,8 +27,9 @@ const SubscribePage: FC = () => {
         return null;
 
     return (
-        <div className={'flex font-oxygen text-gray h-full'}>
+        <div className={'flex font-oxygen text-gray h-full sm:flex-col'}>
             <PaymentInfo subscription={subscription}/>
+            <hr className={'my-[min(4dvw,1.5rem)] border-control-gray-l0'}/>
             <PaymentForm
                 type={subscription?.type}
                 recurrency={subscription?.recurrency}
@@ -38,10 +39,9 @@ const SubscribePage: FC = () => {
     );
 }
 
-// @ts-expect-error all good - standard NextJs approach
 SubscribePage.getLayout = (page: ReactElement) => (
-    <FullPageLayout backButtonSection={Route.ServicePricing}>{page}</FullPageLayout>
+    <FullScreenLayout backButtonSection={Route.ServicePricing}>{page}</FullScreenLayout>
 );
-
+SubscribePage.getMobileLayout = SubscribePage.getLayout;
 
 export default SubscribePage;

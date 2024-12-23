@@ -4,20 +4,25 @@ import Image from "next/image";
 import {CardData, Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static";
 
+import {useBreakpointCheck, useLoginCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
-import {FullPageLayout, PageLink} from "@/app/ui/layout";
+import {ScrollEnd} from "@/app/ui/misc";
+import {FullScreenLayout, PageLink} from "@/app/ui/layout";
 import {Button} from "@/app/ui/form";
 import {ExportInvoiceModal} from "./ExportInvoiceModal";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
-import {useLoginCheck} from "@/app/hooks";
+
+
+const PX_CN = 'px-[min(2.7dvw,0.625rem)]';
 
 
 function PurchasingInformationView() {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
+    const isSmScreen = useBreakpointCheck();
 
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
@@ -28,6 +33,22 @@ function PurchasingInformationView() {
     useEffect(() => {
         try {
             // TODO fetch cards, invoices
+            setInvoices([{
+                id: 111111111111,
+                date: Date.now(),
+                to: 'John Doe',
+                from: 'Tern Systems, LLC',
+                card: {cardNumber: '1111222233334444', type: 'visa', nickName: 'john doe'},
+                item: {name: 'ARCH Standard Subscription', priceUSD: 10},
+                subtotalUSD: 10,
+                totalDue: 10.60,
+                taxPercent: 0.06,
+                paidUSD: 10.6,
+                country: 'US',
+                state: 'PA',
+                type: 'monthly',
+                status: 'paid'
+            }])
         } catch (error: unknown) {
         }
     }, [])
@@ -63,43 +84,45 @@ function PurchasingInformationView() {
                 <td>{invoiceDate.toLocaleString('default', {month: 'long'})} {invoiceDate.getDate()}th, {invoiceDate.getFullYear()}</td>
                 <td>{order.totalDue.toFixed(2)}</td>
                 <td>{order.status}</td>
-                <td>{order.card.nickName}</td>
-                <td className={'text-right'}>{order.item.name}</td>
+                <td className={'sm:hidden'}>{order.card.nickName}</td>
+                <td className={'text-right sm:hidden'}>{order.item.name}</td>
             </tr>
         )
     });
 
+    const Hr = <hr className={'border-control-white-d0 mt-[min(2.7dvw,0.81rem)] mb-[min(2.7dvw,1.57rem)]'}/>;
+
     return (
-        <div className={'pt-[9.14rem] px-[1.83rem]'}>
-            <div className={'w-[29.0625rem] text-nowrap mb-[5.76rem]'}>
-                <h1 className={'text-[3rem] font-bold'}>
+        <div className={'mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)]'}>
+            <div className={'max-w-[29.0625rem] text-nowrap mb-[min(8dvw,5.76rem)]'}>
+                <h1 className={'text-[min(7.2dvw,3rem)] font-bold'}>
                     Purchasing Information
                 </h1>
             </div>
-            <div className={'grid gap-[10rem] grid-rows-1 grid-cols-2 mb-[7rem]'}>
+            <div className={'grid gap-[min(8dvw,10rem)] grid-cols-2 mb-[min(8dvw,7rem)] sm:grid-cols-1'}>
                 <div>
-                    <div className={'flex justify-between'}>
+                    <div className={`flex justify-between ${PX_CN}`}>
                         <h2 className={'text-header font-bold'}>Payment Method</h2>
-                        <PageLink href={Route.EditPaymentMethod}>
-                            <Button icon={'edit'} className={'px-[1rem] text-small flex-row-reverse'}>
-                                Edit
+                        <PageLink href={Route.EditPaymentMethod} prevent={!savedCards.length}>
+                            <Button icon={'edit'} className={'text-small flex-row-reverse'}>
+                                {isSmScreen ? '' : 'Edit'}
                             </Button>
                         </PageLink>
                     </div>
-                    <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
-                    <ul className={'flex flex-col gap-[0.93rem]'}>
+                    {Hr}
+                    <ul className={`flex flex-col gap-[min(2.7dvw,0.93rem)] ${PX_CN}`}>
                         {Cards}
                     </ul>
-                    <PageLink href={Route.AddPaymentMethod}>
-                        <Button icon={'plus'} className={'font-bold text-content mt-[1.51rem]'}>
+                    <PageLink href={Route.AddPaymentMethod} className={PX_CN}>
+                        <Button icon={'plus'} className={'font-bold text-content mt-[min(2.7dvw,1.51rem)]'}>
                             Add alternative payment method
                         </Button>
                     </PageLink>
                 </div>
                 <div>
-                    <h2 className={'text-header font-bold'}>Billing Details</h2>
-                    <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
-                    <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
+                    <h2 className={`text-header font-bold ${PX_CN}`}>Billing Details</h2>
+                    {Hr}
+                    <div className={`grid grid-rows-2 grid-cols-[max-content,max-content] gap-y-[min(2.7dvw,3rem)] gap-x-[min(10dvw,3rem)] ${PX_CN}`}>
                         <span>Name</span>
                         <span>{userCtx.userData?.email ?? '--'}</span>
                         <span>Billing Address</span>
@@ -107,32 +130,32 @@ function PurchasingInformationView() {
                     </div>
                 </div>
             </div>
-            <div className={'flex justify-between items-center'}>
+            <div className={`flex justify-between items-center ${PX_CN}`}>
                 <h2 className={'text-header font-bold text-left'}>Invoice History</h2>
                 <Button
-                    className={'border-small border-control-white-d0 px-[1rem] text-small h-[1.44rem] rounded-full font-bold'}
+                    className={'border-small border-control-white-d0 px-[min(2.1dvw,1rem)] text-small h-[min(4.3dvw,1.44rem)] rounded-full font-bold'}
                     onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
                 >
                     Export
                 </Button>
             </div>
-            <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
-            <div className={'overflow-hidden rounded-small p-[--p-small] h-[26.875rem]'}>
-                <div
-                    className={`overflow-y-scroll h-full text-content capitalize`}>
+            {Hr}
+            <div className={'overflow-hidden rounded-small px-[min(4dvw,var(--p-small))] max-h-[27rem]'}>
+                <div className={`overflow-y-scroll h-full text-[min(3.2dvw,var(--fz-content-))] capitalize`}>
                     <table className={'w-full'} cellPadding={'1.25'}>
                         <tbody>{InvoiceRows}</tbody>
                     </table>
                 </div>
             </div>
-            <span className={'block pt-[--p-small]'}/>
+            <ScrollEnd/>
         </div>
     )
 }
 
 PurchasingInformationView.getLayout = (page: ReactElement) => (
-    <FullPageLayout backButtonSection={Route.Billing}>{page}</FullPageLayout>
+    <FullScreenLayout backButtonSection={Route.Billing}>{page}</FullScreenLayout>
 );
+PurchasingInformationView.getMobileLayout = PurchasingInformationView.getLayout;
 
 
 export default PurchasingInformationView;

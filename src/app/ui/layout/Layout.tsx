@@ -4,7 +4,7 @@ import React, {FC, PropsWithChildren, ReactElement, useEffect, useState} from "r
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Spline from "@splinetool/react-spline";
 
-import {FADE_DURATION, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
 import {useNavigate} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
@@ -13,6 +13,7 @@ import {Header, PageLink} from "@/app/ui/layout";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
+import {ScrollEnd} from "@/app/ui/misc";
 
 
 const Layout: FC<PropsWithChildren> = ({children}) => {
@@ -40,7 +41,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             setInsigniaMoved(route !== Route.Start);
         setTimeout(() => {
             setProfileLinksVisibility(false);
-        }, FADE_DURATION);
+        }, LAYOUT.fadeDuration);
     }, [route]);
 
 
@@ -73,7 +74,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <span
                     onClick={() => {
                         setInsigniaMoved(true);
-                        setTimeout(() => navigate(Route.Home), 2 * FADE_DURATION);
+                        setTimeout(() => navigate(Route.Home), 2 * LAYOUT.fadeDuration);
                     }}
                     className={`cursor-pointer ${styles.clickable}`}
                 >
@@ -87,7 +88,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <div
                     id={'content'}
                     className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
-                                bg-content bg-cover bg-no-repeat bg-fixed text-center p-[min(5.3dvw,var(--p-small))]
+                                bg-content bg-cover bg-no-repeat bg-fixed text-center p-[min(5.3dvw,var(--p-small))] text-[min(2.6dvw,1rem)]
                                 sm:pt-[3.1rem]`}
                 >
                     <div
@@ -95,7 +96,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                                     ${modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100')}
                                     ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                         {children}
-                        <span className={'block pt-[max(1.7dvw,3.1rem)]'}/>
+                        <ScrollEnd/>
                     </div>
                 </div>
                 <footer

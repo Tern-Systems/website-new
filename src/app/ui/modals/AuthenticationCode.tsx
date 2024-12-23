@@ -43,7 +43,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 return setWarningMsg("The code is not correct");
             else if (typeof error === 'string')
                 message = error;
-            // modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
         }
         //eslint-disable-next-line
     }, [])

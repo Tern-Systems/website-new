@@ -3,7 +3,7 @@ import {useQRCode} from "next-qrcode";
 
 import {UserSubscription} from "@/app/context/User.context";
 import {ARCode} from "@/app/types/arcode";
-import {FADE_DURATION, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
 import {useLoginCheck, useNavigate} from "@/app/hooks";
 import {useUser} from "@/app/context";
@@ -26,23 +26,26 @@ const SAVED_CODES_TEMPLATE: ARCode[] = [
 ]
 
 
-const AR_CODE_WIDTH = 300;
+const MAX_AR_CODE_WIDTH = 200;
 
 
 const SavedCodesPage: FC = () => {
     const [menuData, setMenuData] = useState<CodeMenuData>({arCode: null, x: 0, y: 0, isOpened: false});
     const [codeId, setCodeId] = useState<string | null>(null);
+    const [qrSize, setQrSize] = useState(MAX_AR_CODE_WIDTH);
+
     const [navigate] = useNavigate();
     const userCtx = useUser();
     const isLoggedIn = useLoginCheck();
     const {SVG} = useQRCode();
+
 
     useEffect(() => {
         const subscription: UserSubscription | undefined = userCtx.userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
         if (!subscription) {
             setTimeout(() => {
                 navigate(Route.ServicePricing);
-            }, FADE_DURATION);
+            }, LAYOUT.fadeDuration);
         }
         //eslint-disable-next-line
     }, [userCtx.isLoggedIn])
@@ -72,9 +75,21 @@ const SavedCodesPage: FC = () => {
             })
         }
 
+        const handleResize = () => setQrSize(Math.min(MAX_AR_CODE_WIDTH, MAX_AR_CODE_WIDTH * window.innerWidth / 500));
+        handleResize();
+
         window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('click', handleClick);
+            window.removeEventListener('resize', handleResize);
+        }
     }, [codeId, menuData])
+
+
+    useEffect(() => {
+    }, []);
+
 
     if (!isLoggedIn)
         return null;
@@ -82,13 +97,13 @@ const SavedCodesPage: FC = () => {
     const SavedCodes: ReactElement[] = SAVED_CODES_TEMPLATE.map((arCode, idx) => {
         const id = (arCode.name + idx).toLowerCase().split(' ').join('-');
         return (
-            <div key={id} id={id}>
+            <div key={id} id={id} className={'place-items-center'}>
                 <div
-                    className={'p-[0.44rem] cursor-pointer mb-[0.94rem] min-h-[14.76rem] content-center place-items-center'}>
+                    className={'flex cursor-pointer mb-[min(2.7dvw,0.94rem)] justify-center'}>
                     <SVG
                         text={'https://arch.tern.ac/media/' + arCode.id}
                         options={{
-                            width: AR_CODE_WIDTH,
+                            width: qrSize,
                             margin: 1,
                             color: {
                                 dark: arCode.backgroundColor,
@@ -98,14 +113,15 @@ const SavedCodesPage: FC = () => {
                     />
                 </div>
                 <div
-                    className={'relative flex bg-control-gray h-[2.3125rem] items-center justify-center rounded-smallest'}>
-              <span
-                  className={'px-[1rem] text-header overflow-ellipsis text-nowrap overflow-x-hidden'}>
-                  {arCode.name}
-              </span>
+                    className={`relative flex bg-control-gray h-[min(8dvw,2.3rem)] items-center justify-center rounded-smallest
+                                w-[10rem] max-w-[40dvw]`}>
+                    <span
+                        className={'px-[min(1.1dvw,1rem)] text-header overflow-ellipsis text-nowrap overflow-x-hidden'}>
+                        {arCode.name}
+                    </span>
                     <Button
                         icon={'dots'}
-                        className={`absolute inline right-[0.63rem] w-[0.3rem] h-[1.15rem] cursor-pointer place-self-center`}
+                        className={`absolute inline right-[min(2.6dvw,0.63rem)] w-[0.3rem] h-[min(4dvw,1.15rem)] cursor-pointer place-self-center`}
                         onClick={() => {
                             setMenuData(prevState => ({
                                 ...prevState,
@@ -123,7 +139,8 @@ const SavedCodesPage: FC = () => {
 
     return (
         <div
-            className={'grid grid-cols-[repeat(auto-fill,minmax(15.625rem,1fr))] gap-y-[4.5rem] gap-x-[5.94rem] after:flex-auto'}>
+            className={`grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-y-[min(5.3dvw,4.5rem)] gap-x-[4.9dvw]
+                        after:flex-auto     sm:gap-x-[1.3dvw]`}>
             {SavedCodes}
             {menuData.isOpened ? <CodeMenu menuData={menuData}/> : null}
         </div>

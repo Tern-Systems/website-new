@@ -138,7 +138,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 </fieldset>
                 {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
                 <Button className={`py-[0.92rem] mt-[1.56rem] text-content-small font-bold rounded-full
-                                    w-full max-s[18.93rem] place-self-center bg-white text-gray sm:w-[90%]`}>
+                                    w-full max-s[18.93rem] place-self-center bg-control-white text-gray sm:w-[90%]`}>
                     Reset Password
                 </Button>
             </form>

@@ -5,7 +5,7 @@ import {useModal} from "@/app/context";
 import {SaveChangesModal} from "@/app/ui/modals";
 
 
-const useSaveOnLeave = (onSave: () => Promise<void>, onDontSave?: () => Promise<void>) => {
+const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => Promise<void>) => {
     const modalCtx = useModal();
     const [shouldPrevent, setPreventState] = useState(true);
 

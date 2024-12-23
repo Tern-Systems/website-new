@@ -22,7 +22,7 @@ const CredoView = () => {
     const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx} className={'mb-[2.3rem]'}>{p}</p>)
     return (
         <div className={`${styles.highlight} max-w-[69.125rem] max-h-[41.625rem]`}>
-            <h1 className={'mb-[2.3rem]'}>Our Credo</h1>
+            <h1 className={'mb-[min(5.3dvw,3.1rem)]'}>Our Credo</h1>
             <div className={'overflow-y-scroll [&&]:text-header'}>
                 {Paragraphs}
             </div>

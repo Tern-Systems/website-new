@@ -37,7 +37,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
     const handleEnablePiP = () => {
         if (!route)
             return;
-        const newWindow = window.open(route, '_blank no', 'width=600,height=400');
+        const newWindow = window.open(route, '_blank', 'width=600,height=400');
         newWindow?.sessionStorage.setItem('pip-mode-child', '');
 
         const handleLoad = () => {
@@ -129,7 +129,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 className={`p-[0.2rem] h-[1.8rem] min-w-[1.8125rem] rounded-smallest border-2 border-white`}
             >
                 <div
-                    className={`bg-white box-border h-[100%] rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
+                    className={`bg-control-white box-border h-full rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
             </Button>
         );
 
@@ -149,6 +149,8 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
     const options: Record<string, string> = Object.fromEntries(
         Object.keys(contents).map((key) => [key, getRouteName(key) ?? ''])
     );
+
+    const selectBgCn = isMenuOpened ? '[&]:bg-control-gray' : '[&]:bg-transparent';
 
     return (
         <div
@@ -170,8 +172,10 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                                 options={options}
                                 onChangeCustom={(route) => navigate(route as Route)}
                                 value={route ?? ''}
-                                className={'md:hidden lg:hidden text-[1.3rem] font-bold font-oxygen border-none [&_img]:relative [&_img]:-right-[0.3rem]'}
-                                classNameOption={'w-full [&]:bg-control-gray-l0'}
+                                classNameWrapper={'w-[min(35dvw,10rem)]'}
+                                className={`md:hidden lg:hidden text-[1.3rem] font-bold font-oxygen border-none rounded-smallest
+                                            px-[min(1.3dvw,1.62rem)] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.3rem] ${selectBgCn}`}
+                                classNameOption={`w-full ${selectBgCn} border-none`}
                             />
                         </span>
                         <span hidden={!isMenuOpened}

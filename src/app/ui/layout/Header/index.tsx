@@ -2,7 +2,7 @@ import {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
 import {usePathname} from "next/navigation";
 
-import {PROFILE_LINKS, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
 import {AuthService} from "@/app/services";
 
@@ -75,7 +75,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 break;
         }
     } else if (route?.includes(Route.Profile) && isSmScreen)
-        navLinks = PROFILE_LINKS;
+        navLinks = LAYOUT.profileLinks;
 
     let subNavLinks: Route[] | null = null;
     switch (route) {
@@ -88,7 +88,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         case Route.MyTern:
         case Route.Profile:
         case Route.Billing:
-            subNavLinks = isSmScreen ? null : PROFILE_LINKS;
+            subNavLinks = isSmScreen ? null : LAYOUT.profileLinks;
             break;
         case Route.Product:
         case Route.ProductPricing:
@@ -169,7 +169,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     let userBtns: ReactElement | ReactElement[];
     if (userCtx.isLoggedIn || isSmScreen) {
-        const ProfileLinks: ReactElement[] = PROFILE_LINKS.map((link, idx) => (
+        const ProfileLinks: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
             <li key={link + idx} className={'w-full pb-[1.25rem] sm:border-b-small sm:pt-[1.25rem]'}>
                 <PageLink
                     href={link}
@@ -180,7 +180,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
         ProfileLinks.push(
             <li
-                key={'logout' + PROFILE_LINKS.length}
+                key={'logout' + LAYOUT.profileLinks.length}
                 onClick={() => {
                     setProfileMenuOpenState(false);
                     userCtx.removeSession();
@@ -202,7 +202,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     onClick={() => toggleProfileMenu()}
                 />
                 <ul className={`absolute z-10 right-0 flex flex-col items-start mt-[0.6rem] p-[1.25rem] min-w-[8.75rem]
-                                border-small border-control-grayL1 rounded-smallest bg-control-gray text-nowrap
+                                border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap
                                 sm:bg-control-white-d0 sm:text-gray sm:rounded-none sm:py-0
                                 ${!isProfileMenuOpened ? 'hidden' : ''}`}
                 >
@@ -216,7 +216,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 key={name + idx}
                 onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>, {darkenBg: true})}
                 className={`px-[0.75rem] py-[0.2rem] rounded-full border-small border-section font-bold capitalize 
-                            text-[1rem] ${idx ? 'bg-black text-white' : 'bg-white text-black'}`}
+                            text-[1rem] ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
             >
                 {name}
             </Button>
@@ -231,7 +231,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             >
                 <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)]
                                 before:absolute before:h-[2rem] before:-left-[--p-small] before:border-r-small before:border-section
-                                sm:ml-[--p-small]`}
+                                sm:ml-[--p-small] sm:before:border-control-gray-l0`}
                 >
                     <Button
                         onClick={() => toggleNav()}

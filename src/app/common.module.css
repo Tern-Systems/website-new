@@ -24,7 +24,7 @@
   flex-direction: column;
   text-align: left;
   margin: auto 0;
-  margin-left: min(1dvw, 6rem);
+  margin-left: min(0%, 6rem);
   background-color: #4D4D4D4C;
   border-radius: 0.5625rem;
   padding: min(2.75vw, var(--p-small));

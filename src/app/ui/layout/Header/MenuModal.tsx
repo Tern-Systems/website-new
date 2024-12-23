@@ -5,7 +5,7 @@ import Image from "next/image";
 import {LANGUAGE, Route} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
-import {useModal, useUser} from "@/app/context";
+import {useUser} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals";
 import {PageLink} from "@/app/ui/layout";
@@ -27,7 +27,6 @@ const MenuModal: FC<Props> = (props: Props) => {
     const {subNavLinks, navLinks, mappedRoutes} = props;
 
     const route = usePathname();
-    const modalCtx = useModal();
     const userCtx = useUser();
 
 
@@ -35,7 +34,7 @@ const MenuModal: FC<Props> = (props: Props) => {
         const isProfilePath = route?.includes(Route.Profile);
 
         const isActive = checkSubRoute(route, link, true);
-        const isNextActive = getRouteRoot(route) === array[idx + 1]; // last+1 always undefined
+        const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
         const routeName = getRouteName(mappedRoutes?.[link], idx === 0);
 
         return (
@@ -43,10 +42,9 @@ const MenuModal: FC<Props> = (props: Props) => {
                 key={link + idx}
                 href={link}
                 icon={!isActive ? 'forward' : undefined}
-                onClick={() => modalCtx.closeModal()}
                 style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 2) + 'rem'}}
                 className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive || isProfilePath ? ACTIVE_ROUTE_CN : ''}
-                                 place-content-start pr-[1.125rem] ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
+                            place-content-start pr-[1.125rem] ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
             >
                 {routeName ? <span>{routeName}</span> : null}
             </PageLink>
@@ -71,7 +69,6 @@ const MenuModal: FC<Props> = (props: Props) => {
                 <PageLink
                     href={link}
                     icon={!isActive ? 'forward' : undefined}
-                    onClick={() => modalCtx.closeModal()}
                     className={`justify-center ${isActive ? ACTIVE_ROUTE_CN : 'mx-[1.25rem]'}
                                 ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
                 />
@@ -81,7 +78,7 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     return (
-        <BaseModal adaptSmScreen>
+        <BaseModal adaptSmScreen className={'[&]:text-content-small'}>
             <ul className={`flex cursor-pointer gap-x-[--p-small] flex-col w-full`}>
                 {NavLinks}
             </ul>

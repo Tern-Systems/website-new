@@ -1,4 +1,4 @@
-import {FC, PropsWithChildren, useState} from "react";
+import {FC, PropsWithChildren, ReactElement, useState} from "react";
 import Image from "next/image";
 
 import SVG_KEY from "@/assets/images/icons/key.svg";
@@ -22,34 +22,38 @@ const ICON: Record<Icon, string> = {
     blocks: SVG_BLOCKS,
 }
 
+
+const WRAPPER_CN = 'p-[min(4dvw,var(--p-small))] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center';
+
+
 interface Props extends PropsWithChildren {
-    title: string;
+    title?: string;
     icon?: Icon;
     classNameWrapper?: string;
     className?: string;
     isChevron?: boolean;
-    expandedState?: [boolean, () => void];
+    collapsedContent?: ReactElement;
+    expandedState?: [boolean] | [boolean, () => void];
 }
 
 const Collapsible: FC<Props> = (props: Props) => {
-    const {isChevron, title, icon, children, className, classNameWrapper, expandedState} = props;
+    const {isChevron, collapsedContent, title, icon, children, className, classNameWrapper, expandedState} = props;
 
-    const [isExpanded, setExpandState] = useState<boolean>(true);
+    const [isExpanded, setExpandState] = useState<boolean>(expandedState?.[0] ?? true);
 
-    const isExpandedFinal = isExpanded && expandedState?.[0] !== false;
+    const isExpandedFinal = isExpanded || expandedState?.[0] === true;
 
     const handleToggle = () => {
-        if (expandedState)
+        if (expandedState?.[1])
             expandedState[1]();
-        else
-            setExpandState(prevState => !prevState);
+        else setExpandState(prevState => !prevState);
     }
 
     const Icon = icon
         ? <Image
             src={ICON[icon]}
             alt={icon}
-            className={`inline size-[1.8rem]`}/>
+            className={`inline size-[min(4.3dvw,1.8rem)]`}/>
         : null;
 
     const CollapseIcon = isChevron
@@ -60,14 +64,36 @@ const Collapsible: FC<Props> = (props: Props) => {
         ? isExpandedFinal ? 'rotate-180' : ''
         : isExpandedFinal ? '' : 'brightness-[300%]';
 
+    if (collapsedContent) {
+        const Content = isExpandedFinal
+            ? (
+                <div className={className}>
+                    {children}
+                </div>
+            )
+            : collapsedContent
+
+        return (
+            <div className={`relative ${WRAPPER_CN} ${classNameWrapper}`}>
+                <Image
+                    src={CollapseIcon}
+                    alt={'plus-minus'}
+                    onClick={() => handleToggle()}
+                    className={`absolute size-[min(3.5dvw,1.8rem)] top-[min(4dvw,var(--p-small))] right-[min(4dvw,var(--p-small))]
+                                ${collapseCN} md:hidden lg:hidden`}
+                />
+                {Content}
+            </div>
+        );
+    }
+
     return (
         <div
-            id={title.toLowerCase().split(' ').join('')}
-            className={`p-[--p-small] rounded-small bg-control-gray w-full max-w-[62rem] 
-                        place-self-center ${isExpandedFinal ? '' : 'pb-0'} ${classNameWrapper}`}>
+            id={title?.toLowerCase().split(' ').join('')}
+            className={`${WRAPPER_CN} ${isExpandedFinal ? '' : 'pb-0'} ${classNameWrapper}`}>
             <div
                 onClick={() => handleToggle()}
-                className={`flex items-center justify-between cursor-pointer gap-x-[0.2rem] ${isChevron ? 'mb-[3.75rem]' : ''}`}
+                className={`flex items-center justify-between cursor-pointer gap-x-[0.2rem] ${isChevron ? 'mb-[min(16dvw,3.75rem)]' : ''}`}
             >
                 <h2 className={'text-inherit text-header font-bold flex gap-[0.65rem] items-center'}>
                     {Icon}
@@ -76,11 +102,12 @@ const Collapsible: FC<Props> = (props: Props) => {
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline size-[1.8rem] ${collapseCN}`} // brightness for the dark Plus svg
+                    className={`inline size-[min(2.7dvw,1.8rem)] ${collapseCN}`}
                 />
             </div>
-            <hr className={`scale-[105%] mt-[1.25rem] mb-[1.54rem] ${isChevron ? 'hidden' : ''}`}/>
-            <div className={`grid grid-cols-[1fr,1fr,max-content] gap-y-[0.56rem] text-left items-start ${className}
+            <hr className={`scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)] ${isChevron ? 'hidden' : ''}`}/>
+            <div className={`grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] gap-[min(4dvw,0.56rem)] text-left
+                            items-start text-[min(3.2dvw,1rem)] whitespace-pre-wrap ${className}
                             ${isExpandedFinal ? '' : 'hidden'}`}>
                 {children}
             </div>
@@ -88,4 +115,4 @@ const Collapsible: FC<Props> = (props: Props) => {
     )
 }
 
-export {Collapsible}
+export {Collapsible};

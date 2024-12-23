@@ -75,18 +75,18 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     return (
         <div
             className={'bg-control-gray rounded-smallest p-[min(4dvw,var(--p-small))] max-h-[20rem] sm:max-h-[15rem]'}>
-            <h3 className={`pl-[min(3.6dvw,0.81rem)] text-[min(4.8dvw,theme(fontSize.header))] font-bold`}>{table.title}</h3>
+            <h3 className={`pl-[min(3.6dvw,0.81rem)] text-header font-bold`}>{table.title}</h3>
             <hr className={`border-control-white-d0 mt-[min(2.7dvw,1.25rem)] mb-[min(1.35dvw,1.25rem)]`}/>
             <div className={'overflow-y-scroll max-h-[70%] sm:max-h-[83%]'}>
                 <table className={`w-full text-content`}>
-                    <thead className={`sticky top-0 z-10 text-[min(2.6dvw,theme(fontSize.small))] bg-control-gray`}>
+                    <thead className={`sticky top-0 z-10 text-small bg-control-gray`}>
                     <tr>
                         <td className={`pl-[min(3.6dvw,0.81rem)] py-[min(2.7dvw,0.75rem)]`}>{table.columnNames[0]}</td>
                         <td>{table.columnNames[1]}</td>
                         <td/>
                     </tr>
                     </thead>
-                    <tbody className={'text-[min(3.7dvw,theme(fontSize.content))]'}>
+                    <tbody className={'text-content]'}>
                     {TableItems}
                     </tbody>
                 </table>
@@ -145,7 +145,7 @@ const MyTernPage: FC = () => {
         const Btn = (
             <Button
                 icon={btn.icon}
-                className={`p-[min(2.4dvw,0.6rem)] bg-control-gray rounded-smallest text-[min(3.7dvw,theme(fontSize.content))] 
+                className={`p-[min(2.4dvw,0.6rem)] bg-control-gray rounded-smallest text-content 
                         ${btn.icon === 'plus' ? '[&_path]:fill-primary' : ''}`}
             >
                 {btn.title}
