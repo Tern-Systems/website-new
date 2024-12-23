@@ -15,6 +15,7 @@ function PurchasingMethodPage() {
 PurchasingMethodPage.getLayout = (page: ReactElement) => (
     <FullScreenLayout backButtonSection={Route.PurchasingInformation}>{page}</FullScreenLayout>
 );
+PurchasingMethodPage.getMobileLayout = PurchasingMethodPage.getLayout;
 
 
 export default PurchasingMethodPage;

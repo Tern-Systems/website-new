@@ -39,12 +39,12 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
             <div className={`flex items-center justify-between font-oxygen h-[4.3rem] p-[1.25rem] lg:hidden md:hidden`}>
                 <Button
                     icon={'close'}
-                    onClick={() => history.back()}
+                    onClick={() => navigate(backButtonSection)}
                     className={'[&_path]:fill-blue ml-auto [&_svg]:size-[1.125rem]'}
                 />
             </div>
             <hr className={`lg:hidden md:hidden`}/>
-            <div className={`relative h-full overflow-y-scroll ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
+            <div className={`relative h-full overflow-y-scroll  sm:h-[91.8dvh] ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                 <PageLink
                     href={backButtonSection}
                     icon={'back'}

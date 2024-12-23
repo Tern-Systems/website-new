@@ -10,6 +10,8 @@ import {BillingService} from "@/app/services";
 import {useForm, useNavigate} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
+import {ScrollEnd} from "@/app/ui/misc";
+import {PageLink} from "@/app/ui/layout";
 import {Button, Input, Select} from '@/app/ui/form';
 import {DeclinedModal} from "./DeclinedModal";
 
@@ -18,8 +20,6 @@ import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';
 import SVG_AMEX from '@/assets/images/icons/card-amex.svg';
 import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
-
-import {PageLink} from "@/app/ui/layout";
 
 import styles from './Subscribe.module.css'
 
@@ -40,6 +40,9 @@ const FORM_DEFAULT: SubscribeData = {
     state: '',
     acceptTerms: false,
 }
+
+
+const SELECT_CN = 'px-[min(2dvw,0.75rem)] py-[min(1dvw,0.8rem)] rounded-smallest border-small';
 
 
 interface Props {
@@ -127,7 +130,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
-                    className={`px-[0.62rem] py-[0.8rem] bg-control-white border-small rounded-smallest border-control-white-d0 mb-[0.94rem]`}
+                    className={`${SELECT_CN} mb-[min(1.3dvw,0.94rem)]`}
                     required
                 />
                 <Input
@@ -159,15 +162,10 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         required
                     />
                     <Input
+                        type={'expiration'}
                         value={formData.expirationDate}
                         maxLength={5}
                         onChange={setFormData('expirationDate')}
-                        onKeyDown={(event) => {
-                            if (!/[0-9]/.test(event.key) && event.key !== 'Backspace')
-                                event.preventDefault();
-                            if (event.currentTarget.value.length === 2 && event.key !== 'Backspace')
-                                event.currentTarget.value = event.currentTarget.value + '/';
-                        }}
                         placeholder={'MM/YY'}
                         className={`[&&]:rounded-t-none [&&]:rounded-br-none [&&]:border-r-0`}
                         required
@@ -203,8 +201,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         value={formData.billingCountry}
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
-                        className={`px-[0.62rem] py-[0.8rem] bg-control-white [&&]:rounded-b-none border-small
-                                        rounded-smallest border-control-white-d0`}
+                        className={`${SELECT_CN} bg-control-white [&&]:rounded-b-none`}
                         required
                     />
                     {isBillingExpanded
@@ -250,8 +247,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 value={formData.state}
                                 placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
-                                className={`px-[0.62rem] py-[0.8rem] bg-control-white [&&]:rounded-t-none [&&]:border-t-0 border-control-white-d0
-                                            border-small rounded-smallest`}
+                                className={`${SELECT_CN} [&&]:rounded-t-none [&&]:border-t-0`}
                                 required={isBillingExpanded}
                             />
                         </>
@@ -278,18 +274,20 @@ const PaymentForm: FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className={'flex-1 pt-[9.14rem] w-1/2 bg-control-white text-content overflow-y-scroll'}>
-            <div className={'w-[29.0625rem] mx-auto'}>
+        <div
+            className={'flex-1 pt-[min(5.3dvw,9.1rem)] w-1/2 bg-control-white overflow-y-scroll sm:overflow-y-visible sm:w-full sm:mt-0'}>
+            <div className={'w-[min(90dvw,29rem)] mx-auto'}>
                 <form className={styles.form} onSubmit={handleFormSubmit}>
-                    <h2 className={`font-bold mb-[2.12rem]`}>{savedCards.length ? 'Choose' : ''} Payment Method</h2>
+                    <h2 className={`font-bold mb-[min(4dvw,2.1rem)]`}>{savedCards.length ? 'Choose' : ''} Payment
+                        Method</h2>
                     {FormInputs}
                     <Input
                         type={'checkbox'}
                         checked={formData.acceptTerms}
                         onChange={setFormData('acceptTerms')}
-                        classNameWrapper={'flex-row-reverse mt-[1.46rem] [&&]:items-start gap-[0.47rem]'}
+                        classNameWrapper={'flex-row-reverse mt-[min(4dvw,1.46rem)] [&&]:items-start gap-[0.47rem]'}
                         classNameLabel={'flex'}
-                        className={'max-w-[1rem] max-h-[1rem]'}
+                        className={'max-w-[min(3.2dvw,1rem)] max-h-[min(3.2dvw,1rem)]'}
                         required
                     >
                         <span className={'text-gray text-small leading-normal'}>
@@ -308,14 +306,14 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         type={'submit'}
                         onClick={() =>
                             setPaymentStatus(true)}
-                        className={`mt-[1.87rem] p-[1.12rem] bg-control-gray font-sans text-content-small font-bold
+                        className={`mt-[min(4dvw,1.87rem)] h-[min(13dvw,4.4rem)] bg-control-gray font-sans text-header font-bold text-primary
                                     w-full rounded-full`}
                     >
                         Subscribe
                     </Button>
                 </form>
             </div>
-            <span className={'block pt-[--p-small]'}/>
+            <ScrollEnd/>
         </div>
     );
 };

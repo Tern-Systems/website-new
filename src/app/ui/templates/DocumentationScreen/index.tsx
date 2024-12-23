@@ -150,6 +150,8 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         Object.keys(contents).map((key) => [key, getRouteName(key) ?? ''])
     );
 
+    const selectBgCn = isMenuOpened ? '[&]:bg-control-gray' : '[&]:bg-transparent';
+
     return (
         <div
             className={`self-center flex-grow h-full min-w-[70rem] 
@@ -170,8 +172,10 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                                 options={options}
                                 onChangeCustom={(route) => navigate(route as Route)}
                                 value={route ?? ''}
-                                className={'md:hidden lg:hidden text-[1.3rem] font-bold font-oxygen border-none [&_img]:relative [&_img]:-right-[0.3rem]'}
-                                classNameOption={'w-full [&]:bg-control-gray-l0'}
+                                classNameWrapper={'w-[min(35dvw,10rem)]'}
+                                className={`md:hidden lg:hidden text-[1.3rem] font-bold font-oxygen border-none rounded-smallest
+                                            px-[min(1.3dvw,1.62rem)] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.3rem] ${selectBgCn}`}
+                                classNameOption={`w-full ${selectBgCn} border-none`}
                             />
                         </span>
                         <span hidden={!isMenuOpened}

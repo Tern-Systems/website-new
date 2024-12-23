@@ -13,6 +13,7 @@ import {Header, PageLink} from "@/app/ui/layout";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
+import {ScrollEnd} from "@/app/ui/misc";
 
 
 const Layout: FC<PropsWithChildren> = ({children}) => {
@@ -95,7 +96,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                                     ${modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100')}
                                     ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                         {children}
-                        <span className={'block pt-[max(1.7dvw,3.1rem)]'}/>
+                        <ScrollEnd/>
                     </div>
                 </div>
                 <footer
