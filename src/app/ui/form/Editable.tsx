@@ -22,6 +22,7 @@ import {useBreakpointCheck, useForm} from "@/app/hooks";
 import {Button, Input, Select, Switch} from "@/app/ui/form";
 
 import SVG_PENCIL from "@/assets/images/icons/edit-line.svg";
+import {ReactSVG} from "react-svg";
 
 
 const DEFAULT_PHONE: Phone = {number: '', isPrimary: false};
@@ -217,7 +218,7 @@ const Editable: FC<Props> = (props: Props) => {
                             ${isEditState ? 'hidden' : ''}`}
             >
                 <span className={'sm:hidden'}>Edit</span>
-                <Image src={SVG_PENCIL} alt={'edit'} className={'size-[min(3.4dvw,0.8rem)] brightness-[300%]'}/>
+                <ReactSVG src={SVG_PENCIL.src} className={'size-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}/>
             </span>
         );
 
