@@ -1,28 +1,24 @@
-import {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
+import {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
 import {usePathname} from "next/navigation";
 
-import resolveConfig from 'tailwindcss/resolveConfig';
-import tailwindConfig from '../../../../tailwind.config';
-
-import {LANGUAGE, Route} from "@/app/static";
+import {Route} from "@/app/static";
 
 import {AuthService} from "@/app/services";
 
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
+import {useBreakpointCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
-import {AuthModal} from "@/app/ui/modals";
+import {AuthModal, BaseModal, PreAuthModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
+import {MenuModal} from "./MenuModal";
 
 import styles from '@/app/common.module.css'
 
 import SVG_PROFILE from "@/assets/images/icons/profile.svg";
-import SVG_GLOBE from "@/assets/images/icons/globe.svg";
 
-
-const {theme} = resolveConfig(tailwindConfig);
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
 const PROFILE_LINKS: Route[] = [Route.MyTern, Route.Profile, Route.Billing];
@@ -36,9 +32,8 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.ARCodeToolCreate]: '/CreationTool',
 }
 
-const SM_NAV_CN = 'sm:justify-between sm:flex-row-reverse sm:[&_span]:mr-auto sm:py-[1.25rem] sm:[&_path]:fill-[--bg-control-blue]';
-const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.22rem] after:w-[2.5rem] after:border-b-small after:border-control-blue after:sm:hidden
-                         sm:border-small sm:border-control-blue sm:mx-0 sm:px-[1.125rem] sm:border-l-[0.2rem]`;
+
+const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.22rem] after:w-[2.5rem] after:border-b-small after:border-control-blue`;
 
 
 interface Props {
@@ -50,39 +45,17 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     const [isProfileMenuOpened, setProfileMenuOpenState] = profileMenuState;
 
-    // For sm breakpoint only
-    const [isMenuOpened, setMenuOpenState] = useState(false);
-    const [isSmScreen, setSmScreenState] = useState(false);
-
-
     const route = usePathname();
     const userCtx = useUser();
     const modalCtx = useModal();
-
-
-    useEffect(() => {
-        const handleResize = () => {
-            setSmScreenState(parseFloat(theme.screens.md?.min ?? '') > window.innerWidth);
-        }
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-    }, [])
+    const isSmScreen = useBreakpointCheck();
 
 
     const toggleProfileMenu = () => {
-        setProfileMenuOpenState(prevState => {
-            setMenuOpenState(!prevState);
-            return !prevState;
-        });
-    }
-
-    const toggleNav = () => {
-        setMenuOpenState(prevState => !prevState);
-        if (isSmScreen)
-            setProfileMenuOpenState(false);
+        if (!userCtx.isLoggedIn) {
+            modalCtx.openModal(<PreAuthModal/>);
+        } else
+            setProfileMenuOpenState(prevState => !prevState);
     }
 
     // Elements
@@ -150,54 +123,55 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             break
     }
 
-    const renderSubNav = (): ReactElement[] | undefined => subNav?.map((link, idx, array) => {
-        const isActive = checkSubRoute(route, link, true);
-        const isNextActive = isProfileMenuOpened ? checkSubRoute(route, array[idx + 1], true) : getRouteRoot(route) === array[idx + 1]; // last+1 always undefined
+    const toggleNav = () => {
+        // setMenuOpenState(prevState => !prevState);
+        if (isSmScreen) {
+            modalCtx.openModal(<MenuModal navLinks={navLinks} subNavLinks={subNav}
+                                          mappedRoutes={MAPPED_SUB_NAV_ROUTES}/>);
+            setProfileMenuOpenState(false);
+        }
+    }
 
-        return (
-            <PageLink
-                key={link + idx}
-                href={link}
-                icon={!isActive && isSmScreen ? 'forward' : undefined}
-                onClick={() => setMenuOpenState(false)}
-                style={{marginLeft: (isActive ? 0.6 : 2) + 'rem'}}
-                className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive ? ACTIVE_ROUTE_CN : ''}
-                                 sm:place-content-start sm:pr-[1.125rem] ${SM_NAV_CN} ${isNextActive ? '' : 'sm:border-b-small'}`}
-            >
-                {getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], idx === 0)}
-            </PageLink>
-        );
-    });
-
-    const NavLinks: ReactElement[] = navLinks.map((link: Route, idx, array) => {
-        const isActive = isProfileMenuOpened ? checkSubRoute(route, link, true) : getRouteRoot(route) === link;
-        const isNextActive = isProfileMenuOpened ? checkSubRoute(route, array[idx + 1], true) : getRouteRoot(route) === array[idx + 1]; // last+1 always undefined
-
+    const NavLinks: ReactElement[] = navLinks.map((link: Route, idx) => {
+        const isActive = getRouteRoot(route) === link;
         return (
             <span key={link + idx} className={'contents'}>
                 <PageLink
                     href={link}
                     icon={!isActive && isSmScreen ? 'forward' : undefined}
-                    onClick={() => setMenuOpenState(false)}
-                    className={`justify-center ${isActive && !isBreadCrumbsNav ? ACTIVE_ROUTE_CN : 'sm:mx-[1.25rem]'}
-                                ${SM_NAV_CN} ${isNextActive ? '' : 'sm:border-b-small'}`}
+                    className={`justify-center ${isActive && !isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
                 />
-                {isActive && isSmScreen ? renderSubNav() : null}
-                {!isSmScreen && isBreadCrumbsNav && idx !== navLinks.length - 1 ? <span>/</span> : null}
+                {isBreadCrumbsNav && idx !== navLinks.length - 1 ? <span>/</span> : null}
             </span>
         );
     });
 
-    const SubNavItemsMdLg = isSmScreen ? null : renderSubNav();
+    const SubNavItemsMdLg = isSmScreen
+        ? null
+        : (
+            subNav?.map((link, idx) => {
+                const isActive = checkSubRoute(route, link, true);
+                return (
+                    <PageLink
+                        key={link + idx}
+                        href={link}
+                        icon={!isActive && isSmScreen ? 'forward' : undefined}
+                        className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive ? ACTIVE_ROUTE_CN : ''}`}
+                    >
+                        {getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], idx === 0)}
+                    </PageLink>
+                );
+            })
+        );
 
 
     let userBtns: ReactElement | ReactElement[];
-    if (userCtx.isLoggedIn) {
+    if (userCtx.isLoggedIn || isSmScreen) {
         const ProfileLinks: ReactElement[] = PROFILE_LINKS.map((link, idx) => (
-            <li key={link + idx}>
+            <li key={link + idx} className={'w-full sm:py-[1.25rem] sm:border-b-small'}>
                 <PageLink
                     href={link}
-                    className={`relative flex justify-center bg-control`}
+                    className={`relative flex justify-center bg-control `}
                 />
             </li>
         ));
@@ -205,8 +179,11 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         ProfileLinks.push(
             <li
                 key={'logout' + PROFILE_LINKS.length}
-                onClick={() => userCtx.removeSession()}
-                className={'border-t-small pt-[1.2rem] cursor-pointer'}
+                onClick={() => {
+                    setProfileMenuOpenState(false);
+                    userCtx.removeSession();
+                }}
+                className={'border-t-small pt-[1.25rem] cursor-pointer sm:border-t-0 sm:border-control-gray-l0 sm:py-[1.25rem]'}
             >
                 Log Out
             </li>
@@ -222,10 +199,11 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     className={'cursor-pointer rounded-full max-h-[1.8rem]'}
                     onClick={() => toggleProfileMenu()}
                 />
-                <ul
-                    className={`absolute z-10 right-0 flex flex-col items-start gap-[1.2rem] mt-[0.6rem] p-[0.75rem]
-                                border-small border-control-grayL1rounded-smallest bg-control-gray text-nowrap
-                                ${!isProfileMenuOpened ? 'hidden' : 'sm:hidden'}`}>
+                <ul className={`absolute z-10 right-0 flex flex-col items-start mt-[0.6rem] p-[1.25rem] min-w-[8.75rem]
+                                border-small border-control-grayL1 rounded-smallest bg-control-gray text-nowrap
+                                sm:bg-control-white-d0 sm:text-gray sm:rounded-none sm:py-0
+                                ${!isProfileMenuOpened ? 'hidden' : ''}`}
+                >
                     {ProfileLinks}
                 </ul>
             </div>
@@ -245,36 +223,22 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <header className={'text-content'}>
-            <div className={`relative z-[2] bg-black flex w-full h-[4.3rem] px-[--p-small] justify-between items-center border-b-small border-section 
+            <div className={`relative z-[2] bg-black flex w-full h-[4.3rem] px-[--p-small] justify-between items-center
+                            border-b-small border-section 
                             sm:flex-row-reverse sm:justify-start sm:px-[1.25rem]    after:sm:border-control-gray-l0`}
             >
                 <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)]
                                 before:absolute before:h-[2rem] before:-left-[--p-small] before:border-r-small before:border-section
-                    ${isMenuOpened
-                    ? 'sm:absolute sm:flex-col sm:z-20 sm:bg-control-white-d0 sm:w-full sm:h-dvh sm:top-0 sm:right-0 sm:text-gray sm:text-[1.125rem]'
-                    : 'sm:ml-[2rem]'}`}
+                                sm:ml-[--p-small]`}
                 >
-                    <div className={`lg:hidden md:hidden ${isMenuOpened
-                        ? 'relative z-30 p-[1.25rem] h-[4.3rem] content-center place-items-end w-full '
-                        + (getRouteRoot(route) === navLinks[0] ? '' : 'border-b-small border-control-gray-l0')
-                        : ''}`}>
-                        <Button
-                            onClick={() => toggleNav()}
-                            icon={isMenuOpened ? 'close' : 'burger'}
-                            className={isMenuOpened ? '[&_path]:fill-[--bg-control-blue] [&&_*]:size-[1.125rem]' : '[&&_*]:size-[1.8rem]'}
-                        />
-                    </div>
-                    <ul className={`flex cursor-pointer ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--p-small]'}
-                                    sm:flex-col sm:w-full ${isMenuOpened ? '' : 'sm:hidden'}`}
-                    >
+                    <Button
+                        onClick={() => toggleNav()}
+                        icon={'burger'}
+                        className={`lg:hidden md:hidden [&&_*]:size-[1.8rem]`}
+                    />
+                    <ul className={`flex cursor-pointer sm:hidden ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--p-small]'}`}>
                         {NavLinks}
                     </ul>
-                    <div
-                        className={`lg:hidden md:hidden ${isMenuOpened ? 'flex gap-x-[0.63rem] items-center self-start p-[1.25rem]' : 'hidden'}`}
-                    >
-                        <Image src={SVG_GLOBE} alt={'globe'} className={'size-[1.125rem]'}/>
-                        <span>{userCtx.userData ? LANGUAGE[userCtx.userData.preferredLanguage] : '--'}</span>
-                    </div>
                 </nav>
                 <div className={'flex gap-[0.75rem] sm:mr-[1.25rem]'}>{userBtns}</div>
             </div>

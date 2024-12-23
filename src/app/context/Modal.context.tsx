@@ -13,6 +13,7 @@ type OpenModal = (Component: ReactElement, config?: ModalConfig) => void;
 
 interface IModalContext {
     hideContent: boolean;
+    darkenBg: boolean;
     isOpened: boolean;
     closeModal: () => void;
     openModal: OpenModal;
@@ -53,21 +54,20 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     return (
         <ModalContext.Provider
             value={{
-                hideContent: config.hideContent == true,
                 isOpened: Modal !== null,
+                hideContent: config.hideContent == true,
+                darkenBg: config.darkenBg == true,
                 openModal,
                 closeModal,
-            }}>
+            }}
+        >
             <div
                 className={`absolute z-50 w-full h-full flex overflow-hidden pointer-events-auto font-neo text-primary
                             ${Modal ? '' : 'hidden'} ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
             >
                 {Modal}
             </div>
-            <div
-                className={config.darkenBg && !config.hideContent ? 'brightness-[60%]' : 'brightness-100'}>
-                {props.children}
-            </div>
+            {props.children}
         </ModalContext.Provider>
     );
 };

@@ -74,7 +74,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         if (!isLoggedIn) {
             flow.push(() => {
                 const info = 'You must have an ARCH subscription to save an AR code. Please create an account below to purchase a Plan.';
-                return modalCtx.openModal(<AuthModal info={info} isLoginAction={false}/>, {hideContent: true});
+                return modalCtx.openModal(<AuthModal info={info}/>, {hideContent: true});
             });
         }
 

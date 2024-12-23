@@ -4,5 +4,6 @@ export {BaseModal} from './Base'
 export {HelpModal} from "./Help";
 export {FAQsModal} from './FAQs'
 export {MessageModal} from './Message'
+export {PreAuthModal} from './PreAuth'
 export {ResetPasswordModal} from './ResetPassword'
 export {SaveChangesModal} from './SaveChanges'

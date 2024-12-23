@@ -7,7 +7,7 @@ import {SignUpData} from "@/app/services/auth.service";
 
 import {AuthService, UserService} from "@/app/services";
 
-import {useForm} from "@/app/hooks";
+import {useBreakpointCheck, useForm} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
 import {AuthenticationCode, BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
@@ -22,7 +22,7 @@ const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 
 interface Props {
     info?: string;
-    isLoginAction: boolean;
+    isLoginAction?: boolean;
 }
 
 const AuthModal: FC<Props> = (props: Props): ReactElement => {
@@ -31,6 +31,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
+    const isSmScreen = useBreakpointCheck();
 
     const [isLoginForm, setLoginFormState] = useState(isLoginAction);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
@@ -81,10 +82,13 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     const Content = (
         <>
-            <div className={'flex flex-col items-center w-[26rem] text-center'}>
+            <div className={'flex flex-col items-center text-center'}>
                 <span>{info}</span>
-                <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10rem] h-[9rem]'}/>
-                {!isLoginForm ? <span className={'mb-[1.9rem] font-oxygen text-header'}>Tern</span> : null}
+                <div className={isSmScreen ? 'hidden' : 'mb-[1.9rem]'}>
+                    <Image src={SVG_INSIGNIA} alt={'insignia'}
+                           className={`my-[1.25rem] w-[10rem] h-[9rem]`}/>
+                    {!isLoginForm ? <span className={'font-oxygen text-header'}>Tern</span> : null}
+                </div>
             </div>
             <form
                 className={'flex flex-col'}
@@ -96,17 +100,19 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         value={formValue.email}
                         onChange={setFormValue('email')}
                         classNameWrapper={'flex-col [&]:items-start gap-[0.625rem]'}
-                        className={'h-[1.875rem] w-full px-[0.75rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
+                        className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
+                                    sm:text-primary placeholder:sm:text-primary`}
                         required
                     >
-                        Please enter credentials {!isLoginForm ? 'create' : 'login to'} your Tern account
+                        Please enter credentials to {!isLoginForm ? 'create your Tern account' : 'login'}
                     </Input>
                     <Input
                         type={"password"}
                         placeholder={'Password'}
                         value={formValue.password}
                         onChange={setFormValue('password')}
-                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
+                        className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
+                                    sm:text-primary placeholder:sm:text-primary`}
                         required
                     />
                     <Input
@@ -115,23 +121,27 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         placeholder={'Confirm Password'}
                         value={formValue.passwordConfirm}
                         onChange={setFormValue('passwordConfirm')}
-                        className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
+                        className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
+                                    sm:text-primary placeholder:sm:text-primary`}
                         required={!isLoginForm}
                     />
                 </fieldset>
                 <span hidden={!isLoginForm} className={'mt-[0.62rem]'}>
                     Forgot your password?&nbsp;
                     <Button
-                        className={'text-blueL0'}
-                        onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
+                        className={'text-blue-l0'}
+                        onClick={() => modalCtx.openModal(<ResetPasswordModal  token={'asd'}/>, {darkenBg: true})}
                     >
                         Reset
                     </Button>
                 </span>
                 {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
                 <Button className={`py-[0.92rem] mt-[1.56rem] text-content-small font-bold rounded-full
-                                    w-[18.93rem] place-self-center border-small border-control
-                                    ${isLoginForm ? 'text-gray bg-white' : ''}`}>
+                                    w-full place-self-center border-small border-control sm:w-[90%]
+                                        ${isLoginForm
+                    ? isSmScreen ? 'bg-control-blue text-primary' : 'text-gray bg-white'
+                    : isSmScreen ? 'border-b-small border-blue' : ''}`}
+                >
                     {!isLoginForm ? 'Sign Up' : 'Login'}
                 </Button>
             </form>
@@ -139,7 +149,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 <span>
                     {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
                     <Button
-                        className={'text-blueL0'}
+                        className={`text-blue-l0`}
                         onClick={() => setLoginFormState(prevState => !prevState)}
                     >
                       {isLoginForm ? 'Sign Up' : 'Login'}
@@ -149,7 +159,15 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         </>
     );
 
-    return <BaseModal title={isLoginForm ? 'Login to Account' : 'Create Account'}>{Content}</BaseModal>
+    return (
+        <BaseModal
+            adaptSmScreen
+            title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
+            classNameContent={'w-[26rem] sm:p-[1.25rem] sm:max-w-[21rem] sm:place-self-center'}
+        >
+            {Content}
+        </BaseModal>
+    );
 }
 
 

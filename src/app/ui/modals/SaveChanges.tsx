@@ -30,7 +30,7 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
                     Save
                 </Button>
                 <Button
-                    className={'px-[1rem] border-small border-control-grayL1rounded-full h-[1.45rem] text-white'}
+                    className={'px-[1rem] border-small border-control-grayL1 rounded-full h-[1.45rem] text-white'}
                     onClick={() => {
                         onDontSave?.();
                         modalCtx.closeModal();

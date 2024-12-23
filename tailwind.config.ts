@@ -9,9 +9,9 @@ const config: Config = {
     theme: {
         extend: {
             screens: {
-                sm: {max: '833.9px'},
-                md: {min: '834px', max: '1439.9px'},
-                lg: {min: '1440px'}
+                sm: {max: '834px'},
+                md: {min: '835px', max: '1441px'},
+                lg: {min: '1442px'}
             },
             backgroundImage: {
                 content: "url('../assets/images/bg-content.gif')"
@@ -22,7 +22,7 @@ const config: Config = {
                 gray: "var(--color-gray)",
                 placeholder: "var(--color-placeholder)",
                 blue: "var(--color-blue)",
-                blueL0: "var(--color-blue-l0)",
+                'blue-l0': "var(--color-blue-l0)",
                 red: "var(--color-red)",
             },
             backgroundColor: {

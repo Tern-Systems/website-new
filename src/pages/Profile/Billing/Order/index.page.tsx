@@ -189,6 +189,7 @@ function OrderPage(){
     );
 }
 
+// @ts-expect-error all good - standard NextJs approach
 OrderPage.getLayout = (page: ReactElement) => (
     <FullPageLayout backButtonSection={Route.Billing}>{page}</FullPageLayout>
 );
