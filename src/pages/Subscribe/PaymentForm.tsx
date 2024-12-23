@@ -89,6 +89,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             else
                 navigate(Route.Home);
         }
+        // eslint-disable-next-line
     }, [paymentStatus]);
 
 

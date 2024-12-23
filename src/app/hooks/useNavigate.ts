@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-import {FADE_DURATION, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
 import {useLayout} from "@/app/context";
 
@@ -22,7 +22,7 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
     useEffect(() => {
         setTimeout(() => {
             layoutCtx.setFadeState(false);
-        }, 1.5 * FADE_DURATION);
+        }, 1.5 * LAYOUT.fadeDuration);
         //eslint-disable-next-line
     }, [pageRoute]);
 
@@ -33,7 +33,7 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
         setTimeout(() => {
             if (currentRoute === pageRoute)
                 layoutCtx.setFadeState(false);
-        }, 5 * FADE_DURATION);
+        }, 5 * LAYOUT.fadeDuration);
         //eslint-disable-next-line
     }, [layoutCtx.isFade]);
 
@@ -44,7 +44,7 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
         history.pushState(null, '', window.location.href);
         setTimeout(() => {
             router.push(route);
-        }, 1.5 * FADE_DURATION);
+        }, 1.5 * LAYOUT.fadeDuration);
     };
 
     return [navigate, router];

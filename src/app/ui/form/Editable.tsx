@@ -8,13 +8,12 @@ import React, {
     SetStateAction,
     useState
 } from "react";
-import Image from "next/image";
 
 import {KeysOfUnion, NonNullableKeys} from "@/app/types/utils";
 import {INDUSTRY, IndustryKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey} from "@/app/static/company";
 import {COUNTRY, SALUTATION, STATE_PROVINCE} from "@/app/static";
 
-import {Address, FullName, Phone, UserAddress, UserPhone, Company} from "@/app/context/User.context";
+import {Address, Company, FullName, Phone, UserAddress, UserPhone} from "@/app/context/User.context";
 
 import {copyObject} from "@/app/utils";
 import {useBreakpointCheck, useForm} from "@/app/hooks";
