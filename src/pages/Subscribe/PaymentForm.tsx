@@ -24,24 +24,6 @@ import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 import styles from './Subscribe.module.css'
 
 
-const CARD_TEMPLATE: CardData = {
-    type: 'asd',
-    billingCountry: 'US',
-    billingAddress: 'asd',
-    addressLine1: 'asd',
-    cardNumber: 'asd',
-    addressLine2: 'asd',
-    state: 'SC',
-    cvc: '123',
-    city: 'VAD',
-    cardholderName: '12312',
-    expirationDate: '123123',
-    postalCode: '12312',
-    nickName: '123',
-    isDefault: true
-}
-
-
 const FORM_DEFAULT: SubscribeData = {
     savedCardIdx: '-1',
     type: '',
@@ -110,6 +92,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             else
                 navigate(Route.Home);
         }
+        // eslint-disable-next-line
     }, [paymentStatus]);
 
 

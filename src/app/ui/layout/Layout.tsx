@@ -4,7 +4,7 @@ import React, {FC, PropsWithChildren, ReactElement, useEffect, useState} from "r
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Spline from "@splinetool/react-spline";
 
-import {FADE_DURATION, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
 import {useNavigate} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
@@ -41,7 +41,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             setInsigniaMoved(route !== Route.Start);
         setTimeout(() => {
             setProfileLinksVisibility(false);
-        }, FADE_DURATION);
+        }, LAYOUT.fadeDuration);
     }, [route]);
 
 
@@ -74,7 +74,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <span
                     onClick={() => {
                         setInsigniaMoved(true);
-                        setTimeout(() => navigate(Route.Home), 2 * FADE_DURATION);
+                        setTimeout(() => navigate(Route.Home), 2 * LAYOUT.fadeDuration);
                     }}
                     className={`cursor-pointer ${styles.clickable}`}
                 >

@@ -1,6 +1,6 @@
 import React, {FC, PropsWithChildren} from "react";
 
-import {PROFILE_LINKS, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
 import {useModal} from "@/app/context";
 
@@ -19,7 +19,7 @@ const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildr
     const subNavLinks: Route[] = [Route.Documentation, getRouteLeave(route) as Route];
 
     const toggleNav = () => modalCtx.openModal(
-        <MenuModal navLinks={PROFILE_LINKS} subNavLinks={subNavLinks}/>
+        <MenuModal navLinks={LAYOUT.profileLinks} subNavLinks={subNavLinks}/>
     );
 
     return (

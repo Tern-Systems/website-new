@@ -13,7 +13,7 @@ const DOCUMENTATION_CONTENTS: Record<Route.ProductUserManual, DocumentationConte
 }
 
 
-function UserManualPage () {
+function UserManualPage() {
     return <DocumentationScreen contents={DOCUMENTATION_CONTENTS}/>;
 }
 

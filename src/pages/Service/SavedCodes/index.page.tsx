@@ -3,7 +3,7 @@ import {useQRCode} from "next-qrcode";
 
 import {UserSubscription} from "@/app/context/User.context";
 import {ARCode} from "@/app/types/arcode";
-import {FADE_DURATION, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
 import {useLoginCheck, useNavigate} from "@/app/hooks";
 import {useUser} from "@/app/context";
@@ -45,7 +45,7 @@ const SavedCodesPage: FC = () => {
         if (!subscription) {
             setTimeout(() => {
                 navigate(Route.ServicePricing);
-            }, FADE_DURATION);
+            }, LAYOUT.fadeDuration);
         }
         //eslint-disable-next-line
     }, [userCtx.isLoggedIn])

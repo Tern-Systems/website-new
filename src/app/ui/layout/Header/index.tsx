@@ -2,7 +2,7 @@ import {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
 import {usePathname} from "next/navigation";
 
-import {PROFILE_LINKS, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
 import {AuthService} from "@/app/services";
 
@@ -75,7 +75,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 break;
         }
     } else if (route?.includes(Route.Profile) && isSmScreen)
-        navLinks = PROFILE_LINKS;
+        navLinks = LAYOUT.profileLinks;
 
     let subNavLinks: Route[] | null = null;
     switch (route) {
@@ -88,7 +88,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         case Route.MyTern:
         case Route.Profile:
         case Route.Billing:
-            subNavLinks = isSmScreen ? null : PROFILE_LINKS;
+            subNavLinks = isSmScreen ? null : LAYOUT.profileLinks;
             break;
         case Route.Product:
         case Route.ProductPricing:
@@ -169,7 +169,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     let userBtns: ReactElement | ReactElement[];
     if (userCtx.isLoggedIn || isSmScreen) {
-        const ProfileLinks: ReactElement[] = PROFILE_LINKS.map((link, idx) => (
+        const ProfileLinks: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
             <li key={link + idx} className={'w-full pb-[1.25rem] sm:border-b-small sm:pt-[1.25rem]'}>
                 <PageLink
                     href={link}
@@ -180,7 +180,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
         ProfileLinks.push(
             <li
-                key={'logout' + PROFILE_LINKS.length}
+                key={'logout' + LAYOUT.profileLinks.length}
                 onClick={() => {
                     setProfileMenuOpenState(false);
                     userCtx.removeSession();

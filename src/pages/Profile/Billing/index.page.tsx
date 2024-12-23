@@ -3,7 +3,7 @@ import React, {FC, ReactElement, useEffect, useState} from "react";
 import {Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static";
 
-import {useBreakpointCheck, useLoginCheck} from "@/app/hooks";
+import {useLoginCheck} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
@@ -36,7 +36,6 @@ const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE]
 const BillingPage: FC = () => {
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck();
 
     const [orders, setOrders] = useState<Invoice[]>([]);
 

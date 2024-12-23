@@ -163,7 +163,7 @@ const ProfilePage: FC = () => {
     );
 
     // Addresses
-    const Addresses = Object.entries(userData.address).filter(([_, address]) => address).map(([type, address], idx) => {
+    const Addresses = Object.entries(userData.address).filter((address) => address[1]).map(([type, address], idx) => {
         const addressInfo: ReactElement = address && address.state && address.country
             ? (
                 <>
