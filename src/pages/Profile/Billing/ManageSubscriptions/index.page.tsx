@@ -245,9 +245,20 @@ function ManageSubscriptionsPage() {
                         <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
                         <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
                             <span>Name</span>
-                            <span>{userCtx.userData?.email ?? '--'}</span>
+                            <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
                             <span>Billing Address</span>
-                            <span>{savedCards?.[defaultCardIdx]?.billingAddress ?? '--'}</span>
+                            {billingAddress ? (
+                                <ul>
+                                    <li>{billingAddress?.address}</li>
+                                    <li>
+                                    {billingAddress?.city}, {billingAddress?.state}{" "}
+                                    {billingAddress?.zip}
+                                    </li>
+                                    <li>{billingAddress?.country}</li>
+                                </ul>
+                            ) : (
+                                <span>--</span>
+                            )}
                         </div>
                     </div>
                 </div>
