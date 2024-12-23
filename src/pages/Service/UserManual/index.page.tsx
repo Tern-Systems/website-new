@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from "react";
+import React, {ReactElement} from "react";
 
 import {DocumentationContent} from "@/app/types/documentation";
 import {Route} from "@/app/static";
@@ -13,7 +13,9 @@ const DOCUMENTATION_CONTENTS: Record<Route.ServiceUserManual, DocumentationConte
 }
 
 
-const UserManualPage: FC = () => <DocumentationScreen contents={DOCUMENTATION_CONTENTS}/>;
+function UserManualPage() {
+    return <DocumentationScreen contents={DOCUMENTATION_CONTENTS}/>;
+}
 
 
 UserManualPage.getMobileLayout = (page: ReactElement) => (
