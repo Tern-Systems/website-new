@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+git fetch && git merge-base --is-ancestor origin/develop HEAD || { echo 'ERROR: Your branch has conflicts with develop, please resolve them before pushing.'; exit 1; }

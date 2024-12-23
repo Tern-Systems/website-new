@@ -5,8 +5,6 @@ import styles from '@/app/common.module.css'
 
 
 const NotFound = () => (
-    <html>
-    <body>
     <div className={`flex flex-col justify-center items-center h-screen text-primary bg-content bg-cover bg-no-repeat`}>
         <div>
             <p className={`text-header font-english ${styles.typewriter}`}>Page not found</p>
@@ -21,8 +19,6 @@ const NotFound = () => (
             <a href={Route.Home}>Return to Home page</a>
         </div>
     </div>
-    </body>
-    </html>
 );
 
 
