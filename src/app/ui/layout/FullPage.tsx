@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, PropsWithChildren, SetStateAction, useEffect} from "react";
+import React, {FC, PropsWithChildren} from "react";
 
 import {Route} from "@/app/static";
 
@@ -6,17 +6,12 @@ import {PageLink} from "@/app/ui/layout/Link";
 
 
 interface Props extends PropsWithChildren {
-    setHeadingsHidden?: Dispatch<SetStateAction<boolean>>;
     backButtonSection: Route;
 }
 
 const FullPageLayout: FC<Props> = (props: Props) => {
-    const {children, setHeadingsHidden, backButtonSection} = props;
+    const {children, backButtonSection} = props;
 
-
-    useEffect(() => {
-        setHeadingsHidden?.(true);
-    }, [setHeadingsHidden])
 
     return (
         <div className={"h-dvh max-h-dvh relative"}>

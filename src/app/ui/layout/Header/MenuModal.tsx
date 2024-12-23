@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import {LANGUAGE, Route} from "@/app/static";
 
-import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
+import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
 import {useModal, useUser} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals";
@@ -20,7 +20,7 @@ const ACTIVE_ROUTE_CN = `border-small border-control-blue mx-0 px-[1.125rem] bor
 interface Props {
     navLinks: Route[];
     subNavLinks: Route[] | null;
-    mappedRoutes: Record<string, string>;
+    mappedRoutes?: Record<string, string>;
 }
 
 const MenuModal: FC<Props> = (props: Props) => {
@@ -32,6 +32,8 @@ const MenuModal: FC<Props> = (props: Props) => {
 
 
     const renderSubNav = (): ReactElement[] | undefined => subNavLinks?.map((link, idx, array) => {
+        const isProfilePath = route?.includes(Route.Profile);
+
         const isActive = checkSubRoute(route, link, true);
         const isNextActive = getRouteRoot(route) === array[idx + 1]; // last+1 always undefined
         const routeName = getRouteName(mappedRoutes?.[link], idx === 0);
@@ -42,8 +44,8 @@ const MenuModal: FC<Props> = (props: Props) => {
                 href={link}
                 icon={!isActive ? 'forward' : undefined}
                 onClick={() => modalCtx.closeModal()}
-                style={{marginLeft: (isActive ? 0.6 : 2) + 'rem'}}
-                className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive ? ACTIVE_ROUTE_CN : ''}
+                style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 2) + 'rem'}}
+                className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive || isProfilePath ? ACTIVE_ROUTE_CN : ''}
                                  place-content-start pr-[1.125rem] ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
             >
                 {routeName ? <span>{routeName}</span> : null}
@@ -52,8 +54,17 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     const NavLinks: ReactElement[] = navLinks.map((link: Route, idx, array) => {
-        const isActive = getRouteRoot(route) === link;
-        const isNextActive = getRouteRoot(route) === array[idx + 1]; // last+1 always undefined
+        const isProfilePath = route?.includes(Route.Profile);
+
+        let routes: (string | null)[] = [route, link, array[idx + 1]];
+        if (isProfilePath) {
+            routes = routes.map((route) => sliceRoute(route, 1));
+            if (routes?.length === Route.Profile.length)
+                routes[0] = route;
+        }
+
+        const isActive = getRouteRoot(routes[0]) === routes[1];
+        const isNextActive = getRouteRoot(routes[0]) === routes[2]; // last+1 always undefined
 
         return (
             <span key={link + idx} className={'contents'}>

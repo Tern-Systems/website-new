@@ -18,5 +18,7 @@ const checkSubRoute = (route: string | null, subRoute: string, checkLeaves = fal
     ? getRouteLeave(subRoute).toLowerCase().includes(getRouteLeave(route).toLowerCase())
     : route?.toLowerCase().includes(subRoute.toLowerCase()) === true;
 
+const sliceRoute = (route: string | null, partsCount: number): string => '/' + route?.split('/').slice(2 * partsCount).join('/');
 
-export {getRouteRoot, getRouteName, getRouteLeave, checkSubRoute};
+
+export {getRouteRoot, getRouteName, getRouteLeave, checkSubRoute, sliceRoute};

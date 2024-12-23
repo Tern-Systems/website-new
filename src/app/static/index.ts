@@ -8,4 +8,4 @@ export {STATE_PROVINCE, COUNTRY} from './location';
 export type {JobFunctionKey, IndustryKey, SubIndustryKey} from './company';
 export {JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY} from './company';
 
-export {FADE_DURATION} from './layout';
+export {FADE_DURATION, PROFILE_LINKS} from './layout';

@@ -2,7 +2,7 @@ import {Dispatch, FC, ReactElement, SetStateAction} from "react";
 import Image from "next/image";
 import {usePathname} from "next/navigation";
 
-import {Route} from "@/app/static";
+import {PROFILE_LINKS, Route} from "@/app/static";
 
 import {AuthService} from "@/app/services";
 
@@ -11,7 +11,7 @@ import {useBreakpointCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
-import {AuthModal, BaseModal, PreAuthModal} from "@/app/ui/modals";
+import {AuthModal, PreAuthModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 import {MenuModal} from "./MenuModal";
 
@@ -21,7 +21,6 @@ import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
-const PROFILE_LINKS: Route[] = [Route.MyTern, Route.Profile, Route.Billing];
 
 const NAV_LINKS: Route[] = [Route.About, Route.Product, Route.Service, Route.Contact];
 const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit];
@@ -52,9 +51,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
 
     const toggleProfileMenu = () => {
-        if (!userCtx.isLoggedIn) {
+        if (!userCtx.isLoggedIn)
             modalCtx.openModal(<PreAuthModal/>);
-        } else
+        else
             setProfileMenuOpenState(prevState => !prevState);
     }
 
@@ -75,23 +74,26 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             default:
                 break;
         }
-    } else if (isProfileMenuOpened && isSmScreen)
+    } else if (route?.includes(Route.Profile))
         navLinks = PROFILE_LINKS;
 
-    let subNav: Route[] | null = null;
+    let subNavLinks: Route[] | null = null;
     switch (route) {
+        case Route.Documentation:
+            subNavLinks = isSmScreen ? [Route.Documentation] : null;
+            break;
         case Route.Credo:
-            subNav = isSmScreen ? [Route.Credo] : null;
+            subNavLinks = isSmScreen ? [Route.Credo] : null;
             break;
         case Route.MyTern:
         case Route.Profile:
         case Route.Billing:
-            subNav = isSmScreen ? null : PROFILE_LINKS;
+            subNavLinks = isSmScreen ? null : PROFILE_LINKS;
             break;
         case Route.Product:
         case Route.ProductPricing:
         case Route.ProductUserManual:
-            subNav = [Route.Product, Route.ProductPricing, Route.ProductUserManual];
+            subNavLinks = [Route.Product, Route.ProductPricing, Route.ProductUserManual];
             break;
         case Route.TernKeyManual:
         case Route.ARHostingManual:
@@ -99,7 +101,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         case Route.GHandbook:
         case Route.TernHandbook:
         case Route.BTMCHandbook:
-            subNav = [
+            subNavLinks = [
                 Route.TernKeyManual,
                 Route.ARHostingManual,
                 Route.TernKitManual,
@@ -113,7 +115,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         case Route.ServicePricing:
         case Route.SavedCodes:
         case Route.ServiceUserManual:
-            subNav = [
+            subNavLinks = [
                 Route.Service,
                 Route.ARCodeToolCreate,
                 Route.ServicePricing,
@@ -124,10 +126,10 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     const toggleNav = () => {
-        // setMenuOpenState(prevState => !prevState);
         if (isSmScreen) {
-            modalCtx.openModal(<MenuModal navLinks={navLinks} subNavLinks={subNav}
-                                          mappedRoutes={MAPPED_SUB_NAV_ROUTES}/>);
+            modalCtx.openModal(
+                <MenuModal navLinks={navLinks} subNavLinks={subNavLinks} mappedRoutes={MAPPED_SUB_NAV_ROUTES}/>
+            );
             setProfileMenuOpenState(false);
         }
     }
@@ -149,7 +151,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     const SubNavItemsMdLg = isSmScreen
         ? null
         : (
-            subNav?.map((link, idx) => {
+            subNavLinks?.map((link, idx) => {
                 const isActive = checkSubRoute(route, link, true);
                 return (
                     <PageLink

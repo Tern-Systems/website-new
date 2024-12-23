@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, ReactElement} from "react";
 
 import {DocumentationContent} from "@/app/types/documentation";
 import {Route} from "@/app/static";
@@ -6,6 +6,7 @@ import {COMING_SOON_DOC} from "@/app/static/documentation";
 
 import {useLoginCheck} from "@/app/hooks";
 
+import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
 import {DocumentationScreen} from "@/app/ui/templates/DocumentationScreen";
 import {TernKeyManualAnchors, TernKeyManualContent} from "./TernKeyManual";
 import {GHandbookAnchors, GHandbookContent} from "./GHandbook";
@@ -35,6 +36,11 @@ const DocumentationPage: FC = () => {
     const isLoggedIn = useLoginCheck();
     return isLoggedIn ? <DocumentationScreen contents={CONTENTS}/> : null;
 };
+
+
+DocumentationPage.getMobileLayout = (page: ReactElement) => (
+    <DocumentationMobileLayout>{page}</DocumentationMobileLayout>
+);
 
 
 export default DocumentationPage;
