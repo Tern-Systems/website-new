@@ -133,7 +133,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     const SubNav = (
-        <ul className={`relative flex gap-[--px] px-[--px] w-full items-center bg-transparent border-b-small
+        <ul className={`relative flex gap-[--p-small] px-[--p-small] w-full items-center bg-transparent border-b-small
                         border-section cursor-pointer ${SubNavItems ? 'py-[1rem] '+styles.slideIn : styles.slideOut}`}>
             {SubNavItems}
         </ul>
@@ -172,7 +172,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 />
                 <ul
                     className={`absolute z-10 right-0 flex flex-col items-start gap-[1.2rem] mt-[0.62rem] p-[0.75rem]
-                                border-small border-control rounded-[0.375rem] bg-control text-nowrap
+                                border-small border-control rounded-[0.375rem] bg-control-gray text-nowrap
                                 ${isProfileMenuVisible ? '' : 'hidden'}`}>
                     {ProfileLinks}
                 </ul>
@@ -194,11 +194,11 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     return (
         <header className={'font-neo text-primary text-[0.85rem]'}>
             <div
-                className={`relative z-[2] bg-black flex w-full py-[1rem] px-[--px] justify-between items-center border-b-small border-section`}>
+                className={`relative z-[2] bg-black flex w-full py-[1rem] px-[--p-small] justify-between items-center border-b-small border-section`}>
                 <nav
-                    className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)] before:absolute before:h-[2rem] before:-left-[--py]
+                    className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)] before:absolute before:h-[2rem] before:-left-[--p-small]
                                 before:border-r-small before:border-section`}>
-                    <ul className={`flex ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[calc(1*var(--px))]'} cursor-pointer`}>{NavLinks}</ul>
+                    <ul className={`flex ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--p-small]'} cursor-pointer`}>{NavLinks}</ul>
                 </nav>
                 <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </div>

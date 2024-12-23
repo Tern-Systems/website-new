@@ -26,7 +26,7 @@
   margin-left: 5.94rem;
   background-color: #4D4D4D4C;
   border-radius: 0.5625rem;
-  padding: var(--py);
+  padding: var(--p-small);
   font-size: 2.25rem;
   font-weight: 700;
 }

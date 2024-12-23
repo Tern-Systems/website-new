@@ -67,7 +67,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const Layout = route === Route.Start
         ? (
             <div
-                className={`text-primary mt-auto mb-[--py] text-[1.3125rem] font-oxygen text-center`}
+                className={`text-primary mt-auto mb-[--p-small] text-[1.3125rem] font-oxygen text-center`}
             >
                 <span
                     onClick={() => {
@@ -89,16 +89,16 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                                 bg-content bg-cover bg-no-repeat bg-fixed text-primary text-center font-neo text-[1rem]`}
                 >
                     <div
-                        className={`h-full w-full flex flex-col p-[--py] pb-0
+                        className={`h-full w-full flex flex-col p-[--p-small] pb-0
                                     ${modalCtx.hideContent ? 'hidden' : ''}
                                     ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
                         {children}
-                        <span className={'block pt-[--py]'}/>
+                        <span className={'block pt-[--p-small]'}/>
                     </div>
                 </div>
                 <footer
                     className={`flex w-full justify-between font-neo text-primary border-t-small border-section 
-                                px-[--px] py-[1rem] place-self-end text-[0.6rem]`}>
+                                px-[--p-small] py-[1rem] place-self-end text-[0.6rem]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
                         <PageLink href={Route.Cookies}/>
