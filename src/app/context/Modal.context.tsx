@@ -62,7 +62,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             }}
         >
             <div
-                className={`absolute z-50 w-full h-full flex overflow-hidden pointer-events-auto font-neo text-primary text-[min(2.6dvw,1rem)]
+                className={`absolute z-50 w-full h-full flex overflow-hidden pointer-events-auto font-neo text-primary
                             ${Modal ? '' : 'hidden'} ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
             >
                 {Modal}

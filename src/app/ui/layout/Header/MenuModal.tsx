@@ -35,7 +35,7 @@ const MenuModal: FC<Props> = (props: Props) => {
         const isProfilePath = route?.includes(Route.Profile);
 
         const isActive = checkSubRoute(route, link, true);
-        const isNextActive = getRouteRoot(route) === array[idx + 1]; // last+1 always undefined
+        const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
         const routeName = getRouteName(mappedRoutes?.[link], idx === 0);
 
         return (
@@ -46,7 +46,7 @@ const MenuModal: FC<Props> = (props: Props) => {
                 onClick={() => modalCtx.closeModal()}
                 style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 2) + 'rem'}}
                 className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive || isProfilePath ? ACTIVE_ROUTE_CN : ''}
-                                 place-content-start pr-[1.125rem] ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
+                            place-content-start pr-[1.125rem] ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
             >
                 {routeName ? <span>{routeName}</span> : null}
             </PageLink>
@@ -81,7 +81,7 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     return (
-        <BaseModal adaptSmScreen>
+        <BaseModal adaptSmScreen className={'[&]:text-content-small'}>
             <ul className={`flex cursor-pointer gap-x-[--p-small] flex-col w-full`}>
                 {NavLinks}
             </ul>
