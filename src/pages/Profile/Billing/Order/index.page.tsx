@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
 
 import {Invoice} from "@/app/types/billing";
@@ -13,7 +13,7 @@ import SVG_TERN_LOGO from "@/assets/images/insignia-logo.png";
 import SVG_DOCUMENT from "@/assets/images/document.svg";
 
 
-const OrderPage: FC = () => {
+function OrderPage(){
     const [invoice, setInvoice] = useState<Invoice>();
 
     useEffect(() => {
@@ -189,7 +189,6 @@ const OrderPage: FC = () => {
     );
 }
 
-// @ts-expect-error all good - standard NextJs approach
 OrderPage.getLayout = (page: ReactElement) => (
     <FullPageLayout backButtonSection={Route.Billing}>{page}</FullPageLayout>
 );
