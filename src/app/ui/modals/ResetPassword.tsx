@@ -54,7 +54,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
 
         try {
             if (!token) {
-                // await AuthService.postForgotPassword(formValue.email);
+                await AuthService.postForgotPassword(formValue.email);
                 modalCtx.openModal(<EmailSentModal/>, {darkenBg: true});
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
@@ -118,7 +118,8 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
             adaptSmScreen
             title={isSmScreen ? 'Tern' : ''}
             isSimple={!isSmScreen}
-            className={`place-self-center mx-auto relative border-small border-control w-[30rem] [&]:bg-control-gray sm:border-none [&]:sm:bg-control-white-d0`}
+            className={`place-self-center mx-auto relative border-small border-control w-[30rem] lg:bg-control-gray
+                        md:bg-control-gray sm:border-none`}
             classNameContent={'py-[1.5rem] pl-[1.7rem] pr-0 sm:px-[1.25rem] sm:max-w-[23rem] sm:place-self-center'}
         >
             <div className={`flex flex-col items-center max-w-[26rem] ${isSmScreen ? 'hidden' : ''}`}>

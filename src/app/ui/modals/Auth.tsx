@@ -130,7 +130,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     Forgot your password?&nbsp;
                     <Button
                         className={'text-blue-l0'}
-                        onClick={() => modalCtx.openModal(<ResetPasswordModal  token={'asd'}/>, {darkenBg: true})}
+                        onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
                     >
                         Reset
                     </Button>

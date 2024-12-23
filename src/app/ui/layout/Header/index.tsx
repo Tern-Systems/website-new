@@ -168,7 +168,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     let userBtns: ReactElement | ReactElement[];
     if (userCtx.isLoggedIn || isSmScreen) {
         const ProfileLinks: ReactElement[] = PROFILE_LINKS.map((link, idx) => (
-            <li key={link + idx} className={'w-full sm:py-[1.25rem] sm:border-b-small'}>
+            <li key={link + idx} className={'w-full pb-[1.25rem] sm:border-b-small sm:pt-[1.25rem]'}>
                 <PageLink
                     href={link}
                     className={`relative flex justify-center bg-control `}
