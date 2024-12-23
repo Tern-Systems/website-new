@@ -1,5 +1,5 @@
 export {DocumentationMobileLayout} from "./DocumentationMobile";
-export {FullPageLayout} from "./FullPage";
+export {FullScreenLayout} from "./FullScreen";
 export {Header} from "./Header";
 export {Layout} from "./Layout";
 export {PageLink} from "./Link";

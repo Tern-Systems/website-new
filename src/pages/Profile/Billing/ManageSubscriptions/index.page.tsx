@@ -10,7 +10,7 @@ import {useModal} from "@/app/context";
 import {Button, Select} from "@/app/ui/form";
 import {CancelModal} from "./CancelModal";
 
-import {FullPageLayout} from "@/app/ui/layout";
+import {FullScreenLayout} from "@/app/ui/layout";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
 import {useLoginCheck} from "@/app/hooks";
@@ -189,7 +189,7 @@ function ManageSubscriptionsPage() {
 
 
 ManageSubscriptionsPage.getLayout = (page: ReactElement) => (
-    <FullPageLayout backButtonSection={Route.Billing}>{page}</FullPageLayout>
+    <FullScreenLayout backButtonSection={Route.Billing}>{page}</FullScreenLayout>
 );
 
 

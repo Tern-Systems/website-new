@@ -1,6 +1,6 @@
 export {Route, TERN_AC_HREF} from "./routing";
 
-export {INVOICE_TEMPLATE, LANGUAGE, SALUTATION} from './misc';
+export {LANGUAGE, SALUTATION} from './misc';
 
 export type {StateKey, CountryKey} from './location';
 export {STATE_PROVINCE, COUNTRY} from './location';

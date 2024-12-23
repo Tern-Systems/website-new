@@ -6,7 +6,7 @@ import {Route} from "@/app/static";
 
 import {useModal, useUser} from "@/app/context";
 
-import {FullPageLayout, PageLink} from "@/app/ui/layout";
+import {FullScreenLayout, PageLink} from "@/app/ui/layout";
 import {Button} from "@/app/ui/form";
 import {ExportInvoiceModal} from "./ExportInvoiceModal";
 
@@ -131,7 +131,7 @@ function PurchasingInformationView() {
 }
 
 PurchasingInformationView.getLayout = (page: ReactElement) => (
-    <FullPageLayout backButtonSection={Route.Billing}>{page}</FullPageLayout>
+    <FullScreenLayout backButtonSection={Route.Billing}>{page}</FullScreenLayout>
 );
 
 

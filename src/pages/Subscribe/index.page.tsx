@@ -7,7 +7,7 @@ import {Route} from "@/app/static";
 
 import {useLoginCheck} from "@/app/hooks";
 
-import {FullPageLayout} from "@/app/ui/layout";
+import {FullScreenLayout} from "@/app/ui/layout";
 import {PaymentInfo} from "./PaymentInfo";
 import {PaymentForm} from "./PaymentForm";
 
@@ -39,7 +39,7 @@ function SubscribePage() {
 }
 
 SubscribePage.getLayout = (page: ReactElement) => (
-    <FullPageLayout backButtonSection={Route.ServicePricing}>{page}</FullPageLayout>
+    <FullScreenLayout backButtonSection={Route.ServicePricing}>{page}</FullScreenLayout>
 );
 
 
