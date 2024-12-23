@@ -96,7 +96,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         if (idx) {
             const Additional = (
-                <div>
+                <div key={'additional'}>
                     <span>Everything in {type}, and:</span>
                 </div>
             );

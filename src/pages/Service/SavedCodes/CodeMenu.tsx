@@ -66,7 +66,7 @@ const CodeMenu: FC<Props> = (props: Props) => {
         <Button
             key={name + idx}
             icon={value.svg}
-            className={'flex gap-x-[0.57rem] font-bold'}
+            className={'flex gap-x-[min(1.3dvw,0.57rem)] font-bold'}
             onClick={() => value.action({openModal, navigate, arCode: menuData.arCode})}
         >
             {name}
@@ -77,8 +77,8 @@ const CodeMenu: FC<Props> = (props: Props) => {
         <div
             id={'code-menu'}
             style={{top: menuData.y, left: menuData.x}}
-            className={`absolute flex flex-col bg-black border-small border-control-white-d0 rounded-smallest p-[0.63rem]
-                            gap-y-[0.62rem] z-10 items-start`}
+            className={`absolute flex flex-col bg-black border-small border-control-white-d0 rounded-smallest
+                        p-[min(1.6dvw,0.62rem)] gap-y-[min(1.6dvw,0.62rem)] z-10 items-start`}
         >
             {MenuItems}
         </div>
