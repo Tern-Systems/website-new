@@ -41,7 +41,7 @@ const Collapsible: FC<Props> = (props: Props) => {
 
     const [isExpanded, setExpandState] = useState<boolean>(expandedState?.[0] ?? true);
 
-    const isExpandedFinal = isExpanded || expandedState?.[0] !== false;
+    const isExpandedFinal = isExpanded || expandedState?.[0] === true;
 
     const handleToggle = () => {
         if (expandedState?.[1])
@@ -106,8 +106,8 @@ const Collapsible: FC<Props> = (props: Props) => {
                 />
             </div>
             <hr className={`scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)] ${isChevron ? 'hidden' : ''}`}/>
-            <div className={`grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] gap-[min(4dvw,0.56rem)] text-left items-start overflow-ellipsis overflow-x-hidden
-                            text-[min(3.2dvw,1rem)] whitespace-pre-wrap ${className}
+            <div className={`grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] gap-[min(4dvw,0.56rem)] text-left
+                            items-start text-[min(3.2dvw,1rem)] whitespace-pre-wrap ${className}
                             ${isExpandedFinal ? '' : 'hidden'}`}>
                 {children}
             </div>

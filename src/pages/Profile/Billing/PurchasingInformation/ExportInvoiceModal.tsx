@@ -33,7 +33,7 @@ const ExportInvoiceModal: FC = () => {
     return (
         <BaseModal
             title={'Export Invoice History'}
-            className={`[&]:bg-control-white w-[42.8125rem] border-control-gray-l0 [&_hr]:border-control-gray-l0
+            className={`[&]:bg-control-white max-w-[min(90dvw,43rem)] border-control-gray-l0 [&_hr]:border-control-gray-l0
                     [&_h2]:text-gray [&_button]:brightness-50`}
         >
             <form onSubmit={handleFormSubmit} className={'flex items-center text-gray gap-[2.04rem]'}>
@@ -42,14 +42,15 @@ const ExportInvoiceModal: FC = () => {
                     value={formData.timeRange.toString()}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('timeRange', value)}
-                    classNameWrapper={'flex-col [&]:items-start gap-[1.25rem] flex-grow'}
-                    classNameLabel={'text-content font-bold'}
-                    className={`px-[0.62rem] py-[0.8rem]  h-[3.25rem] bg-control-white border-small rounded-smallest border-control-white-d0`}
+                    classNameWrapper={'flex-col [&]:items-start gap-[min(2.7dvw,1.25rem)] flex-grow'}
+                    classNameLabel={'text-[min(3.2dvw,var(--fz-content-small-))] font-bold'}
+                    className={`px-[min(1.6dvw,0.62rem)] py-[min(1.1dvw,0.8rem)]  h-[min(5.9dvw,3.25rem)] bg-control-white
+                                border-small rounded-smallest border-control-white-d0`}
                 >
                     Choose timeframe to export invoices
                 </Select>
                 <Button
-                    className={'border-small border-control-white-d0 px-[1rem] text-small h-[1.44rem] rounded-full font-bold mt-[2.5rem]'}>
+                    className={'border-small border-control-white-d0 px-[1rem] text-small h-[min(4.3dvw,1.44rem)] rounded-full font-bold mt-[min(6.5dvw,2.5rem)]'}>
                     Export
                 </Button>
             </form>

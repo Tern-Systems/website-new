@@ -4,6 +4,7 @@ import {Invoice} from "@/app/types/billing";
 import {Route, STATE_PROVINCE} from "@/app/static";
 
 import {PageLink} from "@/app/ui/layout";
+import {ScrollEnd} from "@/app/ui/misc";
 
 
 interface Props {
@@ -111,7 +112,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
                 </div>
 
                 {VisibilityToggle}
-                <span className={'block pt-[--p-small]'}/>
+                <ScrollEnd/>
             </div>
         </div>
     );

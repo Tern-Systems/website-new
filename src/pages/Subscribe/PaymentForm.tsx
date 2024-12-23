@@ -10,6 +10,8 @@ import {BillingService} from "@/app/services";
 import {useForm, useNavigate} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
+import {ScrollEnd} from "@/app/ui/misc";
+import {PageLink} from "@/app/ui/layout";
 import {Button, Input, Select} from '@/app/ui/form';
 import {DeclinedModal} from "./DeclinedModal";
 
@@ -18,8 +20,6 @@ import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';
 import SVG_AMEX from '@/assets/images/icons/card-amex.svg';
 import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
-
-import {PageLink} from "@/app/ui/layout";
 
 import styles from './Subscribe.module.css'
 
@@ -332,7 +332,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Button>
                 </form>
             </div>
-            <span className={'block pt-[--p-small]'}/>
+            <ScrollEnd/>
         </div>
     );
 };
