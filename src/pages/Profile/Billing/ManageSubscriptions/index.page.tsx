@@ -1,6 +1,7 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
+import axios from "axios";
 
 import {Subscription} from "@/app/ui/templates/PaymentMethodTool";
 import {Route} from "@/app/static";
@@ -20,6 +21,7 @@ import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
 import SVG_CARD from "@/assets/images/icons/card.svg";
 import SVG_PENCIL from "@/assets/images/icons/edit.svg";
 import {CardData} from "@/app/types/billing";
+import {SavedCard} from "@/app/types/billing";
 
 
 const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
@@ -73,12 +75,45 @@ function ManageSubscriptionsPage() {
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
-
-    console.log('selectedSubscriptionIdx: ', selectedSubscriptionIdx)
+    const [billingAddress, setBillingAddress] = useState<{
+        firstName: string,
+        lastName: string,
+        country: string,
+        address: string,
+        city: string,
+        zip: string,
+        state: string,
+    }>();
 
     useEffect(() => {
         // TODO fetch data
         setSubscriptions(SUBSCRIPTIONS_TEMPLATE);
+    }, [])
+
+    const fetchCards = async (): Promise<void> => {
+        try {
+            const result = await axios({
+                method: "POST",
+                url: `${process.env.NEXT_PUBLIC_API}/get-saved-cards`,
+                data: {
+                  email: userCtx.userData?.email
+                },
+                withCredentials: true,
+            });
+            
+            const preferredCardIdx = result.data.findIndex((card: SavedCard) => card.preferred === true);
+            
+            if (preferredCardIdx !== -1) {
+                setBillingAddress(result.data[preferredCardIdx].billingAddress);
+            }
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchCards()
     }, [])
 
     if (!isLoggedIn)
@@ -210,9 +245,20 @@ function ManageSubscriptionsPage() {
                         <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
                         <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
                             <span>Name</span>
-                            <span>{userCtx.userData?.email ?? '--'}</span>
+                            <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
                             <span>Billing Address</span>
-                            <span>{savedCards?.[defaultCardIdx]?.billingAddress ?? '--'}</span>
+                            {billingAddress ? (
+                                <ul>
+                                    <li>{billingAddress?.address}</li>
+                                    <li>
+                                    {billingAddress?.city}, {billingAddress?.state}{" "}
+                                    {billingAddress?.zip}
+                                    </li>
+                                    <li>{billingAddress?.country}</li>
+                                </ul>
+                            ) : (
+                                <span>--</span>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -245,9 +291,20 @@ function ManageSubscriptionsPage() {
                 <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
                 <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
                     <span>Name</span>
-                    <span>{userCtx.userData?.email ?? '--'}</span>
+                    <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
                     <span>Billing Address</span>
-                    <span>{savedCards?.[defaultCardIdx]?.billingAddress ?? '--'}</span>
+                    {billingAddress ? (
+                        <ul>
+                            <li>{billingAddress?.address}</li>
+                            <li>
+                            {billingAddress?.city}, {billingAddress?.state}{" "}
+                            {billingAddress?.zip}
+                            </li>
+                            <li>{billingAddress?.country}</li>
+                        </ul>
+                    ) : (
+                        <span>--</span>
+                    )}
                 </div>
             </div>}
         </div>
