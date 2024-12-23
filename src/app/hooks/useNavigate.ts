@@ -4,13 +4,14 @@ import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-
 
 import {FADE_DURATION, Route} from "@/app/static";
 
-import {useLayout} from "@/app/context";
+import {useLayout, useModal} from "@/app/context";
 
 
 const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => {
     const pageRoute = usePathname();
     const router = useRouter();
     const layoutCtx = useLayout();
+    const modalCtx = useModal();
 
     const [currentRoute, setCurrentRoute] = useState<string | null>(null);
 
@@ -44,6 +45,7 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
         history.pushState(null, '', window.location.href);
         setTimeout(() => {
             router.push(route);
+            modalCtx.closeModal();
         }, 1.5 * FADE_DURATION);
     };
 

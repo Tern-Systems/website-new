@@ -168,15 +168,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         Credit or Debit Card
                     </Input>
                     <Input
+                        type={'expiration'}
                         value={formData.expirationDate}
                         maxLength={5}
                         onChange={setFormData('expirationDate')}
-                        onKeyDown={(event) => {
-                            if (!/[0-9]/.test(event.key) && event.key !== 'Backspace')
-                                event.preventDefault();
-                            if (event.currentTarget.value.length === 2 && event.key !== 'Backspace')
-                                event.currentTarget.value = event.currentTarget.value + '/';
-                        }}
                         placeholder={'MM/YY'}
                         classNameWrapper={`${FIELD_CN} [&&]:col-span-1 row-start-4`}
                         required

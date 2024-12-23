@@ -131,9 +131,27 @@ const Input: FC<Props> = (props: Props) => {
                             className={className}
                             ref={inputRef}
                             onInput={(event) => {
-                                if (event.currentTarget.maxLength > 0)
-                                    event.currentTarget.value = event.currentTarget.value.slice(0, event.currentTarget.maxLength);
                                 inputProps.onInput?.(event);
+                                const {value} = event.currentTarget;
+
+                                if (props.type === 'expiration') {
+                                    if (value[value.length - 1] === '/')
+                                        event.currentTarget.value = value.slice(0, -1);
+                                    if (/\D/.test(value[value.length - 1]))
+                                        event.currentTarget.value = value.slice(0, -1);
+                                    else if (value.includes('/')) {
+                                        if (value.indexOf('/') !== 2) {
+                                            event.currentTarget.value = value.slice(0, value.indexOf('/')) + value.slice(value.indexOf('/') + 1);
+                                            event.currentTarget.value = event.currentTarget.value.slice(0, 2) + '/' + event.currentTarget.value.slice(2);
+                                        }
+                                    } else if (value.length === 2)
+                                        event.currentTarget.value = value + '/';
+                                    else if (value.length === 3 && value[value.length - 1] !== '/')
+                                        event.currentTarget.value = value.slice(0, -1) + '/';
+                                }
+
+                                if (value.length > event.currentTarget.maxLength && event.currentTarget.maxLength > 0)
+                                    event.currentTarget.value = value.slice(0, event.currentTarget.maxLength);
                             }}
                         />
                     </div>
