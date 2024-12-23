@@ -72,10 +72,10 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
 
     return (
         <div
-            className={'bg-control-gray rounded-smallest p-[min(4dvw,var(--p-small))] max-h-[20rem] sm:max-h-[10rem]'}>
+            className={'bg-control-gray rounded-smallest p-[min(4dvw,var(--p-small))] max-h-[20rem] sm:max-h-[15rem]'}>
             <h3 className={`pl-[min(3.6dvw,0.81rem)] text-[min(4.8dvw,theme(fontSize.header))] font-bold`}>{table.title}</h3>
             <hr className={`border-control-white-d0 mt-[min(2.7dvw,1.25rem)] mb-[min(1.35dvw,1.25rem)]`}/>
-            <div className={'overflow-y-scroll max-h-[70%]'}>
+            <div className={'overflow-y-scroll max-h-[70%] sm:max-h-[83%]'}>
                 <table className={`w-full text-content`}>
                     <thead className={`sticky top-0 z-10 text-[min(2.6dvw,theme(fontSize.small))] bg-control-gray`}>
                     <tr>
@@ -167,29 +167,36 @@ const MyTernPage: FC = () => {
     }
 
     return (
-        // <div className={'pt-[min(3.5dvw,3rem)] px-[min(14rem)] text-left'}>
-        <div className={'mt-[min(3.5dvw,3rem)] min-w-[75%] max-w-full text-left mx-auto'}>
-            <h1 className={`text-[min(5.5dvw,2.25rem)] font-bold mb-[min(2.7dvw,1.25rem)]`}>Dashboard</h1>
-            {renderSinceDate(userCtx.userData?.registrationDate)}
-            <div className={`flex flex-wrap gap-[min(2.7dvw,1.25rem)] my-[min(5.4dvw,1.9rem)]`}>{NavBtns}</div>
-            <div className={'grid gap-[0.63rem] grid-cols-2 sm:grid-rows-2 sm:grid-cols-1'}>
-                {renderTable(subscriptionTable)}
-                {renderTable({title: 'Community Events', columnNames: ['Event', 'Date'], data: communityEvents}, true)}
-            </div>
-            <div className={'flex-col inline-flex gap-y-[min(2.6dvw,1.6rem)] mt-[3rem] sm:mt-[3.8rem]'}>
-                <span className={'text-header font-bold mb-[0.3rem]'}>Additional Resources</span>
-                <PageLink href={Route.Documentation}/>
-                <span
-                    className={`cursor-pointer ${styles.clickable}`}
-                    onClick={() => modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
-                >
+        <div className={'mt-[3rem] min-w-[75%] text-left mx-auto sm:mt-0 sm:overflow-y-hidden sm:max-h-full'}>
+            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.25rem)] block sm:mb-0`}>
+                Dashboard
+            </h1>
+            <div className={'sm:overflow-y-scroll sm:max-h-[65dvh]'}>
+                {renderSinceDate(userCtx.userData?.registrationDate)}
+                <div className={`flex flex-wrap gap-[min(2.7dvw,1.25rem)] my-[min(5.4dvw,1.9rem)]`}>{NavBtns}</div>
+                <div className={'grid gap-[0.63rem] grid-cols-2 sm:grid-cols-1'}>
+                    {renderTable(subscriptionTable)}
+                    {renderTable({
+                        title: 'Community Events',
+                        columnNames: ['Event', 'Date'],
+                        data: communityEvents
+                    }, true)}
+                </div>
+                <div className={'flex-col inline-flex gap-y-[min(2.6dvw,1.6rem)] mt-[3rem] sm:mt-[3.8rem]'}>
+                    <span className={'text-header font-bold mb-[0.3rem]'}>Additional Resources</span>
+                    <PageLink href={Route.Documentation}/>
+                    <span
+                        className={`cursor-pointer ${styles.clickable}`}
+                        onClick={() => modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
+                    >
                     Help & FAQs
                 </span>
-                <span
-                    className={`cursor-pointer ${styles.clickable}`}
-                    onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}>
+                    <span
+                        className={`cursor-pointer ${styles.clickable}`}
+                        onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}>
                     Support Hub
                 </span>
+                </div>
             </div>
         </div>
     );
