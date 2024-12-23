@@ -1,9 +1,9 @@
 import {ButtonHTMLAttributes, FC, ReactElement, useState} from "react";
-import Image from "next/image";
+import {ReactSVG} from "react-svg";
 
 import styles from '@/app/common.module.css'
 
-import SVG_BACK from '@/assets/images/icons/back.svg';
+import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 import SVG_CHECK_FLOWER from '@/assets/images/icons/checkmark-flower.svg';
 import SVG_CHECK_SQUARE from '@/assets/images/icons/checkmark-square.svg';
 import SVG_CHEVRON from "@/assets/images/icons/chewron.svg";
@@ -26,10 +26,12 @@ import SVG_PLUS_FLOWER from '@/assets/images/icons/plus-flower.svg';
 import SVG_PLUS_SQUARE from '@/assets/images/icons/plus-square.svg';
 import SVG_SHARE from "@/assets/images/icons/share.svg";
 import SVG_WARN from "@/assets/images/icons/warn.svg";
+import SVG_BURGER_MENU from "@/assets/images/icons/burger-menu.svg";
 
 
 type ButtonIcon =
-    | 'back'
+    | 'arrow'
+    | 'burger'
     | 'chevron'
     | 'close'
     | 'close-square'
@@ -53,8 +55,9 @@ type ButtonIcon =
     | 'share'
     | 'warn';
 
-const ICON: Record<ButtonIcon, string> = {
-    back: SVG_BACK,
+const ICON: Record<ButtonIcon, { src: string }> = {
+    arrow: SVG_ARROW,
+    burger: SVG_BURGER_MENU,
     chevron: SVG_CHEVRON,
     close: SVG_CLOSE,
     'close-square': SVG_CLOSE_SQUARE,
@@ -92,12 +95,8 @@ const Button: FC<Props> = (props: Props) => {
 
     const stateIcon: ButtonIcon | null | undefined = hovered?.icon && isHovered ? hovered?.icon : icon;
     const Icon: ReactElement | null = stateIcon
-        ? (
-            <Image
-                src={ICON[stateIcon]}
-                alt={stateIcon}
-                className={`inline size-[1rem] ${isIconFlippedY ? 'rotate-180' : ''}`}/>
-        )
+        ? <ReactSVG src={ICON[stateIcon].src}
+                    className={`inline [&_svg]:size-[1rem] ${isIconFlippedY ? 'rotate-180' : ''}`}/>
         : null;
 
     return (

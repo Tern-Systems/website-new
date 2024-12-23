@@ -9,6 +9,8 @@ import {PageLink} from "@/app/ui/layout";
 import {HelpModal} from "@/app/ui/modals";
 import {useLoginCheck} from "@/app/hooks";
 
+import styles from '@/app/common.module.css'
+
 
 const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE]
 
@@ -31,22 +33,33 @@ const BillingPage: FC = () => {
 
     if (!isLoggedIn)
         return null;
+
+
     // Elements
-    const OrderRows: ReactElement[] = (orders ?? []).map((order, idx) => (
-        <tr
-            key={order.id + idx}
-            className={'h-[3.125rem] odd:bg-[#b3b3b326] cursor-pointer'}
-            onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
-        >
-            <PageLink href={Route.Invoice} className={'contents align-middle'}>
-                <td className={'rounded-l-[0.5625rem] px-[0.75rem]'}>{order.id}</td>
-                <td>{order.date}</td>
-                <td>{order.subtotalUSD}</td>
-                <td>{order.status}</td>
-                <td className={'rounded-r-[0.5625rem]'}>{order.item.name}</td>
-            </PageLink>
-        </tr>
-    ));
+    const OrderRows: ReactElement[] = (orders ?? []).map((order, idx) => {
+        const renderTd = (title: string | number, type?: 'first' | 'last') => {
+            const side = type === 'first' ? 'l' : 'r';
+            return (
+                <td className={type ? `rounded-${side}-[0.5625rem] p${side}-[0.75rem]` : ''}>
+                    <PageLink href={Route.Invoice} className={'hover:transform-none w-full'}>{title}</PageLink>
+                </td>
+            );
+        }
+
+        return (
+            <tr
+                key={order.id + idx}
+                className={`h-[3.125rem] odd:bg-[#b3b3b326] cursor-pointer align-middle ${styles.clickable}`}
+                onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
+            >
+                {renderTd(order.id, 'first')}
+                {renderTd(order.date)}
+                {renderTd(order.subtotalUSD)}
+                {renderTd(order.status)}
+                {renderTd(order.item.name, 'last')}
+            </tr>
+        )
+    });
 
     return (
         <div className={'place-self-center my-auto text-left w-[90.625rem]'}>
