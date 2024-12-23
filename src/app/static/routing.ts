@@ -3,7 +3,7 @@ enum Route {
     Home = '/Home',
 
     About = '/About',
-    Credo = '/About/Credo',
+    Credo = '/About/OurCredo',
     Contact = '/Contact',
     Terms = '/Terms',
     Cookies = '/Cookies',

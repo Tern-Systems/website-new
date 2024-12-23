@@ -15,7 +15,7 @@ const NotFound = () => (
             <p>This path you tread, is but a mirage</p>
             <p>An empty husk; A hollow facade...</p>
         </div>
-        <div className={'absolute underline bottom-[--p-small] text-note'}>
+        <div className={'absolute underline bottom-[min(4dvw,var(--p-small))] text-note'}>
             <a href={Route.Home}>Return to Home page</a>
         </div>
     </div>
