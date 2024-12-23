@@ -1,5 +1,4 @@
-import React, {FC, ReactElement, ReactNode, useEffect, useState} from "react";
-import Image from "next/image";
+import React, {FC, ReactElement, useEffect, useState} from "react";
 
 import {ButtonIcon} from "@/app/ui/form/Button";
 import {Route, TERN_AC_HREF} from "@/app/static";
@@ -10,8 +9,6 @@ import {useLoginCheck} from "@/app/hooks";
 import {PageLink} from "@/app/ui/layout";
 import {FAQsModal, HelpModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
-
-import SVG_ARROW from "@/assets/images/icons/arrow-right.svg";
 
 
 type TableEntry = {
@@ -26,11 +23,6 @@ type TableSection = {
     data: TableEntry[];
 }
 
-const renderLink = (href: string, isExternalLink: boolean, children: ReactNode) => (
-    <PageLink href={href as Route} {...(isExternalLink ? {target: '_blank', rel: 'noopener noreferrer'} : {})}>
-        {children}
-    </PageLink>
-);
 
 const renderTable = (table: TableSection, isExternal?: boolean) => {
     const TableItems: ReactElement[] = table.data.map((row, idx) => (
@@ -43,8 +35,11 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
                     : new Date(row.data).toLocaleDateString()
                 }
             </td>
-            <td className={'pr-[0.81rem] rounded-r-[1rem] w-[1.3125rem] box-content'}>
-                {renderLink(row.href, isExternal === true, <Image src={SVG_ARROW} alt={'arrow'}/>)}
+            <td className={'pr-[0.81rem] rounded-r-[1rem] w-[1.3rem] box-content'}>
+                <PageLink href={row.href}
+                          icon={'forward'}
+                          {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
+                />
             </td>
         </tr>
     ));

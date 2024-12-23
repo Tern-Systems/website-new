@@ -3,6 +3,7 @@ import {FC, PropsWithChildren} from "react"
 import {useModal} from "@/app/context"
 
 import {Button} from "@/app/ui/form";
+import {useBreakpointCheck} from "@/app/hooks";
 
 
 interface ModalConfig extends PropsWithChildren {
@@ -11,15 +12,20 @@ interface ModalConfig extends PropsWithChildren {
     onClose?: () => void;
     className?: string;
     classNameContent?: string;
+    classNameTitle?: string;
+    adaptSmScreen?: boolean;
 }
 
 const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const {
         children, isSimple, title, onClose,
-        className, classNameContent
+        className, classNameContent, classNameTitle, adaptSmScreen
     } = props;
 
     const modalCtx = useModal();
+    const isSmScreen = useBreakpointCheck();
+
+    const isSmRullesApplied = isSmScreen && adaptSmScreen;
 
     const handleClose = () => {
         modalCtx.closeModal();
@@ -42,21 +48,30 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
             </span>
         );
     } else {
+        const Heading = (
+            <h2 className={`text-inherit font-oxygen text-header font-bold ${isSmRullesApplied ? 'mb-[1.87rem]' : ''} ${classNameTitle}`}>
+                {title ?? ''}
+            </h2>
+        );
         return (
             <div
                 id={'modal'}
-                className={`p-[--p-small] rounded-small border-small border-control-white-d0 bg-control-gray
-                            place-self-center mx-auto ${className} pointer-events-auto`}>
-                <div className={`flex items-center justify-between font-oxygen`}>
-                    <h2 className={'text-inherit font-oxygen text-header font-bold'}>
-                        {title ?? ''}
-                    </h2>
-                    <Button icon={'close'} onClick={() => handleClose()}/>
+                className={`${isSmRullesApplied
+                    ? 'bg-control-white-d0 text-gray w-full'
+                    : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--p-small]'}
+                            ${className} pointer-events-auto`}>
+                <div className={`flex items-center justify-between font-oxygen h-[4.3rem] ${isSmRullesApplied ? 'p-[1.25rem]' : ''}`}>
+                    {isSmRullesApplied ? null : Heading}
+                    <Button icon={'close'} onClick={() => handleClose()}
+                            className={isSmRullesApplied ? '[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]' : ''}/>
                 </div>
-                <hr className={'scale-[105%] mt-[1.25rem] mb-[1.55rem]'}/>
-                <div className={classNameContent}>{children}</div>
+                <hr className={`${isSmRullesApplied ? '' : 'mt-[1.25rem] scale-[105%] mb-[1.55rem]'}`}/>
+                <div className={(isSmRullesApplied ? 'p-[1.25rem] ' : '') + classNameContent}>
+                    {isSmRullesApplied ? Heading : null}
+                    {children}
+                </div>
             </div>
-        )
+        );
     }
 }
 

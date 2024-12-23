@@ -6,7 +6,8 @@ import React, {
     FC,
     PropsWithChildren,
     SetStateAction,
-    useContext, useEffect,
+    useContext,
+    useEffect,
     useRef,
     useState
 } from 'react';
@@ -32,6 +33,8 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             handleNoLayoutState();
 
         const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape')
+                setNoLayoutState(false);
         }
 
         window.addEventListener('keydown', handleKeyDown);

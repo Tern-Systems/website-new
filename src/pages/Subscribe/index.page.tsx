@@ -38,6 +38,7 @@ const SubscribePage: FC = () => {
     );
 }
 
+// @ts-expect-error all good - standard NextJs approach
 SubscribePage.getLayout = (page: ReactElement) => (
     <FullPageLayout backButtonSection={Route.ServicePricing}>{page}</FullPageLayout>
 );

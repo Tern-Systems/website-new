@@ -22,7 +22,7 @@ const config: Config = {
                 gray: "var(--color-gray)",
                 placeholder: "var(--color-placeholder)",
                 blue: "var(--color-blue)",
-                blueL0: "var(--color-blue-l0)",
+                'blue-l0': "var(--color-blue-l0)",
                 red: "var(--color-red)",
             },
             backgroundColor: {

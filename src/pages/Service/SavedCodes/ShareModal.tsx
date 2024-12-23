@@ -90,7 +90,7 @@ const ShareModal: FC<Props> = (props: Props) => {
                 />
             </span>
             <span
-                className={'px-[0.56rem] flex place-items-center mt-[1.56rem] h-[1.625rem] rounded-smallest w-[24.74rem] overflow-ellipsis border-small border-control-grayL1bg-control-gray-l0'}>
+                className={'px-[0.56rem] flex place-items-center mt-[1.56rem] h-[1.625rem] rounded-smallest w-[24.74rem] overflow-ellipsis border-small border-control-grayL1 bg-control-gray-l0'}>
                 <Image
                     src={SVG_COPY}
                     alt={'copy'}
