@@ -1,4 +1,5 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
+import Image from "next/image";
 
 import {Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static";
@@ -15,7 +16,7 @@ import {BaseModal} from "@/app/ui/modals";
 const COLUMN_CN = 'flex-1 pt-[min(8dvw,8rem)] px-[min(4dvw,var(--p-small))] w-1/2 overflow-y-scroll sm:w-full';
 
 
-function OrderPage() {
+function OrderPage(){
     const [invoice, setInvoice] = useState<Invoice>();
     const [isDetailsToggled, setDetailsToggleState] = useState(false);
 
