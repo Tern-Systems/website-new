@@ -11,7 +11,7 @@ import {UserSubscription} from "@/app/context/User.context";
 import {Route} from "@/app/static";
 
 import {generateFallbackEntries} from "@/app/utils";
-import {useNavigate} from "@/app/hooks";
+import {useBreakpointCheck, useNavigate} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
@@ -37,6 +37,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const modalCtx = useModal();
     const userCtx = useUser();
     const [navigate] = useNavigate();
+    const isSmScreen = useBreakpointCheck();
 
     const [selectedRecurrency, setSelectedRecurrency] = useState<SubscriptionRecurrency>('monthly');
 
@@ -189,7 +190,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             <Collapsible
                 key={type + idx}
                 isChevron
-                expandedState={[false]}
+                expandedState={[!isSmScreen]}
                 collapsedContent={CollapsedContentSm}
                 classNameWrapper={'[&]:w-[min(90dvw,25rem)] border-small border-control-white-d0 sm:border-none text-left'}
             >

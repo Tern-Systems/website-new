@@ -39,6 +39,7 @@
 
   --fz-note-: 0.75rem;
   --fz-content-small-: 1.125rem;
+  --fz-header-: 1.685rem;
 
   --fz-note: min(1.8dvw, var(--fz-note-));
   --fz-small: min(2.7dvw, 0.875rem);
