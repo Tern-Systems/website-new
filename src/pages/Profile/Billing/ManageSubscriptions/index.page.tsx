@@ -1,13 +1,14 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
+import axios from "axios";
 
 import {Subscription} from "@/app/ui/templates/PaymentMethodTool";
 import {Route} from "@/app/static";
 
 import {formatDate} from "@/app/utils";
 import {useLoginCheck} from "@/app/hooks";
-import {useModal} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";
 import {BaseModal} from "@/app/ui/modals";
@@ -19,6 +20,8 @@ import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
 import SVG_PENCIL from "@/assets/images/icons/edit.svg";
+import {CardData} from "@/app/types/billing";
+import {SavedCard} from "@/app/types/billing";
 
 
 const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
@@ -62,16 +65,55 @@ const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
 ];
 
 function ManageSubscriptionsPage() {
+    const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
 
     const [subscriptions, setSubscriptions] = useState<Subscription[] | null>(null);
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
+    // eslint-disable-next-line
+    const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
+    const [billingAddress, setBillingAddress] = useState<{
+        firstName: string,
+        lastName: string,
+        country: string,
+        address: string,
+        city: string,
+        zip: string,
+        state: string,
+    }>();
 
     useEffect(() => {
         // TODO fetch data
         setSubscriptions(SUBSCRIPTIONS_TEMPLATE);
+    }, [])
+
+    const fetchCards = async (): Promise<void> => {
+        try {
+            const result = await axios({
+                method: "POST",
+                url: `${process.env.NEXT_PUBLIC_API}get-saved-cards`,
+                data: {
+                  email: userCtx.userData?.email
+                },
+                withCredentials: true,
+            });
+            
+            const preferredCardIdx = result.data.findIndex((card: SavedCard) => card.preferred === true);
+            
+            if (preferredCardIdx !== -1) {
+                setBillingAddress(result.data[preferredCardIdx].billingAddress);
+            }
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchCards()
     }, [])
 
     if (!isLoggedIn)
@@ -84,6 +126,26 @@ function ManageSubscriptionsPage() {
         ?? []
     );
 
+    let Cards: ReactElement[] = savedCards.map((card, idx) => {
+        if (card.isDefault)
+            setDefaultCardIdx(idx);
+        return (
+            <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
+                <Image src={SVG_CARD} alt={'card'} className={'size-[1.35419rem]'}/>
+                <span>{card.nickName}</span>
+                <span
+                    hidden={!card.isDefault}
+                    className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
+                >
+                Preferred
+            </span>
+            </li>
+        );
+    })
+
+    if (!Cards.length) {
+        Cards = [<span key={0}>No saved cards</span>];
+    }
 
     // Elements
     const RenderPlanInfo = () => {
@@ -174,19 +236,43 @@ function ManageSubscriptionsPage() {
                 </div>
                 <div>
                     <h2 className={'text-header font-bold'}>Payment Method</h2>
-                    {Hr}
-                    <ul className={'flex flex-col gap-[min(2.7dvw,0.93rem)]'}>{SavedCards}</ul>
+                    <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.17rem]'}/>
+                    <ul className={'flex flex-col gap-[0.93rem]'}>
+                        {SavedCards}
+                    </ul>
+                    <div className={'mt-[150px]'}>
+                        <h2 className={'text-header font-bold'}>Billing Details</h2>
+                        <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
+                        <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
+                            <span>Name</span>
+                            <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
+                            <span>Billing Address</span>
+                            {billingAddress ? (
+                                <ul>
+                                    <li>{billingAddress?.address}</li>
+                                    <li>
+                                    {billingAddress?.city}, {billingAddress?.state}{" "}
+                                    {billingAddress?.zip}
+                                    </li>
+                                    <li>{billingAddress?.country}</li>
+                                </ul>
+                            ) : (
+                                <span>--</span>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className={'mt-[min(8dvw,9.1rem)] px-[min(5.3dvw,1.8rem)]'}>
-            <div className={'w-[min(100%,29rem)] text-nowrap text-content'}>
-                <h1 className={'text-[min(7.2dvw,3rem)] font-bold mb-[min(8dvw,3.1rem)]'}>
-                    Manage Subscriptions
-                </h1>
+        <div className={'pt-[9.14rem] px-[1.83rem]'}>
+        <h1 className={'text-[3rem] font-bold mb-[3.12rem]'}>
+            Manage Subscriptions
+        </h1>
+        <div className={'grid gap-[10rem] grid-rows-1 grid-cols-2 mt-[5.4rem]'}>
+            <div className={'w-[29.0625rem] text-nowrap ml-[100px]'}>
                 <Select
                     options={subscriptionOptions}
                     value={selectedSubscriptionIdx.toString()}
@@ -200,6 +286,28 @@ function ManageSubscriptionsPage() {
                     Choose Subscription to Manage
                 </Select>
             </div>
+            {selectedSubscriptionIdx === -1 && <div className={'mt-[10px]'}>
+                <h2 className={'text-header font-bold'}>Billing Details</h2>
+                <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
+                <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
+                    <span>Name</span>
+                    <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
+                    <span>Billing Address</span>
+                    {billingAddress ? (
+                        <ul>
+                            <li>{billingAddress?.address}</li>
+                            <li>
+                            {billingAddress?.city}, {billingAddress?.state}{" "}
+                            {billingAddress?.zip}
+                            </li>
+                            <li>{billingAddress?.country}</li>
+                        </ul>
+                    ) : (
+                        <span>--</span>
+                    )}
+                </div>
+            </div>}
+        </div>
             {RenderPlanInfo()}
             <ScrollEnd/>
         </div>
