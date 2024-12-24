@@ -1,16 +1,20 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
+import axios from "axios";
+
+import {Invoice} from "@/app/types/billing";
 
 import {Subscription} from "@/app/ui/templates/PaymentMethodTool";
 import {Route} from "@/app/static";
 
 import {formatDate} from "@/app/utils";
 import {useLoginCheck} from "@/app/hooks";
-import {useModal} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";
 import {BaseModal} from "@/app/ui/modals";
+import {ExportInvoiceModal} from "../PurchasingInformation/ExportInvoiceModal";
 import {FullScreenLayout} from "@/app/ui/layout";
 import {Button, Select} from "@/app/ui/form";
 import {CancelModal} from "./CancelModal";
@@ -20,6 +24,8 @@ import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
 import SVG_CARD from "@/assets/images/icons/card.svg";
 import SVG_PENCIL from "@/assets/images/icons/edit.svg";
 
+const PX_CN = 'px-[min(2.7dvw,0.625rem)]';
+const Hr = <hr className={'border-control-white-d0 mt-[min(2.7dvw,0.81rem)] mb-[min(2.7dvw,1.57rem)]'}/>;
 
 const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
     {
@@ -62,17 +68,42 @@ const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
 ];
 
 function ManageSubscriptionsPage() {
+    const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
 
     const [subscriptions, setSubscriptions] = useState<Subscription[] | null>(null);
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
+    const [invoices, setInvoices] = useState<Invoice[]>([]);
 
     useEffect(() => {
         // TODO fetch data
         setSubscriptions(SUBSCRIPTIONS_TEMPLATE);
     }, [])
+
+    useEffect(() => {
+        const fetchSubscriptionDetails = async () => {
+          try {
+            const result = await axios({
+                method: "POST",
+                url: `${process.env.NEXT_PUBLIC_API}/get-subscription-details`,
+                data: {
+                    email: userCtx.userData?.email
+                },
+                withCredentials: true,
+            });
+            let dataArray = [];
+            dataArray.push(result.data)
+            setInvoices(dataArray);
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        
+        fetchSubscriptionDetails();
+    }, []);
 
     if (!isLoggedIn)
         return null;
@@ -181,6 +212,17 @@ function ManageSubscriptionsPage() {
         );
     }
 
+    const InvoiceRows: ReactElement[] = invoices.map((order, idx) => {
+        const invoiceDate = new Date(order.startDate);
+        return (
+            <tr key={idx}>
+                <td>{invoiceDate.toLocaleString('default', {month: 'long'})} {invoiceDate.getDate()}th, {invoiceDate.getFullYear()}</td>
+                <td className={'sm:hidden'}>${order.amount}</td>
+                <td className={'text-right sm:hidden'}>{order.name}</td>
+            </tr>
+        )
+    });
+
     return (
         <div className={'mt-[min(8dvw,9.1rem)] px-[min(5.3dvw,1.8rem)]'}>
             <div className={'w-[min(100%,29rem)] text-nowrap text-content'}>
@@ -202,6 +244,23 @@ function ManageSubscriptionsPage() {
             </div>
             {RenderPlanInfo()}
             <ScrollEnd/>
+            <div className={`flex justify-between items-center mt-[90px]`}>
+                <h2 className={'text-header font-bold text-left'}>Invoice History</h2>
+                <Button
+                    className={'border-small border-control-white-d0 px-[min(2.1dvw,1rem)] text-small h-[min(4.3dvw,1.44rem)] rounded-full font-bold'}
+                    onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
+                >
+                    Export
+                </Button>
+            </div>
+            {Hr}
+            <div className={'overflow-hidden rounded-small px-[min(4dvw,var(--p-small))] max-h-[27rem]'}>
+                <div className={`overflow-y-scroll h-full text-[min(3.2dvw,var(--fz-content-))] capitalize`}>
+                    <table className={'w-full'} cellPadding={'1.25'}>
+                        <tbody>{InvoiceRows}</tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 }
