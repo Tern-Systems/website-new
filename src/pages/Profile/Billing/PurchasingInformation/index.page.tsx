@@ -40,27 +40,27 @@ function PurchasingInformationView() {
     }>();
 
     useEffect(() => {
-        try {
-            // TODO fetch cards, invoices
-            setInvoices([{
-                id: 111111111111,
-                date: Date.now(),
-                to: 'John Doe',
-                from: 'Tern Systems, LLC',
-                card: {cardNumber: '1111222233334444', type: 'visa', nickName: 'john doe'},
-                item: {name: 'ARCH Standard Subscription', priceUSD: 10},
-                subtotalUSD: 10,
-                totalDue: 10.60,
-                taxPercent: 0.06,
-                paidUSD: 10.6,
-                country: 'US',
-                state: 'PA',
-                type: 'monthly',
-                status: 'paid'
-            }])
-        } catch (error: unknown) {
+        const fetchSubscriptionDetails = async () => {
+          try {
+            const result = await axios({
+                method: "POST",
+                url: `${process.env.NEXT_PUBLIC_API}/get-subscription-details`,
+                data: {
+                    email: userCtx.userData?.email
+                },
+                withCredentials: true,
+            });
+            let dataArray = [];
+            dataArray.push(result.data)
+            setInvoices(dataArray);
+
+            } catch (error) {
+                console.error(error);
+            }
         }
-    }, [])
+        
+        fetchSubscriptionDetails();
+    }, []);
 
     const fetchCards = async (): Promise<void> => {
         try {
@@ -112,15 +112,12 @@ function PurchasingInformationView() {
         Cards = [<span key={0}>No saved cards</span>];
 
     const InvoiceRows: ReactElement[] = invoices.map((order, idx) => {
-        const invoiceDate = new Date(order.date);
+        const invoiceDate = new Date(order.startDate);
         return (
-            <tr key={order.id + idx}>
-                <td>{order.id}</td>
+            <tr key={idx}>
                 <td>{invoiceDate.toLocaleString('default', {month: 'long'})} {invoiceDate.getDate()}th, {invoiceDate.getFullYear()}</td>
-                <td>{order.totalDue.toFixed(2)}</td>
-                <td>{order.status}</td>
-                <td className={'sm:hidden'}>{order.card.nickName}</td>
-                <td className={'text-right sm:hidden'}>{order.item.name}</td>
+                <td className={'sm:hidden'}>${order.amount}</td>
+                <td className={'text-right sm:hidden'}>{order.name}</td>
             </tr>
         )
     });
