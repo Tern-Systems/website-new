@@ -13,18 +13,7 @@ import {Button} from "@/app/ui/form";
 
 
 const SAVED_CODES_TEMPLATE: ARCode[] = [
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 0', file: '', moduleColor: '#000', backgroundColor: '#fff'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 1', file: '', moduleColor: '#000', backgroundColor: '#129'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 2', file: '', moduleColor: '#000', backgroundColor: '#456'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 3', file: '', moduleColor: '#000', backgroundColor: '#147'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 4', file: '', moduleColor: '#000', backgroundColor: '#280'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 5', file: '', moduleColor: '#000', backgroundColor: '#163'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 6', file: '', moduleColor: '#000', backgroundColor: '#692'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 7', file: '', moduleColor: '#000', backgroundColor: '#027'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 8', file: '', moduleColor: '#000', backgroundColor: '#835'},
-    {id: '9uhrgqhi03fjpo-j', name: 'QR 9', file: '', moduleColor: '#000', backgroundColor: '#500'}
 ]
-
 
 const MAX_AR_CODE_WIDTH = 200;
 

@@ -42,7 +42,7 @@ const MENU_ITEMS: MenuItem = {
     Share: {
         svg: 'share',
         action: (args: { openModal: OpenModal, arCode: ARCode }) =>
-            args.openModal(<ShareModal name={args.arCode.name} file={args.arCode.file}/>, {darkenBg: true})
+            args.openModal(<ShareModal name={args.arCode.name} file={args.arCode.file.name}/>, {darkenBg: true})
     },
     Delete: {
         svg: 'delete',

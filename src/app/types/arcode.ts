@@ -1,7 +1,7 @@
 type ARCode = {
     id: string;
     name: string;
-    file: string;
+    file: File;
     moduleColor: string;
     backgroundColor: string;
 }
