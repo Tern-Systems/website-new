@@ -28,16 +28,16 @@ const CancelModal: FC = () => {
         >
             <div className={'inline-block max-w-[25rem]'}>
                 <p className={'mb-[min(2.6dvw,1rem)] text-nowrap sm:max-w-[70%] sm:whitespace-pre-wrap place-self-center'}>
-                    You‘re about to cancel your ARCH Pro Plan subscription.
+                    You&apos;re about to cancel your ARCH Pro Plan subscription.
                 </p>
                 <p>
                     If you wish to proceed, please click the red <span
                     className={'font-bold'}>Cancel Subscription</span> button. Otherwise, click the
-                    <span className={'font-bold'}>Return to Billing</span> button to return to managing your ARCH
+                    <span className={'font-bold'}> Return to Billing</span> button to return to managing your ARCH
                     subscription billing settings.
                 </p>
                 <span
-                    className={'flex gap-[min(1.3dvw,0.62rem)] font-bold mt-[min(4dvw,1.56rem)] text-small justify-center'}>
+                    className={'flex gap-[min(1.3dvw,0.62rem)] font-bold mt-[min(4dvw,1.56rem)] text-small justify-center text-[#FFFFFF]'}>
                         <Button
                             onClick={() => handleDelete()}
                             className={`bg-control-red ${BTN_CN}`}
