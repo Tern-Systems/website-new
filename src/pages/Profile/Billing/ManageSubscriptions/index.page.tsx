@@ -89,6 +89,7 @@ function ManageSubscriptionsPage() {
         zip: string,
         state: string,
     }>();
+    const [invoices, setInvoices] = useState<Invoice[]>([]);
 
     useEffect(() => {
         // TODO fetch data
@@ -120,6 +121,29 @@ function ManageSubscriptionsPage() {
     useEffect(() => {
         fetchCards()
     }, [])
+
+    useEffect(() => {
+        const fetchSubscriptionDetails = async () => {
+          try {
+            const result = await axios({
+                method: "POST",
+                url: `${process.env.NEXT_PUBLIC_API}get-subscription-details`,
+                data: {
+                    email: userCtx.userData?.email
+                },
+                withCredentials: true,
+            });
+            let dataArray = [];
+            dataArray.push(result.data)
+            setInvoices(dataArray);
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        
+        fetchSubscriptionDetails();
+    }, []);
 
     if (!isLoggedIn)
         return null;
