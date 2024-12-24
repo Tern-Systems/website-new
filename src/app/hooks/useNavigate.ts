@@ -7,7 +7,7 @@ import {LAYOUT, Route} from "@/app/static";
 import {useLayout, useModal} from "@/app/context";
 
 
-const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => {
+const useNavigate = (preventModalClosing?: boolean): [(route: Route) => Promise<void>, AppRouterInstance] => {
     const pageRoute = usePathname();
     const router = useRouter();
     const layoutCtx = useLayout();
@@ -25,7 +25,8 @@ const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => 
         history.pushState(null, '', window.location.href);
         setTimeout(() => {
             router.push(route);
-            modalCtx.closeModal();
+            if (!preventModalClosing)
+                modalCtx.closeModal();
         }, LAYOUT.fadeDuration);
     };
 

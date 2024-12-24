@@ -23,6 +23,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
     classNameWrapper?: string;
     classNameLabel?: string;
     classNameOption?: string;
+    onClick?: () => void;
 }
 
 const Select: FC<Props> = (props: Props) => {
@@ -84,7 +85,8 @@ const Select: FC<Props> = (props: Props) => {
         ];
 
     return (
-        <div className={`relative flex items-center ${classNameWrapper} ${hidden ? 'hidden' : ''}`}>
+        <div
+            className={`relative flex items-center ${classNameWrapper} ${hidden ? 'hidden' : ''}`}>
             <input
                 {...selectPropsRest}
                 value={value}
@@ -96,10 +98,13 @@ const Select: FC<Props> = (props: Props) => {
             <span hidden={!children} className={classNameLabel}>{children}</span>
             <label
                 ref={ref}
-                onClick={() => toggleSelectExpand()}
+                onClick={() => {
+                    selectPropsRest.onClick?.();
+                    toggleSelectExpand();
+                }}
                 onBlur={() => setSelectExpanded(false)}
-                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white
-                            ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
+                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white [&]:rounded-small
+                            ${className} ${isSelectExpanded ? `[&&]:rounded-b-none` : ''}`}
             >
                 <div className={`w-[85%] text-nowrap overflow-ellipsis overflow-hidden`}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
