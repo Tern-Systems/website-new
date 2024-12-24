@@ -44,7 +44,7 @@ function PurchasingInformationView() {
           try {
             const result = await axios({
                 method: "POST",
-                url: `${process.env.NEXT_PUBLIC_API}/get-subscription-details`,
+                url: `${process.env.NEXT_PUBLIC_API}get-subscription-details`,
                 data: {
                     email: userCtx.userData?.email
                 },
