@@ -32,7 +32,8 @@ const MENU_ITEMS: MenuItem = {
         svg: 'pencil',
         action: (args: { arCode: ARCode, navigate: (route: string) => void }) => {
             const {arCode, navigate} = args;
-            navigate(Route.ARCodeToolEdit + '/' + arCode.id);
+            sessionStorage.setItem('qr-code-edit', JSON.stringify(arCode));
+            navigate(Route.ARCodeToolEdit);
         }
     },
     Download: {
