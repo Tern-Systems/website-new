@@ -20,10 +20,17 @@ const MAX_AR_CODE_WIDTH = 200;
 
 
 const SavedCodesPage: FC = () => {
-    const [menuData, setMenuData] = useState<CodeMenuData>({arCode: null, x: 0, y: 0, isOpened: false});
     const [codeId, setCodeId] = useState<string | null>(null);
     const [qrSize, setQrSize] = useState(MAX_AR_CODE_WIDTH);
+    const [updateList, setUpdateList] = useState(false);
     const [qrList, setQRList] = useState<ARCode[]>([]);
+    const [menuData, setMenuData] = useState<CodeMenuData>({
+        arCode: null,
+        x: 0,
+        y: 0,
+        isOpened: false,
+        updateList: setUpdateList
+    });
 
     const [navigate] = useNavigate();
     const userCtx = useUser();
@@ -88,6 +95,7 @@ const SavedCodesPage: FC = () => {
             try {
                 const {payload: qrList} = await ARCHService.getListQRs(userCtx.userData.email);
                 setQRList(qrList);
+                setUpdateList(false);
             } catch (error: unknown) {
                 let message: string = 'Unknown error';
                 if (axios.isAxiosError(error))
@@ -97,10 +105,9 @@ const SavedCodesPage: FC = () => {
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
         }
-
         fetchListQR();
         // eslint-disable-next-line
-    }, [userCtx]);
+    }, [userCtx.userData, updateList]);
 
     if (!isLoggedIn)
         return null;

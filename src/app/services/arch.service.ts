@@ -12,6 +12,8 @@ interface IARCHService {
     postSaveQR(email: string, name: string, mediaId: string, qrFile: File, video: File): Promise<Res>;
 
     getListQRs(email: string): Promise<Res<ARCode[]>>;
+
+    deleteQr(email: string, mediaId: string): Promise<Res>;
 }
 
 class ARCHServiceImpl extends BaseService implements IARCHService {
@@ -81,6 +83,24 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
             throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
+
+    async deleteQr(email: string, mediaId: string): Promise<Res> {
+        this.log(this.deleteQr.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'DELETE',
+            url: this._API + `delete-qr/` + mediaId,
+            params: {user: email},
+            withCredentials: true,
+        };
+
+        try {
+            await axios(config);
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
+
 }
 
 const ARCHService = new ARCHServiceImpl();
