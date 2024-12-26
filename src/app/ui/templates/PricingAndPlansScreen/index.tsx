@@ -212,7 +212,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const isCutBasicColumn = subscriptionData?.isBasicKind === true && userSubscription?.type !== 'basic';
 
         const columnsData = subscriptionData?.type
-            ? Object.entries(subscriptionData.type).slice(+isCutBasicColumn).filter(([type, _data]) => {
+            ? Object.entries(subscriptionData.type).slice(+isCutBasicColumn).filter(([type]) => {
                 if (
                     userSubscription?.recurrency === 'monthly' &&
                     userSubscription?.type === 'pro' &&
