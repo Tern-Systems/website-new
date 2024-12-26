@@ -1,4 +1,14 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-git fetch && git merge-base --is-ancestor origin/develop HEAD || { echo 'ERROR: Your branch has conflicts with develop, please resolve them before pushing.'; exit 1; }
+git fetch
+
+git merge-base --is-ancestor origin/develop HEAD || { 
+  echo 'ERROR: Your branch has conflicts with develop, please resolve them before pushing.';
+  exit 1;
+}
+
+npm run build || { 
+  echo 'ERROR: Build failed, please resolve the build errors before pushing.';
+  exit 1;
+}
