@@ -1,5 +1,4 @@
 import {CountryKey, StateKey} from "@/app/static";
-import {SubscriptionRecurrency} from "./subscription";
 
 type CardData = {
     type: string;

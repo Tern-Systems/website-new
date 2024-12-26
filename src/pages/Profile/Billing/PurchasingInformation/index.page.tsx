@@ -26,8 +26,8 @@ function PurchasingInformationView() {
 
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
-    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     // eslint-disable-next-line
+    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [billingAddress, setBillingAddress] = useState<{
         firstName: string,
@@ -50,7 +50,7 @@ function PurchasingInformationView() {
                 },
                 withCredentials: true,
             });
-            let dataArray = [];
+            const dataArray = [];
             dataArray.push(result.data)
             setInvoices(dataArray);
 
@@ -60,6 +60,7 @@ function PurchasingInformationView() {
         }
         
         fetchSubscriptionDetails();
+    // eslint-disable-next-line
     }, []);
 
     const fetchCards = async (): Promise<void> => {
@@ -86,6 +87,7 @@ function PurchasingInformationView() {
 
     useEffect(() => {
         fetchCards()
+    // eslint-disable-next-line
     }, [])
 
     if (!isLoggedIn)

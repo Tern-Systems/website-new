@@ -26,7 +26,6 @@ import SVG_PENCIL from "@/assets/images/icons/edit.svg";
 import {CardData} from "@/app/types/billing";
 import {SavedCard} from "@/app/types/billing";
 
-const PX_CN = 'px-[min(2.7dvw,0.625rem)]';
 const Hr = <hr className={'border-control-white-d0 mt-[min(2.7dvw,0.81rem)] mb-[min(2.7dvw,1.57rem)]'}/>;
 
 const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
@@ -79,6 +78,7 @@ function ManageSubscriptionsPage() {
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    // eslint-disable-next-line
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     const [billingAddress, setBillingAddress] = useState<{
         firstName: string,
@@ -120,6 +120,7 @@ function ManageSubscriptionsPage() {
 
     useEffect(() => {
         fetchCards()
+    // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -133,7 +134,7 @@ function ManageSubscriptionsPage() {
                 },
                 withCredentials: true,
             });
-            let dataArray = [];
+            const dataArray = [];
             dataArray.push(result.data)
             setInvoices(dataArray);
 
@@ -143,6 +144,7 @@ function ManageSubscriptionsPage() {
         }
         
         fetchSubscriptionDetails();
+    // eslint-disable-next-line
     }, []);
 
     if (!isLoggedIn)
