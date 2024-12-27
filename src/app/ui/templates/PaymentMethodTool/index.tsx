@@ -1,10 +1,11 @@
 import React, {FC, FormEvent, useEffect, useState} from "react";
+import axios from 'axios';
 
 import {CardData} from "@/app/types/billing";
 import {COUNTRY, STATE_PROVINCE} from "@/app/static";
 
 import {useBreakpointCheck, useForm} from "@/app/hooks";
-import {useModal} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";
 import {Button, Input, Select} from "@/app/ui/form";
@@ -69,6 +70,7 @@ interface Props {
 const PaymentMethodTool: FC<Props> = (props: Props) => {
     const {isPaymentCreation} = props;
 
+    const userCtx = useUser();
     const modalCtx = useModal();
     const isSmScreen = useBreakpointCheck();
 
@@ -88,6 +90,42 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         } catch (error: unknown) {
         }
     }, [isPaymentCreation])
+
+    const saveNewCard = async () => {
+        const cardDetails = {
+            cardNumber: formData.cardNumber,
+            expiryDate: formData.expirationDate,
+            cardCode: formData.cvc
+        }
+        
+        const billingDetails = {
+            firstName: formData.cardholderName,
+            lastName: formData.cardholderName,
+            address: `${formData.addressLine1} | ${formData.addressLine2}`,
+            city: formData.city,
+            state: formData.state,
+            zip: formData.postalCode,
+            country: formData.billingCountry
+        }
+
+        try {
+        await axios({
+            method: "POST",
+            url: `${process.env.NEXT_PUBLIC_API}save-new-card`,
+            data: {
+                user: userCtx.userData?.email,
+                cardDetails: cardDetails,
+                billingDetails: billingDetails,
+                nickName: formData.nickName,
+                isPreferred: formData.isDefault
+            },
+            withCredentials: true,
+        });
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -117,6 +155,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             type={'submit'}
             className={`px-[1.12rem] h-[min(13dvw,3.25rem)] bg-control-gray font-neo text-header font-bold
                         w-full rounded-full text-primary col-span-2 sm:mt-[2.7dvw]`}
+            onClick={isPaymentCreation ? () => saveNewCard() : undefined}
         >
             {isPaymentCreation ? 'Add' : 'Update'}
         </Button>
