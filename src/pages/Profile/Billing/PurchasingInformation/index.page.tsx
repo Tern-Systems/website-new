@@ -67,7 +67,7 @@ function PurchasingInformationView() {
         try {
             const result = await axios({
                 method: "POST",
-                url: `${process.env.NEXT_PUBLIC_API}/get-saved-cards`,
+                url: `${process.env.NEXT_PUBLIC_API}get-saved-cards`,
                 data: {
                   email: userCtx.userData?.email
                 },
