@@ -85,6 +85,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                         </BaseModal>
                     );
                 }
+                setFormValueState(FORM_DEFAULT);
                 modalCtx.openModal(<SuccessModal/>)
             }
         } catch (error: unknown) {
@@ -104,7 +105,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     useEffect(() => {
         if (arCode)
             setFormValueState(arCode);
-    }, [setFormValueState,arCode])
+    }, [setFormValueState, arCode])
 
 
     useEffect(() => {

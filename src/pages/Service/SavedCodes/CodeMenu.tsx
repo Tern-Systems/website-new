@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from "react";
+import React, {Dispatch, FC, ReactElement, SetStateAction} from "react";
 
 import {ARCode} from "@/app/types/arcode";
 import {OpenModal} from "@/app/context/Modal.context";
@@ -25,6 +25,7 @@ type CodeMenuData = {
     arCode: ARCode | null;
     x: number;
     y: number;
+    updateList: Dispatch<SetStateAction<boolean>>;
 }
 
 const MENU_ITEMS: MenuItem = {
@@ -47,8 +48,8 @@ const MENU_ITEMS: MenuItem = {
     },
     Delete: {
         svg: 'delete',
-        action: async (args: { openModal: OpenModal, arCode: ARCode }) =>
-            args.openModal(<DeleteModal adCode={args.arCode}/>, {darkenBg: true})
+        action: async (args: { openModal: OpenModal, arCode: ARCode, updateList: Dispatch<SetStateAction<boolean>> }) =>
+            args.openModal(<DeleteModal adCode={args.arCode} updateList={args.updateList}/>, {darkenBg: true})
     }
 }
 
@@ -68,7 +69,12 @@ const CodeMenu: FC<Props> = (props: Props) => {
             key={name + idx}
             icon={value.svg}
             className={'flex gap-x-[min(1.3dvw,0.57rem)] font-bold'}
-            onClick={() => value.action({openModal, navigate, arCode: menuData.arCode})}
+            onClick={() => value.action({
+                openModal,
+                navigate,
+                arCode: menuData.arCode,
+                updateList: menuData.updateList
+            })}
         >
             {name}
         </Button>
