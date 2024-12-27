@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
 import axios from "axios";
 
-import {CardData, Invoice} from "@/app/types/billing";
+import {CardData, InvoiceHistory} from "@/app/types/billing";
 import {Route} from "@/app/static";
 
 import {useBreakpointCheck, useLoginCheck} from "@/app/hooks";
@@ -28,7 +28,7 @@ function PurchasingInformationView() {
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
     // eslint-disable-next-line
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
-    const [invoices, setInvoices] = useState<Invoice[]>([]);
+    const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
     const [billingAddress, setBillingAddress] = useState<{
         firstName: string,
         lastName: string,
@@ -38,7 +38,7 @@ function PurchasingInformationView() {
         zip: string,
         state: string,
     }>();
-
+    
     useEffect(() => {
         const fetchSubscriptionDetails = async () => {
           try {
@@ -52,7 +52,7 @@ function PurchasingInformationView() {
             });
             const dataArray = [];
             dataArray.push(result.data)
-            setInvoices(dataArray);
+            setInvoiceHistory(dataArray);
 
             } catch (error) {
                 console.error(error);
@@ -113,7 +113,7 @@ function PurchasingInformationView() {
     if (!Cards.length)
         Cards = [<span key={0}>No saved cards</span>];
 
-    const InvoiceRows: ReactElement[] = invoices.map((order, idx) => {
+    const InvoiceRows: ReactElement[] = invoiceHistory.map((order, idx) => {
         const invoiceDate = new Date(order.startDate);
         return (
             <tr key={idx}>

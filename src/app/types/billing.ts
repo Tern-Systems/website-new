@@ -1,4 +1,5 @@
 import {CountryKey, StateKey} from "@/app/static";
+import {SubscriptionRecurrency} from "./subscription";
 
 type CardData = {
     type: string;
@@ -18,6 +19,23 @@ type CardData = {
 }
 
 type Invoice = {
+    id: number;
+    date: number;
+    to: string;
+    from: string;
+    card: Pick<CardData, 'cardNumber' | 'type' | 'nickName'>;
+    item: { name: string, priceUSD: number };
+    subtotalUSD: number;
+    totalDue: number;
+    taxPercent: number;
+    paidUSD: number;
+    country: CountryKey;
+    state: StateKey;
+    status: 'paid' | 'unpaid';
+    type: SubscriptionRecurrency;
+}
+
+type InvoiceHistory = {
     amount: number;
     name: string;
     startDate: string;
@@ -40,4 +58,4 @@ type SavedCard  = {
     preferred: boolean,
 }
 
-export type {CardData, Invoice, SavedCard}
+export type {CardData, Invoice, InvoiceHistory, SavedCard}

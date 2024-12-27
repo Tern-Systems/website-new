@@ -3,7 +3,7 @@ import {ReactSVG} from "react-svg";
 import Image from "next/image";
 import axios from "axios";
 
-import {Invoice} from "@/app/types/billing";
+import {InvoiceHistory} from "@/app/types/billing";
 
 import {Subscription} from "@/app/ui/templates/PaymentMethodTool";
 import {Route} from "@/app/static";
@@ -89,7 +89,7 @@ function ManageSubscriptionsPage() {
         zip: string,
         state: string,
     }>();
-    const [invoices, setInvoices] = useState<Invoice[]>([]);
+    const [invoices, setInvoices] = useState<InvoiceHistory[]>([]);
 
     useEffect(() => {
         // TODO fetch data
