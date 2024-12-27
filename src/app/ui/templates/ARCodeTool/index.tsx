@@ -1,11 +1,14 @@
 import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
 import Image from "next/image";
 import {useQRCode} from "next-qrcode";
+import axios from "axios";
 
 import {ARCode} from "@/app/types/arcode";
 import {UserSubscription} from "@/app/context/User.context";
 import {FlowQueue} from "@/app/context/Flow.context";
 import {Route} from "@/app/static";
+
+import {ARCHService} from "@/app/services";
 
 import {useBreakpointCheck, useForm, useNavigate, useSaveOnLeave} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
@@ -14,43 +17,57 @@ import {AuthModal, BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_ARCH from "@/assets/images/arch-logo.svg";
-import axios from "axios";
-import {ARCHService} from "@/app/services";
 
 
-type ARCodeToolForm = Omit<ARCode, 'file'> & { file: File | null };
+type ARCodeToolForm = Pick<ARCode, 'backgroundColor' | 'moduleColor' | 'name' | 'mediaId' | 'qrCodeUrl'> & {
+    file?: File | null
+};
 
-const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#000000', moduleColor: '#ffffff', name: '', file: null}
+const FORM_DEFAULT: ARCodeToolForm = {
+    mediaId: '',
+    backgroundColor: '#000000',
+    moduleColor: '#ffffff',
+    name: '',
+    file: null,
+    qrCodeUrl: '',
+}
 const FORM_COLOR_PICKERS = ['module', 'background'];
 const MAX_AR_CODE_WIDTH = 440;
 
 
 interface Props {
-    editID?: string;
+    arCode?: ARCode;
 }
 
 const ARCodeTool: FC<Props> = (props: Props) => {
-    const {editID} = props;
+    const {arCode} = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const {isLoggedIn, userData} = useUser();
     const [navigate] = useNavigate();
-    const {SVG} = useQRCode();
     const isSmScreen = useBreakpointCheck();
+    const {SVG} = useQRCode();
 
     const [qrSize, setQrSize] = useState(MAX_AR_CODE_WIDTH);
-    const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>({
-        ...FORM_DEFAULT,
-        id: editID ?? FORM_DEFAULT.id
-    });
+    const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>(
+        (arCode
+            ? {
+                mediaId: arCode.mediaId,
+                backgroundColor: arCode.backgroundColor,
+                moduleColor: arCode.moduleColor,
+                name: arCode.name,
+                qrCodeUrl: arCode.qrCodeUrl,
+            }
+            : FORM_DEFAULT)
+    );
 
     const processCode = useCallback(async () => {
         if (!userData || !formValue || !formValue.file)
             return;
 
         try {
-            if (!editID) {
+            if (!arCode) {
                 const {
                     payload: {id, url}
                 } = await ARCHService.postGenerateQR(formValue.moduleColor, formValue.backgroundColor);
@@ -85,10 +102,9 @@ const ARCodeTool: FC<Props> = (props: Props) => {
 
 
     useEffect(() => {
-        const arCodeParam = sessionStorage.getItem('ar-code');
-        if (arCodeParam)
-            setFormValueState(JSON.parse(arCodeParam) as ARCode);
-    }, [setFormValueState])
+        if (arCode)
+            setFormValueState(arCode);
+    }, [setFormValueState,arCode])
 
 
     useEffect(() => {
@@ -142,6 +158,8 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         )
     });
 
+
+    // Generate QR code as data URL
     return (
         <div
             className={`flex place-self-center my-auto p-[4rem] w-[min(90dvw,69rem)] bg-control-navy border-small border-control-gray rounded-small
@@ -149,7 +167,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
             <div
                 className={`mr-[min(6.4dvw,7.7rem)] cursor-pointer content-center place-items-center place-self-center   sm:mr-0 sm:mb-[5.3dvw]`}>
                 <SVG
-                    text={'https://arch.tern.ac/'}
+                    text={'https://arch.tern.ac/' + arCode?.mediaId}
                     options={{
                         width: qrSize,
                         margin: 1,
@@ -187,7 +205,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     classNameWrapper={'h-[min(13dvw,3.1rem)] font-bold text-content text-black bg-control-white rounded-full'}
                     required
                 >
-                    {editID ? formValue.file?.name : 'Upload Media'}
+                    {arCode ? formValue.file?.name : 'Upload Media'}
                 </Input>
                 {ColorPickers}
                 <Button

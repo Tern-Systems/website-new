@@ -87,7 +87,7 @@ interface IUserContext {
 }
 
 const TEMPLATE_USER :UserData= {
-    email: 'admin@gmail.com',
+    email: 'mkdave27@gmail.com',
     ternID: 'ternID',
     registrationDate: Date.now(),
     history: false,

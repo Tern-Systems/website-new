@@ -3,12 +3,15 @@ import axios, {AxiosRequestConfig} from "axios";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
+import {ARCode} from "@/app/types/arcode";
 
 
 interface IARCHService {
     postGenerateQR(moduleColor: string, backgroundColor: string): Promise<Res<{ url: string; id: string }>>;
 
     postSaveQR(email: string, name: string, mediaId: string, qrFile: File, video: File): Promise<Res>;
+
+    getListQRs(email: string): Promise<Res<ARCode[]>>;
 }
 
 class ARCHServiceImpl extends BaseService implements IARCHService {
@@ -35,7 +38,6 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
         }
     }
 
-
     async postSaveQR(email: string, name: string, mediaId: string, qrFile: File, video: File): Promise<Res> {
         this.log(this.postSaveQR.name);
 
@@ -58,7 +60,24 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
         try {
             await axios(config);
         } catch (error: unknown) {
-            console.log(error)
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
+
+    async getListQRs(email: string): Promise<Res<ARCode[]>> {
+        this.log(this.getListQRs.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: this._API + `list-qr-codes`,
+            params: {user: email},
+            withCredentials: true,
+        };
+
+        try {
+            const response = await axios(config);
+            return {payload: response.data.qrCodes};
+        } catch (error: unknown) {
             throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
