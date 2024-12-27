@@ -1,4 +1,4 @@
-import {FC, FormEvent, ReactElement, useState} from "react";
+import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
@@ -14,6 +14,10 @@ import {AuthenticationCode, BaseModal, MessageModal, ResetPasswordModal} from "@
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
+
+
+const INPUT_CN = `h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
+                    sm:text-primary placeholder:sm:text-primary`;
 
 
 type FormData = SignUpData;
@@ -37,25 +41,30 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 
+    useEffect(() => {
+        setWarningMsg(null)
+    }, [isLoginForm]);
+
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                const {payload: token} = await AuthService.postLogIn(formValue);
-                const {payload: userData} = await UserService.getUser(token);
+            return     modalCtx.openModal(
+                    <AuthenticationCode token={'token'} email={'userData.email'} phone={'primaryPhone.number'}/>,
+                    {darkenBg: true}
+                );
+
+                // const {payload: token} = await AuthService.postLogIn(formValue);
+                // const {payload: userData} = await UserService.getUser(token);
 
                 if (!userData.verification.phone) {
                     const primaryPhone: Phone | null | undefined = Object.values(userData.phone).find((phone) => phone?.isPrimary);
 
                     if (primaryPhone) {
-                        const AuthCodeModal = (
-                            <AuthenticationCode
-                                token={token}
-                                email={userData.email}
-                                phone={primaryPhone.number}
-                            />
+                        modalCtx.openModal(
+                            <AuthenticationCode token={token} email={userData.email} phone={primaryPhone.number}/>,
+                            {darkenBg: true}
                         );
-                        modalCtx.openModal(AuthCodeModal, {darkenBg: true});
                     } else
                         setWarningMsg('Error checking verified phone, please try to login again later');
                 } else {
@@ -80,92 +89,86 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         }
     }
 
-    const Content = (
-        <>
-            <div className={'flex flex-col items-center text-center'}>
-                <span>{info}</span>
-                <div className={isSmScreen ? 'hidden' : 'mb-[1.9rem]'}>
-                    <Image src={SVG_INSIGNIA} alt={'insignia'}
-                           className={`my-[1.25rem] w-[10rem] h-[9rem]`}/>
-                    {!isLoginForm ? <span className={'font-oxygen text-header'}>Tern</span> : null}
-                </div>
-            </div>
-            <form
-                className={'flex flex-col'}
-                onSubmit={handleFormSubmit}
-            >
-                <fieldset className={'flex flex-col gap-[0.95rem]'}>
-                    <Input
-                        placeholder={'Email'}
-                        value={formValue.email}
-                        onChange={setFormValue('email')}
-                        classNameWrapper={'flex-col [&]:items-start gap-[0.625rem]'}
-                        className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
-                                    sm:text-primary placeholder:sm:text-primary`}
-                        required
-                    >
-                        Please enter credentials to {!isLoginForm ? 'create your Tern account' : 'login'}
-                    </Input>
-                    <Input
-                        type={"password"}
-                        placeholder={'Password'}
-                        value={formValue.password}
-                        onChange={setFormValue('password')}
-                        className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
-                                    sm:text-primary placeholder:sm:text-primary`}
-                        required
-                    />
-                    <Input
-                        hidden={isLoginForm}
-                        type={"password"}
-                        placeholder={'Confirm Password'}
-                        value={formValue.passwordConfirm}
-                        onChange={setFormValue('passwordConfirm')}
-                        className={`h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
-                                    sm:text-primary placeholder:sm:text-primary`}
-                        required={!isLoginForm}
-                    />
-                </fieldset>
-                <span hidden={!isLoginForm} className={'mt-[0.62rem]'}>
-                    Forgot your password?&nbsp;
-                    <Button
-                        className={'text-blue-l0'}
-                        onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
-                    >
-                        Reset
-                    </Button>
-                </span>
-                {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
-                <Button className={`py-[0.92rem] mt-[1.56rem] text-content-small font-bold rounded-full
-                                    w-full place-self-center border-small border-control sm:w-[90%]
-                                        ${isLoginForm
-                    ? isSmScreen ? 'bg-control-blue text-primary' : 'text-gray bg-control-white'
-                    : isSmScreen ? 'border-b-small border-blue' : ''}`}
-                >
-                    {!isLoginForm ? 'Sign Up' : 'Login'}
-                </Button>
-            </form>
-            <div className={'mt-[1.55rem] text-center'}>
-                <span>
-                    {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
-                    <Button
-                        className={`text-blue-l0`}
-                        onClick={() => setLoginFormState(prevState => !prevState)}
-                    >
-                      {isLoginForm ? 'Sign Up' : 'Login'}
-                    </Button>
-                </span>
-            </div>
-        </>
-    );
-
     return (
         <BaseModal
             adaptSmScreen
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
-            classNameContent={'w-[26rem] sm:p-[1.25rem] sm:max-w-[21rem] sm:place-self-center'}
+            classNameContent={'w-[26rem]    sm:p-[1.25rem] sm:max-w-[21rem] sm:place-self-center    sm:landscape:w-full sm:landscape:max-w-full'}
         >
-            {Content}
+            <div>
+                <div className={'flex flex-col items-center text-center'}>
+                    <span>{info}</span>
+                    <div className={isSmScreen ? 'hidden' : 'mb-[1.9rem]'}>
+                        <Image src={SVG_INSIGNIA} alt={'insignia'} className={`my-[1.25rem] w-[10rem] h-[9rem]`}/>
+                        {isLoginForm ? null : <span className={'font-oxygen text-header'}>Tern</span>}
+                    </div>
+                </div>
+                <form onSubmit={handleFormSubmit}
+                      className={'flex flex-col     sm:landscape:flex-row sm:landscape:justify-between'}>
+                    <fieldset className={'flex flex-col     gap-[0.95rem] w-full    sm:landscape:max-w-fit sm:landscape:min-w-[21rem]'}>
+                        <Input
+                            placeholder={'Email'}
+                            value={formValue.email}
+                            onChange={setFormValue('email')}
+                            classNameWrapper={'flex-col [&]:items-start gap-[0.625rem]'}
+                            className={INPUT_CN}
+                            required
+                        >
+                            Please enter credentials to {!isLoginForm ? 'create your Tern account' : 'login'}
+                        </Input>
+                        <Input
+                            type={"password"}
+                            placeholder={'Password'}
+                            value={formValue.password}
+                            onChange={setFormValue('password')}
+                            className={INPUT_CN}
+                            required
+                        />
+                        <Input
+                            hidden={isLoginForm}
+                            type={"password"}
+                            placeholder={'Confirm Password'}
+                            value={formValue.passwordConfirm}
+                            onChange={setFormValue('passwordConfirm')}
+                            className={INPUT_CN}
+                            required={!isLoginForm}
+                        />
+                        <span hidden={!isLoginForm} className={'mt-[0.62rem]'}>
+                            Forgot your password?&nbsp;
+                            <Button
+                                className={'text-blue-l0'}
+                                onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
+                            >
+                                Reset
+                            </Button>
+                        </span>
+                        {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
+                    </fieldset>
+                    <div className={'flex flex-col  items-center    sm:landscape:w-[21rem]'}>
+                        <Button type={'submit'}
+                                className={`place-self-center   py-[0.92rem] mt-[1.56rem] w-full    rounded-full border-small border-control
+                                            font-bold text-content-small
+                                            sm:w-[90%]
+                            ${isLoginForm
+                                    ? (isSmScreen ? 'bg-control-blue text-primary' : 'text-gray bg-control-white')
+                                    : (isSmScreen ? 'border-b-small border-blue' : '')}`}
+                        >
+                            {!isLoginForm ? 'Sign Up' : 'Login'}
+                        </Button>
+                        <div className={'mt-[1.55rem] text-center'}>
+                            <span>
+                                {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
+                                <Button
+                                    className={`text-blue-l0`}
+                                    onClick={() => setLoginFormState(prevState => !prevState)}
+                                >
+                                  {isLoginForm ? 'Sign Up' : 'Login'}
+                                </Button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </BaseModal>
     );
 }
