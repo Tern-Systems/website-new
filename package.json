@@ -16,6 +16,7 @@
     "@types/qrcode": "^1.5.5",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
+    "classnames": "^2.5.1",
     "next": "^14.2.13",
     "next-qrcode": "^2.5.1",
     "qrcode": "^1.5.4",

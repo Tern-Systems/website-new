@@ -1,23 +1,23 @@
-import React, { FC, FormEvent, ReactElement, useCallback, useEffect, useState } from "react";
-import { ReactSVG } from "react-svg";
+import React, {FC, FormEvent, ReactElement, useCallback, useEffect, useState} from "react";
+import {ReactSVG} from "react-svg";
 import axios from "axios";
 
 // Commenting Out for Hasky Checker
 // import { UserData } from "@/app/context/User.context";
 // import { AuthService, UserService } from "@/app/services";
 
-import { useForm } from "@/app/hooks";
-import { useModal, useUser } from "@/app/context";
+import {useForm} from "@/app/hooks";
+import {useModal, useUser} from "@/app/context";
 
-import { BaseModal, MessageModal } from "@/app/ui/modals";
-import { Button, Input } from "@/app/ui/form";
+import {BaseModal, MessageModal} from "@/app/ui/modals";
+import {Button, Input} from "@/app/ui/form";
 
 import SVG_SAFE from '@/assets/images/safe.svg'
 
 
 type FormData = { code: string };
 
-const FORM_DEFAULT: FormData = { code: '' };
+const FORM_DEFAULT: FormData = {code: ''};
 
 interface Props {
     token: string;
@@ -27,7 +27,7 @@ interface Props {
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const { token, phone, email, isDisabling = false } = props;
+    const {token, phone, email, isDisabling = false} = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -117,14 +117,16 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                                     }
                                 };
                                 userCtx.setSession(updatedUserData, token);
-                                modalCtx.openModal(<MessageModal>Two-factor authentication has been disabled successfully</MessageModal>);
+                                modalCtx.openModal(<MessageModal>Two-factor authentication has been disabled
+                                    successfully</MessageModal>);
                             }
                         }
 
                     } catch (error: unknown) {
                         // TODO remove after testing
                         console.error("Error 2FA Turn off: ", error);
-                        modalCtx.openModal(<MessageModal>Failed to turn off 2FA. Please try again later.</MessageModal>);
+                        modalCtx.openModal(<MessageModal>Failed to turn off 2FA. Please try again
+                            later.</MessageModal>);
                     }
 
                 } else {
@@ -144,7 +146,6 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             } else {
                 modalCtx.openModal(<MessageModal>Unexpected error occurred. Please try again later.</MessageModal>);
             }
-
         }
     }
 
@@ -153,54 +154,59 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             adaptSmScreen
             title={isDisabling ? 'Disable Authentication' : 'Account Authentication'}
             className={`place-self-center mx-auto relative bg-control-gray border-small border-control`}
-            classNameContent={'max-w-[26rem] sm:max-w-[21rem] sm:place-self-center mt-[1.9rem]'}
+            classNameContent={'max-w-[26rem] sm:px-[1.25rem] sm:max-w-[21rem] sm:place-self-center mt-[1.9rem]  sm:landscape:max-w-full  sm:landscape:w-full'}
         >
-            <div className={'flex flex-col items-center mb-[1.875rem] text-center leading-[120%]'}>
-                <ReactSVG src={SVG_SAFE.src} className={'mb-[1.875rem] size-[9.9rem] sm:[&_path]:fill-gray'} />
-                <span>
-                    {
-                        isDisabling
-                            ? 'You are about to disable two-factor authentication for your account. To proceed, please confirm your identity by entering the authorization code sent to '
-                            : 'Please confirm your account by entering the authorization code sent to '} &nbsp;
-                    <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
-                </span>
-            </div>
-            <form
-                className={'flex flex-col'}
-                onSubmit={handleFormSubmit}
-            >
-                <Input
-                    type={'code'}
-                    name={'Code'}
-                    placeholder={'Code'}
-                    maxLength={6}
-                    value={formValue.code}
-                    onChange={(event) => {
-                        setFormValue('code')(event);
-                        setWarningMsg(null);
-                    }}
-                    classNameWrapper={'flex-col [&]:items-start'}
-                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
-                    required
-                />
-                {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
-                <Button className={`py-[0.37rem] mt-[1.88rem] text-small font-bold rounded-full
+            <div className={'sm:landscape:flex sm:landscape:justify-between'}>
+                <div className={'flex flex-col items-center mb-[1.875rem] text-center leading-[120%]'}>
+                    <ReactSVG src={SVG_SAFE.src} className={'mb-[1.875rem] size-[9.9rem] sm:[&_path]:fill-gray'}/>
+                </div>
+                <div className={'sm:landscape:max-w-[21rem]'}>
+                    <div
+                        className={'flex flex-col items-center mb-[1.875rem] text-center leading-[120%]    sm:landscape:text-left'}>
+                        <span>
+                            {isDisabling
+                                ? 'You are about to disable two-factor authentication for your account. To proceed, please confirm your identity by entering the authorization code sent to '
+                                : 'Please confirm your account by entering the authorization code sent to '}&nbsp;
+                            <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
+                        </span>
+                    </div>
+                    <form
+                        className={'flex flex-col'}
+                        onSubmit={handleFormSubmit}
+                    >
+                        <Input
+                            type={'code'}
+                            name={'Code'}
+                            placeholder={'Code'}
+                            maxLength={6}
+                            value={formValue.code}
+                            onChange={(event) => {
+                                setFormValue('code')(event);
+                                setWarningMsg(null);
+                            }}
+                            classNameWrapper={'flex-col [&]:items-start'}
+                            className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
+                            required
+                        />
+                        {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
+                        <Button className={`py-[0.37rem] mt-[1.88rem] text-small font-bold rounded-full
                                     w-[9.38563rem] place-self-center border-small border-control-blue
-                                    ${isDisabling
-                        ? 'border-[#F42200] text-[#F42200]'
-                        : 'border-control-blue'}`}>
-                    {isDisabling ? 'Disable' : 'Submit and Login'}
-                </Button>
-            </form>
-            <div className={'text-note mt-[2.51rem] w-[14.75rem]'}>
-                <span>
-                    It may take a minute to receive your code. Haven’t received it?&nbsp;
-                    <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendNewCode()}>Resend a new code.</span>
-                </span>
+                                    ${isDisabling ? 'border-[#F42200] text-[#F42200]' : 'border-control-blue'}`}
+                        >
+                            {isDisabling ? 'Disable' : 'Submit and Login'}
+                        </Button>
+                    </form>
+                    <div className={'text-small mt-[2.51rem] sm:portrait:w-[14.75rem]'}>
+                    <span>
+                        It may take a minute to receive your code. Haven’t received it?&nbsp;
+                        <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendNewCode()}>Resend a new code.</span>
+                    </span>
+                    </div>
+                </div>
             </div>
         </BaseModal>
     )
 }
 
 
-export { AuthenticationCode }
+export {AuthenticationCode}
