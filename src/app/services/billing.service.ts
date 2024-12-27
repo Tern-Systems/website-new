@@ -44,15 +44,14 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
     async postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
         this.log(this.postProcessPayment.name);
+        // TODO change body
         const cardDetails = {
             cardNumber: data.cardNumber,
             expiryDate: data.expirationDate,
             cardCode: data.cvc,
+            cardholderName: data.cardholderName.split(' '),
         };
-        const [firstName, lastName] = data.cardholderName.split(' ');
         const billingDetails = {
-            firstName,
-            lastName,
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,
             state: data.state,
@@ -62,7 +61,6 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         const selectedPlan = {
             planName: planType,
             price: planPrice,
-            duration: planDuration
         };
 
         const config: AxiosRequestConfig = {
@@ -76,6 +74,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                 cardDetails,
                 billingDetails,
                 selectedPlan,
+                duration: planDuration,
             }),
             withCredentials: true,
         };
