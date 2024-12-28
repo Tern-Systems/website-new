@@ -1,4 +1,4 @@
-import {FC, ReactElement} from "react";
+import {FC, ReactElement, useEffect} from "react";
 import {usePathname} from "next/navigation";
 import Image from "next/image";
 import cn from "classnames";
@@ -6,7 +6,7 @@ import cn from "classnames";
 import {LANGUAGE, Route} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
-import {useUser} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals";
 import {PageLink} from "@/app/ui/layout";
@@ -29,6 +29,17 @@ const MenuModal: FC<Props> = (props: Props) => {
 
     const route = usePathname();
     const userCtx = useUser();
+    const modalCtx = useModal();
+
+    useEffect(() => {
+        const handleClick = (event: MouseEvent) => {
+            if (!document.querySelector('#modal')?.contains(event.target as Node))
+                modalCtx.closeModal();
+        }
+        window.addEventListener('mousedown', handleClick);
+        return () => window.removeEventListener('mousedown', handleClick);
+        // eslint-disable-next-line
+    }, [modalCtx])
 
 
     const renderSubNav = (): ReactElement[] | undefined => subNavLinks?.map((link, idx, array) => {
@@ -55,6 +66,7 @@ const MenuModal: FC<Props> = (props: Props) => {
         );
     });
 
+    // Elements
     const NavLinks: ReactElement[] = navLinks.map((link: Route, idx, array) => {
         const isProfilePath = route?.includes(Route.Profile);
 

@@ -134,6 +134,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         }
     }
 
+
+    // Elements
     const NavLinks: ReactElement[] = navLinks.map((link: Route, idx) => {
         const isActive = getRouteRoot(route) === link;
         return (

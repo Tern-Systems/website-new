@@ -55,8 +55,8 @@ const Select: FC<Props> = (props: Props) => {
             if (isSelectExpanded && !ref.current?.contains(event.target as Node))
                 setSelectExpanded(false);
         }
-        window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
+        window.addEventListener('mousedown', handleClick);
+        return () => window.removeEventListener('mousedown', handleClick);
     }, [isSelectExpanded, setSelectExpanded])
 
     // Options list

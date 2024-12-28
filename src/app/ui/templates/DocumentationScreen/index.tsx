@@ -63,10 +63,10 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         setPiPModeState(sessionStorage.getItem('pip-mode-parent') !== null)
         setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null)
 
-        window.addEventListener('click', handleClick);
+        window.addEventListener('mousedown', handleClick);
         return () => {
             sessionStorage.removeItem('pip-mode-parent');
-            window.removeEventListener('click', handleClick);
+            window.removeEventListener('mousedown', handleClick);
         }
         //eslint-disable-next-line
     }, [])
