@@ -2,9 +2,9 @@ import React, { FC, FormEvent, ReactElement, useCallback, useEffect, useState } 
 import { ReactSVG } from "react-svg";
 import axios from "axios";
 
-import { UserData } from "@/app/context/User.context";
-
-import { AuthService, UserService } from "@/app/services";
+// Commenting Out for Hasky Checker
+// import { UserData } from "@/app/context/User.context";
+// import { AuthService, UserService } from "@/app/services";
 
 import { useForm } from "@/app/hooks";
 import { useModal, useUser } from "@/app/context";
@@ -29,8 +29,6 @@ interface Props {
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
     const { token, phone, email, isDisabling = false } = props;
 
-    console.log(email);
-
     const modalCtx = useModal();
     const userCtx = useUser();
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
@@ -47,7 +45,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 method: "POST",
                 url: `${process.env.NEXT_PUBLIC_API}send-otp`,
                 data: {
-                    userEmail: userCtx.userData?.email,
+                    userEmail: email,
                 },
                 withCredentials: true,
             })
@@ -88,7 +86,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 method: "POST",
                 url: `${process.env.NEXT_PUBLIC_API}2FA-verify-otp`,
                 data: {
-                    userEmail: userCtx.userData?.email,
+                    userEmail: email,
                     otp: formValue.code
                 },
                 withCredentials: true,
@@ -104,7 +102,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                             method: "POST",
                             url: `${process.env.NEXT_PUBLIC_API}2FA-turn-off`,
                             data: {
-                                userEmail: userCtx.userData?.email
+                                userEmail: email
                             },
                             withCredentials: true,
                         })
@@ -123,7 +121,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                             }
                         }
 
-                    } catch (error: any) {
+                    } catch (error: unknown) {
                         // TODO remove after testing
                         console.error("Error 2FA Turn off: ", error);
                         modalCtx.openModal(<MessageModal>Failed to turn off 2FA. Please try again later.</MessageModal>);
