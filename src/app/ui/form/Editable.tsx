@@ -193,9 +193,10 @@ const Editable: FC<Props> = (props: Props) => {
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
-                className={`text-note font-oxygen py-[0.3rem] px-[min(1.6dvw,0.75rem)] rounded-smallest1 bg-[#0C545C] box-content
-                            ${isDisabled ? '' : 'hover:bg-control-blue hover:text-primary'}
-                            ${classNameToggle} ${isEditState ? '[&]:bg-control-blue' : '[&]:bg-control-white-d0 text-gray'}`}
+                className={`text-note font-oxygen py-[0.3rem] px-[min(1.6dvw,0.75rem)] rounded-smallest1 box-content
+                    ${isToggleBlocked ? '!bg-[#0C545C] !text-[#ECF0F3] ' : ''}
+                    ${!isDisabled ? 'hover:bg-control-blue hover:text-primary' : ''}
+                    ${classNameToggle} ${isEditState ? '[&]:bg-control-blue' : '[&]:bg-control-white-d0 text-gray'}`}
             >
                 {
                     isToggleBlocked
@@ -356,6 +357,7 @@ const Editable: FC<Props> = (props: Props) => {
                             toggleType={'button'}
                             keepChildrenOnEdit
                             isSimpleSwitch
+                            isToggleBlocked={data.value.isEmailAdded}
                             data={{
                                 className: FA2_INPUT_CN,
                                 title: 'Add your Email as a two-factor authentication option',
@@ -371,6 +373,7 @@ const Editable: FC<Props> = (props: Props) => {
                             toggleType={'button'}
                             keepChildrenOnEdit
                             checkEmpty
+                            isToggleBlocked={data.value.isPhoneAdded}
                             data={{
                                 className: FA2_INPUT_CN,
                                 title: 'Add your Phone as a two-factor authentication option',
@@ -384,14 +387,27 @@ const Editable: FC<Props> = (props: Props) => {
                 </>
             );
             EditToggle = (
-                <Switch
-                    state={data.value.isPhoneAdded || data.value.isEmailAdded || isEditState}
-                    handleSwitch={async () => {
-                        await data.onSwitch?.();
-                        toggleEditState();
-                    }}
-                    className={'place-self-end self-start'}
-                />
+                // !data.value.isEmailAdded && // 2FA only work for phone
+                !data.value.isPhoneAdded ? (
+                    <Switch
+                        state={ 
+                            // data.value.isEmailAdded || //
+                            data.value.isPhoneAdded ||  isEditState}
+                        handleSwitch={async () => {
+                            if (!isEditState) {
+                                await data.onSwitch?.();
+                            }
+                            toggleEditState();
+                        }}
+                    />
+                ) : (
+                    <Switch
+                        state={data.value.isPhoneAdded || data.value.isEmailAdded}
+                        handleSwitch={async () => {
+                            await data.onSwitch?.();
+                        }}
+                    />
+                )
             );
             break;
         case 'phone':
