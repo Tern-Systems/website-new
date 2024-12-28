@@ -2,6 +2,7 @@
 
 import React, {FC, PropsWithChildren, useEffect, useState} from "react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import cn from "classnames";
 
 import {LAYOUT, Route} from "@/app/static";
 
@@ -66,22 +67,29 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <Header profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]}/>
                 <div
                     id={'content'}
-                    className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
-                                bg-content bg-cover bg-no-repeat bg-fixed text-center p-[min(5.3dvw,var(--p-small))] text-[min(2.6dvw,1rem)]
-                                sm:pt-[3.1rem]`}
+                    className={`relative flex flex-col flex-grow w-full justify-center items-center 
+                                bg-content bg-cover bg-no-repeat bg-fixed text-center
+                                overflow-y-scroll p-[min(5.3dvw,var(--p-small))] text-[min(2.6dvw,1rem)]
+                                sm:portrait:pt-[3.1rem]
+                                sm:landscape:p-[2.5dvw]`}
                 >
                     <div
-                        className={`h-full w-full flex flex-col
-                                    ${modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100')}
-                                    ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
+                        className={cn(
+                            `h-full w-full flex flex-col
+                            sm:landscape:x-[overflow-scroll]`,
+                            layoutCtx.isFade ? styles.fadeOut : styles.fadeIn,
+                            modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'),
+                        )}
+                    >
                         {children}
                         <ScrollEnd/>
                     </div>
                 </div>
                 <footer
-                    className={`flex w-full justify-between     px-[min(5.3dvw,var(--p-small))] py-[min(5.3dvw,1rem)]    border-t-small border-section
-                                sm:flex-col sm:items-center sm:gap-y-[0.95rem]  sm:text-center
-                                sm:landscape:flex-row   sm:landscape:p-[2.5dvw]`}>
+                    className={`flex w-full justify-between border-t-small border-section
+                                px-[min(5.3dvw,var(--p-small))] py-[min(5.3dvw,1rem)]
+                                sm:x-[flex-col,items-center,gap-y-[0.95rem],text-center]
+                                sm:landscape:x-[flex-row,p-[2.4dvw]]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
                         <PageLink href={Route.Cookies}/>
