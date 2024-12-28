@@ -37,7 +37,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
 
     return (
         <div className={`relative shadow-2xl ${className}`}>
-            <h2 className={`mb-[min(10.7dvw,1.25rem)] font-bold text-[min(7.2dvw,3rem)] flex gap-[0.92rem] text-nowrap items-center`}>
+            <h2 className={`mb-[min(10.7dvw,1.25rem)] font-bold text-header-l flex gap-[0.92rem] text-nowrap items-center`}>
                 <Image src={SVG_TERN_LOGO} alt={'tern-logo'} className={'size-[2.48rem] sm:hidden'}/>
                 Tern Systems, LLC
             </h2>
@@ -47,7 +47,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
                     <Image src={SVG_DOCUMENT} alt={'document'}
                            className={'w-[min(24.7dvw,5.4rem)] place-self-center'}/>
                     <span
-                        className={'block text-content my-[min(4dvw,1.5rem)]'}>Invoice {invoice?.status ?? '--'}</span>
+                        className={'block text-content my-[--1hdr]'}>Invoice {invoice?.status ?? '--'}</span>
                     <span className={'block text-[3rem]'}>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
                 </div>
 
@@ -63,7 +63,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
                     <span className={`capitalize text-right`}>{card}</span>
                 </div>
 
-                <div className={`text-content font-bold mt-[min(8dvw,2.5rem)] flex gap-x-[0.75rem] justify-center items-center
+                <div className={`text-content font-bold mt-[--2hdr] flex gap-x-[0.75rem] justify-center items-center
                                     sm:flex-col sm:gap-y-[4dvw]`}>
                     <Button
                         icon={'download'}

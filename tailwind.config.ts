@@ -66,7 +66,8 @@ const config: Config = {
                 content: 'var(--fz-content)',
                 'content-small': 'var(--fz-content-small)',
                 default: 'var(--fz-default)',
-                header: 'var(--fz-header)'
+                header: 'var(--fz-header)',
+                'header-l': 'var(--fz-header-l)',
             },
             keyframes: {
                 insignia: {

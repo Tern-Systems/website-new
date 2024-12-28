@@ -26,7 +26,7 @@ import SVG_PENCIL from "@/assets/images/icons/edit.svg";
 import {CardData} from "@/app/types/billing";
 import {SavedCard} from "@/app/types/billing";
 
-const Hr = <hr className={'border-control-white-d0 mt-[min(2.7dvw,0.81rem)] mb-[min(2.7dvw,1.57rem)]'}/>;
+const Hr = <hr className={'border-control-white-d0 mt-[--s-small] mb-[--s-normal]'}/>;
 
 const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
     {
@@ -185,7 +185,7 @@ function ManageSubscriptionsPage() {
 
         let SavedCards = selectedPlan.savedCards.map((method, idx) => (
             <li key={method.nickName + idx} className={'flex [&&_path]:fill-gray items-center'}>
-                <span className={'flex gap-x-[min(1.6dvw,0.6rem)]'}>
+                <span className={'flex gap-x-[--s-d2l-smallest]'}>
                     <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem]'}/>
                     <span className={'text-content'}>{method.nickName}</span>
                     <span className={`flex items-center bg-control-white-d0 rounded-smallest1 px-[min(1.3dvw,1rem)] h-[min(3.5dvw,1.3rem)]
@@ -216,7 +216,7 @@ function ManageSubscriptionsPage() {
             renewDate = new Date(new Date(billingDate).setFullYear(billingDate.getFullYear() + 1));
 
 
-        const Hr = <hr className={'border-control-white-d0 mt-[min(2.7dvw,0.81rem)] mb-[min(5.3dvw,1.2rem)]'}/>;
+        const Hr = <hr className={'border-control-white-d0 mt-[--s-small] mb-[min(5.3dvw,1.2rem)]'}/>;
 
         return (
             <div className={'grid gap-[min(13.3dvw,10rem)] grid-cols-2 mt-[min(13.3dvw,5.4rem)] sm:grid-cols-1'}>
@@ -224,7 +224,7 @@ function ManageSubscriptionsPage() {
                     <div className={'flex justify-between items-center'}>
                         <h2 className={'text-[min(3.7dvw,var(--fz-header-))] font-bold'}>Current Plan</h2>
                         <Button
-                            className={'border-small border-control-white-d0 px-[min(2.4dvw,1rem)] text-small h-[min(4.3dvw,1.44rem)] rounded-full font-bold'}
+                            className={'border-small border-control-white-d0 px-[--1drs] text-small h-[--h-control] rounded-full font-bold'}
                             onClick={() => modalCtx.openModal(<CancelModal/>, {darkenBg: true})}
                         >
                             Cancel Plan
@@ -232,7 +232,7 @@ function ManageSubscriptionsPage() {
                     </div>
                     {Hr}
                     <div
-                        className={'grid grid-rows-2 grid-cols-[max-content,1fr] gap-y-[min(2.7dvw,0.93rem)] mb-[min(2.7dvw,0.93rem)] text-[min(3.2dvw,1rem)]'}>
+                        className={'grid grid-rows-2 grid-cols-[max-content,1fr] gap-y-[--1dr] mb-[--1dr] text-[--1drl]'}>
                         <span>ARCH {selectedPlan.plan.type} Plan</span>
                         <span className={'text-[min(2.7dvw,var(--fz-content-small-))] text-right'}>
                             Your plan renews on {formatDate(renewDate)}
@@ -251,7 +251,7 @@ function ManageSubscriptionsPage() {
                     </Button>
                     <div
                         className={`grid grid-rows-5 grid-cols-[1fr,min-content] bg-control-white-d0 w-[66%] max-w-[26rem] text-[min(2.1dvw,1rem)]
-                                    rounded-[min(2.4dvw,1.44rem)] px-[min(2.7dvw,1.56rem)] py-[min(2.7dvw,1.22rem)] gap-y-[min(2.7dvw,1rem)] mt-[min(2.7dvw,1rem)]
+                                    rounded-[min(2.4dvw,1.44rem)] px-[--s-normal] py-[min(2.7dvw,1.22rem)] gap-y-[min(2.7dvw,1rem)] mt-[min(2.7dvw,1rem)]
                                     ${isDetailsExpanded ? '' : 'hidden'}`}>
                         <span>ARCH {selectedPlan.plan.type} Subscription</span>
                         <span className={'text-right'}>${selectedPlan.plan.priceUSD.toFixed(2)}</span>
@@ -320,9 +320,9 @@ function ManageSubscriptionsPage() {
                     value={selectedSubscriptionIdx.toString()}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setSelectedSubscriptionsIdx(+value)}
-                    classNameWrapper={'flex-col gap-y-[min(2.7dvw,0.94rem)]'}
+                    classNameWrapper={'flex-col gap-y-[--1dr]'}
                     classNameOption={'sm:h-[min(5.9dvw,3.25rem)]'}
-                    className={`px-[min(1.6dvw,0.62rem)] w-full py-[min(2dvw,0.8rem)] h-[min(5.9dvw,3.25rem)] border-small rounded-smallest border-control-white-d0`}
+                    className={`px-[--s-d2l-smallest] w-full py-[min(2dvw,0.8rem)] h-[min(5.9dvw,3.25rem)] border-small rounded-smallest border-control-white-d0`}
                     classNameLabel={'font-bold place-self-start'}
                 >
                     Choose Subscription to Manage
@@ -355,14 +355,14 @@ function ManageSubscriptionsPage() {
             <div className={`flex justify-between items-center mt-[90px]`}>
                 <h2 className={'text-header font-bold text-left'}>Invoice History</h2>
                 <Button
-                    className={'border-small border-control-white-d0 px-[min(2.1dvw,1rem)] text-small h-[min(4.3dvw,1.44rem)] rounded-full font-bold'}
+                    className={'border-small border-control-white-d0 px-[min(2.1dvw,1rem)] text-small h-[--h-control] rounded-full font-bold'}
                     onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
                 >
                     Export
                 </Button>
             </div>
             {Hr}
-            <div className={'overflow-hidden rounded-small px-[min(4dvw,var(--p-small))] max-h-[27rem]'}>
+            <div className={'overflow-hidden rounded-small px-[--2dr] max-h-[27rem]'}>
                 <div className={`overflow-y-scroll h-full text-[min(3.2dvw,var(--fz-content-))] capitalize`}>
                     <table className={'w-full'} cellPadding={'1.25'}>
                         <tbody>{InvoiceRows}</tbody>

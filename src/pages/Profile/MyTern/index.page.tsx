@@ -94,9 +94,9 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     return (
         <div
             className={`bg-control-gray rounded-smallest
-                        p-[min(4dvw,var(--p-small))] max-h-[20rem]
+                        p-[--2dr] max-h-[20rem]
                         sm:max-h-[15rem]
-                        sm:landscape:x-[p-[1.9dvw]]`}>
+                        sm:landscape:x-[p-[--sy-sl]]`}>
             <h3 className={`font-bold
                             pl-[min(3.6dvw,0.81rem)] text-header 
                             sm:landscape:text-small`}
@@ -104,7 +104,7 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
                 {table.title}
             </h3>
             <hr className={`border-control-white-d0
-                            mt-[min(2.7dvw,1.25rem)] mb-[min(1.35dvw,1.25rem)]
+                            mt-[--1qdrs] mb-[min(1.35dvw,1.25rem)]
                             sm:landscape:x-[mt-[1.2dvw],mb-[0.6dvw]]`}/>
             <div className={'overflow-y-scroll max-h-[70%] sm:max-h-[83%]'}>
                 <table className={`w-full text-content`}>
@@ -218,7 +218,7 @@ const MyTernPage: FC = () => {
                     {renderSinceDate(userCtx.userData?.registrationDate)}
                 </div>
                 <div className={`flex flex-wrap
-                                gap-[min(2.7dvw,1.25rem)] my-[min(5.4dvw,1.9rem)]
+                                gap-[--1qdrs] my-[min(5.4dvw,1.9rem)]
                                 sm:landscape:x-[col-start-1,my-[1.3dvw],gap-[1.2dvw]]`}
                 >
                     {NavBtns}

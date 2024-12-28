@@ -6,7 +6,7 @@ import {BaseModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
 
-const BTN_CN = 'h-[min(4.3dvw,1.45rem)] px-[min(2.4dvw,1rem)] rounded-full';
+const BTN_CN = 'h-[--h-control] px-[--1drs] rounded-full';
 
 
 interface Props {
@@ -25,7 +25,7 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
             className={'w-[min(90dvw,30rem)] border-control-white border-small text-center'}
         >
             <span>Do you want to save your changes before returning to the previous page?</span>
-            <span className={'flex mt-[min(2.6dvw,1.25rem)] gap-[min(1.1dvw,0.625rem)] text-small font-bold justify-center'}>
+            <span className={'flex mt-[--1qdrs] gap-[min(1.1dvw,0.625rem)] text-small font-bold justify-center'}>
                 <Button
                     className={`bg-control-white text-gray ${BTN_CN}`}
                     onClick={() => onSave()}

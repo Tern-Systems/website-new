@@ -204,13 +204,13 @@ const ProfilePage: FC = () => {
                     {SectionsNav}
                 </ul>
             </aside>
-            <div className={'flex-grow flex flex-col gap-y-[min(1.3dvw,0.62rem)] ml-[10re)] sm:ml-0'}>
+            <div className={'flex-grow flex flex-col gap-y-[--s-dl-smallest] ml-[10re)] sm:ml-0'}>
                 <Collapsible title={SECTIONS[0]} icon={'key'} className={COLLAPSIBLE_GAP_Y}>
                     <span className={LEFT_COL_CN}>Profile Picture</span>
                     <Input
                         type={'file'}
                         classNameWrapper={`bg-control-white text-gray px-[min(3dvw,1rem)] w-fit font-bold rounded-full
-                                            h-[min(6.1dvw,1.43rem)] text-small box-content`}
+                                            h-[--h-control-dl] text-small box-content`}
                     >
                         Upload Media
                     </Input>
@@ -234,7 +234,7 @@ const ProfilePage: FC = () => {
                     <Editable
                         type={'password'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
-                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + ' gap-y-[min(1.3dvw,0.94rem)]'}
+                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + ' gap-y-[--1dr]'}
                         data={{
                             className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
                             title: 'Update password',

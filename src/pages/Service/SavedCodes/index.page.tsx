@@ -116,7 +116,7 @@ const SavedCodesPage: FC = () => {
         return (
             <div key={arCode.name + idx} id={'qr-' + arCode.mediaId + idx} className={'place-items-center'}>
                 <div
-                    className={'flex cursor-pointer mb-[min(2.7dvw,0.94rem)] justify-center'}>
+                    className={'flex cursor-pointer mb-[--1dr] justify-center'}>
                     <SVG
                         text={'https://arch.tern.ac/' + arCode?.mediaId}
                         options={{

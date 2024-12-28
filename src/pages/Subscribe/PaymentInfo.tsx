@@ -17,7 +17,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
         ? (subscription?.priceUSD * (subscription?.recurrency === 'annual' ? 12 : 1)).toFixed(2)
         : undefined;
 
-    const Hr = <hr className={'my-[min(4dvw,1.5rem)] border-control-gray-l0'}/>;
+    const Hr = <hr className={'my-[--1hdr] border-control-gray-l0'}/>;
 
     return (
         <div

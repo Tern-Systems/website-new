@@ -71,7 +71,7 @@ const FORM_DATA_DEFAULT: CardData = {
 const SM_ROW_START = 'sm:row-start-auto';
 const FIELDSET_CN = '[&&>*]:sm:col-start-1';
 const LEGEND_CN = `sm:mt-[2.7dvw] sm:[&&]:mb-0 ${SM_ROW_START}`;
-const SELECT_CN = 'px-[min(1.6dvw,0.62rem)] py-[min(1.1dvw,0.8rem) h-[min(5.6dvw,3.25rem)] bg-white';
+const SELECT_CN = 'px-[--s-d2l-smallest] py-[min(--s-d-small) h-[min(5.6dvw,3.25rem)] bg-white';
 const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
 
 
@@ -137,7 +137,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     return (
         <div className={'mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)]'}>
-            <h1 className={'text-[min(7.2dvw,3rem)] font-bold mb-[min(5.3dvw,4.15rem)]'}>
+            <h1 className={'text-header-l font-bold mb-[min(5.3dvw,4.15rem)]'}>
                 {isPaymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
             </h1>
             <form className={`${styles.form} sm:[&&]:grid-cols-2`} onSubmit={handleFormSubmit}>
@@ -205,7 +205,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             onChange={setFormData('isDefault')}
                             classNameWrapper={`flex-row-reverse place-self-start [&&]:mb-[1rem] sm:[&&]:mb-0 sm:[&&]:mt-[1.3dvw]`}
                             classNameLabel={'text-small [&&]:mb-0'}
-                            className={'max-w-[min(3.2dvw,1rem)] max-h-[min(3.2dvw,1rem)]'}
+                            className={'max-w-[--1drl] max-h-[--1drl]'}
                             required
                         >
                             Set as preferred payment method

@@ -16,6 +16,9 @@ import "@/app/globals.css";
 import styles from "@/app/common.module.css";
 
 
+const CONTENT_P_CN = 'p-[min(5.3dvw,var(--s-default))]';
+
+
 const Layout: FC<PropsWithChildren> = ({children}) => {
     const route = usePathname();
     const modalCtx = useModal();
@@ -49,7 +52,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const Layout = route === Route.Start
         ? (
             <div
-                className={`mt-auto mb-[--p-small] text-content font-oxygen text-center`}
+                className={`mt-auto mb-[--s-default] text-content font-oxygen text-center`}
             >
                 <span
                     onClick={() => {
@@ -69,8 +72,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     id={'content'}
                     className={`relative flex flex-col flex-grow w-full justify-center items-center 
                                 bg-content bg-cover bg-no-repeat bg-fixed text-center
-                                overflow-y-scroll p-[min(5.3dvw,var(--p-small))] text-[min(2.6dvw,1rem)]
-                                sm:portrait:pt-[3.1rem]
+                                overflow-y-scroll ${CONTENT_P_CN} text-[min(2.6dvw,1rem)]
+                                sm:portrait:pt-[13.3dvw]
                                 sm:landscape:p-[2.5dvw]`}
                 >
                     <div
@@ -87,7 +90,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 </div>
                 <footer
                     className={`flex w-full justify-between border-t-small border-section
-                                px-[min(5.3dvw,var(--p-small))] py-[min(5.3dvw,1rem)]
+                                ${CONTENT_P_CN} py-[min(5.3dvw,1rem)]
                                 sm:x-[flex-col,items-center,gap-y-[0.95rem],text-center]
                                 sm:landscape:x-[flex-row,p-[2.4dvw]]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>

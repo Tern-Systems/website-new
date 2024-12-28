@@ -23,7 +23,7 @@ const AboutPage: FC = () => (
         </div>
         <PageLink
             href={Route.Credo}
-            className={`rounded-full border-small border-control-gray-l0 px-[min(2.5dvw,0.91rem)] h-[min(4.3dvw,1.44rem)] w-fit
+            className={`rounded-full border-small border-control-gray-l0 px-[--1dr] h-[--h-control] w-fit
                         mt-[min(4dvw,2.56rem)] text-small`}
         />
     </div>

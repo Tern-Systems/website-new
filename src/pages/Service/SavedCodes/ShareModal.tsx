@@ -51,7 +51,7 @@ const ShareModal: FC<Props> = (props: Props) => {
             target={'_blank'}
             className={'inline-block [&_path]:bg-control-white'}
         >
-            <Image src={icon.svg} alt={icon.href + idx} className={`w-[min(8dvw,2.5rem)] rounded-full`}/>
+            <Image src={icon.svg} alt={icon.href + idx} className={`w-[--2hdr] rounded-full`}/>
         </a>
     ));
 
@@ -75,8 +75,8 @@ const ShareModal: FC<Props> = (props: Props) => {
                     className={'w-[min(2.8dvw,0.875rem)] rotate-90 cursor-pointer'}
                     onClick={() => setIconStartIdx(prevState => prevState > 0 ? prevState - 1 : prevState)}
                 />
-                <span className={`inline-block h-[min(8dvw,2.5rem)] w-[100%]`}>
-                    <span className={'flex gap-x-[min(2.7dvw,0.81rem)] px-[min(1dvw,0.63rem)]'}>
+                <span className={`inline-block h-[--2hdr] w-[100%]`}>
+                    <span className={'flex gap-x-[--s-small] px-[min(1dvw,0.63rem)]'}>
                         {Icons}
                     </span>
                 </span>
@@ -90,7 +90,7 @@ const ShareModal: FC<Props> = (props: Props) => {
                 />
             </span>
             <span
-                className={`px-[min(4dvw,0.56rem)] flex place-items-center mt-[min(4dvw,1.56rem)] h-[min(6.1dvw,1.6rem)] rounded-smallest
+                className={`px-[min(4dvw,0.56rem)] flex place-items-center mt-[--1hdr] h-[min(6.1dvw,1.6rem)] rounded-smallest
                             w-[90%] max-w-[20rem] overflow-ellipsis border-small border-control-grayL1 bg-control-gray-l0`}>
                 <Image
                     src={SVG_COPY}

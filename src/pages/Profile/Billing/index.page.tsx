@@ -58,7 +58,7 @@ const BillingPage: FC = () => {
         const renderTd = (title: string | number, type?: 'first' | 'last') => {
             const cn = type === undefined
                 ? 'sm:hidden'
-                : (type === 'first' ? `rounded-l-[0.56rem] px-[min(1.6dvw,0.75rem)]` : `rounded-r-[0.56rem] px-[min(1.6dvw,0.75rem)]`);
+                : `rounded-l-[0.56rem] px-[--s-dl-small]`;
             return (
                 <td className={`overflow-ellipsis overflow-hidden ${cn}`}>
                     <PageLink href={Route.Invoice} className={'hover:transform-none w-full'}>
@@ -85,16 +85,16 @@ const BillingPage: FC = () => {
 
     return (
         <div className={'place-self-center my-auto text-left w-[min(100%,90rem)]'}>
-            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.25rem)] block sm:mb-0`}>
+            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[--1qdr] block sm:mb-0`}>
                 Order Information
             </h1>
             <div className={'sm:overflow-y-scroll sm:max-h-[65dvh]'}>
                 <div
-                    className={'bg-control-gray overflow-hidden rounded-small p-[min(4dvw,var(--p-small))] h-[26.875rem]'}>
+                    className={'bg-control-gray overflow-hidden rounded-small p-[--2dr] h-[26.875rem]'}>
                     <div
                         className={`overflow-y-scroll h-full text-content capitalize`}>
                         <table className={'w-full'}>
-                            <thead className={'text-[min(2.7dvw,var(--fz-header-))] [&_td]:pb-[min(1.3dvw,0.94rem)]'}>
+                            <thead className={'text-[min(2.7dvw,var(--fz-header-))] [&_td]:pb-[--1dr]'}>
                             <tr>
                                 <td>Order No.</td>
                                 <td className={'sm:hidden'}>Date</td>

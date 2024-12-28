@@ -98,7 +98,7 @@ const MenuModal: FC<Props> = (props: Props) => {
 
     return (
         <BaseModal adaptSmScreen className={'ml-auto w-full    [&]:text-content-small     sm:landscape:max-w-[46dvw]'}>
-            <ul className={`flex flex-col  gap-x-[--p-small]   cursor-pointer`}>
+            <ul className={`flex flex-col  gap-x-[--s-default]   cursor-pointer`}>
                 {NavLinks}
             </ul>
             {/*TODO add language support*/}

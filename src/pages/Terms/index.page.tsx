@@ -77,7 +77,7 @@ Phone: <a href='tel:19735908753' target="_blank" class="underline">+1 (973) 590-
 
 const TermsPage = () => (
     <div className={`${styles.highlight} max-w-[112rem] max-h-[min(68dvh,42rem)]`}>
-        <h1 className={'mb-[min(4dvw,2.3rem)]'}>Terms & Conditions</h1>
+        <h1 className={'mb-[--2tdr]'}>Terms & Conditions</h1>
         <span className={'overflow-y-scroll [&&]:text-header'}>
             <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'font-neo whitespace-pre-line'}/>
         </span>

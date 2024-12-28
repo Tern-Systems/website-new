@@ -42,7 +42,7 @@ const FORM_DEFAULT: SubscribeData = {
 }
 
 
-const SELECT_CN = 'px-[min(2dvw,0.75rem)] py-[min(1dvw,0.8rem)] rounded-smallest border-small';
+const SELECT_CN = 'px-[min(2dvw,0.75rem)] py-[min(--s-d-small)] rounded-smallest border-small';
 
 
 interface Props {
@@ -130,7 +130,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
-                    className={`${SELECT_CN} mb-[min(1.3dvw,0.94rem)]`}
+                    className={`${SELECT_CN} mb-[--1dr]`}
                     required
                 />
                 <Input
@@ -287,7 +287,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         onChange={setFormData('acceptTerms')}
                         classNameWrapper={'flex-row-reverse mt-[min(4dvw,1.46rem)] [&&]:items-start gap-[0.47rem]'}
                         classNameLabel={'flex'}
-                        className={'max-w-[min(3.2dvw,1rem)] max-h-[min(3.2dvw,1rem)]'}
+                        className={'max-w-[--1drl] max-h-[--1drl]'}
                         required
                     >
                         <span className={'text-gray text-small leading-normal'}>

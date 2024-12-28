@@ -53,7 +53,7 @@ const FAQsPage: FC = () => {
 
     return (
         <div className={'mt-[3rem] min-w-[75%] text-left mx-auto sm:mt-0'}>
-            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.25rem)] block sm:mb-0 text-left md:hidden lg:hidden`}>
+            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[--1qdr] block sm:mb-0 text-left md:hidden lg:hidden`}>
                 Help & FAQs
             </h1>
             <ul className={'sm:overflow-y-scroll sm:max-h-[65dvh] sm:max-w-[90dvw]'}>{FAQsList}</ul>

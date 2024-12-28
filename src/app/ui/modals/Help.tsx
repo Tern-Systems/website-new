@@ -19,7 +19,7 @@ const HelpModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal title={Contacts[type].title} classNameContent={'w-[min(80dvw,26rem)]'}>
             <div className={'flex flex-col items-center text-content-small'}>
-                <span className={'mb-[min(4dvw,1.25rem)]'}>
+                <span className={'mb-[--1qdr]'}>
                     Email: <a href={`mailto:${Contacts[type].email}`} target={'_blank'}>{Contacts[type].email}</a>
                 </span>
                 <span>

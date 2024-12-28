@@ -23,7 +23,7 @@ const ICON: Record<Icon, string> = {
 }
 
 
-const WRAPPER_CN = 'p-[min(4dvw,var(--p-small))] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center';
+const WRAPPER_CN = 'p-[--2dr] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center';
 
 
 interface Props extends PropsWithChildren {
@@ -79,7 +79,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                     src={CollapseIcon}
                     alt={'plus-minus'}
                     onClick={() => handleToggle()}
-                    className={`absolute size-[min(3.5dvw,1.8rem)] top-[min(4dvw,var(--p-small))] right-[min(4dvw,var(--p-small))]
+                    className={`absolute size-[min(3.5dvw,1.8rem)] top-[--2dr] right-[--2dr]
                                 ${collapseCN} md:hidden lg:hidden`}
                 />
                 {Content}
@@ -107,7 +107,7 @@ const Collapsible: FC<Props> = (props: Props) => {
             </div>
             <hr className={`scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)] ${isChevron ? 'hidden' : ''}`}/>
             <div className={`grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] gap-[min(4dvw,0.56rem)] text-left
-                            items-start text-[min(3.2dvw,1rem)] whitespace-pre-wrap ${className}
+                            items-start text-[--1drl] whitespace-pre-wrap ${className}
                             ${isExpandedFinal ? '' : 'hidden'}`}>
                 {children}
             </div>
