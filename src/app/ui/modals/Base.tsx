@@ -69,8 +69,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 className={`${isSmRulesApplied
                     ? 'bg-control-white-d0 text-gray w-dvw h-dvh z-50'
                     : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--2dr]'}
-                            ${className} pointer-events-auto
-                            sm:landscape:p-[--1drs]`}>
+                            ${className} pointer-events-auto`}>
                 <div
                     className={cn(`relative flex justify-between font-oxygen`, {['h-[4.3rem] p-[1.25rem]']: isSmRulesApplied})}>
                     {isSmRulesApplied ? null : Heading}
