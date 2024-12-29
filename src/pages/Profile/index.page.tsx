@@ -76,7 +76,7 @@ const ProfilePage: FC = () => {
         }
         window.addEventListener('wheel', handleScroll);
         return () => window.removeEventListener('wheel', handleScroll);
-    }, [])
+    }, [isSmScreen])
 
     if (!userData || !isLoggedIn)
         return null;
