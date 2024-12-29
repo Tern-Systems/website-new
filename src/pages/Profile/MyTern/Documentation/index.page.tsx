@@ -53,25 +53,36 @@ const DocumentationPage: FC = () => {
         <li key={link.text + idx}>
             <PageLink
                 href={link.route}
-                className={`bg-control-gray rounded-[min(2.4dvw,1rem)] flex-col justify-between min-h-[9rem] h-[min(38.4dvw,16rem)]
-                            w-full px-[min(4dvw,1.25rem)] py-[min(4dvw,var(--p-small))] [&]:items-start`}
+                className={`flex-col justify-between [&]:items-start bg-control-gray min-h-[9rem] w-full  
+                           px-[--1qdr] py-[--2dr] h-[min(38dvw,16rem)] rounded-[--1drs]
+                           sm:landscape:x-[p-[--sy-sl],h-[13dvw],text-small]`}
             >
-                <span className={'text-header] font-bold block'}>{link.title}</span>
-                <span className={'text-[min(3.7dvw,1rem)]'}>{link.text}</span>
-                <ReactSVG src={SVG_ARROW.src}
-                          className={'[&_path]:fill-[--bg-control-blue] rotate-180 [&_*]:size-[min(3.7dvw,1.3rem)]'}/>
+                <span className={'font-bold block   text-header sm:landscape:text-small'}>{link.title}</span>
+                <span>{link.text}</span>
+                <ReactSVG
+                    src={SVG_ARROW.src}
+                          className={`[&_path]:fill-[--bg-control-blue] rotate-180
+                                    [&_*]:size-[min(3.7dvw,1.3rem)]
+                                    sm:landscape:[&_*]:size-[1.75dvw]`}
+                />
             </PageLink>
         </li>
     ));
 
     return (
         <div className={'text-left m-auto place-items-center'}>
-            <div className={'sm:overflow-y-hidden sm:max-h-full'}>
-                <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.9rem)] block sm:mb-0`}>
+            <div className={'sm:x-[overflow-y-hidden,max-h-full]'}>
+                <h1 className={`font-bold block
+                                pb-[min(4dvw,1.9rem)] text-section-header 
+                                sm:landscape:x-[pb-[2.4dvw],text-content]`}>
                     Documentation
                 </h1>
-                <ul className={`grid grid-cols-[repeat(3,30rem)] gap-[0.12rem]
-                                sm:grid-cols-1 sm:overflow-y-scroll sm:max-h-[65dvh]`}>
+                <ul className={`grid gap-[0.12rem]
+                                grid-cols-[repeat(3,30rem)] text-[min(3.7dvw,1rem)]
+                                sm:x-[overflow-y-scroll]
+                                sm:portrait:x-[grid-cols-1,max-h-[65dvh]]
+                                sm:landscape:x-[grid-cols-2,text-small]`}
+                >
                     {Links}
                 </ul>
             </div>

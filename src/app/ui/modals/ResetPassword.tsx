@@ -44,7 +44,8 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 adaptSmScreen
                 title={'Email Sent'}
                 className={'w-[30rem] border-control-white border-small text-center'}
-                classNameContent={'sm:mt-[1.9rem] sm:max-w-[21rem] sm:place-self-center sm:text-left'}
+                classNameContent={`sm:px-[1.25rem] sm:mt-[1.9rem] sm:max-w-[21rem] sm:place-self-center sm:text-left
+                                    sm:landscape:place-self-start`}
             >
                 <Image src={SVG_INSIGNIA} alt={'insignia'}
                        className={`mb-[1.25rem] w-[10rem] h-[9rem] place-self-center ${isSmScreen ? 'hidden' : ''}`}/>
@@ -120,7 +121,8 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
             isSimple={!isSmScreen}
             className={`place-self-center mx-auto relative border-small border-control w-[30rem] lg:bg-control-gray
                         md:bg-control-gray sm:border-none`}
-            classNameContent={'py-[1.5rem] pl-[1.7rem] pr-0 sm:px-[1.25rem] sm:max-w-[23rem] sm:place-self-center'}
+            classNameContent={`py-[1.5rem] pl-[1.7rem] pr-0     sm:px-[1.25rem] sm:max-w-[23rem] sm:place-self-center
+                                sm:landscape:min-w-[21rem]`}
         >
             <div className={`flex flex-col items-center max-w-[26rem] ${isSmScreen ? 'hidden' : ''}`}>
                 <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10.42rem] h-[9rem]'}/>

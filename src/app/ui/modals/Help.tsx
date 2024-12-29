@@ -17,9 +17,15 @@ interface Props {
 const HelpModal: FC<Props> = (props: Props) => {
     const {type} = props;
     return (
-        <BaseModal title={Contacts[type].title} classNameContent={'w-[min(80dvw,26rem)]'}>
-            <div className={'flex flex-col items-center text-content-small'}>
-                <span className={'mb-[min(4dvw,1.25rem)]'}>
+        <BaseModal title={Contacts[type].title}
+                   classNameTitle={'sm:landscape:text-content'}
+                   classNameContent={'w-[min(80dvw,26rem)] sm:landscape:w-[min(40dvw,20rem)]'}
+                   className={'sm:landscape:p-[--1dr]'}
+        >
+            <div className={`flex flex-col items-center
+                            text-content-small
+                            sm:landscape:text-small`}>
+                <span className={'mb-[--1qdr] sm:landscape:mb-[--1drs]'}>
                     Email: <a href={`mailto:${Contacts[type].email}`} target={'_blank'}>{Contacts[type].email}</a>
                 </span>
                 <span>

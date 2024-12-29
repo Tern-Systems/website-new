@@ -1,4 +1,5 @@
 import type {Config} from "tailwindcss";
+import Tailwind from "tailwindcss/plugin";
 
 const config: Config = {
     content: [
@@ -64,7 +65,10 @@ const config: Config = {
                 small: 'var(--fz-small)',
                 content: 'var(--fz-content)',
                 'content-small': 'var(--fz-content-small)',
-                header: 'var(--fz-header)'
+                default: 'var(--fz-default)',
+                header: 'var(--fz-header)',
+                'section-header': 'var(--fz-section-header)',
+                'header-l': 'var(--fz-header-l)',
             },
             keyframes: {
                 insignia: {
@@ -84,6 +88,14 @@ const config: Config = {
             }
         },
     },
-    plugins: [],
+    plugins: [
+        Tailwind(({matchUtilities}) => {
+            matchUtilities({
+                'x': (value) => ({
+                    [`@apply ${value.replaceAll(',', ' ')}`]: {}
+                })
+            })
+        })
+    ],
 };
 export default config;

@@ -11,7 +11,7 @@ import {Button} from "@/app/ui/form";
 import SVG_CARD from '@/assets/images/card.svg';
 
 
-const BTN_CN = 'px-[min(2.6dvw,1rem)] h-[min(4.3dvw,1.45rem)] rounded-full';
+const BTN_CN = 'px-[--1drs] h-[--h-control] rounded-full';
 
 
 interface Props {
@@ -32,13 +32,13 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
         <BaseModal
             title={'Remove Payment Method'}
             className={`bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_h2+button]:brightness-50 w-[min(90dvw,33rem)]
-                        font-oxygen text-[min(3.2dvw,1rem)]`}
+                        font-oxygen text-[--1drl]`}
             classNameContent={'text-gray text-center'}
         >
                 <span className={'inline-block'}>
                     <span>Remove {card.nickName}</span>
                     <span
-                        className={`bg-control-white-d1 rounded-small p-[min(2.7dvw,1.25rem)] flex items-center my-[min(2.7dvw,1.55rem)] gap-[min(4dvw,1.25rem)]`}>
+                        className={`bg-control-white-d1 rounded-small p-[--1qdrs] flex items-center my-[--s-normal] gap-[--1qdr]`}>
                         <Image src={SVG_CARD} alt={'card'} className={'w-[min(12.5dvw,4.75rem)]'}/>
                         <span><span
                             className={'capitalize'}>{card.type}</span> Ending in •••• {card.cardNumber.slice(-4)}</span>

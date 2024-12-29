@@ -45,15 +45,45 @@
   --fz-note: min(1.8dvw, var(--fz-note-));
   --fz-small: min(2.7dvw, 0.875rem);
   --fz-content-small: min(3.2dvw, var(--fz-content-small-));
-  --fz-content: min(3.7dvw, 1.3125rem);
-  --fz-header: min(4.8dvw, 1.685rem);
-
-  --p-small: 2rem;
+  --fz-default: min(3.45dvw, 1rem);
+  --fz-content: min(3.7dvw, var(--fz-content-));
+  --fz-header: min(4.8dvw, var(--fz-header-));
+  --fz-section-header: min(5.6dvw, 2.25rem);
+  --fz-header-l: min(7.2dvw, 3rem);
 
   --insignia-pt-moved: 0.77rem;
   --insignia-pl-moved: 1.83rem;
   --insignia-scale-init: 0.8;
   --insignia-scale-moved: 0.168;
+
+  /* Heights */
+  --h-control: min(4.3dvw, 1.45rem);
+  --h-control-dl: min(6.1dvw, 1.45rem);
+
+  /* Spacings */
+  --s-dl-smallest: min(1.3dvw, 0.6rem);
+  --s-d2l-smallest: min(1.6dvw, 0.6rem);
+  --s-dl-small: min(1.6dvw, 0.8rem);
+  --s-d-small: min(1dvw, 0.8rem);
+  --s-small: min(2.7dvw, 0.8rem);
+  --s-normal: min(2.7dvw, 1.55rem);
+  --s-default: 2rem;
+
+  --sy-sl: 1.9dvw; /* spacing-y sm-landscape */
+
+  /* 'dr' - 'dynamic rem' */
+  --1drs: min(2.5dvw, 1rem);
+  --1dr: min(2.7dvw, 1rem);
+  --1drl: min(3.2dvw, 1rem);
+  --1qdrs: min(2.7dvw, 1.25rem);
+  --1qdr: min(4dvw, 1.25rem);
+  --1hdrs: min(1.5dvw, 1.5rem);
+  --1hdr: min(4dvw, 1.5rem);
+
+  --2drs: min(2dvw, 2rem);
+  --2dr: min(4dvw, 2rem);
+  --2tdr: min(4dvw, 2.3rem);
+  --2hdr: min(min(8dvw, 2.5rem));
 }
 
 body {

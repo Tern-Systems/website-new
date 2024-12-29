@@ -30,6 +30,10 @@
   padding: min(2.75vw, var(--p-small));
   font-size: 2.25rem;
   font-weight: 700;
+
+  @media (max-width: 834px) {
+    padding: min(1.2dvw, var(--p-small));
+  }
 }
 
 .clickable:hover {

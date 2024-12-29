@@ -64,7 +64,7 @@ If you have questions about this policy or believe we have not adhered to its te
 
 const CookiesPage = () => (
     <div className={`${styles.highlight} max-w-[112rem] max-h-[min(68dvh,42rem)]`}>
-        <h1 className={'mb-[min(4dvw,2.3rem)]'}>Cookies Policy</h1>
+        <h1 className={'mb-[--2tdr]'}>Cookies Policy</h1>
         <span className={'overflow-y-scroll [&&]:text-[min(3.7dvw,var(--fz-header-))]'}>
             <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'font-neo whitespace-pre-line'}/>
            <span>

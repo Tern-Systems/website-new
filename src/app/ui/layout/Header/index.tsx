@@ -134,6 +134,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         }
     }
 
+
+    // Elements
     const NavLinks: ReactElement[] = navLinks.map((link: Route, idx) => {
         const isActive = getRouteRoot(route) === link;
         return (
@@ -170,7 +172,10 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     let userBtns: ReactElement | ReactElement[];
     if (userCtx.isLoggedIn || isSmScreen) {
         const ProfileLinks: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
-            <li key={link + idx} className={'w-full pb-[1.25rem] sm:border-b-small sm:pt-[1.25rem]'}>
+            <li key={link + idx}
+                className={`w-full pb-[1.25rem] 
+                            sm:x-[border-b-small,pt-[1.25rem]]
+                            sm:landscape:x-[py-[--1dr],text-content-small]`}>
                 <PageLink
                     href={link}
                     className={`relative flex justify-center bg-control `}
@@ -185,7 +190,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     setProfileMenuOpenState(false);
                     userCtx.removeSession();
                 }}
-                className={'border-t-small pt-[1.25rem] cursor-pointer sm:border-t-0 sm:border-control-gray-l0 sm:py-[1.25rem]'}
+                className={`border-t-small pt-[1.25rem] cursor-pointer
+                            sm:x-[border-t-0,border-control-gray-l0,py-[1.25rem]]
+                            sm:landscape:x-[py-[--1dr],text-content-small]`}
             >
                 Log Out
             </li>
@@ -225,26 +232,26 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <header className={'text-content'}>
-            <div className={`relative z-[2] bg-black flex w-full h-[4.3rem] px-[--p-small] justify-between items-center
+            <div className={`relative z-[2] bg-black flex w-full h-[4.3rem] px-[--s-default] justify-between items-center
                             border-b-small border-section 
                             sm:flex-row-reverse sm:justify-start sm:px-[1.25rem]    after:sm:border-control-gray-l0`}
             >
                 <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)]
-                                before:absolute before:h-[2rem] before:-left-[--p-small] before:border-r-small before:border-section
-                                sm:ml-[--p-small] sm:before:border-control-gray-l0`}
+                                before:absolute before:h-[2rem] before:-left-[--s-default] before:border-r-small before:border-section
+                                sm:ml-[--s-default] sm:before:border-control-gray-l0`}
                 >
                     <Button
                         onClick={() => toggleNav()}
                         icon={'burger'}
                         className={`lg:hidden md:hidden [&&_*]:size-[1.8rem]`}
                     />
-                    <ul className={`flex cursor-pointer sm:hidden ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--p-small]'}`}>
+                    <ul className={`flex cursor-pointer text-content-small sm:hidden ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
                         {NavLinks}
                     </ul>
                 </nav>
                 <div className={'flex gap-[0.75rem] sm:mr-[1.25rem]'}>{userBtns}</div>
             </div>
-            <ul className={`relative flex gap-[--p-small] px-[--p-small] w-full items-center border-b-small
+            <ul className={`relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small
                             border-section cursor-pointer ${SubNavItemsMdLg ? 'h-[4.3rem] ' + styles.slideIn : styles.slideOut}
                             sm:hidden`}
             >

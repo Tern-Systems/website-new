@@ -42,15 +42,15 @@ const ExportInvoiceModal: FC = () => {
                     value={formData.timeRange.toString()}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('timeRange', value)}
-                    classNameWrapper={'flex-col [&]:items-start gap-[min(2.7dvw,1.25rem)] flex-grow'}
+                    classNameWrapper={'flex-col [&]:items-start gap-[--1qdrs] flex-grow'}
                     classNameLabel={'text-[min(3.2dvw,var(--fz-content-small-))] font-bold'}
-                    className={`px-[min(1.6dvw,0.62rem)] py-[min(1.1dvw,0.8rem)]  h-[min(5.9dvw,3.25rem)] bg-control-white
+                    className={`px-[--s-d2l-smallest] py-[min(--s-d-small)]  h-[min(5.9dvw,3.25rem)] bg-control-white
                                 border-small rounded-smallest border-control-white-d0`}
                 >
                     Choose timeframe to export invoices
                 </Select>
                 <Button
-                    className={'border-small border-control-white-d0 px-[1rem] text-small h-[min(4.3dvw,1.44rem)] rounded-full font-bold mt-[min(6.5dvw,2.5rem)]'}>
+                    className={'border-small border-control-white-d0 px-[1rem] text-small h-[--h-control] rounded-full font-bold mt-[min(6.5dvw,2.5rem)]'}>
                     Export
                 </Button>
             </form>

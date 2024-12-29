@@ -13,7 +13,7 @@ const AboutPage: FC = () => (
             <h1 className={'text-[min(7.2dvw,3.75rem)] mb-[min(5.3dvw,3.1rem)]'}>We are Tern.</h1>
             <p className={"mb-4"}>A technology company based out of the United States.</p>
             <p className={"mb-4"}>
-                Ushering in the era of efficient computing, equiping all legacy devices with advanced
+                Ushering in the era of efficient computing, equipping all legacy devices with advanced
                 microprocessors.
             </p>
             <p>
@@ -23,7 +23,7 @@ const AboutPage: FC = () => (
         </div>
         <PageLink
             href={Route.Credo}
-            className={`rounded-full border-small border-control-gray-l0 px-[min(2.5dvw,0.91rem)] h-[min(4.3dvw,1.44rem)] w-fit
+            className={`rounded-full border-small border-control-gray-l0 px-[--1dr] h-[--h-control] w-fit
                         mt-[min(4dvw,2.56rem)] text-small`}
         />
     </div>

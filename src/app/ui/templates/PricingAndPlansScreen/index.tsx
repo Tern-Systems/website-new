@@ -165,7 +165,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         const CollapsedContentSm = (
             <>
-                <h2 className={'flex mb-[min(2.7dvw,0.95rem)] font-oxygen text-header font-bold capitalize'}>
+                <h2 className={'flex mb-[--1dr] font-oxygen text-header font-bold capitalize'}>
                     {data?.icon
                         ? <Image src={data.icon} alt={type + ' icon'} className={'mr-[min(1.1dvw,0.32rem)]'}/>
                         : '--'}

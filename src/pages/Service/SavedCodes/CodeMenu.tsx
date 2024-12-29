@@ -85,7 +85,7 @@ const CodeMenu: FC<Props> = (props: Props) => {
             id={'code-menu'}
             style={{top: menuData.y, left: menuData.x}}
             className={`absolute flex flex-col bg-black border-small border-control-white-d0 rounded-smallest
-                        p-[min(1.6dvw,0.62rem)] gap-y-[min(1.6dvw,0.62rem)] z-10 items-start`}
+                        p-[--s-d2l-smallest] gap-y-[--s-d2l-smallest] z-10 items-start`}
         >
             {MenuItems}
         </div>

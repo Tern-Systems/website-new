@@ -9,7 +9,7 @@ import {Button} from "@/app/ui/form";
 import {PageLink} from "@/app/ui/layout";
 
 
-const BTN_CN = 'px-[min(2.7dvw,1rem)] h-[min(6.1dvw,1.43rem)] rounded-full';
+const BTN_CN = 'px-[min(2.7dvw,1rem)] h-[--h-control-dl] rounded-full';
 
 
 const CancelModal: FC = () => {
@@ -24,10 +24,10 @@ const CancelModal: FC = () => {
         <BaseModal
             title={'Cancel Plan'}
             className={'bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_h2+button]:brightness-50 w-[90dvw] max-w-[33rem]'}
-            classNameContent={'text-gray text-center text-[min(3.2dvw,1rem)]'}
+            classNameContent={'text-gray text-center text-[--1drl]'}
         >
             <div className={'inline-block max-w-[25rem]'}>
-                <p className={'mb-[min(2.6dvw,1rem)] text-nowrap sm:max-w-[70%] sm:whitespace-pre-wrap place-self-center'}>
+                <p className={'mb-[--1drs] text-nowrap sm:max-w-[70%] sm:whitespace-pre-wrap place-self-center'}>
                     You&apos;re about to cancel your ARCH Pro Plan subscription.
                 </p>
                 <p>
@@ -37,7 +37,7 @@ const CancelModal: FC = () => {
                     subscription billing settings.
                 </p>
                 <span
-                    className={'flex gap-[min(1.3dvw,0.62rem)] font-bold mt-[min(4dvw,1.56rem)] text-small justify-center text-[#FFFFFF]'}>
+                    className={'flex gap-[--s-dl-smallest] font-bold mt-[--1hdr] text-small justify-center text-[#FFFFFF]'}>
                         <Button
                             onClick={() => handleDelete()}
                             className={`bg-control-red ${BTN_CN}`}

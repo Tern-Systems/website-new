@@ -79,7 +79,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 const SuccessModal = () => {
                     return (
                         <BaseModal isSimple
-                                   className={'w-[18rem] h-[3.6rem] bottom-[7.2rem] right-[--p-small] border-control-white border-small'}>
+                                   className={'w-[18rem] h-[3.6rem] bottom-[7.2rem] right-[--s-default] border-control-white border-small'}>
                             Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully
                             saved
                         </BaseModal>

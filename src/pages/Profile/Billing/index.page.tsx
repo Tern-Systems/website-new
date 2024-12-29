@@ -58,7 +58,10 @@ const BillingPage: FC = () => {
         const renderTd = (title: string | number, type?: 'first' | 'last') => {
             const cn = type === undefined
                 ? 'sm:hidden'
-                : (type === 'first' ? `rounded-l-[0.56rem] px-[min(1.6dvw,0.75rem)]` : `rounded-r-[0.56rem] px-[min(1.6dvw,0.75rem)]`);
+                : 'px-[--s-dl-small] '
+                + (type === 'first'
+                    ? `rounded-l-[0.56rem]`
+                    : `rounded-r-[0.56rem]`);
             return (
                 <td className={`overflow-ellipsis overflow-hidden ${cn}`}>
                     <PageLink href={Route.Invoice} className={'hover:transform-none w-full'}>
@@ -71,8 +74,9 @@ const BillingPage: FC = () => {
             <tr
                 key={order.id + idx}
                 onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
-                className={`h-[min(5.3dvw,3.125rem)]  text-content odd:bg-[#b3b3b326] cursor-pointer align-middle
-                            hover:bg-control-gray-l0 ${styles.clickable}`}
+                className={`h-[min(5.3dvw,3.125rem)]  text-content odd:bg-[#b3b3b326] cursor-pointer align-middle text-nowrap
+                            hover:bg-control-gray-l0 ${styles.clickable}
+                            sm:landscape:x-[h-[3dvw],text-small]`}
             >
                 {renderTd(order.id, 'first')}
                 {renderTd(order.date)}
@@ -84,17 +88,24 @@ const BillingPage: FC = () => {
     });
 
     return (
-        <div className={'place-self-center my-auto text-left w-[min(100%,90rem)]'}>
-            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[min(4dvw,1.25rem)] block sm:mb-0`}>
+        <div className={`grid place-self-center text-left h-full
+                        my-auto w-[min(100%,90rem)]
+                        sm:landscape:x-[grid-rows-2,grid-cols-2,my-0]`}>
+            <h1 className={`text-section-header font-bold pb-[--1qdr]
+                            sm:mb-0
+                            sm:landscape:x-[pb-[0.5dvw],text-content]`}>
                 Order Information
             </h1>
-            <div className={'sm:overflow-y-scroll sm:max-h-[65dvh]'}>
+            <div className={`sm:portrait:x-[overflow-y-scroll,max-h-[65dvh]]
+                            sm:landscape:x-[contents,text-[1.2dvw]]`}>
                 <div
-                    className={'bg-control-gray overflow-hidden rounded-small p-[min(4dvw,var(--p-small))] h-[26.875rem]'}>
-                    <div
-                        className={`overflow-y-scroll h-full text-content capitalize`}>
+                    className={`bg-control-gray overflow-hidden rounded-small h-[27rem]
+                                p-[--2dr] 
+                                sm:landscape:x-[p-[--1dr],h-full,row-span-2]`}>
+                    <div className={`overflow-y-scroll h-full text-content capitalize`}>
                         <table className={'w-full'}>
-                            <thead className={'text-[min(2.7dvw,var(--fz-header-))] [&_td]:pb-[min(1.3dvw,0.94rem)]'}>
+                            <thead className={`text-[min(2.7dvw,var(--fz-header-))] [&_td]:pb-[--1dr]
+                                                sm:text-small`}>
                             <tr>
                                 <td>Order No.</td>
                                 <td className={'sm:hidden'}>Date</td>
@@ -107,18 +118,25 @@ const BillingPage: FC = () => {
                         </table>
                     </div>
                 </div>
-                <div className={'flex-col inline-flex gap-y-[min(2.6dvw,1.6rem)] mt-[3rem] sm:mt-[3.8rem]'}>
-                    <h2 className={'text-header font-bold mb-[0.3rem]'}>Additional Resources</h2>
-                    <div className={'inline-flex flex-col gap-[1.56rem] text-small'}>
-                        <PageLink href={Route.ManageSubscriptions}/>
-                        <PageLink href={Route.PurchasingInformation}/>
-                        <span
-                            className={'cursor-pointer'}
-                            onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
-                        >
-                            Billing resolution center
-                        </span>
-                    </div>
+                <div className={`flex-col inline-flex
+                                gap-y-[min(2.6dvw,1.6rem)] mt-[3rem]
+                                sm:mt-[3.8rem]
+                                sm:landscape:x-[col-start-1,gap-y-[1dvw],mt-[1dvw],w-fit,self-end]`}
+                >
+                    <span className={`font-bold
+                                    mb-[0.3rem] text-header
+                                    sm:landscape:x-[text-default,mb-0]`}
+                    >
+                        Additional Resources
+                    </span>
+                    <PageLink href={Route.ManageSubscriptions}/>
+                    <PageLink href={Route.PurchasingInformation}/>
+                    <span
+                        className={'cursor-pointer'}
+                        onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
+                    >
+                        Billing resolution center
+                    </span>
                 </div>
             </div>
         </div>

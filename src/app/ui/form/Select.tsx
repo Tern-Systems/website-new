@@ -55,8 +55,8 @@ const Select: FC<Props> = (props: Props) => {
             if (isSelectExpanded && !ref.current?.contains(event.target as Node))
                 setSelectExpanded(false);
         }
-        window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
+        window.addEventListener('mousedown', handleClick);
+        return () => window.removeEventListener('mousedown', handleClick);
     }, [isSelectExpanded, setSelectExpanded])
 
     // Options list
@@ -66,9 +66,9 @@ const Select: FC<Props> = (props: Props) => {
         <option
             key={value + idx}
             value={value}
-            className={`px-[min(2dvw,0.75rem)] py-[min(1dvw,0.8rem)] border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0
+            className={`px-[min(2dvw,0.75rem)] py-[min(--s-d-small)] border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0
                         [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
-                        bg-white ${classNameOption}
+                        bg-white content-center ${classNameOption}
                         ${EMPTY_KEY === key ? 'text-placeholder text-small' : ''}`}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
         >
@@ -115,7 +115,7 @@ const Select: FC<Props> = (props: Props) => {
                 <Image
                     src={SVG_CHEVRON}
                     alt={'select chevron'}
-                    className={`absolute right-[0.8rem] w-[min(2.4dvw,1rem)] brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
+                    className={`absolute right-[0.8rem] w-[--1drs] brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
                 />
             </label>
         </div>

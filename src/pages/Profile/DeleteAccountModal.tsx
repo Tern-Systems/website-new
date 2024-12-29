@@ -10,7 +10,7 @@ import {Button} from "@/app/ui/form";
 import {DeleteAccountConfirmModal} from "./DeleteAccountConfirmModal";
 
 
-const BTN_CN = 'h-[min(4.3dvw,1.45rem)] px-[min(2.4dvw,1rem)] rounded-full';
+const BTN_CN = 'h-[--h-control] px-[--1drs] rounded-full';
 
 
 interface Props {
@@ -32,7 +32,7 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
                 <span className={'font-bold'}>{userData.email}</span>.
                 Are you sure you want to proceed with this action?
             </span>
-            <span className={'flex gap-[min(1.3dvw,0.63rem)] mt-[min(2.7dvw,1.25rem)] justify-center'}>
+            <span className={'flex gap-[--s-dl-smallest] mt-[--1qdrs] justify-center'}>
                 <Button
                     className={`text-red border-control-red border-small ${BTN_CN}`}
                     onClick={() =>

@@ -29,7 +29,7 @@ function SubscribePage() {
     return (
         <div className={'flex font-oxygen text-gray h-full sm:flex-col'}>
             <PaymentInfo subscription={subscription}/>
-            <hr className={'my-[min(4dvw,1.5rem)] border-control-gray-l0'}/>
+            <hr className={'my-[--1hdr] border-control-gray-l0'}/>
             <PaymentForm
                 type={subscription?.type}
                 recurrency={subscription?.recurrency}
