@@ -174,7 +174,7 @@ function ManageSubscriptionsPage() {
                         <span className={'capitalize'}>
                             {selectedPlan.plan.subscription} {selectedPlan.plan.type} Plan
                         </span>
-                        <span className={'text-content-small text-right sm:landscape:text-small whitespace-pre-line'}>
+                        <span className={'text-small text-right sm:landscape:text-small whitespace-pre-line'}>
                             Your plan renews on {formatDate(renewDate)}
                         </span>
                         <span className={'font-bold'}>
