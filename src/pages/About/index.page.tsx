@@ -13,7 +13,7 @@ const AboutPage: FC = () => (
             <h1 className={'text-[min(7.2dvw,3.75rem)] mb-[min(5.3dvw,3.1rem)]'}>We are Tern.</h1>
             <p className={"mb-4"}>A technology company based out of the United States.</p>
             <p className={"mb-4"}>
-                Ushering in the era of efficient computing, equiping all legacy devices with advanced
+                Ushering in the era of efficient computing, equipping all legacy devices with advanced
                 microprocessors.
             </p>
             <p>

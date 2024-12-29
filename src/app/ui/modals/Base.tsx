@@ -1,4 +1,5 @@
 import React, {FC, PropsWithChildren} from "react"
+import cn from "classnames";
 
 import {useModal} from "@/app/context"
 
@@ -53,8 +54,11 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     } else {
         const Heading = title
             ? (
-                <h2 className={`text-inherit font-oxygen text-header font-bold ${isSmRulesApplied ? 'mb-[1.87rem]' : ''} ${classNameTitle}`}>
-                    {title ?? ''}
+                <h2 className={cn(`text-inherit font-oxygen text-header font-bold
+                                    sm:landscape:text-content`, classNameTitle,
+                    {['mb-[1.87rem]']: isSmRulesApplied})}
+                >
+                    {title}
                 </h2>
             )
             : null;
@@ -64,20 +68,22 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 className={`${isSmRulesApplied
                     ? 'bg-control-white-d0 text-gray w-dvw h-dvh z-50'
                     : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--2dr]'}
-                            ${className} pointer-events-auto`}>
+                            ${className} pointer-events-auto
+                            sm:landscape:p-[--1drs]`}>
                 <div
-                    className={`relative flex justify-between font-oxygen ${isSmRulesApplied ? 'h-[4.3rem] p-[1.25rem]' : ''}`}>
+                    className={cn(`relative flex justify-between font-oxygen`, {['h-[4.3rem] p-[1.25rem]']: isSmRulesApplied})}>
                     {isSmRulesApplied ? null : Heading}
                     {isSmRulesApplied
-                        ? <Insignia className={'origin-top-left scale-[--insignia-scale-moved] top-[0.85rem] left-[0.85rem]'}/>
+                        ? <Insignia
+                            className={'origin-top-left scale-[--insignia-scale-moved] top-[0.85rem] left-[0.85rem]'}/>
                         : null}
                     <Button
                         icon={'close'}
                         onClick={() => handleClose()}
-                        className={isSmRulesApplied ? '[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]' : ''}
+                        className={cn({['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied})}
                     />
                 </div>
-                <hr className={`${isSmRulesApplied ? '' : 'mt-[--1qdrs] scale-[105%] mb-[--s-normal]'}`}/>
+                <hr className={cn({['mt-[--1qdrs] scale-[105%] mb-[--s-normal] sm:landscape:x-[scale-[102%],my-[--1drs]]']: !isSmRulesApplied})}/>
                 <div className={classNameContent}>
                     {isSmRulesApplied ? Heading : null}
                     {children}

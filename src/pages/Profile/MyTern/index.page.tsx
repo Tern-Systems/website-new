@@ -204,8 +204,8 @@ const MyTernPage: FC = () => {
                         sm:mt-0
                         sm:landscape:x-[auto-rows-auto,grid-cols-2,gap-x-[15dvw],mx-0]`}
         >
-            <h1 className={`font-bold block
-                            pb-[1.25rem] text-section-header
+            <h1 className={`font-bold
+                            pb-[--1qdr] text-section-header
                             sm:x-[pb-[4dvw],mb-0]
                             sm:landscape:x-[pb-[0.5dvw],text-content]`}
             >
@@ -226,7 +226,7 @@ const MyTernPage: FC = () => {
                 <div className={`grid
                                 grid-cols-2 gap-[0.63rem]
                                 sm:grid-cols-1
-                                sm:landscape:x-[row-start-1,col-start-2,row-span-4,max-h-[55dvh]]`}
+                                sm:landscape:x-[row-start-1,col-start-2,row-span-4,overflow-y-scroll,max-h-[55dvh]]`}
                 >
                     {renderTable(subscriptionTable)}
                     {renderTable({
@@ -238,11 +238,11 @@ const MyTernPage: FC = () => {
                 <div className={`flex-col inline-flex
                                 gap-y-[min(2.6dvw,1.6rem)] mt-[3rem]
                                 sm:mt-[3.8rem]
-                                sm:landscape:x-[col-start-1,gap-y-[1.2dvw],mt-[3dvw]]`}
+                                sm:landscape:x-[col-start-1,gap-y-[1dvw],mt-[1dvw],w-fit]`}
                 >
                     <span className={`font-bold
                                     mb-[0.3rem] text-header
-                                    sm:landscape:x-[text-default,mb-[0.4dvw]]`}
+                                    sm:landscape:x-[text-default,mb-0]`}
                     >
                         Additional Resources
                     </span>

@@ -22,7 +22,7 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal
             title={'Save Changes?'}
-            className={'w-[min(90dvw,30rem)] border-control-white border-small text-center'}
+            className={`w-[min(90dvw,30rem)] border-control-white border-small text-center sm:landscape:w-[50dvw]`}
         >
             <span>Do you want to save your changes before returning to the previous page?</span>
             <span className={'flex mt-[--1qdrs] gap-[min(1.1dvw,0.625rem)] text-small font-bold justify-center'}>
