@@ -73,7 +73,7 @@ const DocumentationPage: FC = () => {
         <div className={'text-left m-auto place-items-center'}>
             <div className={'sm:x-[overflow-y-hidden,max-h-full]'}>
                 <h1 className={`font-bold block
-                                pb-[min(4dvw,1.9rem)] text-[min(5.6dvw,2.25rem)] 
+                                pb-[min(4dvw,1.9rem)] text-section-header 
                                 sm:landscape:x-[pb-[2.4dvw],text-content]`}>
                     Documentation
                 </h1>

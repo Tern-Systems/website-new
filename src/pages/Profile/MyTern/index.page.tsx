@@ -65,9 +65,9 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
             })}
             >
                 <PageLink href={href} isExternal={isExternal}
-                          className={`w-full overflow-x-hidden overflow-ellipsis text-nowrap
+                          className={`w-full overflow-x-hidden overflow-ellipsis
                                     py-[min(2.7dvw,0.75rem)] 
-                                    sm:x-[max-w-[41.4dvw],table-cell]
+                                    sm:x-[max-w-[41dvw],table-cell]
                                     sm:landscape:py-[0.4dvw]`}
                 >
                     {title}
@@ -205,7 +205,7 @@ const MyTernPage: FC = () => {
                         sm:landscape:x-[auto-rows-auto,grid-cols-2,gap-x-[15dvw],mx-0]`}
         >
             <h1 className={`font-bold block
-                            pb-[1.25rem] text-[min(5.6dvw,2.25rem)]
+                            pb-[1.25rem] text-section-header
                             sm:x-[pb-[4dvw],mb-0]
                             sm:landscape:x-[pb-[0.5dvw],text-content]`}
             >

@@ -48,6 +48,7 @@
   --fz-default: min(3.45dvw, 1rem);
   --fz-content: min(3.7dvw, var(--fz-content-));
   --fz-header: min(4.8dvw, var(--fz-header-));
+  --fz-section-header: min(5.6dvw,2.25rem);
   --fz-header-l: min(7.2dvw, 3rem);
 
   --insignia-pt-moved: 0.77rem;
@@ -79,6 +80,7 @@
   --1hdr: min(4dvw, 1.5rem);
   --2tdr: min(4dvw, 2.3rem);
 
+  --2drs: min(2dvw, 2rem);
   --2dr: min(4dvw, 2rem);
   --2hdr: min(min(8dvw, 2.5rem));
 }

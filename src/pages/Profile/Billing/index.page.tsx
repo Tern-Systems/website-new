@@ -85,7 +85,7 @@ const BillingPage: FC = () => {
 
     return (
         <div className={'place-self-center my-auto text-left w-[min(100%,90rem)]'}>
-            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[--1qdr] block sm:mb-0`}>
+            <h1 className={`text-section-header font-bold pb-[--1qdr] block sm:mb-0`}>
                 Order Information
             </h1>
             <div className={'sm:overflow-y-scroll sm:max-h-[65dvh]'}>

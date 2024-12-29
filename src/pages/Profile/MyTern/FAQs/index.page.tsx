@@ -1,4 +1,5 @@
 import React, {FC, useState} from "react";
+import cn from "classnames";
 
 import {BaseModal} from "@/app/ui/modals";
 import {Collapsible} from "@/app/ui/misc";
@@ -43,8 +44,14 @@ const FAQsPage: FC = () => {
                 title={faq.question}
                 isChevron
                 expandedState={[openedItemIdx === idx, () => setOpenedItemIdx(prevState => prevState === idx ? -1 : idx)]}
-                classNameWrapper={`text-left sm:[&>div:first-of-type]:mb-[min(5dvw,3rem)] [&_h2]:text-content [&_h2]:whitespace-pre-wrap 
-                                ${!idx ? '[&]:rounded-b-none' : (idx === array.length - 1 ? '[&]:rounded-t-none' : '[&]:rounded-none')}`}
+                classNameWrapper={cn(
+                    `text-left [&_h2]:x-[text-content,whitespace-pre-wrap]
+                    sm:[&>div:first-of-type]:mb-[min(5dvw,3rem)]
+                    sm:landscape:x-[p-[--2drs]] sm:landscape:[&>div:first-of-type]:mb-0`,
+                    !idx
+                        ? '[&]:rounded-b-none'
+                        : idx === array.length - 1 ? '[&]:rounded-t-none' : '[&]:rounded-none'
+                )}
             >
                 <span className={'col-span-3'}>{faq.answer}</span>
             </Collapsible>
@@ -52,11 +59,19 @@ const FAQsPage: FC = () => {
     ));
 
     return (
-        <div className={'mt-[3rem] min-w-[75%] text-left mx-auto sm:mt-0'}>
-            <h1 className={`text-[min(5.6dvw,2.25rem)] font-bold pb-[--1qdr] block sm:mb-0 text-left md:hidden lg:hidden`}>
+        <div className={`mt-[3rem] min-w-[75%] text-left mx-auto 
+                        sm:mt-0`}>
+            <h1 className={`font-bold block
+                            pb-[--1qdr] text-section-header
+                            sm:x-[pb-[4dvw],mb-0]
+                            sm:landscape:x-[pb-[0.5dvw],text-content]`}
+            >
                 Help & FAQs
             </h1>
-            <ul className={'sm:overflow-y-scroll sm:max-h-[65dvh] sm:max-w-[90dvw]'}>{FAQsList}</ul>
+            <ul className={`sm:x-[overflow-y-scroll,max-h-[65dvh],max-w-[90dvw]]
+                            sm:landscape:x-[overflow-y-hidden,max-h-full]`}>
+                {FAQsList}
+            </ul>
         </div>
     );
 }

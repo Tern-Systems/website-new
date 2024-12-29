@@ -16,7 +16,7 @@ const TernKeyPage: FC = () => (
                 className={'h-[55dvw] max-h-[16rem] my-[min(5.3dvw,3.15rem)]'}
             />
         </a>
-        <span className={'text-[min(5.6dvw,2.25rem)]'}>Unlocking the potential of ternary programming.</span>
+        <span className={'text-section-header'}>Unlocking the potential of ternary programming.</span>
     </div>
 );
 

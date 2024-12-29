@@ -67,6 +67,7 @@ const config: Config = {
                 'content-small': 'var(--fz-content-small)',
                 default: 'var(--fz-default)',
                 header: 'var(--fz-header)',
+                'section-header': 'var(--fz-section-header)',
                 'header-l': 'var(--fz-header-l)',
             },
             keyframes: {
