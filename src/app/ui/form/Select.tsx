@@ -68,7 +68,7 @@ const Select: FC<Props> = (props: Props) => {
             value={value}
             className={`px-[min(2dvw,0.75rem)] py-[min(--s-d-small)] border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0
                         [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
-                        bg-white ${classNameOption}
+                        bg-white content-center ${classNameOption}
                         ${EMPTY_KEY === key ? 'text-placeholder text-small' : ''}`}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
         >

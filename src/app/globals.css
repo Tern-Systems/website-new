@@ -79,10 +79,10 @@
   --1qdr: min(4dvw, 1.25rem);
   --1hdrs: min(1.5dvw, 1.5rem);
   --1hdr: min(4dvw, 1.5rem);
-  --2tdr: min(4dvw, 2.3rem);
 
   --2drs: min(2dvw, 2rem);
   --2dr: min(4dvw, 2rem);
+  --2tdr: min(4dvw, 2.3rem);
   --2hdr: min(min(8dvw, 2.5rem));
 }
 
