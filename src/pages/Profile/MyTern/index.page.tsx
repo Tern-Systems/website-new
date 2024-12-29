@@ -211,7 +211,7 @@ const MyTernPage: FC = () => {
             >
                 Dashboard
             </h1>
-            <div className={`sm:x-[overflow-y-scroll,max-h-[65dvh]]
+            <div className={`sm:portrait:x-[overflow-y-scroll,max-h-[65dvh]]
                             sm:landscape:x-[contents,text-[1.2dvw]]`}
             >
                 <div className={'sm:landscape:col-start-1'}>

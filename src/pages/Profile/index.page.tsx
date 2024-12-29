@@ -1,4 +1,5 @@
 import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
+import cn from "classnames";
 
 import {EditableProps} from "@/app/ui/form/Editable";
 
@@ -69,7 +70,7 @@ const ProfilePage: FC = () => {
         const handleScroll = () => {
             SECTIONS.forEach((section, index) => {
                 const elem = document.getElementById(section.toLowerCase().split(' ').join(''));
-                if (elem && elem.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * 350)
+                if (elem && elem.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * (isSmScreen ? 28 : 350))
                     setActiveSectionIdx(index);
             });
         }
@@ -91,8 +92,11 @@ const ProfilePage: FC = () => {
     const SectionsNav: ReactElement[] = SECTIONS.map((link, idx) => (
         <li
             key={link + idx}
-            className={`pl-[1.88rem] leading-[200%] cursor-pointer
-                        ${idx === activeSectionIdx ? `before:bg-control-blue ${styles.line}` : ''}`}
+            className={cn(
+                `pl-[--2dr] leading-[200%] cursor-pointer
+                sm:landscape:pl-[--1dr]`,
+                {[`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx},
+            )}
         >
                 <span
                     onClick={() => {
@@ -187,15 +191,26 @@ const ProfilePage: FC = () => {
     return (
         <div className={'flex mt-[3.88rem] sm:mt-0'}>
             <aside
-                className={'text-left ml-[min(5.3dvw,15rem)] text-nowrap sticky self-start top-[min(25.3dvw,5.94rem)] sm:hidden'}>
-                <div className={'text-header font-bold mb-[1.56rem]'}>
+                className={`sticky self-start text-left text-nowrap
+                            top-[min(25.3dvw,5.94rem)] ml-[min(5.3dvw,15rem)]
+                            sm:portrait:hidden
+                            sm:landscape:x-[top-0,ml-[--1dr],mr-[--2dr]]`}>
+                <div className={`font-bold
+                                mb-[--1hdrs] text-header
+                                sm:landscape:text-content`}>
                     <span>Sections</span>
                 </div>
-                <ul className={`flex flex-col text-content-small ${styles.line} before:bg-control-white`}>
+                <ul className={`flex flex-col ${styles.line} before:bg-control-white
+                                text-content-small 
+                                sm:landscape:text-small`}>
                     {SectionsNav}
                 </ul>
             </aside>
-            <div className={'flex-grow flex flex-col gap-y-[--s-dl-smallest] ml-[10re)] sm:ml-0'}>
+            <div className={`flex-grow flex flex-col gap-y-[--s-dl-smallest]
+                            ml-[10rem]
+                            sm:ml-0
+                            sm:portrait:x-[overflow-y-scroll,max-h-[70dvh]]`}
+            >
                 <Collapsible title={SECTIONS[0]} icon={'key'} className={styles.collapsible}>
                     <span className={styles.leftCol + ' ' + styles.ellipsis}>Profile Picture</span>
                     <Input
