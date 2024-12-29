@@ -390,22 +390,22 @@ const Editable: FC<Props> = (props: Props) => {
                 // !data.value.isEmailAdded && // 2FA only work for phone
                 !data.value.isPhoneAdded ? (
                     <Switch
-                        state={ 
+                        state={
                             // data.value.isEmailAdded || //
-                            data.value.isPhoneAdded ||  isEditState}
+                            data.value.isPhoneAdded || isEditState}
                         handleSwitch={async () => {
                             if (!isEditState) {
                                 await data.onSwitch?.();
                             }
                             toggleEditState();
                         }}
+                        className={'justify-self-end'}
                     />
                 ) : (
                     <Switch
                         state={data.value.isPhoneAdded || data.value.isEmailAdded}
-                        handleSwitch={async () => {
-                            await data.onSwitch?.();
-                        }}
+                        handleSwitch={async () => await data.onSwitch?.()}
+                        className={'justify-self-end'}
                     />
                 )
             );

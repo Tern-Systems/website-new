@@ -1,5 +1,6 @@
 import {FC, PropsWithChildren, ReactElement, useState} from "react";
 import Image from "next/image";
+import cn from "classnames";
 
 import SVG_KEY from "@/assets/images/icons/key.svg";
 import SVG_BOOK from "@/assets/images/icons/book.svg";
@@ -23,7 +24,8 @@ const ICON: Record<Icon, string> = {
 }
 
 
-const WRAPPER_CN = 'p-[--2dr] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center';
+const WRAPPER_CN = `p-[--2dr] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center
+                    sm:landscape:p-[--2drs]`;
 
 
 interface Props extends PropsWithChildren {
@@ -93,9 +95,11 @@ const Collapsible: FC<Props> = (props: Props) => {
             className={`${WRAPPER_CN} ${isExpandedFinal ? '' : 'pb-0'} ${classNameWrapper}`}>
             <div
                 onClick={() => handleToggle()}
-                className={`flex items-center justify-between cursor-pointer gap-x-[0.2rem] ${isChevron ? 'mb-[min(16dvw,3.75rem)]' : ''}`}
+                className={cn(`flex items-center justify-between cursor-pointer gap-x-[0.2rem]`, {['mb-[min(16dvw,3.75rem)]']: isChevron})}
             >
-                <h2 className={'text-inherit text-header font-bold flex gap-[0.65rem] items-center'}>
+                <h2 className={`text-inherit font-bold flex gap-[0.65rem] items-center
+                                text-header
+                                sm:landscape:text-content`}>
                     {Icon}
                     <span>{title}</span>
                 </h2>
@@ -105,7 +109,8 @@ const Collapsible: FC<Props> = (props: Props) => {
                     className={`inline size-[min(2.7dvw,1.8rem)] ${collapseCN}`}
                 />
             </div>
-            <hr className={`scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)] ${isChevron ? 'hidden' : ''}`}/>
+            <hr className={cn({['hidden']: isChevron}, `scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)]
+                                sm:landscape:scale-[102%]`)}/>
             <div className={`grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] gap-[min(4dvw,0.56rem)] text-left
                             items-start text-[--1drl] whitespace-pre-wrap ${className}
                             ${isExpandedFinal ? '' : 'hidden'}`}>

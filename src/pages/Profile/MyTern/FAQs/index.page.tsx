@@ -47,7 +47,7 @@ const FAQsPage: FC = () => {
                 classNameWrapper={cn(
                     `text-left [&_h2]:x-[text-content,whitespace-pre-wrap]
                     sm:[&>div:first-of-type]:mb-[min(5dvw,3rem)]
-                    sm:landscape:x-[p-[--2drs]] sm:landscape:[&>div:first-of-type]:mb-0`,
+                    sm:landscape:p-[--2drs] sm:landscape:[&>div:first-of-type]:mb-0`,
                     !idx
                         ? '[&]:rounded-b-none'
                         : idx === array.length - 1 ? '[&]:rounded-t-none' : '[&]:rounded-none'
