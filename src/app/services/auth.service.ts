@@ -25,7 +25,9 @@ interface IAuthService {
 
     postSendOTP(email: string): Promise<void>;
 
-    postVerifyOTP(otp: string, userEmail: string): Promise<void>;
+    postVerifyOTP(otp: string, userEmail: string): Promise<boolean>;
+
+    post2FATurnOff(email: string): Promise<boolean>;
 }
 
 class AuthServiceImpl extends BaseService implements IAuthService {
@@ -111,35 +113,54 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         }
     }
 
-    async postSendOTP(email: string): Promise<void> {
+    async postSendOTP(userEmail: string): Promise<void> {
         this.log(this.postSendOTP.name);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `send-otp`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail: email}),
+            url: `${this._API}send-otp`,
+            data: {userEmail},
             withCredentials: true,
         };
 
         try {
-            await axios(config);
+            const response = await axios(config);
+            console.log('OTP sent successfully:', response.data); // TODO remove after testing
         } catch (error: unknown) {
             throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     }
 
-    async postVerifyOTP(otp: string, userEmail: string): Promise<void> {
+    async postVerifyOTP(otp: string, userEmail: string ): Promise<boolean> {
         this.log(this.postVerifyOTP.name);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `verify-otp`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail, otp}),
+            url: `${this._API}2FA-verify-otp`,
+            data: { otp, userEmail },
             withCredentials: true,
         };
 
         try {
-            await axios(config);
+            const res = await axios(config);
+            console.log('Data', res.data.success); // TODO remove after testing
+            return res.data.success;
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
+
+    async post2FATurnOff(userEmail: string ): Promise<boolean> {
+        this.log(this.postVerifyOTP.name);
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: `${this._API}2FA-turn-off`,
+            data: { userEmail },
+            withCredentials: true,
+        };
+
+        try {
+            const res = await axios(config);
+            console.log('Data', res.data); // TODO remove after testing
+            return res.data.success;
         } catch (error: unknown) {
             throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }

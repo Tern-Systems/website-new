@@ -3,8 +3,8 @@ import { ReactSVG } from "react-svg";
 import axios from "axios";
 
 // Commenting Out for Hasky Checker
-// import { UserData } from "@/app/context/User.context";
-// import { AuthService, UserService } from "@/app/services";
+import { UserData } from "@/app/context/User.context";
+import { AuthService, UserService } from "@/app/services";
 
 import { useForm } from "@/app/hooks";
 import { useModal, useUser } from "@/app/context";
@@ -37,26 +37,11 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
     const handleSendNewCode = useCallback(async () => {
         try {
-            // Maksym's API call
-            // await AuthService.postSendOTP(email);
 
-            // Direct API call
-            await axios({
-                method: "POST",
-                url: `${process.env.NEXT_PUBLIC_API}send-otp`,
-                data: {
-                    userEmail: email,
-                },
-                withCredentials: true,
-            })
-                // TODO remove after testing
-                .then(response => {
-                    console.log('OTP sent successfully:', response.data);
-                })
+             await AuthService.postSendOTP(email);
 
         } catch (error: unknown) {
-            // TODO remove after testing
-            console.log(error);
+            console.log(error); // TODO remove after testing
 
             if (axios.isAxiosError(error)) {
                 const errorMsg = error.response?.data?.msg || 'Something went wrong. Please try again later.';
@@ -78,36 +63,16 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
         try {
 
-            // Maksym's API call
-            // await AuthService.postVerifyOTP(formValue.code, email);
-            // const { payload: userData } = await UserService.getUser(token);
+            const verifyRes = await AuthService.postVerifyOTP(formValue.code, email);
 
-            const response = await axios({
-                method: "POST",
-                url: `${process.env.NEXT_PUBLIC_API}2FA-verify-otp`,
-                data: {
-                    userEmail: email,
-                    otp: formValue.code
-                },
-                withCredentials: true,
-            })
-
-            console.log(response.data);
-
-            if (response.data.success === true) {
+            if (verifyRes === true) {
                 if (isDisabling) {
 
                     try {
-                        const offResponse = await axios({
-                            method: "POST",
-                            url: `${process.env.NEXT_PUBLIC_API}2FA-turn-off`,
-                            data: {
-                                userEmail: email
-                            },
-                            withCredentials: true,
-                        })
 
-                        if (offResponse.data.success === true) {
+                       const offRes = await AuthService.post2FATurnOff(email);
+
+                        if (offRes === true) {
                             if (userCtx.userData) {
                                 const updatedUserData = {
                                     ...userCtx.userData,
@@ -122,22 +87,24 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         }
 
                     } catch (error: unknown) {
-                        // TODO remove after testing
-                        console.error("Error 2FA Turn off: ", error);
+                
+                        console.error("Error 2FA Turn off: ", error); // TODO remove after testing
                         modalCtx.openModal(<MessageModal>Failed to turn off 2FA. Please try again later.</MessageModal>);
+
                     }
 
-                } else {
-                    // Maksym's API call
-                    // await AuthService.post2FAOff();
-                    // userCtx.setSession(userData as UserData, token); // TODO remove type casting
+                } else { 
+                    
+                    const { payload: userData } = await UserService.getUser(token);
+                    userCtx.setSession(userData as UserData, token); // TODO remove type casting
                     modalCtx.closeModal();
+
                 }
             }
 
         } catch (error: unknown) {
-            // TODO remove after testing
-            console.log(error);
+            
+            console.log('error', error); // TODO remove after testing
 
             if (axios.isAxiosError(error) && error.status === 400) {
                 return setWarningMsg("Incorrect OTP. Please try again.")
