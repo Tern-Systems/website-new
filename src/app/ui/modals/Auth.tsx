@@ -49,8 +49,13 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                const {payload: token} = await AuthService.postLogIn(formValue);
-                const {payload: userData} = await UserService.getUser(token);
+            return     modalCtx.openModal(
+                    <AuthenticationCode token={'token'} email={'userData.email'} phone={'primaryPhone.number'}/>,
+                    {darkenBg: true}
+                );
+
+                // const {payload: token} = await AuthService.postLogIn(formValue);
+                // const {payload: userData} = await UserService.getUser(token);
 
                 if (!userData.verification.phone) {
                     const primaryPhone: Phone | null | undefined = Object.values(userData.phone).find((phone) => phone?.isPrimary);
@@ -100,8 +105,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 </div>
                 <form onSubmit={handleFormSubmit}
                       className={'flex flex-col     sm:landscape:flex-row sm:landscape:justify-between'}>
-                    <fieldset
-                        className={'flex flex-col     gap-[0.95rem] w-full    sm:landscape:max-w-fit sm:landscape:min-w-[21rem]'}>
+                    <fieldset className={'flex flex-col     gap-[0.95rem] w-full    sm:landscape:max-w-fit sm:landscape:min-w-[21rem]'}>
                         <Input
                             placeholder={'Email'}
                             value={formValue.email}
