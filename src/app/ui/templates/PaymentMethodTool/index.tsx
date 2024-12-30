@@ -216,7 +216,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         CVC
                     </Input>
                     <Input
-                        type={'number'}
+                        type={'text'}
                         value={formData.nickName}
                         onChange={setFormData('nickName')}
                         classNameWrapper={`${FIELD_CN} row-start-5`}
@@ -268,8 +268,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={formData.city}
                         onChange={setFormData('city')}
                         onKeyDown={(event) => {
-                            if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
+                            if (!/[a-z ]/i.test(event.key) && event.key !== 'Backspace') {
                                 event.preventDefault();
+                            }
                         }}
                         classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}
                         required
