@@ -92,7 +92,6 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         console.error("Error 2FA Turn off: ", error); // TODO remove after testing
                         modalCtx.openModal(<MessageModal>Failed to turn off 2FA. Please try again
                             later.</MessageModal>);
-
                     }
 
                 } else {

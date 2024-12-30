@@ -50,7 +50,6 @@
   --fz-header: min(4.8dvw, var(--fz-header-));
   --fz-section-header: min(5.6dvw, 2.25rem);
   --fz-header-l: min(7.2dvw, 3rem);
-
   --insignia-pt-moved: 0.77rem;
   --insignia-pl-moved: 1.83rem;
   --insignia-scale-init: 0.8;
