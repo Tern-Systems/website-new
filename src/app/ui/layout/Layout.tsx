@@ -1,19 +1,18 @@
 'use client'
 
-import React, {FC, PropsWithChildren, ReactElement, useEffect, useState} from "react";
+import React, {FC, PropsWithChildren, useEffect, useState} from "react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import Spline from "@splinetool/react-spline";
 
 import {LAYOUT, Route} from "@/app/static";
 
 import {useNavigate} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
 
+import {Insignia, ScrollEnd} from "@/app/ui/misc";
 import {Header, PageLink} from "@/app/ui/layout";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
-import {ScrollEnd} from "@/app/ui/misc";
 
 
 const Layout: FC<PropsWithChildren> = ({children}) => {
@@ -34,7 +33,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         if (token)
             router.push(Route.Home + '?resetToken=' + token);
         //eslint-disable-next-line
-    }, []);
+    }, [params]);
 
     useEffect(() => {
         if (route)
@@ -46,26 +45,6 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
 
 
     // Elements
-    // 2 pre-rendered insignias for moving without flickering
-    const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, idx) => {
-        const cn = `absolute z-50 size-[15rem] bg-transparent sm:-ml-[0.75rem] ${state ? 'hidden' : ''}
-                    ${isInsigniaMoved ? 'animate-[insignia_1s_ease-in-out_forwards] cursor-pointer' : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`;
-
-        return (
-            <div
-                key={state.toString() + idx}
-                onClick={() => {
-                    if (route !== Route.Start)
-                        navigate(Route.Home);
-                }}
-                className={cn}
-            >
-                <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
-                        className={'pointer-events-none'}/>
-            </div>
-        );
-    });
-
     const Layout = route === Route.Start
         ? (
             <div
@@ -100,8 +79,9 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     </div>
                 </div>
                 <footer
-                    className={`flex w-full justify-between border-t-small border-section text-note px-[--p-small] py-[1rem]
-                                sm:flex-col sm:text-center sm:items-center sm:gap-y-[0.95rem]`}>
+                    className={`flex w-full justify-between     px-[min(5.3dvw,var(--p-small))] py-[min(5.3dvw,1rem)]    border-t-small border-section
+                                sm:flex-col sm:items-center sm:gap-y-[0.95rem]  sm:text-center
+                                sm:landscape:flex-row   sm:landscape:p-[2.5dvw]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
                         <PageLink href={Route.Cookies}/>
@@ -118,7 +98,12 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         ? children
         : (
             <>
-                {Insignia}
+                <Insignia isInsigniaMoved={isInsigniaMoved}
+                          className={`z-30 sm:-ml-[0.75rem]
+                            ${isInsigniaMoved
+                              ? 'animate-[insignia_1s_ease-in-out_forwards] cursor-pointer'
+                              : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`}
+                />
                 <div
                     className={`flex flex-col flex-grow justify-between h-full`}>
                     {Layout}

@@ -13,6 +13,7 @@ import {useModal, useUser} from "@/app/context";
 import {Collapsible} from "@/app/ui/misc";
 import {Button, Editable, Input} from "@/app/ui/form";
 import {DeleteAccountModal} from "./DeleteAccountModal";
+import { AuthenticationCode } from "@/app/ui/modals/AuthenticationCode";
 
 import styles from './Profile.module.css';
 
@@ -276,7 +277,19 @@ const ProfilePage: FC = () => {
                                 })
                             },
                             onSwitch: async () => {
-                                // TODO disable 2FA
+                                if (
+                                    // userData.state2FA.email || // 2FA API Only work for phone only
+                                    userData.state2FA.phone
+                                ) {
+                                    modalCtx.openModal(
+                                        <AuthenticationCode
+                                            token={token || ''}
+                                            phone={userData.phone.personal?.number ?? ''}
+                                            email={userData.email}
+                                            isDisabling={true}
+                                        />
+                                    );
+                                }
                             }
                         }}
                     >

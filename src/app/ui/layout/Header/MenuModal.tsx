@@ -1,6 +1,7 @@
 import {FC, ReactElement} from "react";
 import {usePathname} from "next/navigation";
 import Image from "next/image";
+import cn from "classnames";
 
 import {LANGUAGE, Route} from "@/app/static";
 
@@ -43,8 +44,11 @@ const MenuModal: FC<Props> = (props: Props) => {
                 href={link}
                 icon={!isActive ? 'forward' : undefined}
                 style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 2) + 'rem'}}
-                className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive || isProfilePath ? ACTIVE_ROUTE_CN : ''}
-                            place-content-start pr-[1.125rem] ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
+                className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
+                    [ACTIVE_ROUTE_CN]: isActive || isProfilePath,
+                    ['border-b-small']: isNextActive,
+                    ['[&]:border-t-0']: !idx,
+                })}
             >
                 {routeName ? <span>{routeName}</span> : null}
             </PageLink>
@@ -69,8 +73,11 @@ const MenuModal: FC<Props> = (props: Props) => {
                 <PageLink
                     href={link}
                     icon={!isActive ? 'forward' : undefined}
-                    className={`justify-center ${isActive ? ACTIVE_ROUTE_CN : 'mx-[1.25rem]'}
-                                ${NAV_CN} ${isNextActive ? '' : 'border-b-small'}`}
+                    className={cn(`justify-center`, NAV_CN, {
+                        [ACTIVE_ROUTE_CN]: isActive,
+                        ['mx-[1.25rem]']: !isActive,
+                        ['border-b-small']: !isNextActive
+                    })}
                 />
                 {isActive ? renderSubNav() : null}
             </span>
@@ -78,12 +85,12 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     return (
-        <BaseModal adaptSmScreen className={'[&]:text-content-small'}>
-            <ul className={`flex cursor-pointer gap-x-[--p-small] flex-col w-full`}>
+        <BaseModal adaptSmScreen className={'ml-auto w-full    [&]:text-content-small     sm:landscape:max-w-[46dvw]'}>
+            <ul className={`flex flex-col  gap-x-[--p-small]   cursor-pointer`}>
                 {NavLinks}
             </ul>
             {/*TODO add language support*/}
-            <div className={`lg:hidden md:hidden flex gap-x-[0.63rem] items-center self-start p-[1.25rem]`}>
+            <div className={`lg:hidden md:hidden    flex items-center self-start    gap-x-[0.63rem] p-[1.25rem]`}>
                 <Image src={SVG_GLOBE} alt={'globe'} className={'size-[1.125rem]'}/>
                 <span>{userCtx.userData ? LANGUAGE[userCtx.userData.preferredLanguage] : '--'}</span>
             </div>

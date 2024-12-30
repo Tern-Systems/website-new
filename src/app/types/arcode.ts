@@ -1,9 +1,11 @@
 type ARCode = {
-    id: string;
+    mediaId: string;
     name: string;
-    file: string;
+    videoUrl: string;
+    qrCodeUrl: string;
     moduleColor: string;
     backgroundColor: string;
+    file: File;
 }
 
 export type {ARCode}

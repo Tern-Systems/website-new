@@ -27,9 +27,10 @@ const HomePage: FC = () => {
     }, [params]);
 
     return (
-        <div className={`${styles.highlight} max-w-[58.625rem] gap-[min(0.8dvw,1.5rem)]`}>
-            <h1 className={'text-blue text-[min(12.6dvw,6.25rem)]'}>All Ways</h1>
-            <span className={'text-[min(4.75dvw,2.25rem)] font-bold'}>
+        <div className={`${styles.highlight} max-w-[59rem] gap-[min(0.8dvw,1.5rem)]
+                        sm:landscape:w-[41dvw]`}>
+            <h1 className={'text-blue text-[min(12.6dvw,6.25rem)]    sm:landscape:text-[6.2dvw]'}>All Ways</h1>
+            <span className={'font-bold text-[min(4.75dvw,2.25rem)]     sm:landscape:text-[min(2.2dvw,1.125rem)]'}>
                 We develop, manufacture, preserve, and enhance fundamental computer software and hardware.
             </span>
         </div>
