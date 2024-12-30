@@ -33,7 +33,9 @@ const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => Promise
             window.removeEventListener('beforeunload', handle);
             window.removeEventListener('hashchange', handle);
         }
-    }, [onSave, onDontSave, shouldPrevent, modalCtx]);
+    }, [onSave, onDontSave, shouldPrevent, modalCtx])
+
+    return setPreventState;
 }
 
 

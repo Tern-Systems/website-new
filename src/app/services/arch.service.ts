@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig} from "axios";
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 
 import {Res} from "@/app/types/service";
 
@@ -9,9 +9,11 @@ import {ARCode} from "@/app/types/arcode";
 interface IARCHService {
     postGenerateQR(moduleColor: string, backgroundColor: string): Promise<Res<{ url: string; id: string }>>;
 
-    postSaveQR(email: string, name: string, mediaId: string, qrFile: File, video: File): Promise<Res>;
+    postSaveQR(email: string, name: string, isEdit: boolean, mediaId?: string, backgroundColor?: string, moduleColor?: string, qrFile?: File, video?: File): Promise<Res>;
 
     getListQRs(email: string): Promise<Res<ARCode[]>>;
+
+    getQrDetails(email: string, mediaId: string): Promise<Res<ARCode>>;
 
     deleteQr(email: string, mediaId: string): Promise<Res>;
 }
@@ -21,8 +23,34 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
         super(ARCHServiceImpl.name)
     }
 
+    async getQrDetails(email: string, mediaId: string): Promise<Res<ARCode>> {
+        const [debug, error] = this.getLoggers(this.getQrDetails.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: this._API + `get-qr-details/` + mediaId,
+            params: {user: email},
+            withCredentials: true,
+        };
+
+        let response: AxiosResponse;
+        try {
+            debug(config);
+            response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+
+        if (!Object.hasOwn(response.data, 'qrCodeUrl'))
+            throw 'Received wrong response schema from the server'
+
+        return {payload: response.data};
+    }
+
     async postGenerateQR(moduleColor: string, backgroundColor: string): Promise<Res<{ url: string; id: string }>> {
-        this.log(this.postGenerateQR.name);
+        const [debug, error] = this.getLoggers(this.postGenerateQR.name);
 
         const config: AxiosRequestConfig = {
             method: 'POST',
@@ -33,41 +61,57 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
         };
 
         try {
+            debug(config);
             const response = await axios(config);
-            return {payload: {url: response.data.qrCode, id: response.data.mediaId}};
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(response);
+            return {payload: {url: response.data.qrCode?.qrDataUrl, id: response.data.qrCode?.mediaId}};
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
-    async postSaveQR(email: string, name: string, mediaId: string, qrFile: File, video: File): Promise<Res> {
-        this.log(this.postSaveQR.name);
+    async postSaveQR(email: string, name: string, isEdit: boolean, mediaId?: string, backgroundColor?: string, moduleColor?: string, qrFile?: File, video?: File): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postSaveQR.name);
 
         const formData = new FormData();
         formData.append('user', email);
-        formData.append('mediaId', mediaId);
         formData.append('fileName', name);
-        formData.append('media', qrFile);
-        formData.append('video', video);
+        formData.append('isEdit', isEdit.toString());
+
+        if (mediaId)
+            formData.append('mediaId', mediaId);
+        if (backgroundColor)
+            formData.append('backgroundColor', backgroundColor);
+        if (moduleColor)
+            formData.append('moduleColor', moduleColor);
+        if (qrFile)
+            formData.append('media', qrFile);
+        if (video)
+            formData.append('video', video);
 
 
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `save-qr`,
-            headers: {'Content-Type': 'multipart/form-data',},
+            headers: {'Content-Type': 'multipart/form-data'},
             data: formData,
             withCredentials: true,
         };
 
         try {
-            await axios(config);
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(config);
+            debug(Object.fromEntries(Array.from(formData)));
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async getListQRs(email: string): Promise<Res<ARCode[]>> {
-        this.log(this.getListQRs.name);
+        const [debug, error] = this.getLoggers(this.getListQRs.name);
 
         const config: AxiosRequestConfig = {
             method: 'GET',
@@ -77,15 +121,18 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
         };
 
         try {
+            debug(config);
             const response = await axios(config);
+            debug(response);
             return {payload: response.data.qrCodes};
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async deleteQr(email: string, mediaId: string): Promise<Res> {
-        this.log(this.deleteQr.name);
+        const [debug, error] = this.getLoggers(this.deleteQr.name);
 
         const config: AxiosRequestConfig = {
             method: 'DELETE',
@@ -95,9 +142,12 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
         };
 
         try {
-            await axios(config);
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 

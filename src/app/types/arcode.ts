@@ -6,6 +6,7 @@ type ARCode = {
     moduleColor: string;
     backgroundColor: string;
     file: File;
+    videoPath: string;
 }
 
 export type {ARCode}

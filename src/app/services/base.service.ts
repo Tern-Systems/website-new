@@ -17,6 +17,22 @@ abstract class BaseService {
     protected log(method: string): void {
         console.info(this._serviceName + ' - ' + method + '...');
     }
+
+    protected getLoggers(method: string) {
+        console.log(this._serviceName + ' - ' + method + ':')
+        return [this.debug, this.error];
+    }
+
+    // eslint-disable-next-line
+    private debug(...data: any[]): void {
+        if (process.env.NODE_ENV === 'development')
+            console.log('DEBUG', ...data);
+    }
+
+    private error(error: unknown) {
+        if (process.env.NODE_ENV === 'development')
+            console.log('ERROR', error);
+    }
 }
 
 export {BaseService}
