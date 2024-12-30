@@ -54,15 +54,15 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     {darkenBg: true}
                 );
 
-                // const {payload: token} = await AuthService.postLogIn(formValue);
-                // const {payload: userData} = await UserService.getUser(token);
+                 const {payload: token} = await AuthService.postLogIn(formValue);
+                 const {payload: userData} = await UserService.getUser(token);
 
                 if (!userData.verification.phone) {
                     const primaryPhone: Phone | null | undefined = Object.values(userData.phone).find((phone) => phone?.isPrimary);
 
                     if (primaryPhone) {
                         modalCtx.openModal(
-                            <AuthenticationCode token={token} email={userData.email} phone={primaryPhone.number}/>,
+                            <AuthenticationCode token={token} email={userData.email} phone={primaryPhone?.number??""}/>,
                             {darkenBg: true}
                         );
                     } else
