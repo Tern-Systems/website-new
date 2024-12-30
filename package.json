@@ -22,6 +22,7 @@
     "qrcode": "^1.5.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-share": "^5.1.2",
     "react-svg": "^16.2.0",
     "sharp": "^0.33.5"
   },

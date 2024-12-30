@@ -1,7 +1,6 @@
 import React, {Dispatch, FC, SetStateAction} from "react";
 
 import {ARCode} from "@/app/types/arcode";
-import axios from "axios";
 
 import {ARCHService} from "@/app/services";
 
@@ -28,15 +27,10 @@ const DeleteModal: FC<Props> = (props: Props) => {
         try {
             await ARCHService.deleteQr(userCtx.userData.email, adCode.mediaId);
             modalCtx.closeModal();
-            console.log(updateList)
             updateList(true);
         } catch (error: unknown) {
-            let message: string = 'Unknown error';
-            if (axios.isAxiosError(error))
-                message = error.cause?.message ?? message;
-            else if (typeof error === 'string')
-                message = error;
-            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     }
 

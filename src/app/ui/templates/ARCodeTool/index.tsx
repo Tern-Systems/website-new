@@ -20,7 +20,7 @@ import SVG_ARCH from "@/assets/images/arch-logo.svg";
 
 type ARCodeToolForm =
     Pick<ARCode, 'backgroundColor' | 'moduleColor' | 'name' | 'mediaId' | 'qrCodeUrl' | 'videoPath'>
-    & { video?: File };
+    & Partial<Pick<ARCode, 'video'>>;
 
 const FORM_DEFAULT: ARCodeToolForm = {
     mediaId: '',

@@ -36,6 +36,10 @@
   }
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 .clickable:hover {
   transform: translateY(0.5px);
   transition: 0.1s ease-in-out;
