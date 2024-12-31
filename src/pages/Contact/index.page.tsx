@@ -27,7 +27,7 @@ const ContactsPage: FC = () => {
     const Links = LINKS.map((link) => (
         <li key={link.href} className={`size-[min(8dvw,2rem)] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
-                <Image src={link.svg} alt={link.href}/>
+                <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
         </li>
     ));

@@ -52,7 +52,7 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
                     <ReactSVG src={SVG_CARD.src} className={`[&_svg]:w-[min(3.9dvw,1.35rem)] mr-[min(2dvw,0.65rem)] [&_path]:fill-gray`}/>
                     <span className={'text-content'}>{card.nickName}</span>
                 </span>
-                {isPreferred ? <Image src={SVG_MARK} alt={'mark'} className={'w-[min(2.4dvw,0.8125rem)]'}/> : null}
+                {isPreferred ? <Image src={SVG_MARK} alt={'mark'} className={'w-[min(2.4dvw,0.8125rem)] h-auto'}/> : null}
             </li>
         )
     });

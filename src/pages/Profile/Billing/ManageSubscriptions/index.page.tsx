@@ -94,7 +94,7 @@ function ManageSubscriptionsPage() {
 
     let Cards: ReactElement[] = savedCards.map((card, idx) => (
             <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
-                <Image src={SVG_CARD} alt={'card'} className={'size-[1.35419rem]'}/>
+                <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
                 <span>{card.nickName}</span>
                 <span
                     hidden={!card.isDefault}
@@ -118,8 +118,8 @@ function ManageSubscriptionsPage() {
         let SavedCards = selectedPlan.savedCards.map((method, idx) => (
             <li key={method.nickName + idx} className={'flex [&&_path]:fill-gray items-center'}>
                 <span className={'flex gap-x-[--s-d2l-smallest] items-center'}>
-                    <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem]'}/>
-                    <span>{method.nickName}</span>
+                    <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem] h-auto'}/>
+                    <span className={'text-content sm:landscape:text-content-small'}>{method.nickName}</span>
                     <span className={`flex items-center px-[--s-d-small] h-[min(3.5dvw,1.3rem)] rounded-smallest1
                                     bg-control-white-d0 text-gray text-center text-note font-oxygen`}>
                         Preferred

@@ -115,7 +115,7 @@ const Select: FC<Props> = (props: Props) => {
                 <Image
                     src={SVG_CHEVRON}
                     alt={'select chevron'}
-                    className={`absolute right-[0.8rem] w-[--1drs] brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
+                    className={`absolute right-[0.8rem] w-[--1drs] h-auto brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
                 />
             </label>
         </div>
