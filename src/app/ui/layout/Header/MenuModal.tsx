@@ -103,7 +103,7 @@ const MenuModal: FC<Props> = (props: Props) => {
             </ul>
             {/*TODO add language support*/}
             <div className={`lg:hidden md:hidden    flex items-center self-start    gap-x-[0.63rem] p-[1.25rem]`}>
-                <Image src={SVG_GLOBE} alt={'globe'} className={'size-[1.125rem]'}/>
+                <Image src={SVG_GLOBE} alt={'globe'} className={'w-[1.125rem] h-auto'}/>
                 <span>{userCtx.userData ? LANGUAGE[userCtx.userData.preferredLanguage] : '--'}</span>
             </div>
         </BaseModal>

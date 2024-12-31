@@ -178,7 +178,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                             sm:landscape:x-[py-[--1dr],text-content-small]`}>
                 <PageLink
                     href={link}
-                    className={`relative flex justify-center bg-control `}
+                    className={`relative flex justify-center bg-control`}
+                    onClick={() => setProfileMenuOpenState(false)}
                 />
             </li>
         ));

@@ -17,18 +17,19 @@ interface ModalConfig extends PropsWithChildren {
     classNameContent?: string;
     classNameTitle?: string;
     adaptSmScreen?: boolean;
+    smScreenOnly?: boolean;
 }
 
 const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const {
         children, isSimple, title, onClose,
-        className, classNameContent, classNameTitle, adaptSmScreen
+        className, classNameContent, classNameTitle, adaptSmScreen, smScreenOnly
     } = props;
 
     const modalCtx = useModal();
     const isSmScreen = useBreakpointCheck();
 
-    const isSmRulesApplied = isSmScreen && adaptSmScreen;
+    const isSmRulesApplied = isSmScreen && adaptSmScreen || smScreenOnly;
 
     const handleClose = () => {
         modalCtx.closeModal();
@@ -75,7 +76,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     {isSmRulesApplied ? null : Heading}
                     {isSmRulesApplied
                         ? <Insignia
-                            className={'origin-top-left scale-[--insignia-scale-moved] top-[0.85rem] left-[0.85rem]'}/>
+                            insigniaMoved
+                            className={'origin-top-left scale-[--insignia-scale-moved] top-[1.1rem] left-[--2dr]'}/>
                         : null}
                     <Button
                         icon={'close'}

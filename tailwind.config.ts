@@ -14,9 +14,6 @@ const config: Config = {
                 md: {min: '835px', max: '1441px'},
                 lg: {min: '1442px'}
             },
-            backgroundImage: {
-                content: "url('../assets/images/bg-content.gif')"
-            },
             colors: {
                 primary: "var(--color-primary)",
                 secondary: "var(--color-secondary)",
@@ -81,7 +78,7 @@ const config: Config = {
                     '100%': {
                         top: '0',
                         left: '0',
-                        transform: 'translate(var(--insignia-pl-moved), var(--insignia-pt-moved)) scale(var(--insignia-scale-moved))',
+                        transform: 'translate(var(--2dr),1.1rem) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
                 }
