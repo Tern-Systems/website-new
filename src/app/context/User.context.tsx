@@ -104,7 +104,7 @@ const TEMPLATE_USER :UserData= {
     passwordUpdateDate: Date.now(),
     phone: {
         mobile: null,
-        business: {number: '1234567788', isPrimary: false, ext: '4324'},
+        business: {number: '1234567788', isPrimary: true, ext: '4324'},
         personal: {number: '1984327389', isPrimary: false},
     },
     subscriptions: [
@@ -146,7 +146,15 @@ const TEMPLATE_USER :UserData= {
             country: 'US',
             isPrimary: true,
         },
-        personalAddress: null,
+        personalAddress: {
+            line1: '',
+            line2: '',
+            city: '',
+            zip: '',
+            state: '',
+            country: "US",
+            isPrimary: false
+        },
     },
     company: {
         name: 'Tern Systems LLC',
