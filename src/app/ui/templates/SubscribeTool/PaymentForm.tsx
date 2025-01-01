@@ -111,6 +111,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 await BillingService.postProcessSavedPayment(formData, type, recurrencyMapped, priceUSD, userCtx.userData.email);
             else
                 await BillingService.postProcessPayment(formData, type, recurrencyMapped, priceUSD, userCtx.userData.email);
+            // setPaymentStatus(true);
         } catch (error: unknown) {
             setPaymentStatus(false);
         }
@@ -189,7 +190,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         value={formData.cardholderName}
                         onChange={setFormData('cardholderName')}
                         onKeyDown={(event) => {
-                            if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
+                            if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
                                 event.preventDefault();
                         }}
                         className={CONTROL_H_CN}
@@ -229,7 +230,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                     onChange={setFormData('city')}
                                     placeholder={'City / Locality'}
                                     onKeyDown={(event) => {
-                                        if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
+                                        if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
                                             event.preventDefault();
                                     }}
                                     className={`[&&]:rounded-none [&&]:border-r-0 ${CONTROL_H_CN}`}

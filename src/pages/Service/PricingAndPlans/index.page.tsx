@@ -16,7 +16,7 @@ const PLAN_TEMPLATE: SubscriptionPreview = {
     type: {
         standard: {
             icon: SVG_DIAMOND_ACE,
-            priceUSD: {monthly: 10, annual: 8},
+            priceUSD: {monthly: 0.010, annual: 8},
             benefits: [
                 'Create and manage one AR code',
                 '100 scans per month',
