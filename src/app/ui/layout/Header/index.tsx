@@ -22,13 +22,14 @@ import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
 
-const NAV_LINKS: Route[] = [Route.About, Route.Product, Route.Service, Route.Contact];
-const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit];
+const NAV_LINKS: Route[] = [Route.About, Route.Products, Route.Service, Route.Contact];
+const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit, Route.Dot, Route.TernKey, Route.TernKeyProductManual, Route.TernKeyPricing];
 
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
-    [Route.Product]: '/TernKey',
+    [Route.Products]: '/All',
+    [Route.TernKey]: '/Application',
+    [Route.Dot]: '/Download',
     [Route.Service]: '/ARCH',
-    [Route.ARCodeToolCreate]: '/CreationTool',
 }
 
 
@@ -60,6 +61,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     // Elements
     let navLinks: Route[] = NAV_LINKS;
     const isBreadCrumbsNav: boolean = !isSmScreen && BREADCRUMBS_NAV_ROUTES.some((subRoute) => checkSubRoute(route, subRoute));
+
     if (isBreadCrumbsNav) {
         switch (true) {
             case checkSubRoute(route, Route.Documentation):
@@ -69,7 +71,13 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 navLinks = [Route.About, Route.Credo];
                 break;
             case checkSubRoute(route, Route.ARCodeToolEdit):
-                navLinks = [Route.About, Route.ARCodeToolEdit];
+                navLinks = [Route.Products, Route.ARCodeToolEdit];
+                break;
+            case checkSubRoute(route, Route.Dot):
+                navLinks = [Route.Products, Route.Dot];
+                break;
+            case checkSubRoute(route, Route.TernKey) || checkSubRoute(route, Route.TernKeyPricing) || checkSubRoute(route, Route.TernKeyProductManual):
+                navLinks = [Route.Products, Route.TernKey];
                 break;
             default:
                 break;
@@ -90,10 +98,18 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         case Route.Billing:
             subNavLinks = isSmScreen ? null : LAYOUT.profileLinks;
             break;
-        case Route.Product:
-        case Route.ProductPricing:
-        case Route.ProductUserManual:
-            subNavLinks = [Route.Product, Route.ProductPricing, Route.ProductUserManual];
+        case Route.Products:
+            subNavLinks = [Route.Products, Route.Dot, Route.TernKey];
+            break;
+        case Route.TernKeyPricing:
+        case Route.TernKeyProductManual:
+        case Route.TernKey:
+            subNavLinks = [Route.TernKey, Route.TernKeyPricing, Route.TernKeyProductManual];
+            break;
+        case Route.Dot:
+        case Route.DotPricing:
+        case Route.DotProductManual:
+            subNavLinks = [Route.Dot, Route.DotPricing, Route.DotProductManual];
             break;
         case Route.TernKeyManual:
         case Route.ARHostingManual:
@@ -162,7 +178,10 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         icon={!isActive && isSmScreen ? 'forward' : undefined}
                         className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive ? ACTIVE_ROUTE_CN : ''}`}
                     >
-                        {getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], idx === 0)}
+                        {getRouteName(
+                            checkSubRoute(route, link) ? MAPPED_SUB_NAV_ROUTES?.[link] : link,
+                            link === Route.TernKey
+                        )}
                     </PageLink>
                 );
             })

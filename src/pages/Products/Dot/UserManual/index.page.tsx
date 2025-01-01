@@ -8,8 +8,8 @@ import {DocumentationScreen} from "@/app/ui/templates";
 import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
 
 
-const DOCUMENTATION_CONTENTS: Record<Route.ProductUserManual, DocumentationContent> = {
-    [Route.ProductUserManual]: COMING_SOON_DOC,
+const DOCUMENTATION_CONTENTS: Record<Route.DotProductManual, DocumentationContent> = {
+    [Route.DotProductManual]: COMING_SOON_DOC,
 }
 
 
