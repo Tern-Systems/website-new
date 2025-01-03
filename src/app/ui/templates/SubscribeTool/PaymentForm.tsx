@@ -1,6 +1,6 @@
 import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 
-import {CardData} from "@/app/types/billing";
+import {SavedCard} from "@/app/types/billing";
 import {SubscriptionRecurrency} from "@/app/types/subscription";
 import {SubscribeData} from "@/app/services/billing.service";
 import {COUNTRY, Route, STATE_PROVINCE} from "@/app/static";
@@ -64,7 +64,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     const [isBillingExpanded, setBillingExpandedState] = useState(false);
 
     const [paymentStatus, setPaymentStatus] = useState<boolean | null>(null);
-    const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
 
     // Fetch saved cards
     useEffect(() => {
@@ -120,7 +120,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     // Elements
     const SavedCards: Record<string, string> = {}
     for (const key in savedCards)
-        SavedCards[key] = key + ' ' + savedCards[key].cardNumber;
+        SavedCards[key] = savedCards[key].cardType + ' **** ' + savedCards[key].last4;
 
     let FormInputs: ReactElement;
     if (savedCards.length) {

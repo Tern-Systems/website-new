@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-import {CardData, InvoiceHistory} from "@/app/types/billing";
+import {CardData, InvoiceHistory, SavedCard} from "@/app/types/billing";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
@@ -13,7 +13,7 @@ type SubscribeData = FormCardData & {
 }
 
 interface IBillingService {
-    getCards(email: string): Promise<Res<CardData[]>>;
+    getCards(email: string): Promise<Res<SavedCard[]>>;
 
     postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
 
@@ -122,7 +122,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async getCards(email: string): Promise<Res<CardData[]>> {
+    async getCards(email: string): Promise<Res<SavedCard[]>> {
         const [debug, error] = this.getLoggers(this.getCards.name);
 
         const config: AxiosRequestConfig = {
