@@ -193,7 +193,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 onSubmit={handleFormSubmit}
             >
                 <Image src={SVG_ARCH} alt={'arch-logo'}
-                       className={`h-[4rem] place-self-center ${isSmScreen ? 'hidden' : ''}`}/>
+                       className={`h-[4rem] w-auto place-self-center ${isSmScreen ? 'hidden' : ''}`}/>
                 <Input
                     type={"text"}
                     placeholder={'Name'}

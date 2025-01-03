@@ -6,7 +6,7 @@ import cn from "classnames";
 
 import {LAYOUT, Route} from "@/app/static";
 
-import {useNavigate} from "@/app/hooks";
+import {useBackground, useNavigate} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
 
 import {Insignia} from "@/app/ui/misc";
@@ -26,11 +26,10 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const router = useRouter();
     const layoutCtx = useLayout();
     const [navigate] = useNavigate();
-
+    const bgSrc = useBackground();
 
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
-
 
     useEffect(() => {
         const token = params?.get('resetToken');
@@ -70,8 +69,9 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <Header profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]}/>
                 <div
                     id={'content'}
+                    style={{backgroundImage: `url("${bgSrc}")`}}
                     className={`relative flex flex-col flex-grow w-full justify-center items-center 
-                                bg-content bg-cover bg-no-repeat bg-fixed text-center
+                                bg-cover bg-no-repeat bg-fixed text-center bg-center
                                 overflow-y-scroll ${CONTENT_P_CN} text-[min(2.6dvw,1rem)]
                                 sm:portrait:pt-[13.3dvw]
                                 sm:landscape:p-[2.5dvw]`}
@@ -108,10 +108,10 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         ? children
         : (
             <>
-                <Insignia isInsigniaMoved={isInsigniaMoved}
-                          className={`z-30 sm:-ml-[0.75rem]
+                <Insignia insigniaMoved={isInsigniaMoved}
+                          className={`z-30 cursor-pointer
                             ${isInsigniaMoved
-                              ? 'animate-[insignia_1s_ease-in-out_forwards] cursor-pointer'
+                              ? 'animate-[insignia_1s_ease-in-out_forwards]'
                               : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`}
                 />
                 <div

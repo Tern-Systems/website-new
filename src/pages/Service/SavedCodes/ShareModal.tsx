@@ -77,7 +77,7 @@ const ShareModal: FC<Props> = (props: Props) => {
                       media={file}
                       className={`inline-block [&_path]:bg-control-white  rounded-full overflow-hidden ${styles.clickable}`}
         >
-            <icon.svg className={'size-[--2hdr]'}/>
+            <icon.svg className={'w-[--2hdr] h-auto rounded-full'}/>
         </icon.element>
     ));
 
@@ -89,7 +89,7 @@ const ShareModal: FC<Props> = (props: Props) => {
                 width={85}
                 height={85}
                 alt={'figure'}
-                className={`size-[43%] rounded-small border-[0.1875rem] border-control-white p-[min(4dvw,1.44rem)]`}
+                className={`w-[43%] h-auto rounded-small border-[0.1875rem] border-control-white p-[min(4dvw,1.44rem)]`}
             />
             <span className={'font-oxygen text-content font-bold mt-[min(2.7dvw,1rem)] mb-[min(5.3dvw,1.9rem)]'}>
                 {name}
@@ -98,7 +98,7 @@ const ShareModal: FC<Props> = (props: Props) => {
                 <Image
                     src={SVG_CHEVRON}
                     alt={'right'}
-                    className={'w-[min(2.8dvw,0.875rem)] rotate-90 cursor-pointer'}
+                    className={'w-[min(2.8dvw,0.875rem)] h-auto rotate-90 cursor-pointer'}
                     onClick={() => setIconStartIdx(prevState => prevState > 0 ? prevState - 1 : prevState)}
                 />
                 <span className={`inline-block h-[--2hdr] w-[100%]`}>
@@ -109,7 +109,7 @@ const ShareModal: FC<Props> = (props: Props) => {
                 <Image
                     src={SVG_CHEVRON}
                     alt={'right'}
-                    className={'w-[min(2.8dvw,0.875rem)] -rotate-90 cursor-pointer'}
+                    className={'w-[min(2.8dvw,0.875rem)] h-auto -rotate-90 cursor-pointer'}
                     onClick={() =>
                         setIconStartIdx(prevState => ICONS.length - prevState > VISIBLE_ICONS_COUNT ? prevState + 1 : prevState)
                     }
@@ -121,7 +121,7 @@ const ShareModal: FC<Props> = (props: Props) => {
                 <Image
                     src={SVG_COPY}
                     alt={'copy'}
-                    className={`${styles.clickable} cursor-pointer h-[75%]`}
+                    className={`${styles.clickable} cursor-pointer h-[75%] w-auto`}
                     onClick={() => handleLinkCopy()}
                 />
                 <span className={'ml-[min(4dvw,0.51rem)] text-nowrap overflow-ellipsis overflow-hidden'}>

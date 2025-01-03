@@ -20,6 +20,9 @@ import {Button} from "@/app/ui/form";
 import {LimitsModal} from "./LimitsModal";
 import {Collapsible} from "@/app/ui/misc";
 
+import SVG_BULLET from '@/assets/images/icons/bullet.svg';
+import SVG_STAR from '@/assets/images/icons/star.svg';
+
 
 const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ['monthly', 'annual'];
 
@@ -79,20 +82,12 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         idx: number
     ): ReactElement => {
         const benefitsData = data?.benefits ?? generateFallbackEntries(5);
-        const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => {
-            let listImage = 'list-image-[url("../assets/images/icons/bullet.svg")]';
-            if (type === 'pro')
-                listImage = 'list-image-[url("../assets/images/icons/star.svg")]';
-
-            return (
-                <li
-                    key={type + subIndex}
-                    className={`list-inside ${listImage}`}
-                >
-                    <span className={'align-top'}>{benefit}</span>
-                </li>
-            );
-        });
+        const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
+            <li key={type + subIndex} className={'flex items-center gap-x-[--s-dl-smallest]'}>
+                <Image src={type === 'pro' ? SVG_STAR : SVG_BULLET} alt={'list-icon'} className={'inline'}/>
+                <span>{benefit}</span>
+            </li>
+        ));
 
         if (idx) {
             const Additional = (
@@ -168,7 +163,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <h2 className={`flex items-center mb-[--1dr] font-oxygen text-header font-bold capitalize
                                 sm:landscape:x-[mb-[--s-d-small],text-content]`}>
                     {data?.icon
-                        ? <Image src={data.icon} alt={type + ' icon'} className={'mr-[min(1.1dvw,0.32rem)]'}/>
+                        ? <Image src={data.icon} alt={type + ' icon'}
+                                 className={'mr-[min(1.1dvw,0.32rem)] w-[--1hdr] h-auto'}/>
                         : '--'}
                     <span>{type}</span>
                 </h2>

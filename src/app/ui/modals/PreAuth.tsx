@@ -12,7 +12,7 @@ const PreAuthModal: FC = () => {
 
     return (
         <BaseModal
-            adaptSmScreen
+            smScreenOnly
             title={'Tern Account'}
             classNameTitle={'place-self-start   sm:landscape:place-self-start sm:landscape:ml-0'}
             classNameContent={'place-items-center p-[1.25rem]'}

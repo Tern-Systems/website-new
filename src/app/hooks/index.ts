@@ -1,3 +1,4 @@
+export {useBackground} from "./useBackground";
 export {useBreakpointCheck} from "./useBreakpointCheck";
 export {useForm} from "./useForm";
 export {useLoginCheck} from "./useLoginCheck";

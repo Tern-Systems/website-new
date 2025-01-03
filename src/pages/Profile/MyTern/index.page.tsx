@@ -52,6 +52,7 @@ const NAV_BTNS_DEFAULT: { title: string; icon: ButtonIcon; href: string, isExter
 
 const SUBSCRIPTION_LINK_DICT: Record<Subscription['subscription'], string> = {
     arch: Route.ARCodeToolCreate,
+    dot: Route.Dot,
     ternKey: TERN_AC_HREF,
     trial: '',
 }

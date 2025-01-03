@@ -213,7 +213,7 @@ const SALUTATION = {
 
 
 const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
-    fadeDuration: 300,
+    fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
 }
 

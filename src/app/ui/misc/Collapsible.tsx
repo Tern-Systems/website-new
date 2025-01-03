@@ -55,7 +55,7 @@ const Collapsible: FC<Props> = (props: Props) => {
         ? <Image
             src={ICON[icon]}
             alt={icon}
-            className={`inline size-[min(4.3dvw,1.8rem)]`}/>
+            className={`inline w-[min(4.3dvw,1.8rem)] h-auto`}/>
         : null;
 
     const CollapseIcon = isChevron
@@ -81,7 +81,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                     src={CollapseIcon}
                     alt={'plus-minus'}
                     onClick={() => handleToggle()}
-                    className={`absolute size-[min(3.5dvw,1.8rem)] top-[--2dr] right-[--2dr] ${collapseCN}
+                    className={`absolute w-[min(3.5dvw,1.8rem)] h-auto top-[--2dr] right-[--2dr] ${collapseCN}
                                 md:hidden lg:hidden
                                 sm:landscape:size-[2dvw]`}
                 />
@@ -107,7 +107,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline size-[min(.7dvw,1.8rem)] ${collapseCN}`}
+                    className={`inline w-[min(2.7dvw,1.8rem)] h-auto ${collapseCN}`}
                 />
             </div>
             <hr className={cn({['hidden']: isChevron}, `scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)]

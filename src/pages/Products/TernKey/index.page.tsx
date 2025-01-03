@@ -18,7 +18,7 @@ const TernKeyPage: FC = () => (
             <Image
                 src={SVG_INSIGNIA}
                 alt={'insignia'}
-                className={'h-[55dvw] max-h-[min(20dvw,16rem)]'}
+                className={'w-auto h-[55dvw] max-h-[min(20dvw,16rem)] my-[min(5.3dvw,3.15rem)]'}
             />
         </a>
         <span className={'text-section-header sm:landscape:text-content-small'}>

@@ -13,6 +13,7 @@ import SVG_ARROW from "@/assets/images/icons/arrow.svg";
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 
 import styles from '@/app/common.module.css'
+import {getRouteLeave} from "@/app/utils/router";
 
 
 type Icon = 'back' | 'forward' | 'insignia';
@@ -54,7 +55,7 @@ const PageLink: FC<Props> = (props: Props) => {
 
     const splitHref = children
         ? children
-        : <span>{getRouteName(props.href)}</span>;
+        : <span>{props.href === Route.TernKey ? getRouteLeave(props.href).slice(1) : getRouteName(props.href)}</span>;
 
     return (
         <Link

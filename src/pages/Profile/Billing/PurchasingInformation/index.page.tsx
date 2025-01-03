@@ -67,7 +67,7 @@ function PurchasingInformationPage() {
             setDefaultCardIdx(idx);
         return (
             <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
-                <Image src={SVG_CARD} alt={'card'} className={'size-[1.35419rem]'}/>
+                <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
                 <span>{card.nickName}</span>
                 <span
                     hidden={!card.isDefault}

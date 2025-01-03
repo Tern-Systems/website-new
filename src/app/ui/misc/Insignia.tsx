@@ -1,39 +1,46 @@
 import React, {FC} from "react";
-import Spline from "@splinetool/react-spline";
-import {usePathname} from "next/navigation";
-import cn from "classnames";
+import Image from "next/image";
 
 import {Route} from "@/app/static";
 
 import {useNavigate} from "@/app/hooks";
 
+import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
+
+
+const Spline = React.lazy(() => import('@splinetool/react-spline'));
+
 
 interface Props {
-    isInsigniaMoved?: boolean;
+    insigniaMoved?: boolean;
     className?: string;
 }
 
 const Insignia: FC<Props> = (props: Props) => {
-    const {isInsigniaMoved, className} = props;
+    const {insigniaMoved, className} = props;
 
-    const route = usePathname();
     const [navigate] = useNavigate();
 
+
     // 2 pre-rendered insignias for moving without flickering
-    const insigniaState = (typeof isInsigniaMoved === 'boolean' ? [isInsigniaMoved, !isInsigniaMoved] : [true]);
-    return insigniaState.map((state, idx) => (
-        <div
-            key={state.toString() + idx}
-            onClick={() => {
-                if (route !== Route.Start)
-                    navigate(Route.Home);
-            }}
-            className={cn(className, 'absolute size-[15rem]', {['hidden']: !state})}
-        >
-            <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
-                    className={'pointer-events-none'}/>
+    return (
+        <div className={`${className} absolute size-[15rem]`}>
+            {insigniaMoved
+                ? (
+                    <Image
+                        src={SVG_INSIGNIA}
+                        alt={'insignia'}
+                        onClick={() => navigate(Route.Home)}
+                        className={'size-[12rem] sm:mt-[1rem]'}
+                    />
+                )
+                : (
+                    <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
+                            className={insigniaMoved ? 'pointer-events-none' : ''}
+                    />
+                )}
         </div>
-    ));
+    );
 }
 
 export {Insignia};

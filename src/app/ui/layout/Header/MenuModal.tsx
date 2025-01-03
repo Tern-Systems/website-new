@@ -97,13 +97,16 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     return (
-        <BaseModal adaptSmScreen className={'ml-auto w-full sm:landscape:x-[max-w-[46dvw],text-content-small]'}>
-            <ul className={`flex flex-col  gap-x-[--s-default]   cursor-pointer overflow-y-scroll h-dvh pb-[4.3rem]`}>
+        <BaseModal adaptSmScreen smScreenOnly
+                   className={'ml-auto w-full sm:landscape:x-[max-w-[46dvw],text-content-small]'}
+                   classNameContent={'h-[calc(100dvh-4.3rem)] overflow-y-scroll'}
+        >
+            <ul className={`flex flex-col  gap-x-[--s-default]`}>
                 {NavLinks}
             </ul>
             {/*TODO add language support*/}
             <div className={`lg:hidden md:hidden    flex items-center self-start    gap-x-[0.63rem] p-[1.25rem]`}>
-                <Image src={SVG_GLOBE} alt={'globe'} className={'size-[1.125rem]'}/>
+                <Image src={SVG_GLOBE} alt={'globe'} className={'w-[1.125rem] h-auto'}/>
                 <span>{userCtx.userData ? LANGUAGE[userCtx.userData.preferredLanguage] : '--'}</span>
             </div>
         </BaseModal>

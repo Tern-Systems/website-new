@@ -11,16 +11,20 @@ enum Route {
 
     // /Service
     Service = '/Service',
-    ARCodeToolCreate = '/Service/Create',
+    ARCodeToolCreate = '/Service/CreationTool',
     ARCodeToolEdit = '/Service/SavedCodes/Edit',
     ServiceUserManual = '/Service/UserManual',
     ServicePricing = '/Service/PricingAndPlans',
     SavedCodes = '/Service/SavedCodes',
 
     // /Product
-    Product = '/Product',
-    ProductUserManual = '/Product/UserManual',
-    ProductPricing = '/Product/PricingAndPlans',
+    Products = '/Products',
+    TernKey = '/Products/TernKey',
+    TernKeyPricing = '/Products/TernKey/PricingAndPlans',
+    TernKeyProductManual = '/Products/TernKey/UserManual',
+    Dot = '/Products/Dot',
+    DotPricing = '/Products/Dot/Pricing',
+    DotProductManual = '/Products/Dot/UserManual',
 
     // /Profile
     Profile = '/Profile',
