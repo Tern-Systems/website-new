@@ -113,9 +113,10 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                     }else{ 
                         const {payload: userData} = await UserService.getUser(token);
                         userCtx.setSession(userData as UserData, token); // TODO remove type casting
+                        modalCtx.closeModal();
                     }
                     
-                    modalCtx.closeModal();
+                    
 
                 }
             }
