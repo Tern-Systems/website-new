@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 
 import {ARCode} from "@/app/types/arcode";
 
@@ -14,13 +14,18 @@ const EditCodePage: FC = () => {
 
 
     useEffect(() => {
-        const arCode = sessionStorage.getItem('qr-code-edit');
-        if (arCode)
-            setArCode(JSON.parse(arCode) as ARCode);
+        const arCodeStr = sessionStorage.getItem('qr-code-edit');
+        if (!arCodeStr)
+            return;
+        const arCode = JSON.parse(arCodeStr) as ARCode;
+        const arCodeEdit: ARCode = {
+            ...arCode,
+            videoPath: arCode.videoPath.split('/').pop() ?? '',
+        }
+        setArCode(arCodeEdit);
     }, []);
 
     return isLoggedIn ? <ARCodeTool arCode={arCode}/> : null;
 }
 
 export default EditCodePage;
-

@@ -1,6 +1,5 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {useQRCode} from "next-qrcode";
-import axios from "axios";
 
 import {UserSubscription} from "@/app/context/User.context";
 import {ARCode} from "@/app/types/arcode";
@@ -97,12 +96,8 @@ const SavedCodesPage: FC = () => {
                 setQRList(qrList);
                 setUpdateList(false);
             } catch (error: unknown) {
-                let message: string = 'Unknown error';
-                if (axios.isAxiosError(error))
-                    message = error.cause?.message ?? message;
-                else if (typeof error === 'string')
-                    message = error;
-                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+                if (typeof error === 'string')
+                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
             }
         }
         fetchListQR();

@@ -1,7 +1,6 @@
 import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
 import Image from "next/image";
 import {useQRCode} from "next-qrcode";
-import axios from "axios";
 
 import {ARCode} from "@/app/types/arcode";
 import {UserSubscription} from "@/app/context/User.context";
@@ -13,22 +12,23 @@ import {ARCHService} from "@/app/services";
 import {useBreakpointCheck, useForm, useNavigate, useSaveOnLeave} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
-import {AuthModal, BaseModal, MessageModal} from "@/app/ui/modals";
+import {AuthModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_ARCH from "@/assets/images/arch-logo.svg";
 
 
-type ARCodeToolForm = Pick<ARCode, 'backgroundColor' | 'moduleColor' | 'name' | 'mediaId' | 'qrCodeUrl'> & {
-    file?: File | null
-};
+type ARCodeToolForm =
+    Pick<ARCode, 'backgroundColor' | 'moduleColor' | 'name' | 'mediaId' | 'qrCodeUrl' | 'videoPath'>
+    & Partial<Pick<ARCode, 'video'>>;
 
 const FORM_DEFAULT: ARCodeToolForm = {
     mediaId: '',
     backgroundColor: '#000000',
     moduleColor: '#ffffff',
     name: '',
-    file: null,
+    video: undefined,
+    videoPath: '',
     qrCodeUrl: '',
 }
 const FORM_COLOR_PICKERS = ['module', 'background'];
@@ -58,48 +58,53 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 moduleColor: arCode.moduleColor,
                 name: arCode.name,
                 qrCodeUrl: arCode.qrCodeUrl,
+                videoPath: arCode.videoPath,
             }
-            : FORM_DEFAULT)
+            : FORM_DEFAULT),
+        () => preventLeaving(true)
     );
 
     const processCode = useCallback(async () => {
-        if (!userData || !formValue || !formValue.file)
+        if (!userData || !formValue)
             return;
 
         try {
-            if (!arCode) {
-                const {
-                    payload: {id, url}
-                } = await ARCHService.postGenerateQR(formValue.moduleColor, formValue.backgroundColor);
-                const response = await fetch(url);
-                const blob = await response.blob();
-                const file = new File([blob], "fileName.jpg", {type: "image/png"});
-                await ARCHService.postSaveQR(userData.email, formValue.name, id, file, formValue.file);
+            const {
+                payload: {id, url}
+            } = await ARCHService.postGenerateQR(formValue.moduleColor, formValue.backgroundColor);
 
-                const SuccessModal = () => {
-                    return (
-                        <BaseModal isSimple
-                                   className={'w-[18rem] h-[3.6rem] bottom-[7.2rem] right-[--s-default] border-control-white border-small'}>
-                            Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully
-                            saved
-                        </BaseModal>
-                    );
-                }
+            const mediaId = arCode ? arCode.mediaId : id;
+
+            // Fetch and create an image of QR
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const qrImage: File = new File([blob], formValue.name, {type: "image/png"});
+
+            await ARCHService.postSaveQR(
+                userData.email, formValue.name, arCode !== undefined, mediaId,
+                formValue.backgroundColor, formValue.moduleColor, qrImage, formValue.video
+            );
+
+            const SuccessModal = () => (
+                <MessageModal>
+                    Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully saved
+                </MessageModal>
+            );
+            modalCtx.openModal(<SuccessModal/>)
+
+            preventLeaving(false);
+            if (!arCode)
                 setFormValueState(FORM_DEFAULT);
-                modalCtx.openModal(<SuccessModal/>)
-            }
+            else
+                navigate(Route.SavedCodes);
         } catch (error: unknown) {
-            let message: string = 'Unknown error';
-            if (axios.isAxiosError(error))
-                message = error.cause?.message ?? message;
-            else if (typeof error === 'string')
-                message = error;
-            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
         // eslint-disable-next-line
     }, [formValue, userData])
 
-    useSaveOnLeave(processCode);
+    const preventLeaving = useSaveOnLeave(processCode);
 
 
     useEffect(() => {
@@ -128,15 +133,19 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         }
 
         const subscription: UserSubscription | undefined = userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
-        if (!subscription)
-            flow.push(() => navigate(Route.ServicePricing))
+        if (!subscription) {
+            flow.push(() => {
+                preventLeaving(false);
+                navigate(Route.ServicePricing)
+            })
+        }
 
         if (!flow.length)
             return processCode();
 
         flow.push(async () => {
-            navigate(Route.SavedCodes);
             await processCode()
+            navigate(Route.SavedCodes);
         });
         flowCtx.run(flow);
     }
@@ -196,17 +205,21 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 />
                 <Input
                     type={"file"}
-                    accept='image/*,video/*'
+                    accept={'image/*,video/*'}
                     onChange={(event) => {
-                        if (event.target.files) {
-                            const file = Array.from(event.target.files)[0];
-                            setFormValueState((prevState) => ({...prevState, file}));
+                        if (!event.target.files)
+                            return;
+                        const file = Array.from(event.target.files)?.[0];
+                        if (file) {
+                            setFormValueState((prevState) =>
+                                ({...prevState, video: file, videoPath: file.name})
+                            );
                         }
                     }}
                     classNameWrapper={'h-[min(13dvw,3.1rem)] font-bold text-content text-black bg-control-white rounded-full'}
-                    required
+                    required={!arCode}
                 >
-                    {arCode ? formValue.file?.name : 'Upload Media'}
+                    {formValue.videoPath ? formValue.videoPath : 'Upload Media'}
                 </Input>
                 {ColorPickers}
                 <Button

@@ -39,12 +39,12 @@ const MENU_ITEMS: MenuItem = {
     },
     Download: {
         svg: 'download',
-        action: async () => null
-    }, // TODO
+        action: async (args: { arCode: ARCode }) => window.open(args.arCode.downloadUrl, '_blank')
+    },
     Share: {
         svg: 'share',
         action: (args: { openModal: OpenModal, arCode: ARCode }) =>
-            args.openModal(<ShareModal name={args.arCode.name} file={args.arCode.file.name}/>, {darkenBg: true})
+            args.openModal(<ShareModal name={args.arCode.name} file={args.arCode.qrCodeUrl}/>, {darkenBg: true})
     },
     Delete: {
         svg: 'delete',
