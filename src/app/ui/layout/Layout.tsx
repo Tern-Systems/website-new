@@ -9,7 +9,7 @@ import {LAYOUT, Route} from "@/app/static";
 import {useNavigate} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
 
-import {Insignia, ScrollEnd} from "@/app/ui/misc";
+import {Insignia} from "@/app/ui/misc";
 import {Header, PageLink} from "@/app/ui/layout";
 
 import "@/app/globals.css";
@@ -85,7 +85,6 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                         )}
                     >
                         {children}
-                        <ScrollEnd/>
                     </div>
                 </div>
                 <footer

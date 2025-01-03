@@ -1,6 +1,7 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react'
 import {usePathname} from "next/navigation";
 import Image from "next/image";
+import cn from "classnames";
 
 import {Route} from "@/app/static";
 
@@ -154,34 +155,45 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`self-center flex-grow h-full min-w-[70rem] 
-                       ${layoutCtx.isNoLayout ? '' : 'max-h-[90%] max-w-[90%] pt-[--s-default] sm:max-h-full sm:max-w-full sm:pt-[1.25rem] sm:min-w-0'}`}>
+            className={cn(
+                `self-center flex-grow h-full min-w-[min(90dvw,70rem)] text-default 
+                sm:landscape:pb-[--2dr]`,
+                {['max-h-[90%] max-w-[90%] pt-[--s-default] sm:x-[max-h-full,max-w-full,pt-[1.25rem],min-w-0]']: !layoutCtx.isNoLayout}
+            )}
+        >
             <div
                 className={`flex h-full rounded-small border-small border-control-gray bg-control-navy text-[1.5rem]
-                            leading-[130%] box-content overflow-hidden
-                            sm:p-[0.`}>
+                            leading-[130%] box-content overflow-hidden`}>
                 <aside
                     id={'documentation-menu'}
-                    className={`text-[1.0625rem] p-[--s-default] text-left overflow-y-hidden      sm:absolute sm:top-0 sm:left-0 sm:p-[1.25rem] sm:h-full
-                                ${isMenuOpened ? 'bg-[#4D4D4D] min-w-[19.44rem] sm:w-full' : 'h-fit bg-none'}`}
+                    className={cn(
+                        `p-[--s-default] pr-0 text-left
+                        sm:x-[absolute,top-0,left-0,p-[1.25rem],h-full]`,
+                        isMenuOpened ? 'bg-[#4D4D4D] min-w-[19rem] sm:portrait:w-full' : 'h-fit bg-none'
+                    )}
                 >
-                    <div className={`flex items-center sm:flex-col sm:items-start`}>
+                    <div className={`flex items-center h-[2rem] sm:x-[flex-col,items-start,h-[5rem]]`}>
                         <span className={'flex gap-x-[0.62rem] lg:contents md:contents items-center h-[3rem]'}>
                             {MenuBtn}
                             <Select
                                 options={options}
                                 onChangeCustom={(route) => navigate(route as Route)}
                                 value={route ?? ''}
-                                classNameWrapper={'w-[min(35dvw,10rem)]'}
-                                className={`md:hidden lg:hidden text-[1.3rem] font-bold font-oxygen border-none rounded-smallest
+                                classNameWrapper={'w-[min(35dvw,10rem)] md:hidden lg:hidden'}
+                                className={`text-[1.3rem] font-bold font-oxygen border-none rounded-smallest
                                             px-[min(1.3dvw,1.62rem)] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.3rem] ${selectBgCn}`}
                                 classNameOption={`w-full ${selectBgCn} border-none`}
                             />
                         </span>
                         <span hidden={!isMenuOpened}
-                              className={'ml-[2.31rem] text-content-small sm:ml-0 sm:mt-[2.7rem]'}>Table of Contents</span>
+                              className={`text-content-small text-nowrap ml-[1rem]
+                                        sm:portrait:x-[my-[2.7rem],text-header]
+                                        sm:landscape:x-[my-[--1dr]]`}
+                        >
+                            Table of Contents
+                        </span>
                     </div>
-                    <div className={'mt-[1.86rem] h-full overflow-y-scroll sm:mt-[0.74rem]'}>
+                    <div className={'h-[calc(100%-2rem)] overflow-y-scroll text-content-small sm:h-[calc(100%-5rem)] sm:portrait:text-content'}>
                         <ul
                             hidden={!isMenuOpened}
                             className={'ml-[-0.9rem]'}
@@ -191,8 +203,12 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                     </div>
                 </aside>
                 <div
-                    className={`px-[0.75rem] w-full text-left content-center p-[--s-default]     sm:p-[0.63rem]
-                                ${layoutCtx.isNoLayout ? '' : 'max-w-[78.375rem]'}`}>
+                    className={cn(
+                        `px-[0.75rem] w-full text-left content-center p-[--s-default]
+                        sm:p-[0.63rem]`,
+                        {['max-w-[78.375rem]']: !layoutCtx.isNoLayout}
+                    )}
+                >
                     <div className={`h-full w-full overflow-y-scroll`}>
                         {isPiPMode
                             ? <span
@@ -200,7 +216,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                             : documentationContent?.children}
                     </div>
                 </div>
-                <aside className={`text-[1.0625rem] p-[--s-default] flex flex-col justify-between    sm:hidden`}>
+                <aside className={`p-[--s-default] flex flex-col justify-between    sm:hidden`}>
                     {ControlBtns}
                 </aside>
             </div>

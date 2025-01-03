@@ -232,12 +232,12 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <header className={'text-content'}>
-            <div className={`relative z-[2] bg-black flex w-full h-[4.3rem] px-[--s-default] justify-between items-center
-                            border-b-small border-section 
-                            sm:flex-row-reverse sm:justify-start sm:px-[1.25rem]    after:sm:border-control-gray-l0`}
+            <div className={`relative z-[2] flex justify-between items-center px-[--s-default] w-full h-[4.3rem] 
+                            border-b-small border-section bg-black 
+                            sm:x-[flex-row-reverse,justify-start,px-[1.25rem]]    after:sm:border-control-gray-l0`}
             >
                 <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)]
-                                before:absolute before:h-[2rem] before:-left-[--s-default] before:border-r-small before:border-section
+                                before:x-[absolute,h-[2rem],-left-[--s-default],border-r-small,border-section]
                                 sm:ml-[--s-default] sm:before:border-control-gray-l0`}
                 >
                     <Button

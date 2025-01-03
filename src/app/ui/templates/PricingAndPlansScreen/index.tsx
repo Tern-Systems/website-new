@@ -165,19 +165,20 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         const CollapsedContentSm = (
             <>
-                <h2 className={'flex mb-[--1dr] font-oxygen text-header font-bold capitalize'}>
+                <h2 className={`flex items-center mb-[--1dr] font-oxygen text-header font-bold capitalize
+                                sm:landscape:x-[mb-[--s-d-small],text-content]`}>
                     {data?.icon
                         ? <Image src={data.icon} alt={type + ' icon'} className={'mr-[min(1.1dvw,0.32rem)]'}/>
                         : '--'}
                     <span>{type}</span>
                 </h2>
-                <div className={'text-secondary mb-[min(4dvw,2.2rem)] text-[min(4.8dvw,1.25rem)]'}>
+                <div className={'mb-[--2tdr] text-secondary sm:landscape:mb-[--1dr]'}>
                     <span>{pricing + (isAnnualSwitchOption ? '*' : '')}</span>
                 </div>
                 <Button
                     onClick={() => handleSubscribeClick(type)}
-                    className={`bg-control-blue font-bold text-[min(4.3dvw,var(--fz-content-small-))] rounded-full py-[min(4dvw,1.13rem)] w-full
-                                disabled:bg-inherit disabled:border-small disabled:border-control disabled:text-secondary`}
+                    className={`py-[--1drl] w-full rounded-full bg-control-blue font-bold text-content-small 
+                                disabled:x-[bg-inherit,border-small,border-control-gray,text-secondary]`}
                     disabled={isBtnDisabled}
                 >
                     {subscribeBtnText}
@@ -192,12 +193,20 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 isChevron
                 expandedState={[!isSmScreen]}
                 collapsedContent={CollapsedContentSm}
-                classNameWrapper={'[&]:w-[min(90dvw,25rem)] border-small border-control-white-d0 sm:border-none text-left'}
+                classNameWrapper={`[&]:w-[90dvw] [&]:max-w-[25rem] border-small border-control-white-d0 text-left self-start
+                                    sm:border-none
+                                    sm:landscape:[&]:max-w-[36dvw]`}
             >
                 {CollapsedContentSm}
-                <ul className={'flex flex-col gap-[min(5.3dvw,1.5rem)] mt-[min(5.3dvw,1.5rem)] items-start'}>{Benefits}</ul>
+                <ul className={`flex flex-col gap-[min(5.3dvw,1.5rem)] mt-[min(5.3dvw,1.5rem)] items-start
+                                text-default
+                                sm:landscape:text-small`}>
+                    {Benefits}
+                </ul>
                 <div
-                    className={'flex flex-col mt-[min(8dvw,2.1rem)] font-oxygen text-[min(2.6dvw,var(--fz-note-))] text-secondary flex-grow justify-end'}>
+                    className={`flex flex-col mt-[min(8dvw,2.1rem)] font-oxygen text-[min(2.6dvw,var(--fz-note-))]
+                                text-secondary flex-grow justify-end`}
+                >
                     {Links}
                 </div>
             </Collapsible>
@@ -240,11 +249,14 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     );
 
     return (
-        <div className={'flex flex-col my-auto sm:my-0'}>
-            <div className={'flex place-self-center p-[0.2rem] border-small rounded-full text-small'}>
+        <div className={`flex flex-col gap-[min(5.3dvw,3.12rem)] my-auto
+                        sm:my-0
+                        sm:landscape:flex-row`}>
+            <div className={`flex place-self-center p-[0.2rem] border-small rounded-full text-small
+                            sm:landscape:x-[flex-col,place-self-start,sticky,top-0,rounded-[1.4rem]]`}>
                 {Switch}
             </div>
-            <div className={'flex place-self-center gap-[min(2.6dvw,4.13rem)] mt-[min(5.3dvw,3.12rem)] sm:flex-col'}>
+            <div className={'flex place-self-center gap-[min(2.6dvw,4.13rem)] sm:portrait:flex-col'}>
                 {renderColumns()}
             </div>
         </div>

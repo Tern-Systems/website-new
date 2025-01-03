@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-import {CardData} from "@/app/types/billing";
+import {CardData, InvoiceHistory} from "@/app/types/billing";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
@@ -18,11 +18,31 @@ interface IBillingService {
     postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
 
     postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
+
+    postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
     constructor() {
         super(BillingServiceImpl.name)
+    }
+
+    async postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>> {
+        this.log(this.postGetInvoices.name);
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `get-subscription-details`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email}),
+            withCredentials: true,
+        };
+
+        try {
+            const response = await axios(config);
+            return response.data;
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
     }
 
     async getCards(email: string): Promise<Res<CardData[]>> {

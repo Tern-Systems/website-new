@@ -78,7 +78,7 @@ const DocumentationPage: FC = () => {
                     Documentation
                 </h1>
                 <ul className={`grid gap-[0.12rem]
-                                grid-cols-[repeat(3,30rem)] text-[min(3.7dvw,1rem)]
+                                grid-cols-[repeat(3,minmax(0,30rem))] text-[min(3.7dvw,1rem)]
                                 sm:x-[overflow-y-scroll]
                                 sm:portrait:x-[grid-cols-1,max-h-[65dvh]]
                                 sm:landscape:x-[grid-cols-2,text-small]`}

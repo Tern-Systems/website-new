@@ -57,7 +57,7 @@ const MenuModal: FC<Props> = (props: Props) => {
                 style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 2) + 'rem'}}
                 className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
                     [ACTIVE_ROUTE_CN]: isActive || isProfilePath,
-                    ['border-b-small']: isNextActive,
+                    ['border-b-small']: !isNextActive,
                     ['[&]:border-t-0']: !idx,
                 })}
             >
@@ -97,8 +97,8 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     return (
-        <BaseModal adaptSmScreen className={'ml-auto w-full    [&]:text-content-small     sm:landscape:max-w-[46dvw]'}>
-            <ul className={`flex flex-col  gap-x-[--s-default]   cursor-pointer`}>
+        <BaseModal adaptSmScreen className={'ml-auto w-full sm:landscape:x-[max-w-[46dvw],text-content-small]'}>
+            <ul className={`flex flex-col  gap-x-[--s-default]   cursor-pointer overflow-y-scroll h-dvh pb-[4.3rem]`}>
                 {NavLinks}
             </ul>
             {/*TODO add language support*/}
