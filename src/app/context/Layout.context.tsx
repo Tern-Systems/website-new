@@ -20,7 +20,7 @@ import {useBreakpointCheck} from "@/app/hooks";
 
 
 const NAV_LINKS: Route[] = [Route.About, Route.Products, Route.Service, Route.Contact];
-const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit];
+const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit, Route.Dot, Route.TernKey];
 
 
 interface ILayoutContext {
