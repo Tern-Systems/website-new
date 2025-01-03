@@ -41,9 +41,14 @@
   transition: 0.1s ease-in-out;
 }
 
-.clickable:active {
-  transform: translateY(1.5px);
-  transition: 0.1s ease-in-out;
+.disconnect:hover {
+  background-color: #FF4422;
+  font-weight: 700;
+}
+
+.connect:hover {
+  background-color: #178ab7;
+  font-weight: 700;
 }
 
 @keyframes typing {
