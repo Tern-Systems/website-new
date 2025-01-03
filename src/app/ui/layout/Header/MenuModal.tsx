@@ -97,7 +97,9 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     return (
-        <BaseModal adaptSmScreen className={'ml-auto w-full sm:landscape:x-[max-w-[46dvw],text-content-small]'}>
+        <BaseModal adaptSmScreen smScreenOnly
+                   className={'ml-auto w-full sm:landscape:x-[max-w-[46dvw],text-content-small]'}
+        >
             <ul className={`flex flex-col  gap-x-[--s-default]   cursor-pointer overflow-y-scroll h-dvh pb-[4.3rem]`}>
                 {NavLinks}
             </ul>
