@@ -300,7 +300,7 @@ const ProfilePage: FC = () => {
                                     const saveRes = await AuthService.post2FASavePhone(userData?.email || '', phoneNumber);
 
                                     if (saveRes === true) {
-                                        const OTPRes = modalCtx.openModal(
+                                        modalCtx.openModal(
                                             <AuthenticationCode
                                                 token={token || ''}
                                                 phone={phoneNumber}
