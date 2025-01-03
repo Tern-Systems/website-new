@@ -217,6 +217,13 @@ const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
 }
 
+const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
+    [Route.Products]: '/All',
+    [Route.TernKey]: '/Application',
+    [Route.Dot]: '/Download',
+    [Route.Service]: '/ARCH',
+}
+
 // Temp
 const INVOICE_TEMPLATE: Invoice = {
     id: 111111111111,
@@ -235,4 +242,4 @@ const INVOICE_TEMPLATE: Invoice = {
     status: 'paid'
 }
 
-export {INVOICE_TEMPLATE, LANGUAGE, SALUTATION, LAYOUT};
+export {INVOICE_TEMPLATE, MAPPED_SUB_NAV_ROUTES, LANGUAGE, SALUTATION, LAYOUT};

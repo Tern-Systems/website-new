@@ -1,4 +1,4 @@
-import {ReactElement, Suspense} from "react";
+import {ReactElement, Suspense, useEffect, useState} from "react";
 import {AppProps} from "next/app";
 
 import {useBreakpointCheck} from "@/app/hooks";
@@ -9,9 +9,16 @@ import {Layout} from "@/app/ui/layout";
 
 export default function MyApp({Component, pageProps}: AppProps) {
     const isSmScreen = useBreakpointCheck();
+    const [isPiPModeChild, setPiPModeChildState] = useState(false);
+
+    // Click checking
+    useEffect(() => {
+        setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null)
+    }, [])
+
 
     // @ts-expect-error no errors
-    const getLayout = isSmScreen ? Component.getMobileLayout : Component.getLayout;
+    const getLayout = isSmScreen && !isPiPModeChild ? Component.getMobileLayout : Component.getLayout;
 
 
     const FinalElement: ReactElement = getLayout
@@ -25,14 +32,14 @@ export default function MyApp({Component, pageProps}: AppProps) {
         );
 
     return (
-        <LayoutProvider>
-            <FlowProvider>
-                <UserProvider>
-                    <ModalProvider>
+        <UserProvider>
+            <LayoutProvider>
+                <ModalProvider>
+                    <FlowProvider>
                         {FinalElement}
-                    </ModalProvider>
-                </UserProvider>
-            </FlowProvider>
-        </LayoutProvider>
+                    </FlowProvider>
+                </ModalProvider>
+            </LayoutProvider>
+        </UserProvider>
     );
 }

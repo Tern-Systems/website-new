@@ -3,10 +3,10 @@ import {usePathname} from "next/navigation";
 import Image from "next/image";
 import cn from "classnames";
 
-import {LANGUAGE, Route} from "@/app/static";
+import {LANGUAGE, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
-import {useModal, useUser} from "@/app/context";
+import {useLayout, useModal, useUser} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals";
 import {PageLink} from "@/app/ui/layout";
@@ -19,16 +19,15 @@ const ACTIVE_ROUTE_CN = `border-small border-control-blue mx-0 px-[1.125rem] bor
 
 
 interface Props {
-    navLinks: Route[];
-    subNavLinks: Route[] | null;
-    mappedRoutes?: Record<string, string>;
+    subNavLinks?: Route[] | null;
 }
 
 const MenuModal: FC<Props> = (props: Props) => {
-    const {subNavLinks, navLinks, mappedRoutes} = props;
+    const {subNavLinks} = props;
 
     const route = usePathname();
     const userCtx = useUser();
+    const layoutCtx = useLayout();
     const modalCtx = useModal();
 
     useEffect(() => {
@@ -42,12 +41,13 @@ const MenuModal: FC<Props> = (props: Props) => {
     }, [modalCtx])
 
 
-    const renderSubNav = (): ReactElement[] | undefined => subNavLinks?.map((link, idx, array) => {
-        const isProfilePath = route?.includes(Route.Profile);
+    const renderSubNav = (): ReactElement[] | undefined =>
+        (subNavLinks ?? layoutCtx.subNavLinks)?.map((link, idx, array) => {
+            const isProfilePath = route?.includes(Route.Profile);
 
-        const isActive = checkSubRoute(route, link, true);
-        const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
-        const routeName = getRouteName(mappedRoutes?.[link], idx === 0);
+            const isActive = checkSubRoute(route, link, true);
+            const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
+            const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], idx === 0);
 
         return (
             <PageLink
@@ -67,7 +67,7 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     // Elements
-    const NavLinks: ReactElement[] = navLinks.map((link: Route, idx, array) => {
+    const NavLinks: ReactElement[] = layoutCtx.navLinks.map((link: Route, idx, array) => {
         const isProfilePath = route?.includes(Route.Profile);
 
         let routes: (string | null)[] = [route, link, array[idx + 1]];
@@ -84,6 +84,7 @@ const MenuModal: FC<Props> = (props: Props) => {
             <span key={link + idx} className={'contents'}>
                 <PageLink
                     href={link}
+                    preventModalClose={!isProfilePath}
                     icon={!isActive ? 'forward' : undefined}
                     className={cn(`justify-center`, NAV_CN, {
                         [ACTIVE_ROUTE_CN]: isActive,

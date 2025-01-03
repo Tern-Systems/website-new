@@ -7,7 +7,6 @@ import {Route} from "@/app/static";
 
 import {getRouteName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
-import {useModal} from "@/app/context";
 
 import SVG_ARROW from "@/assets/images/icons/arrow.svg";
 import SVG_INSIGNIA from "@/assets/images/insignia.svg";
@@ -29,22 +28,19 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
     icon?: Icon;
     isExternal?: boolean;
     prevent?: boolean;
+    preventModalClose?: boolean;
 }
 
 const PageLink: FC<Props> = (props: Props) => {
-    const {icon, children, href, isExternal, prevent, ...linkProps} = props;
+    const {icon, children, href, isExternal, prevent, preventModalClose, ...linkProps} = props;
 
     const route = usePathname();
-    const modalCtx = useModal();
-    const [navigate] = useNavigate();
+    const [navigate] = useNavigate(preventModalClose);
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
         linkProps.onClick?.(event);
-        if (prevent)
+        if (prevent || isExternal)
             return;
-        if (isExternal)
-            return;
-        modalCtx.closeModal();
         navigate(href as Route ?? Route.Home);
     }
 

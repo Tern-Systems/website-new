@@ -29,7 +29,8 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
 
     const [isPiPMode, setPiPModeState] = useState(false);
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
-    const [isMenuOpened, setMenuOpened] = useState<boolean>(false);
+    const [isMenuOpened, setMenuOpened] = useState(false);
+    const [isSelectOpened, setSelectOpenState] = useState(false);
 
     const documentationContent: DocumentationContent | null = route ? contents[route] : null;
 
@@ -43,6 +44,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
 
         const handleLoad = () => {
             setPiPModeState(true);
+            setMenuOpened(false);
             sessionStorage.setItem('pip-mode-parent', '');
         }
         const handleUnload = () => {
@@ -169,7 +171,9 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                     className={cn(
                         `p-[--s-default] pr-0 text-left
                         sm:x-[absolute,top-0,left-0,p-[1.25rem],h-full]`,
-                        isMenuOpened ? 'bg-[#4D4D4D] min-w-[19rem] sm:portrait:w-full' : 'h-fit bg-none'
+                        isMenuOpened
+                            ? 'bg-[#4D4D4D] min-w-[19rem] sm:portrait:w-full'
+                            : (isSelectOpened ? 'h-full' : 'h-fit bg-none')
                     )}
                 >
                     <div className={`flex items-center h-[2rem] sm:x-[flex-col,items-start,h-[5rem]]`}>
@@ -179,6 +183,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                                 options={options}
                                 onChangeCustom={(route) => navigate(route as Route)}
                                 value={route ?? ''}
+                                onClick={() => setSelectOpenState(prevState => !prevState)}
                                 classNameWrapper={'w-[min(35dvw,10rem)] md:hidden lg:hidden'}
                                 className={`text-[1.3rem] font-bold font-oxygen border-none rounded-smallest
                                             px-[min(1.3dvw,1.62rem)] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.3rem] ${selectBgCn}`}
@@ -193,22 +198,20 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                             Table of Contents
                         </span>
                     </div>
-                    <div className={'h-[calc(100%-2rem)] overflow-y-scroll text-content-small sm:h-[calc(100%-5rem)] sm:portrait:text-content'}>
+                    <div
+                        className={'h-[calc(100%-2rem)] overflow-y-scroll text-content-small sm:h-[calc(100%-5rem)] sm:portrait:text-content'}>
                         <ul
                             hidden={!isMenuOpened}
-                            className={'ml-[-0.9rem]'}
+                            className={'ml-[-0.9rem] overflow-y-scroll h-full'}
                         >
                             {renderAnchorList(documentationContent?.anchors, documentationContent?.isChapter)}
                         </ul>
                     </div>
                 </aside>
                 <div
-                    className={cn(
-                        `px-[0.75rem] w-full text-left content-center p-[--s-default]
-                        sm:p-[0.63rem]`,
-                        {['max-w-[78.375rem]']: !layoutCtx.isNoLayout}
-                    )}
-                >
+                    className={`px-[0.75rem] w-full text-left content-center p-[--s-default] h-full
+                                ${layoutCtx.isNoLayout ? '' : 'w-[58dvw] max-w-[70rem]'}
+                                sm:p-[0.63rem]`}>
                     <div className={`h-full w-full overflow-y-scroll`}>
                         {isPiPMode
                             ? <span
