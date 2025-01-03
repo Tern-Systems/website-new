@@ -14,9 +14,6 @@ import { INDUSTRY, IndustryKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubI
 import { COUNTRY, SALUTATION, STATE_PROVINCE } from "@/app/static";
 
 import { Address, Company, FullName, Phone, UserAddress, UserPhone } from "@/app/context/User.context";
-import { useModal, useUser } from "@/app/context";
-
-import { MessageModal } from "@/app/ui/modals";
 
 import { copyObject } from "@/app/utils";
 import { useBreakpointCheck, useForm } from "@/app/hooks";
@@ -25,10 +22,6 @@ import { Button, Input, Select, Switch } from "@/app/ui/form";
 
 import SVG_PENCIL from "@/assets/images/icons/edit-line.svg";
 import { ReactSVG } from "react-svg";
-
-import { AuthService } from "@/app/services";
-import axios from "axios";
-
 
 const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };
 const DEFAULT_ADDRESS: Address = {
@@ -99,10 +92,6 @@ const Editable: FC<Props> = (props: Props) => {
     } = props;
     const isSmScreen = useBreakpointCheck();
 
-    const modalCtx = useModal();
-    const {userData, token} = useUser();
-    const userCtx = useUser();
-
     // State
     let defaultFormValue: FormData;
     if (data.value === null)
@@ -169,7 +158,7 @@ const Editable: FC<Props> = (props: Props) => {
 
     // Elements
     const Hr = <hr className={'border-control-white-d0'} />;
-
+    
     const ControlBtns = (
         <span
             className={`flex gap-x-[min(1dvw,0.75rem)] h-[--h-control] mt-[min(1.3dvw,0.95rem)] text-small font-bold`}>
@@ -387,47 +376,8 @@ const Editable: FC<Props> = (props: Props) => {
                             data={{
                                 className: FA2_INPUT_CN,
                                 title: 'Add your Phone as a two-factor authentication option',
-                                value: data.value.isPhoneAdded ? { value: '' } : formData,
-                                onSave: async () => {
-                                    if (!formData || typeof formData.value !== 'string') return;
-
-                                    const phoneNumber = formData.value.trim();
-                                    const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format validation
-
-                                    if (!phoneRegex.test(phoneNumber)) {
-                                        modalCtx.openModal(<MessageModal>Invalid phone number format. Please enter a valid number.</MessageModal>);
-                                        return;
-                                    }
-
-                                    try {
-                                        const saveRes = await AuthService.post2FASavePhone(userData?.email || '', phoneNumber);
-
-                                        if (saveRes === true) {
-                                            if (userCtx.userData) {
-                                                const updatedUserData = {
-                                                    ...userCtx.userData,
-                                                    state2FA: {
-                                                        ...userCtx.userData.state2FA,
-                                                        phone: phoneNumber
-                                                    }
-                                                };
-                                                userCtx.setSession(updatedUserData, userCtx?.token || '');
-                                                modalCtx.openModal(<MessageModal>Phone number successfully saved for 2FA.</MessageModal>);
-                                            }
-                                            
-                                        }
-
-                                    } catch (error: unknown) {
-                                        console.error(error);
-
-                                        if (axios.isAxiosError(error)) {
-                                            const errorMsg = error.response?.data?.msg || 'Something went wrong. Please try again later.';
-                                            modalCtx.openModal(<MessageModal>{errorMsg}</MessageModal>);
-                                        } else {
-                                            modalCtx.openModal(<MessageModal>Unexpected error occurred. Please try again.</MessageModal>);
-                                        }
-                                    }
-                                },
+                                value: formData,
+                                onSave: data.onSave
                             }}
                         >
                             Phone {isSmScreen ? '' : 'number'}

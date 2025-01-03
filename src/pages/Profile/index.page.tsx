@@ -1,22 +1,24 @@
-import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
+import React, { Dispatch, FC, ReactElement, SetStateAction, useEffect, useState } from "react";
 import cn from "classnames";
 
-import {EditableProps} from "@/app/ui/form/Editable";
+import { EditableProps } from "@/app/ui/form/Editable";
 
-import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY} from "@/app/static";
+import { COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY } from "@/app/static";
 
-import {AuthService} from "@/app/services";
+import { AuthService } from "@/app/services";
 
-import {formatDate} from "@/app/utils/data";
-import {useBreakpointCheck, useLoginCheck, useSaveOnLeave} from "@/app/hooks";
-import {useModal, useUser} from "@/app/context";
+import { formatDate } from "@/app/utils/data";
+import { useBreakpointCheck, useLoginCheck, useSaveOnLeave } from "@/app/hooks";
+import { useModal, useUser } from "@/app/context";
 
-import {Collapsible} from "@/app/ui/misc";
-import {Button, Editable, Input} from "@/app/ui/form";
-import {DeleteAccountModal} from "./DeleteAccountModal";
-import {AuthenticationCode} from "@/app/ui/modals/AuthenticationCode";
+import { Collapsible } from "@/app/ui/misc";
+import { Button, Editable, Input } from "@/app/ui/form";
+import { DeleteAccountModal } from "./DeleteAccountModal";
+
+import { AuthenticationCode, MessageModal } from "@/app/ui/modals";
 
 import styles from './Profile.module.css';
+import axios from "axios";
 
 
 const SECTIONS: string[] = [
@@ -49,16 +51,16 @@ const SOCIAL_MEDIA: string[] = [
 
 const getSimpleToggleProps = (setEditState: Dispatch<SetStateAction<boolean>>, isEditState: boolean)
     : Pick<EditableProps, 'classNameWrapper' | 'classNameToggle' | 'setParentEditState' | 'isToggleBlocked'> => ({
-    classNameWrapper: 'w-[min(100%,21.625rem)]',
-    classNameToggle: 'col-start-3',
-    setParentEditState: setEditState,
-    isToggleBlocked: isEditState,
-});
+        classNameWrapper: 'w-[min(100%,21.625rem)]',
+        classNameToggle: 'col-start-3',
+        setParentEditState: setEditState,
+        isToggleBlocked: isEditState,
+    });
 
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
-    const {userData, token} = useUser();
+    const { userData, token } = useUser();
     const isLoggedIn = useLoginCheck();
     const isSmScreen = useBreakpointCheck();
     useSaveOnLeave();
@@ -95,18 +97,18 @@ const ProfilePage: FC = () => {
             className={cn(
                 `pl-[--2dr] leading-[200%] cursor-pointer
                 sm:landscape:pl-[--1dr]`,
-                {[`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx},
+                { [`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx },
             )}
         >
-                <span
-                    onClick={() => {
-                        setActiveSectionIdx(idx);
-                        const id = '#' + link.toLowerCase().split(' ').join('');
-                        document.querySelector(id)?.scrollIntoView({behavior: 'smooth', inline: 'center'});
-                    }}
-                >
-                    {link}
-                </span>
+            <span
+                onClick={() => {
+                    setActiveSectionIdx(idx);
+                    const id = '#' + link.toLowerCase().split(' ').join('');
+                    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                }}
+            >
+                {link}
+            </span>
         </li>
     ));
 
@@ -122,8 +124,8 @@ const ProfilePage: FC = () => {
                     {isFound
                         ? (
                             <a href={userApp?.link}
-                               className={`capitalize col-start-2 ${styles.midCol + ' ' + styles.ellipsis}`}
-                               target={'_blank'}>
+                                className={`capitalize col-start-2 ${styles.midCol + ' ' + styles.ellipsis}`}
+                                target={'_blank'}>
                                 {userApp?.name}
                             </a>
                         )
@@ -132,7 +134,7 @@ const ProfilePage: FC = () => {
                     }
                     <Button
                         icon={isFound ? 'mark-square' : 'plus-square'}
-                        hovered={{icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : ''}}
+                        hovered={{ icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : '' }}
                         className={`col-start-3 flex-row-reverse place-self-end ${styles.ellipsis}`}
                         onClick={() => {
                             // TODO
@@ -227,7 +229,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                             title: 'Update your TernID',
-                            value: {value: userData.email},
+                            value: { value: userData.email },
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
@@ -275,12 +277,48 @@ const ProfilePage: FC = () => {
                                 suggestedPhone: userData.phone.personal?.number ?? null,
                             },
                             onSave: async (formData) => {
-                                if (!('value' in formData))
+                                if (!formData || !('value' in formData) || typeof formData.value !== 'string') {
+                                    console.error("Invalid formData format or value missing.");
                                     return;
-                                Object.values(formData).forEach((number: string | null) => {
-                                    if (number?.length && number.length < 10)
-                                        throw `Number must contain 10 digits`
-                                })
+                                }
+
+                                const phoneNumber = formData.value.trim();
+                                const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format validation
+                                console.log('phoneNumber:', phoneNumber);
+
+                                if (!phoneRegex.test(phoneNumber)) {
+                                    throw `Invalid phone number format. Please enter a valid number.`
+                                }
+
+                                const numericPhone = phoneNumber.startsWith('+') ? phoneNumber.slice(1) : phoneNumber;
+                                if (numericPhone.length < 10 || numericPhone.length > 15) {
+                                    throw `Phone number must contain 10 digits long.`;
+                                }
+
+                                try {
+                                    console.log('Trying Save Phone NUmber')
+                                    const saveRes = await AuthService.post2FASavePhone(userData?.email || '', phoneNumber);
+
+                                    if (saveRes === true) {
+                                        const OTPRes = modalCtx.openModal(
+                                            <AuthenticationCode
+                                                token={token || ''}
+                                                phone={phoneNumber}
+                                                email={userData?.email || ''}
+                                                isPhoneEnabling={true}
+                                            />
+                                        );
+                                    }
+                                } catch (error: unknown) {
+                                    console.error(error);
+
+                                    if (axios.isAxiosError(error)) {
+                                        const errorMsg = error.response?.data?.msg || 'Something went wrong. Please try again later.';
+                                        modalCtx.openModal(<MessageModal>{errorMsg}</MessageModal>);
+                                    } else {
+                                        modalCtx.openModal(<MessageModal>Unexpected error occurred. Please try again.</MessageModal>);
+                                    }
+                                }
                             },
                             onSwitch: async () => {
                                 if (
@@ -329,7 +367,7 @@ const ProfilePage: FC = () => {
                                 data={{
                                     className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                                     title: 'Update your Display Name',
-                                    value: {value: userData.displayName},
+                                    value: { value: userData.displayName },
                                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                     onSave: async (formData) => {
                                     } //TODO
@@ -396,7 +434,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${styles.singleInputBase} ${styles.common}`,
                             title: 'Country / Region',
-                            value: {value: 'US'},
+                            value: { value: 'US' },
                             options: COUNTRY,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -416,7 +454,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${styles.singleInputBase} ${styles.common}`,
                             title: 'Language',
-                            value: {value: 'EN'},
+                            value: { value: 'EN' },
                             options: LANGUAGE,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -433,7 +471,7 @@ const ProfilePage: FC = () => {
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
-                            value: {value: userData.company?.name ?? '-'},
+                            value: { value: userData.company?.name ?? '-' },
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
@@ -543,7 +581,7 @@ const ProfilePage: FC = () => {
                     <Button
                         icon={'delete-square'}
                         className={'flex-row-reverse [&]:place-content-end'}
-                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData}/>, {darkenBg: true})}
+                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData} />, { darkenBg: true })}
                     >
                         {isSmScreen ? '' : 'Delete'}
                     </Button>
