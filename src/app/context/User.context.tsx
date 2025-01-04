@@ -1,11 +1,12 @@
 'use client'
 
-import React, {createContext, FC, PropsWithChildren, useContext, useState} from "react";
+import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState} from "react";
 
 import {Subscription} from "@/app/types/subscription";
 import {IndustryKey, JobFunctionKey, SubIndustryKey} from "@/app/static/company";
 
 import {CountryKey, LANGUAGE, SALUTATION, StateKey} from "@/app/static";
+import {UserService} from "@/app/services";
 
 
 type UserSubscription = Pick<Subscription, 'subscription' | 'type' | 'recurrency' | 'isBasicKind'>
@@ -86,7 +87,7 @@ interface IUserContext {
     removeSession: () => void;
 }
 
-const TEMPLATE_USER :UserData= {
+const TEMPLATE_USER: UserData = {
     email: 'mkdave27@gmail.com',
     ternID: 'ternID',
     registrationDate: Date.now(),
@@ -176,11 +177,27 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         setUserDataHelper(userData);
         setLoggedState(true);
         setToken(token);
+        localStorage.setItem('token', token);
     }
     const removeSession = () => {
         setUserDataHelper(null);
         setLoggedState(false);
+        localStorage.removeItem('token');
     }
+
+    useEffect(() => {
+        const fetchUserData = async (token: string) => {
+            try {
+                const {payload: user} = await UserService.getUser(token);
+                setSession(user, token);
+            } catch (error: unknown) {
+            }
+        }
+
+        const token = localStorage.getItem('token');
+        if (token)
+            fetchUserData(token);
+    }, []);
 
     return (
         <UserContext.Provider value={{userData, isLoggedIn, setSession, removeSession, token}}>
