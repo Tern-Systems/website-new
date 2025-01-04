@@ -40,9 +40,14 @@
   cursor: pointer;
 }
 
-.clickable:hover {
+.clickable:hover:not(:disabled) {
   transform: translateY(0.5px);
   transition: 0.1s ease-in-out;
+}
+
+.clickable:active:not(:disabled) {
+  transform: translateY(1.5px);
+  transition: 0.1s ease-in-out
 }
 
 .disconnect:hover {
@@ -54,6 +59,7 @@
   background-color: #178ab7;
   font-weight: 700;
 }
+
 
 @keyframes typing {
   from {

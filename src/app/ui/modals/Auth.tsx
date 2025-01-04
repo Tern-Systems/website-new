@@ -2,7 +2,7 @@ import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
-import {Phone, UserData} from "@/app/context/User.context";
+import {UserData} from "@/app/context/User.context";
 import {SignUpData} from "@/app/services/auth.service";
 
 import {AuthService, UserService} from "@/app/services";
@@ -10,7 +10,7 @@ import {AuthService, UserService} from "@/app/services";
 import {useBreakpointCheck, useForm} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
-import {AuthenticationCode, BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
+import {BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
@@ -49,29 +49,12 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-            return     modalCtx.openModal(
-                    <AuthenticationCode token={'token'} email={'userData.email'} phone={'primaryPhone.number'}/>,
-                    {darkenBg: true}
-                );
-
                  const {payload: token} = await AuthService.postLogIn(formValue);
                  const {payload: userData} = await UserService.getUser(token);
 
-                if (!userData.verification.phone) {
-                    const primaryPhone: Phone | null | undefined = Object.values(userData.phone).find((phone) => phone?.isPrimary);
-
-                    if (primaryPhone) {
-                        modalCtx.openModal(
-                            <AuthenticationCode token={token} email={userData.email} phone={primaryPhone?.number??""}/>,
-                            {darkenBg: true}
-                        );
-                    } else
-                        setWarningMsg('Error checking verified phone, please try to login again later');
-                } else {
-                    userCtx.setSession(userData as UserData, token); // TODO remove type casting
-                    modalCtx.closeModal();
-                    flowCtx.next()?.();
-                }
+                userCtx.setSession(userData as UserData, token); // TODO remove type casting
+                modalCtx.closeModal();
+                flowCtx.next()?.();
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
