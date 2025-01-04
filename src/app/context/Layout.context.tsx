@@ -53,7 +53,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 navLinks = [Route.Profile, Route.Documentation];
                 break;
             case checkSubRoute(route, Route.Credo):
-                navLinks = [Route.Products, Route.ARCodeToolEdit];
+                navLinks = [Route.About, Route.Credo];
                 break;
             case checkSubRoute(route, Route.Dot):
                 navLinks = [Route.Products, Route.Dot];

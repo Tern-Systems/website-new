@@ -28,7 +28,7 @@
   background-color: #4D4D4D4C;
   border-radius: 0.5625rem;
   padding: var(--p-content);
-  font-size: 2.25rem;
+  font-size: var(--fz-heading-l);
   font-weight: 700;
 
   @media screen and (max-width: 834px) {
