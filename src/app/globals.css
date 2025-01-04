@@ -87,6 +87,14 @@
   --p-content: 2.06rem;
   --p-content-sm: 1.25rem;
 
+  /* Text */
+  --fz-heading-l: 2.25rem;
+  --fz-heading: 1.6875rem;
+  --fz-section: 1.25rem;
+  --fz-section-sm: 1.125rem;
+  --fz-basic: 1rem;
+  --fz-content-sm: 0.875rem;
+
   /* insignia */
   --insignia-container-size: 30rem;
   --insignia-pl-moved: var(--p-content);
@@ -102,11 +110,15 @@ body {
 
   -ms-overflow-style: none;
   scrollbar-width: none;
-  line-height: normal;
+  line-height: 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
   line-height: normal;
+}
+
+h1 {
+  line-height: 0.75;
 }
 
 input::-webkit-outer-spin-button,

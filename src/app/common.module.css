@@ -24,15 +24,16 @@
   flex-direction: column;
   text-align: left;
   margin: auto 0;
-  margin-left: min(0%, 6rem);
+  margin-left: 3.88rem;
   background-color: #4D4D4D4C;
   border-radius: 0.5625rem;
-  padding: min(2.75vw, var(--s-small));
+  padding: var(--p-content);
   font-size: 2.25rem;
   font-weight: 700;
 
-  @media (max-width: 834px) {
-    padding: min(1.2dvw, var(--s-small));
+  @media screen and (max-width: 834px) {
+    padding: 0.62rem;
+    margin: auto 1.25rem;
   }
 }
 
