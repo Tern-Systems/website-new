@@ -461,7 +461,6 @@ const Editable: FC<Props> = (props: Props) => {
                         maxLength={10}
                         onChange={requireOnChangePhone(field, 'number')}
                         {...INPUT_CN}
-                        required
                     >
                         {field}
                     </Input>
@@ -494,7 +493,6 @@ const Editable: FC<Props> = (props: Props) => {
                             disabled={!formData[field].number}
                             onChange={requireOnChangePhone(field, 'isPrimary', true)}
                             {...CHECKBOX_CN}
-                            required
                         >
                             Set as primary
                         </Input>
