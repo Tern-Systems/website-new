@@ -28,6 +28,8 @@ interface IAuthService {
     postVerifyOTP(otp: string, userEmail: string): Promise<boolean>;
 
     post2FATurnOff(email: string): Promise<boolean>;
+
+    post2FASavePhone(userEmail: string, phone: string): Promise<boolean>;
 }
 
 class AuthServiceImpl extends BaseService implements IAuthService {
@@ -154,6 +156,24 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             method: 'POST',
             url: `${this._API}2FA-turn-off`,
             data: { userEmail },
+            withCredentials: true,
+        };
+
+        try {
+            const res = await axios(config);
+            console.log('Data', res.data); // TODO remove after testing
+            return res.data.success;
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
+
+    async post2FASavePhone(userEmail: string, phone: string ): Promise<boolean> {
+        this.log(this.postVerifyOTP.name);
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: `${this._API}2FA-save-phone`,
+            data: { userEmail, phone },
             withCredentials: true,
         };
 

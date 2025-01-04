@@ -24,10 +24,11 @@ interface Props {
     phone: string;
     email: string;
     isDisabling?: boolean;
+    isPhoneEnabling?: boolean;
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const {token, phone, email, isDisabling = false} = props;
+    const {token, phone, email, isDisabling = false, isPhoneEnabling = false} = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -66,6 +67,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             const verifyRes = await AuthService.postVerifyOTP(formValue.code, email);
 
             if (verifyRes === true) {
+
                 if (isDisabling) {
 
                     try {
@@ -96,9 +98,25 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
                 } else {
 
-                    const {payload: userData} = await UserService.getUser(token);
-                    userCtx.setSession(userData as UserData, token); // TODO remove type casting
-                    modalCtx.closeModal();
+                    if (isPhoneEnabling) {
+                        if (userCtx.userData) {
+                            const updatedUserData = {
+                                ...userCtx.userData,
+                                state2FA: {
+                                    ...userCtx.userData.state2FA,
+                                    phone: phone
+                                }
+                            };
+                            userCtx.setSession(updatedUserData, userCtx?.token || '');
+                            modalCtx.openModal(<MessageModal>Phone number successfully saved for 2FA.</MessageModal>);
+                        }
+                    }else{ 
+                        const {payload: userData} = await UserService.getUser(token);
+                        userCtx.setSession(userData as UserData, token); // TODO remove type casting
+                        modalCtx.closeModal();
+                    }
+                    
+                    
 
                 }
             }
