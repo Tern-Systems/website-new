@@ -72,13 +72,12 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const userCtx = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck();
+    const { isSmScreen, isMdScreen } = useBreakpointCheck();
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
 
     const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
-
 
     useEffect(() => {
         if (isPaymentCreation)
@@ -187,12 +186,12 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
-                        icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
+                        icons={isMdScreen ? [] : [SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
                         classNameWrapper={`${FIELD_CN} row-start-3`}
                         required
-                    >
+                        >
                         Credit or Debit Card
-                    </Input>
+                        </Input>
                     <Input
                         type={'expiration'}
                         value={formData.expirationDate}
@@ -206,7 +205,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Input>
                     <Input
                         value={formData.cvc}
-                        maxLength={3}
+                        maxLength={formData.cardNumber && (formData.cardNumber.startsWith('34') || formData.cardNumber.startsWith('37')) ? 4 : 3}
                         onChange={setFormData('cvc')}
                         placeholder={'CVC'}
                         icons={[SVG_CARD_NUM]}
@@ -232,7 +231,6 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             classNameWrapper={`flex-row-reverse place-self-start [&&]:mb-[1rem] sm:[&&]:mb-0 sm:[&&]:mt-[1.3dvw]`}
                             classNameLabel={'text-small [&&]:mb-0'}
                             className={'max-w-[--1drl] max-h-[--1drl]'}
-                            required
                         >
                             Set as preferred payment method
                         </Input>
