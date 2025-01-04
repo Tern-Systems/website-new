@@ -86,22 +86,23 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: ButtonIcon | null;
     hovered?: { icon?: ButtonIcon | null; text?: string; }
     isIconFlippedY?: boolean;
+    classNameIcon?: string;
 }
 
 const Button: FC<Props> = (props: Props) => {
-    const {children, icon, isIconFlippedY, className, hovered} = props;
+    const {children, icon, isIconFlippedY, className, classNameIcon, hovered, ...btnProps} = props;
 
     const [isHovered, setHoverState] = useState(false);
 
     const stateIcon: ButtonIcon | null | undefined = hovered?.icon && isHovered ? hovered?.icon : icon;
     const Icon: ReactElement | null = stateIcon
         ? <ReactSVG src={ICON[stateIcon].src}
-                    className={`inline [&_svg]:size-[min(2.3dvw,1rem)] ${isIconFlippedY ? 'rotate-180' : ''}`}/>
+                    className={`inline [&_svg]:w-[min(2.3dvw,1rem)] [&_svg]:h-auto ${isIconFlippedY ? 'rotate-180' : ''} ${classNameIcon}`}/>
         : null;
 
     return (
         <button
-            {...props}
+            {...btnProps}
             onMouseEnter={(event) => {
                 setHoverState(true);
                 props.onMouseEnter?.(event);

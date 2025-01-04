@@ -78,7 +78,7 @@ const config: Config = {
                     '100%': {
                         top: '0',
                         left: '0',
-                        transform: 'translate(var(--2dr),1.1rem) scale(var(--insignia-scale-moved))',
+                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
                 }
