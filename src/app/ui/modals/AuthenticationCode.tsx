@@ -66,15 +66,11 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
             const verifyRes = await AuthService.postVerifyOTP(formValue.code, email);
 
-            if (verifyRes === true) {
-
+            if (verifyRes) {
                 if (isDisabling) {
-
                     try {
-
                         const offRes = await AuthService.post2FATurnOff(email);
-
-                        if (offRes === true) {
+                        if (offRes) {
                             if (userCtx.userData) {
                                 const updatedUserData = {
                                     ...userCtx.userData,
@@ -90,14 +86,11 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         }
 
                     } catch (error: unknown) {
-
                         console.error("Error 2FA Turn off: ", error); // TODO remove after testing
                         modalCtx.openModal(<MessageModal>Failed to turn off 2FA. Please try again
                             later.</MessageModal>);
                     }
-
                 } else {
-
                     if (isPhoneEnabling) {
                         if (userCtx.userData) {
                             const updatedUserData = {
@@ -110,14 +103,11 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                             userCtx.setSession(updatedUserData, userCtx?.token || '');
                             modalCtx.openModal(<MessageModal>Phone number successfully saved for 2FA.</MessageModal>);
                         }
-                    }else{ 
+                    } else {
                         const {payload: userData} = await UserService.getUser(token);
                         userCtx.setSession(userData as UserData, token); // TODO remove type casting
                         modalCtx.closeModal();
                     }
-                    
-                    
-
                 }
             }
 
@@ -158,7 +148,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         className={'flex flex-col'}
                         onSubmit={handleFormSubmit}
                     >
-                    <Input
+                        <Input
                             type={'code'}
                             name={'Code'}
                             placeholder={'Code'}

@@ -38,11 +38,12 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     }
 
     async postSignUp(data: SignUpData): Promise<Res> {
-        this.log(this.postSignUp.name);
+                const [debug, error] = this.getLoggers(this.postSignUp.name);
+
         const salt = await genSalt(10);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + 'signup',
+            url: this._API + 'arch-signup',
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -54,14 +55,18 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         };
 
         try {
-            await axios(config);
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async postLogIn(data: LoginData): Promise<Res<string>> {
-        this.log(this.postLogIn.name);
+        const [debug, error] = this.getLoggers(this.postLogIn.name);
+
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `login`,
@@ -74,15 +79,19 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         };
 
         try {
+            debug(config);
             const response = await axios(config);
+            debug(response);
             return {payload: response.data.token};
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async postForgotPassword(email: string): Promise<void> {
-        this.log(this.postForgotPassword.name);
+                const [debug, error] = this.getLoggers(this.postForgotPassword.name);
+
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `forgot-password`,
@@ -92,14 +101,18 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         };
 
         try {
-            await axios(config);
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async postResetPassword(token: string, newPassword: string): Promise<void> {
-        this.log(this.postResetPassword.name);
+                const [debug, error] = this.getLoggers(this.postResetPassword.name);
+
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `reset-password/` + token,
@@ -109,14 +122,18 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         };
 
         try {
-            await axios(config);
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async postSendOTP(userEmail: string): Promise<void> {
-        this.log(this.postSendOTP.name);
+                const [debug, error] = this.getLoggers(this.postSendOTP.name);
+
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: `${this._API}send-otp`,
@@ -125,15 +142,18 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         };
 
         try {
+            debug(config);
             const response = await axios(config);
-            console.log('OTP sent successfully:', response.data); // TODO remove after testing
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async postVerifyOTP(otp: string, userEmail: string ): Promise<boolean> {
-        this.log(this.postVerifyOTP.name);
+                const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
+
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: `${this._API}2FA-verify-otp`,
@@ -142,16 +162,19 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         };
 
         try {
-            const res = await axios(config);
-            console.log('Data', res.data.success); // TODO remove after testing
-            return res.data.success;
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+            return response.data.success;
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async post2FATurnOff(userEmail: string ): Promise<boolean> {
-        this.log(this.postVerifyOTP.name);
+                const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
+
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: `${this._API}2FA-turn-off`,
@@ -160,16 +183,19 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         };
 
         try {
-            const res = await axios(config);
-            console.log('Data', res.data); // TODO remove after testing
-            return res.data.success;
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+            return response.data.success;
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async post2FASavePhone(userEmail: string, phone: string ): Promise<boolean> {
-        this.log(this.postVerifyOTP.name);
+                const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
+
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: `${this._API}2FA-save-phone`,
@@ -178,11 +204,13 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         };
 
         try {
-            const res = await axios(config);
-            console.log('Data', res.data); // TODO remove after testing
-            return res.data.success;
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+            return response.data.success;
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 }

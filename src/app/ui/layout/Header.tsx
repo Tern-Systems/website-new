@@ -4,8 +4,6 @@ import {usePathname} from "next/navigation";
 
 import {LAYOUT, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
 
-import {AuthService} from "@/app/services";
-
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
 import {useBreakpointCheck, useMenu} from "@/app/hooks";
 import {useLayout, useModal, useUser} from "@/app/context";
@@ -141,7 +139,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             <div className={'relative'}>
                 <Image
                     id={'profile-icon'}
-                    src={userCtx.userData?.photo ? AuthService.getAPI + userCtx.userData?.photo : SVG_PROFILE}
+                    src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
                     width={29}
                     height={29}
                     alt={'profile icon'}
