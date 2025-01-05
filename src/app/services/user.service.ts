@@ -16,7 +16,8 @@ class UserServiceImpl extends BaseService implements IUserService {
     }
 
     async getUser(token: string): Promise<Res<UserData>> {
-        this.log(this.getUser.name);
+        const [debug, error] = this.getLoggers(this.getUser.name);
+
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `get-user-data`,
@@ -28,10 +29,13 @@ class UserServiceImpl extends BaseService implements IUserService {
         };
 
         try {
+            debug(config);
             const response = await axios(config);
+            debug(response);
             return {payload: response.data};
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 

@@ -34,11 +34,11 @@ export default function MyApp({Component, pageProps}: AppProps) {
     return (
         <UserProvider>
             <LayoutProvider>
-                <ModalProvider>
-                    <FlowProvider>
+                <FlowProvider>
+                    <ModalProvider>
                         {FinalElement}
-                    </FlowProvider>
-                </ModalProvider>
+                    </ModalProvider>
+                </FlowProvider>
             </LayoutProvider>
         </UserProvider>
     );

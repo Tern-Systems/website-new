@@ -47,36 +47,37 @@ type Company = {
 }
 
 // User data
-interface UserData {
+interface UserData { // Todo (scaling) 2FA for email
     name: FullName;
     ternID: string;
-    displayName: string;
+    username: string;
     preferredLanguage: keyof typeof LANGUAGE,
     email: string;
     registrationDate: number;
     phone: UserPhone;
-    hasPurchasedPlan: boolean;
-    state2FA: {
-        email: string | null;
-        phone: string | null;
-    };
+    ternKeyPurchased: boolean;
+    archPurchased: boolean,
     subscriptions: UserSubscription[];
     lastLogin: number;
     connectedApps: {
         social: { name: string; link: string }[];
         data: { name: string; link: string }[];
-    }
+    };
     personalDomain: { link: string, isVerified: boolean } | null;
     address: UserAddress;
     company: Company | null;
     passwordUpdateDate: number;
     photo: string | null;
     verification: {
-        phone: boolean,
-        email: boolean
-    },
+        phone: boolean;
+        email: boolean;
+    };
+    state2FA: {
+        email: string | null;
+        phone: string | null;
+    };
     twoFA: boolean;
-    history: boolean;
+    hasHistory: boolean;
 }
 
 interface IUserContext {
@@ -91,7 +92,7 @@ const TEMPLATE_USER: UserData = {
     email: 'mkdave27@gmail.com',
     ternID: 'ternID',
     registrationDate: Date.now(),
-    history: false,
+    hasHistory: false,
     photo: null,
     twoFA: false,
     name: {
@@ -100,7 +101,7 @@ const TEMPLATE_USER: UserData = {
         lastname: 'Doe',
         initial: '',
     },
-    displayName: 'Display_Name',
+    username: 'Display_Name',
     preferredLanguage: 'en-US',
     passwordUpdateDate: Date.now(),
     phone: {
@@ -122,14 +123,15 @@ const TEMPLATE_USER: UserData = {
             subscription: 'arch',
         }
     ],
-    hasPurchasedPlan: true,
+    ternKeyPurchased: true,
+    archPurchased: true,
     verification: {
         phone: false,
         email: true
     },
     state2FA: {
-        email: null,
         phone: null,
+        email: null,
     },
     lastLogin: Date.now(),
     connectedApps: {

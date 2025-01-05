@@ -10,14 +10,6 @@ abstract class BaseService {
         this._serviceName = name;
     }
 
-    get getAPI() {
-        return this._API;
-    }
-
-    protected log(method: string): void {
-        console.info(this._serviceName + ' - ' + method + '...');
-    }
-
     protected getLoggers(method: string) {
         console.log(this._serviceName + ' - ' + method + ':')
         return [this.debug, this.error];
