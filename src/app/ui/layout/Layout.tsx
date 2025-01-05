@@ -68,7 +68,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     style={{backgroundImage: `url("${bgSrc}")`}}
                     className={`relative flex flex-col flex-grow h-full w-full justify-center items-center 
                                 bg-cover bg-no-repeat bg-fixed text-center bg-center
-                                overflow-y-scroll text-[min(2.6dvw,1rem)]`}
+                                overflow-y-scroll`}
                 >
                     <div
                         className={cn(

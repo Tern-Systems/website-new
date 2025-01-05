@@ -106,7 +106,7 @@ const Select: FC<Props> = (props: Props) => {
                 className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white [&]:rounded-small
                             ${className} ${isSelectExpanded ? `[&&]:rounded-b-none` : ''}`}
             >
-                <div className={`w-[85%] text-nowrap overflow-ellipsis overflow-hidden`}>
+                <div className={`text-nowrap overflow-ellipsis overflow-hidden`}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
                         {selectedOptionIdx < 0 || !optionsFinal[value] ? (placeholder ?? 'Select') : optionsFinal[value]}
                     </span>
