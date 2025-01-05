@@ -117,7 +117,7 @@ const ProfilePage: FC = () => {
         return apps.map((app, idx) => {
             const userApp = userApps.find(userApp => userApp.name === app);
             const isFound = userApp !== undefined;
-            const text: string = `Connect${isFound ? 'ed' : ''}`;
+            const text: string = `${isFound ? `Connected` : `Connect`}`;
 
             return (
                 <span key={text + idx} className={'contents'}>
@@ -133,9 +133,8 @@ const ProfilePage: FC = () => {
                         <span className={`capitalize col-start-2 ${styles.midCol + ' ' + styles.ellipsis}`}>{app}</span>
                     }
                     <Button
-                        icon={isFound ? 'mark-square' : 'plus-square'}
-                        hovered={{ icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : '' }}
-                        className={`col-start-3 flex-row-reverse place-self-end ${styles.ellipsis}`}
+                        hovered={{text: isFound ? 'Disconnect' : ''}}
+                        className={`col-start-3 flex-row-reverse place-self-end ${styles.ellipsis} ${styles.connectBtn} ${isFound && styles.connected} ${isFound ? styles.disconnect : styles.connect}`}
                         onClick={() => {
                             // TODO
                         }}
