@@ -1,6 +1,7 @@
 import {Dispatch, FC, ReactElement, SetStateAction, useEffect} from "react";
 import Image from "next/image";
 import {usePathname} from "next/navigation";
+import cn from "classnames";
 
 import {LAYOUT, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
 
@@ -37,7 +38,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     const modalCtx = useModal();
     const isSmScreen = useBreakpointCheck();
     const layoutCtx = useLayout();
-    const toggleMenuState = useMenu();
+    const [openMenu] = useMenu();
 
 
     const toggleProfileMenu = () => {
@@ -48,7 +49,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     const toggleMenu = () => {
-        toggleMenuState();
+        openMenu();
         setProfileMenuOpenState(false);
     }
 
@@ -76,7 +77,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 <PageLink
                     href={link}
                     icon={!isActive && isSmScreen ? 'forward' : undefined}
-                    className={`justify-center ${isActive && !layoutCtx.isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
+                    className={`relative justify-center ${isActive && !layoutCtx.isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
                 />
                 {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks.length - 1 ? <span>/</span> : null}
             </span>
@@ -143,14 +144,16 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     width={29}
                     height={29}
                     alt={'profile icon'}
-                    className={'cursor-pointer rounded-full max-h-[1.8rem]'}
+                    className={'cursor-pointer rounded-full h-[1.8125rem]'}
                     onClick={() => toggleProfileMenu()}
                 />
                 <ul id={'profile-menu'}
-                    className={`absolute z-10 right-0 flex flex-col items-start mt-[0.6rem] p-[1.25rem] min-w-[8.75rem]
-                                border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap
-                                sm:bg-control-white-d0 sm:text-gray sm:rounded-none sm:py-0
-                                ${!isProfileMenuOpened ? 'hidden' : ''}`}
+                    className={cn(
+                        `absolute z-10 right-0 flex flex-col items-start mt-[0.6rem] p-[1.25rem] min-w-[8.75rem]
+                        border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap
+                        sm:x-[bg-control-white-d0,text-gray,rounded-none,py-0]`,
+                        {['hidden']: !isProfileMenuOpened}
+                    )}
                 >
                     {ProfileLinks}
                 </ul>
@@ -170,25 +173,26 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     return (
-        <header className={'text-content'}>
-            <div className={`relative z-[2] flex justify-between items-center px-[--s-default] w-full h-[4.3rem] 
+        <header className={'text-[1rem] leading-none'}>
+            <div className={`relative z-[2] flex justify-between items-center px-[2.06rem] w-full h-[5.13rem] 
                             border-b-small border-section bg-black 
-                            sm:x-[flex-row-reverse,justify-start,px-[1.25rem]]    after:sm:border-control-gray-l0`}
+                            sm:x-[flex-row-reverse,justify-start,px-[1.25rem],h-[4.31rem]]    after:sm:border-control-gray-l0`}
             >
-                <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)]
-                                before:x-[absolute,h-[2rem],-left-[--s-default],border-r-small,border-section]
-                                sm:ml-[--s-default] sm:before:border-control-gray-l0`}
+                <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+var(--insignia-container-size)*var(--insignia-scale-moved)+2.06rem)] h-full
+                                before:x-[absolute,h-[67%],-left-[2.06rem],border-r-small,border-section]
+                                sm:ml-[1.94rem] sm:before:x-[-left-[0.94rem],h-[52%],border-control-gray-l0]`}
                 >
                     <Button
                         onClick={() => toggleMenu()}
                         icon={'burger'}
-                        className={`lg:hidden md:hidden [&&_*]:size-[1.8rem]`}
+                        className={`lg:hidden md:hidden`}
+                        classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
                     />
                     <ul className={`flex cursor-pointer text-content-small sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
                         {NavLinks}
                     </ul>
                 </nav>
-                <div className={'flex gap-[0.75rem] sm:mr-[1.25rem]'}>{userBtns}</div>
+                <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </div>
             <ul className={`relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small
                             border-section cursor-pointer ${SubNavItemsMdLg ? 'h-[4.3rem] ' + styles.slideIn : styles.slideOut}

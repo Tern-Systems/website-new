@@ -1,5 +1,3 @@
-import {useEffect, useState} from "react";
-
 import {Route} from "@/app/static";
 
 import {useBreakpointCheck} from "./useBreakpointCheck";
@@ -8,28 +6,21 @@ import {useModal} from "@/app/context";
 import {MenuModal} from "@/app/ui/modals";
 
 
-const useMenu = (subNavList?: Route[]): () => void => {
+const useMenu = (subNavList?: Route[]): [() => void, () => void] => {
     const modalCtx = useModal();
     const isSmScreen = useBreakpointCheck();
 
-    const [isMenuOpened, setMenuOpenState] = useState(false);
-
-
-    useEffect(() => {
-        if (!isSmScreen)
-            modalCtx.closeModal();
-        // eslint-disable-next-line
-    }, [isSmScreen]);
-
-
-    return () => {
+    const openMenu = () => {
         if (isSmScreen)
-            setMenuOpenState(prevState => !prevState);
-        if (isMenuOpened)
-            modalCtx.closeModal();
-        else
             modalCtx.openModal(<MenuModal subNavLinks={subNavList}/>, {doFading: false});
     }
+
+    const closeMenu = () => {
+        if (isSmScreen)
+            modalCtx.closeModal();
+    }
+
+    return [openMenu, closeMenu];
 }
 
 

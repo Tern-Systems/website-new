@@ -16,9 +16,6 @@ import "@/app/globals.css";
 import styles from "@/app/common.module.css";
 
 
-const CONTENT_P_CN = 'p-[min(5.3dvw,var(--s-default))]';
-
-
 const Layout: FC<PropsWithChildren> = ({children}) => {
     const route = usePathname();
     const modalCtx = useModal();
@@ -70,11 +67,9 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <div
                     id={'content'}
                     style={{backgroundImage: `url("${bgSrc}")`}}
-                    className={`relative flex flex-col flex-grow w-full justify-center items-center 
+                    className={`relative flex flex-col flex-grow h-full w-full justify-center items-center 
                                 bg-cover bg-no-repeat bg-fixed text-center bg-center
-                                overflow-y-scroll ${CONTENT_P_CN} text-[min(2.6dvw,1rem)]
-                                sm:portrait:pt-[13.3dvw]
-                                sm:landscape:p-[2.5dvw]`}
+                                overflow-y-scroll text-[min(2.6dvw,1rem)]`}
                 >
                     <div
                         className={cn(
@@ -88,10 +83,11 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     </div>
                 </div>
                 <footer
-                    className={`flex w-full justify-between border-t-small border-section
-                                ${CONTENT_P_CN} py-[min(5.3dvw,1rem)]
-                                sm:x-[flex-col,items-center,gap-y-[0.95rem],text-center]
-                                sm:landscape:x-[flex-row,p-[2.4dvw]]`}>
+                    className={`flex justify-between items-center
+                            px-[--p-content] w-full h-[5.12rem] border-t-small border-section content-center text-[1rem] leading-none
+                            sm:x-[flex-col-reverse,items-center,justify-between,p-[--p-content-sm],text-center]
+                            sm:portrait:[h-[4.94rem]]
+                            sm:landscape:x-[flex-row,p-[2.4dvw],h-[3.19rem]]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
                         <PageLink href={Route.Cookies}/>
@@ -109,7 +105,9 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         : (
             <>
                 <Insignia insigniaMoved={isInsigniaMoved}
-                          className={`z-30 cursor-pointer
+                          className={`absolute z-30 w-[30rem] cursor-pointer
+                            ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
+                            sm:x-[ml-[--p-content-sm],mt-[--p-content-sm]]
                             ${isInsigniaMoved
                               ? 'animate-[insignia_1s_ease-in-out_forwards]'
                               : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`}

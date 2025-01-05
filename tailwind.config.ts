@@ -66,6 +66,13 @@ const config: Config = {
                 header: 'var(--fz-header)',
                 'section-header': 'var(--fz-section-header)',
                 'header-l': 'var(--fz-header-l)',
+
+                'heading-l': 'var(--fz-heading-l)',
+                heading: 'var(--fz-heading)',
+                section: 'var(--fz-section)',
+                'section-sm': 'var(--fz-section-sm)',
+                basic: 'var(--fz-basic)',
+                'content-sm': 'var(--fz-content-sm)',
             },
             keyframes: {
                 insignia: {
@@ -78,7 +85,7 @@ const config: Config = {
                     '100%': {
                         top: '0',
                         left: '0',
-                        transform: 'translate(var(--2dr),1.1rem) scale(var(--insignia-scale-moved))',
+                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
                 }
