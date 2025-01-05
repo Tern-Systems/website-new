@@ -148,7 +148,7 @@ const ProfilePage: FC = () => {
     }
 
     // Contact
-    const Phones = Object.entries(userData.phone).map(([type, phone], idx) =>
+    const Phones = Object.entries(userData.phones).map(([type, phone], idx) =>
         phone
             ? (
                 <span key={type + idx}>
@@ -274,7 +274,7 @@ const ProfilePage: FC = () => {
                             value: {
                                 isEmailAdded: userData.state2FA.email !== null,
                                 isPhoneAdded: userData.state2FA.phone !== null,
-                                suggestedPhone: userData.phone.personal?.number ?? null,
+                                suggestedPhone: userData.phones.personal?.number ?? null,
                             },
                             onSave: async (formData) => {
                                 if (!formData || !('value' in formData) || typeof formData.value !== 'string') {
@@ -329,7 +329,7 @@ const ProfilePage: FC = () => {
                                     modalCtx.openModal(
                                         <AuthenticationCode
                                             token={token || ''}
-                                            phone={userData.phone.personal?.number ?? ''}
+                                            phone={userData.phones.personal?.number ?? ''}
                                             email={userData.email}
                                             isDisabling={true}
                                         />
@@ -413,7 +413,7 @@ const ProfilePage: FC = () => {
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
-                            value: userData.phone,
+                            value: userData.phones,
                             onSave: async (formData) => {
                                 if (!('business' in formData))
                                     return;
