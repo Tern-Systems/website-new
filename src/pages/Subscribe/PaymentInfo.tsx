@@ -2,8 +2,6 @@ import {FC} from "react";
 
 import {Subscription} from "@/app/types/subscription";
 
-import {Button} from "@/app/ui/form";
-
 
 interface Props {
     subscription: Subscription | null;
@@ -44,7 +42,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                     <span className={'font-bold text-content'}>Subtotal</span>
                     <span className={`font-bold text-content justify-self-end`}>${subtotal ?? '--'}</span>
                     <span className={'flex text-content-small'}>
-                        <Button icon={'info'} className={'cursor-default flex-row-reverse'}>Tax</Button>
+                        Tax
                     </span>
                     <span className={'justify-self-end text-content-small'}>Calculated by address</span>
                 </div>

@@ -69,10 +69,13 @@ const config: Config = {
 
                 'heading-l': 'var(--fz-heading-l)',
                 heading: 'var(--fz-heading)',
+                'heading-s': 'var(--fz-heading-s)',
                 section: 'var(--fz-section)',
-                'section-sm': 'var(--fz-section-sm)',
+                'section-s': 'var(--fz-section-s)',
                 basic: 'var(--fz-basic)',
-                'content-sm': 'var(--fz-content-sm)',
+                'section-xs': 'var(--fz-section-xs)',
+                'section-xxs': 'var(--fz-section-xxs)',
+                'section-xxxs': 'var(--fz-section-xxxs)',
             },
             keyframes: {
                 insignia: {

@@ -195,7 +195,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </div>
             <ul className={`relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small
-                            border-section cursor-pointer ${SubNavItemsMdLg ? 'h-[4.3rem] ' + styles.slideIn : styles.slideOut}
+                            border-section cursor-pointer ${SubNavItemsMdLg ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut}
                             sm:hidden`}
             >
                 {SubNavItemsMdLg}
