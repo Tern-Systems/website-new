@@ -1,8 +1,6 @@
 import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
-
-import {UserData} from "@/app/context/User.context";
 import {SignUpData} from "@/app/services/auth.service";
 
 import {AuthService, UserService} from "@/app/services";
@@ -49,10 +47,10 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                 const {payload: token} = await AuthService.postLogIn(formValue);
-                 const {payload: userData} = await UserService.getUser(token);
+                const {payload: token} = await AuthService.postLogIn(formValue);
+                const {payload: userData} = await UserService.getUser(token);
 
-                userCtx.setSession(userData as UserData, token); // TODO remove type casting
+                userCtx.setSession(userData, token);
                 modalCtx.closeModal();
                 flowCtx.next()?.();
             } else if (formValue.password !== formValue.passwordConfirm)

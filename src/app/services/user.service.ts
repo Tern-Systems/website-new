@@ -32,7 +32,23 @@ class UserServiceImpl extends BaseService implements IUserService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: response.data};
+
+            const userData: UserData = response.data;
+
+            // Todo 2FA
+            const userDataMapped: UserData = {
+                ...userData,
+                connectedApps: {
+                    data: [],
+                    social: [],
+                },
+                state2FA: {
+                    email: userData.email,
+                    phone: userData.phones.personal?.number ?? userData.phones.mobile?.number ?? userData.phones.business?.number ?? ''
+                }
+            }
+
+            return {payload: userDataMapped};
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
