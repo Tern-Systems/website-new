@@ -105,7 +105,10 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
             return (
                 <li key={anchorText + idx} className={'pl-[1rem] mt-[0.5rem]'}>
                     <span
-                        onClick={() => document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'})}
+                        onClick={() => {
+                            document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'})
+                            setMenuOpened(false);
+                        }}
                         className={'cursor-pointer'}
                     >
                         {anchorText}
@@ -162,7 +165,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 sm:min-w-full`,
                 {
                     [`
-                        my-[--p-content] max-h-fit h-[min(50rem,calc(100%-2*var(--p-content)))] max-w-[90%]
+                        my-[--p-content] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]
                         sm:x-[max-w-full,my-0,mt-[--p-content-sm],min-w-0]
                         sm:h-[calc(100%-var(--p-content-sm))]
                     `]: !layoutCtx.isNoLayout,
@@ -178,7 +181,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                         `p-[--p-content-sm] text-left
                         sm:x-[absolute,top-0,left-0,p-[--p-content-sm],h-full]`,
                         isMenuOpened
-                            ? 'bg-control-gray min-w-[19rem]    sm:portrait:w-full'
+                            ? `bg-control-gray min-w-[19rem]    sm:portrait:w-full`
                             : `pr-0 ${isSelectOpened ? 'h-full' : 'sm:[&]:h-fit bg-none'}`
                     )}
                 >
@@ -189,7 +192,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                                 options={options}
                                 onChangeCustom={(route) => navigate(route as Route)}
                                 value={route ?? ''}
-                                onClick={() => setSelectOpenState(prevState => !prevState)}
+                                onOpen={(isExpanded) => setSelectOpenState(isExpanded)}
                                 classNameWrapper={'md:hidden lg:hidden'}
                                 className={`text-[1.3rem] font-bold font-oxygen rounded-smallest 
                                             pl-[0.62rem] pr-[1rem] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.5rem] ${selectCn}`}
@@ -197,17 +200,23 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                             />
                         </span>
                         <span hidden={!isMenuOpened}
-                              className={`ml-[0.77rem] text-section-s text-nowrap
-                                        sm:portrait:x-[my-[2.7rem],text-section-s]
-                                        sm:landscape:x-[my-[1rem]]`}
+                              className={cn(`
+                                    ml-[0.77rem] text-section-s text-nowrap
+                                    sm:portrait:x-[my-[2.7rem],text-section-s]
+                                    sm:landscape:x-[my-[1rem]]`,
+                                  {['brightness-50']: isSelectOpened}
+                              )}
                         >
                             Table of Contents
                         </span>
                     </div>
                     <div
-                        className={`pt-[1.5rem] h-[calc(100%-2rem)] text-section-s
-                                    sm:h-[calc(100%-5rem)] sm:mt-0 
-                                    sm:portrait:text-basic`}
+                        className={cn(`
+                            pt-[1.5rem] h-[calc(100%-2rem)] text-section-s
+                            sm:h-[calc(100%-5rem)] sm:mt-0 
+                            sm:portrait:text-basic`,
+                            {['brightness-50']: isSelectOpened}
+                        )}
                     >
                         <ul
                             hidden={!isMenuOpened}
