@@ -2,7 +2,7 @@ import React, {FC, ReactElement, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 import cn from "classnames";
 
-import {Subscription} from "@/app/types/subscription";
+import {PlanName} from "@/app/types/subscription";
 import {ButtonIcon} from "@/app/ui/form/Button";
 import {Route, TERN_AC_HREF} from "@/app/static";
 
@@ -50,10 +50,10 @@ const NAV_BTNS_DEFAULT: { title: string; icon: ButtonIcon; href: string, isExter
     {title: 'Create AR Code', icon: 'plus', href: Route.ARCodeToolCreate},
 ];
 
-const SUBSCRIPTION_LINK_DICT: Record<Subscription['subscription'], string> = {
-    arch: Route.ARCodeToolCreate,
+const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
+    ARCH: Route.ARCodeToolCreate,
     dot: Route.Dot,
-    ternKey: TERN_AC_HREF,
+    TernKey: TERN_AC_HREF,
     trial: '',
 }
 
@@ -150,7 +150,7 @@ const MyTernPage: FC = () => {
         data: userCtx.userData?.subscriptions
             .filter((plan) => plan.subscription !== 'trial')
             .map((plan) => ({
-                name: plan.subscription === 'arch' ? plan.subscription.toUpperCase() : capitalize(plan.subscription),
+                name: plan.subscription,
                 data: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
                 href: SUBSCRIPTION_LINK_DICT[plan.subscription]
             })) ?? []

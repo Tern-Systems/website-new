@@ -42,5 +42,5 @@ DocumentationPage.getMobileLayout = (page: ReactElement) => (
     <DocumentationMobileLayout>{page}</DocumentationMobileLayout>
 );
 
-
+export {CONTENTS};
 export default DocumentationPage;

@@ -15,6 +15,7 @@ enum Route {
     ARCodeToolEdit = '/Service/SavedCodes/Edit',
     ServiceUserManual = '/Service/UserManual',
     ServicePricing = '/Service/PricingAndPlans',
+    ServiceSubscribe = '/Subscribe/ARCH',
     SavedCodes = '/Service/SavedCodes',
 
     // /Product
@@ -22,6 +23,7 @@ enum Route {
     TernKey = '/Products/TernKey',
     TernKeyPricing = '/Products/TernKey/PricingAndPlans',
     TernKeyProductManual = '/Products/TernKey/UserManual',
+    TernKeySubscribe = '/Subscribe/TernKey',
     Dot = '/Products/Dot',
     DotPricing = '/Products/Dot/Pricing',
     DotProductManual = '/Products/Dot/UserManual',
@@ -45,9 +47,6 @@ enum Route {
     TernHandbook = '/Profile/MyTern/Documentation/TERNHandbook',
     ARCHManual = '/Profile/MyTern/Documentation/ARCHManual',
     BTMCHandbook = '/Profile/MyTern/Documentation/BTMCHandbook',
-
-    // Managing
-    Subscribe = '/Subscribe',
 }
 
 const TERN_AC_HREF = 'https://tern.ac/ternkey';

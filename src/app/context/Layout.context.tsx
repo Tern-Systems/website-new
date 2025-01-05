@@ -57,7 +57,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     if (isBreadCrumbsNav) {
         switch (true) {
             case checkSubRoute(route, Route.Documentation):
-                navLinks = [Route.Profile, Route.Documentation];
+                navLinks = [Route.MyTern, Route.Documentation];
                 break;
             case checkSubRoute(route, Route.Credo):
                 navLinks = [Route.About, Route.Credo];
