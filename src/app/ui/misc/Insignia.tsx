@@ -34,11 +34,7 @@ const Insignia: FC<Props> = (props: Props) => {
                         className={'w-full h-auto'}
                     />
                 )
-                : (
-                    <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
-                            className={insigniaMoved ? 'pointer-events-none' : ''}
-                    />
-                )}
+                : <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}/>}
         </div>
     );
 }

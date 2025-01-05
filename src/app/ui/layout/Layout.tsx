@@ -6,7 +6,7 @@ import cn from "classnames";
 
 import {LAYOUT, Route} from "@/app/static";
 
-import {useBackground, useNavigate} from "@/app/hooks";
+import {useBackground} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
 
 import {Insignia} from "@/app/ui/misc";
@@ -22,7 +22,6 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const params = useSearchParams();
     const router = useRouter();
     const layoutCtx = useLayout();
-    const [navigate] = useNavigate();
     const bgSrc = useBackground();
 
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
@@ -48,17 +47,11 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const Layout = route === Route.Start
         ? (
             <div
-                className={`mt-auto mb-[--s-default] text-content font-oxygen text-center`}
+                className={`mt-auto mb-[--s-default] text- font-oxygen text-center`}
             >
-                <span
-                    onClick={() => {
-                        setInsigniaMoved(true);
-                        setTimeout(() => navigate(Route.Home), 2 * LAYOUT.fadeDuration);
-                    }}
-                    className={`cursor-pointer ${styles.clickable}`}
-                >
+                <PageLink href={Route.Home} onClick={() => setInsigniaMoved(true)}>
                     Tern
-                </span>
+                </PageLink>
             </div>
         )
         : (
@@ -85,8 +78,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <footer
                     className={`flex justify-between items-center
                             px-[--p-content] w-full h-[5.12rem] border-t-small border-section content-center text-[1rem] leading-none
-                            sm:x-[flex-col-reverse,items-center,justify-between,p-[--p-content-sm],text-center]
-                            sm:portrait:[h-[4.94rem]]
+                            sm:x-[flex-col-reverse,items-center,p-[--p-content-sm],text-center]
+                            sm:portrait:[max-h-[4.94rem]]
                             sm:landscape:x-[flex-row,p-[2.4dvw],h-[3.19rem]]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
@@ -106,10 +99,10 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             <>
                 <Insignia insigniaMoved={isInsigniaMoved}
                           className={`absolute z-30 w-[30rem] cursor-pointer
-                            ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
-                            sm:x-[ml-[--p-content-sm],mt-[--p-content-sm]]
                             ${isInsigniaMoved
-                              ? 'animate-[insignia_1s_ease-in-out_forwards]'
+                              ? `animate-[insignia_1s_ease-in-out_forwards] 
+                                ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
+                                sm:x-[ml-[--p-content-sm],mt-[--p-content-sm]]`
                               : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`}
                 />
                 <div
