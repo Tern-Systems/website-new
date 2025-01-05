@@ -48,7 +48,7 @@ const FlowProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 const useFlow = (): IFlowContext => {
     const context = useContext(FlowContext);
     if (!context)
-        throw new Error('useModal must be used within a ModalProvider!');
+        throw new Error('useFlow must be used within a FlowProvider!');
     return context;
 };
 

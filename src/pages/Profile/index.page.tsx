@@ -1,21 +1,21 @@
-import React, { Dispatch, FC, ReactElement, SetStateAction, useEffect, useState } from "react";
+import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
 import cn from "classnames";
 
-import { EditableProps } from "@/app/ui/form/Editable";
+import {EditableProps} from "@/app/ui/form/Editable";
 
-import { COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY } from "@/app/static";
+import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY} from "@/app/static";
 
-import { AuthService } from "@/app/services";
+import {AuthService} from "@/app/services";
 
-import { formatDate } from "@/app/utils/data";
-import { useBreakpointCheck, useLoginCheck, useSaveOnLeave } from "@/app/hooks";
-import { useModal, useUser } from "@/app/context";
+import {formatDate} from "@/app/utils/data";
+import {useBreakpointCheck, useLoginCheck, useSaveOnLeave} from "@/app/hooks";
+import {useModal, useUser} from "@/app/context";
 
-import { Collapsible } from "@/app/ui/misc";
-import { Button, Editable, Input } from "@/app/ui/form";
-import { DeleteAccountModal } from "./DeleteAccountModal";
+import {Collapsible} from "@/app/ui/misc";
+import {Button, Editable, Input} from "@/app/ui/form";
+import {DeleteAccountModal} from "./DeleteAccountModal";
 
-import { AuthenticationCode, MessageModal } from "@/app/ui/modals";
+import {AuthenticationCode, MessageModal} from "@/app/ui/modals";
 
 import styles from './Profile.module.css';
 import axios from "axios";
@@ -51,16 +51,16 @@ const SOCIAL_MEDIA: string[] = [
 
 const getSimpleToggleProps = (setEditState: Dispatch<SetStateAction<boolean>>, isEditState: boolean)
     : Pick<EditableProps, 'classNameWrapper' | 'classNameToggle' | 'setParentEditState' | 'isToggleBlocked'> => ({
-        classNameWrapper: 'w-[min(100%,21.625rem)]',
-        classNameToggle: 'col-start-3',
-        setParentEditState: setEditState,
-        isToggleBlocked: isEditState,
-    });
+    classNameWrapper: 'w-[min(100%,21.625rem)]',
+    classNameToggle: 'col-start-3',
+    setParentEditState: setEditState,
+    isToggleBlocked: isEditState,
+});
 
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
-    const { userData, token } = useUser();
+    const {userData, token} = useUser();
     const isLoggedIn = useLoginCheck();
     const isSmScreen = useBreakpointCheck();
     useSaveOnLeave();
@@ -97,14 +97,14 @@ const ProfilePage: FC = () => {
             className={cn(
                 `pl-[--2dr] leading-[200%] cursor-pointer
                 sm:landscape:pl-[--1dr]`,
-                { [`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx },
+                {[`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx},
             )}
         >
             <span
                 onClick={() => {
                     setActiveSectionIdx(idx);
                     const id = '#' + link.toLowerCase().split(' ').join('');
-                    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                    document.querySelector(id)?.scrollIntoView({behavior: 'smooth', inline: 'center'});
                 }}
             >
                 {link}
@@ -124,8 +124,8 @@ const ProfilePage: FC = () => {
                     {isFound
                         ? (
                             <a href={userApp?.link}
-                                className={`capitalize col-start-2 ${styles.midCol + ' ' + styles.ellipsis}`}
-                                target={'_blank'}>
+                               className={`capitalize col-start-2 ${styles.midCol + ' ' + styles.ellipsis}`}
+                               target={'_blank'}>
                                 {userApp?.name}
                             </a>
                         )
@@ -134,7 +134,7 @@ const ProfilePage: FC = () => {
                     }
                     <Button
                         icon={isFound ? 'mark-square' : 'plus-square'}
-                        hovered={{ icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : '' }}
+                        hovered={{icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : ''}}
                         className={`col-start-3 flex-row-reverse place-self-end ${styles.ellipsis}`}
                         onClick={() => {
                             // TODO
@@ -229,7 +229,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                             title: 'Update your TernID',
-                            value: { value: userData.email },
+                            value: {value: userData.email},
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
@@ -316,7 +316,8 @@ const ProfilePage: FC = () => {
                                         const errorMsg = error.response?.data?.msg || 'Something went wrong. Please try again later.';
                                         modalCtx.openModal(<MessageModal>{errorMsg}</MessageModal>);
                                     } else {
-                                        modalCtx.openModal(<MessageModal>Unexpected error occurred. Please try again.</MessageModal>);
+                                        modalCtx.openModal(<MessageModal>Unexpected error occurred. Please try
+                                            again.</MessageModal>);
                                     }
                                 }
                             },
@@ -360,14 +361,14 @@ const ProfilePage: FC = () => {
                     </Editable>
 
                     <span className={styles.leftCol + ' ' + styles.ellipsis}>Display Name</span>
-                    {userData.displayName
+                    {userData.username
                         ? (
                             <Editable
                                 {...getSimpleToggleProps(setEditState, isEditState)}
                                 data={{
                                     className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                                     title: 'Update your Display Name',
-                                    value: { value: userData.displayName },
+                                    value: {value: userData.username},
                                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                     onSave: async (formData) => {
                                     } //TODO
@@ -375,7 +376,7 @@ const ProfilePage: FC = () => {
                                 setParentEditState={setEditState}
                                 isToggleBlocked={isEditState}
                             >
-                                <span>{userData.displayName}</span>
+                                <span>{userData.username}</span>
                             </Editable>
                         )
                         : (
@@ -434,7 +435,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${styles.singleInputBase} ${styles.common}`,
                             title: 'Country / Region',
-                            value: { value: 'US' },
+                            value: {value: 'US'},
                             options: COUNTRY,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -454,7 +455,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${styles.singleInputBase} ${styles.common}`,
                             title: 'Language',
-                            value: { value: 'EN' },
+                            value: {value: 'EN'},
                             options: LANGUAGE,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -471,7 +472,7 @@ const ProfilePage: FC = () => {
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
-                            value: { value: userData.company?.name ?? '-' },
+                            value: {value: userData.company?.name ?? '-'},
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
@@ -581,7 +582,7 @@ const ProfilePage: FC = () => {
                     <Button
                         icon={'delete-square'}
                         className={'flex-row-reverse [&]:place-content-end'}
-                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData} />, { darkenBg: true })}
+                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData}/>, {darkenBg: true})}
                     >
                         {isSmScreen ? '' : 'Delete'}
                     </Button>
