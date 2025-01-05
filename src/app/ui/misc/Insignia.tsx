@@ -24,14 +24,14 @@ const Insignia: FC<Props> = (props: Props) => {
 
     // 2 pre-rendered insignias for moving without flickering
     return (
-        <div className={`${className} absolute w-[30rem]`}>
+        <div className={className}>
             {insigniaMoved
                 ? (
                     <Image
                         src={SVG_INSIGNIA}
                         alt={'insignia'}
                         onClick={() => navigate(Route.Home)}
-                        className={'w-full h-auto sm:mt-[1rem]'}
+                        className={'w-full h-auto'}
                     />
                 )
                 : (

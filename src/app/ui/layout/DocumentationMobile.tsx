@@ -15,7 +15,7 @@ const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildr
     const route = usePathname();
 
     const subNavLinks: Route[] = [Route.Documentation, getRouteLeave(route) as Route];
-    const toggleMenuState = useMenu(subNavLinks);
+    const [openMenu] = useMenu(subNavLinks);
     const bgSrc = useBackground();
 
 
@@ -25,7 +25,7 @@ const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildr
             className={'h-dvh max-h-dvh p-[1.25rem] font-neo text-primary bg-content bg-cover bg-no-repeat bg-fixed bg-bottom'}>
             <div className={`h-[3.05rem] flex items-center justify-end`}>
                 <Button
-                    onClick={() => toggleMenuState()}
+                    onClick={() => openMenu()}
                     icon={'burger'}
                     className={`[&&_*]:size-[1.8rem] absolute z-40 pl-[0.9rem]  before:h-[2.25rem] border-l-small border-control-gray-l0`}
                 />

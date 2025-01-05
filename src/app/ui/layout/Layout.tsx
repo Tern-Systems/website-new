@@ -107,7 +107,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         : (
             <>
                 <Insignia insigniaMoved={isInsigniaMoved}
-                          className={`z-30 cursor-pointer
+                          className={`absolute z-30 w-[30rem] cursor-pointer
                             ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
                             sm:x-[ml-[--p-content-sm],mt-[--p-content-sm]]
                             ${isInsigniaMoved

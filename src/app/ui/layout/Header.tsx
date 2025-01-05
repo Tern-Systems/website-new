@@ -40,7 +40,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     const modalCtx = useModal();
     const isSmScreen = useBreakpointCheck();
     const layoutCtx = useLayout();
-    const toggleMenuState = useMenu();
+    const [openMenu] = useMenu();
 
 
     const toggleProfileMenu = () => {
@@ -51,7 +51,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     const toggleMenu = () => {
-        toggleMenuState();
+        openMenu();
         setProfileMenuOpenState(false);
     }
 

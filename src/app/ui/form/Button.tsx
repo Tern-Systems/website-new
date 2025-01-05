@@ -97,7 +97,7 @@ const Button: FC<Props> = (props: Props) => {
     const stateIcon: ButtonIcon | null | undefined = hovered?.icon && isHovered ? hovered?.icon : icon;
     const Icon: ReactElement | null = stateIcon
         ? <ReactSVG src={ICON[stateIcon].src}
-                    className={`inline [&_svg]:w-[min(2.3dvw,1rem)] [&_svg]:h-auto ${isIconFlippedY ? 'rotate-180' : ''} ${classNameIcon}`}/>
+                    className={`inline [&_*]:w-[1rem] [&_svg]:h-auto ${isIconFlippedY ? 'rotate-180' : ''} ${classNameIcon}`}/>
         : null;
 
     return (

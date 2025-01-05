@@ -75,14 +75,12 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     className={cn(`relative flex justify-between font-oxygen`, {['h-[4.3rem] p-[1.25rem]']: isSmRulesApplied})}>
                     {isSmRulesApplied ? null : Heading}
                     {isSmRulesApplied
-                        ? <Insignia
-                            insigniaMoved
-                            className={'origin-top-left scale-[--insignia-scale-moved] top-[1.1rem] left-[--2dr]'}/>
+                        ? <Insignia insigniaMoved className={'w-[2.125rem] h-auto'}/>
                         : null}
                     <Button
                         icon={'close'}
                         onClick={() => handleClose()}
-                        className={cn({['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied})}
+                        classNameIcon={cn({['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied})}
                     />
                 </div>
                 <hr className={cn({['mt-[--1qdrs] scale-[105%] mb-[--s-normal] sm:landscape:x-[scale-[102%],my-[--1drs]]']: !isSmRulesApplied})}/>
