@@ -91,6 +91,20 @@ const config: Config = {
                         transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
+                },
+                insigniaReverse: {
+                    '100%': {
+                        top: '45%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%) scale(var(--insignia-scale-init))',
+                        transformOrigin: 'center center',
+                    },
+                    '0%': {
+                        top: '0',
+                        left: '0',
+                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
+                        transformOrigin: 'top left'
+                    }
                 }
             }
         },

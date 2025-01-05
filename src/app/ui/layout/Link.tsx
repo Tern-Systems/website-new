@@ -31,10 +31,11 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
     isExternal?: boolean;
     prevent?: boolean;
     preventModalClose?: boolean;
+    timeout?: number;
 }
 
 const PageLink: FC<Props> = (props: Props) => {
-    const {icon, iconClassName, children, href, isExternal, prevent, preventModalClose, ...linkProps} = props;
+    const {icon, iconClassName, children, href, isExternal, prevent, preventModalClose, timeout, ...linkProps} = props;
 
     const route = usePathname();
     const [navigate] = useNavigate(preventModalClose);
@@ -43,7 +44,11 @@ const PageLink: FC<Props> = (props: Props) => {
         linkProps.onClick?.(event);
         if (prevent || isExternal)
             return;
-        navigate(href as Route ?? Route.Home);
+
+        const handleNavigation = () => navigate(href as Route ?? Route.Home);
+        if (timeout)
+            return setTimeout(() => handleNavigation(), timeout);
+        handleNavigation();
     }
 
     const Icon: ReactElement | null = icon

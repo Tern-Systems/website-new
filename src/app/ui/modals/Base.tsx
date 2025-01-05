@@ -75,7 +75,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     className={cn(`relative flex justify-between font-oxygen`, {['h-[--h-modal-header] p-[1.25rem]']: isSmRulesApplied})}>
                     {isSmRulesApplied ? null : Heading}
                     {isSmRulesApplied
-                        ? <Insignia insigniaMoved className={'w-[2.125rem] h-auto'}/>
+                        ? <Insignia insigniaMoved className={'w-[--insignia-moved-size] h-auto'}/>
                         : null}
                     <Button
                         icon={'close'}

@@ -16,6 +16,9 @@ import "@/app/globals.css";
 import styles from "@/app/common.module.css";
 
 
+const INSIGNIA_MOVING_TIME = 1000;
+
+
 const Layout: FC<PropsWithChildren> = ({children}) => {
     const route = usePathname();
     const modalCtx = useModal();
@@ -24,7 +27,6 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const layoutCtx = useLayout();
     const bgSrc = useBackground();
 
-    const [isInsigniaMoved, setInsigniaMoved] = useState(false);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
 
     useEffect(() => {
@@ -35,11 +37,14 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     }, [params]);
 
     useEffect(() => {
-        if (route)
-            setInsigniaMoved(route !== Route.Start);
+        if (route) {
+            layoutCtx.setMovingAnimationState(route !== Route.Start);
+            layoutCtx.setInsigniaMoved(route !== Route.Start);
+        }
         setTimeout(() => {
             setProfileLinksVisibility(false);
         }, LAYOUT.fadeDuration);
+        //eslint-disable-next-line
     }, [route]);
 
 
@@ -49,7 +54,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             <div
                 className={`mt-auto mb-[--s-default] text- font-oxygen text-center`}
             >
-                <PageLink href={Route.Home} onClick={() => setInsigniaMoved(true)}>
+                <PageLink href={Route.Home} timeout={INSIGNIA_MOVING_TIME}
+                          onClick={() => layoutCtx.setMovingAnimationState(true)}>
                     Tern
                 </PageLink>
             </div>
@@ -97,13 +103,15 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         ? children
         : (
             <>
-                <Insignia insigniaMoved={isInsigniaMoved}
-                          className={`absolute z-30 w-[30rem] cursor-pointer
-                            ${isInsigniaMoved
-                              ? `animate-[insignia_1s_ease-in-out_forwards] 
-                                ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
+                <Insignia insigniaMoved={layoutCtx.isInsigniaMoved}
+                          className={`absolute z-30 w-[29rem] h-[24rem] cursor-pointer
+                          ${layoutCtx.isInsigniaMoved
+                              ? `[&]:size-[--insignia-moved-size] ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
                                 sm:x-[ml-[--p-content-sm],mt-[--p-content-sm]]`
-                              : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`}
+                              : (layoutCtx.isInsigniaMovedAnim
+                                  ? `animate-[insignia_1s_ease-in-out_forwards]`
+                                  : 'animate-[insigniaReverse_1s_ease-in-out_forwards]')
+                          }`}
                 />
                 <div
                     className={`flex flex-col flex-grow justify-between h-full`}>
