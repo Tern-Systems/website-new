@@ -1,6 +1,7 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {useQRCode} from "next-qrcode";
 
+import {SubscriptionBase} from "@/app/types/subscription";
 import {ARCode} from "@/app/types/arcode";
 import {LAYOUT, Route} from "@/app/static";
 
@@ -12,7 +13,6 @@ import {useLoginCheck, useNavigate} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {CodeMenu, CodeMenuData} from "./CodeMenu";
-import {SubscriptionBase} from "@/app/types/subscription";
 
 
 const MAX_AR_CODE_WIDTH = 200;

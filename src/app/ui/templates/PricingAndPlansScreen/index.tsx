@@ -83,7 +83,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     ): ReactElement => {
         const benefitsData = data?.benefits ?? generateFallbackEntries(5);
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
-            <li key={type + subIndex} className={'flex items-center gap-x-[--s-dl-smallest] whitespace-pre-wrap leading-[120%]'}>
+            <li key={type + subIndex}
+                className={'flex items-center gap-x-[--s-dl-smallest] whitespace-pre-wrap leading-[120%]'}>
                 <Image src={type === 'Pro' ? SVG_STAR : SVG_BULLET} alt={'list-icon'} className={'inline'}/>
                 <span>{benefit}</span>
             </li>
@@ -99,6 +100,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         }
 
         const isAnnualSwitchOption = selectedRecurrency === 'annual';
+        const isBasicPlan = type === 'Basic';
         const isUserMonthlySubscriber = userSubscription
             ? userSubscription.recurrency === 'monthly'
             : false;
@@ -109,7 +111,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             ? userSubscription.recurrency === selectedRecurrency
             : false;
         const isBtnDisabled =
-            type === 'Basic' && subscriptionData?.isBasicKind
+            isBasicPlan && subscriptionData?.isBasicKind
             || (isCurrentPlan && isCurrentRecurrency || !subscriptionData);
 
         let subscribeBtnText: string | ReactElement;
@@ -123,7 +125,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             </span>
         );
 
-        if (isCurrentRecurrency || type === 'Basic') {
+        if (isCurrentRecurrency || isBasicPlan) {
             if (isCurrentPlan) {
                 subscribeBtnText = isBtnDisabled ? 'Your current plan' : 'Subscribe';
                 Links = (
@@ -169,7 +171,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     <span>{type}</span>
                 </h2>
                 <div className={'mb-[--2tdr] text-secondary sm:landscape:mb-[--1dr]'}>
-                    <span>{pricing + (isAnnualSwitchOption ? '*' : '')}</span>
+                    <span>{isBasicPlan ? 'Free' : pricing + (isAnnualSwitchOption ? '*' : '')}</span>
                 </div>
                 <Button
                     onClick={() => handleSubscribeClick(type)}
