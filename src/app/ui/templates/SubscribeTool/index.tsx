@@ -22,9 +22,10 @@ const SubscribeTool: FC = () => {
         return null;
 
     return (
-        <div className={'flex font-oxygen text-gray h-full sm:flex-col'}>
+        <div className={`flex h-full font-oxygen text-gray
+                            text-heading-s
+                            sm:x-[text-basic,flex-col]`}>
             <PaymentInfo subscription={subscription}/>
-            <hr className={'my-[--1hdr] border-control-gray-l0'}/>
             <PaymentForm
                 type={subscription?.type}
                 recurrency={subscription?.recurrency}
