@@ -4,6 +4,7 @@ import {CardData} from "@/app/types/billing";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
+import { url } from "inspector";
 
 
 type FormCardData = Omit<CardData, 'nickName' | 'isDefault' | 'cardId'>;
@@ -18,6 +19,7 @@ interface IBillingService {
     postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
 
     postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
+    getPlanDetails(email: string):any;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
@@ -117,6 +119,25 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             throw axios.isAxiosError(error) ? error : 'Unknown error!';
         }
     };
+    async getPlanDetails(email: string) {
+        
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `arch-current-plan`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {user:email},
+            withCredentials: false,
+        };
+        try {
+            const response = await axios(config);
+            return response.data;
+            
+        } catch (error: unknown) {
+            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        }
+    }
 
     // eslint-disable-next-line
     private async _fetchTaxes(place: string): Promise<number> { // TODO
