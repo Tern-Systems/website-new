@@ -85,7 +85,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     className={`flex justify-between items-center
                             px-[--p-content] w-full min-h-[5.12rem] border-t-small border-section content-center text-[1rem] leading-none
                             sm:x-[flex-col-reverse,items-center,justify-between,p-[--p-content-sm],text-center]
-                            sm:portrait:[min-h-[4.94rem]]
+                            sm:portrait:x-[min-h-[4.94rem]]
                             sm:landscape:x-[flex-row,p-[2.4dvw],h-[3.19rem]]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
