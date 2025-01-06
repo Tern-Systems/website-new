@@ -243,14 +243,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         }
     }
 
-    async postDeleteAccount(email: string, password: string): Promise<void> {
+    async postDeleteAccount(email: string, confirm: string): Promise<void> {
         const [debug, error] = this.getLoggers(this.postSendOTP.name);
 
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `delete-account`,
             headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({email, password}),
+            data: JSON.stringify({email, confirm: confirm.toLowerCase()}),
             withCredentials: true,
         };
 
