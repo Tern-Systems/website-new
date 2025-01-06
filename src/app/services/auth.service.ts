@@ -34,6 +34,8 @@ interface IAuthService {
     post2FATurnOff(email: string): Promise<boolean>;
 
     post2FASavePhone(userEmail: string, phone: string): Promise<boolean>;
+
+    postDeleteAccount(email: string, password: string): Promise<void>;
 }
 
 class AuthServiceImpl extends BaseService implements IAuthService {
@@ -219,13 +221,36 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         }
     }
 
-    async post2FASavePhone(userEmail: string, phone: string): Promise<boolean> {
-        const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
+    async post2FASavePhone(userEmail: string, phone: string ): Promise<boolean> {
+                const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: `${this._API}2FA-save-phone`,
-            data: {userEmail, phone},
+            url: this._API + `2FA-save-phone`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({userEmail, phone}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+            return response.data.success;
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async postDeleteAccount(email: string, confirm: string): Promise<void> {
+        const [debug, error] = this.getLoggers(this.postSendOTP.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `delete-account`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({email, confirm: confirm.toLowerCase()}),
             withCredentials: true,
         };
 
