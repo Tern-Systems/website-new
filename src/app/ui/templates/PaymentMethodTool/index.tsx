@@ -1,4 +1,5 @@
 import React, {FC, FormEvent, useEffect, useState} from "react";
+import axios from 'axios';
 
 import {CardData} from "@/app/types/billing";
 import {COUNTRY, STATE_PROVINCE} from "@/app/static";
@@ -42,6 +43,26 @@ const CARDS_TEMPLATE: CardData[] = [
     }
 ]
 
+type SavedCard = {
+    CustomerProfileId: string;
+    PaymentProfileId: string;
+    billingAddress: {
+      address: string;
+      city: string;
+      country: string;
+      firstName: string;
+      lastName: string;
+      state: string;
+      zip: string;
+    };
+    cardNumber: string;
+    cardType: string;
+    expDate: string;
+    last4: string;
+    nickname: string;
+    preferred: boolean;
+};
+
 const FORM_DATA_DEFAULT: CardData = {
     id: '',
     type: '',
@@ -84,15 +105,40 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
 
     useEffect(() => {
-        if (isPaymentCreation)
-            return;
+        if (isPaymentCreation) return;
 
-        try {
-            // TODO fetch cards
-            setSavedCards(CARDS_TEMPLATE);
-        } catch (error: unknown) {
-        }
-    }, [isPaymentCreation])
+        (async () => {
+          try {
+            const result = await axios({
+                method: "POST",
+                data: {
+                    email: userData?.email
+                },
+                url: `${process.env.NEXT_PUBLIC_API}get-saved-cards-and-edit`,
+                withCredentials: true,
+            });
+            const cardData = result.data?.map((card: SavedCard) => ({
+                type: card.cardType,
+                cardNumber: card.cardNumber,
+                expirationDate: card.expDate,
+                cvc: "",
+                cardholderName: `${card.billingAddress.firstName} ${card.billingAddress.lastName}`.trim(),
+                billingCountry: card.billingAddress.country,
+                billingAddress: card.billingAddress.address,
+                addressLine1: card.billingAddress.address,
+                addressLine2: "",
+                city: card.billingAddress.city,
+                postalCode: card.billingAddress.zip,
+                state: card.billingAddress.state,
+                nickname: card.nickname || "",
+                isDefault: card.preferred,
+            }));
+            setSavedCards(cardData.length > 0 ? cardData : CARDS_TEMPLATE);
+          } catch (error: unknown) {
+            console.error("Failed to fetch card details:", error);
+          }
+        })();
+    }, [isPaymentCreation]);
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
