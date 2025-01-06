@@ -10,12 +10,20 @@ abstract class BaseService {
         this._serviceName = name;
     }
 
-    get getAPI() {
-        return this._API;
+    protected getLoggers(method: string) {
+        console.log(this._serviceName + ' - ' + method + ':')
+        return [this.debug, this.error];
     }
 
-    protected log(method: string): void {
-        console.info(this._serviceName + ' - ' + method + '...');
+    // eslint-disable-next-line
+    private debug(...data: any[]): void {
+        if (process.env.NODE_ENV === 'development')
+            console.log('DEBUG', ...data);
+    }
+
+    private error(error: unknown) {
+        if (process.env.NODE_ENV === 'development')
+            console.log('ERROR', error);
     }
 }
 

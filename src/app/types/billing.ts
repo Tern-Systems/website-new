@@ -35,6 +35,12 @@ type Invoice = {
     type: SubscriptionRecurrency;
 }
 
+type InvoiceHistory = {
+    amount: number;
+    name: string;
+    startDate: string;
+}
+
 type SavedCard  = {
     billingAddress: {
       firstName: string,
@@ -52,4 +58,4 @@ type SavedCard  = {
     preferred: boolean,
 }
 
-export type {CardData, Invoice, SavedCard}
+export type {CardData, Invoice, InvoiceHistory, SavedCard}

@@ -2,23 +2,24 @@ import React, {ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
 import axios from "axios";
 
-import {CardData, Invoice} from "@/app/types/billing";
+import {CardData, InvoiceHistory} from "@/app/types/billing";
 import {Route} from "@/app/static";
+
+import {BillingService} from "@/app/services";
 
 import {useBreakpointCheck, useLoginCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";
 import {FullScreenLayout, PageLink} from "@/app/ui/layout";
+import {MessageModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 import {ExportInvoiceModal} from "./ExportInvoiceModal";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
-import {SavedCard} from "@/app/types/billing";
-const PX_CN = 'px-[min(2.7dvw,0.625rem)]';
 
 
-function PurchasingInformationView() {
+function PurchasingInformationPage() {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
@@ -26,84 +27,54 @@ function PurchasingInformationView() {
 
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
-    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     // eslint-disable-next-line
-    const [invoices, setInvoices] = useState<Invoice[]>([]);
-    const [billingAddress, setBillingAddress] = useState<{
-        firstName: string,
-        lastName: string,
-        country: string,
-        address: string,
-        city: string,
-        zip: string,
-        state: string,
-    }>();
+    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
+    const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
+
 
     useEffect(() => {
-        try {
-            // TODO fetch cards, invoices
-            setInvoices([{
-                id: 111111111111,
-                date: Date.now(),
-                to: 'John Doe',
-                from: 'Tern Systems, LLC',
-                card: {cardNumber: '1111222233334444', type: 'visa', nickName: 'john doe'},
-                item: {name: 'ARCH Standard Subscription', priceUSD: 10},
-                subtotalUSD: 10,
-                totalDue: 10.60,
-                taxPercent: 0.06,
-                paidUSD: 10.6,
-                country: 'US',
-                state: 'PA',
-                type: 'monthly',
-                status: 'paid'
-            }])
-        } catch (error: unknown) {
-        }
-    }, [])
+        const fetchSubscriptionDetailsAndCards = async () => {
+            if (!userCtx.userData)
+                return;
+            try {
+                const {payload: invoices} = await BillingService.postGetInvoices(userCtx.userData.email);
+                setInvoiceHistory(invoices);
 
-    const fetchCards = async (): Promise<void> => {
-        try {
-            const result = await axios({
-                method: "POST",
-                url: `${process.env.NEXT_PUBLIC_API}/get-saved-cards`,
-                data: {
-                  email: userCtx.userData?.email
-                },
-                withCredentials: true,
-            });
-            
-            const preferredCardIdx = result.data.findIndex((card: SavedCard) => card.preferred === true);
-            
-            if (preferredCardIdx !== -1) {
-                setBillingAddress(result.data[preferredCardIdx].billingAddress);
+                const {payload: cards} = await BillingService.getCards(userCtx.userData.email);
+                setSavedCards(cards);
+            } catch (error) {
+                let message: string = 'Unknown error';
+                if (axios.isAxiosError(error))
+                    message = error.cause?.message ?? message;
+                else if (typeof error === 'string')
+                    message = error;
+                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
-            
-        } catch (error) {
-            console.error(error)
         }
-    }
+        fetchSubscriptionDetailsAndCards();
+        // eslint-disable-next-line
+    }, [userCtx.userData]);
 
-    useEffect(() => {
-        fetchCards()
-    }, [])
 
     if (!isLoggedIn)
         return null;
 
+    const defaultCard: CardData | undefined = savedCards[defaultCardIdx];
+
+    // Elements
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
         if (card.isDefault)
             setDefaultCardIdx(idx);
         return (
             <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
-                <Image src={SVG_CARD} alt={'card'} className={'size-[1.35419rem]'}/>
+                <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
                 <span>{card.nickName}</span>
                 <span
                     hidden={!card.isDefault}
                     className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
                 >
-                Preferred
-            </span>
+                    Preferred
+                </span>
             </li>
         );
     })
@@ -111,86 +82,89 @@ function PurchasingInformationView() {
     if (!Cards.length)
         Cards = [<span key={0}>No saved cards</span>];
 
-    const InvoiceRows: ReactElement[] = invoices.map((order, idx) => {
-        const invoiceDate = new Date(order.date);
+    const InvoiceRows: ReactElement[] = invoiceHistory.map((order, idx) => {
+        const invoiceDate = new Date(order.startDate);
         return (
-            <tr key={order.id + idx}>
-                <td>{order.id}</td>
+            <tr key={idx}>
                 <td>{invoiceDate.toLocaleString('default', {month: 'long'})} {invoiceDate.getDate()}th, {invoiceDate.getFullYear()}</td>
-                <td>{order.totalDue.toFixed(2)}</td>
-                <td>{order.status}</td>
-                <td className={'sm:hidden'}>{order.card.nickName}</td>
-                <td className={'text-right sm:hidden'}>{order.item.name}</td>
+                <td className={'sm:hidden'}>${order.amount}</td>
+                <td className={'text-right sm:hidden'}>{order.name}</td>
             </tr>
         )
     });
 
-    const Hr = <hr className={'border-control-white-d0 mt-[min(2.7dvw,0.81rem)] mb-[min(2.7dvw,1.57rem)]'}/>;
+    const Hr = <hr className={'border-control-white-d0 mt-[--s-small] mb-[--s-normal]'}/>;
 
     return (
-        <div className={'mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)]'}>
-            <div className={'max-w-[29.0625rem] text-nowrap mb-[min(8dvw,5.76rem)]'}>
-                <h1 className={'text-[min(7.2dvw,3rem)] font-bold'}>
-                    Purchasing Information
-                </h1>
-            </div>
-            <div className={'grid gap-[min(8dvw,10rem)] grid-cols-2 mb-[min(8dvw,7rem)] sm:grid-cols-1'}>
-                <div>
-                    <div className={`flex justify-between ${PX_CN}`}>
-                        <h2 className={'text-header font-bold'}>Payment Method</h2>
-                        <PageLink href={Route.EditPaymentMethod} prevent={!savedCards.length}>
-                            <Button icon={'edit'} className={'text-small flex-row-reverse'}>
-                                {isSmScreen ? '' : 'Edit'}
-                            </Button>
+        <div className={`mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)] sm:x-[mt-[--2dr]]`}>
+            <h1 className={`text-header-l font-bold mb-[min(8dvw,5.76rem)]
+                            sm:landscape:x-[mb-[--2dr],text-content]`}
+            >
+                Purchasing Information
+            </h1>
+            <div className={'px-[min(2.7dvw,0.625rem)] sm:portrait:px-0 text-default'}>
+                <div className={`grid grid-cols-2 gap-[min(8dvw,10rem)] mb-[min(8dvw,7rem)]
+                            sm:grid-cols-1
+                            sm:landscape:x-[gap-y-[--2dr],mb-[--2dr]]`}>
+                    <div>
+                        <div className={`flex justify-between`}>
+                            <h2 className={'text-header font-bold   sm:landscape:text-content'}>Payment Method</h2>
+                            <PageLink href={Route.EditPaymentMethod} prevent={!savedCards.length}>
+                                <Button icon={'edit'} className={'text-small flex-row-reverse'}>
+                                    {isSmScreen ? '' : 'Edit'}
+                                </Button>
+                            </PageLink>
+                        </div>
+                        {Hr}
+                        <ul className={`flex flex-col gap-[--1dr]`}>
+                            {Cards}
+                        </ul>
+                        <PageLink href={Route.AddPaymentMethod}
+                                  className={'font-bold mt-[min(2.7dvw,1.5rem)]    sm:landscape:mt-[--s-d-small]'}>
+                            <Button icon={'plus'}>Add alternative payment method</Button>
                         </PageLink>
                     </div>
-                    {Hr}
-                    <ul className={`flex flex-col gap-[min(2.7dvw,0.93rem)] ${PX_CN}`}>
-                        {Cards}
-                    </ul>
-                    <PageLink href={Route.AddPaymentMethod} className={PX_CN}>
-                        <Button icon={'plus'} className={'font-bold text-content mt-[min(2.7dvw,1.51rem)]'}>
-                            Add alternative payment method
-                        </Button>
-                    </PageLink>
-                </div>
-                <div>
-                    <h2 className={`text-header font-bold ${PX_CN}`}>Billing Details</h2>
-                    {Hr}
-                    <div className={`grid grid-rows-2 grid-cols-[max-content,max-content] gap-y-[min(2.7dvw,3rem)] gap-x-[min(10dvw,3rem)] ${PX_CN}`}>
-                        <span>Name</span>
-                        <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
-                        <span>Billing Address</span>
-                        {billingAddress ? (
-                            <ul>
-                                <li>{billingAddress?.address}</li>
-                                <li>
-                                {billingAddress?.city}, {billingAddress?.state}{" "}
-                                {billingAddress?.zip}
-                                </li>
-                                <li>{billingAddress?.country}</li>
-                            </ul>
-                        ) : (
-                            <span>--</span>
-                        )}
+                    <div>
+                        <h2 className={`text-header font-bold   sm:landscape:text-content`}>Billing Details</h2>
+                        {Hr}
+                        <div
+                            className={`grid grid-rows-2 grid-cols-[max-content,max-content]
+                                        gap-y-[--1qdrs] gap-x-[min(10dvw,3rem)]
+                                        sm:landscape:gap-y-[--s-d-small]`}
+                        >
+                            <span>Name</span>
+                            <span>{defaultCard ? defaultCard.cardholderName : '--'}</span>
+                            <span>Billing Address</span>
+                            {defaultCard ? (
+                                    <ul>
+                                        <li>{defaultCard.addressLine1}</li>
+                                        <li>
+                                            {defaultCard.city}, {defaultCard.state}&nbsp;
+                                            {defaultCard.postalCode}
+                                        </li>
+                                        <li>{defaultCard.billingCountry}</li>
+                                    </ul>
+                                )
+                                : <span>--</span>}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className={`flex justify-between items-center ${PX_CN}`}>
-                <h2 className={'text-header font-bold text-left'}>Invoice History</h2>
-                <Button
-                    className={'border-small border-control-white-d0 px-[min(2.1dvw,1rem)] text-small h-[min(4.3dvw,1.44rem)] rounded-full font-bold'}
-                    onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
-                >
-                    Export
-                </Button>
-            </div>
-            {Hr}
-            <div className={'overflow-hidden rounded-small px-[min(4dvw,var(--p-small))] max-h-[27rem]'}>
-                <div className={`overflow-y-scroll h-full text-[min(3.2dvw,var(--fz-content-))] capitalize`}>
-                    <table className={'w-full'} cellPadding={'1.25'}>
-                        <tbody>{InvoiceRows}</tbody>
-                    </table>
+                <div className={`flex justify-between items-center`}>
+                    <h2 className={'text-header font-bold text-left   sm:landscape:text-content'}>Invoice History</h2>
+                    <Button
+                        className={'border-small border-control-white-d0 px-[min(2.1dvw,1rem)] text-small h-[--h-control] rounded-full font-bold'}
+                        onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
+                    >
+                        Export
+                    </Button>
+                </div>
+                {Hr}
+                <div className={'overflow-hidden rounded-small max-h-[27rem]'}>
+                    <div className={`overflow-y-scroll h-full capitalize`}>
+                        <table className={'w-full'} cellPadding={'1.25'}>
+                            <tbody>{InvoiceRows}</tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <ScrollEnd/>
@@ -198,10 +172,10 @@ function PurchasingInformationView() {
     )
 }
 
-PurchasingInformationView.getLayout = (page: ReactElement) => (
+PurchasingInformationPage.getLayout = (page: ReactElement) => (
     <FullScreenLayout backButtonSection={Route.Billing}>{page}</FullScreenLayout>
 );
-PurchasingInformationView.getMobileLayout = PurchasingInformationView.getLayout;
+PurchasingInformationPage.getMobileLayout = PurchasingInformationPage.getLayout;
 
 
-export default PurchasingInformationView;
+export default PurchasingInformationPage;

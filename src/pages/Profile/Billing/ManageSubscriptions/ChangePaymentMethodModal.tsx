@@ -16,7 +16,7 @@ import SVG_CARD from "@/assets/images/icons/card.svg";
 import SVG_MARK from "@/assets/images/icons/mark.svg";
 
 
-const BTN_CN = 'px-[min(2.5dvw,1rem)] h-[min(6.1dvw,1.43rem)] rounded-full';
+const BTN_CN = 'px-[--1drs] h-[--h-control-dl] rounded-full';
 
 
 interface Props {
@@ -45,14 +45,14 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             <li
                 key={card.nickName + idx}
                 onClick={() => setSelectedCardIdx(idx)}
-                className={`flex justify-between text-content items-center px-[min(2.7dvw,0.8rem)] py-[0.7rem] rounded-small
+                className={`flex justify-between text-content items-center px-[--s-small] py-[0.7rem] rounded-small
                             sm:py-0 ${!isPreferred && selectedCardIdx === idx ? 'bg-control-white-d1' : ''}`}
             >
                 <span className={`flex items-center ${isPreferred ? 'brightness-[2.4]' : ''}`}>
                     <ReactSVG src={SVG_CARD.src} className={`[&_svg]:w-[min(3.9dvw,1.35rem)] mr-[min(2dvw,0.65rem)] [&_path]:fill-gray`}/>
                     <span className={'text-content'}>{card.nickName}</span>
                 </span>
-                {isPreferred ? <Image src={SVG_MARK} alt={'mark'} className={'w-[min(2.4dvw,0.8125rem)]'}/> : null}
+                {isPreferred ? <Image src={SVG_MARK} alt={'mark'} className={'w-[min(2.4dvw,0.8125rem)] h-auto'}/> : null}
             </li>
         )
     });
@@ -63,8 +63,8 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             className={'bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_path]:fill-gray w-[min(90dvw,30rem)]'}
             classNameContent={'text-gray text-center'}
         >
-            <ul className={'list-none flex flex-col gap-y-[min(2.7dvw,0.84rem)]'}>{SavedCards}</ul>
-            <PageLink href={Route.EditPaymentMethod} className={'w-full justify-center sm:justify-start sm:px-[min(2.7dvw,0.8rem)]'}>
+            <ul className={'list-none flex flex-col gap-y-[--s-small]'}>{SavedCards}</ul>
+            <PageLink href={Route.EditPaymentMethod} className={'w-full justify-center sm:justify-start sm:px-[--s-small]'}>
                 <Button
                     icon={'plus'}
                     className={'font-bold text-content mt-[min(2.7dvw,1.5rem)]'}
@@ -73,7 +73,7 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
                 </Button>
             </PageLink>
             <span
-                className={'flex gap-[min(1.6dvw,0.62rem)] font-bold mt-[min(4dvw,1.56rem)] text-small justify-center'}>
+                className={'flex gap-[--s-d2l-smallest] font-bold mt-[--1hdr] text-small justify-center'}>
                 <Button
                     className={`border-small border-control-white-d0 text-gray ${BTN_CN}`}
                     onClick={() => handleSave()}

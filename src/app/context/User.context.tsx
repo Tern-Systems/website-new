@@ -5,6 +5,7 @@ import React, {
   FC,
   PropsWithChildren,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -16,6 +17,7 @@ import {
 } from "@/app/static/company";
 
 import { CountryKey, LANGUAGE, SALUTATION, StateKey } from "@/app/static";
+import { UserService } from "@/app/services";
 
 type UserSubscription = Pick<
   Subscription,
@@ -59,18 +61,16 @@ type Company = {
 
 // User data
 interface UserData {
+  // Todo (scaling) 2FA for email
   name: FullName;
   ternID: string;
-  displayName: string;
+  username: string;
   preferredLanguage: keyof typeof LANGUAGE;
   email: string;
   registrationDate: number;
-  phone: UserPhone;
-  hasPurchasedPlan: number;
-  state2FA: {
-    email: string | null;
-    phone: string | null;
-  };
+  phones: UserPhone;
+  ternKeyPurchased: boolean;
+  archPurchased: boolean;
   subscriptions: UserSubscription[];
   lastLogin: number;
   connectedApps: {
@@ -86,8 +86,12 @@ interface UserData {
     phone: boolean;
     email: boolean;
   };
+  state2FA: {
+    email: string | null;
+    phone: string | null;
+  };
   twoFA: boolean;
-  history: boolean;
+  hasHistory: boolean;
 }
 
 interface IUserContext {
@@ -98,71 +102,67 @@ interface IUserContext {
   removeSession: () => void;
 }
 
-const TEMPLATE_USER: UserData = {
-  email: "admin@gmail.com",
-  ternID: "ternID",
-  registrationDate: Date.now(),
-  history: false,
+const FALLBACK_USER: UserData = {
+  email: "",
+  ternID: "",
+  registrationDate: 0,
+  hasHistory: false,
   photo: null,
   twoFA: false,
   name: {
-    salutation: "MR",
-    firstname: "John",
-    lastname: "Doe",
+    salutation: "",
+    firstname: "",
+    lastname: "",
     initial: "",
   },
-  displayName: "Display_Name",
+  username: "",
   preferredLanguage: "en-US",
-  passwordUpdateDate: Date.now(),
-  phone: {
+  passwordUpdateDate: 0,
+  phones: {
     mobile: null,
-    business: { number: "1234567788", isPrimary: false, ext: "4324" },
-    personal: { number: "1984327389", isPrimary: false },
+    business: null,
+    personal: null,
   },
-  subscriptions: [
-    {
-      type: "pro",
-      recurrency: "annual",
-      isBasicKind: false,
-      subscription: "ternKey",
-    },
-    {
-      type: "pro",
-      recurrency: "annual",
-      isBasicKind: true,
-      subscription: "arch",
-    },
-  ],
-  hasPurchasedPlan: 0,
+  subscriptions: [],
+  ternKeyPurchased: false,
+  archPurchased: false,
   verification: {
     phone: false,
-    email: true,
+    email: false,
   },
   state2FA: {
-    email: null,
     phone: null,
+    email: null,
   },
-  lastLogin: Date.now(),
+  lastLogin: 0,
   connectedApps: {
-    social: [{ name: "Discord", link: "http://discord.com/" }],
-    data: [{ name: "Google Drive", link: "http://drive.google.com/" }],
+    social: [],
+    data: [],
   },
-  personalDomain: { link: "http://domain.com", isVerified: true },
+  personalDomain: { link: "", isVerified: false },
   address: {
     businessAddress: {
-      line1: "1120 Avenue of the Americas",
-      line2: "FL 4 UNIT 4189",
-      state: "NY",
-      zip: "10036",
-      city: "New York",
-      country: "US",
-      isPrimary: true,
+      line1: "",
+      line2: "",
+      state: "",
+      zip: "",
+      city: "",
+      country: "",
+      isPrimary: false,
     },
-    personalAddress: null,
+    personalAddress: {
+      line1: "",
+      line2: "",
+      city: "",
+      zip: "",
+      state: "",
+      country: "",
+      isPrimary: false,
+    },
   },
   company: {
-    name: "Tern Systems LLC",
-    jobTitle: "President",
+    name: "",
+    jobTitle: "",
     jobFunction: "C01",
     industry: "U",
     subIndustry: "UA",
@@ -172,21 +172,35 @@ const TEMPLATE_USER: UserData = {
 const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-  const [isLoggedIn, setLoggedState] = useState<boolean>(true); // TODO
+  const [isLoggedIn, setLoggedState] = useState(true);
   const [userData, setUserDataHelper] = useState<UserData | null>(
-    TEMPLATE_USER
-  ); // TODO
+    FALLBACK_USER
+  );
   const [token, setToken] = useState<string | null>(null);
 
   const setSession = (userData: UserData, token: string) => {
     setUserDataHelper(userData);
     setLoggedState(true);
     setToken(token);
+    localStorage.setItem("token", token);
   };
   const removeSession = () => {
     setUserDataHelper(null);
     setLoggedState(false);
+    localStorage.removeItem("token");
   };
+
+  useEffect(() => {
+    const fetchUserData = async (token: string) => {
+      try {
+        const { payload: user } = await UserService.getUser(token);
+        setSession(user, token);
+      } catch (error: unknown) {}
+    };
+
+    const token = localStorage.getItem("token");
+    if (token) fetchUserData(token);
+  }, []);
 
   return (
     <UserContext.Provider

@@ -27,7 +27,7 @@ const ContactsPage: FC = () => {
     const Links = LINKS.map((link) => (
         <li key={link.href} className={`size-[min(8dvw,2rem)] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
-                <Image src={link.svg} alt={link.href}/>
+                <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
         </li>
     ));
@@ -36,12 +36,12 @@ const ContactsPage: FC = () => {
         <div
             className={`${styles.highlight} w-full max-w-[min(26.5rem)] gap-[min(8dvw,3.12rem)] text-[min(5.3dvw,2rem)]
                         sm:w-fit sm:mx-auto`}>
-            <p className={'font-oxygen text-[min(7.2dvw,2.8rem)]'}>Tern</p>
+            <p className={'font-oxygen text-header-l'}>Tern</p>
             <p >New York, New York</p>
             <p className={'font-normal text-[]'}>
                 <a href={'mailto:info@tern.ac'} target={'_blank'} className={styles.clickable}>info@tern.ac</a>
             </p>
-            <ul className={'flex gap-[min(2.6dvw,0.84rem)]'}>{Links}</ul>
+            <ul className={'flex gap-[--s-small]'}>{Links}</ul>
         </div>
     )
 }

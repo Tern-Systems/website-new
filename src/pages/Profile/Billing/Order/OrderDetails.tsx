@@ -26,7 +26,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
         ? invoice.totalDue - invoice.paidUSD
         : undefined;
 
-    const Hr = <hr className={'border-control-white-d0 mt-[min(2.7dvw,1.25rem)] mb-[min(4dvw,1.25rem)]'}/>
+    const Hr = <hr className={'border-control-white-d0 mt-[--1qdrs] mb-[--1qdr]'}/>
 
     return (
         <div className={`${className} bg-control-white`}>
@@ -35,7 +35,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
                     Paid on {invoiceDate}
                 </h2>
 
-                <h3 className={'mt-[min(8dvw,2.5rem)] text-content-small font-bold text-secondary'}>Summary</h3>
+                <h3 className={'mt-[--2hdr] text-content-small font-bold text-secondary'}>Summary</h3>
                 {Hr}
                 <div className={`grid gap-y-[min(4dvw,2rem)] grid-cols-2`}>
                     <span>To</span>
@@ -46,9 +46,9 @@ const OrderDetails: FC<Props> = (props: Props) => {
                     <span>#{invoice?.id ?? '--'}</span>
                 </div>
 
-                <h3 className={'mt-[min(8dvw,2.5rem)] text-content-small font-bold text-secondary'}>Items</h3>
+                <h3 className={'mt-[--2hdr] text-content-small font-bold text-secondary'}>Items</h3>
                 {Hr}
-                <div className={`flex flex-col gap-y-[min(2.7dvw,0.94rem)] mb-[min(8dvw,1.5rem)]`}>
+                <div className={`flex flex-col gap-y-[--1dr] mb-[min(8dvw,1.5rem)]`}>
                     <span className={'col-span-2 text-secondary font-bold'}>{invoiceDate} - {renewDate}</span>
                     <span className={'font-bold'}>
                             <span className={'flex justify-between'}>
@@ -67,7 +67,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
 
                 {Hr}
                 <div
-                    className={`text-content-small font-bold text-secondary grid grid-cols-[1fr,max-content] gap-y-[min(2.7dvw,0.94rem)]`}>
+                    className={`text-content-small font-bold text-secondary grid grid-cols-[1fr,max-content] gap-y-[--1dr]`}>
                     <span>Total excluding tax</span>
                     <span className={'text-right'}>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
                     <span className={'text-secondary'}>
@@ -85,7 +85,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
                 </div>
 
                 {Hr}
-                <div className={'font-bold grid grid-cols-[1fr,max-content] gap-y-[min(2.7dvw,0.94rem)]'}>
+                <div className={'font-bold grid grid-cols-[1fr,max-content] gap-y-[--1dr]'}>
                     <span>Amount paid</span>
                     <span>${invoice?.paidUSD?.toFixed(2) ?? '--'}</span>
                     <span>Amount remaining</span>
@@ -96,13 +96,13 @@ const OrderDetails: FC<Props> = (props: Props) => {
                 <h3 className={'mt-[2.5rem] text-content-small font-bold text-secondary mb-[0.94rem] sm:mt-0'}>
                     Payment history
                 </h3>
-                <div className={'text-small grid grid-rows-2 gap-y-[min(2.7dvw,0.94rem)]'}>
+                <div className={'text-small grid grid-rows-2 gap-y-[--1dr]'}>
                     <span className={'font-bold col-span-2'}>${invoice?.paidUSD?.toFixed(2) ?? '--'}</span>
                     <span className={'capitalize'}>{card}</span>
                     <span className={'text-right'}>{invoiceDate}</span>
                 </div>
 
-                <div className={'mt-[min(8dvw,2.5rem)] text-small text-secondary'}>
+                <div className={'mt-[--2hdr] text-small text-secondary'}>
                         <span>
                             Questions?&nbsp;
                             <PageLink href={Route.Contact} className={'text-blue cursor-pointer'}>

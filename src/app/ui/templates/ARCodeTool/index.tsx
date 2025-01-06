@@ -7,66 +7,110 @@ import {UserSubscription} from "@/app/context/User.context";
 import {FlowQueue} from "@/app/context/Flow.context";
 import {Route} from "@/app/static";
 
+import {ARCHService} from "@/app/services";
+
 import {useBreakpointCheck, useForm, useNavigate, useSaveOnLeave} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
-import {AuthModal, BaseModal} from "@/app/ui/modals";
+import {AuthModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_ARCH from "@/assets/images/arch-logo.svg";
 
 
-type ARCodeToolForm = Omit<ARCode, 'file'> & Partial<Pick<ARCode, 'file'>>;
+type ARCodeToolForm =
+    Pick<ARCode, 'backgroundColor' | 'moduleColor' | 'name' | 'mediaId' | 'qrCodeUrl' | 'videoPath'>
+    & Partial<Pick<ARCode, 'video'>>;
 
-const FORM_DEFAULT: ARCodeToolForm = {id: '', backgroundColor: '#000000', moduleColor: '#ffffff', name: '', file: ''}
+const FORM_DEFAULT: ARCodeToolForm = {
+    mediaId: '',
+    backgroundColor: '#000000',
+    moduleColor: '#ffffff',
+    name: '',
+    video: undefined,
+    videoPath: '',
+    qrCodeUrl: '',
+}
 const FORM_COLOR_PICKERS = ['module', 'background'];
 const MAX_AR_CODE_WIDTH = 440;
 
 
 interface Props {
-    editID?: string;
+    arCode?: ARCode;
 }
 
 const ARCodeTool: FC<Props> = (props: Props) => {
-    const {editID} = props;
+    const {arCode} = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const {isLoggedIn, userData} = useUser();
     const [navigate] = useNavigate();
-    const {SVG} = useQRCode();
     const isSmScreen = useBreakpointCheck();
+    const {SVG} = useQRCode();
 
     const [qrSize, setQrSize] = useState(MAX_AR_CODE_WIDTH);
-    const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>({
-        ...FORM_DEFAULT,
-        id: editID ?? FORM_DEFAULT.id
-    });
+    const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>(
+        (arCode
+            ? {
+                mediaId: arCode.mediaId,
+                backgroundColor: arCode.backgroundColor,
+                moduleColor: arCode.moduleColor,
+                name: arCode.name,
+                qrCodeUrl: arCode.qrCodeUrl,
+                videoPath: arCode.videoPath,
+            }
+            : FORM_DEFAULT),
+        () => preventLeaving(true)
+    );
 
     const processCode = useCallback(async () => {
-        // eslint-disable-next-line
-        const result = null; // TODO
+        if (!userData || !formValue)
+            return;
 
-        const SuccessModal = () => {
-            return (
-                <BaseModal isSimple
-                           className={'w-[18rem] h-[3.6rem] bottom-[7.2rem] right-[--p-small] border-control-white border-small'}>
-                    Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully saved
-                </BaseModal>
+        try {
+            const {
+                payload: {id, url}
+            } = await ARCHService.postGenerateQR(formValue.moduleColor, formValue.backgroundColor);
+
+            const mediaId = arCode ? arCode.mediaId : id;
+
+            // Fetch and create an image of QR
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const qrImage: File = new File([blob], formValue.name, {type: "image/png"});
+
+            await ARCHService.postSaveQR(
+                userData.email, formValue.name, arCode !== undefined, mediaId,
+                formValue.backgroundColor, formValue.moduleColor, qrImage, formValue.video
             );
+
+            const SuccessModal = () => (
+                <MessageModal>
+                    Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully saved
+                </MessageModal>
+            );
+            modalCtx.openModal(<SuccessModal/>)
+
+            preventLeaving(false);
+            if (!arCode)
+                setFormValueState(FORM_DEFAULT);
+            else
+                navigate(Route.SavedCodes);
+        } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
+        // eslint-disable-next-line
+    }, [formValue, userData])
 
-        modalCtx.openModal(<SuccessModal/>);
-    }, [modalCtx, formValue.name])
-
-    useSaveOnLeave(processCode);
+    const preventLeaving = useSaveOnLeave(processCode);
 
 
     useEffect(() => {
-        const arCodeParam = sessionStorage.getItem('ar-code');
-        if (arCodeParam)
-            setFormValueState(JSON.parse(arCodeParam) as ARCode);
-    }, [setFormValueState])
+        if (arCode)
+            setFormValueState(arCode);
+    }, [setFormValueState, arCode])
 
 
     useEffect(() => {
@@ -89,15 +133,19 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         }
 
         const subscription: UserSubscription | undefined = userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
-        if (!subscription)
-            flow.push(() => navigate(Route.ServicePricing))
+        if (!subscription) {
+            flow.push(() => {
+                preventLeaving(false);
+                navigate(Route.ServicePricing)
+            })
+        }
 
         if (!flow.length)
             return processCode();
 
         flow.push(async () => {
-            navigate(Route.SavedCodes);
             await processCode()
+            navigate(Route.SavedCodes);
         });
         flowCtx.run(flow);
     }
@@ -120,6 +168,8 @@ const ARCodeTool: FC<Props> = (props: Props) => {
         )
     });
 
+
+    // Generate QR code as data URL
     return (
         <div
             className={`flex place-self-center my-auto p-[4rem] w-[min(90dvw,69rem)] bg-control-navy border-small border-control-gray rounded-small
@@ -127,7 +177,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
             <div
                 className={`mr-[min(6.4dvw,7.7rem)] cursor-pointer content-center place-items-center place-self-center   sm:mr-0 sm:mb-[5.3dvw]`}>
                 <SVG
-                    text={'https://arch.tern.ac/'}
+                    text={'https://arch.tern.ac/' + arCode?.mediaId}
                     options={{
                         width: qrSize,
                         margin: 1,
@@ -143,10 +193,9 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 onSubmit={handleFormSubmit}
             >
                 <Image src={SVG_ARCH} alt={'arch-logo'}
-                       className={`h-[4rem] place-self-center ${isSmScreen ? 'hidden' : ''}`}/>
+                       className={`h-[4rem] w-auto place-self-center ${isSmScreen ? 'hidden' : ''}`}/>
                 <Input
                     type={"text"}
-                    name={'qr-name'}
                     placeholder={'Name'}
                     value={formValue.name}
                     onChange={setFormValue('name')}
@@ -156,12 +205,21 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 />
                 <Input
                     type={"file"}
-                    accept='image/png,image/jpeg,image/svg,image/jpg,image/webp,image/jpeg,image/gif,image/tiff,image/heif,image/heic'
-                    name={'qr-file'}
+                    accept={'image/*,video/*'}
+                    onChange={(event) => {
+                        if (!event.target.files)
+                            return;
+                        const file = Array.from(event.target.files)?.[0];
+                        if (file) {
+                            setFormValueState((prevState) =>
+                                ({...prevState, video: file, videoPath: file.name})
+                            );
+                        }
+                    }}
                     classNameWrapper={'h-[min(13dvw,3.1rem)] font-bold text-content text-black bg-control-white rounded-full'}
-                    required
+                    required={!arCode}
                 >
-                    {editID ? formValue.file : 'Upload Media'}
+                    {formValue.videoPath ? formValue.videoPath : 'Upload Media'}
                 </Input>
                 {ColorPickers}
                 <Button

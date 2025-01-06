@@ -4,10 +4,12 @@ import {BaseModal} from "@/app/ui/modals";
 const LimitsModal = () => (
     <BaseModal adaptSmScreen title={'Limits Apply'}
                className={'max-w-[56rem]'}
-               classNameContent={'sm:p-[min(5.3dvw)]'}
-               classNameTitle={'sm:mb-[5.3dvw] sm:text-[1.7rem]'}
+               classNameContent={'sm:p-[min(5.3dvw)] sm:landscape:p-[--1qdr]'}
+               classNameTitle={'sm:x-[mb-[5.3dvw],text-[1.7rem]] sm:landscape:mb-[--1hdr]'}
     >
-        <div className={'sm:text-[1rem] sm:overflow-y-scroll max-h-[79dvh]'}>
+        <div className={`max-h-[79dvh]
+                        sm:x-[text-[1rem],overflow-y-scroll]
+                        sm:landscape:max-h-[55dvh]`}>
             <h2 className={'mb-[0.5rem] font-bold text-content-small sm:mb-0'}>
                 TernKey Pro Plan Subscription Limitations
             </h2>

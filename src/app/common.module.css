@@ -27,20 +27,29 @@
   margin-left: min(0%, 6rem);
   background-color: #4D4D4D4C;
   border-radius: 0.5625rem;
-  padding: min(2.75vw, var(--p-small));
+  padding: min(2.75vw, var(--s-small));
   font-size: 2.25rem;
   font-weight: 700;
+
+  @media (max-width: 834px) {
+    padding: min(1.2dvw, var(--s-small));
+  }
 }
 
-.clickable:hover {
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover:not(:disabled) {
   transform: translateY(0.5px);
   transition: 0.1s ease-in-out;
 }
 
-.clickable:active {
+.clickable:active:not(:disabled) {
   transform: translateY(1.5px);
   transition: 0.1s ease-in-out;
 }
+
 
 @keyframes typing {
   from {

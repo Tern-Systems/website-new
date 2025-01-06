@@ -1,14 +1,16 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
-import axios from "axios";
+import cn from "classnames";
 
-import {Subscription} from "@/app/ui/templates/PaymentMethodTool";
+import {CardData} from "@/app/types/billing";
+
+import {SubscriptionData} from "@/app/ui/templates/PaymentMethodTool";
 import {Route} from "@/app/static";
 
 import {formatDate} from "@/app/utils";
 import {useLoginCheck} from "@/app/hooks";
-import {useModal, useUser} from "@/app/context";
+import {useModal} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";
 import {BaseModal} from "@/app/ui/modals";
@@ -20,13 +22,13 @@ import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
 import SVG_PENCIL from "@/assets/images/icons/edit.svg";
-import {CardData} from "@/app/types/billing";
-import {SavedCard} from "@/app/types/billing";
 
+const SELECT_H_CN = 'h-[min(5.9dvw,3.25rem)] sm:landscape:h-[--2dr]';
 
-const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
+const SUBSCRIPTIONS_TEMPLATE: SubscriptionData[] = [
     {
         plan: {
+            subscription: 'arch',
             type: 'pro',
             recurrency: 'monthly',
             tax: 4.5,
@@ -54,6 +56,7 @@ const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
     },
     {
         plan: {
+            subscription: 'ternKey',
             type: 'standard',
             recurrency: 'annual',
             tax: 5.5,
@@ -65,83 +68,43 @@ const SUBSCRIPTIONS_TEMPLATE: Subscription[] = [
 ];
 
 function ManageSubscriptionsPage() {
-    const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
 
-    const [subscriptions, setSubscriptions] = useState<Subscription[] | null>(null);
+    const [subscriptions, setSubscriptions] = useState<SubscriptionData[] | null>(null);
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
-    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
-    const [billingAddress, setBillingAddress] = useState<{
-        firstName: string,
-        lastName: string,
-        country: string,
-        address: string,
-        city: string,
-        zip: string,
-        state: string,
-    }>();
 
     useEffect(() => {
         // TODO fetch data
         setSubscriptions(SUBSCRIPTIONS_TEMPLATE);
     }, [])
 
-    const fetchCards = async (): Promise<void> => {
-        try {
-            const result = await axios({
-                method: "POST",
-                url: `${process.env.NEXT_PUBLIC_API}get-saved-cards`,
-                data: {
-                  email: userCtx.userData?.email
-                },
-                withCredentials: true,
-            });
-            
-            const preferredCardIdx = result.data.findIndex((card: SavedCard) => card.preferred === true);
-            
-            if (preferredCardIdx !== -1) {
-                setBillingAddress(result.data[preferredCardIdx].billingAddress);
-            }
-
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    useEffect(() => {
-        fetchCards()
-    }, [])
-
     if (!isLoggedIn)
         return null;
 
-    const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
+    const selectedPlan: SubscriptionData | undefined = subscriptions?.[+selectedSubscriptionIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
         subscriptions?.map((subscription, idx) =>
             [idx, 'ARCH ' + subscription.plan.type + ' Plan'])
         ?? []
     );
 
-    let Cards: ReactElement[] = savedCards.map((card, idx) => {
-        if (card.isDefault)
-            setDefaultCardIdx(idx);
-        return (
+    let Cards: ReactElement[] = savedCards.map((card, idx) => (
             <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
-                <Image src={SVG_CARD} alt={'card'} className={'size-[1.35419rem]'}/>
+                <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
                 <span>{card.nickName}</span>
                 <span
                     hidden={!card.isDefault}
                     className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
                 >
-                Preferred
-            </span>
+                    Preferred
+                </span>
             </li>
-        );
-    })
+        )
+    );
 
     if (!Cards.length) {
         Cards = [<span key={0}>No saved cards</span>];
@@ -154,11 +117,11 @@ function ManageSubscriptionsPage() {
 
         let SavedCards = selectedPlan.savedCards.map((method, idx) => (
             <li key={method.nickName + idx} className={'flex [&&_path]:fill-gray items-center'}>
-                <span className={'flex gap-x-[min(1.6dvw,0.6rem)]'}>
-                    <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem]'}/>
-                    <span className={'text-content'}>{method.nickName}</span>
-                    <span className={`flex items-center bg-control-white-d0 rounded-smallest1 px-[min(1.3dvw,1rem)] h-[min(3.5dvw,1.3rem)]
-                                        text-gray text-center text-note font-oxygen`}>
+                <span className={'flex gap-x-[--s-d2l-smallest] items-center'}>
+                    <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem] h-auto'}/>
+                    <span className={'text-content sm:landscape:text-content-small'}>{method.nickName}</span>
+                    <span className={`flex items-center px-[--s-d-small] h-[min(3.5dvw,1.3rem)] rounded-smallest1
+                                    bg-control-white-d0 text-gray text-center text-note font-oxygen`}>
                         Preferred
                     </span>
                 </span>
@@ -184,16 +147,20 @@ function ManageSubscriptionsPage() {
         else
             renewDate = new Date(new Date(billingDate).setFullYear(billingDate.getFullYear() + 1));
 
-
-        const Hr = <hr className={'border-control-white-d0 mt-[min(2.7dvw,0.81rem)] mb-[min(5.3dvw,1.2rem)]'}/>;
+        const Hr = <hr className={'border-control-white-d0 mt-[--s-small] mb-[min(5.3dvw,1.2rem)]'}/>;
 
         return (
-            <div className={'grid gap-[min(13.3dvw,10rem)] grid-cols-2 mt-[min(13.3dvw,5.4rem)] sm:grid-cols-1'}>
+            <div className={`grid grid-cols-2 text-default
+                            gap-[min(13.3dvw,10rem)] mt-[min(13.3dvw,5.4rem)]
+                            sm:x-[grid-cols-1,gap-y-[--2dr],mt-[--2dr]]`}
+            >
                 <div>
                     <div className={'flex justify-between items-center'}>
-                        <h2 className={'text-[min(3.7dvw,var(--fz-header-))] font-bold'}>Current Plan</h2>
+                        <h2 className={`text-header font-bold  sm:landscape:text-content`}>
+                            Current Plan
+                        </h2>
                         <Button
-                            className={'border-small border-control-white-d0 px-[min(2.4dvw,1rem)] text-small h-[min(4.3dvw,1.44rem)] rounded-full font-bold'}
+                            className={'border-small border-control-white-d0 px-[--1drs] text-small h-[--h-control] rounded-full font-bold'}
                             onClick={() => modalCtx.openModal(<CancelModal/>, {darkenBg: true})}
                         >
                             Cancel Plan
@@ -201,9 +168,13 @@ function ManageSubscriptionsPage() {
                     </div>
                     {Hr}
                     <div
-                        className={'grid grid-rows-2 grid-cols-[max-content,1fr] gap-y-[min(2.7dvw,0.93rem)] mb-[min(2.7dvw,0.93rem)] text-[min(3.2dvw,1rem)]'}>
-                        <span>ARCH {selectedPlan.plan.type} Plan</span>
-                        <span className={'text-[min(2.7dvw,var(--fz-content-small-))] text-right'}>
+                        className={`grid grid-rows-2 grid-cols-[max-content,1fr]
+                                    gap-y-[--1dr] mb-[--1dr]
+                                    sm:landscape:x-[gap-y-[--s-d-small],mb-[--s-d-small]]`}>
+                        <span className={'capitalize'}>
+                            {selectedPlan.plan.subscription} {selectedPlan.plan.type} Plan
+                        </span>
+                        <span className={'text-small text-right sm:landscape:text-small whitespace-pre-line'}>
                             Your plan renews on {formatDate(renewDate)}
                         </span>
                         <span className={'font-bold'}>
@@ -213,16 +184,22 @@ function ManageSubscriptionsPage() {
                     <Button
                         icon={'chevron'}
                         isIconFlippedY={isDetailsExpanded}
-                        className={'flex-row-reverse font-bold [&_img]:w-[0.625rem] [&_path]:fill-gray justify-end'}
+                        className={'flex-row-reverse font-bold [&_svg]:w-[0.625rem] [&_path]:fill-gray justify-end text-small'}
                         onClick={() => setDetailsExpandedState(prevState => !prevState)}
                     >
                         {isDetailsExpanded ? 'Hide' : 'Show'} Details
                     </Button>
                     <div
-                        className={`grid grid-rows-5 grid-cols-[1fr,min-content] bg-control-white-d0 w-[66%] max-w-[26rem] text-[min(2.1dvw,1rem)]
-                                    rounded-[min(2.4dvw,1.44rem)] px-[min(2.7dvw,1.56rem)] py-[min(2.7dvw,1.22rem)] gap-y-[min(2.7dvw,1rem)] mt-[min(2.7dvw,1rem)]
-                                    ${isDetailsExpanded ? '' : 'hidden'}`}>
-                        <span>ARCH {selectedPlan.plan.type} Subscription</span>
+                        className={cn(
+                            `grid grid-rows-5 grid-cols-[1fr,min-content] gap-y-[--1dr] mt-[--1dr]
+                             px-[--s-normal] py-[--1qdrs] w-[66%] max-w-[26rem]
+                             rounded-[--s-normal] bg-control-white-d0
+                             sm:landscape:mt-[--s-d-small]`,
+                            {['hidden']: !isDetailsExpanded})}
+                    >
+                        <span className={'capitalize'}>
+                            {selectedPlan.plan.subscription} {selectedPlan.plan.type} Subscription
+                        </span>
                         <span className={'text-right'}>${selectedPlan.plan.priceUSD.toFixed(2)}</span>
                         <span className={'font-bold'}>Subtotal</span>
                         <span className={'font-bold text-right'}>${selectedPlan.plan.priceUSD.toFixed(2)}</span>
@@ -235,80 +212,40 @@ function ManageSubscriptionsPage() {
                     </div>
                 </div>
                 <div>
-                    <h2 className={'text-header font-bold'}>Payment Method</h2>
+                    <h2 className={'text-header font-bold   sm:landscape:text-content'}>Payment Method</h2>
                     <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.17rem]'}/>
                     <ul className={'flex flex-col gap-[0.93rem]'}>
                         {SavedCards}
                     </ul>
-                    <div className={'mt-[150px]'}>
-                        <h2 className={'text-header font-bold'}>Billing Details</h2>
-                        <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
-                        <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
-                            <span>Name</span>
-                            <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
-                            <span>Billing Address</span>
-                            {billingAddress ? (
-                                <ul>
-                                    <li>{billingAddress?.address}</li>
-                                    <li>
-                                    {billingAddress?.city}, {billingAddress?.state}{" "}
-                                    {billingAddress?.zip}
-                                    </li>
-                                    <li>{billingAddress?.country}</li>
-                                </ul>
-                            ) : (
-                                <span>--</span>
-                            )}
-                        </div>
-                    </div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className={'pt-[9.14rem] px-[1.83rem]'}>
-        <h1 className={'text-[3rem] font-bold mb-[3.12rem]'}>
-            Manage Subscriptions
-        </h1>
-        <div className={'grid gap-[10rem] grid-rows-1 grid-cols-2 mt-[5.4rem]'}>
-            <div className={'w-[29.0625rem] text-nowrap ml-[100px]'}>
+        <div className={`pt-[9.1rem] px-[1.8rem]  sm:pt-[1.8rem]`}>
+            <h1 className={`font-bold text-header-l sm:landscape:text-content`}>
+                Manage Subscriptions
+            </h1>
+            <div className={`mt-[5.4rem] px-[min(2.7dvw,0.625rem)] text-nowrap
+                            sm:mt-[--2dr]
+                            sm:portrait:px-0`}>
                 <Select
                     options={subscriptionOptions}
                     value={selectedSubscriptionIdx.toString()}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setSelectedSubscriptionsIdx(+value)}
-                    classNameWrapper={'flex-col gap-y-[min(2.7dvw,0.94rem)]'}
-                    classNameOption={'sm:h-[min(5.9dvw,3.25rem)]'}
-                    className={`px-[min(1.6dvw,0.62rem)] w-full py-[min(2dvw,0.8rem)] h-[min(5.9dvw,3.25rem)] border-small rounded-smallest border-control-white-d0`}
-                    classNameLabel={'font-bold place-self-start'}
+                    classNameWrapper={`flex-col gap-y-[--1dr] w-[min(50dvw,29rem)]
+                                        sm:landscape:x-[gap-y-[0.75dvw],w-[30dvw],text-content-small]`}
+                    classNameLabel={'font-bold place-self-start sm:landscape:text-content-small'}
+                    classNameOption={SELECT_H_CN}
+                    className={`px-[--s-d2l-smallest] w-full py-[min(2dvw,0.8rem)] border-small rounded-smallest
+                                    border-control-white-d0 ${SELECT_H_CN}`}
                 >
                     Choose Subscription to Manage
                 </Select>
+                {RenderPlanInfo()}
             </div>
-            {selectedSubscriptionIdx === -1 && <div className={'mt-[10px]'}>
-                <h2 className={'text-header font-bold'}>Billing Details</h2>
-                <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.57rem]'}/>
-                <div className={'grid grid-rows-2 grid-cols-[max-content,max-content] gap-[3rem]'}>
-                    <span>Name</span>
-                    <span>{billingAddress ? `${billingAddress.firstName} ${billingAddress.lastName}` : '--'}</span>
-                    <span>Billing Address</span>
-                    {billingAddress ? (
-                        <ul>
-                            <li>{billingAddress?.address}</li>
-                            <li>
-                            {billingAddress?.city}, {billingAddress?.state}{" "}
-                            {billingAddress?.zip}
-                            </li>
-                            <li>{billingAddress?.country}</li>
-                        </ul>
-                    ) : (
-                        <span>--</span>
-                    )}
-                </div>
-            </div>}
-        </div>
-            {RenderPlanInfo()}
             <ScrollEnd/>
         </div>
     );

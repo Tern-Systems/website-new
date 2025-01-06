@@ -1,4 +1,5 @@
 import type {Config} from "tailwindcss";
+import Tailwind from "tailwindcss/plugin";
 
 const config: Config = {
     content: [
@@ -12,9 +13,6 @@ const config: Config = {
                 sm: {max: '834px'},
                 md: {min: '835px', max: '1441px'},
                 lg: {min: '1442px'}
-            },
-            backgroundImage: {
-                content: "url('../assets/images/bg-content.gif')"
             },
             colors: {
                 primary: "var(--color-primary)",
@@ -64,7 +62,10 @@ const config: Config = {
                 small: 'var(--fz-small)',
                 content: 'var(--fz-content)',
                 'content-small': 'var(--fz-content-small)',
-                header: 'var(--fz-header)'
+                default: 'var(--fz-default)',
+                header: 'var(--fz-header)',
+                'section-header': 'var(--fz-section-header)',
+                'header-l': 'var(--fz-header-l)',
             },
             keyframes: {
                 insignia: {
@@ -77,13 +78,21 @@ const config: Config = {
                     '100%': {
                         top: '0',
                         left: '0',
-                        transform: 'translate(var(--insignia-pl-moved), var(--insignia-pt-moved)) scale(var(--insignia-scale-moved))',
+                        transform: 'translate(var(--2dr),1.1rem) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
                 }
             }
         },
     },
-    plugins: [],
+    plugins: [
+        Tailwind(({matchUtilities}) => {
+            matchUtilities({
+                'x': (value) => ({
+                    [`@apply ${value.replaceAll(',', ' ')}`]: {}
+                })
+            })
+        })
+    ],
 };
 export default config;

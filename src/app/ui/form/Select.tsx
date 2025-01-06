@@ -23,6 +23,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
     classNameWrapper?: string;
     classNameLabel?: string;
     classNameOption?: string;
+    onClick?: () => void;
 }
 
 const Select: FC<Props> = (props: Props) => {
@@ -55,8 +56,8 @@ const Select: FC<Props> = (props: Props) => {
             if (isSelectExpanded && !ref.current?.contains(event.target as Node))
                 setSelectExpanded(false);
         }
-        window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
+        window.addEventListener('mousedown', handleClick);
+        return () => window.removeEventListener('mousedown', handleClick);
     }, [isSelectExpanded, setSelectExpanded])
 
     // Options list
@@ -66,9 +67,9 @@ const Select: FC<Props> = (props: Props) => {
         <option
             key={value + idx}
             value={value}
-            className={`px-[min(2dvw,0.75rem)] py-[min(1dvw,0.8rem)] border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0
+            className={`px-[min(2dvw,0.75rem)] py-[min(--s-d-small)] border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0
                         [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
-                        bg-white ${classNameOption}
+                        bg-white content-center ${classNameOption}
                         ${EMPTY_KEY === key ? 'text-placeholder text-small' : ''}`}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
         >
@@ -84,7 +85,8 @@ const Select: FC<Props> = (props: Props) => {
         ];
 
     return (
-        <div className={`relative flex items-center ${classNameWrapper} ${hidden ? 'hidden' : ''}`}>
+        <div
+            className={`relative flex items-center ${classNameWrapper} ${hidden ? 'hidden' : ''}`}>
             <input
                 {...selectPropsRest}
                 value={value}
@@ -96,10 +98,13 @@ const Select: FC<Props> = (props: Props) => {
             <span hidden={!children} className={classNameLabel}>{children}</span>
             <label
                 ref={ref}
-                onClick={() => toggleSelectExpand()}
+                onClick={() => {
+                    selectPropsRest.onClick?.();
+                    toggleSelectExpand();
+                }}
                 onBlur={() => setSelectExpanded(false)}
-                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white
-                            ${className} ${isSelectExpanded ? '[&&]:rounded-b-none' : ''}`}
+                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white [&]:rounded-small
+                            ${className} ${isSelectExpanded ? `[&&]:rounded-b-none` : ''}`}
             >
                 <div className={`w-[85%] text-nowrap overflow-ellipsis overflow-hidden`}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
@@ -115,7 +120,7 @@ const Select: FC<Props> = (props: Props) => {
                 <Image
                     src={SVG_CHEVRON}
                     alt={'select chevron'}
-                    className={`absolute right-[0.8rem] w-[min(2.4dvw,1rem)] brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
+                    className={`absolute right-[0.8rem] w-[--1drs] h-auto brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
                 />
             </label>
         </div>

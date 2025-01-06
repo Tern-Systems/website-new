@@ -1,4 +1,5 @@
 import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
+import cn from "classnames";
 
 import {EditableProps} from "@/app/ui/form/Editable";
 
@@ -14,7 +15,10 @@ import {Collapsible} from "@/app/ui/misc";
 import {Button, Editable, Input} from "@/app/ui/form";
 import {DeleteAccountModal} from "./DeleteAccountModal";
 
+import {AuthenticationCode, MessageModal} from "@/app/ui/modals";
+
 import styles from './Profile.module.css';
+import axios from "axios";
 
 
 const SECTIONS: string[] = [
@@ -45,17 +49,6 @@ const SOCIAL_MEDIA: string[] = [
 ]
 
 
-// Styles
-const HIDDEN_ELLIPSIS_CN = 'overflow-x-hidden overflow-ellipsis';
-const LEFT_COL_CN = `col-start-1 text-content ${HIDDEN_ELLIPSIS_CN}`;
-const MID_COL_CN = `col-start-2 text-content-small ${HIDDEN_ELLIPSIS_CN} `;
-
-const SINGLE_INPUT_BASE_CN = '[&]:bg-control-gray-l0 [&]:py-[min(1.7dvw,0.35rem)]';
-const SINGLE_INPUT_CN = `${SINGLE_INPUT_BASE_CN} h-[min(5.8dvw,2rem)] w-full rounded-smallest text-content-small`;
-const COMMON_CN = 'px-[0.76rem] border-small border-control-white';
-const ROUNDED_W_FULL_CN = 'rounded-smallest w-full';
-const COLLAPSIBLE_GAP_Y = 'gap-y-[min(4dvw,2rem)]';
-
 const getSimpleToggleProps = (setEditState: Dispatch<SetStateAction<boolean>>, isEditState: boolean)
     : Pick<EditableProps, 'classNameWrapper' | 'classNameToggle' | 'setParentEditState' | 'isToggleBlocked'> => ({
     classNameWrapper: 'w-[min(100%,21.625rem)]',
@@ -79,13 +72,13 @@ const ProfilePage: FC = () => {
         const handleScroll = () => {
             SECTIONS.forEach((section, index) => {
                 const elem = document.getElementById(section.toLowerCase().split(' ').join(''));
-                if (elem && elem.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * 350)
+                if (elem && elem.getBoundingClientRect().top < elem.offsetTop / window.innerHeight * (isSmScreen ? 28 : 350))
                     setActiveSectionIdx(index);
             });
         }
         window.addEventListener('wheel', handleScroll);
         return () => window.removeEventListener('wheel', handleScroll);
-    }, [])
+    }, [isSmScreen])
 
     if (!userData || !isLoggedIn)
         return null;
@@ -101,18 +94,21 @@ const ProfilePage: FC = () => {
     const SectionsNav: ReactElement[] = SECTIONS.map((link, idx) => (
         <li
             key={link + idx}
-            className={`pl-[1.88rem] leading-[200%] cursor-pointer
-                        ${idx === activeSectionIdx ? `before:bg-control-blue ${styles.line}` : ''}`}
+            className={cn(
+                `pl-[--2dr] leading-[200%] cursor-pointer
+                sm:landscape:pl-[--1dr]`,
+                {[`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx},
+            )}
         >
-                <span
-                    onClick={() => {
-                        setActiveSectionIdx(idx);
-                        const id = '#' + link.toLowerCase().split(' ').join('');
-                        document.querySelector(id)?.scrollIntoView({behavior: 'smooth', inline: 'center'});
-                    }}
-                >
-                    {link}
-                </span>
+            <span
+                onClick={() => {
+                    setActiveSectionIdx(idx);
+                    const id = '#' + link.toLowerCase().split(' ').join('');
+                    document.querySelector(id)?.scrollIntoView({behavior: 'smooth', inline: 'center'});
+                }}
+            >
+                {link}
+            </span>
         </li>
     ));
 
@@ -127,17 +123,19 @@ const ProfilePage: FC = () => {
                 <span key={text + idx} className={'contents'}>
                     {isFound
                         ? (
-                            <a href={userApp?.link} className={`capitalize col-start-2 ${MID_COL_CN}`}
+                            <a href={userApp?.link}
+                               className={`capitalize col-start-2 ${styles.midCol + ' ' + styles.ellipsis}`}
                                target={'_blank'}>
                                 {userApp?.name}
                             </a>
                         )
-                        : <span className={`capitalize col-start-2 ${MID_COL_CN}`}>{app}</span>
+                        :
+                        <span className={`capitalize col-start-2 ${styles.midCol + ' ' + styles.ellipsis}`}>{app}</span>
                     }
                     <Button
                         icon={isFound ? 'mark-square' : 'plus-square'}
                         hovered={{icon: isFound ? 'close-square' : null, text: isFound ? 'Disconnect' : ''}}
-                        className={`col-start-3 flex-row-reverse place-self-end ${HIDDEN_ELLIPSIS_CN}`}
+                        className={`col-start-3 flex-row-reverse place-self-end ${styles.ellipsis}`}
                         onClick={() => {
                             // TODO
                         }}
@@ -150,7 +148,7 @@ const ProfilePage: FC = () => {
     }
 
     // Contact
-    const Phones = Object.entries(userData.phone).map(([type, phone], idx) =>
+    const Phones = Object.entries(userData.phones).map(([type, phone], idx) =>
         phone
             ? (
                 <span key={type + idx}>
@@ -195,30 +193,41 @@ const ProfilePage: FC = () => {
     return (
         <div className={'flex mt-[3.88rem] sm:mt-0'}>
             <aside
-                className={'text-left ml-[min(5.3dvw,15rem)] text-nowrap sticky self-start top-[min(25.3dvw,5.94rem)] sm:hidden'}>
-                <div className={'text-header font-bold mb-[1.56rem]'}>
+                className={`sticky self-start text-left text-nowrap
+                            top-[min(25.3dvw,5.94rem)] ml-[min(5.3dvw,15rem)]
+                            sm:portrait:hidden
+                            sm:landscape:x-[top-0,ml-[--1dr],mr-[--2dr]]`}>
+                <div className={`font-bold
+                                mb-[--1hdrs] text-header
+                                sm:landscape:text-content`}>
                     <span>Sections</span>
                 </div>
-                <ul className={`flex flex-col text-content-small ${styles.line} before:bg-control-white`}>
+                <ul className={`flex flex-col ${styles.line} before:bg-control-white
+                                text-content-small 
+                                sm:landscape:text-small`}>
                     {SectionsNav}
                 </ul>
             </aside>
-            <div className={'flex-grow flex flex-col gap-y-[min(1.3dvw,0.62rem)] ml-[10re)] sm:ml-0'}>
-                <Collapsible title={SECTIONS[0]} icon={'key'} className={COLLAPSIBLE_GAP_Y}>
-                    <span className={LEFT_COL_CN}>Profile Picture</span>
+            <div className={`flex-grow flex flex-col gap-y-[--s-dl-smallest]
+                            ml-[10rem]
+                            sm:ml-0
+                            sm:portrait:x-[overflow-y-scroll,max-h-[70dvh]]`}
+            >
+                <Collapsible title={SECTIONS[0]} icon={'key'} className={styles.collapsible}>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>Profile Picture</span>
                     <Input
                         type={'file'}
                         classNameWrapper={`bg-control-white text-gray px-[min(3dvw,1rem)] w-fit font-bold rounded-full
-                                            h-[min(6.1dvw,1.43rem)] text-small box-content`}
+                                            h-[--h-control-dl] text-small box-content`}
                     >
                         Upload Media
                     </Input>
 
-                    <span className={LEFT_COL_CN}>TernID</span>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>TernID</span>
                     <Editable
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
+                            className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                             title: 'Update your TernID',
                             value: {value: userData.email},
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -226,16 +235,16 @@ const ProfilePage: FC = () => {
                             } //TODO
                         }}
                     >
-                        <span className={MID_COL_CN}>{userData.email}</span>
+                        <span className={styles.midCol + ' ' + styles.ellipsis}>{userData.email}</span>
                     </Editable>
 
-                    <span className={LEFT_COL_CN}>Password</span>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>Password</span>
                     <Editable
                         type={'password'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
-                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + ' gap-y-[min(1.3dvw,0.94rem)]'}
+                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + ' gap-y-[--1dr]'}
                         data={{
-                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
+                            className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                             title: 'Update password',
                             value: null,
                             onSave: async (formData) => {
@@ -248,7 +257,7 @@ const ProfilePage: FC = () => {
                             }
                         }}
                     >
-                        <span className={MID_COL_CN}>
+                        <span className={styles.midCol + ' ' + styles.ellipsis}>
                             <span className={'block'}>•••••••••••••••</span>
                             <span className={'text-small'}>
                                 Last updated {userData.passwordUpdateDate ? formatDate(new Date(userData.passwordUpdateDate), 'short') : '--'}
@@ -256,7 +265,7 @@ const ProfilePage: FC = () => {
                         </span>
                     </Editable>
 
-                    <span className={LEFT_COL_CN}>Security</span>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>Security</span>
                     <Editable
                         type={'2FA'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
@@ -265,52 +274,101 @@ const ProfilePage: FC = () => {
                             value: {
                                 isEmailAdded: userData.state2FA.email !== null,
                                 isPhoneAdded: userData.state2FA.phone !== null,
-                                suggestedPhone: userData.phone.personal?.number ?? null,
+                                suggestedPhone: userData.phones.personal?.number ?? null,
                             },
                             onSave: async (formData) => {
-                                if (!('value' in formData))
+                                if (!formData || !('value' in formData) || typeof formData.value !== 'string') {
+                                    console.error("Invalid formData format or value missing.");
                                     return;
-                                Object.values(formData).forEach((number: string | null) => {
-                                    if (number?.length && number.length < 10)
-                                        throw `Number must contain 10 digits`
-                                })
+                                }
+
+                                const phoneNumber = formData.value.trim();
+                                const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format validation
+                                console.log('phoneNumber:', phoneNumber);
+
+                                if (!phoneRegex.test(phoneNumber)) {
+                                    throw `Invalid phone number format. Please enter a valid number.`
+                                }
+
+                                const numericPhone = phoneNumber.startsWith('+') ? phoneNumber.slice(1) : phoneNumber;
+                                if (numericPhone.length < 10 || numericPhone.length > 15) {
+                                    throw `Phone number must contain 10 digits long.`;
+                                }
+
+                                try {
+                                    console.log('Trying Save Phone NUmber')
+                                    const saveRes = await AuthService.post2FASavePhone(userData?.email || '', phoneNumber);
+
+                                    if (saveRes === true) {
+                                        modalCtx.openModal(
+                                            <AuthenticationCode
+                                                token={token || ''}
+                                                phone={phoneNumber}
+                                                email={userData?.email || ''}
+                                                isPhoneEnabling={true}
+                                            />
+                                        );
+                                    }
+                                } catch (error: unknown) {
+                                    console.error(error);
+
+                                    if (axios.isAxiosError(error)) {
+                                        const errorMsg = error.response?.data?.msg || 'Something went wrong. Please try again later.';
+                                        modalCtx.openModal(<MessageModal>{errorMsg}</MessageModal>);
+                                    } else {
+                                        modalCtx.openModal(<MessageModal>Unexpected error occurred. Please try
+                                            again.</MessageModal>);
+                                    }
+                                }
                             },
                             onSwitch: async () => {
-                                // TODO disable 2FA
+                                if (
+                                    // userData.state2FA.email || // 2FA API Only work for phone only
+                                    userData.state2FA.phone
+                                ) {
+                                    modalCtx.openModal(
+                                        <AuthenticationCode
+                                            token={token || ''}
+                                            phone={userData.phones.personal?.number ?? ''}
+                                            email={userData.email}
+                                            isDisabling={true}
+                                        />
+                                    );
+                                }
                             }
                         }}
                     >
-                        <span className={MID_COL_CN}>Enable / disable your two-factor authentication</span>
+                        <span className={styles.midCol + ' ' + styles.ellipsis}>Enable / disable your two-factor authentication</span>
                     </Editable>
                 </Collapsible>
-                <Collapsible title={SECTIONS[1]} icon={'book'} className={COLLAPSIBLE_GAP_Y}>
-                    <span className={LEFT_COL_CN}>Name</span>
+                <Collapsible title={SECTIONS[1]} icon={'book'} className={styles.collapsible}>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>Name</span>
                     <Editable
                         type={'name'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_BASE_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
+                            className: `${styles.singleInputBase} ${styles.common} ${styles.roundedWFull}`,
                             value: userData.name,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             } //TODO
                         }}
                     >
-                        <span className={`capitalize ${MID_COL_CN}`}>
+                        <span className={`capitalize ${styles.midCol + ' ' + styles.ellipsis}`}>
                             {userData.name.salutation ? SALUTATION[userData.name.salutation] : '--'}&nbsp;
                             {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
                         </span>
                     </Editable>
 
-                    <span className={LEFT_COL_CN}>Display Name</span>
-                    {userData.displayName
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>Display Name</span>
+                    {userData.username
                         ? (
                             <Editable
                                 {...getSimpleToggleProps(setEditState, isEditState)}
                                 data={{
-                                    className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
+                                    className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                                     title: 'Update your Display Name',
-                                    value: {value: userData.displayName},
+                                    value: {value: userData.username},
                                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                     onSave: async (formData) => {
                                     } //TODO
@@ -318,7 +376,7 @@ const ProfilePage: FC = () => {
                                 setParentEditState={setEditState}
                                 isToggleBlocked={isEditState}
                             >
-                                <span>{userData.displayName}</span>
+                                <span>{userData.username}</span>
                             </Editable>
                         )
                         : (
@@ -329,11 +387,11 @@ const ProfilePage: FC = () => {
                         )
                     }
 
-                    <span className={LEFT_COL_CN}>Email Address</span>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>Email Address</span>
                     <Editable
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
+                            className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                             title: 'Update your Email Address',
                             value: {
                                 value: userData.email,
@@ -349,13 +407,13 @@ const ProfilePage: FC = () => {
                         <span>{userData.email}</span>
                     </Editable>
 
-                    <span className={LEFT_COL_CN}>Phone Number</span>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>Phone Number</span>
                     <Editable
                         type={'phone'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
-                            value: userData.phone,
+                            className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
+                            value: userData.phones,
                             onSave: async (formData) => {
                                 if (!('business' in formData))
                                     return;
@@ -369,12 +427,13 @@ const ProfilePage: FC = () => {
                         <span>{Phones}</span>
                     </Editable>
 
-                    <span className={LEFT_COL_CN}>Country or Region {isSmScreen ? '' : 'of Residence'}</span>
+                    <span
+                        className={styles.leftCol + ' ' + styles.ellipsis}>Country or Region {isSmScreen ? '' : 'of Residence'}</span>
                     <Editable
                         type={'select'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_BASE_CN} ${COMMON_CN}`,
+                            className: `${styles.singleInputBase} ${styles.common}`,
                             title: 'Country / Region',
                             value: {value: 'US'},
                             options: COUNTRY,
@@ -388,12 +447,13 @@ const ProfilePage: FC = () => {
                         </span>
                     </Editable>
 
-                    <span className={LEFT_COL_CN}>{isSmScreen ? '' : 'Preferred'} Language</span>
+                    <span
+                        className={styles.leftCol + ' ' + styles.ellipsis}>{isSmScreen ? '' : 'Preferred'} Language</span>
                     <Editable
                         type={'select'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_BASE_CN} ${COMMON_CN}`,
+                            className: `${styles.singleInputBase} ${styles.common}`,
                             title: 'Language',
                             value: {value: 'EN'},
                             options: LANGUAGE,
@@ -405,12 +465,13 @@ const ProfilePage: FC = () => {
                         <span>{LANGUAGE[userData.preferredLanguage] ?? '--'}</span>
                     </Editable>
                 </Collapsible>
-                <Collapsible title={SECTIONS[2]} icon={'building'} className={COLLAPSIBLE_GAP_Y}>
-                    <span className={LEFT_COL_CN}>Organization{isSmScreen ? '' : 'al Information'}</span>
+                <Collapsible title={SECTIONS[2]} icon={'building'} className={styles.collapsible}>
+                    <span
+                        className={styles.leftCol + ' ' + styles.ellipsis}>Organization{isSmScreen ? '' : 'al Information'}</span>
                     <Editable
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_CN} ${COMMON_CN}`,
+                            className: `${styles.singleInput + ' ' + styles.singleInputBase} ${styles.common}`,
                             value: {value: userData.company?.name ?? '-'},
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -420,12 +481,13 @@ const ProfilePage: FC = () => {
                         <span>{userData.company?.name ?? '--'}</span>
                     </Editable>
 
-                    <span className={LEFT_COL_CN}>Career {isSmScreen ? '' : 'Information'}</span>
+                    <span
+                        className={styles.leftCol + ' ' + styles.ellipsis}>Career {isSmScreen ? '' : 'Information'}</span>
                     <Editable
                         type={'company'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_CN} px-[0.76rem] border-small ${ROUNDED_W_FULL_CN}`,
+                            className: `${styles.singleInput + ' ' + styles.singleInputBase} px-[0.76rem] border-small ${styles.roundedWFull}`,
                             value: userData.company,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -462,12 +524,13 @@ const ProfilePage: FC = () => {
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[3]} icon={'geo'} className={'[&]:items-start'}>
-                    <span className={LEFT_COL_CN}>Address {isSmScreen ? '' : 'Information'}</span>
+                    <span
+                        className={styles.leftCol + ' ' + styles.ellipsis}>Address {isSmScreen ? '' : 'Information'}</span>
                     <Editable
                         type={'address'}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${SINGLE_INPUT_BASE_CN} ${COMMON_CN} ${ROUNDED_W_FULL_CN}`,
+                            className: `${styles.singleInputBase} ${styles.common} ${styles.roundedWFull}`,
                             value: userData.address,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -478,7 +541,7 @@ const ProfilePage: FC = () => {
                     </Editable>
                 </Collapsible>
                 <Collapsible title={SECTIONS[4]} icon={'blocks'}>
-                    <span className={LEFT_COL_CN}>Domain</span>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>Domain</span>
                     {userData.personalDomain
                         ? (
                             <>
@@ -501,20 +564,24 @@ const ProfilePage: FC = () => {
                             </>
                         )
                     }
-                    <span className={`mt-[min(5.3dvw,1.88rem)] ${LEFT_COL_CN}`}>Data Storage</span>
-                    <span className={`col-start-2 text-small self-end ${HIDDEN_ELLIPSIS_CN}`}>Applications</span>
+                    <span
+                        className={`mt-[min(5.3dvw,1.88rem)] ${styles.leftCol + ' ' + styles.ellipsis}`}>Data Storage</span>
+                    <span className={`col-start-2 text-small self-end ${styles.ellipsis}`}>Applications</span>
                     {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
-                    <span className={`mt-[min(5.3dvw,1.88rem)] ${LEFT_COL_CN}`}>Social Media</span>
+                    <span
+                        className={`mt-[min(5.3dvw,1.88rem)] ${styles.leftCol + ' ' + styles.ellipsis}`}>Social Media</span>
                     <span className={'col-start-2 text-small self-end'}>Applications</span>
                     {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
                 </Collapsible>
                 <Collapsible title={SECTIONS[5]}>
-                    <span className={LEFT_COL_CN}>{isSmScreen ? '' : 'Account'} Offboarding</span>
-                    <span className={MID_COL_CN}>Delete your account and data</span>
+                    <span className={styles.leftCol + ' ' + styles.ellipsis}>
+                        {isSmScreen ? '' : 'Account'} Offboarding
+                    </span>
+                    <span className={styles.midCol + ' ' + styles.ellipsis}>Delete your account and data</span>
                     <Button
                         icon={'delete-square'}
-                        className={'flex-row-reverse'}
+                        className={'flex-row-reverse [&]:place-content-end'}
                         onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData}/>, {darkenBg: true})}
                     >
                         {isSmScreen ? '' : 'Delete'}
@@ -522,7 +589,7 @@ const ProfilePage: FC = () => {
                 </Collapsible>
             </div>
         </div>
-    )
+    );
 }
 
 export default ProfilePage;

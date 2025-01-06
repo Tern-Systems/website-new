@@ -29,7 +29,7 @@ const Input: FC<Props> = (props: Props) => {
                     htmlFor={props.id}
                     className={`relative flex items-center justify-center cursor-pointer ${classNameWrapper} ${styles.clickable}`}
                 >
-                    <Image src={SVG_UPLOAD} alt={'upload icon'} className={'inline size-[min(4dvw,2rem)]'}/>
+                    <Image src={SVG_UPLOAD} alt={'upload icon'} className={'inline w-[min(4dvw,2rem)] h-auto'}/>
                     <span hidden={!children} className={classNameLabel}>{children}</span>
                     <input
                         {...inputProps}

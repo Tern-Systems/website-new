@@ -1,19 +1,22 @@
 'use client'
 
-import React, {FC, PropsWithChildren, ReactElement, useEffect, useState} from "react";
+import React, {FC, PropsWithChildren, useEffect, useState} from "react";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import Spline from "@splinetool/react-spline";
+import cn from "classnames";
 
 import {LAYOUT, Route} from "@/app/static";
 
-import {useNavigate} from "@/app/hooks";
+import {useBackground, useNavigate} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
 
+import {Insignia} from "@/app/ui/misc";
 import {Header, PageLink} from "@/app/ui/layout";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
-import {ScrollEnd} from "@/app/ui/misc";
+
+
+const CONTENT_P_CN = 'p-[min(5.3dvw,var(--s-default))]';
 
 
 const Layout: FC<PropsWithChildren> = ({children}) => {
@@ -23,18 +26,17 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const router = useRouter();
     const layoutCtx = useLayout();
     const [navigate] = useNavigate();
-
+    const bgSrc = useBackground();
 
     const [isInsigniaMoved, setInsigniaMoved] = useState(false);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
-
 
     useEffect(() => {
         const token = params?.get('resetToken');
         if (token)
             router.push(Route.Home + '?resetToken=' + token);
         //eslint-disable-next-line
-    }, []);
+    }, [params]);
 
     useEffect(() => {
         if (route)
@@ -46,30 +48,10 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
 
 
     // Elements
-    // 2 pre-rendered insignias for moving without flickering
-    const Insignia: ReactElement[] = [isInsigniaMoved, !isInsigniaMoved].map((state, idx) => {
-        const cn = `absolute z-50 size-[15rem] bg-transparent sm:-ml-[0.75rem] ${state ? 'hidden' : ''}
-                    ${isInsigniaMoved ? 'animate-[insignia_1s_ease-in-out_forwards] cursor-pointer' : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`;
-
-        return (
-            <div
-                key={state.toString() + idx}
-                onClick={() => {
-                    if (route !== Route.Start)
-                        navigate(Route.Home);
-                }}
-                className={cn}
-            >
-                <Spline scene={"https://prod.spline.design/DVjbSoDcq5dzLgus/scene.splinecode"}
-                        className={'pointer-events-none'}/>
-            </div>
-        );
-    });
-
     const Layout = route === Route.Start
         ? (
             <div
-                className={`mt-auto mb-[--p-small] text-content font-oxygen text-center`}
+                className={`mt-auto mb-[--s-default] text-content font-oxygen text-center`}
             >
                 <span
                     onClick={() => {
@@ -87,21 +69,29 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <Header profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]}/>
                 <div
                     id={'content'}
-                    className={`relative flex flex-col flex-grow w-full overflow-y-scroll justify-center items-center 
-                                bg-content bg-cover bg-no-repeat bg-fixed text-center p-[min(5.3dvw,var(--p-small))] text-[min(2.6dvw,1rem)]
-                                sm:pt-[3.1rem]`}
+                    style={{backgroundImage: `url("${bgSrc}")`}}
+                    className={`relative flex flex-col flex-grow w-full justify-center items-center 
+                                bg-cover bg-no-repeat bg-fixed text-center bg-center
+                                overflow-y-scroll ${CONTENT_P_CN} text-[min(2.6dvw,1rem)]
+                                sm:portrait:pt-[13.3dvw]
+                                sm:landscape:p-[2.5dvw]`}
                 >
                     <div
-                        className={`h-full w-full flex flex-col
-                                    ${modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100')}
-                                    ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
+                        className={cn(
+                            `h-full w-full flex flex-col
+                            sm:landscape:x-[overflow-scroll]`,
+                            layoutCtx.isFade ? styles.fadeOut : styles.fadeIn,
+                            modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'),
+                        )}
+                    >
                         {children}
-                        <ScrollEnd/>
                     </div>
                 </div>
                 <footer
-                    className={`flex w-full justify-between border-t-small border-section text-note px-[--p-small] py-[1rem]
-                                sm:flex-col sm:text-center sm:items-center sm:gap-y-[0.95rem]`}>
+                    className={`flex w-full justify-between border-t-small border-section
+                                ${CONTENT_P_CN} py-[min(5.3dvw,1rem)]
+                                sm:x-[flex-col,items-center,gap-y-[0.95rem],text-center]
+                                sm:landscape:x-[flex-row,p-[2.4dvw]]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
                         <PageLink href={Route.Cookies}/>
@@ -118,7 +108,12 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         ? children
         : (
             <>
-                {Insignia}
+                <Insignia insigniaMoved={isInsigniaMoved}
+                          className={`z-30 cursor-pointer
+                            ${isInsigniaMoved
+                              ? 'animate-[insignia_1s_ease-in-out_forwards]'
+                              : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`}
+                />
                 <div
                     className={`flex flex-col flex-grow justify-between h-full`}>
                     {Layout}

@@ -16,7 +16,8 @@ class UserServiceImpl extends BaseService implements IUserService {
     }
 
     async getUser(token: string): Promise<Res<UserData>> {
-        this.log(this.getUser.name);
+        const [debug, error] = this.getLoggers(this.getUser.name);
+
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `get-user-data`,
@@ -28,10 +29,29 @@ class UserServiceImpl extends BaseService implements IUserService {
         };
 
         try {
+            debug(config);
             const response = await axios(config);
-            return {payload: response.data};
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(response);
+
+            const userData: UserData = response.data;
+
+            // Todo 2FA
+            const userDataMapped: UserData = {
+                ...userData,
+                connectedApps: {
+                    data: [],
+                    social: [],
+                },
+                state2FA: {
+                    email: userData.email,
+                    phone: userData.phones.personal?.number ?? userData.phones.mobile?.number ?? userData.phones.business?.number ?? ''
+                }
+            }
+
+            return {payload: userDataMapped};
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 

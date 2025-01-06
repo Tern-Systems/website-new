@@ -28,8 +28,8 @@ const FORM_DEFAULT: FormData = {
 
 
 const INPUT_PROPS = {
-    classNameWrapper: 'flex-col [&]:items-start gap-[min(1.3dvw,0.63rem)] mt-[0.96rem]',
-    className: 'h-[min(5.9dvw,1.875rem)] w-full px-[min(1.6dvw,0.73rem)] bg-control-gray-l0 border-small b-control4 rounded-smallest',
+    classNameWrapper: 'flex-col [&]:items-start gap-[--s-dl-smallest] mt-[0.96rem]',
+    className: 'h-[min(5.9dvw,1.875rem)] w-full px-[--s-dl-small] bg-control-gray-l0 border-small b-control4 rounded-smallest',
     classNameLabel: 'font-bold',
     required: true,
 }
@@ -75,7 +75,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     type={'submit'}
                     disabled={!isAllowedToDelete}
                     icon={isAllowedToDelete ? 'warn' : 'lock'}
-                    className={`mt-[min(2.7dvw,1.25rem)] text-small h-[min(5.9dvw,2.1rem)] rounded-full font-bold place-self-center w-full
+                    className={`mt-[--1qdrs] text-small h-[min(5.9dvw,2.1rem)] rounded-full font-bold place-self-center w-full
                                 ${isAllowedToDelete ? 'bg-control-red' : 'text-secondary'}`}
                     onClick={() => userCtx.removeSession()}
                 >
@@ -96,8 +96,8 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                             then return here to continue.
                         </span>
                         <Button
-                            className={`bg-control-white mt-[min(2.7dvw,1.25rem)] px-[min(3dvw,1rem)] text-small
-                                        h-[min(4.3dvw,1.45rem)] rounded-full font-bold text-gray`}
+                            className={`bg-control-white mt-[--1qdrs] px-[min(3dvw,1rem)] text-small
+                                        h-[--h-control] rounded-full font-bold text-gray`}
                             onClick={() => userCtx.removeSession()}
                         >
                             Restore Login

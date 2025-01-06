@@ -12,33 +12,35 @@ const PreAuthModal: FC = () => {
 
     return (
         <BaseModal
-            adaptSmScreen
+            smScreenOnly
             title={'Tern Account'}
-            classNameTitle={'place-self-center -ml-[8rem]'}
+            classNameTitle={'place-self-start   sm:landscape:place-self-start sm:landscape:ml-0'}
             classNameContent={'place-items-center p-[1.25rem]'}
         >
-            <div>
-                <p>Your Tern account provides you with:</p>
-                <ul className={'list-disc list-inside mt-[1.25rem] mb-[1.87rem] gap-y-[1.25rem] flex flex-col'}>
-                    <li>Single sign-on to the Tern ecosystem</li>
-                    <li>Personalized recommendations</li>
-                    <li>Test drives and other trials</li>
-                    <li>And many more exclusive benefits</li>
-                </ul>
-            </div>
-            <div className={'px-[1rem] font-bold text-small max-w-[19rem] w-full'}>
-                <Button
-                    onClick={() => modalCtx.openModal(<AuthModal isLoginAction/>)}
-                    className={'h-[2.7rem] bg-control-blue rounded-full w-full text-primary mb-[0.94rem]'}
-                >
-                    Login
-                </Button>
-                <Button
-                    onClick={() => modalCtx.openModal(<AuthModal/>)}
-                    className={'h-[2.7rem] border-control-blue border-small rounded-full w-full'}
-                >
-                    Sign Up
-                </Button>
+            <div className={'place-items-center     w-full     sm:landscape:flex sm:landscape:justify-between'}>
+                <div>
+                    <p>Your Tern account provides you with:</p>
+                    <ul className={'flex flex-col   gap-y-[1.25rem] mt-[1.25rem] mb-[1.87rem]   list-disc list-inside'}>
+                        <li>Single sign-on to the Tern ecosystem</li>
+                        <li>Personalized recommendations</li>
+                        <li>Test drives and other trials</li>
+                        <li>And many more exclusive benefits</li>
+                    </ul>
+                </div>
+                <div className={'px-[1rem] max-w-[19rem] w-full     font-bold text-small'}>
+                    <Button
+                        onClick={() => modalCtx.openModal(<AuthModal isLoginAction/>)}
+                        className={'mb-[0.94rem] w-full h-[2.7rem]      rounded-full bg-control-blue  text-primary'}
+                    >
+                        Login
+                    </Button>
+                    <Button
+                        onClick={() => modalCtx.openModal(<AuthModal/>)}
+                        className={'w-full h-[2.7rem]   border-small rounded-full border-control-blue'}
+                    >
+                        Sign Up
+                    </Button>
+                </div>
             </div>
         </BaseModal>
     );

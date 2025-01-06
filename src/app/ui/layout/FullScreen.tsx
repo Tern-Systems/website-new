@@ -44,7 +44,9 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
                 />
             </div>
             <hr className={`lg:hidden md:hidden`}/>
-            <div className={`relative h-full overflow-y-scroll  sm:h-[91.8dvh] ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}>
+            <div className={`relative h-full overflow-y-scroll  sm:h-[92dvh] sm:landscape:h-[76dvh]
+                            ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
+            >
                 <PageLink
                     href={backButtonSection}
                     icon={'back'}
