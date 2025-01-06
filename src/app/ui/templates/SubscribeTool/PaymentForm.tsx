@@ -40,6 +40,7 @@ const FORM_DEFAULT: SubscribeData = {
     postalCode: '',
     state: '',
     acceptTerms: false,
+    nickname: '',
 }
 
 const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0'

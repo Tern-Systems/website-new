@@ -43,14 +43,14 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
         const isPreferred = card.preferred;
         return (
             <li
-                key={card.nickName + idx}
+                key={card.nickname + idx}
                 onClick={() => setSelectedCardIdx(idx)}
                 className={`flex justify-between text-content items-center px-[--s-small] py-[0.7rem] rounded-small
                             sm:py-0 ${!isPreferred && selectedCardIdx === idx ? 'bg-control-white-d1' : ''}`}
             >
                 <span className={`flex items-center ${isPreferred ? 'brightness-[2.4]' : ''}`}>
                     <ReactSVG src={SVG_CARD.src} className={`[&_svg]:w-[min(3.9dvw,1.35rem)] mr-[min(2dvw,0.65rem)] [&_path]:fill-gray`}/>
-                    <span className={'text-content'}>{card.nickName}</span>
+                    <span className={'text-content'}>{card.nickname}</span>
                 </span>
                 {isPreferred ? <Image src={SVG_MARK} alt={'mark'} className={'w-[min(2.4dvw,0.8125rem)] h-auto'}/> : null}
             </li>

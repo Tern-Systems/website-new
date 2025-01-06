@@ -17,7 +17,7 @@ const INVOICE_TEMPLATE: Invoice = {
     date: Date.now(),
     to: 'John Doe',
     from: 'Tern Systems, LLC',
-    card: {cardNumber: '1111222233334444', type: 'visa', nickName: 'john doe'},
+    card: {cardNumber: '1111222233334444', type: 'visa', nickname: 'john doe'},
     item: {name: 'ARCH Standard Subscription', priceUSD: 10},
     subtotalUSD: 10,
     totalDue: 10.60,
