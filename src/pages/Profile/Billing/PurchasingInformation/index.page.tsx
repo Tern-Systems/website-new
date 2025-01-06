@@ -1,5 +1,6 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 import axios from "axios";
 
 import {InvoiceHistory, SavedCard} from "@/app/types/billing";
@@ -31,6 +32,7 @@ function PurchasingInformationPage() {
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
 
+    const router = useRouter();
 
     useEffect(() => {
         const fetchSubscriptionDetailsAndCards = async () => {
@@ -110,7 +112,7 @@ function PurchasingInformationPage() {
                         <div className={`flex justify-between`}>
                             <h2 className={'text-header font-bold   sm:landscape:text-content'}>Payment Method</h2>
                             <PageLink href={Route.EditPaymentMethod} prevent={!savedCards.length}>
-                                <Button icon={'edit'} className={'text-small flex-row-reverse'}>
+                                <Button icon={'edit'} className={'text-small flex-row-reverse'} onClick={() => router.push(Route.EditPaymentMethod)}>
                                     {isSmScreen ? '' : 'Edit'}
                                 </Button>
                             </PageLink>
