@@ -3,7 +3,7 @@ import {Route} from "@/app/static";
 
 type SubscriptionRecurrency = 'annual' | 'monthly';
 type PlanName = 'ARCH' | 'dot' | 'TernKey' | 'trial';
-type PlanType = 'basic' | 'standard' | 'pro';
+type PlanType = 'Basic' | 'Standard' | 'Pro';
 
 type Subscription = {
     subscription: PlanName;
@@ -25,4 +25,4 @@ type SubscriptionPreview = Pick<Subscription, 'subscription' | 'isBasicKind'> & 
 }
 
 
-export type {SubscriptionPreview, SubscriptionPreviewData, SubscriptionRecurrency, Subscription, PlanName, PlanType}
+export type {PlanName, PlanType, SubscriptionPreview, SubscriptionPreviewData, SubscriptionRecurrency, Subscription}
