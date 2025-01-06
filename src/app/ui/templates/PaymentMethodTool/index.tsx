@@ -138,6 +138,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             console.error("Failed to fetch card details:", error);
           }
         })();
+        // eslint-disable-next-line
     }, [isPaymentCreation]);
 
 
