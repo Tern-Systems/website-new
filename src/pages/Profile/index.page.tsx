@@ -1,4 +1,5 @@
 import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
+import axios from "axios";
 import cn from "classnames";
 
 import {EditableProps} from "@/app/ui/form/Editable";
@@ -18,7 +19,6 @@ import {DeleteAccountModal} from "./DeleteAccountModal";
 import {AuthenticationCode, MessageModal} from "@/app/ui/modals";
 
 import styles from './Profile.module.css';
-import axios from "axios";
 
 
 const SECTIONS: string[] = [
@@ -248,12 +248,23 @@ const ProfilePage: FC = () => {
                             title: 'Update password',
                             value: null,
                             onSave: async (formData) => {
-                                if (!('passwordConfirm' in formData) || !token)
+                                if (!('passwordConfirm' in formData) || !userData)
                                     return;
 
                                 if (formData.passwordConfirm !== formData.newPassword)
                                     throw `Passwords don't match`
-                                await AuthService.postResetPassword(token, formData.passwordConfirm);
+
+                                try {
+                                    await AuthService.postChangePassword(
+                                        formData.currentPassword, formData.newPassword, formData.passwordConfirm, userData?.email
+                                    );
+                                    modalCtx.openModal(
+                                        <MessageModal>Your Password has been changed successfully!</MessageModal>
+                                    );
+                                } catch (error: unknown) {
+                                    if (typeof error === 'string')
+                                        modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+                                }
                             }
                         }}
                     >
