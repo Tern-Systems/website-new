@@ -1,18 +1,13 @@
-"use client";
-
-import React, {ReactElement, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 
 import {Subscription} from "@/app/types/subscription";
-import {Route} from "@/app/static";
-
 import {useLoginCheck} from "@/app/hooks";
 
-import {FullScreenLayout} from "@/app/ui/layout";
 import {PaymentInfo} from "./PaymentInfo";
 import {PaymentForm} from "./PaymentForm";
 
 
-function SubscribePage() {
+const SubscribeTool: FC = () => {
     const [subscription, setSubscription] = useState<Subscription | null>(null);
     const isLoggedIn = useLoginCheck();
 
@@ -27,9 +22,10 @@ function SubscribePage() {
         return null;
 
     return (
-        <div className={'flex font-oxygen text-gray h-full sm:flex-col'}>
+        <div className={`flex h-full font-oxygen text-gray
+                            text-heading-s
+                            sm:x-[text-basic,flex-col]`}>
             <PaymentInfo subscription={subscription}/>
-            <hr className={'my-[--1hdr] border-control-gray-l0'}/>
             <PaymentForm
                 type={subscription?.type}
                 recurrency={subscription?.recurrency}
@@ -39,9 +35,5 @@ function SubscribePage() {
     );
 }
 
-SubscribePage.getLayout = (page: ReactElement) => (
-    <FullScreenLayout backButtonSection={Route.ServicePricing}>{page}</FullScreenLayout>
-);
-SubscribePage.getMobileLayout = SubscribePage.getLayout;
 
-export default SubscribePage;
+export {SubscribeTool};

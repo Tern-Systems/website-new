@@ -6,7 +6,7 @@ import cn from "classnames";
 
 import {LAYOUT, Route} from "@/app/static";
 
-import {useBackground, useNavigate} from "@/app/hooks";
+import {useBackground} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
 
 import {Insignia} from "@/app/ui/misc";
@@ -16,16 +16,17 @@ import "@/app/globals.css";
 import styles from "@/app/common.module.css";
 
 
+const INSIGNIA_MOVING_TIME = 1000;
+
+
 const Layout: FC<PropsWithChildren> = ({children}) => {
     const route = usePathname();
     const modalCtx = useModal();
     const params = useSearchParams();
     const router = useRouter();
     const layoutCtx = useLayout();
-    const [navigate] = useNavigate();
     const bgSrc = useBackground();
 
-    const [isInsigniaMoved, setInsigniaMoved] = useState(false);
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
 
     useEffect(() => {
@@ -36,11 +37,14 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     }, [params]);
 
     useEffect(() => {
-        if (route)
-            setInsigniaMoved(route !== Route.Start);
+        if (route) {
+            layoutCtx.setMovingAnimationState(route !== Route.Start);
+            layoutCtx.setInsigniaMoved(route !== Route.Start);
+        }
         setTimeout(() => {
             setProfileLinksVisibility(false);
         }, LAYOUT.fadeDuration);
+        //eslint-disable-next-line
     }, [route]);
 
 
@@ -48,17 +52,12 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     const Layout = route === Route.Start
         ? (
             <div
-                className={`mt-auto mb-[--s-default] text-content font-oxygen text-center`}
+                className={`mt-auto mb-[--s-default] text- font-oxygen text-center`}
             >
-                <span
-                    onClick={() => {
-                        setInsigniaMoved(true);
-                        setTimeout(() => navigate(Route.Home), 2 * LAYOUT.fadeDuration);
-                    }}
-                    className={`cursor-pointer ${styles.clickable}`}
-                >
+                <PageLink href={Route.Home} timeout={INSIGNIA_MOVING_TIME}
+                          onClick={() => layoutCtx.setMovingAnimationState(true)}>
                     Tern
-                </span>
+                </PageLink>
             </div>
         )
         : (
@@ -84,9 +83,9 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 </div>
                 <footer
                     className={`flex justify-between items-center
-                            px-[--p-content] w-full h-[5.12rem] border-t-small border-section content-center text-[1rem] leading-none
-                            sm:x-[flex-col-reverse,items-center,justify-between,p-[--p-content-sm],text-center]
-                            sm:portrait:[h-[4.94rem]]
+                            px-[--p-content] w-full min-h-[5.12rem] border-t-small border-section content-center text-[1rem] leading-none
+                            sm:x-[flex-col-reverse,items-center,p-[--p-content-sm],text-center]
+                            sm:portrait:[max-h-[4.94rem]]
                             sm:landscape:x-[flex-row,p-[2.4dvw],h-[3.19rem]]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>
@@ -104,13 +103,15 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         ? children
         : (
             <>
-                <Insignia insigniaMoved={isInsigniaMoved}
-                          className={`absolute z-30 w-[30rem] cursor-pointer
-                            ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
-                            sm:x-[ml-[--p-content-sm],mt-[--p-content-sm]]
-                            ${isInsigniaMoved
-                              ? 'animate-[insignia_1s_ease-in-out_forwards]'
-                              : 'animate-[insignia_1s_ease-in-out_forwards_reverse]'}`}
+                <Insignia insigniaMoved={layoutCtx.isInsigniaMoved}
+                          className={`absolute z-30 w-[29rem] h-[24rem] cursor-pointer
+                          ${layoutCtx.isInsigniaMoved
+                              ? `[&]:size-[--insignia-moved-size] ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
+                                sm:x-[ml-[--p-content-sm],mt-[--p-content-sm]]`
+                              : (layoutCtx.isInsigniaMovedAnim
+                                  ? `animate-[insignia_1s_ease-in-out_forwards]`
+                                  : 'animate-[insigniaReverse_1s_ease-in-out_forwards]')
+                          }`}
                 />
                 <div
                     className={`flex flex-col flex-grow justify-between h-full`}>

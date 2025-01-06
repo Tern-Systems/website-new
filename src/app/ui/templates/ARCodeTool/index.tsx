@@ -132,7 +132,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
             });
         }
 
-        const subscription: UserSubscription | undefined = userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
+        const subscription: UserSubscription | undefined = userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ARCH');
         if (!subscription) {
             flow.push(() => {
                 preventLeaving(false);

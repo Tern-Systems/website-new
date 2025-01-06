@@ -72,10 +72,10 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--2dr]'}
                             ${className} pointer-events-auto`}>
                 <div
-                    className={cn(`relative flex justify-between font-oxygen`, {['h-[4.3rem] p-[1.25rem]']: isSmRulesApplied})}>
+                    className={cn(`relative flex justify-between font-oxygen`, {['h-[--h-modal-header] p-[1.25rem]']: isSmRulesApplied})}>
                     {isSmRulesApplied ? null : Heading}
                     {isSmRulesApplied
-                        ? <Insignia insigniaMoved className={'w-[2.125rem] h-auto'}/>
+                        ? <Insignia insigniaMoved className={'w-[--insignia-moved-size] h-auto'}/>
                         : null}
                     <Button
                         icon={'close'}

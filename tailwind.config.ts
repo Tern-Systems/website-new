@@ -69,10 +69,13 @@ const config: Config = {
 
                 'heading-l': 'var(--fz-heading-l)',
                 heading: 'var(--fz-heading)',
+                'heading-s': 'var(--fz-heading-s)',
                 section: 'var(--fz-section)',
-                'section-sm': 'var(--fz-section-sm)',
+                'section-s': 'var(--fz-section-s)',
                 basic: 'var(--fz-basic)',
-                'content-sm': 'var(--fz-content-sm)',
+                'section-xs': 'var(--fz-section-xs)',
+                'section-xxs': 'var(--fz-section-xxs)',
+                'section-xxxs': 'var(--fz-section-xxxs)',
             },
             keyframes: {
                 insignia: {
@@ -83,6 +86,20 @@ const config: Config = {
                         transformOrigin: 'center center',
                     },
                     '100%': {
+                        top: '0',
+                        left: '0',
+                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
+                        transformOrigin: 'top left'
+                    }
+                },
+                insigniaReverse: {
+                    '100%': {
+                        top: '45%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%) scale(var(--insignia-scale-init))',
+                        transformOrigin: 'center center',
+                    },
+                    '0%': {
                         top: '0',
                         left: '0',
                         transform: 'translate(0,0) scale(var(--insignia-scale-moved))',

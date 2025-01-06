@@ -16,7 +16,6 @@ import SVG_DOTS_V from "@/assets/images/icons/dots-v.svg";
 import SVG_DOWNLOAD from "@/assets/images/icons/download.svg";
 import SVG_EDIT from '@/assets/images/icons/edit-line.svg';
 import SVG_GLASS from "@/assets/images/icons/glass.svg";
-import SVG_INFO from '@/assets/images/icons/info.svg';
 import SVG_LABEL from "@/assets/images/icons/label.svg";
 import SVG_LOCK from "@/assets/images/icons/lock.svg";
 import SVG_NOTEPAD from "@/assets/images/icons/notepad.svg";
@@ -42,7 +41,6 @@ type ButtonIcon =
     | 'download'
     | 'edit'
     | 'glass'
-    | 'info'
     | 'label'
     | 'lock'
     | 'mark-flower'
@@ -70,7 +68,6 @@ const ICON: Record<ButtonIcon, { src: string }> = {
     download: SVG_DOWNLOAD,
     edit: SVG_EDIT,
     glass: SVG_GLASS,
-    info: SVG_INFO,
     label: SVG_LABEL,
     lock: SVG_LOCK,
     notepad: SVG_NOTEPAD,

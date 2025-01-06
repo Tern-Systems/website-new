@@ -109,9 +109,22 @@ const FALLBACK_USER: UserData = {
         business: null,
         personal: null,
     },
-    subscriptions: [],
     ternKeyPurchased: false,
     archPurchased: false,
+    subscriptions: [
+        {
+            type: 'basic',
+            recurrency: 'annual',
+            isBasicKind: true,
+            subscription: 'TernKey',
+        },
+        {
+            type: 'standard',
+            recurrency: 'annual',
+            isBasicKind: false,
+            subscription: 'ARCH',
+        }
+    ],
     verification: {
         phone: false,
         email: false

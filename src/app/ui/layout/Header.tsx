@@ -178,7 +178,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                             border-b-small border-section bg-black 
                             sm:x-[flex-row-reverse,justify-start,px-[1.25rem],h-[4.31rem]]    after:sm:border-control-gray-l0`}
             >
-                <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+var(--insignia-container-size)*var(--insignia-scale-moved)+2.06rem)] h-full
+                <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+var(--insignia-moved-size)+2.06rem)] h-full
                                 before:x-[absolute,h-[67%],-left-[2.06rem],border-r-small,border-section]
                                 sm:ml-[1.94rem] sm:before:x-[-left-[0.94rem],h-[52%],border-control-gray-l0]`}
                 >
@@ -195,7 +195,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </div>
             <ul className={`relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small
-                            border-section cursor-pointer ${SubNavItemsMdLg ? 'h-[4.3rem] ' + styles.slideIn : styles.slideOut}
+                            border-section cursor-pointer ${SubNavItemsMdLg ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut}
                             sm:hidden`}
             >
                 {SubNavItemsMdLg}

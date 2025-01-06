@@ -6,11 +6,13 @@ import {PricingAndPlansScreen} from "@/app/ui/templates";
 
 import SVG_DIAMOND_ACE from "@/assets/images/icons/diamond-ace.svg";
 import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
+import {Route} from "@/app/static";
 
 
 const PLAN_TEMPLATE: SubscriptionPreview = {
-    subscription: 'ternKey',
+    subscription: 'ARCH',
     isBasicKind: false,
+    route: Route.ServiceSubscribe,
     type: {
         standard: {
             icon: SVG_DIAMOND_ACE,

@@ -22,7 +22,6 @@ const useNavigate = (preventModalClosing?: boolean): [(route: Route) => Promise<
         if (pageRoute === route)
             return;
         layoutCtx.setFadeState(true);
-        history.pushState(null, '', window.location.href);
         setTimeout(() => {
             router.push(route);
             if (!preventModalClosing)

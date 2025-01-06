@@ -2,6 +2,7 @@ import {FC, ReactElement, useState} from "react";
 import Image from "next/image";
 
 import {
+    PlanType,
     Subscription,
     SubscriptionPreview,
     SubscriptionPreviewData,
@@ -45,9 +46,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const [selectedRecurrency, setSelectedRecurrency] = useState<SubscriptionRecurrency>('monthly');
 
 
-    const handleSubscribeClick = (type: string) => {
+    const handleSubscribeClick = (type: PlanType) => {
         if (!userCtx.isLoggedIn) {
-            const info = 'You must log into a Tern account to subscribe to TernKey. Please login or create an account to purchase a Plan.';
+            const info = `You must log into a Tern account to subscribe to ${subscriptionData?.subscription}. Please login or create an account to purchase a Plan.`;
             return modalCtx.openModal(<AuthModal info={info} isLoginAction/>, {hideContent: true});
         }
 
@@ -62,7 +63,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             recurrency: selectedRecurrency,
         }
         sessionStorage.setItem('subscription', JSON.stringify(subscription));
-        navigate(Route.Subscribe);
+        navigate(subscriptionData.route);
     }
 
     // Elements
@@ -77,13 +78,13 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
     const renderColumn = (
         userSubscription: UserSubscription | undefined,
-        type: string,
+        type: PlanType,
         data: SubscriptionPreviewData | undefined,
         idx: number
     ): ReactElement => {
         const benefitsData = data?.benefits ?? generateFallbackEntries(5);
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
-            <li key={type + subIndex} className={'flex items-center gap-x-[--s-dl-smallest]'}>
+            <li key={type + subIndex} className={'flex items-center gap-x-[--s-dl-smallest] whitespace-pre-wrap leading-[120%]'}>
                 <Image src={type === 'pro' ? SVG_STAR : SVG_BULLET} alt={'list-icon'} className={'inline'}/>
                 <span>{benefit}</span>
             </li>
@@ -123,7 +124,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             </span>
         );
 
-        if (isCurrentRecurrency) {
+        if (isCurrentRecurrency || type === 'basic') {
             if (isCurrentPlan) {
                 subscribeBtnText = isBtnDisabled ? 'Your current plan' : 'Subscribe';
                 Links = (
@@ -189,9 +190,10 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 isChevron
                 expandedState={[!isSmScreen]}
                 collapsedContent={CollapsedContentSm}
-                classNameWrapper={`[&]:w-[90dvw] [&]:max-w-[25rem] border-small border-control-white-d0 text-left self-start
+                classNameWrapper={`[&]:w-[90dvw] [&]:max-w-[25rem] [&&]:h-full border-small border-control-white-d0 text-left self-start
                                     sm:border-none
                                     sm:landscape:[&]:max-w-[36dvw]`}
+                className={'flex flex-col'}
             >
                 {CollapsedContentSm}
                 <ul className={`flex flex-col gap-[min(5.3dvw,1.5rem)] mt-[min(5.3dvw,1.5rem)] items-start
@@ -200,9 +202,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     {Benefits}
                 </ul>
                 <div
-                    className={`flex flex-col mt-[min(8dvw,2.1rem)] font-oxygen text-[min(2.6dvw,var(--fz-note-))]
-                                text-secondary flex-grow justify-end`}
-                >
+                    className={`flex flex-col mt-[min(8dvw,2.1rem)] font-oxygen text-[min(2.6dvw,var(--fz-note-))] text-secondary`}>
                     {Links}
                 </div>
             </Collapsible>
@@ -229,7 +229,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             })
             : generateFallbackEntries(isCutBasicColumn ? 1 : 2);
 
-        return columnsData.map(([type, data], idx) => renderColumn(userSubscription, type, data, idx))
+        return (columnsData as [PlanType, SubscriptionPreviewData][]).map(([type, data], idx) => renderColumn(userSubscription, type, data, idx))
     }
 
     const Switch: ReactElement[] = PLAN_TIME_RANGE.map((entry, idx) => (

@@ -41,8 +41,8 @@ const FORM_DEFAULT: SubscribeData = {
     acceptTerms: false,
 }
 
-
-const SELECT_CN = 'px-[min(2dvw,0.75rem)] py-[min(--s-d-small)] rounded-smallest border-small';
+const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0'
+const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-smallest border-small ${CONTROL_H_CN}`;
 
 
 interface Props {
@@ -131,6 +131,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
                     className={`${SELECT_CN} mb-[--1dr]`}
+                    classNameOption={CONTROL_H_CN}
                     required
                 />
                 <Input
@@ -140,6 +141,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     onChange={setFormData('cvc')}
                     placeholder={'CVC'}
                     icons={[SVG_CARD_NUM]}
+                    className={CONTROL_H_CN}
                     required
                 />
             </>
@@ -156,7 +158,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
                         classNameWrapper={'col-span-2'}
-                        className={`[&&]:border-b-0 [&&]:rounded-b-none`}
+                        className={`[&&]:border-b-0 [&&]:rounded-b-none ${CONTROL_H_CN}`}
                         icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
 
                         required
@@ -167,7 +169,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         maxLength={5}
                         onChange={setFormData('expirationDate')}
                         placeholder={'MM/YY'}
-                        className={`[&&]:rounded-t-none [&&]:rounded-br-none [&&]:border-r-0`}
+                        className={`[&&]:rounded-t-none [&&]:rounded-br-none [&&]:border-r-0 ${CONTROL_H_CN}`}
                         required
                     />
                     <Input
@@ -176,7 +178,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         maxLength={3}
                         onChange={setFormData('cvc')}
                         placeholder={'CVC'}
-                        className={`[&&]:rounded-t-none [&&]:rounded-bl-none`}
+                        className={`[&&]:rounded-t-none [&&]:rounded-bl-none ${CONTROL_H_CN}`}
                         icons={[SVG_CARD_NUM]}
                         required
                     />
@@ -190,6 +192,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                             if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
                                 event.preventDefault();
                         }}
+                        className={CONTROL_H_CN}
                         placeholder={'Full name on card'}
                         required
                     />
@@ -202,6 +205,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('billingCountry')(value)}
                         className={`${SELECT_CN} bg-control-white [&&]:rounded-b-none`}
+                        classNameOption={CONTROL_H_CN}
                         required
                     />
                     {isBillingExpanded
@@ -210,14 +214,14 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 value={formData.addressLine1}
                                 onChange={setFormData('addressLine1')}
                                 placeholder={'Street Address #1'}
-                                className={'[&&]:border-y-0 [&&]:rounded-none'}
+                                className={`[&&]:border-y-0 [&&]:rounded-none ${CONTROL_H_CN}`}
                                 required={isBillingExpanded}
                             />
                             <Input
                                 value={formData.addressLine2}
                                 onChange={setFormData('addressLine2')}
                                 placeholder={'Street Address #2'}
-                                className={'[&&]:border-b-0 [&&]:rounded-none'}
+                                className={`[&&]:border-b-0 [&&]:rounded-none ${CONTROL_H_CN}`}
                             />
                             <div className={'flex'}>
                                 <Input
@@ -228,7 +232,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                         if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
                                             event.preventDefault();
                                     }}
-                                    className={'[&&]:rounded-none [&&]:border-r-0'}
+                                    className={`[&&]:rounded-none [&&]:border-r-0 ${CONTROL_H_CN}`}
                                     required={isBillingExpanded}
                                 />
                                 <Input
@@ -236,7 +240,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                     value={formData.postalCode}
                                     maxLength={5}
                                     onChange={setFormData('postalCode')}
-                                    className={'[&&]:rounded-none'}
+                                    className={`[&&]:rounded-none ${CONTROL_H_CN}`}
                                     placeholder={'Postal / Zip Code'}
                                     required={isBillingExpanded}
                                 />
@@ -248,6 +252,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
                                 className={`${SELECT_CN} [&&]:rounded-t-none [&&]:border-t-0`}
+                                classNameOption={CONTROL_H_CN}
                                 required={isBillingExpanded}
                             />
                         </>
@@ -257,14 +262,14 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 value={formData.billingAddress}
                                 onChange={setFormData('billingAddress')}
                                 placeholder={'Address'}
-                                className={'[&&]:rounded-t-none [&&]:border-t-0'}
+                                className={`[&&]:rounded-t-none [&&]:border-t-0 ${CONTROL_H_CN}`}
                                 required={!isBillingExpanded}
                             />
                         )}
                 </fieldset>
                 <span
                     hidden={isBillingExpanded}
-                    className={'mt-[0.65rem text-small underline cursor-pointer'}
+                    className={'block mt-[0.65rem] text-section-xs underline cursor-pointer'}
                     onClick={() => toggleBillingDetails()}
                 >
                     Enter address manually
@@ -274,12 +279,15 @@ const PaymentForm: FC<Props> = (props: Props) => {
     }
 
     return (
-        <div
-            className={'flex-1 pt-[min(5.3dvw,9.1rem)] w-1/2 bg-control-white overflow-y-scroll sm:overflow-y-visible sm:w-full sm:mt-0'}>
-            <div className={'w-[min(90dvw,29rem)] mx-auto'}>
+        <div className={`flex-1 w-1/2 bg-control-white h-full overflow-y-scroll
+                        pt-[7.44rem] 
+                        sm:x-[overflow-y-visible,p-[--p-content-sm],w-full,max-h-fit,shadow-none]`}
+        >
+            <div className={'mx-auto max-w-[29rem] w-full'}>
                 <form className={styles.form} onSubmit={handleFormSubmit}>
-                    <h2 className={`font-bold mb-[min(4dvw,2.1rem)]`}>{savedCards.length ? 'Choose' : ''} Payment
-                        Method</h2>
+                    <h2 className={`mb-[--p-content-sm] font-bold`}>
+                        {savedCards.length ? 'Choose' : ''} Payment Method
+                    </h2>
                     {FormInputs}
                     <Input
                         type={'checkbox'}
@@ -290,7 +298,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         className={'max-w-[--1drl] max-h-[--1drl]'}
                         required
                     >
-                        <span className={'text-gray text-small leading-normal'}>
+                        <span className={'text-section-xs leading-normal'}>
                             You will be charged the amount and at the frequency listed above
                             until you cancel. We may charge our prices as described in our&nbsp;
                             <PageLink href={Route.Terms}
@@ -304,10 +312,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        onClick={() =>
-                            setPaymentStatus(true)}
-                        className={`mt-[min(4dvw,1.87rem)] h-[min(13dvw,4.4rem)] bg-control-gray font-sans text-header font-bold text-primary
-                                    w-full rounded-full`}
+                        onClick={() => setPaymentStatus(true)}
+                        className={`mt-[min(4dvw,1.87rem)] w-full rounded-full bg-control-gray
+                                    font-neo text-section-s font-bold text-primary
+                                    h-[4.4rem]
+                                    sm:h-[3.125rem]`}
                     >
                         Subscribe
                     </Button>
