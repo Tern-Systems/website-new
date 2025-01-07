@@ -49,32 +49,25 @@ const PricingAndPlansPage: FC = () => {
       // TODO fetch plan details
       const fetchPlanDetails = async () => {
         if (!userCtx.userData) return;
+        const email = userCtx.userData.email;
         try {
-          //const response = await BillingService.getPlanDetails(
-          //userCtx.userData.email
-          //);
-          const response = await BillingService.getPlanDetails(
-            "mkdave27@gmail.com"
-          );
-          if (response.currentPlan == "standard") {
-            const subscription: any = [
-              {
-                type: "basic",
-                recurrency: "annual",
-                isBasicKind: true,
-                subscription: "arch",
-              },
-            ];
-            const token = "";
-            if (token) {
-              ("Kerunnund");
-              userCtx.setSession(
-                { ...userCtx.userData, subscriptions: subscription },
-                token
-              );
-            }
+          const response = await BillingService.getPlanDetails(email);
+          const subscription: any = [
+            {
+              type: response.currentPlan == "standard" ? "basic" : "pro",
+              recurrency: response.duration == 1 ? "monthly" : "yearly",
+              isBasicKind: true,
+              subscription: "arch",
+            },
+          ];
+
+          const token = localStorage.getItem("token");
+          if (token != null && userCtx.userData.subscriptions == null) {
+            userCtx.setSession(
+              { ...userCtx.userData, subscriptions: subscription },
+              token
+            );
           }
-          console.log(userCtx);
         } catch (error: unknown) {}
       };
       fetchPlanDetails();
@@ -82,7 +75,13 @@ const PricingAndPlansPage: FC = () => {
     } catch (error: unknown) {}
   }, [userCtx]);
 
-  return <PricingAndPlansScreen subscriptionData={subscription} />;
+  return (
+    <>
+      {userCtx.userData?.subscriptions && (
+        <PricingAndPlansScreen subscriptionData={subscription} />
+      )}
+    </>
+  );
 };
 
 export default PricingAndPlansPage;
