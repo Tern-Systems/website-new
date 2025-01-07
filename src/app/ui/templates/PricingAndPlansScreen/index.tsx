@@ -85,7 +85,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const benefitsData = data?.benefits ?? generateFallbackEntries(5);
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
             <li key={type + subIndex} className={'flex items-center gap-x-[--s-dl-smallest] whitespace-pre-wrap leading-[120%]'}>
-                <Image src={type === 'pro' ? SVG_STAR : SVG_BULLET} alt={'list-icon'} className={'inline'}/>
+                <Image src={type === 'Pro' ? SVG_STAR : SVG_BULLET} alt={'list-icon'} className={'inline'}/>
                 <span>{benefit}</span>
             </li>
         ));
@@ -110,7 +110,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             ? userSubscription.recurrency === selectedRecurrency
             : false;
         const isBtnDisabled =
-            type === 'basic' && subscriptionData?.isBasicKind
+            type === 'Basic' && subscriptionData?.isBasicKind
             || (isCurrentPlan && isCurrentRecurrency || !subscriptionData);
 
         let subscribeBtnText: string | ReactElement;
@@ -124,7 +124,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             </span>
         );
 
-        if (isCurrentRecurrency || type === 'basic') {
+        if (isCurrentRecurrency || type === 'Basic') {
             if (isCurrentPlan) {
                 subscribeBtnText = isBtnDisabled ? 'Your current plan' : 'Subscribe';
                 Links = (
@@ -214,13 +214,13 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const userSubscription: UserSubscription | undefined = userData?.subscriptions.find(
             (subscription: UserSubscription) => subscription.subscription === subscriptionData?.subscription
         );
-        const isCutBasicColumn = subscriptionData?.isBasicKind === true && userSubscription?.type !== 'basic';
+        const isCutBasicColumn = subscriptionData?.isBasicKind === true && userSubscription?.type !== 'Basic';
 
         const columnsData = subscriptionData?.type
             ? Object.entries(subscriptionData.type).slice(+isCutBasicColumn).filter(([type]) => {
                 if (
                     userSubscription?.recurrency === 'monthly' &&
-                    userSubscription?.type === 'pro' &&
+                    userSubscription?.type === 'Pro' &&
                     type === 'standard'
                 ) {
                     return false;

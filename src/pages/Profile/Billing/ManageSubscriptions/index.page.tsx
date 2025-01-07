@@ -29,7 +29,7 @@ const SUBSCRIPTIONS_TEMPLATE: SubscriptionData[] = [
     {
         plan: {
             subscription: 'ARCH',
-            type: 'pro',
+            type: 'Pro',
             recurrency: 'monthly',
             tax: 4.5,
             priceUSD: 55.2,
@@ -57,7 +57,7 @@ const SUBSCRIPTIONS_TEMPLATE: SubscriptionData[] = [
     {
         plan: {
             subscription: 'TernKey',
-            type: 'standard',
+            type: 'Standard',
             recurrency: 'annual',
             tax: 5.5,
             priceUSD: 40.1,

@@ -113,13 +113,13 @@ const FALLBACK_USER: UserData = {
     archPurchased: false,
     subscriptions: [
         {
-            type: 'basic',
+            type: 'Basic',
             recurrency: 'annual',
             isBasicKind: true,
             subscription: 'TernKey',
         },
         {
-            type: 'standard',
+            type: 'Standard',
             recurrency: 'annual',
             isBasicKind: false,
             subscription: 'ARCH',
