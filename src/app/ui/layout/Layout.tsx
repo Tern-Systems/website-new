@@ -68,7 +68,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     style={{backgroundImage: `url("${bgSrc}")`}}
                     className={`relative flex flex-col flex-grow h-full w-full justify-center items-center 
                                 bg-cover bg-no-repeat bg-fixed text-center bg-center
-                                overflow-y-scroll text-[min(2.6dvw,1rem)]`}
+                                overflow-y-scroll`}
                 >
                     <div
                         className={cn(
@@ -84,8 +84,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <footer
                     className={`flex justify-between items-center
                             px-[--p-content] w-full min-h-[5.12rem] border-t-small border-section content-center text-[1rem] leading-none
-                            sm:x-[flex-col-reverse,items-center,p-[--p-content-sm],text-center]
-                            sm:portrait:[max-h-[4.94rem]]
+                            sm:x-[flex-col-reverse,items-center,justify-between,p-[--p-content-sm],text-center]
+                            sm:portrait:[min-h-[4.94rem]]
                             sm:landscape:x-[flex-row,p-[2.4dvw],h-[3.19rem]]`}>
                     <span>Copyright © 2025 Tern Systems LLC</span>
                     <span className={'flex'}>

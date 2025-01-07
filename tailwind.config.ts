@@ -70,6 +70,7 @@ const config: Config = {
                 'heading-l': 'var(--fz-heading-l)',
                 heading: 'var(--fz-heading)',
                 'heading-s': 'var(--fz-heading-s)',
+                documentation: 'var(--fz-documentation)',
                 section: 'var(--fz-section)',
                 'section-s': 'var(--fz-section-s)',
                 basic: 'var(--fz-basic)',
