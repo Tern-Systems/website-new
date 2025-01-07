@@ -166,8 +166,8 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 {
                     [`
                         my-[--p-content] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]
-                        sm:x-[max-w-full,my-0,mt-[--p-content-sm],min-w-0]
-                        sm:h-[calc(100%-var(--p-content-sm))]
+                        sm:x-[max-w-full,my-0,mt-[--p-content-s],min-w-0]
+                        sm:h-[calc(100%-var(--p-content-s))]
                     `]: !layoutCtx.isNoLayout,
                 }
             )}
@@ -178,8 +178,8 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 <aside
                     id={'documentation-menu'}
                     className={cn(
-                        `p-[--p-content-sm] text-left
-                        sm:x-[absolute,top-0,left-0,p-[--p-content-sm],h-full]`,
+                        `p-[--p-content-s] text-left
+                        sm:x-[absolute,top-0,left-0,p-[--p-content-s],h-full]`,
                         isMenuOpened
                             ? `bg-control-gray min-w-[19rem]    sm:portrait:w-full`
                             : `pr-0 ${isSelectOpened ? 'h-full' : 'sm:[&]:h-fit bg-none'}`
@@ -228,7 +228,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 </aside>
                 <div
                     className={cn(
-                        `p-[--p-content-sm] pr-0 w-full h-full text-left content-center
+                        `p-[--p-content-s] pr-0 w-full h-full text-left content-center
                         sm:p-[0.63rem]`,
                         {['w-[58dvw] max-w-[70rem]']: !layoutCtx.isNoLayout}
                     )}
@@ -243,7 +243,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                             : documentationContent?.children}
                     </div>
                 </div>
-                <aside className={`p-[--p-content-sm] flex flex-col justify-between    sm:hidden`}>
+                <aside className={`p-[--p-content-s] flex flex-col justify-between    sm:hidden`}>
                     {ControlBtns}
                 </aside>
             </div>

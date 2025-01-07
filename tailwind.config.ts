@@ -37,6 +37,7 @@ const config: Config = {
                 smallest1: 'var(--br-smallest-1)',
                 smallest: 'var(--br-smallest)',
                 small: 'var(--br-small)',
+                normal: 'var(--br-normal)',
             },
             borderColor: {
                 section: "var(--b-section)",

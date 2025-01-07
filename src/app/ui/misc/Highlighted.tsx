@@ -18,7 +18,7 @@ const Highlighted: FC<Props> = (props: Props) => {
     return (
         <div className={`${styles.highlight} max-w-[62.5rem] max-h-[41.6rem]
                     sm:x-[max-h-[35.25rem] sm:portrait:h-[calc(100%-2*3.06rem)]
-                    sm:landscape:my-[--p-content-sm] sm:landscape:h-[calc(100%-calc(2*var(--p-content-sm)))]
+                    sm:landscape:my-[--p-content-s] sm:landscape:h-[calc(100%-calc(2*var(--p-content-s)))]
                     ${classNameWrapper}`}
         >
             <h1 className={`text-heading-l
@@ -29,7 +29,7 @@ const Highlighted: FC<Props> = (props: Props) => {
             </h1>
             <div className={`overflow-y-scroll h-full
                         mt-[3rem]
-                        sm:mt-[--p-content-sm]
+                        sm:mt-[--p-content-s]
                         ${classNameContentWrapper}`}
             >
                 <div className={`flex flex-col h-full font-bold leading-[120%] font-neo whitespace-pre-line 

@@ -19,6 +19,7 @@ import {FAQsModal} from "./FAQs/index.page";
 import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 
 import styles from "@/app/common.module.css";
+import {ScrollEnd} from "@/app/ui/misc";
 
 
 const EVENTS_TEMPLATE: TableEntry[] = [
@@ -61,14 +62,14 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     const renderTd = (title: ReactElement | string, href: string, type?: 'first' | 'last') => {
         return (
             <td className={cn({
-                ['w-[1.3rem] pr-[min(3.6dvw,0.81rem)] rounded-r-[1rem]']: type === 'last',
-                ['max-w-[9.7rem] pl-[min(3.6dvw,0.81rem)] rounded-l-[1rem]']: type === 'first'
+                ['pr-[--p-content-xs] w-[1.3rem] rounded-r-normal   sm:x-[pr-[--p-content-xxxs],rounded-r-small]']: type === 'last',
+                ['pl-[--p-content-xs] max-w-[9.7rem] rounded-l-normal   sm:x-[pl-[--p-content-xxxs],rounded-l-small]']: type === 'first'
             })}
             >
                 <PageLink href={href} isExternal={isExternal}
-                          className={`w-full overflow-x-hidden overflow-ellipsis
-                                    py-[min(2.7dvw,0.75rem)] 
-                                    sm:x-[max-w-[41dvw],table-cell]
+                          className={`w-full overflow-x-hidden overflow-ellipsis text-nowrap
+                                    py-[0.75rem] 
+                                    sm:x-[py-[0.22rem],max-w-[41dvw],table-cell]
                                     sm:landscape:py-[0.4dvw]`}
                 >
                     {title}
@@ -95,33 +96,36 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     return (
         <div
             className={`bg-control-gray rounded-smallest
-                        p-[--2dr] max-h-[20rem]
-                        sm:max-h-[15rem]
+                        p-[--p-content-s] max-h-[20rem]
+                        sm:x-[p-[--p-content-xxs],max-h-[10rem]]
                         sm:landscape:x-[p-[--sy-sl]]`}>
-            <h3 className={`font-bold
-                            pl-[min(3.6dvw,0.81rem)] text-header 
-                            sm:landscape:text-small`}
+            <h3 className={`font-bold px-[--p-content-xs]
+                            text-heading
+                            sm:x-[px-[--p-content-xxxs],text-section]`}
             >
                 {table.title}
             </h3>
-            <hr className={`border-control-white-d0
-                            mt-[--1qdrs] mb-[min(1.35dvw,1.25rem)]
+            <hr className={`relative border-control-white-d0
+                            my-[--p-content-s]
+                            sm:x-[mt-[--p-content-xxs],mb-[--p-content-xxxs]]
                             sm:landscape:x-[mt-[1.2dvw],mb-[0.6dvw]]`}/>
-            <div className={'overflow-y-scroll max-h-[70%] sm:max-h-[83%]'}>
-                <table className={`w-full text-content`}>
+            <div className={`overflow-y-scroll
+                            max-h-[calc(100%-var(--fz-heading)-2.5*var(--p-content-s))]
+                            sm:max-h-[calc(100%-var(--fz-section)-2*var(--p-content-xxs))]`}
+            >
+                <table className={`w-full text-heading-s    sm:text-section-xs`}>
                     <thead className={`sticky top-0 z-10 bg-control-gray
-                                    text-small 
-                                    sm:landscape:text-[1.25dvw]`}>
-                    <tr>
-                        <td className={`pl-[min(3.6dvw,0.81rem)] py-[min(2.7dvw,0.75rem)]
-                                        sm:landscape:py-0`}>
-                            {table.columnNames[0]}
-                        </td>
+                                        text-section-xs 
+                                        sm:text-section-xxxs
+                                        sm:landscape:text-[1.25dvw]`}
+                    >
+                    <tr className={'[&_td]:pb-[0.75rem]     sm:[&_td]:pb-[0.25rem]     sm:landscape:py-0'}>
+                        <td className={'pl-[--p-content-xs]     sm:pl-[--p-content-xxxs]'}>{table.columnNames[0]}</td>
                         <td>{table.columnNames[1]}</td>
                         <td/>
                     </tr>
                     </thead>
-                    <tbody className={'text-content sm:landscape:text-small'}>
+                    <tbody className={'text-heading-s sm:text-section-xs'}>
                     {TableItems}
                     </tbody>
                 </table>
@@ -172,12 +176,13 @@ const MyTernPage: FC = () => {
         const Btn = (
             <Button
                 icon={btn.icon}
-                className={cn(
-                    `bg-control-gray rounded-smallest text-content
-                    p-[min(2.4dvw,0.6rem)]
-                    sm:landscape:x-[px-[1dvw],py-[0.5dvw],text-small]`,
-                    {['[&_path]:fill-primary [&_svg]:sm:landscape:w-[0.875rem]']: btn.icon === 'plus'}
-                )}
+                className={`bg-control-gray rounded-smallest
+                            px-[0.73rem] py-[--p-content-xxs] text-heading-s
+                            sm:x-[py-[0.47rem],px-[0.56rem],text-section-xs]
+                            sm:landscape:x-[px-[1dvw],py-[0.5dvw],text-small]`
+                }
+                classNameIcon={`[&_path]:fill-primary
+                                sm:[&_svg]:w-[0.875rem]`}
             >
                 {btn.title}
             </Button>
@@ -193,39 +198,47 @@ const MyTernPage: FC = () => {
             return null;
         const date = new Date(dateNumber ?? 0)
         return (
-            <span className={userCtx.userData ? '' : 'hidden'}>
-                    Member since {date.toLocaleString('default', {month: 'long'}) + ' ' + date.getFullYear()}
-                </span>
+            <span>
+                Member since {date.toLocaleString('default', {month: 'long'}) + ' ' + date.getFullYear()}
+            </span>
         );
     }
 
     return (
-        <div className={`grid min-w-[75%] text-left
-                        mt-[3rem] mx-auto
-                        sm:mt-0
+        <div className={`grid auto-rows-min max-w-[90.63rem] w-3/4 h-full text-left
+                        mt-[5.94rem] mx-auto
+                        sm:x-[mt-[--p-content-l],px-[--p-content-s],w-full]
                         sm:landscape:x-[auto-rows-auto,grid-cols-2,gap-x-[15dvw],mx-0]`}
         >
             <h1 className={`font-bold
-                            pb-[--1qdr] text-section-header
-                            sm:x-[pb-[4dvw],mb-0]
+                            pb-[--p-content-s] text-heading-l leading-none
+                            sm:x-[pb-[--p-content-xxs],text-heading-s]
                             sm:landscape:x-[pb-[0.5dvw],text-content]`}
             >
                 Dashboard
             </h1>
-            <div className={`sm:portrait:x-[overflow-y-scroll,max-h-[65dvh]]
+            <div className={`sm:portrait:overflow-y-scroll sm:portrait:max-h-[calc(100%-3.06rem)]
                             sm:landscape:x-[contents,text-[1.2dvw]]`}
             >
-                <div className={'sm:landscape:col-start-1'}>
+                <div
+                    className={cn(`
+                        text-section-xs
+                        sm:text-section-xxxs
+                        sm:landscape:col-start-1`,
+                        {['hidden']: !userCtx.userData}
+                    )}
+                >
                     {renderSinceDate(userCtx.userData?.registrationDate)}
                 </div>
                 <div className={`flex flex-wrap
-                                gap-[--1qdrs] my-[min(5.4dvw,1.9rem)]
+                                gap-[--p-content-s] my-[1.87rem]
+                                sm:x-[my-[--p-content-s],gap-[--p-content-xxs]]
                                 sm:landscape:x-[col-start-1,my-[1.3dvw],gap-[1.2dvw]]`}
                 >
                     {NavBtns}
                 </div>
                 <div className={`grid
-                                grid-cols-2 gap-[0.63rem]
+                                grid-cols-2 gap-[--p-content-xxs]
                                 sm:grid-cols-1
                                 sm:landscape:x-[row-start-1,col-start-2,row-span-4,overflow-y-scroll,max-h-[55dvh]]`}
                 >
@@ -237,12 +250,13 @@ const MyTernPage: FC = () => {
                     }, true)}
                 </div>
                 <div className={`flex-col inline-flex
-                                gap-y-[min(2.6dvw,1.6rem)] mt-[3rem]
-                                sm:mt-[3.8rem]
+                                gap-y-[1.56rem] mt-[3.13rem] text-section-xs
+                                sm:x-[gap-y-[--p-content-xxs],mt-[3.88rem]]
                                 sm:landscape:x-[col-start-1,gap-y-[1dvw],mt-[1dvw],w-fit]`}
                 >
                     <span className={`font-bold
-                                    mb-[0.3rem] text-header
+                                    mb-[0.32rem] text-heading
+                                    sm:text-basic
                                     sm:landscape:x-[text-default,mb-0]`}
                     >
                         Additional Resources
@@ -264,6 +278,7 @@ const MyTernPage: FC = () => {
                     </span>
                 </div>
             </div>
+            <ScrollEnd/>
         </div>
     );
 }
