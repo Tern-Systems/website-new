@@ -1,7 +1,6 @@
 import React, {FC, FormEvent, useEffect, useState} from "react";
 
 import {CardData} from "@/app/types/billing";
-import {Subscription} from "@/app/types/subscription";
 import {COUNTRY, STATE_PROVINCE} from "@/app/static";
 
 import {useBreakpointCheck, useForm} from "@/app/hooks";
@@ -38,15 +37,6 @@ const CARDS_TEMPLATE: CardData[] = [
         isDefault: true
     }
 ]
-
-type Plan = Pick<Subscription, 'subscription' | 'type' | 'priceUSD' | 'recurrency'> & {
-    tax: number;
-    lastBillingDate: number;
-}
-type SubscriptionData = {
-    plan: Plan;
-    savedCards: CardData[];
-}
 
 const FORM_DATA_DEFAULT: CardData = {
     type: '',
@@ -300,5 +290,4 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     )
 }
 
-export type {SubscriptionData, Plan};
 export {PaymentMethodTool};
