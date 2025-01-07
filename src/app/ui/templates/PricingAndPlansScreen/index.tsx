@@ -2,6 +2,7 @@ import { FC, ReactElement, useState } from "react";
 import Image from "next/image";
 
 import {
+  PlanType,
   Subscription,
   SubscriptionPreview,
   SubscriptionPreviewData,
@@ -42,10 +43,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
   const [selectedRecurrency, setSelectedRecurrency] =
     useState<SubscriptionRecurrency>("monthly");
 
-  const handleSubscribeClick = (type: string) => {
+  const handleSubscribeClick = (type: PlanType) => {
     if (!userCtx.isLoggedIn) {
-      const info =
-        "You must log into a Tern account to subscribe to TernKey. Please login or create an account to purchase a Plan.";
+      const info = `You must log into a Tern account to subscribe to ${subscriptionData?.subscription}. Please login or create an account to purchase a Plan.`;
       return modalCtx.openModal(<AuthModal info={info} isLoginAction />, {
         hideContent: true,
       });
@@ -61,7 +61,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
       recurrency: selectedRecurrency,
     };
     sessionStorage.setItem("subscription", JSON.stringify(subscription));
-    navigate(Route.Subscribe);
+    navigate(subscriptionData.route);
   };
 
   // Elements
@@ -78,7 +78,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
   const renderColumn = (
     userSubscription: UserSubscription | undefined,
-    type: string,
+    type: PlanType,
     data: SubscriptionPreviewData | undefined,
     idx: number
   ): ReactElement => {
@@ -86,10 +86,12 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
       <li
         key={type + subIndex}
-        className={"flex items-center gap-x-[--s-dl-smallest]"}
+        className={
+          "flex items-center gap-x-[--s-dl-smallest] whitespace-pre-wrap leading-[120%]"
+        }
       >
         <Image
-          src={type === "pro" ? SVG_STAR : SVG_BULLET}
+          src={type === "Pro" ? SVG_STAR : SVG_BULLET}
           alt={"list-icon"}
           className={"inline"}
         />
@@ -117,7 +119,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
       ? userSubscription.recurrency === selectedRecurrency
       : false;
     const isBtnDisabled =
-      (type === "basic" && subscriptionData?.isBasicKind) ||
+      (type === "Basic" && subscriptionData?.isBasicKind) ||
       (isCurrentPlan && isCurrentRecurrency) ||
       !subscriptionData;
 
@@ -132,7 +134,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
       </span>
     );
 
-    if (isCurrentRecurrency) {
+    if (isCurrentRecurrency || type === "Basic") {
       if (isCurrentPlan) {
         subscribeBtnText = isBtnDisabled ? "Your current plan" : "Subscribe";
         Links = (
@@ -222,9 +224,10 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         isChevron
         expandedState={[!isSmScreen]}
         collapsedContent={CollapsedContentSm}
-        classNameWrapper={`[&]:w-[90dvw] [&]:max-w-[25rem] border-small border-control-white-d0 text-left self-start
+        classNameWrapper={`[&]:w-[90dvw] [&]:max-w-[25rem] [&&]:h-full border-small border-control-white-d0 text-left self-start
                                     sm:border-none
                                     sm:landscape:[&]:max-w-[36dvw]`}
+        className={"flex flex-col"}
       >
         {CollapsedContentSm}
         <ul
@@ -235,8 +238,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
           {Benefits}
         </ul>
         <div
-          className={`flex flex-col mt-[min(8dvw,2.1rem)] font-oxygen text-[min(2.6dvw,var(--fz-note-))]
-                                text-secondary flex-grow justify-end`}
+          className={`flex flex-col mt-[min(8dvw,2.1rem)] font-oxygen text-[min(2.6dvw,var(--fz-note-))] text-secondary`}
         >
           {Links}
         </div>
@@ -246,6 +248,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
   const renderColumns = (): ReactElement[] => {
     const { userData } = userCtx;
+    console.log(userData);
     const userSubscription: UserSubscription | undefined =
       userData?.subscriptions.find(
         (subscription: UserSubscription) =>
@@ -253,7 +256,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
       );
     const isCutBasicColumn =
       subscriptionData?.isBasicKind === true &&
-      userSubscription?.type !== "basic";
+      userSubscription?.type !== "Basic";
 
     const columnsData = subscriptionData?.type
       ? Object.entries(subscriptionData.type)
@@ -261,7 +264,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
           .filter(([type]) => {
             if (
               userSubscription?.recurrency === "monthly" &&
-              userSubscription?.type === "pro" &&
+              userSubscription?.type === "Pro" &&
               type === "standard"
             ) {
               return false;
@@ -270,8 +273,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
           })
       : generateFallbackEntries(isCutBasicColumn ? 1 : 2);
 
-    return columnsData.map(([type, data], idx) =>
-      renderColumn(userSubscription, type, data, idx)
+    return (columnsData as [PlanType, SubscriptionPreviewData][]).map(
+      ([type, data], idx) => renderColumn(userSubscription, type, data, idx)
     );
   };
 

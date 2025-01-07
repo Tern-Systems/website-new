@@ -72,17 +72,15 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--2dr]'}
                             ${className} pointer-events-auto`}>
                 <div
-                    className={cn(`relative flex justify-between font-oxygen`, {['h-[4.3rem] p-[1.25rem]']: isSmRulesApplied})}>
+                    className={cn(`relative flex justify-between font-oxygen`, {['h-[--h-modal-header] p-[1.25rem]']: isSmRulesApplied})}>
                     {isSmRulesApplied ? null : Heading}
                     {isSmRulesApplied
-                        ? <Insignia
-                            insigniaMoved
-                            className={'origin-top-left scale-[--insignia-scale-moved] top-[1.1rem] left-[--2dr]'}/>
+                        ? <Insignia insigniaMoved className={'w-[--insignia-moved-size] h-auto'}/>
                         : null}
                     <Button
                         icon={'close'}
                         onClick={() => handleClose()}
-                        className={cn({['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied})}
+                        classNameIcon={cn({['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied})}
                     />
                 </div>
                 <hr className={cn({['mt-[--1qdrs] scale-[105%] mb-[--s-normal] sm:landscape:x-[scale-[102%],my-[--1drs]]']: !isSmRulesApplied})}/>

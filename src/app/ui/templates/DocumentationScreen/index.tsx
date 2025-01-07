@@ -103,9 +103,12 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
             }
 
             return (
-                <li key={anchorText + idx} className={'pl-[1rem]'}>
+                <li key={anchorText + idx} className={'pl-[1rem] mt-[0.5rem]'}>
                     <span
-                        onClick={() => document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'})}
+                        onClick={() => {
+                            document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'})
+                            setMenuOpened(false);
+                        }}
                         className={'cursor-pointer'}
                     >
                         {anchorText}
@@ -153,27 +156,33 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         Object.keys(contents).map((key) => [key, getRouteName(key) ?? ''])
     );
 
-    const selectBgCn = isMenuOpened ? '[&]:bg-control-gray' : '[&]:bg-transparent';
+    const selectCn = 'h-[2.5rem] ' + (isSelectOpened ? '[&]:bg-control-gray' : '[&]:bg-transparent border-none');
 
     return (
         <div
             className={cn(
-                `self-center flex-grow h-full min-w-[min(90dvw,70rem)] text-default 
-                sm:landscape:pb-[--2dr]`,
-                {['max-h-[90%] max-w-[90%] pt-[--s-default] sm:x-[max-h-full,max-w-full,pt-[1.25rem],min-w-0]']: !layoutCtx.isNoLayout}
+                `self-center flex-grow h-full min-w-[70rem] text-default
+                sm:min-w-full`,
+                {
+                    [`
+                        my-[--p-content] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]
+                        sm:x-[max-w-full,my-0,mt-[--p-content-sm],min-w-0]
+                        sm:h-[calc(100%-var(--p-content-sm))]
+                    `]: !layoutCtx.isNoLayout,
+                }
             )}
         >
             <div
-                className={`flex h-full rounded-small border-small border-control-gray bg-control-navy text-[1.5rem]
-                            leading-[130%] box-content overflow-hidden`}>
+                className={`flex h-full rounded-small border-small border-control-gray bg-control-navy
+                            leading-[130%] box-content`}>
                 <aside
                     id={'documentation-menu'}
                     className={cn(
-                        `p-[--s-default] pr-0 text-left
-                        sm:x-[absolute,top-0,left-0,p-[1.25rem],h-full]`,
+                        `p-[--p-content-sm] text-left
+                        sm:x-[absolute,top-0,left-0,p-[--p-content-sm],h-full]`,
                         isMenuOpened
-                            ? 'bg-[#4D4D4D] min-w-[19rem] sm:portrait:w-full'
-                            : (isSelectOpened ? 'h-full' : 'h-fit bg-none')
+                            ? `bg-control-gray min-w-[19rem]    sm:portrait:w-full`
+                            : `pr-0 ${isSelectOpened ? 'h-full' : 'sm:[&]:h-fit bg-none'}`
                     )}
                 >
                     <div className={`flex items-center h-[2rem] sm:x-[flex-col,items-start,h-[5rem]]`}>
@@ -183,43 +192,58 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                                 options={options}
                                 onChangeCustom={(route) => navigate(route as Route)}
                                 value={route ?? ''}
-                                onClick={() => setSelectOpenState(prevState => !prevState)}
-                                classNameWrapper={'w-[min(35dvw,10rem)] md:hidden lg:hidden'}
-                                className={`text-[1.3rem] font-bold font-oxygen border-none rounded-smallest
-                                            px-[min(1.3dvw,1.62rem)] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.3rem] ${selectBgCn}`}
-                                classNameOption={`w-full ${selectBgCn} border-none`}
+                                onOpen={(isExpanded) => setSelectOpenState(isExpanded)}
+                                classNameWrapper={'md:hidden lg:hidden'}
+                                className={`text-[1.3rem] font-bold font-oxygen rounded-smallest 
+                                            pl-[0.62rem] pr-[1rem] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.5rem] ${selectCn}`}
+                                classNameOption={`w-full ${selectCn} border-small border-control-white`}
                             />
                         </span>
                         <span hidden={!isMenuOpened}
-                              className={`text-content-small text-nowrap ml-[1rem]
-                                        sm:portrait:x-[my-[2.7rem],text-header]
-                                        sm:landscape:x-[my-[--1dr]]`}
+                              className={cn(`
+                                    ml-[0.77rem] text-section-s text-nowrap
+                                    sm:portrait:x-[my-[2.7rem],text-section-s]
+                                    sm:landscape:x-[my-[1rem]]`,
+                                  {['brightness-50']: isSelectOpened}
+                              )}
                         >
                             Table of Contents
                         </span>
                     </div>
                     <div
-                        className={'h-[calc(100%-2rem)] overflow-y-scroll text-content-small sm:h-[calc(100%-5rem)] sm:portrait:text-content'}>
+                        className={cn(`
+                            pt-[1.5rem] h-[calc(100%-2rem)] text-section-s
+                            sm:h-[calc(100%-5rem)] sm:mt-0 
+                            sm:portrait:text-basic`,
+                            {['brightness-50']: isSelectOpened}
+                        )}
+                    >
                         <ul
                             hidden={!isMenuOpened}
-                            className={'ml-[-0.9rem] overflow-y-scroll h-full'}
+                            className={'overflow-y-scroll h-full'}
                         >
                             {renderAnchorList(documentationContent?.anchors, documentationContent?.isChapter)}
                         </ul>
                     </div>
                 </aside>
                 <div
-                    className={`px-[0.75rem] w-full text-left content-center p-[--s-default] h-full
-                                ${layoutCtx.isNoLayout ? '' : 'w-[58dvw] max-w-[70rem]'}
-                                sm:p-[0.63rem]`}>
-                    <div className={`h-full w-full overflow-y-scroll`}>
+                    className={cn(
+                        `p-[--p-content-sm] pr-0 w-full h-full text-left content-center
+                        sm:p-[0.63rem]`,
+                        {['w-[58dvw] max-w-[70rem]']: !layoutCtx.isNoLayout}
+                    )}
+                >
+                    <div className={`h-full w-full overflow-y-scroll text-documentation leading-[130%]`}>
                         {isPiPMode
-                            ? <span
-                                className={'block text-center content-center text-[2rem] w-[70rem] h-full'}>Picture in picture mode</span>
+                            ? (
+                                <span className={'block content-center w-[70rem] h-full text-center text-heading-l'}>
+                                    Picture in picture mode
+                                </span>
+                            )
                             : documentationContent?.children}
                     </div>
                 </div>
-                <aside className={`p-[--s-default] flex flex-col justify-between    sm:hidden`}>
+                <aside className={`p-[--p-content-sm] flex flex-col justify-between    sm:hidden`}>
                     {ControlBtns}
                 </aside>
             </div>

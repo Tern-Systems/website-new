@@ -26,6 +26,10 @@ const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Rout
 interface ILayoutContext {
     toggleFullscreen: () => void;
     isNoLayout: boolean;
+    setMovingAnimationState: Dispatch<SetStateAction<boolean>>;
+    isInsigniaMovedAnim: boolean;
+    setInsigniaMoved: Dispatch<SetStateAction<boolean>>;
+    isInsigniaMoved: boolean;
     setFadeState: Dispatch<SetStateAction<boolean>>;
     isFade: boolean;
     navLinks: Route[];
@@ -42,6 +46,9 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [isNoLayout, setNoLayoutState] = useState(false);
     const [isFade, setFadeState] = useState(false);
 
+    const [isInsigniaMoved, setInsigniaMoved] = useState(false);
+    const [isInsigniaMovedAnim, setMovingAnimationState] = useState(false);
+
     const fullscreenRef = useRef<HTMLDivElement | null>(null);
 
 
@@ -50,10 +57,10 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     if (isBreadCrumbsNav) {
         switch (true) {
             case checkSubRoute(route, Route.Documentation):
-                navLinks = [Route.Profile, Route.Documentation];
+                navLinks = [Route.MyTern, Route.Documentation];
                 break;
             case checkSubRoute(route, Route.Credo):
-                navLinks = [Route.Products, Route.ARCodeToolEdit];
+                navLinks = [Route.About, Route.Credo];
                 break;
             case checkSubRoute(route, Route.Dot):
                 navLinks = [Route.Products, Route.Dot];
@@ -134,9 +141,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         }
 
         window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        }
+        return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
     const handleNoLayoutState = () => setNoLayoutState(document.fullscreenElement === null);
@@ -154,6 +159,10 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             value={{
                 toggleFullscreen,
                 isNoLayout,
+                setMovingAnimationState,
+                isInsigniaMovedAnim,
+                setInsigniaMoved,
+                isInsigniaMoved,
                 setFadeState,
                 isFade,
                 navLinks,

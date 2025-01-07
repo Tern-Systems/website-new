@@ -16,7 +16,6 @@ import SVG_DOTS_V from "@/assets/images/icons/dots-v.svg";
 import SVG_DOWNLOAD from "@/assets/images/icons/download.svg";
 import SVG_EDIT from '@/assets/images/icons/edit-line.svg';
 import SVG_GLASS from "@/assets/images/icons/glass.svg";
-import SVG_INFO from '@/assets/images/icons/info.svg';
 import SVG_LABEL from "@/assets/images/icons/label.svg";
 import SVG_LOCK from "@/assets/images/icons/lock.svg";
 import SVG_NOTEPAD from "@/assets/images/icons/notepad.svg";
@@ -42,7 +41,6 @@ type ButtonIcon =
     | 'download'
     | 'edit'
     | 'glass'
-    | 'info'
     | 'label'
     | 'lock'
     | 'mark-flower'
@@ -70,7 +68,6 @@ const ICON: Record<ButtonIcon, { src: string }> = {
     download: SVG_DOWNLOAD,
     edit: SVG_EDIT,
     glass: SVG_GLASS,
-    info: SVG_INFO,
     label: SVG_LABEL,
     lock: SVG_LOCK,
     notepad: SVG_NOTEPAD,
@@ -86,22 +83,23 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: ButtonIcon | null;
     hovered?: { icon?: ButtonIcon | null; text?: string; }
     isIconFlippedY?: boolean;
+    classNameIcon?: string;
 }
 
 const Button: FC<Props> = (props: Props) => {
-    const {children, icon, isIconFlippedY, className, hovered} = props;
+    const {children, icon, isIconFlippedY, className, classNameIcon, hovered, ...btnProps} = props;
 
     const [isHovered, setHoverState] = useState(false);
 
     const stateIcon: ButtonIcon | null | undefined = hovered?.icon && isHovered ? hovered?.icon : icon;
     const Icon: ReactElement | null = stateIcon
         ? <ReactSVG src={ICON[stateIcon].src}
-                    className={`inline [&_svg]:size-[min(2.3dvw,1rem)] ${isIconFlippedY ? 'rotate-180' : ''}`}/>
+                    className={`inline [&_*]:w-[1rem] [&_svg]:h-auto ${isIconFlippedY ? 'rotate-180' : ''} ${classNameIcon}`}/>
         : null;
 
     return (
         <button
-            {...props}
+            {...btnProps}
             onMouseEnter={(event) => {
                 setHoverState(true);
                 props.onMouseEnter?.(event);

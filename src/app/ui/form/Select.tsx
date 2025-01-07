@@ -24,11 +24,12 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
     classNameLabel?: string;
     classNameOption?: string;
     onClick?: () => void;
+    onOpen?: (isExpanded: boolean) => void;
 }
 
 const Select: FC<Props> = (props: Props) => {
     const {
-        children, options, value,
+        children, options, value, onOpen,
         classNameWrapper, classNameOption, className, classNameLabel, hidden,
         onChangeCustom, placeholder, ...selectPropsRest
     } = props;
@@ -52,13 +53,14 @@ const Select: FC<Props> = (props: Props) => {
 
 
     useEffect(() => {
+        onOpen?.(isSelectExpanded);
         const handleClick = (event: MouseEvent) => {
             if (isSelectExpanded && !ref.current?.contains(event.target as Node))
                 setSelectExpanded(false);
         }
         window.addEventListener('mousedown', handleClick);
         return () => window.removeEventListener('mousedown', handleClick);
-    }, [isSelectExpanded, setSelectExpanded])
+    }, [isSelectExpanded, setSelectExpanded, onOpen])
 
     // Options list
     const selectedOptionIdx: number = value === EMPTY_KEY ? -1 : Object.values(optionsFinal).indexOf(optionsFinal[value]);
@@ -106,7 +108,7 @@ const Select: FC<Props> = (props: Props) => {
                 className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white [&]:rounded-small
                             ${className} ${isSelectExpanded ? `[&&]:rounded-b-none` : ''}`}
             >
-                <div className={`w-[85%] text-nowrap overflow-ellipsis overflow-hidden`}>
+                <div className={`text-nowrap overflow-ellipsis overflow-hidden`}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
                         {selectedOptionIdx < 0 || !optionsFinal[value] ? (placeholder ?? 'Select') : optionsFinal[value]}
                     </span>

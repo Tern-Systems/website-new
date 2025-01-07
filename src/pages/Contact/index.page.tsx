@@ -25,7 +25,7 @@ const LINKS: { svg: string, href: string }[] = [
 
 const ContactsPage: FC = () => {
     const Links = LINKS.map((link) => (
-        <li key={link.href} className={`size-[min(8dvw,2rem)] ${styles.clickable}`}>
+        <li key={link.href} className={`size-[2.5rem] sm:size-[1.87rem] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
                 <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
@@ -34,10 +34,17 @@ const ContactsPage: FC = () => {
 
     return (
         <div
-            className={`${styles.highlight} w-full max-w-[min(26.5rem)] gap-[min(8dvw,3.12rem)] text-[min(5.3dvw,2rem)]
-                        sm:w-fit sm:mx-auto`}>
-            <p className={'font-oxygen text-header-l'}>Tern</p>
-            <p >New York, New York</p>
+            className={`${styles.highlight} gap-y-[3.12rem] w-full max-w-[26.5rem]
+                        sm:x-[gap-y-[1.88rem],max-w-[19.2rem],w-fit,text-section]
+                        sm:portrait:x-[mx-auto,p-[--p-content-sm]]
+                        sm:landscape:gap-y-[1rem]`}
+        >
+            <h1 className={`font-oxygen
+                            sm:text-heading`}
+            >
+                Tern
+            </h1>
+            <p>New York, New York</p>
             <p className={'font-normal text-[]'}>
                 <a href={'mailto:info@tern.ac'} target={'_blank'} className={styles.clickable}>info@tern.ac</a>
             </p>

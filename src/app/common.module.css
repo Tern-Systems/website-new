@@ -24,15 +24,16 @@
   flex-direction: column;
   text-align: left;
   margin: auto 0;
-  margin-left: min(0%, 6rem);
+  margin-left: 3.88rem;
   background-color: #4D4D4D4C;
   border-radius: 0.5625rem;
-  padding: min(2.75vw, var(--s-small));
-  font-size: 2.25rem;
+  padding: var(--p-content);
+  font-size: var(--fz-heading-l);
   font-weight: 700;
 
-  @media (max-width: 834px) {
-    padding: min(1.2dvw, var(--s-small));
+  @media screen and (max-width: 834px) {
+    padding: 0.62rem;
+    margin: auto 1.25rem;
   }
 }
 
@@ -47,7 +48,17 @@
 
 .clickable:active:not(:disabled) {
   transform: translateY(1.5px);
-  transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out
+}
+
+.disconnect:hover {
+  background-color: #FF4422;
+  font-weight: 700;
+}
+
+.connect:hover {
+  background-color: #178ab7;
+  font-weight: 700;
 }
 
 

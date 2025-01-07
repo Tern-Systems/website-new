@@ -167,10 +167,11 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         };
         try {
             const response = await axios(config);
-            return response.data;
             
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            return response.data;
+        } catch (err: unknown) {
+            
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 

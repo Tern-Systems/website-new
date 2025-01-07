@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from '@/app/common.module.css';
+
+import {Highlighted} from "@/app/ui/misc";
 
 
 const PARAGRAPHS: string[] = [
@@ -18,16 +19,18 @@ const PARAGRAPHS: string[] = [
 ]
 
 
-const CredoView = () => {
-    const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx} className={'mb-[2.3rem]'}>{p}</p>)
+const CredoPage = () => {
+    const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx}>{p}</p>)
     return (
-        <div className={`${styles.highlight} max-w-[69.125rem] max-h-[41.625rem]`}>
-            <h1 className={'mb-[min(5.3dvw,3.1rem)]'}>Our Credo</h1>
-            <div className={'overflow-y-scroll [&&]:text-header'}>
-                {Paragraphs}
-            </div>
-        </div>
+        <Highlighted
+            heading={'Our Credo'}
+            classNameWrapper={'sm:landscape:max-h-[21.4rem]'}
+            className={`sm:text-section-sm
+                        sm:landscape:x-[gap-y-[0.5rem],tracking-[0.05rem]]`}
+        >
+            {Paragraphs}
+        </Highlighted>
     );
 };
 
-export default CredoView;
+export default CredoPage;

@@ -2,6 +2,8 @@ import React, {FC, FormEvent, ReactElement} from "react";
 
 import {UserData} from "@/app/context/User.context";
 
+import { AuthService } from "@/app/services";
+
 import {useForm} from "@/app/hooks";
 import {useUser} from "@/app/context";
 
@@ -11,18 +13,20 @@ import {Button, Input} from "@/app/ui/form";
 
 const LIST: string[] = [
     'Account deletion is permanent and cannot be reversed.',
-    'Once deleted, access to all Tern products and services, including TernKey, , ARCH, TernKit, and any future offerings, will be permanently revoked.',
+    'Once deleted, access to all Tern products and services, including TernKey, ARCH, TernKit, and any future offerings, will be permanently revoked.',
     'You will not be able to register a new account using the same email address associated with the deleted account.',
     'Your data will be erased within 30 days, except for a limited subset that may be retained as required or permitted by law.',
 ]
 
 type FormData = {
     email: string;
+    password: string;
     confirm: string;
 }
 
 const FORM_DEFAULT: FormData = {
     confirm: '',
+    password: '',
     email: '',
 }
 
@@ -47,8 +51,12 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
 
     const handleAccountDelete = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        // TO DO: success and failed toasters.
+        // Check delete account api again.
         try {
-            // TODO delete account + logoff
+            // delete account + logoff
+            await AuthService.postDeleteAccount(formData.email, formData.confirm);
+            userCtx.removeSession()
         } catch (error: unknown) {
         }
     }
@@ -65,6 +73,17 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     Please type your account email.
                 </Input>
                 <Input
+                    type="password"
+                    value={formData.password}
+                    onChange={setFormValue('password')}
+                    classNameWrapper={'flex-col [&]:items-start gap-[0.63rem] mt-[1.9rem]'}
+                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
+                    classNameLabel={'font-bold'}
+                    required
+                >
+                    Please type your account password.
+                </Input>
+                <Input
                     value={formData.confirm}
                     onChange={setFormValue('confirm')}
                     {...INPUT_PROPS}
@@ -77,7 +96,6 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     icon={isAllowedToDelete ? 'warn' : 'lock'}
                     className={`mt-[--1qdrs] text-small h-[min(5.9dvw,2.1rem)] rounded-full font-bold place-self-center w-full
                                 ${isAllowedToDelete ? 'bg-control-red' : 'text-secondary'}`}
-                    onClick={() => userCtx.removeSession()}
                 >
                     {isAllowedToDelete ? 'Permanently Delete My Account' : 'Locked'}
                 </Button>

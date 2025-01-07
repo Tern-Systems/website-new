@@ -66,6 +66,17 @@ const config: Config = {
                 header: 'var(--fz-header)',
                 'section-header': 'var(--fz-section-header)',
                 'header-l': 'var(--fz-header-l)',
+
+                'heading-l': 'var(--fz-heading-l)',
+                heading: 'var(--fz-heading)',
+                'heading-s': 'var(--fz-heading-s)',
+                documentation: 'var(--fz-documentation)',
+                section: 'var(--fz-section)',
+                'section-s': 'var(--fz-section-s)',
+                basic: 'var(--fz-basic)',
+                'section-xs': 'var(--fz-section-xs)',
+                'section-xxs': 'var(--fz-section-xxs)',
+                'section-xxxs': 'var(--fz-section-xxxs)',
             },
             keyframes: {
                 insignia: {
@@ -78,7 +89,21 @@ const config: Config = {
                     '100%': {
                         top: '0',
                         left: '0',
-                        transform: 'translate(var(--2dr),1.1rem) scale(var(--insignia-scale-moved))',
+                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
+                        transformOrigin: 'top left'
+                    }
+                },
+                insigniaReverse: {
+                    '100%': {
+                        top: '45%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%) scale(var(--insignia-scale-init))',
+                        transformOrigin: 'center center',
+                    },
+                    '0%': {
+                        top: '0',
+                        left: '0',
+                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
                 }

@@ -1,17 +1,17 @@
-import React, {FC, FormEvent, ReactElement, useState} from "react";
-import {useRouter} from "next/navigation";
+import React, { FC, FormEvent, ReactElement, useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 
-import {Route} from "@/app/static";
+import { Route } from "@/app/static";
 
-import {AuthService, SignUpData} from "@/app/services/auth.service";
+import { AuthService, SignUpData } from "@/app/services/auth.service";
 
 import {useBreakpointCheck, useForm} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
-import {BaseModal, MessageModal} from "@/app/ui/modals";
-import {Button, Input} from "@/app/ui/form";
+import { BaseModal, MessageModal } from "@/app/ui/modals";
+import { Button, Input } from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
 import SVG_EYE from '@/assets/images/icons/eye.svg'
@@ -19,14 +19,14 @@ import SVG_EYE from '@/assets/images/icons/eye.svg'
 
 type FormData = Pick<SignUpData, 'email' | 'password' | 'passwordConfirm'>;
 
-const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
+const FORM_DEFAULT: FormData = { email: '', password: '', passwordConfirm: '' };
 
 interface Props {
     token?: string;
 }
 
 const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
-    const {token} = props;
+    const { token } = props;
 
     const modalCtx = useModal();
     const router = useRouter();
@@ -63,6 +63,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 await AuthService.postResetPassword(token, formValue.passwordConfirm);
                 router.push(Route.Home);
                 modalCtx.closeModal();
+                modalCtx.openModal(<MessageModal>Your password has been reset successfully!</MessageModal>);
             }
         } catch (error: unknown) {
             let message: string = 'Unknown error';

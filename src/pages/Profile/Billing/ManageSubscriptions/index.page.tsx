@@ -28,8 +28,8 @@ const SELECT_H_CN = 'h-[min(5.9dvw,3.25rem)] sm:landscape:h-[--2dr]';
 const SUBSCRIPTIONS_TEMPLATE: SubscriptionData[] = [
     {
         plan: {
-            subscription: 'arch',
-            type: 'pro',
+            subscription: 'ARCH',
+            type: 'Pro',
             recurrency: 'monthly',
             tax: 4.5,
             priceUSD: 55.2,
@@ -56,8 +56,8 @@ const SUBSCRIPTIONS_TEMPLATE: SubscriptionData[] = [
     },
     {
         plan: {
-            subscription: 'ternKey',
-            type: 'standard',
+            subscription: 'TernKey',
+            type: 'Standard',
             recurrency: 'annual',
             tax: 5.5,
             priceUSD: 40.1,

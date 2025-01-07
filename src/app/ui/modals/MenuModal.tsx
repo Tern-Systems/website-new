@@ -6,7 +6,8 @@ import cn from "classnames";
 import {LANGUAGE, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
-import {useLayout, useModal, useUser} from "@/app/context";
+import {useMenu} from "@/app/hooks";
+import {useLayout, useUser} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals";
 import {PageLink} from "@/app/ui/layout";
@@ -28,17 +29,18 @@ const MenuModal: FC<Props> = (props: Props) => {
     const route = usePathname();
     const userCtx = useUser();
     const layoutCtx = useLayout();
-    const modalCtx = useModal();
+    //eslint-disable-next-line
+    const [_, closeMenu] = useMenu();
 
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
             if (!document.querySelector('#modal')?.contains(event.target as Node))
-                modalCtx.closeModal();
+                closeMenu();
         }
         window.addEventListener('mousedown', handleClick);
         return () => window.removeEventListener('mousedown', handleClick);
         // eslint-disable-next-line
-    }, [modalCtx])
+    }, [closeMenu])
 
 
     const renderSubNav = (): ReactElement[] | undefined =>
@@ -49,22 +51,22 @@ const MenuModal: FC<Props> = (props: Props) => {
             const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
             const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], idx === 0);
 
-        return (
-            <PageLink
-                key={link + idx}
-                href={link}
-                icon={!isActive ? 'forward' : undefined}
-                style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 2) + 'rem'}}
-                className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
-                    [ACTIVE_ROUTE_CN]: isActive || isProfilePath,
-                    ['border-b-small']: !isNextActive,
-                    ['[&]:border-t-0']: !idx,
-                })}
-            >
-                {routeName ? <span>{routeName}</span> : null}
-            </PageLink>
-        );
-    });
+            return (
+                <PageLink
+                    key={link + idx}
+                    href={link}
+                    icon={!isActive ? 'forward' : undefined}
+                    style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 2) + 'rem'}}
+                    className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
+                        [ACTIVE_ROUTE_CN]: isActive || isProfilePath,
+                        ['border-b-small']: !isNextActive,
+                        ['[&]:border-t-0']: !idx,
+                    })}
+                >
+                    {routeName ? <span>{routeName}</span> : null}
+                </PageLink>
+            );
+        });
 
     // Elements
     const NavLinks: ReactElement[] = layoutCtx.navLinks.map((link: Route, idx, array) => {
@@ -100,7 +102,7 @@ const MenuModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal adaptSmScreen smScreenOnly
                    className={'ml-auto w-full sm:landscape:x-[max-w-[46dvw],text-content-small]'}
-                   classNameContent={'h-[calc(100dvh-4.3rem)] overflow-y-scroll'}
+                   classNameContent={'h-[calc(100dvh-var(--h-modal-header))] overflow-y-scroll'}
         >
             <ul className={`flex flex-col  gap-x-[--s-default]`}>
                 {NavLinks}

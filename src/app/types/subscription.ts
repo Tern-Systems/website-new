@@ -1,10 +1,15 @@
+import {Route} from "@/app/static";
+
+
 type SubscriptionRecurrency = 'annual' | 'monthly';
+type PlanName = 'ARCH' | 'dot' | 'TernKey' | 'trial';
+type PlanType = 'Basic' | 'Standard' | 'Pro';
 
 type Subscription = {
-    subscription: 'arch' | 'dot' | 'ternKey' | 'trial';
+    subscription: PlanName;
     recurrency?: SubscriptionRecurrency;
     priceUSD: number;
-    type: 'basic' | string;
+    type: PlanType;
     isBasicKind: boolean;
 }
 
@@ -15,8 +20,9 @@ type SubscriptionPreviewData = {
 }
 
 type SubscriptionPreview = Pick<Subscription, 'subscription' | 'isBasicKind'> & {
-    type: Record<string, SubscriptionPreviewData>
+    type: Record<string, SubscriptionPreviewData>;
+    route: Route;
 }
 
 
-export type {SubscriptionPreview, SubscriptionPreviewData, SubscriptionRecurrency, Subscription}
+export type {PlanName, PlanType, SubscriptionPreview, SubscriptionPreviewData, SubscriptionRecurrency, Subscription}

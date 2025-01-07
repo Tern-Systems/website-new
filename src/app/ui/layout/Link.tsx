@@ -13,6 +13,7 @@ import SVG_INSIGNIA from "@/assets/images/insignia.svg";
 
 import styles from '@/app/common.module.css'
 import {getRouteLeave} from "@/app/utils/router";
+import cn from "classnames";
 
 
 type Icon = 'back' | 'forward' | 'insignia';
@@ -26,13 +27,15 @@ const ICON: Record<Icon, { src: string }> = {
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
     icon?: Icon;
+    iconClassName?: string;
     isExternal?: boolean;
     prevent?: boolean;
     preventModalClose?: boolean;
+    timeout?: number;
 }
 
 const PageLink: FC<Props> = (props: Props) => {
-    const {icon, children, href, isExternal, prevent, preventModalClose, ...linkProps} = props;
+    const {icon, iconClassName, children, href, isExternal, prevent, preventModalClose, timeout, ...linkProps} = props;
 
     const route = usePathname();
     const [navigate] = useNavigate(preventModalClose);
@@ -41,12 +44,23 @@ const PageLink: FC<Props> = (props: Props) => {
         linkProps.onClick?.(event);
         if (prevent || isExternal)
             return;
-        navigate(href as Route ?? Route.Home);
+
+        const handleNavigation = () => navigate(href as Route ?? Route.Home);
+        if (timeout)
+            return setTimeout(() => handleNavigation(), timeout);
+        handleNavigation();
     }
 
     const Icon: ReactElement | null = icon
-        ? <ReactSVG src={ICON[icon].src}
-                    className={`inline size-[1rem] mr-[0.5rem] ${icon === 'forward' ? 'rotate-180' : ''}`}/>
+        ? (
+            <ReactSVG src={ICON[icon].src}
+                      className={cn(
+                          `inline size-[1rem]`,
+                          {['rotate-180']: icon === 'forward'},
+                          iconClassName
+                      )}
+            />
+        )
         : null;
 
     const splitHref = children

@@ -39,7 +39,7 @@ const SavedCodesPage: FC = () => {
 
 
     useEffect(() => {
-        const subscription: UserSubscription | undefined = userCtx.userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ternKey');
+        const subscription: UserSubscription | undefined = userCtx.userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ARCH');
         if (!subscription) {
             setTimeout(() => {
                 navigate(Route.ServicePricing);

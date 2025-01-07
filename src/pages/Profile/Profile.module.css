@@ -63,6 +63,35 @@
   font-size: var(--fz-content-small);
 }
 
+.connectBtn {
+  width: 113px;
+  height: 23px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  border: 2px solid #808080;
+  background: #4D4D4D;
+  font-size: 16px;
+  color: #ECF0F3;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.connected {
+  background-color: #178ab7;
+  font-weight: 700;
+}
+
+.connect:hover {
+  background-color: #178ab7;
+  font-weight: 700;
+}
+
+.disconnect:hover {
+  background-color: #f42200;
+  font-weight: 700;
+}
 
 @media screen and (max-width: 835px) and (orientation: landscape) {
   .leftCol {
