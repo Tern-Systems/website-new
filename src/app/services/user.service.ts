@@ -27,12 +27,12 @@ class UserServiceImpl extends BaseService implements IUserService {
         super(UserServiceImpl.name)
     }
 
-    async getPlanDetails(email: string, isARCH: boolean = false): Promise<Res<UserSubscription[]>> {
+    async getPlanDetails(email: string): Promise<Res<UserSubscription[]>> {
         const [debug, error] = this.getLoggers(this.getPlanDetails.name);
 
         const config: AxiosRequestConfig = {
             method: 'GET',
-            url: this._API + (isARCH ? 'arch-' : '') + `get-plan-details`,
+            url: this._API + `get-plan-details`,
             params: {email},
             withCredentials: true,
         };
@@ -78,16 +78,12 @@ class UserServiceImpl extends BaseService implements IUserService {
                 throw "Incorrect response from server";
 
             // const ternKeyResponse = await this.getPlanDetails(userData.email);
-            const {payload: ternKeyPlanDetails} = await this.getPlanDetails(userData.email);
-            const {payload: archPlanDetails} = await this.getPlanDetails(userData.email, true);
+            const {payload: subscriptions} = await this.getPlanDetails(userData.email);
 
             // Todo 2FA
             const userDataMapped: UserData = {
                 ...userData,
-                subscriptions: [
-                    ...ternKeyPlanDetails,
-                    ...archPlanDetails,
-                ],
+                subscriptions,
                 connectedApps: {
                     data: [],
                     social: [],
