@@ -3,9 +3,10 @@ import Image from "next/image";
 import {usePathname} from "next/navigation";
 import cn from "classnames";
 
-import {LAYOUT, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
+import {NavLink} from "@/app/context/Layout.context";
+import {LAYOUT, Route} from "@/app/static";
 
-import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
+import {checkSubRoute, getRouteRoot} from "@/app/utils";
 import {useBreakpointCheck, useMenu} from "@/app/hooks";
 import {useLayout, useModal, useUser} from "@/app/context";
 
@@ -21,7 +22,7 @@ import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
 
 
-const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.22rem] after:w-[2.5rem] after:border-b-small after:border-control-blue`;
+const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.25rem] after:w-[2.5rem] after: after:border-b-small after:border-control-blue`;
 
 
 interface Props {
@@ -70,7 +71,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
 
     // Elements
-    const NavLinks: ReactElement[] = layoutCtx.navLinks.map((link: Route, idx) => {
+    const NavLinks: ReactElement[] = layoutCtx.navLinks[NavLink.Nav]?.map((link: Route, idx) => {
         const isActive = getRouteRoot(route) === link;
         return (
             <span key={link + idx} className={'contents'}>
@@ -79,7 +80,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     icon={!isActive && isSmScreen ? 'forward' : undefined}
                     className={`relative justify-center ${isActive && !layoutCtx.isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
                 />
-                {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks.length - 1 ? <span>/</span> : null}
+                {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1 ?
+                    <span>/</span> : null}
             </span>
         );
     });
@@ -87,7 +89,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     const SubNavItemsMdLg = isSmScreen
         ? null
         : (
-            layoutCtx.subNavLinks?.map((link, idx) => {
+            layoutCtx.navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
                 const isActive = checkSubRoute(route, link, true);
                 return (
                     <PageLink
@@ -95,12 +97,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         href={link}
                         icon={!isActive && isSmScreen ? 'forward' : undefined}
                         className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive ? ACTIVE_ROUTE_CN : ''}`}
-                    >
-                        {getRouteName(
-                            checkSubRoute(route, link) ? MAPPED_SUB_NAV_ROUTES?.[link] : link,
-                            link === Route.TernKey
-                        )}
-                    </PageLink>
+                    />
                 );
             })
         );
@@ -203,6 +200,5 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         </header>
     );
 }
-
 
 export {Header};

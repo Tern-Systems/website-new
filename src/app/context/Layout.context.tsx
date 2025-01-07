@@ -18,6 +18,11 @@ import {LAYOUT, Route} from "@/app/static";
 import {checkSubRoute} from "@/app/utils";
 import {useBreakpointCheck} from "@/app/hooks";
 
+// Main links, sub links, sub sub links
+enum NavLink {Nav, SubNav, Sub2Nav}
+
+type NavLinks = [Route[], Route [] | null, Route[] | null];
+
 
 const NAV_LINKS: Route[] = [Route.About, Route.Products, Route.Service, Route.Contact];
 const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit, Route.Dot, Route.TernKey];
@@ -32,9 +37,9 @@ interface ILayoutContext {
     isInsigniaMoved: boolean;
     setFadeState: Dispatch<SetStateAction<boolean>>;
     isFade: boolean;
-    navLinks: Route[];
-    subNavLinks: Route[] | null;
+    navLinks: NavLinks;
     isBreadCrumbsNav: boolean;
+    getSubNavs: (route: Route) => [Route [] | null, Route[] | null];
 }
 
 const LayoutContext = createContext<ILayoutContext | null>(null);
@@ -52,83 +57,106 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const fullscreenRef = useRef<HTMLDivElement | null>(null);
 
 
-    let navLinks: Route[] = NAV_LINKS;
-    const isBreadCrumbsNav: boolean = !isSmScreen && BREADCRUMBS_NAV_ROUTES.some((subRoute) => checkSubRoute(route, subRoute));
-    if (isBreadCrumbsNav) {
+    const getSubNavs = (route: Route | null): [Route [] | null, Route[] | null] => {
+        let subNavLinks: Route [] | null = [];
+        let sub2NavLinks: Route [] | null = [];
+
+        let links: Route[] = [];
+        switch (route) {
+            case Route.Documentation:
+                subNavLinks = isSmScreen ? [Route.Documentation] : null;
+                break;
+            case Route.Credo:
+                links = [Route.Credo];
+                if (isSmScreen)
+                    subNavLinks = links;
+                else
+                    sub2NavLinks = links;
+                break;
+            case Route.MyTern:
+            case Route.Profile:
+            case Route.Billing:
+                sub2NavLinks = isSmScreen ? null : LAYOUT.profileLinks;
+                break;
+            case Route.Products:
+                links = [Route.Products, Route.Dot, Route.TernKey];
+                if (isSmScreen)
+                    subNavLinks = links;
+                else
+                    sub2NavLinks = links;
+                break;
+            case Route.TernKeyPricing:
+            case Route.TernKeyProductManual:
+            case Route.TernKey:
+                subNavLinks = [Route.Products, Route.Dot, Route.TernKey];
+                sub2NavLinks = [Route.TernKey, Route.TernKeyPricing, Route.TernKeyProductManual];
+                break;
+            case Route.Dot:
+            case Route.DotPricing:
+            case Route.DotProductManual:
+                subNavLinks = [Route.Products, Route.Dot, Route.TernKey];
+                sub2NavLinks = [Route.Dot, Route.DotPricing, Route.DotProductManual];
+                break;
+            case Route.ARCHDoc:
+            case Route.BTMCDoc:
+            case Route.GDoc:
+            case Route.TernDoc:
+            case Route.TernKeyDoc:
+            case Route.TernKitDoc:
+                subNavLinks = [Route.Documentation];
+                sub2NavLinks = isSmScreen
+                    ? [route as Route]
+                    : [
+                        Route.ARCHDoc,
+                        Route.BTMCDoc,
+                        Route.GDoc,
+                        Route.TernDoc,
+                        Route.TernKeyDoc,
+                        Route.TernKitDoc,
+                    ];
+                break;
+            case Route.Service:
+            case Route.ARCodeToolCreate:
+            case Route.ServicePricing:
+            case Route.SavedCodes:
+            case Route.ServiceUserManual:
+                links = [Route.Service, Route.ARCodeToolCreate, Route.ServicePricing, Route.SavedCodes, Route.ServiceUserManual];
+                if (isSmScreen)
+                    subNavLinks = links;
+                else
+                    sub2NavLinks = links;
+                break
+        }
+
+        return [subNavLinks, sub2NavLinks];
+    }
+
+
+    const navLinks: NavLinks = [NAV_LINKS, null, null];
+    const isBreadCrumbsNav: boolean = BREADCRUMBS_NAV_ROUTES.some((subRoute) => checkSubRoute(route, subRoute));
+    if (!isSmScreen && isBreadCrumbsNav) {
         switch (true) {
             case checkSubRoute(route, Route.Documentation):
-                navLinks = [Route.MyTern, Route.Documentation];
+                navLinks[NavLink.Nav] = [Route.MyTern, Route.Documentation];
                 break;
             case checkSubRoute(route, Route.Credo):
-                navLinks = [Route.About, Route.Credo];
+                navLinks[NavLink.Nav] = [Route.About, Route.Credo];
                 break;
             case checkSubRoute(route, Route.Dot):
-                navLinks = [Route.Products, Route.Dot];
+                navLinks[NavLink.Nav] = [Route.Products, Route.Dot];
                 break;
-            case checkSubRoute(route, Route.TernKey) || checkSubRoute(route, Route.TernKeyPricing) || checkSubRoute(route, Route.TernKeyProductManual):
-                navLinks = [Route.Products, Route.TernKey];
+            case checkSubRoute(route, Route.TernKey):
+                navLinks[NavLink.Nav] = [Route.Products, Route.TernKey];
                 break;
             default:
                 break;
         }
     } else if (route?.includes(Route.Profile) && isSmScreen)
-        navLinks = LAYOUT.profileLinks;
+        navLinks[NavLink.Nav] = LAYOUT.profileLinks;
 
-    let subNavLinks: Route[] | null = null;
-    switch (route) {
-        case Route.Documentation:
-            subNavLinks = isSmScreen ? [Route.Documentation] : null;
-            break;
-        case Route.Credo:
-            subNavLinks = isSmScreen ? [Route.Credo] : null;
-            break;
-        case Route.MyTern:
-        case Route.Profile:
-        case Route.Billing:
-            subNavLinks = isSmScreen ? null : LAYOUT.profileLinks;
-            break;
-        case Route.Products:
-            subNavLinks = [Route.Products, Route.Dot, Route.TernKey];
-            break;
-        case Route.TernKeyPricing:
-        case Route.TernKeyProductManual:
-        case Route.TernKey:
-            subNavLinks = [Route.TernKey, Route.TernKeyPricing, Route.TernKeyProductManual];
-            break;
-        case Route.Dot:
-        case Route.DotPricing:
-        case Route.DotProductManual:
-            subNavLinks = [Route.Dot, Route.DotPricing, Route.DotProductManual];
-            break;
-        case Route.TernKeyManual:
-        case Route.ARHostingManual:
-        case Route.TernKitManual:
-        case Route.GHandbook:
-        case Route.TernHandbook:
-        case Route.BTMCHandbook:
-            subNavLinks = [
-                Route.TernKeyManual,
-                Route.ARHostingManual,
-                Route.TernKitManual,
-                Route.GHandbook,
-                Route.TernHandbook,
-                Route.BTMCHandbook,
-            ];
-            break;
-        case Route.Service:
-        case Route.ARCodeToolCreate:
-        case Route.ServicePricing:
-        case Route.SavedCodes:
-        case Route.ServiceUserManual:
-            subNavLinks = [
-                Route.Service,
-                Route.ARCodeToolCreate,
-                Route.ServicePricing,
-                Route.SavedCodes,
-                Route.ServiceUserManual,
-            ];
-            break
-    }
+    const subNavs = getSubNavs(route as Route);
+    navLinks[NavLink.SubNav] = subNavs[0];
+    navLinks[NavLink.Sub2Nav] = subNavs[1];
 
 
     useEffect(() => {
@@ -166,8 +194,8 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 setFadeState,
                 isFade,
                 navLinks,
-                subNavLinks,
-                isBreadCrumbsNav
+                isBreadCrumbsNav,
+                getSubNavs,
             }}>
             <span ref={fullscreenRef}>
                 {props.children}
@@ -183,4 +211,5 @@ const useLayout = (): ILayoutContext => {
     return context;
 };
 
-export {LayoutProvider, useLayout}
+export type {NavLinks};
+export {NavLink, LayoutProvider, useLayout}
