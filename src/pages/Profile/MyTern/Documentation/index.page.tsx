@@ -14,32 +14,32 @@ const LINKS: { title: string; text: string; route: Route }[] = [
     {
         title: 'TernKey Manual',
         text: 'Discover the sandbox application that unlocks the potential of ternary programming.',
-        route: Route.TernKeyManual
+        route: Route.TernKeyDoc
     },
     {
         title: 'ARCH Manual',
         text: 'Maximize your AR code\'s potential with this comprehensive user manual.',
-        route: Route.ARCHManual
+        route: Route.ARCHDoc
     },
     {
         title: 'TernKit Manual',
         text: 'Research and test ternary code on a machine equipped for ternary logic execution.',
-        route: Route.TernKitManual
+        route: Route.TernKitDoc
     },
     {
         title: 'G Handbook',
         text: 'Master the G high-level programming language, optimized for ternary-based computing.',
-        route: Route.GHandbook
+        route: Route.GDoc
     },
     {
         title: 'TERN Handbook',
         text: 'Discover the TERN assembly programming language and redefine coding beyond binary limits.',
-        route: Route.TernHandbook
+        route: Route.TernDoc
     },
     {
         title: 'BTMC Textbook',
         text: 'This textbook outlines BTMC fundamentals and the implementation of balanced ternary logic in systems.',
-        route: Route.BTMCHandbook
+        route: Route.BTMCDoc
     },
 ]
 

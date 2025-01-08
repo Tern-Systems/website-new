@@ -40,13 +40,12 @@ enum Route {
 
     Help = '/Profile/MyTern/FAQs',
     Documentation = '/Profile/MyTern/Documentation',
-    TernKeyManual = '/Profile/MyTern/Documentation/TernKeyManual',
-    GHandbook = '/Profile/MyTern/Documentation/GHandbook',
-    ARHostingManual = '/Profile/MyTern/Documentation/ARHostingManual',
-    TernKitManual = '/Profile/MyTern/Documentation/TernKitManual',
-    TernHandbook = '/Profile/MyTern/Documentation/TERNHandbook',
-    ARCHManual = '/Profile/MyTern/Documentation/ARCHManual',
-    BTMCHandbook = '/Profile/MyTern/Documentation/BTMCHandbook',
+    TernKeyDoc = '/Profile/MyTern/Documentation/TernKey',
+    GDoc = '/Profile/MyTern/Documentation/G',
+    TernKitDoc = '/Profile/MyTern/Documentation/TernKit',
+    TernDoc = '/Profile/MyTern/Documentation/TERN',
+    ARCHDoc = '/Profile/MyTern/Documentation/ARCH',
+    BTMCDoc = '/Profile/MyTern/Documentation/BTMC',
 }
 
 const TERN_AC_HREF = 'https://tern.ac/ternkey';

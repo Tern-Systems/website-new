@@ -11,7 +11,7 @@ import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
 
 
 const DOCUMENTATION_CONTENTS: Record<Route.TernKeyProductManual, DocumentationContent> = {
-    [Route.TernKeyProductManual]: CONTENTS[Route.TernKeyManual],
+    [Route.TernKeyProductManual]: CONTENTS[Route.TernKeyDoc],
 }
 
 
