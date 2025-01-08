@@ -4,13 +4,14 @@ import Image from "next/image";
 import cn from "classnames";
 
 import {CardData} from "@/app/types/billing";
-
-import {SubscriptionData} from "@/app/ui/templates/PaymentMethodTool";
+import {Subscription} from "@/app/types/subscription";
 import {Route} from "@/app/static";
+
+import {BillingService} from "@/app/services";
 
 import {formatDate} from "@/app/utils";
 import {useLoginCheck} from "@/app/hooks";
-import {useModal} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";
 import {BaseModal} from "@/app/ui/modals";
@@ -25,70 +26,39 @@ import SVG_PENCIL from "@/assets/images/icons/edit.svg";
 
 const SELECT_H_CN = 'h-[min(5.9dvw,3.25rem)] sm:landscape:h-[--2dr]';
 
-const SUBSCRIPTIONS_TEMPLATE: SubscriptionData[] = [
-    {
-        plan: {
-            subscription: 'ARCH',
-            type: 'Pro',
-            recurrency: 'monthly',
-            tax: 4.5,
-            priceUSD: 55.2,
-            lastBillingDate: 123,
-        },
-        savedCards: [
-            {
-                type: 'visa',
-                cardNumber: '1234123412341234',
-                expirationDate: '01/01',
-                cvc: '000',
-                cardholderName: 'NAME SURNAME',
-                billingCountry: 'US',
-                billingAddress: '123 St',
-                addressLine1: '',
-                addressLine2: '',
-                city: 'City',
-                postalCode: '98738',
-                state: 'SC',
-                nickName: 'John’s Personal Debit Card',
-                isDefault: true
-            }
-        ]
-    },
-    {
-        plan: {
-            subscription: 'TernKey',
-            type: 'Standard',
-            recurrency: 'annual',
-            tax: 5.5,
-            priceUSD: 40.1,
-            lastBillingDate: 1234
-        },
-        savedCards: [],
-    },
-];
 
 function ManageSubscriptionsPage() {
     const modalCtx = useModal();
+    const {userData} = useUser();
     const isLoggedIn = useLoginCheck();
 
-    const [subscriptions, setSubscriptions] = useState<SubscriptionData[] | null>(null);
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
 
     useEffect(() => {
-        // TODO fetch data
-        setSubscriptions(SUBSCRIPTIONS_TEMPLATE);
-    }, [])
+        const fetchCards = async () => {
+            if (!userData)
+                return;
+            try {
+                const {payload: cards} = await BillingService.getCards(userData.email);
+                setSavedCards(cards);
+            } catch (error: unknown) {
+            }
+        }
+        fetchCards();
+    }, [setSavedCards, userData])
 
     if (!isLoggedIn)
         return null;
 
-    const selectedPlan: SubscriptionData | undefined = subscriptions?.[+selectedSubscriptionIdx];
+    const subscriptions = userData?.subscriptions;
+
+    const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
-        subscriptions?.map((subscription, idx) =>
-            [idx, 'ARCH ' + subscription.plan.type + ' Plan'])
+        userData?.subscriptions?.map((subscription, idx) =>
+            [idx, 'ARCH ' + subscription.type + ' Plan'])
         ?? []
     );
 
@@ -115,7 +85,7 @@ function ManageSubscriptionsPage() {
         if (!selectedPlan)
             return null;
 
-        let SavedCards = selectedPlan.savedCards.map((method, idx) => (
+        let SavedCards = savedCards.map((method, idx) => (
             <li key={method.nickName + idx} className={'flex [&&_path]:fill-gray items-center'}>
                 <span className={'flex gap-x-[--s-d2l-smallest] items-center'}>
                     <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem] h-auto'}/>
@@ -128,8 +98,7 @@ function ManageSubscriptionsPage() {
                 <ReactSVG
                     src={SVG_PENCIL.src}
                     onClick={() => modalCtx.openModal(
-                        <ChangePaymentMethodModal
-                            savedCards={subscriptions?.[+selectedSubscriptionIdx].savedCards ?? []}/>,
+                        <ChangePaymentMethodModal savedCards={savedCards}/>,
                         {darkenBg: true}
                     )}
                     className={'size-[min(2.4dvw,0.8rem)] [&_path]:fill-primary ml-auto cursor-pointer'}
@@ -139,13 +108,6 @@ function ManageSubscriptionsPage() {
 
         if (!SavedCards.length)
             SavedCards = [<li key={0} className={'text-gray'}>No saved cards</li>];
-
-        let renewDate: Date;
-        const billingDate = new Date(selectedPlan.plan.lastBillingDate ?? 0);
-        if (selectedPlan.plan.recurrency === 'monthly')
-            renewDate = new Date(new Date(billingDate).setMonth(billingDate.getMonth() + 1));
-        else
-            renewDate = new Date(new Date(billingDate).setFullYear(billingDate.getFullYear() + 1));
 
         const Hr = <hr className={'border-control-white-d0 mt-[--s-small] mb-[min(5.3dvw,1.2rem)]'}/>;
 
@@ -172,13 +134,13 @@ function ManageSubscriptionsPage() {
                                     gap-y-[--1dr] mb-[--1dr]
                                     sm:landscape:x-[gap-y-[--s-d-small],mb-[--s-d-small]]`}>
                         <span className={'capitalize'}>
-                            {selectedPlan.plan.subscription} {selectedPlan.plan.type} Plan
+                            {selectedPlan.subscription} {selectedPlan.type} Plan
                         </span>
                         <span className={'text-small text-right sm:landscape:text-small whitespace-pre-line'}>
-                            Your plan renews on {formatDate(renewDate)}
+                            Your plan renews on {formatDate(new Date(selectedPlan.renewDate))}
                         </span>
                         <span className={'font-bold'}>
-                            ${selectedPlan.plan.priceUSD.toFixed(2)} per {selectedPlan.plan.recurrency === 'monthly' ? 'month' : 'year'}
+                            ${selectedPlan.priceUSD.toFixed(2)} per {selectedPlan.recurrency === 'monthly' ? 'month' : 'year'}
                         </span>
                     </div>
                     <Button
@@ -198,17 +160,17 @@ function ManageSubscriptionsPage() {
                             {['hidden']: !isDetailsExpanded})}
                     >
                         <span className={'capitalize'}>
-                            {selectedPlan.plan.subscription} {selectedPlan.plan.type} Subscription
+                            {selectedPlan.subscription} {selectedPlan.type} Subscription
                         </span>
-                        <span className={'text-right'}>${selectedPlan.plan.priceUSD.toFixed(2)}</span>
+                        <span className={'text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
                         <span className={'font-bold'}>Subtotal</span>
-                        <span className={'font-bold text-right'}>${selectedPlan.plan.priceUSD.toFixed(2)}</span>
+                        <span className={'font-bold text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
                         <hr className={'border-small border-control-white-d0 col-span-2 self-center'}/>
                         <span>Tax</span>
-                        <span className={'text-right'}>${selectedPlan.plan.tax.toFixed(2)}</span>
+                        <span className={'text-right'}>${selectedPlan.tax.toFixed(2)}</span>
                         <span className={'font-bold'}>Total</span>
                         <span
-                            className={'font-bold text-right'}>${(selectedPlan.plan.priceUSD + selectedPlan.plan.tax).toFixed(2)}</span>
+                            className={'font-bold text-right'}>${(selectedPlan.priceUSD + selectedPlan.tax).toFixed(2)}</span>
                     </div>
                 </div>
                 <div>

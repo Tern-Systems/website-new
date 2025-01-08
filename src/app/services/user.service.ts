@@ -1,25 +1,26 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 
 import {Res} from "@/app/types/service";
-import {PlanName, PlanType} from "@/app/types/subscription";
-import {UserData, UserSubscription} from "@/app/context/User.context";
+import {PlanName, PlanType, Subscription} from "@/app/types/subscription";
+import {UserData} from "@/app/context/User.context";
 
 import {BaseService} from "./base.service";
 
 
-type SubscriptionDetails = {
-    name: PlanType,
-    price: number,
-    endDate: string,
-    duration: number,
-    source: PlanName
+type SubscriptionData = {
+    name: PlanType;
+    price: number;
+    tax: number;
+    endDate: string;
+    duration: number;
+    source: PlanName;
 }
 
 
 interface IUserService {
     getUser(token: string): Promise<Res<UserData>>;
 
-    getPlanDetails(email: string): Promise<Res<UserSubscription[]>>;
+    getPlanDetails(email: string): Promise<Res<Subscription[]>>;
 }
 
 class UserServiceImpl extends BaseService implements IUserService {
@@ -27,7 +28,7 @@ class UserServiceImpl extends BaseService implements IUserService {
         super(UserServiceImpl.name)
     }
 
-    async getPlanDetails(email: string): Promise<Res<UserSubscription[]>> {
+    async getPlanDetails(email: string): Promise<Res<Subscription[]>> {
         const [debug, error] = this.getLoggers(this.getPlanDetails.name);
 
         const config: AxiosRequestConfig = {
@@ -39,15 +40,17 @@ class UserServiceImpl extends BaseService implements IUserService {
 
         try {
             debug(config);
-
-            const response: AxiosResponse<SubscriptionDetails[], AxiosRequestConfig> = await axios(config);
+            const response: AxiosResponse<SubscriptionData[], AxiosRequestConfig> = await axios(config);
             debug(response);
 
-            const userSubscriptions: UserSubscription[] = response.data.map((entry) => ({
-                subscription: entry.source,
-                type: entry.name,
+            const userSubscriptions: Subscription[] = response.data.map((entry) => ({
+                subscription: entry.source ?? '--',
+                type: entry.name ?? '--',
                 isBasicKind: entry.name === 'Basic',
                 recurrency: entry.duration === 12 ? 'annual' : 'monthly',
+                renewDate: new Date(entry.endDate ?? 0).getTime(),
+                tax: entry.tax ?? NaN,
+                priceUSD: entry.price ?? NaN,
             }))
 
             return {payload: userSubscriptions};
