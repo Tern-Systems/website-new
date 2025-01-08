@@ -1,12 +1,13 @@
 import axios, {AxiosRequestConfig} from "axios";
 
 import {CardData, InvoiceHistory, SavedCard} from "@/app/types/billing";
+import {PlanType} from "@/app/types/subscription";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
 
 
-type FormCardData = Omit<CardData, 'nickName' | 'isDefault' | 'cardId'>;
+type FormCardData = Omit<CardData, 'nickName' | 'isDefault'>;
 type SubscribeData = FormCardData & {
     savedCardIdx: string;
     acceptTerms: boolean;
@@ -15,9 +16,9 @@ type SubscribeData = FormCardData & {
 interface IBillingService {
     getCards(email: string): Promise<Res<SavedCard[]>>;
 
-    postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
+    postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res>;
 
-    postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
+    postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res>;
 
     //eslint-disable-next-line
     getPlanDetails(email: string): any;
@@ -115,7 +116,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: response.data};
+            return {payload: [response.data]};
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
@@ -126,9 +127,10 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         const [debug, error] = this.getLoggers(this.getCards.name);
 
         const config: AxiosRequestConfig = {
-            method: 'GET',
-            url: this._API + `arch-get-saved-cards`,
-            params: {email},
+            method: 'POST',
+            url: this._API + `get-saved-cards`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email}),
             withCredentials: true,
         };
 
@@ -143,7 +145,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
+    async postProcessPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postProcessPayment.name);
 
         // TODO change body
@@ -151,6 +153,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardNumber: data.cardNumber,
             expiryDate: data.expirationDate,
             cardCode: data.cvc,
+            cardholderName: data.cardholderName,
         };
         const [firstName, lastName] = data.cardholderName.split(' ');
         const billingDetails = {
@@ -170,7 +173,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `arch-process-payment`,
+            url: this._API + (isArch ? 'arch-' : '') + `process-payment`,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -179,6 +182,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                 cardDetails,
                 billingDetails,
                 selectedPlan,
+                duration: planDuration,
             }),
             withCredentials: true,
         };
@@ -194,7 +198,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
+    async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postProcessSavedPayment.name);
 
         try {
@@ -202,13 +206,11 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
             const config: AxiosRequestConfig = {
                 method: 'POST',
-                url: this._API + `arch-process-payment-saved`,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                url: this._API + (isArch ? 'arch-' : '') + `process-payment-saved`,
+                headers: {'Content-Type': 'application/json'},
                 data: JSON.stringify({
                     user: email,
-                    cardId: data.cardNumber,
+                    cardId: data.id,
                     cvv: data.cvc,
                     planName: planType,
                     price: planPrice * (1 + taxResponse),

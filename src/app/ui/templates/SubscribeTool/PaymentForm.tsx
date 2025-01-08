@@ -1,11 +1,11 @@
 import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 
 import {SavedCard} from "@/app/types/billing";
-import {SubscriptionRecurrency} from "@/app/types/subscription";
+import {Subscription, SubscriptionRecurrency} from "@/app/types/subscription";
 import {SubscribeData} from "@/app/services/billing.service";
-import {COUNTRY, Route, STATE_PROVINCE} from "@/app/static";
+import {COUNTRY, CountryKey, Route, STATE_PROVINCE, StateKey} from "@/app/static";
 
-import {BillingService} from "@/app/services";
+import {BillingService, UserService} from "@/app/services";
 
 import {useForm, useNavigate} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
@@ -25,6 +25,7 @@ import styles from './Subscribe.module.css'
 
 
 const FORM_DEFAULT: SubscribeData = {
+    id: '',
     savedCardIdx: '-1',
     type: '',
     cardNumber: '',
@@ -46,14 +47,14 @@ const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-smallest border-small ${CONTRO
 
 
 interface Props {
-    type: string | undefined;
+    name: Subscription['subscription'] | undefined;
+    type: Subscription['type'] | undefined;
     recurrency: SubscriptionRecurrency | undefined;
     priceUSD: number | undefined;
 }
 
 const PaymentForm: FC<Props> = (props: Props) => {
-    const {type, recurrency, priceUSD} = props
-
+    const {type, name, recurrency, priceUSD} = props
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -82,10 +83,18 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
     // Flow / payment status
     useEffect(() => {
+        const refreshUserData = async () => {
+            if (!userCtx.token)
+                return;
+            const {payload: user} = await UserService.getUser(userCtx.token);
+            userCtx.setSession(user, userCtx.token);
+        }
+
         if (paymentStatus === false) {
             modalCtx.openModal(<DeclinedModal/>);
             setPaymentStatus(null);
         } else if (paymentStatus) {
+            refreshUserData();
             const next = flowCtx.next();
             if (next)
                 next();
@@ -106,12 +115,29 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 return;
 
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
+            let formDataMapped: SubscribeData = formData;
+            if (!isBillingExpanded) {
+                const billingAddress = formData.billingAddress.split(',');
+                formDataMapped = {
+                    ...formData,
+                    addressLine1: billingAddress[0] ?? '',
+                    addressLine2: billingAddress[1] ?? '',
+                    city: billingAddress[2] ?? '',
+                    state: billingAddress[3] as StateKey ?? '',
+                    postalCode: billingAddress[4] ?? '',
+                    billingCountry: billingAddress[5] as CountryKey ?? '',
+                }
+            }
 
-            if (savedCards.length)
-                await BillingService.postProcessSavedPayment(formData, type, recurrencyMapped, priceUSD, userCtx.userData.email);
-            else
-                await BillingService.postProcessPayment(formData, type, recurrencyMapped, priceUSD, userCtx.userData.email);
-            // setPaymentStatus(true);
+            if (savedCards.length) {
+                const selectedCard: SavedCard = savedCards[+formData.savedCardIdx];
+                formDataMapped.id = selectedCard.id;
+                formDataMapped.cvc = formData.cvc;
+                formDataMapped.state = selectedCard.billingAddress.state;
+                await BillingService.postProcessSavedPayment(formDataMapped, type, recurrencyMapped, priceUSD, userCtx.userData.email, name === 'ARCH');
+            } else
+                await BillingService.postProcessPayment(formDataMapped, type, recurrencyMapped, priceUSD, userCtx.userData.email, name === 'ARCH');
+            setPaymentStatus(true);
         } catch (error: unknown) {
             setPaymentStatus(false);
         }
@@ -313,7 +339,6 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        onClick={() => setPaymentStatus(true)}
                         className={`mt-[min(4dvw,1.87rem)] w-full rounded-full bg-control-gray
                                     font-neo text-section-s font-bold text-primary
                                     h-[4.4rem]

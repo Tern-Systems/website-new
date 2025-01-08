@@ -27,6 +27,7 @@ const SubscribeTool: FC = () => {
                             sm:x-[text-basic,flex-col]`}>
             <PaymentInfo subscription={subscription}/>
             <PaymentForm
+                name={subscription?.subscription}
                 type={subscription?.type}
                 recurrency={subscription?.recurrency}
                 priceUSD={subscription?.priceUSD}
