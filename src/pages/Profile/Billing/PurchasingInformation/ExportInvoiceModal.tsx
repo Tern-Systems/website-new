@@ -1,14 +1,14 @@
-import React, {FC} from "react";
+import React, {FC, FormEvent} from "react";
 
 import {useForm} from "@/app/hooks";
 
-import {BaseModal} from "@/app/ui/modals";
+import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button, Select} from "@/app/ui/form";
+import {BillingService} from "@/app/services";
+import {useModal, useUser} from "@/app/context";
 
 
-type FormData = {
-    timeRange: number;
-}
+type FormData = { timeRange: number; }
 
 const FORM_DEFAULT: FormData = {timeRange: -1}
 const TIMEFRAME_OPTIONS: Record<string, string> = { // TODO
@@ -22,11 +22,28 @@ const TIMEFRAME_OPTIONS: Record<string, string> = { // TODO
 
 const ExportInvoiceModal: FC = () => {
     const [formData, setFormData] = useForm<FormData>(FORM_DEFAULT);
+    const modalCtx = useModal();
+    const {userData} = useUser();
 
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!userData)
+            return;
+
         try {
-            // TODO
+            const {payload: csvStr} = await BillingService.postExportTransaction(userData.email);
+
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(csvStr));
+            element.setAttribute('download', 'transactions.csv');
+            element.style.display = 'none';
+
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
         } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     }
 
@@ -41,11 +58,12 @@ const ExportInvoiceModal: FC = () => {
                     options={TIMEFRAME_OPTIONS}
                     value={formData.timeRange.toString()}
                     placeholder={'Select'}
-                    onChangeCustom={(value) => setFormData('timeRange', value)}
+                    onChangeCustom={(value) => setFormData('timeRange')(value)}
                     classNameWrapper={'flex-col [&]:items-start gap-[--1qdrs] flex-grow'}
                     classNameLabel={'text-[min(3.2dvw,var(--fz-content-small-))] font-bold'}
                     className={`px-[--s-d2l-smallest] py-[min(--s-d-small)]  h-[min(5.9dvw,3.25rem)] bg-control-white
                                 border-small rounded-smallest border-control-white-d0`}
+                    classNameOption={'h-[min(5.9dvw,3.25rem)]'}
                 >
                     Choose timeframe to export invoices
                 </Select>

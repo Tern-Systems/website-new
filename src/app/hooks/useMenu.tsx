@@ -1,18 +1,16 @@
-import {Route} from "@/app/static";
-
 import {useBreakpointCheck} from "./useBreakpointCheck";
 import {useModal} from "@/app/context";
 
 import {MenuModal} from "@/app/ui/modals";
 
 
-const useMenu = (subNavList?: Route[]): [() => void, () => void] => {
+const useMenu = (isSingleSubLink?: boolean): [() => void, () => void] => {
     const modalCtx = useModal();
     const isSmScreen = useBreakpointCheck();
 
     const openMenu = () => {
         if (isSmScreen)
-            modalCtx.openModal(<MenuModal subNavLinks={subNavList}/>, {doFading: false});
+            modalCtx.openModal(<MenuModal isSingleSubLink={isSingleSubLink}/>, {doFading: false});
     }
 
     const closeMenu = () => {

@@ -19,11 +19,6 @@ import {
 import { CountryKey, LANGUAGE, SALUTATION, StateKey } from "@/app/static";
 import { UserService } from "@/app/services";
 
-type UserSubscription = Pick<
-  Subscription,
-  "subscription" | "type" | "recurrency" | "isBasicKind"
->;
-
 type AddressType = "businessAddress" | "personalAddress";
 type Address = {
   line1: string;
@@ -71,7 +66,7 @@ interface UserData {
   phones: UserPhone;
   ternKeyPurchased: boolean;
   archPurchased: boolean;
-  subscriptions: UserSubscription[];
+  subscriptions: Subscription[];
   lastLogin: number;
   connectedApps: {
     social: { name: string; link: string }[];
@@ -131,12 +126,18 @@ const FALLBACK_USER: UserData = {
       recurrency: "annual",
       isBasicKind: true,
       subscription: "TernKey",
+      renewDate: 0,
+      priceUSD: 453,
+      tax: 0.06,
     },
     {
       type: "Standard",
       recurrency: "annual",
       isBasicKind: false,
       subscription: "ARCH",
+      renewDate: 0,
+      priceUSD: 342,
+      tax: 0.06,
     },
   ],
   verification: {
@@ -233,7 +234,6 @@ const useUser = (): IUserContext => {
 export { UserProvider, useUser };
 export type {
   UserData,
-  UserSubscription,
   Address,
   Phone,
   UserPhone,

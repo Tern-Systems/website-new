@@ -1,7 +1,7 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {useQRCode} from "next-qrcode";
 
-import {UserSubscription} from "@/app/context/User.context";
+import {SubscriptionBase} from "@/app/types/subscription";
 import {ARCode} from "@/app/types/arcode";
 import {LAYOUT, Route} from "@/app/static";
 
@@ -39,7 +39,7 @@ const SavedCodesPage: FC = () => {
 
 
     useEffect(() => {
-        const subscription: UserSubscription | undefined = userCtx.userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ARCH');
+        const subscription: SubscriptionBase | undefined = userCtx.userData?.subscriptions.find((entry: SubscriptionBase) => entry.subscription === 'ARCH');
         if (!subscription) {
             setTimeout(() => {
                 navigate(Route.ServicePricing);

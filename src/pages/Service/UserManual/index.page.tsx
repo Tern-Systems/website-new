@@ -9,7 +9,7 @@ import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
 
 
 const DOCUMENTATION_CONTENTS: Record<Route.ServiceUserManual, DocumentationContent> = {
-    [Route.ServiceUserManual]: CONTENTS[Route.ARCHManual],
+    [Route.ServiceUserManual]: CONTENTS[Route.ARCHDoc],
 }
 
 

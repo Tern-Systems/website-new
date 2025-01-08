@@ -65,7 +65,7 @@ const PageLink: FC<Props> = (props: Props) => {
 
     const splitHref = children
         ? children
-        : <span>{props.href === Route.TernKey ? getRouteLeave(props.href).slice(1) : getRouteName(props.href)}</span>;
+        : <span>{getRouteName(props.href, getRouteLeave(props.href ?? null) === getRouteLeave(Route.TernKey))}</span>;
 
     return (
         <Link

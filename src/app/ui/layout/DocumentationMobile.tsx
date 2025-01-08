@@ -1,21 +1,19 @@
 import React, {FC, PropsWithChildren} from "react";
-import {usePathname} from "next/navigation";
 
 import {Route} from "@/app/static";
 
-import {getRouteLeave} from "@/app/utils/router";
 import {useBackground, useMenu} from "@/app/hooks";
 
 import {Button} from "@/app/ui/form";
+import {usePathname} from "next/navigation";
+import {checkSubRoute} from "@/app/utils";
 
 
 const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const {children} = props;
 
     const route = usePathname();
-
-    const subNavLinks: Route[] = [Route.Documentation, getRouteLeave(route) as Route];
-    const [openMenu] = useMenu(subNavLinks);
+    const [openMenu] = useMenu(checkSubRoute(route, Route.Documentation));
     const bgSrc = useBackground();
 
 

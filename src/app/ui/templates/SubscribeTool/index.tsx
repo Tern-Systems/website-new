@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from "react";
 
-import {Subscription} from "@/app/types/subscription";
+import {SubscriptionBase} from "@/app/types/subscription";
 import {useLoginCheck} from "@/app/hooks";
 
 import {PaymentInfo} from "./PaymentInfo";
@@ -8,14 +8,14 @@ import {PaymentForm} from "./PaymentForm";
 
 
 const SubscribeTool: FC = () => {
-    const [subscription, setSubscription] = useState<Subscription | null>(null);
+    const [subscription, setSubscription] = useState<SubscriptionBase | null>(null);
     const isLoggedIn = useLoginCheck();
 
 
     useEffect(() => {
         const subscriptionData = sessionStorage.getItem('subscription');
         if (subscriptionData)
-            setSubscription(JSON.parse(subscriptionData) as Subscription);
+            setSubscription(JSON.parse(subscriptionData) as SubscriptionBase);
     }, [])
 
     if (!isLoggedIn)

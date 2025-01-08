@@ -1,13 +1,13 @@
 import {FC} from "react";
 import Image from "next/image";
 
-import {Subscription} from "@/app/types/subscription";
+import {SubscriptionBase} from "@/app/types/subscription";
 
 import SVG_INFO from '@/assets/images/icons/info.svg';
 
 
 interface Props {
-    subscription: Subscription | null;
+    subscription: SubscriptionBase | null;
 }
 
 const PaymentInfo: FC<Props> = (props: Props) => {
@@ -58,6 +58,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                         </span>
                         <span className={'justify-self-end'}>Calculated by address</span>
                     </span>
+                    <span className={'justify-self-end text-content-small'}>Calculated by address</span>
                 </div>
                 {Hr}
                 <div className={`flex justify-between`}>

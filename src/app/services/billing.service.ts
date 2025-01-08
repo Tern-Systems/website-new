@@ -22,11 +22,36 @@ interface IBillingService {
     getPlanDetails(email: string):any;
 
     postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>>;
+
+    postExportTransaction(email: string): Promise<Res<string>>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
     constructor() {
         super(BillingServiceImpl.name)
+    }
+
+
+    async postExportTransaction(email: string): Promise<Res<string>> {
+        const [debug, error] = this.getLoggers(this.postGetInvoices.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `export-transaction-details`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+            return {payload: response.data};
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
     }
 
     async postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>> {
@@ -44,7 +69,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return response.data;
+            return {payload: response.data};
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
@@ -65,7 +90,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return response.data;
+            return {payload: response.data};
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';

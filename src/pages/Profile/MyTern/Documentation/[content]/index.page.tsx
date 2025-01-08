@@ -8,27 +8,25 @@ import {useLoginCheck} from "@/app/hooks";
 
 import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
 import {DocumentationScreen} from "@/app/ui/templates/DocumentationScreen";
-import {TernKeyManualAnchors, TernKeyManualContent} from "./TernKeyManual";
-import {GHandbookAnchors, GHandbookContent} from "./GHandbook";
+import {TernKeyManualAnchors, TernKeyManualContent} from "./TernKey";
+import {GHandbookAnchors, GHandbookContent} from "./G";
 
 
 type Content =
-    | Route.TernKeyManual
-    | Route.GHandbook
-    | Route.ARHostingManual
-    | Route.TernKitManual
-    | Route.TernHandbook
-    | Route.ARCHManual
-    | Route.BTMCHandbook;
+    | Route.TernKeyDoc
+    | Route.GDoc
+    | Route.TernKitDoc
+    | Route.TernDoc
+    | Route.ARCHDoc
+    | Route.BTMCDoc;
 
 const CONTENTS: Record<Content, DocumentationContent> = {
-    [Route.TernKeyManual]: {anchors: TernKeyManualAnchors, children: <TernKeyManualContent/>},
-    [Route.GHandbook]: {anchors: GHandbookAnchors, children: <GHandbookContent/>, isChapter: true},
-    [Route.ARHostingManual]: COMING_SOON_DOC,
-    [Route.TernKitManual]: COMING_SOON_DOC,
-    [Route.TernHandbook]: COMING_SOON_DOC,
-    [Route.ARCHManual]: COMING_SOON_DOC,
-    [Route.BTMCHandbook]: COMING_SOON_DOC,
+    [Route.TernKeyDoc]: {anchors: TernKeyManualAnchors, children: <TernKeyManualContent/>},
+    [Route.GDoc]: {anchors: GHandbookAnchors, children: <GHandbookContent/>, isChapter: true},
+    [Route.TernKitDoc]: COMING_SOON_DOC,
+    [Route.TernDoc]: COMING_SOON_DOC,
+    [Route.ARCHDoc]: COMING_SOON_DOC,
+    [Route.BTMCDoc]: COMING_SOON_DOC,
 }
 
 

@@ -2,8 +2,8 @@ import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
 import Image from "next/image";
 import {useQRCode} from "next-qrcode";
 
+import {SubscriptionBase} from "@/app/types/subscription";
 import {ARCode} from "@/app/types/arcode";
-import {UserSubscription} from "@/app/context/User.context";
 import {FlowQueue} from "@/app/context/Flow.context";
 import {Route} from "@/app/static";
 
@@ -132,7 +132,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
             });
         }
 
-        const subscription: UserSubscription | undefined = userData?.subscriptions.find((entry: UserSubscription) => entry.subscription === 'ARCH');
+        const subscription: SubscriptionBase | undefined = userData?.subscriptions.find((entry: SubscriptionBase) => entry.subscription === 'ARCH');
         if (!subscription) {
             flow.push(() => {
                 preventLeaving(false);

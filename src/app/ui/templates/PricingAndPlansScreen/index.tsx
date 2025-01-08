@@ -3,12 +3,11 @@ import Image from "next/image";
 
 import {
   PlanType,
-  Subscription,
+  SubscriptionBase,
   SubscriptionPreview,
   SubscriptionPreviewData,
   SubscriptionRecurrency,
 } from "@/app/types/subscription";
-import { UserSubscription } from "@/app/context/User.context";
 import { Route } from "@/app/static";
 
 import { generateFallbackEntries } from "@/app/utils";
@@ -53,7 +52,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
     if (!subscriptionData) return;
 
-    const subscription: Subscription = {
+    const subscription: SubscriptionBase = {
       subscription: subscriptionData.subscription,
       type,
       isBasicKind: subscriptionData.isBasicKind,
@@ -77,7 +76,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
   );
 
   const renderColumn = (
-    userSubscription: UserSubscription | undefined,
+    userSubscription: SubscriptionBase | undefined,
     type: PlanType,
     data: SubscriptionPreviewData | undefined,
     idx: number
@@ -109,6 +108,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     }
 
     const isAnnualSwitchOption = selectedRecurrency === "annual";
+    const isBasicPlan = type === "Basic";
     const isUserMonthlySubscriber = userSubscription
       ? userSubscription.recurrency === "monthly"
       : false;
@@ -119,7 +119,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
       ? userSubscription.recurrency === selectedRecurrency
       : false;
     const isBtnDisabled =
-      (type === "Basic" && subscriptionData?.isBasicKind) ||
+      (isBasicPlan && subscriptionData?.isBasicKind) ||
       (isCurrentPlan && isCurrentRecurrency) ||
       !subscriptionData;
 
@@ -134,7 +134,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
       </span>
     );
 
-    if (isCurrentRecurrency || type === "Basic") {
+    if (isCurrentRecurrency || isBasicPlan) {
       if (isCurrentPlan) {
         subscribeBtnText = isBtnDisabled ? "Your current plan" : "Subscribe";
         Links = (
@@ -205,7 +205,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
           <span>{type}</span>
         </h2>
         <div className={"mb-[--2tdr] text-secondary sm:landscape:mb-[--1dr]"}>
-          <span>{pricing + (isAnnualSwitchOption ? "*" : "")}</span>
+          <span>
+            {isBasicPlan ? "Free" : pricing + (isAnnualSwitchOption ? "*" : "")}
+          </span>
         </div>
         <Button
           onClick={() => handleSubscribeClick(type)}
@@ -248,10 +250,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
   const renderColumns = (): ReactElement[] => {
     const { userData } = userCtx;
-    console.log(userData);
-    const userSubscription: UserSubscription | undefined =
+    const userSubscription: SubscriptionBase | undefined =
       userData?.subscriptions.find(
-        (subscription: UserSubscription) =>
+        (subscription: SubscriptionBase) =>
           subscription.subscription === subscriptionData?.subscription
       );
     const isCutBasicColumn =
