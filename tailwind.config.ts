@@ -77,7 +77,7 @@ const config: Config = {
                 basic: 'var(--fz-basic)',
                 'section-xs': 'var(--fz-section-xs)',
                 'section-xxs': 'var(--fz-section-xxs)',
-                'section-xxxs': 'var(--fz-section-xxxs)',
+                'section-xxxs': 'var(--fz-section-3xs)',
             },
             keyframes: {
                 insignia: {

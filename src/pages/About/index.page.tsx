@@ -25,7 +25,7 @@ const AboutPage: FC = () => {
             classNameWrapper={'sm:max-h-[21.4rem]'}
             classNameContentWrapper={`mb-[2.56rem]
                                       lg:[&]:overflow-hidden
-                                      sm:mb-[--p-content-s]`}
+                                      sm:mb-[--p-content-xs]`}
             className={`sm:text-section-sm
                         sm:landscape:tracking-[0.04rem]`}
         >

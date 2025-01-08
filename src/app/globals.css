@@ -86,13 +86,15 @@
   /* Theme fix */
 
   /* Paddings */
-  --p-content-l: 3.06rem;
+  --p-content-xl: 3.06rem;
+  --p-content-l: 2.5rem;
   --p-content: 2.06rem;
-  --p-content-s: 1.25rem;
-  --p-content-xs: 0.94rem;
-  --p-content-xxs: 0.81rem;
-  --p-content-3xs: 0.62rem;
-  --p-content-4xs: 0.31rem;
+  --p-content-s: 1.56rem;
+  --p-content-xs: 1.25rem;
+  --p-content-xxs: 0.94rem;
+  --p-content-3xs: 0.81rem;
+  --p-content-4xs: 0.62rem;
+  --p-content-5xs: 0.31rem;
 
   /* Text */
   --fz-heading-l: 2.25rem;
@@ -104,7 +106,7 @@
   --fz-basic: 1rem;
   --fz-section-xs: 0.875rem;
   --fz-section-xxs: 0.75rem;
-  --fz-section-xxxs: 0.625rem;
+  --fz-section-3xs: 0.625rem;
 
   /* Insignia */
   --insignia-moved-size: 2.125rem;
