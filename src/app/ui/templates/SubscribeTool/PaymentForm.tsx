@@ -273,7 +273,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 />
                             </div>
                             <Select
-                                options={STATE_PROVINCE[formData.billingCountry]}
+                                options={(STATE_PROVINCE?.[formData.billingCountry] ?? {})}
                                 hidden={!isBillingExpanded}
                                 value={formData.state}
                                 placeholder={'State / Province'}

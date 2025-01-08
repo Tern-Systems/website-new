@@ -247,7 +247,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         City / Locality
                     </Input>
                     <Select
-                        options={STATE_PROVINCE[formData.billingCountry]}
+                        options={(STATE_PROVINCE?.[formData.billingCountry] ?? {})}
                         value={formData.state}
                         onChangeCustom={(value) => setFormData('state')(value)}
                         classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}

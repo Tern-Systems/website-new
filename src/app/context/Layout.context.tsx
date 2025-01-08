@@ -17,6 +17,7 @@ import {LAYOUT, Route} from "@/app/static";
 
 import {checkSubRoute} from "@/app/utils";
 import {useBreakpointCheck} from "@/app/hooks";
+import {useUser} from "@/app/context/User.context";
 
 // Main links, sub links, sub sub links
 enum NavLink {Nav, SubNav, Sub2Nav}
@@ -45,6 +46,7 @@ interface ILayoutContext {
 const LayoutContext = createContext<ILayoutContext | null>(null);
 
 const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
+    const userCtx = useUser();
     const route = usePathname();
     const isSmScreen = useBreakpointCheck();
 
@@ -120,7 +122,9 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             case Route.ServicePricing:
             case Route.SavedCodes:
             case Route.ServiceUserManual:
-                links = [Route.Service, Route.ARCodeToolCreate, Route.ServicePricing, Route.SavedCodes, Route.ServiceUserManual];
+                links = [Route.Service, Route.ARCodeToolCreate, Route.ServicePricing, Route.ServiceUserManual];
+                if (userCtx.userData) links.splice(links.length - 1, 0, Route.SavedCodes);
+
                 if (isSmScreen)
                     subNavLinks = links;
                 else
