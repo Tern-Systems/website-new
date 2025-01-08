@@ -1,9 +1,10 @@
 import {FC} from "react";
 import Image from "next/image";
 
-import {CardData} from "@/app/types/billing";
+import axios from 'axios';
 
-import {useModal} from "@/app/context";
+import {CardData} from "@/app/types/billing";
+import {useModal, useUser} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
@@ -20,12 +21,26 @@ interface Props {
 
 const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
     const {card} = props;
-
+    const userCtx = useUser();
     const modalCtx = useModal();
 
     const handleRemove = async () => {
-        // TODO
-        modalCtx.closeModal();
+        try {
+            await axios({
+                method: "POST",
+                data: {
+                    email: userCtx.userData?.email,
+                    profileId: card.customerProfileId,
+                    paymentProfileId: card.paymentProfileId,
+                },
+                url: `${process.env.NEXT_PUBLIC_API}remove-card`,
+                withCredentials: true,
+            });
+        } catch (error: unknown) {
+            console.error("Failed to delete card:", error);
+        } finally {
+            modalCtx.closeModal();
+        }
     }
 
     return (
