@@ -173,7 +173,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                     <div className={'text-small mt-[2.51rem] sm:portrait:w-[14.75rem]'}>
                         <span>
                             It may take a minute to receive your code. Haven’t received it?&nbsp;
-                            <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendCode()}>Resend a new code.</span>
+                            <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendNewCode()}>Resend a new code.</span>
                         </span>
                     </div>
                 </div>
