@@ -68,13 +68,12 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     style={{backgroundImage: `url("${bgSrc}")`}}
                     className={`relative flex flex-col flex-grow h-full w-full justify-center items-center 
                                 bg-cover bg-no-repeat bg-fixed text-center bg-center
-                                overflow-y-scroll
-                                sm:overflow-hidden`}
+                                overflow-y-hidden`}
                 >
                     <div
                         className={cn(
                             `h-full w-full flex flex-col
-                            sm:landscape:x-[overflow-scroll]`,
+                            lg:overflow-scroll`,
                             layoutCtx.isFade ? styles.fadeOut : styles.fadeIn,
                             modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'),
                         )}

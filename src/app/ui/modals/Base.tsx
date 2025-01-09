@@ -16,6 +16,7 @@ interface ModalConfig extends PropsWithChildren {
     className?: string;
     classNameContent?: string;
     classNameTitle?: string;
+    classNameHr?: string;
     adaptSmScreen?: boolean;
     smScreenOnly?: boolean;
 }
@@ -23,7 +24,7 @@ interface ModalConfig extends PropsWithChildren {
 const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const {
         children, isSimple, title, onClose,
-        className, classNameContent, classNameTitle, adaptSmScreen, smScreenOnly
+        className, classNameContent, classNameTitle, classNameHr, adaptSmScreen, smScreenOnly
     } = props;
 
     const modalCtx = useModal();
@@ -83,7 +84,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                         classNameIcon={cn({['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied})}
                     />
                 </div>
-                <hr className={cn({['mt-[--1qdrs] scale-[105%] mb-[--s-normal] sm:landscape:x-[scale-[102%],my-[--1drs]]']: !isSmRulesApplied})}/>
+                <hr className={cn(classNameHr, {['relative -left-[0.72rem] mt-[--1qdrs] w-[calc(100%+1.44rem)] mb-[--s-normal] sm:landscape:x-[scale-[102%],my-[--1drs]]']: !isSmRulesApplied})}/>
                 <div className={classNameContent}>
                     {isSmRulesApplied ? Heading : null}
                     {children}

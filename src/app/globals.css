@@ -89,9 +89,10 @@
   --p-content-l: 3.06rem;
   --p-content: 2.06rem;
   --p-content-s: 1.25rem;
-  --p-content-xs: 0.81rem;
-  --p-content-xxs: 0.62rem;
-  --p-content-xxxs: 0.31rem;
+  --p-content-xs: 0.94rem;
+  --p-content-xxs: 0.81rem;
+  --p-content-3xs: 0.62rem;
+  --p-content-4xs: 0.31rem;
 
   /* Text */
   --fz-heading-l: 2.25rem;

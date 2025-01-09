@@ -24,14 +24,15 @@ const ICON: Record<Icon, string> = {
 }
 
 
-const WRAPPER_CN = `p-[--2dr] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center
-                    sm:landscape:p-[--2drs]`;
+const WRAPPER_CN = `p-[--p-content] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center`;
 
 
 interface Props extends PropsWithChildren {
     title?: string;
     icon?: Icon;
     classNameWrapper?: string;
+    classNameTitle?: string;
+    classNameIcon?: string;
     className?: string;
     isChevron?: boolean;
     collapsedContent?: ReactElement;
@@ -39,7 +40,18 @@ interface Props extends PropsWithChildren {
 }
 
 const Collapsible: FC<Props> = (props: Props) => {
-    const {isChevron, collapsedContent, title, icon, children, className, classNameWrapper, expandedState} = props;
+    const {
+        isChevron,
+        collapsedContent,
+        title,
+        icon,
+        children,
+        className,
+        classNameWrapper,
+        classNameTitle,
+        classNameIcon,
+        expandedState
+    } = props;
 
     const [isExpanded, setExpandState] = useState<boolean>(expandedState?.[0] ?? true);
 
@@ -96,25 +108,26 @@ const Collapsible: FC<Props> = (props: Props) => {
             className={`${WRAPPER_CN} ${isExpandedFinal ? '' : 'pb-0'} ${classNameWrapper}`}>
             <div
                 onClick={() => handleToggle()}
-                className={cn(`flex items-center justify-between cursor-pointer gap-x-[0.2rem]`, {['mb-[min(16dvw,3.75rem)]']: isChevron})}
+                className={cn(classNameTitle, `flex items-center justify-between cursor-pointer gap-x-[0.2rem]`, {['mb-[min(16dvw,3.75rem)]']: isChevron})}
             >
-                <h2 className={`text-inherit font-bold flex gap-[0.65rem] items-center
-                                text-header
-                                sm:landscape:text-content`}>
+                <h2 className={`text-inherit font-bold flex gap-[0.65rem] items-center`}>
                     {Icon}
                     <span>{title}</span>
                 </h2>
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline w-[min(2.7dvw,1.8rem)] h-auto ${collapseCN}`}
+                    className={`inline w-[0.9rem] h-auto ${collapseCN} ${classNameIcon}`}
                 />
             </div>
             <hr className={cn({['hidden']: isChevron}, `scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)]
                                 sm:landscape:scale-[102%]`)}/>
-            <div className={`grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] gap-[min(4dvw,0.56rem)] text-left
-                            items-start text-[--1drl] whitespace-pre-wrap ${className}
-                            ${isExpandedFinal ? '' : 'hidden'}`}>
+            <div className={cn(`
+                grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] gap-[min(4dvw,0.56rem)] text-left
+                items-start text-[--1drl] whitespace-pre-wrap ${className}`,
+                {['hidden']: !isExpandedFinal}
+            )}
+            >
                 {children}
             </div>
         </div>
