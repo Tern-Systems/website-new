@@ -1,10 +1,12 @@
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import cn from "classnames";
 
 import {BaseModal} from "@/app/ui/modals";
 import {Collapsible} from "@/app/ui/misc";
 
 import styles from "@/app/common.module.css";
+import {useBreakpointCheck} from "@/app/hooks";
+import {useModal} from "@/app/context";
 
 
 const FAQs: { question: string, answer: string }[] = [
@@ -80,11 +82,12 @@ const FAQsPage: FC<Props> = (props: Props) => {
                                     sm:[&]:portrait:px-[--p-content-xs]
                                     sm:landscape:flex sm:landscape:hover:brightness-125`
                 }
-                classNameTitle={cn(styles.clickable, `
-                    [&]:mb-0 text-section-s whitespace-pre-wrap text-left
-                    py-[1.88rem] 
-                    sm:x-[py-[0.74rem],text-section-xs]
-                    sm:landscape:p-[--p-content-4xs]`,
+                classNameTitle={cn(styles.clickable,
+                    `[&]:mb-0 text-section-s whitespace-pre-wrap text-left`,
+                    `py-[1.88rem]`,
+                    `md:py-[calc(0.5*var(--p-content-s))] md:text-section-xs`,
+                    `sm:py-[calc(0.5*var(--p-content-s))] sm:text-section-xs`,
+                    `sm:landscape:p-[--p-content-4xs]`,
                     {['pb-[0.5rem]    sm:[&]:pb-[0.35rem]']: expandedItemIdx === idx}
                 )}
                 classNameIcon={'w-[0.9rem]  sm:w-[0.8rem]   sm:landscape:hidden'}
@@ -114,13 +117,16 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 className={`sm:h-[calc(100%-5rem)] sm:overflow-y-scroll
                             sm:landscape:h-[calc(100%-3.19rem)] sm:landscape:x-[flex,gap-x-[0.12rem]]`}
             >
-                <ul className={`bg-control-gray rounded-small overflow-y-scroll
-                                lg:[&_li:first-of-type_div]:pt-[--p-content-3xs]
-                                lg:[&_li:last-of-type_div]:pb-[--p-content-3xs]
-                                sm:portrait:py-[0.2rem]
-                                sm:landscape:x-[p-[--p-content-xs],w-1/2]
-                                sm:landscape:[&_li:first-of-type_div]:pt-0
-                                sm:landscape:[&_li:last-of-type_div]:pb-0`}
+                <ul className={cn(
+                    `bg-control-gray rounded-small overflow-y-scroll`,
+                    `lg:[&_li:first-of-type_div]:pt-[--p-content-3xs]`,
+                    `lg:[&_li:last-of-type_div]:pb-[--p-content-3xs]`,
+                    `md:[&_li:last-of-type_div]:pb-0`,
+                    `sm:portrait:py-[0.2rem]`,
+                    `sm:landscape:x-[p-[--p-content-xs],w-1/2]`,
+                    `sm:landscape:[&_li:first-of-type_div]:pt-0`,
+                    `sm:landscape:[&_li:last-of-type_div]:pb-0`,
+                )}
                 >
                     {FAQsList}
                 </ul>
@@ -144,14 +150,31 @@ const FAQsPage: FC<Props> = (props: Props) => {
     );
 }
 
-const FAQsModal: FC = () => (
-    <BaseModal title={'Help & FAQs'}
-               classNameTitle={'leading-none'}
-               classNameContent={'max-h-[23rem] w-[56rem] overflow-y-scroll font-oxygen'}
-    >
-        <FAQsPage hideTitle/>
-    </BaseModal>
-);
+const FAQsModal: FC = () => {
+    const isSmScreen = useBreakpointCheck();
+    const modalCtx = useModal();
+
+    useEffect(() => {
+        if (isSmScreen)
+            modalCtx.closeModal();
+        //eslint-disable-next-line
+    }, [isSmScreen]);
+
+    return (
+        <BaseModal title={'Help & FAQs'}
+                   className={'md:p-[--p-content-s]'}
+                   classNameTitle={'leading-none'}
+                   classNameHr={'md:mb-[calc(0.5*var(--p-content-s))]'}
+                   classNameContent={cn(
+                       `overflow-y-scroll font-oxygen`,
+                       'lg:x-[w-[56rem],max-h-[23rem]]',
+                       'md:x-[w-[33rem],h-[32rem]]',
+                   )}
+        >
+            <FAQsPage hideTitle/>
+        </BaseModal>
+    );
+}
 
 export {FAQsModal};
 export default FAQsPage;
