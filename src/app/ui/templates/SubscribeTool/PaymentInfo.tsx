@@ -58,7 +58,6 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                         </span>
                         <span className={'justify-self-end'}>Calculated by address</span>
                     </span>
-                    <span className={'justify-self-end text-content-small'}>Calculated by address</span>
                 </div>
                 {Hr}
                 <div className={`flex justify-between`}>

@@ -93,9 +93,12 @@ const Collapsible: FC<Props> = (props: Props) => {
                     src={CollapseIcon}
                     alt={'plus-minus'}
                     onClick={() => handleToggle()}
-                    className={`absolute w-[min(3.5dvw,1.8rem)] h-auto top-[--2dr] right-[--2dr] ${collapseCN}
-                                md:hidden lg:hidden
-                                sm:landscape:size-[2dvw]`}
+                    className={cn(collapseCN,
+                        `absolute w-[min(3.5dvw,1.8rem)] h-auto top-[--2dr] right-[--2dr]`,
+                        `md:hidden lg:hidden`,
+                        `sm:landscape:size-[2dvw]`,
+                        classNameIcon
+                    )}
                 />
                 {Content}
             </div>

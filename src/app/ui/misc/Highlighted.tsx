@@ -34,7 +34,7 @@ const Highlighted: FC<Props> = (props: Props) => {
             >
                 <div className={`flex flex-col h-full font-bold leading-[120%] font-neo whitespace-pre-line 
                             gap-y-[2rem] text-heading 
-                            sm:text-content-sm
+                            sm:text-section-s
                             sm:landscape:gap-y-[1.2rem]
                             ${className}`}
                 >

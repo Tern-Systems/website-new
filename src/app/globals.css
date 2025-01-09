@@ -3,175 +3,176 @@
 @tailwind utilities;
 
 :root {
-  --bg-main: #000000;
-  --bg-control-gray: #4D4D4D;
-  --bg-control-gray-l0: #808080;
-  --bg-control-white-d1: #D3D3D3;
-  --bg-control-white-d0: #D9D9D9;
-  --bg-control-white: #f2f2f2;
-  --bg-control-red: #F42200;
-  --bg-control-blue: #178AB7;
+    --bg-main: #000000;
+    --bg-control-gray: #4D4D4D;
+    --bg-control-gray-l0: #808080;
+    --bg-control-white-d1: #D3D3D3;
+    --bg-control-white-d0: #D9D9D9;
+    --bg-control-white: #f2f2f2;
+    --bg-control-red: #F42200;
+    --bg-control-blue: #178AB7;
 
-  --bg-section-navy: #001125;
+    --bg-section-navy: #001125;
 
-  --b-small: 0.0625rem;
+    --b-small: 0.0625rem;
 
-  --b-section: var(--bg-control-gray);
-  --b-control-gray: #192131;
-  --b-control-gray-l0: var(--bg-control-gray-l0);
-  --b-control-gray-l1: #999999;
-  --b-control-white-d0: #B3B3B3;
-  --b-control-white: var(--bg-control-white);
-  --b-control-blue: var(--bg-control-blue);
-  --b-control-red: var(--bg-control-red);
+    --b-section: var(--bg-control-gray);
+    --b-control-gray: #192131;
+    --b-control-gray-l0: var(--bg-control-gray-l0);
+    --b-control-gray-l1: #999999;
+    --b-control-white-d0: #B3B3B3;
+    --b-control-white: var(--bg-control-white);
+    --b-control-blue: var(--bg-control-blue);
+    --b-control-red: var(--bg-control-red);
 
-  --br-smallest-1: 0.25rem;
-  --br-smallest: 0.375rem;
-  --br-small: 0.55rem;
-  --br-normal: 1rem;
+    --br-smallest-1: 0.25rem;
+    --br-smallest: 0.375rem;
+    --br-small: 0.55rem;
+    --br-normal: 1rem;
 
-  --color-primary: #ECF0F3;
-  --color-secondary: var(--bg-control-gray-l0);
-  --color-gray: var(--bg-control-gray);
-  --color-placeholder: var(--b-control-white-d0);
-  --color-blue: var(--bg-control-blue);
-  --color-blue-l0: #21A1D3;
-  --color-red: var(--bg-control-red);
+    --color-primary: #ECF0F3;
+    --color-secondary: var(--bg-control-gray-l0);
+    --color-gray: var(--bg-control-gray);
+    --color-placeholder: var(--b-control-white-d0);
+    --color-blue: var(--bg-control-blue);
+    --color-blue-l0: #21A1D3;
+    --color-red: var(--bg-control-red);
 
-  --fz-note-: 0.75rem;
-  --fz-content-small-: 1.125rem;
-  --fz-content-: 1.3125rem;
-  --fz-header-: 1.685rem;
+    --fz-note-: 0.75rem;
+    --fz-content-small-: 1.125rem;
+    --fz-content-: 1.3125rem;
+    --fz-header-: 1.685rem;
 
-  --fz-note: min(1.8dvw, var(--fz-note-));
-  --fz-small: min(2.7dvw, 0.875rem);
-  --fz-content-small: min(3.2dvw, var(--fz-content-small-));
-  --fz-default: min(3.45dvw, 1rem);
-  --fz-content: min(3.7dvw, var(--fz-content-));
-  --fz-header: min(4.8dvw, var(--fz-header-));
-  --fz-section-header: min(5.6dvw, 2.25rem);
-  --fz-header-l: min(7.2dvw, 3rem);
+    --fz-note: min(1.8dvw, var(--fz-note-));
+    --fz-small: min(2.7dvw, 0.875rem);
+    --fz-content-small: min(3.2dvw, var(--fz-content-small-));
+    --fz-default: min(3.45dvw, 1rem);
+    --fz-content: min(3.7dvw, var(--fz-content-));
+    --fz-header: min(4.8dvw, var(--fz-header-));
+    --fz-section-header: min(5.6dvw, 2.25rem);
+    --fz-header-l: min(7.2dvw, 3rem);
 
-  /* Heights */
-  --h-control: min(4.3dvw, 1.45rem);
-  --h-control-dl: min(6.1dvw, 1.45rem);
-  --h-modal-header: 4.3rem;
+    /* Heights */
+    --h-control: min(4.3dvw, 1.45rem);
+    --h-control-dl: min(6.1dvw, 1.45rem);
+    --h-modal-header: 4.3rem;
 
-  /* Spacings */
-  --s-dl-smallest: min(1.3dvw, 0.6rem);
-  --s-d2l-smallest: min(1.6dvw, 0.6rem);
-  --s-dl-small: min(1.6dvw, 0.8rem);
-  --s-d-small: min(1dvw, 0.8rem);
-  --s-small: min(2.7dvw, 0.8rem);
-  --s-normal: min(2.7dvw, 1.55rem);
-  --s-default: 2rem;
+    /* Spacings */
+    --s-dl-smallest: min(1.3dvw, 0.6rem);
+    --s-d2l-smallest: min(1.6dvw, 0.6rem);
+    --s-dl-small: min(1.6dvw, 0.8rem);
+    --s-d-small: min(1dvw, 0.8rem);
+    --s-small: min(2.7dvw, 0.8rem);
+    --s-normal: min(2.7dvw, 1.55rem);
+    --s-default: 2rem;
 
-  --sy-sl: 1.9dvw; /* spacing-y sm-landscape */
+    --sy-sl: 1.9dvw; /* spacing-y sm-landscape */
 
-  /* 'dr' - 'dynamic rem' */
-  --1drs: min(2.5dvw, 1rem);
-  --1dr: min(2.7dvw, 1rem);
-  --1drl: min(3.2dvw, 1rem);
-  --1qdrs: min(2.7dvw, 1.25rem);
-  --1qdr: min(4dvw, 1.25rem);
-  --1hdrs: min(1.5dvw, 1.5rem);
-  --1hdr: min(4dvw, 1.5rem);
+    /* 'dr' - 'dynamic rem' */
+    --1drs: min(2.5dvw, 1rem);
+    --1dr: min(2.7dvw, 1rem);
+    --1drl: min(3.2dvw, 1rem);
+    --1qdrs: min(2.7dvw, 1.25rem);
+    --1qdr: min(4dvw, 1.25rem);
+    --1hdrs: min(1.5dvw, 1.5rem);
+    --1hdr: min(4dvw, 1.5rem);
 
-  --2drs: min(2dvw, 2rem);
-  --2dr: min(4dvw, 2rem);
-  --2tdr: min(4dvw, 2.3rem);
-  --2hdr: min(min(8dvw, 2.5rem));
+    --2drs: min(2dvw, 2rem);
+    --2dr: min(4dvw, 2rem);
+    --2tdr: min(4dvw, 2.3rem);
+    --2hdr: min(min(8dvw, 2.5rem));
 
 
-  /* Theme fix */
+    /* Theme fix */
 
-  /* Paddings */
-  --p-content-xl: 3.06rem;
-  --p-content-l: 2.5rem;
-  --p-content: 2.06rem;
-  --p-content-s: 1.56rem;
-  --p-content-xs: 1.25rem;
-  --p-content-xxs: 0.94rem;
-  --p-content-3xs: 0.81rem;
-  --p-content-4xs: 0.62rem;
-  --p-content-5xs: 0.31rem;
+    /* Paddings */
+    --p-content-xxl: 4.13rem;
+    --p-content-xl: 3.06rem;
+    --p-content-l: 2.5rem;
+    --p-content: 2.06rem;
+    --p-content-s: 1.56rem;
+    --p-content-xs: 1.25rem;
+    --p-content-xxs: 0.94rem;
+    --p-content-3xs: 0.81rem;
+    --p-content-4xs: 0.62rem;
+    --p-content-5xs: 0.31rem;
 
-  /* Text */
-  --fz-heading-l: 2.25rem;
-  --fz-heading: 1.6875rem;
-  --fz-heading-s: 1.3125rem;
-  --fz-documentation: 1.5rem;
-  --fz-section: 1.25rem;
-  --fz-section-s: 1.125rem;
-  --fz-basic: 1rem;
-  --fz-section-xs: 0.875rem;
-  --fz-section-xxs: 0.75rem;
-  --fz-section-3xs: 0.625rem;
+    /* Text */
+    --fz-heading-l: 2.25rem;
+    --fz-heading: 1.6875rem;
+    --fz-heading-s: 1.3125rem;
+    --fz-documentation: 1.5rem;
+    --fz-section: 1.25rem;
+    --fz-section-s: 1.125rem;
+    --fz-basic: 1rem;
+    --fz-section-xs: 0.875rem;
+    --fz-section-xxs: 0.75rem;
+    --fz-section-3xs: 0.625rem;
 
-  /* Insignia */
-  --insignia-moved-size: 2.125rem;
-  --insignia-pl-moved: var(--p-content);
-  --insignia-pt-moved: 1.66rem;
-  --insignia-scale-init: 0.8;
-  --insignia-scale-moved: 0.2;
+    /* Insignia */
+    --insignia-moved-size: 2.125rem;
+    --insignia-pl-moved: var(--p-content);
+    --insignia-pt-moved: 1.66rem;
+    --insignia-scale-init: 0.8;
+    --insignia-scale-moved: 0.2;
 }
 
 body {
-  background: var(--bg-main);
-  font-family: Arial, Helvetica, sans-serif;
-  overflow: hidden;
+    background: var(--bg-main);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
 
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  line-height: 1;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    line-height: 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  line-height: normal;
+    line-height: normal;
 }
 
 h1 {
-  line-height: 0.75;
+    line-height: 0.75;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 body ::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 @font-face {
-  font-family: "Adobe Caslon Pro";
-  src: url("../../public/fonts/ACaslonPro-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Adobe Caslon Pro";
+    src: url("../../public/fonts/ACaslonPro-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Neo Sans W1G";
-  src: url("../../public/fonts/NeoSansW1G-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Neo Sans W1G";
+    src: url("../../public/fonts/NeoSansW1G-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Oxygen';
-  src: url('../../public/fonts/Oxygen-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
+    font-family: 'Oxygen';
+    src: url('../../public/fonts/Oxygen-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Old English Five';
-  src: url('../../public/fonts/OldEnglishFive.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
+    font-family: 'Old English Five';
+    src: url('../../public/fonts/OldEnglishFive.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
 }
