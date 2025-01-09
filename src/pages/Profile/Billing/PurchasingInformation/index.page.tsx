@@ -55,7 +55,7 @@ function PurchasingInformationPage() {
         }
         fetchSubscriptionDetailsAndCards();
         // eslint-disable-next-line
-    }, [userCtx.userData]);
+    }, []);
 
 
     if (!isLoggedIn)

@@ -51,7 +51,7 @@ const PricingAndPlansPage: FC = () => {
             setSubscription(PLAN_TEMPLATE);
         } catch (error: unknown) {
         }
-    }, [userData]);
+    }, []);
 
     return <PricingAndPlansScreen subscriptionData={subscription}/>;
 };
