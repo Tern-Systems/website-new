@@ -28,6 +28,7 @@
   --br-smallest-1: 0.25rem;
   --br-smallest: 0.375rem;
   --br-small: 0.55rem;
+  --br-normal: 1rem;
 
   --color-primary: #ECF0F3;
   --color-secondary: var(--bg-control-gray-l0);
@@ -85,8 +86,13 @@
   /* Theme fix */
 
   /* Paddings */
+  --p-content-l: 3.06rem;
   --p-content: 2.06rem;
-  --p-content-sm: 1.25rem;
+  --p-content-s: 1.25rem;
+  --p-content-xs: 0.94rem;
+  --p-content-xxs: 0.81rem;
+  --p-content-3xs: 0.62rem;
+  --p-content-4xs: 0.31rem;
 
   /* Text */
   --fz-heading-l: 2.25rem;

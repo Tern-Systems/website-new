@@ -23,16 +23,16 @@ const PaymentInfo: FC<Props> = (props: Props) => {
     return (
         <div className={`relative flex-1 w-1/2 h-full overflow-y-scroll bg-white shadow-2xl
                         pt-[7.44rem] 
-                        sm:x-[overflow-y-visible,p-[--p-content-sm],w-full,shadow-none,border-small,border-control-gray-l0]`}
+                        sm:x-[overflow-y-visible,p-[--p-content-s],w-full,shadow-none,border-small,border-control-gray-l0]`}
         >
             <div className={`mx-auto max-w-[28rem] w-full font-bold`}>
-                <h2 className={`mb-[--p-content-sm]`}>
+                <h2 className={`mb-[--p-content-s]`}>
                     Subscribe to {subscription?.subscription ?? '--'} Subscription
                 </h2>
                 <div
                     className={`grid grid-rows-2 grid-cols-[max-content,1fr] items-center 
                                 gap-x-[0.4rem] mb-[3.75rem]
-                                sm:mb-[--p-content-sm]`}
+                                sm:mb-[--p-content-s]`}
                 >
                     <span className={`row-span-2  text-[3rem]  sm:text-heading-l`}>${price ?? '--'}</span>
                     <span className={'contents font-normal  text-section-s  sm:text-section-xxs'}>

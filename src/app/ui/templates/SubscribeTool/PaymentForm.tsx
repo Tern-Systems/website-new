@@ -281,11 +281,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
     return (
         <div className={`flex-1 w-1/2 bg-control-white h-full overflow-y-scroll
                         pt-[7.44rem] 
-                        sm:x-[overflow-y-visible,p-[--p-content-sm],w-full,max-h-fit,shadow-none]`}
+                        sm:x-[overflow-y-visible,p-[--p-content-s],w-full,max-h-fit,shadow-none]`}
         >
             <div className={'mx-auto max-w-[29rem] w-full'}>
                 <form className={styles.form} onSubmit={handleFormSubmit}>
-                    <h2 className={`mb-[--p-content-sm] font-bold`}>
+                    <h2 className={`mb-[--p-content-s] font-bold`}>
                         {savedCards.length ? 'Choose' : ''} Payment Method
                     </h2>
                     {FormInputs}
