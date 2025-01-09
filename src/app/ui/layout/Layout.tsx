@@ -69,7 +69,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     className={`relative flex flex-col flex-grow h-full w-full justify-center items-center 
                                 bg-cover bg-no-repeat bg-fixed text-center bg-center
                                 overflow-y-scroll
-                                sm:overflow-hidden`}
+                                sm:overflow-hidden
+                                sm:landscape:overflow-y-scroll`}
                 >
                     <div
                         className={cn(
