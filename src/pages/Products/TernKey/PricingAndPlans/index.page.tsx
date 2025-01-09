@@ -8,7 +8,6 @@ import {useUser} from "@/app/context";
 import SVG_DIAMOND_ACE from "@/assets/images/icons/diamond-ace.svg";
 import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
 
-
 const PLAN_TEMPLATE: SubscriptionPreview = {
     subscription: "TernKey",
     isBasicKind: true,

@@ -3,11 +3,14 @@ import React, {FC, FormEvent, useEffect, useState} from "react";
 import {CardData} from "@/app/types/billing";
 import {COUNTRY, STATE_PROVINCE} from "@/app/static";
 
+import {BillingService} from "@/app/services";
+
 import {useBreakpointCheck, useForm} from "@/app/hooks";
-import {useModal} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";
 import {Button, Input, Select} from "@/app/ui/form";
+import {MessageModal} from "@/app/ui/modals";
 import {RemovePaymentMethodModal} from "./RemovePaymentMethodModal";
 
 import SVG_VISA from "@/assets/images/icons/card-visa.svg";
@@ -69,14 +72,14 @@ interface Props {
 const PaymentMethodTool: FC<Props> = (props: Props) => {
     const {isPaymentCreation} = props;
 
+    const {userData} = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck();
+    const {isSmScreen, isMdScreen} = useBreakpointCheck();
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
 
     const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
-
 
     useEffect(() => {
         if (isPaymentCreation)
@@ -89,14 +92,19 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         }
     }, [isPaymentCreation])
 
+
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!userData)
+            return;
         try {
-            // TOOD;
-            if (isPaymentCreation) {
-            } else {
+            if (isPaymentCreation)
+                await BillingService.postSaveCard(formData, userData?.email);
+            else {
             }
         } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     }
 
@@ -148,7 +156,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
-                        icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
+                        icons={isMdScreen ? [] : [SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
                         classNameWrapper={`${FIELD_CN} row-start-3`}
                         required
                     >
@@ -167,7 +175,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Input>
                     <Input
                         value={formData.cvc}
-                        maxLength={3}
+                        maxLength={formData.cardNumber && (formData.cardNumber.startsWith('34') || formData.cardNumber.startsWith('37')) ? 4 : 3}
                         onChange={setFormData('cvc')}
                         placeholder={'CVC'}
                         icons={[SVG_CARD_NUM]}
@@ -177,7 +185,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         CVC
                     </Input>
                     <Input
-                        type={'number'}
+                        type={'text'}
                         value={formData.nickName}
                         onChange={setFormData('nickName')}
                         classNameWrapper={`${FIELD_CN} row-start-5`}
@@ -193,7 +201,6 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             classNameWrapper={`flex-row-reverse place-self-start [&&]:mb-[1rem] sm:[&&]:mb-0 sm:[&&]:mt-[1.3dvw]`}
                             classNameLabel={'text-small [&&]:mb-0'}
                             className={'max-w-[--1drl] max-h-[--1drl]'}
-                            required
                         >
                             Set as preferred payment method
                         </Input>
@@ -229,8 +236,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={formData.city}
                         onChange={setFormData('city')}
                         onKeyDown={(event) => {
-                            if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
+                            if (!/[a-z ]/i.test(event.key) && event.key !== 'Backspace') {
                                 event.preventDefault();
+                            }
                         }}
                         classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}
                         required
