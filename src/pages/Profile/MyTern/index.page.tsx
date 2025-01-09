@@ -23,12 +23,12 @@ import {ScrollEnd} from "@/app/ui/misc";
 
 
 const EVENTS_TEMPLATE: TableEntry[] = [
-    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: ihhffffffffffffffffvipcow[esssssofaaaaaa', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on youtube: sdjla ', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: ads', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: ', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: ', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: ', data: Date.now(), href: 'https://youtube.com'},
 ];
 
 
@@ -62,15 +62,19 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     const renderTd = (title: ReactElement | string, href: string, type?: 'first' | 'last') => {
         return (
             <td className={cn({
-                ['pr-[--p-content-xxs] w-[1.3rem] rounded-r-normal   sm:x-[pr-[--p-content-4xs],rounded-r-small]']: type === 'last',
-                ['pl-[--p-content-xxs] max-w-[9.7rem] rounded-l-normal   sm:x-[pl-[--p-content-4xs],rounded-l-small]']: type === 'first'
+                ['pr-[--p-content-3xs] w-[1.3rem] rounded-r-normal   sm:x-[pr-[--p-content-5xs],rounded-r-small]']: type === 'last',
+                ['pl-[--p-content-3xs] max-w-[15rem] rounded-l-normal   sm:x-[pl-[--p-content-5xs],min-w-[40%],w-[50%],rounded-l-small]     sm:landscape:w-[60%]']: type === 'first'
             })}
             >
                 <PageLink href={href} isExternal={isExternal}
-                          className={`w-full overflow-x-hidden overflow-ellipsis text-nowrap
-                                    py-[0.75rem] 
-                                    sm:x-[py-[0.22rem],max-w-[41dvw],table-cell]
-                                    sm:landscape:py-[0.4dvw]`}
+                          className={cn(
+                              'w-full overflow-hidden overflow-ellipsis text-nowrap max-w-[20rem]',
+                              `py-[0.75rem]`,
+                              `md:py-[0.875rem]`,
+                              `sm:x-[py-[0.22rem],table-cell]`,
+                              `sm:portrait:max-w-[8rem]`,
+                              `sm:landscape:py-[calc(0.5*var(--p-content-3xs))] sm:landscape:max-w-[15rem]`,
+                          )}
                 >
                     {title}
                 </PageLink>
@@ -96,31 +100,33 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     return (
         <div
             className={`bg-control-gray rounded-smallest
-                        p-[--p-content-s] max-h-[20rem]
-                        sm:x-[p-[--p-content-3xs],max-h-[10rem]]
-                        sm:landscape:x-[p-[--sy-sl]]`}>
-            <h3 className={`font-bold px-[--p-content-xxs]
+                        p-[--p-content-xs] max-h-[20rem]
+                        md:p-[--p-content-xxs]
+                        sm:x-[p-[--p-content-4xs],max-h-[10rem]]
+                        sm:landscape:x-[p-[--p-content-xxs]]`}>
+            <h3 className={`font-bold px-[--p-content-3xs]
                             text-heading
-                            sm:x-[px-[--p-content-4xs],text-section]`}
+                            md:px-[--p-content-4xs]
+                            sm:x-[px-[--p-content-5xs],text-section-s]`}
             >
                 {table.title}
             </h3>
             <hr className={`relative border-control-white-d0
-                            my-[--p-content-s]
-                            sm:x-[mt-[--p-content-3xs],mb-[--p-content-4xs]]
-                            sm:landscape:x-[mt-[1.2dvw],mb-[0.6dvw]]`}/>
+                            my-[--p-content-xs]
+                            sm:x-[mt-[--p-content-4xs],mb-[--p-content-5xs]]
+                            sm:landscape:x-[mt-[--p-content-4xs],mb-[--p-content-5xs]]`}/>
             <div className={`overflow-y-scroll
-                            max-h-[calc(100%-var(--fz-heading)-2.5*var(--p-content-s))]
-                            sm:max-h-[calc(100%-var(--fz-section)-2*var(--p-content-3xs))]`}
+                            max-h-[calc(100%-var(--fz-heading)-2.5*var(--p-content-xs))]
+                            sm:max-h-[calc(100%-var(--fz-section)-2*var(--p-content-4xs))]`}
             >
                 <table className={`w-full text-heading-s    sm:text-section-xs`}>
                     <thead className={`sticky top-0 z-10 bg-control-gray
                                         text-section-xs 
                                         sm:text-section-xxxs
-                                        sm:landscape:text-[1.25dvw]`}
+                                        sm:landscape:text-section-xxxs`}
                     >
                     <tr className={'[&_td]:pb-[0.75rem]     sm:[&_td]:pb-[0.25rem]     sm:landscape:py-0'}>
-                        <td className={'pl-[--p-content-xxs]     sm:pl-[--p-content-4xs]'}>{table.columnNames[0]}</td>
+                        <td className={'pl-[--p-content-3xs]     sm:pl-[--p-content-5xs]'}>{table.columnNames[0]}</td>
                         <td>{table.columnNames[1]}</td>
                         <td/>
                     </tr>
@@ -177,9 +183,9 @@ const MyTernPage: FC = () => {
             <Button
                 icon={btn.icon}
                 className={`bg-control-gray rounded-smallest
-                            px-[0.73rem] py-[--p-content-3xs] text-heading-s
+                            px-[0.73rem] py-[--p-content-4xs] text-heading-s
                             sm:x-[py-[0.47rem],px-[0.56rem],text-section-xs]
-                            sm:landscape:x-[px-[1dvw],py-[0.5dvw],text-small]`
+                            sm:landscape:text-section-xs`
                 }
                 classNameIcon={`[&_path]:fill-primary
                                 sm:[&_svg]:w-[0.875rem]`}
@@ -205,42 +211,54 @@ const MyTernPage: FC = () => {
     }
 
     return (
-        <div className={`grid auto-rows-min max-w-[90.63rem] w-3/4 h-full text-left
-                        mt-[5.94rem] mx-auto
-                        sm:x-[mt-[--p-content-l],px-[--p-content-s],w-full]
-                        sm:landscape:x-[auto-rows-auto,grid-cols-2,gap-x-[15dvw],mx-0]`}
+        <div className={cn(
+            `grid max-w-[90.63rem] w-full h-full text-left`,
+            `lg:x-[auto-rows-min,w-3/4,mt-[5.94rem],mx-auto]`,
+            `md:x-[mt-[--p-content-l],px-[--p-content-l]]`,
+            `sm:grid-rows-[min-content,1fr]`,
+            `sm:x-[mt-0,px-[--p-content-xs]]`,
+            `sm:landscape:max-h-[calc(100%-2*var(--p-content-xs))]`,
+            `sm:landscape:grid-cols-[1fr,2fr]`,
+            `sm:landscape:x-[auto-rows-auto,gap-x-[--p-content-l],mx-0,mt-[--p-content-xs]]`
+        )}
         >
-            <h1 className={`font-bold
-                            pb-[--p-content-s] text-heading-l leading-none
-                            sm:x-[pb-[--p-content-3xs],text-heading-s]
-                            sm:landscape:x-[pb-[0.5dvw],text-content]`}
+            <h1 className={cn(
+                `font-bold`,
+                `pb-[--p-content-xs] text-heading-l`,
+                `md:x-[pb-[--p-content-xxs]]`,
+                `sm:x-[pb-[--p-content-4xs],text-heading-s]`,
+                `sm:portrait:x-[h-[5rem],place-content-end]`,
+                `sm:landscape:text-heading-s`,
+            )}
             >
                 Dashboard
             </h1>
-            <div className={`sm:portrait:overflow-y-scroll sm:portrait:max-h-[calc(100%-3.06rem)]
-                            sm:landscape:x-[contents,text-[1.2dvw]]`}
+            <div className={`sm:portrait:overflow-y-scroll sm:portrait:h-[calc(100%-3rem)]
+                            sm:landscape:contents`}
             >
                 <div
-                    className={cn(`
-                        text-section-xs
-                        sm:text-section-xxxs
-                        sm:landscape:col-start-1`,
+                    className={cn(
+                        `text-section-xs`,
+                        `sm:text-section-xxxs`,
+                        `sm:landscape:col-start-1`,
                         {['hidden']: !userCtx.userData}
                     )}
                 >
                     {renderSinceDate(userCtx.userData?.registrationDate)}
                 </div>
                 <div className={`flex flex-wrap
-                                gap-[--p-content-s] my-[1.87rem]
-                                sm:x-[my-[--p-content-s],gap-[--p-content-3xs]]
-                                sm:landscape:x-[col-start-1,my-[1.3dvw],gap-[1.2dvw]]`}
+                                gap-[--p-content-xs] my-[1.87rem]
+                                md:my-[--p-content-s]
+                                sm:x-[my-[--p-content-xs],gap-[--p-content-4xs]]
+                                sm:landscape:x-[col-start-1,gap-[--p-content-4xs],my-[0.94rem]]`}
                 >
                     {NavBtns}
                 </div>
                 <div className={`grid
-                                grid-cols-2 gap-[--p-content-3xs]
+                                grid-cols-2 gap-[--p-content-4xs]
+                                md:x-[grid-cols-1,gap-[--p-content-s]]
                                 sm:grid-cols-1
-                                sm:landscape:x-[row-start-1,col-start-2,row-span-4,overflow-y-scroll,max-h-[55dvh]]`}
+                                sm:landscape:x-[row-start-1,col-start-2,row-span-4,overflow-y-scroll]`}
                 >
                     {renderTable(subscriptionTable)}
                     {renderTable({
@@ -250,14 +268,15 @@ const MyTernPage: FC = () => {
                     }, true)}
                 </div>
                 <div className={`flex-col inline-flex
-                                gap-y-[1.56rem] mt-[3.13rem] text-section-xs
-                                sm:x-[gap-y-[--p-content-3xs],mt-[3.88rem]]
-                                sm:landscape:x-[col-start-1,gap-y-[1dvw],mt-[1dvw],w-fit]`}
+                                gap-y-[--p-content-s] mt-[--p-content-l] text-section-xs
+                                md:x-[mt-[--p-content-l],text-basic]
+                                sm:x-[gap-y-[--p-content-4xs],mt-[3.88rem],text-section-xxs]
+                                sm:landscape:x-[col-start-1,gap-y-[--p-content-4xs],mt-[1dvw],w-fit]`}
                 >
                     <span className={`font-bold
-                                    mb-[0.32rem] text-heading
+                                    mb-[--p-content-5xs] text-heading
                                     sm:text-basic
-                                    sm:landscape:x-[text-default,mb-0]`}
+                                    sm:landscape:mb-0`}
                     >
                         Additional Resources
                     </span>
