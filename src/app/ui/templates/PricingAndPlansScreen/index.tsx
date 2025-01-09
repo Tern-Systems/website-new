@@ -106,6 +106,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         const isAnnualSwitchOption = selectedRecurrency === "annual";
         const isBasicPlan = type === "Basic";
+        const hasUserBasicPlan = userSubscription?.type === 'Basic';
         const isUserMonthlySubscriber = userSubscription
             ? userSubscription.recurrency === "monthly"
             : false;
@@ -131,8 +132,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
           </span>
         );
 
-        if (isCurrentRecurrency || isBasicPlan) {
-            if (isCurrentPlan) {
+        if (isCurrentRecurrency || isBasicPlan || hasUserBasicPlan || !userSubscription) {
+            if (isCurrentPlan || isBasicPlan || !userSubscription) {
                 subscribeBtnText = isBtnDisabled || isBasicPlan ? "Your current plan" : "Subscribe";
                 Links =
                     isBasicPlan
@@ -147,17 +148,17 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         )
                         : (
                             <>
-                        <span className={`${LINKS_MB_CN} underline`}>
-                          <PageLink
-                              href={Route.ManageSubscriptions}
-                              className={"cursor-pointer"}
-                          >
-                            Manage subscription
-                          </PageLink>
-                        </span>
+                                <span className={`${LINKS_MB_CN} underline`}>
+                                    <PageLink
+                                        href={Route.ManageSubscriptions}
+                                        className={"cursor-pointer"}
+                                    >
+                                        Manage subscription
+                                    </PageLink>
+                                </span>
                                 <span className={"first-letter:capitalize"}>
-                          {BillingResolution}
-                        </span>
+                                    {BillingResolution}
+                                </span>
                             </>
                         );
             } else {

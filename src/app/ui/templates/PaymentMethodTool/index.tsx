@@ -76,7 +76,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const {userData} = useUser();
     const modalCtx = useModal();
-    const {isSmScreen, isMdScreen} = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck();
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
@@ -157,7 +157,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={formData.cardNumber}
                         maxLength={16}
                         placeholder={'1234 1234 1234 1234'}
-                        icons={isMdScreen ? [] : [SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
+                        icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
                         classNameWrapper={`${FIELD_CN} row-start-3`}
                         disabled={!isPaymentCreation}
                     >
