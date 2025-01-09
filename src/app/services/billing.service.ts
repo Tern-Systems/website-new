@@ -25,6 +25,8 @@ interface IBillingService {
     postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>>;
 
     postExportTransaction(email: string): Promise<Res<string>>;
+
+    postSaveCard(formData: CardData, email: string): Promise<Res>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
@@ -32,6 +34,49 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         super(BillingServiceImpl.name)
     }
 
+    async postSaveCard(formData: CardData, user: string): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postSaveCard.name);
+
+        const cardDetails = {
+            cardNumber: formData.cardNumber,
+            expiryDate: formData.expirationDate,
+            cardCode: formData.cvc
+        }
+
+        const billingDetails = {
+            firstName: formData.cardholderName,
+            lastName: formData.cardholderName,
+            address: `${formData.addressLine1} | ${formData.addressLine2}`,
+            city: formData.city,
+            state: formData.state,
+            zip: formData.postalCode,
+            country: formData.billingCountry
+        }
+
+
+        const config: AxiosRequestConfig = {
+
+            method: "POST",
+            url: this._API + `save-new-card`,
+            data: {
+                user,
+                cardDetails: cardDetails,
+                billingDetails: billingDetails,
+                nickName: formData.nickName,
+                isPreferred: formData.isDefault
+            },
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
 
     async postExportTransaction(email: string): Promise<Res<string>> {
         const [debug, error] = this.getLoggers(this.postGetInvoices.name);
