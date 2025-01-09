@@ -1,8 +1,7 @@
 import React, {FC, FormEvent, useEffect, useState} from "react";
-import axios from 'axios';
 
-import {CardData} from "@/app/types/billing";
-import {COUNTRY, STATE_PROVINCE} from "@/app/static";
+import {CardData, SavedCardFull} from "@/app/types/billing";
+import {COUNTRY, CountryKey, STATE_PROVINCE, StateKey} from "@/app/static";
 
 import {BillingService} from "@/app/services";
 
@@ -23,45 +22,12 @@ import SVG_CARD_NUM from "@/assets/images/icons/card-num.svg";
 import styles from './Form.module.css'
 
 
-const CARDS_TEMPLATE: CardData[] = [
-    {
-        id: 'f98yui',
-        type: 'visa',
-        cardNumber: '1234123412341234',
-        expirationDate: '01/01',
-        cvc: '000',
-        cardholderName: 'NAME SURNAME',
-        billingCountry: 'US',
-        billingAddress: '123 St',
-        addressLine1: '',
-        addressLine2: '',
-        city: 'City',
-        postalCode: '98738',
-        state: 'SC',
-        nickName: 'John’s Personal Debit Card',
-        isDefault: true
-    }
-]
+const SM_ROW_START = 'sm:row-start-auto';
+const FIELDSET_CN = '[&&>*]:sm:col-start-1';
+const LEGEND_CN = `sm:mt-[2.7dvw] sm:[&&]:mb-0 ${SM_ROW_START}`;
+const SELECT_CN = 'px-[--s-d2l-smallest] py-[min(--s-d-small) h-[min(5.6dvw,3.25rem)] bg-white';
+const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
 
-type SavedCard = {
-    CustomerProfileId: string;
-    PaymentProfileId: string;
-    billingAddress: {
-      address: string;
-      city: string;
-      country: string;
-      firstName: string;
-      lastName: string;
-      state: string;
-      zip: string;
-    };
-    cardNumber: string;
-    cardType: string;
-    expDate: string;
-    last4: string;
-    nickname: string;
-    preferred: boolean;
-};
 
 const FORM_DATA_DEFAULT: CardData = {
     id: '',
@@ -81,12 +47,6 @@ const FORM_DATA_DEFAULT: CardData = {
     isDefault: false,
 }
 
-const SM_ROW_START = 'sm:row-start-auto';
-const FIELDSET_CN = '[&&>*]:sm:col-start-1';
-const LEGEND_CN = `sm:mt-[2.7dvw] sm:[&&]:mb-0 ${SM_ROW_START}`;
-const SELECT_CN = 'px-[--s-d2l-smallest] py-[min(--s-d-small) h-[min(5.6dvw,3.25rem)] bg-white';
-const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
-
 
 interface Props {
     isPaymentCreation?: boolean;
@@ -100,44 +60,28 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const isSmScreen = useBreakpointCheck();
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
-    const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
 
     const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
 
-    useEffect(() => {
-        if (isPaymentCreation) return;
 
-        (async () => {
-          try {
-            const result = await axios({
-                method: "POST",
-                data: {
-                    email: userData?.email
-                },
-                url: `${process.env.NEXT_PUBLIC_API}get-saved-cards-and-edit`,
-                withCredentials: true,
-            });
-            const cardData = result.data?.map((card: SavedCard) => ({
-                type: card.cardType,
-                cardNumber: card.cardNumber,
-                expirationDate: card.expDate,
-                cvc: "",
-                cardholderName: `${card.billingAddress.firstName} ${card.billingAddress.lastName}`.trim(),
-                billingCountry: card.billingAddress.country,
-                billingAddress: card.billingAddress.address,
-                addressLine1: card.billingAddress.address,
-                addressLine2: "",
-                city: card.billingAddress.city,
-                postalCode: card.billingAddress.zip,
-                state: card.billingAddress.state,
-                nickname: card.nickname || "",
-                isDefault: card.preferred,
-            }));
-            setSavedCards(cardData.length > 0 ? cardData : CARDS_TEMPLATE);
-          } catch (error: unknown) {
-            console.error("Failed to fetch card details:", error);
-          }
-        })();
+    useEffect(() => {
+        if (isPaymentCreation)
+            return;
+
+        const fetchEditCards = async () => {
+            if (!userData)
+                return;
+
+            try {
+                const {payload: cards} = await BillingService.getEditCards(userData.email);
+                setSavedCards(cards);
+            } catch (error: unknown) {
+                if (typeof error === 'string')
+                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            }
+        }
+        fetchEditCards();
         // eslint-disable-next-line
     }, [isPaymentCreation]);
 
@@ -157,9 +101,33 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         }
     }
 
+
+    const mapSavedCard = (card: SavedCardFull): CardData => {
+        const billingInfo = card?.billingAddress;
+        return {
+            id: '',
+            cardNumber: card.cardNumber,
+            billingAddress: billingInfo?.address + billingInfo?.city + billingInfo?.state + billingInfo?.zip + billingInfo?.country,
+            nickName: card.nickName,
+            type: card.cardType,
+            cvc: '',
+            expirationDate: card.expDate,
+            cardholderName: card.billingAddress.firstName + ' ' + card.billingAddress.lastName,
+            addressLine1: card.billingAddress.address,
+            addressLine2: '',
+            city: card.billingAddress.city,
+            state: card.billingAddress.state as StateKey,
+            postalCode: card.billingAddress.zip,
+            billingCountry: card.billingAddress.country as CountryKey,
+            isDefault: card.preferred,
+        }
+    }
+
     useEffect(() => {
-        if (editCardIdx > -1)
-            setFormDataState(savedCards[editCardIdx])
+        if (editCardIdx <= -1)
+            return;
+        const formData: CardData = mapSavedCard(savedCards[editCardIdx]);
+        setFormDataState(formData);
     }, [savedCards, editCardIdx, setFormDataState])
 
     // Elements
@@ -332,7 +300,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     onClick={() => {
                         if (savedCards[+editCardIdx]) {
                             modalCtx.openModal(
-                                <RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>,
+                                <RemovePaymentMethodModal card={mapSavedCard(savedCards[+editCardIdx])}/>,
                                 {darkenBg: true}
                             );
                         }

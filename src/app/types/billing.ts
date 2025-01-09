@@ -60,4 +60,24 @@ type SavedCard = {
     preferred: boolean,
 }
 
-export type {CardData, Invoice, InvoiceHistory, SavedCard}
+type SavedCardFull = {
+    customerProfileId: string;
+    paymentProfileId: string;
+    billingAddress: {
+        address: string;
+        city: string;
+        country: string;
+        firstName: string;
+        lastName: string;
+        state: string;
+        zip: string;
+    };
+    cardNumber: string;
+    cardType: string;
+    expDate: string;
+    last4: string;
+    nickName: string;
+    preferred: boolean;
+};
+
+export type {CardData, Invoice, InvoiceHistory, SavedCard, SavedCardFull}

@@ -70,7 +70,7 @@ function PurchasingInformationPage() {
         return (
             <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-content items-center'}>
                 <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
-                <span>{card.nickname}</span>
+                <span>{card.nickName}</span>
                 <span
                     hidden={!card.preferred}
                     className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
