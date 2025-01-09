@@ -24,6 +24,7 @@ import styles from './Form.module.css'
 
 const CARDS_TEMPLATE: CardData[] = [
     {
+        id: 'f98yui',
         type: 'visa',
         cardNumber: '1234123412341234',
         expirationDate: '01/01',
@@ -42,6 +43,7 @@ const CARDS_TEMPLATE: CardData[] = [
 ]
 
 const FORM_DATA_DEFAULT: CardData = {
+    id: '',
     type: '',
     cardNumber: '',
     expirationDate: '',
@@ -74,7 +76,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const {userData} = useUser();
     const modalCtx = useModal();
-    const {isSmScreen, isMdScreen} = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck();
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<CardData[]>([]);
@@ -154,11 +156,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         type={'number'}
                         value={formData.cardNumber}
                         maxLength={16}
-                        onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
-                        icons={isMdScreen ? [] : [SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
+                        icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
                         classNameWrapper={`${FIELD_CN} row-start-3`}
-                        required
+                        disabled={!isPaymentCreation}
                     >
                         Credit or Debit Card
                     </Input>
@@ -246,7 +247,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         City / Locality
                     </Input>
                     <Select
-                        options={STATE_PROVINCE[formData.billingCountry]}
+                        options={(STATE_PROVINCE?.[formData.billingCountry] ?? {})}
                         value={formData.state}
                         onChangeCustom={(value) => setFormData('state')(value)}
                         classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}

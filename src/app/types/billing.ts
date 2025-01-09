@@ -2,6 +2,7 @@ import {CountryKey, StateKey} from "@/app/static";
 import {SubscriptionRecurrency} from "./subscription";
 
 type CardData = {
+    id: string;
     type: string;
     cardNumber: string;
     expirationDate: string;
@@ -41,16 +42,17 @@ type InvoiceHistory = {
     startDate: string;
 }
 
-type SavedCard  = {
+type SavedCard = {
     billingAddress: {
-      firstName: string,
-      lastName: string,
-      country: string,
-      address: string,
-      city: string,
-      zip: string,
-      state: string,
+        firstName: string,
+        lastName: string,
+        country: CountryKey,
+        address: string,
+        city: string,
+        zip: string,
+        state: StateKey,
     },
+    nickName: string,
     cardType: string,
     expDate: string,
     id: string,

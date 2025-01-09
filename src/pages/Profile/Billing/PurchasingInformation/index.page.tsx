@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
 import axios from "axios";
 
-import {CardData, InvoiceHistory} from "@/app/types/billing";
+import {InvoiceHistory, SavedCard} from "@/app/types/billing";
 import {Route} from "@/app/static";
 
 import {BillingService} from "@/app/services";
@@ -26,7 +26,7 @@ function PurchasingInformationPage() {
     const isSmScreen = useBreakpointCheck();
 
     // eslint-disable-next-line
-    const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
     // eslint-disable-next-line
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
@@ -59,18 +59,18 @@ function PurchasingInformationPage() {
     if (!isLoggedIn)
         return null;
 
-    const defaultCard: CardData | undefined = savedCards[defaultCardIdx];
+    const defaultCard: SavedCard | undefined = savedCards[defaultCardIdx];
 
     // Elements
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
-        if (card.isDefault)
+        if (card.preferred)
             setDefaultCardIdx(idx);
         return (
-            <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
+            <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-content items-center'}>
                 <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
                 <span>{card.nickName}</span>
                 <span
-                    hidden={!card.isDefault}
+                    hidden={!card.preferred}
                     className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
                 >
                     Preferred
@@ -133,16 +133,20 @@ function PurchasingInformationPage() {
                                         sm:landscape:gap-y-[--s-d-small]`}
                         >
                             <span>Name</span>
-                            <span>{defaultCard ? defaultCard.cardholderName : '--'}</span>
+                            <span>
+                                {defaultCard
+                                    ? defaultCard.billingAddress.firstName + ' ' + defaultCard.billingAddress.lastName
+                                    : '--'}
+                            </span>
                             <span>Billing Address</span>
                             {defaultCard ? (
                                     <ul>
-                                        <li>{defaultCard.addressLine1}</li>
+                                        <li>{defaultCard.billingAddress.address}</li>
                                         <li>
-                                            {defaultCard.city}, {defaultCard.state}&nbsp;
-                                            {defaultCard.postalCode}
+                                            {defaultCard.billingAddress.city}, {defaultCard.billingAddress.state}&nbsp;
+                                            {defaultCard.billingAddress.zip}
                                         </li>
-                                        <li>{defaultCard.billingCountry}</li>
+                                        <li>{defaultCard.billingAddress.country}</li>
                                     </ul>
                                 )
                                 : <span>--</span>}

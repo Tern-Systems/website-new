@@ -1,9 +1,9 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
 import cn from "classnames";
 
-import {CardData} from "@/app/types/billing";
+import {SavedCard} from "@/app/types/billing";
 import {Subscription} from "@/app/types/subscription";
 import {Route} from "@/app/static";
 
@@ -14,7 +14,7 @@ import {useLoginCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";
-import {BaseModal} from "@/app/ui/modals";
+import {MessageModal} from "@/app/ui/modals";
 import {FullScreenLayout} from "@/app/ui/layout";
 import {Button, Select} from "@/app/ui/form";
 import {CancelModal} from "./CancelModal";
@@ -23,6 +23,7 @@ import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
 
 import SVG_CARD from "@/assets/images/icons/card.svg";
 import SVG_PENCIL from "@/assets/images/icons/edit.svg";
+
 
 const SELECT_H_CN = 'h-[min(5.9dvw,3.25rem)] sm:landscape:h-[--2dr]';
 
@@ -35,7 +36,7 @@ function ManageSubscriptionsPage() {
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
     // eslint-disable-next-line
-    const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
 
     useEffect(() => {
         const fetchCards = async () => {
@@ -45,9 +46,12 @@ function ManageSubscriptionsPage() {
                 const {payload: cards} = await BillingService.getCards(userData.email);
                 setSavedCards(cards);
             } catch (error: unknown) {
+                if (typeof error === 'string')
+                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
             }
         }
         fetchCards();
+        // eslint-disable-next-line
     }, [setSavedCards, userData])
 
     if (!isLoggedIn)
@@ -57,28 +61,10 @@ function ManageSubscriptionsPage() {
 
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
-        userData?.subscriptions?.map((subscription, idx) =>
-            [idx, 'ARCH ' + subscription.type + ' Plan'])
+        subscriptions?.map((subscription, idx) =>
+            [idx, subscription.subscription.toUpperCase() + ' ' + subscription.type + ' Plan'])
         ?? []
     );
-
-    let Cards: ReactElement[] = savedCards.map((card, idx) => (
-            <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
-                <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
-                <span>{card.nickName}</span>
-                <span
-                    hidden={!card.isDefault}
-                    className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
-                >
-                    Preferred
-                </span>
-            </li>
-        )
-    );
-
-    if (!Cards.length) {
-        Cards = [<span key={0}>No saved cards</span>];
-    }
 
     // Elements
     const RenderPlanInfo = () => {
@@ -220,14 +206,4 @@ ManageSubscriptionsPage.getLayout = (page: ReactElement) => (
 ManageSubscriptionsPage.getMobileLayout = ManageSubscriptionsPage.getLayout;
 
 
-const ManageSubscriptionsModal: FC = () => (
-    <BaseModal adaptSmScreen
-               className={'[&]:bg-control-white'}
-               classNameContent={'sm:overflow-y-scroll sm:h-[90dvh] font-oxygen'}>
-        <ManageSubscriptionsPage/>
-    </BaseModal>
-);
-
-
-export {ManageSubscriptionsModal};
 export default ManageSubscriptionsPage;

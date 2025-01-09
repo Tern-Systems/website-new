@@ -2,7 +2,7 @@ import {FC, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
 
-import {CardData} from "@/app/types/billing";
+import {SavedCard} from "@/app/types/billing";
 import {Route} from "@/app/static";
 
 import {useSaveOnLeave} from "@/app/hooks";
@@ -20,7 +20,7 @@ const BTN_CN = 'px-[--1drs] h-[--h-control-dl] rounded-full';
 
 
 interface Props {
-    savedCards: CardData[];
+    savedCards: SavedCard[];
 }
 
 const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
@@ -40,7 +40,7 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
 
     // Elements
     const SavedCards = savedCards.map((card, idx) => {
-        const isPreferred = card.isDefault;
+        const isPreferred = card.preferred;
         return (
             <li
                 key={card.nickName + idx}

@@ -24,6 +24,9 @@ import {Collapsible, ScrollEnd} from "@/app/ui/misc";
 import SVG_BULLET from "@/assets/images/icons/bullet.svg";
 import SVG_STAR from "@/assets/images/icons/star.svg";
 
+import styles from "@/app/common.module.css";
+
+
 const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ["monthly", "annual"];
 const LINKS_MB_CN = "mb-[min(1.3dvw,0.45rem)]";
 
@@ -80,7 +83,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         userSubscription: SubscriptionBase | undefined,
         type: PlanType,
         data: SubscriptionPreviewData | undefined,
-        idx: number
+        idx: number,
+        cutBasicColumn: boolean,
     ): ReactElement => {
         const benefitsData = data?.benefits ?? generateFallbackEntries(5);
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
@@ -102,6 +106,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         const isAnnualSwitchOption = selectedRecurrency === "annual";
         const isBasicPlan = type === "Basic";
+        const hasUserBasicPlan = userSubscription?.type === 'Basic';
         const isUserMonthlySubscriber = userSubscription
             ? userSubscription.recurrency === "monthly"
             : false;
@@ -123,52 +128,82 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 className={"underline cursor-pointer"}
                 onClick={() => modalCtx.openModal(<LimitsModal/>, {darkenBg: true})}
             >
-                Limits apply
-            </span>
+            Limits apply
+          </span>
         );
 
-        if (isCurrentRecurrency || isBasicPlan) {
-            if (isCurrentPlan) {
-                subscribeBtnText = isBtnDisabled ? "Your current plan" : "Subscribe";
-                Links = (
-                    <>
-                        <span className={`${LINKS_MB_CN} underline`}>
-                          <PageLink
-                              href={Route.ManageSubscriptions}
-                              className={"cursor-pointer"}
-                          >
-                            Manage subscription
-                          </PageLink>
-                        </span>
-                        <span className={"first-letter:capitalize"}>
-                          {BillingResolution}
-                        </span>
-                    </>
-                );
+        if (isCurrentRecurrency || isBasicPlan || hasUserBasicPlan || !userSubscription) {
+            if (isCurrentPlan || isBasicPlan || !userSubscription) {
+                subscribeBtnText = isBtnDisabled || isBasicPlan ? "Your current plan" : "Subscribe";
+                Links =
+                    isBasicPlan
+                        ? (
+                            <span>
+                                Have an existing plan? See the&nbsp;
+                                <span onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
+                                      className={`${styles.clickable} underline`}>
+                                    billing resolution center
+                                </span>
+                            </span>
+                        )
+                        : (
+                            <>
+                                <span className={`${LINKS_MB_CN} underline`}>
+                                    <PageLink
+                                        href={Route.ManageSubscriptions}
+                                        className={"cursor-pointer"}
+                                    >
+                                        Manage subscription
+                                    </PageLink>
+                                </span>
+                                <span className={"first-letter:capitalize"}>
+                                    {BillingResolution}
+                                </span>
+                            </>
+                        );
             } else {
                 subscribeBtnText = (
                     <>
-                        {idx ? "Up" : "Down"}grade to{" "}
+                        {idx + +cutBasicColumn ? "Up" : "Down"}grade to&nbsp;
                         <span className={"capitalize"}>{type}</span>
                     </>
                 );
-                Links = Limits;
+                const billedText = isAnnualSwitchOption
+                    ? (
+                        <span className={LINKS_MB_CN}>
+                           *Price billed annually
+                        </span>
+                    )
+                    : null;
+                Links = (
+                    <>
+                        {billedText}
+                        {Limits}
+                    </>
+                );
             }
         } else {
             subscribeBtnText = (
                 <>
-                    Switch to{" "}
+                    Switch to&nbsp;
                     <span className={"capitalize"}>
                         {PLAN_TIME_RANGE[+isUserMonthlySubscriber]}
-                    </span>{" "}
-                    Plan
+                    </span>
+                    &nbsp;Plan
                 </>
             );
+
+            const billedText = isAnnualSwitchOption
+                ? (
+                    <span className={LINKS_MB_CN}>
+                       *Price billed annually
+                    </span>
+                )
+                : null;
+
             Links = (
                 <>
-                     <span className={LINKS_MB_CN}>
-                         *Price billed {isUserMonthlySubscriber ? "annually" : "monthly"}
-                     </span>
+                    {billedText}
                     {Limits}
                 </>
             );
@@ -260,27 +295,17 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 (subscription: SubscriptionBase) =>
                     subscription.subscription === subscriptionData?.subscription
             );
-        const isCutBasicColumn =
+        const cutBasicColumn =
             subscriptionData?.isBasicKind === true &&
             userSubscription?.type !== "Basic";
 
         const columnsData = subscriptionData?.type
             ? Object.entries(subscriptionData.type)
-                .slice(+isCutBasicColumn)
-                .filter(([type]) => {
-                    if (
-                        userSubscription?.recurrency === "monthly" &&
-                        userSubscription?.type === "Pro" &&
-                        type === "standard"
-                    ) {
-                        return false;
-                    }
-                    return true;
-                })
-            : generateFallbackEntries(isCutBasicColumn ? 1 : 2);
+                .slice(+cutBasicColumn)
+            : generateFallbackEntries(cutBasicColumn ? 1 : 2);
 
         return (columnsData as [PlanType, SubscriptionPreviewData][]).map(
-            ([type, data], idx) => renderColumn(userSubscription, type, data, idx)
+            ([type, data], idx) => renderColumn(userSubscription, type, data, idx, cutBasicColumn)
         );
     };
 
