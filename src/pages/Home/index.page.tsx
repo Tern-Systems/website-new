@@ -21,15 +21,26 @@ const HomePage: FC = () => {
         const token = params?.get('resetToken');
         if (token) {
             modalCtx.openModal(<ResetPasswordModal token={token}/>);
-            router.replace(Route.Home);
+            router.push(Route.Home);
         }
         //eslint-disable-next-line
     }, [params]);
 
     return (
-        <div className={`${styles.highlight} w-[58.625rem] gap-[1.5rem]`}>
-            <h1 className={'text-blue text-[6.25rem]'}>All Ways</h1>
-            <span className={'text-[2.25rem] text-primary font-bold'}>
+        <div className={`${styles.highlight} max-w-[57rem]
+                            sm:landscape:w-[41dvw]`}
+        >
+            <h1 className={`text-blue
+                            mb-[1.87rem] text-[6.25rem]
+                            sm:x-[mb-[0.94rem]]
+                            sm:portrait:text-[3.125rem]
+                            sm:landscape:text-[6.2dvw]`}>
+                All Ways
+            </h1>
+            <span className={`font-bold leading-[120%]
+                            lg:x-[text-[2.25rem],tracking-[0.04rem]] 
+                            sm:text-[1.125rem]`}
+            >
                 We develop, manufacture, preserve, and enhance fundamental computer software and hardware.
             </span>
         </div>

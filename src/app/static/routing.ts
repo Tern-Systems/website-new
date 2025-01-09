@@ -3,7 +3,7 @@ enum Route {
     Home = '/Home',
 
     About = '/About',
-    Credo = '/About/Credo',
+    Credo = '/About/OurCredo',
     Contact = '/Contact',
     Terms = '/Terms',
     Cookies = '/Cookies',
@@ -11,16 +11,22 @@ enum Route {
 
     // /Service
     Service = '/Service',
-    ARCodeToolCreate = '/Service/Create',
+    ARCodeToolCreate = '/Service/CreationTool',
     ARCodeToolEdit = '/Service/SavedCodes/Edit',
     ServiceUserManual = '/Service/UserManual',
     ServicePricing = '/Service/PricingAndPlans',
+    ServiceSubscribe = '/Subscribe/ARCH',
     SavedCodes = '/Service/SavedCodes',
 
     // /Product
-    Product = '/Product',
-    ProductUserManual = '/Product/UserManual',
-    ProductPricing = '/Product/PricingAndPlans',
+    Products = '/Products',
+    TernKey = '/Products/TernKey',
+    TernKeyPricing = '/Products/TernKey/PricingAndPlans',
+    TernKeyProductManual = '/Products/TernKey/UserManual',
+    TernKeySubscribe = '/Subscribe/TernKey',
+    Dot = '/Products/Dot',
+    DotPricing = '/Products/Dot/Pricing',
+    DotProductManual = '/Products/Dot/UserManual',
 
     // /Profile
     Profile = '/Profile',
@@ -32,17 +38,14 @@ enum Route {
     AddPaymentMethod = '/Profile/Billing/PurchasingInformation/Add',
     MyTern = '/Profile/MyTern',
 
+    Help = '/Profile/MyTern/FAQs',
     Documentation = '/Profile/MyTern/Documentation',
-    TernKeyManual = '/Profile/MyTern/Documentation/TernKeyManual',
-    GHandbook = '/Profile/MyTern/Documentation/GHandbook',
-    ARHostingManual = '/Profile/MyTern/Documentation/ARHostingManual',
-    TernKitManual = '/Profile/MyTern/Documentation/TernKitManual',
-    TernHandbook = '/Profile/MyTern/Documentation/TERNHandbook',
-    ARCHManual = '/Profile/MyTern/Documentation/ARCHManual',
-    BTMCHandbook = '/Profile/MyTern/Documentation/BTMCHandbook',
-
-    // Managing
-    Subscribe = '/Subscribe',
+    TernKeyDoc = '/Profile/MyTern/Documentation/TernKey',
+    GDoc = '/Profile/MyTern/Documentation/G',
+    TernKitDoc = '/Profile/MyTern/Documentation/TernKit',
+    TernDoc = '/Profile/MyTern/Documentation/TERN',
+    ARCHDoc = '/Profile/MyTern/Documentation/ARCH',
+    BTMCDoc = '/Profile/MyTern/Documentation/BTMC',
 }
 
 const TERN_AC_HREF = 'https://tern.ac/ternkey';

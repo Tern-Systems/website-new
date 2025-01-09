@@ -1,46 +1,32 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-import {FADE_DURATION, Route} from "@/app/static";
+import {LAYOUT, Route} from "@/app/static";
 
-import {useLayout} from "@/app/context";
+import {useLayout, useModal} from "@/app/context";
 
 
-const useNavigate = (): [(route: Route) => Promise<void>, AppRouterInstance] => {
+const useNavigate = (preventModalClosing?: boolean): [(route: Route) => Promise<void>, AppRouterInstance] => {
     const pageRoute = usePathname();
     const router = useRouter();
     const layoutCtx = useLayout();
-
-    const [currentRoute, setCurrentRoute] = useState<string | null>(null);
-
-    useEffect(() => {
-        setCurrentRoute(pageRoute);
-        //eslint-disable-next-line
-    }, []);
+    const modalCtx = useModal();
 
     useEffect(() => {
         layoutCtx.setFadeState(false);
         //eslint-disable-next-line
     }, [pageRoute]);
 
-    useEffect(() => {
-        setTimeout(() => {
-            if (currentRoute === pageRoute)
-                layoutCtx.setFadeState(false);
-        }, 5 * FADE_DURATION);
-        //eslint-disable-next-line
-    }, [layoutCtx.isFade]);
-
     const navigate = async (route: Route) => {
         if (pageRoute === route)
             return;
-
         layoutCtx.setFadeState(true);
-        history.pushState(null, '', window.location.href);
         setTimeout(() => {
-            router.replace(route);
-        }, FADE_DURATION);
+            router.push(route);
+            if (!preventModalClosing)
+                modalCtx.closeModal();
+        }, LAYOUT.fadeDuration);
     };
 
     return [navigate, router];

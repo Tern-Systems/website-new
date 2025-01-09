@@ -1,0 +1,19 @@
+.form fieldset {
+  margin-bottom: min(2.7dvw, 1.17rem);
+}
+
+.form legend {
+  margin-bottom: min(1.3dvw, 0.94rem);
+}
+
+.form input,
+.form input + label {
+  background: white;
+  padding-top: min(3.4dvw, 1.5rem);
+  padding-bottom: min(3.4dvw, 1.5rem);
+  border-radius: 0.375rem;
+  width: 100%;
+  height: min(4.3dvw, 1.875rem);
+  padding-left: min(1.1dvw, 0.74rem);
+  border: var(--b-small) solid var(--b-control-white-d0);
+}

@@ -14,6 +14,7 @@
 }
 
 .slideOut {
+  height: 0;
   transform: translateY(-100%);
   transition: 0.2s ease-out;
 }
@@ -23,23 +24,43 @@
   flex-direction: column;
   text-align: left;
   margin: auto 0;
-  margin-left: 5.94rem;
+  margin-left: 3.88rem;
   background-color: #4D4D4D4C;
   border-radius: 0.5625rem;
-  padding: var(--py);
-  font-size: 2.25rem;
+  padding: var(--p-content);
+  font-size: var(--fz-heading-l);
   font-weight: 700;
+
+  @media screen and (max-width: 834px) {
+    padding: 0.62rem;
+    margin: auto 1.25rem;
+  }
 }
 
-.clickable:hover {
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover:not(:disabled) {
   transform: translateY(0.5px);
   transition: 0.1s ease-in-out;
 }
 
-.clickable:active {
+.clickable:active:not(:disabled) {
   transform: translateY(1.5px);
-  transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out
 }
+
+.disconnect:hover {
+  background-color: #FF4422;
+  font-weight: 700;
+}
+
+.connect:hover {
+  background-color: #178ab7;
+  font-weight: 700;
+}
+
 
 @keyframes typing {
   from {
@@ -61,7 +82,7 @@
 
 .typewriter {
   overflow: hidden;
-  border-right: .15em solid orange;
+  border-right: 0.15em solid orange;
   white-space: nowrap;
   margin: 0 auto;
   letter-spacing: 0.15em;

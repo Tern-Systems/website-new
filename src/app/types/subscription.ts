@@ -1,11 +1,21 @@
-type SubscriptionRecurrency = 'annual' | 'monthly';
+import {Route} from "@/app/static";
 
-type Subscription = {
-    subscription: 'arch' | 'ternKey';
-    recurrency?: SubscriptionRecurrency;
+
+type SubscriptionRecurrency = 'annual' | 'monthly';
+type PlanName = 'ARCH' | 'dot' | 'TernKey' | 'trial';
+type PlanType = 'Basic' | 'Standard' | 'Pro';
+
+type SubscriptionBase = {
+    subscription: PlanName;
+    recurrency: SubscriptionRecurrency;
     priceUSD: number;
-    type: 'basic' | string;
+    type: PlanType;
     isBasicKind: boolean;
+}
+
+type Subscription = SubscriptionBase & {
+    tax: number;
+    renewDate: number;
 }
 
 type SubscriptionPreviewData = {
@@ -14,9 +24,18 @@ type SubscriptionPreviewData = {
     benefits: string[];
 }
 
-type SubscriptionPreview = Pick<Subscription, 'subscription' | 'isBasicKind'> & {
-    type: Record<string, SubscriptionPreviewData>
+type SubscriptionPreview = Pick<SubscriptionBase, 'subscription' | 'isBasicKind'> & {
+    type: Record<string, SubscriptionPreviewData>;
+    route: Route;
 }
 
 
-export type {SubscriptionPreview, SubscriptionPreviewData, SubscriptionRecurrency, Subscription}
+export type {
+    PlanName,
+    PlanType,
+    SubscriptionPreview,
+    SubscriptionPreviewData,
+    SubscriptionRecurrency,
+    SubscriptionBase,
+    Subscription
+};

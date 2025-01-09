@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-import {CardData} from "@/app/types/billing";
+import {CardData, InvoiceHistory} from "@/app/types/billing";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
@@ -18,6 +18,13 @@ interface IBillingService {
     postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
 
     postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
+
+    //eslint-disable-next-line
+    getPlanDetails(email: string): any;
+
+    postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>>;
+
+    postExportTransaction(email: string): Promise<Res<string>>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
@@ -25,8 +32,54 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         super(BillingServiceImpl.name)
     }
 
+
+    async postExportTransaction(email: string): Promise<Res<string>> {
+        const [debug, error] = this.getLoggers(this.postGetInvoices.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `export-transaction-details`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+            return {payload: response.data};
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>> {
+        const [debug, error] = this.getLoggers(this.postGetInvoices.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `get-subscription-details`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+            return {payload: response.data};
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
     async getCards(email: string): Promise<Res<CardData[]>> {
-        this.log(this.getCards.name);
+        const [debug, error] = this.getLoggers(this.getCards.name);
+
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `get-saved-cards`,
@@ -35,24 +88,27 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         };
 
         try {
+            debug(config);
             const response = await axios(config);
-            return response.data;
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+            debug(response);
+            return {payload: response.data};
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
-        this.log(this.postProcessPayment.name);
+        const [debug, error] = this.getLoggers(this.postProcessPayment.name);
+
+        // TODO change body
         const cardDetails = {
             cardNumber: data.cardNumber,
             expiryDate: data.expirationDate,
             cardCode: data.cvc,
+            cardholderName: data.cardholderName.split(' '),
         };
-        const [firstName, lastName] = data.cardholderName.split(' ');
         const billingDetails = {
-            firstName,
-            lastName,
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,
             state: data.state,
@@ -62,7 +118,6 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         const selectedPlan = {
             planName: planType,
             price: planPrice,
-            duration: planDuration
         };
 
         const config: AxiosRequestConfig = {
@@ -76,20 +131,25 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                 cardDetails,
                 billingDetails,
                 selectedPlan,
+                duration: planDuration,
             }),
             withCredentials: true,
         };
 
         try {
+            debug(config);
             const response = await axios(config);
+            debug(response);
             return response.data;
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
     async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
-        this.log(this.postProcessSavedPayment.name);
+        const [debug, error] = this.getLoggers(this.postProcessSavedPayment.name);
+
         try {
             const taxResponse = await this._fetchTaxes('place');
 
@@ -111,16 +171,41 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                 withCredentials: true,
             };
 
+            debug(config);
             const response = await axios(config);
+            debug(response);
             return response.data;
-        } catch (error: unknown) {
-            throw axios.isAxiosError(error) ? error : 'Unknown error!';
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     };
 
+    async getPlanDetails(email: string) {
+
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `arch-current-plan`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {user: email},
+            withCredentials: false,
+        };
+        try {
+            const response = await axios(config);
+
+            return response.data;
+        } catch (err: unknown) {
+
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
     // eslint-disable-next-line
     private async _fetchTaxes(place: string): Promise<number> { // TODO
-        this.log(this._fetchTaxes.name);
+        // eslint-disable-next-line
+        const [debug, error] = this.getLoggers(this._fetchTaxes.name);
         return 0;
     }
 }

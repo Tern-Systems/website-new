@@ -2,16 +2,24 @@ import {BaseModal} from "@/app/ui/modals";
 
 
 const LimitsModal = () => (
-    <BaseModal title={'Limits Apply'}>
-        <div className={'w-[56rem]'}>
-            <h2 className={'mb-[0.5rem] font-bold text-content-small'}>TernKey Pro Plan Subscription Limitations</h2>
+    <BaseModal adaptSmScreen title={'Limits Apply'}
+               className={'max-w-[56rem]'}
+               classNameContent={'sm:p-[min(5.3dvw)] sm:landscape:p-[--1qdr]'}
+               classNameTitle={'sm:x-[mb-[5.3dvw],text-[1.7rem]] sm:landscape:mb-[--1hdr]'}
+    >
+        <div className={`max-h-[79dvh]
+                        sm:x-[text-[1rem],overflow-y-scroll]
+                        sm:landscape:max-h-[55dvh]`}>
+            <h2 className={'mb-[0.5rem] font-bold text-content-small sm:mb-0'}>
+                TernKey Pro Plan Subscription Limitations
+            </h2>
             <div>
-            <span>
-                As part of the TernKey Pro plan, specific usage limitations are implemented to maintain optimal
-                service quality and safeguard system performance across the platform. These limitations are
-                designed to prevent potential traffic overloads and ensure the consistent functioning of the
-                application for all users. The following constraints apply:
-            </span>
+                <span>
+                    As part of the TernKey Pro plan, specific usage limitations are implemented to maintain optimal
+                    service quality and safeguard system performance across the platform. These limitations are
+                    designed to prevent potential traffic overloads and ensure the consistent functioning of the
+                    application for all users. The following constraints apply:
+                </span>
             </div>
             <ul className={'flex flex-col list-disc my-[1.15rem] pl-[1.5rem] gap-[0.84rem]'}>
                 <li>
@@ -38,11 +46,11 @@ const LimitsModal = () => (
                 </li>
             </ul>
             <div>
-            <span>
-                These limitations are essential to protect the TernKey platform’s operational integrity and
-                ensure a high-quality experience for all users. Adherence to these guidelines allows for the
-                continued delivery of a consistent, reliable, and performant service.
-            </span>
+                <span>
+                    These limitations are essential to protect the TernKey platform’s operational integrity and
+                    ensure a high-quality experience for all users. Adherence to these guidelines allows for the
+                    continued delivery of a consistent, reliable, and performant service.
+                </span>
             </div>
         </div>
     </BaseModal>

@@ -1,3 +1,0 @@
-const FADE_DURATION = 300;
-
-export {FADE_DURATION};

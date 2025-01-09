@@ -1,17 +1,35 @@
-import React, {FC, ReactElement, ReactNode, useEffect, useState} from "react";
-import Image from "next/image";
+import React, {FC, ReactElement, useEffect, useState} from "react";
+import {ReactSVG} from "react-svg";
+import cn from "classnames";
 
+import {PlanName} from "@/app/types/subscription";
 import {ButtonIcon} from "@/app/ui/form/Button";
 import {Route, TERN_AC_HREF} from "@/app/static";
 
+import {capitalize, copyObject} from "@/app/utils";
 import {useModal, useUser} from "@/app/context";
-import {useLoginCheck} from "@/app/hooks";
+import {useBreakpointCheck, useLoginCheck, useNavigate} from "@/app/hooks";
 
 import {PageLink} from "@/app/ui/layout";
-import {FAQsModal, HelpModal} from "@/app/ui/modals";
+import {HelpModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
+import {FAQsModal} from "./FAQs/index.page";
 
-import SVG_ARROW from "@/assets/images/icons/arrow-right.svg";
+
+import SVG_ARROW from '@/assets/images/icons/arrow.svg';
+
+import styles from "@/app/common.module.css";
+import {ScrollEnd} from "@/app/ui/misc";
+
+
+const EVENTS_TEMPLATE: TableEntry[] = [
+    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
+    {name: 'Streaming on X: The Future of AR', data: Date.now(), href: 'https://youtube.com'},
+];
 
 
 type TableEntry = {
@@ -26,45 +44,92 @@ type TableSection = {
     data: TableEntry[];
 }
 
-const renderLink = (href: string, isExternalLink: boolean, children: ReactNode) => (
-    <PageLink href={href as Route} {...(isExternalLink ? {target: '_blank', rel: 'noopener noreferrer'} : {})}>
-        {children}
-    </PageLink>
-);
+
+const NAV_BTNS_DEFAULT: { title: string; icon: ButtonIcon; href: string, isExternal?: boolean }[] = [
+    {title: 'Build Key', icon: 'plus', href: TERN_AC_HREF, isExternal: true},
+    {title: 'Explore Keys', icon: 'glass', href: TERN_AC_HREF + '/explore', isExternal: true},
+    {title: 'Create AR Code', icon: 'plus', href: Route.ARCodeToolCreate},
+];
+
+const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
+    ARCH: Route.ARCodeToolCreate,
+    dot: Route.Dot,
+    TernKey: TERN_AC_HREF,
+    trial: '',
+}
 
 const renderTable = (table: TableSection, isExternal?: boolean) => {
+    const renderTd = (title: ReactElement | string, href: string, type?: 'first' | 'last') => {
+        return (
+            <td className={cn({
+                ['pr-[--p-content-xxs] w-[1.3rem] rounded-r-normal   sm:x-[pr-[--p-content-4xs],rounded-r-small]']: type === 'last',
+                ['pl-[--p-content-xxs] max-w-[9.7rem] rounded-l-normal   sm:x-[pl-[--p-content-4xs],rounded-l-small]']: type === 'first'
+            })}
+            >
+                <PageLink href={href} isExternal={isExternal}
+                          className={`w-full overflow-x-hidden overflow-ellipsis text-nowrap
+                                    py-[0.75rem] 
+                                    sm:x-[py-[0.22rem],max-w-[41dvw],table-cell]
+                                    sm:landscape:py-[0.4dvw]`}
+                >
+                    {title}
+                </PageLink>
+            </td>
+        );
+    }
+
     const TableItems: ReactElement[] = table.data.map((row, idx) => (
-        <tr key={row.name.slice(5) + idx} className={'hover:bg-control-gray-l0'}
-        >
-            <td className={'pl-[0.81rem] py-[0.75rem] rounded-l-[1rem]'}>{row.name}</td>
-            <td>
-                {typeof row.data === 'string'
-                    ? row.data
-                    : new Date(row.data).toLocaleDateString()
-                }
-            </td>
-            <td className={'pr-[0.81rem] rounded-r-[1rem] w-[1.3125rem] box-content'}>
-                {renderLink(row.href, isExternal === true, <Image src={SVG_ARROW} alt={'arrow'}/>)}
-            </td>
+        <tr key={row.name.slice(5) + idx} className={'hover:bg-control-gray-l0'}>
+            {renderTd(row.name, row.href, 'first')}
+            {renderTd(typeof row.data === 'string' ? row.data : new Date(row.data).toLocaleDateString(), row.href)}
+            {renderTd(
+                <ReactSVG
+                    src={SVG_ARROW.src}
+                    className={`[&_path]:fill-blue [&_*]:w-[1.3rem] rotate-180    sm:[&_*]:w-[0.875rem]`}
+                />,
+                row.href,
+                'last'
+            )}
         </tr>
     ));
 
     return (
-        <div className={'bg-control-gray rounded-smallest p-[--p-small]'}>
-            <h3 className={'text-header font-bold'}>{table.title}</h3>
-            <hr className={'border-control-white-d0 my-[1.25rem]'}/>
-            <table
-                className={`w-full text-content`}>
-                <thead>
-                <tr className={'contents text-small'}>
-                    <td className={'pl-[0.81rem] py-[0.75rem]'}>{table.columnNames[0]}</td>
-                    <td className={'pr-[0.81rem]'}>{table.columnNames[1]}</td>
-                </tr>
-                </thead>
-                <tbody>
-                {TableItems}
-                </tbody>
-            </table>
+        <div
+            className={`bg-control-gray rounded-smallest
+                        p-[--p-content-s] max-h-[20rem]
+                        sm:x-[p-[--p-content-3xs],max-h-[10rem]]
+                        sm:landscape:x-[p-[--sy-sl]]`}>
+            <h3 className={`font-bold px-[--p-content-xxs]
+                            text-heading
+                            sm:x-[px-[--p-content-4xs],text-section]`}
+            >
+                {table.title}
+            </h3>
+            <hr className={`relative border-control-white-d0
+                            my-[--p-content-s]
+                            sm:x-[mt-[--p-content-3xs],mb-[--p-content-4xs]]
+                            sm:landscape:x-[mt-[1.2dvw],mb-[0.6dvw]]`}/>
+            <div className={`overflow-y-scroll
+                            max-h-[calc(100%-var(--fz-heading)-2.5*var(--p-content-s))]
+                            sm:max-h-[calc(100%-var(--fz-section)-2*var(--p-content-3xs))]`}
+            >
+                <table className={`w-full text-heading-s    sm:text-section-xs`}>
+                    <thead className={`sticky top-0 z-10 bg-control-gray
+                                        text-section-xs 
+                                        sm:text-section-xxxs
+                                        sm:landscape:text-[1.25dvw]`}
+                    >
+                    <tr className={'[&_td]:pb-[0.75rem]     sm:[&_td]:pb-[0.25rem]     sm:landscape:py-0'}>
+                        <td className={'pl-[--p-content-xxs]     sm:pl-[--p-content-4xs]'}>{table.columnNames[0]}</td>
+                        <td>{table.columnNames[1]}</td>
+                        <td/>
+                    </tr>
+                    </thead>
+                    <tbody className={'text-heading-s sm:text-section-xs'}>
+                    {TableItems}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
@@ -74,36 +139,31 @@ const MyTernPage: FC = () => {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
+    const [navigate] = useNavigate();
+    const isSmScreen = useBreakpointCheck();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
-
-    const navBtns: { title: string; icon: ButtonIcon; href: string, isExternal?: boolean }[] = [
-        {title: 'Build Key', icon: 'plus', href: TERN_AC_HREF, isExternal: true},
-        {title: 'Try TernKey Pro', icon: 'diamond', href: Route.ServicePricing},
-        {title: 'Explore Keys', icon: 'glass', href: TERN_AC_HREF + '/explore', isExternal: true},
-        {title: 'Create AR Code', icon: 'plus', href: Route.ARCodeToolCreate},
-    ];
+    const navBtns = copyObject(NAV_BTNS_DEFAULT);
+    if (userCtx.userData?.subscriptions.find((plan) => plan.subscription === 'trial'))
+        navBtns.splice(1, 0, {title: 'Try TernKey Pro', icon: 'diamond', href: Route.ServicePricing});
 
     const subscriptionTable: TableSection = {
         title: 'Subscription',
         columnNames: ['Item', 'Plan Type'],
-        data: [
-            {name: 'TernKey', data: 'Pro (Annual)', href: TERN_AC_HREF},
-            {name: 'ARCH', data: 'Standard (Monthly)', href: Route.ARCodeToolCreate},
-        ]
+        data: userCtx.userData?.subscriptions
+            .filter((plan) => plan.subscription !== 'trial')
+            .map((plan) => ({
+                name: plan.subscription,
+                data: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
+                href: SUBSCRIPTION_LINK_DICT[plan.subscription]
+            })) ?? []
     }
-
 
     useEffect(() => {
         try {
             // TODO fetch events
-            const communityEvents: TableEntry[] = [{
-                name: 'Streaming on X: The Future of AR',
-                data: Date.now(),
-                href: 'https://youtube.com'
-            }];
-            setCommunityEvents(communityEvents);
+            setCommunityEvents(EVENTS_TEMPLATE);
         } catch (error: unknown) {
         }
     }, []);
@@ -116,8 +176,13 @@ const MyTernPage: FC = () => {
         const Btn = (
             <Button
                 icon={btn.icon}
-                className={`px-[0.7rem] py-[0.6rem] bg-control-gray rounded-smallest text-content
-                        ${btn.icon === 'plus' ? '[&_img]:brightness-[300%]' : ''}`}
+                className={`bg-control-gray rounded-smallest
+                            px-[0.73rem] py-[--p-content-3xs] text-heading-s
+                            sm:x-[py-[0.47rem],px-[0.56rem],text-section-xs]
+                            sm:landscape:x-[px-[1dvw],py-[0.5dvw],text-small]`
+                }
+                classNameIcon={`[&_path]:fill-primary
+                                sm:[&_svg]:w-[0.875rem]`}
             >
                 {btn.title}
             </Button>
@@ -133,38 +198,87 @@ const MyTernPage: FC = () => {
             return null;
         const date = new Date(dateNumber ?? 0)
         return (
-            <div>
-                <span className={userCtx.userData ? '' : 'hidden'}>
-                    Member since {date.toLocaleString('default', {month: 'long'}) + ' ' + date.getFullYear()}
-                </span>
-            </div>
+            <span>
+                Member since {date.toLocaleString('default', {month: 'long'}) + ' ' + date.getFullYear()}
+            </span>
         );
     }
 
     return (
-        <div className={'pt-[5rem] px-[14rem] text-left'}>
-            <h1 className={'text-[2.25rem] font-bold mb-[1.25rem]'}>Dashboard</h1>
-            {renderSinceDate(userCtx.userData?.registrationDate)}
-            <div className={'flex gap-x-[1.25rem] my-[1.9rem]'}>{NavBtns}</div>
-            <div className={'grid grid-cols-2 gap-x-[0.63rem] h-[20.5rem]'}>
-                {renderTable(subscriptionTable)}
-                {renderTable({title: 'Community Events', columnNames: ['Event', 'Date'], data: communityEvents}, true)}
-            </div>
-            <div className={'flex-col flex gap-y-[1.6rem] mt-[3rem]'}>
-                <span className={'text-header font-bold mb-[0.3rem]'}>Additional Resources</span>
-                <PageLink href={Route.Documentation}/>
-                <span
-                    className={'cursor-pointer'}
-                    onClick={() => modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
+        <div className={`grid auto-rows-min max-w-[90.63rem] w-3/4 h-full text-left
+                        mt-[5.94rem] mx-auto
+                        sm:x-[mt-[--p-content-l],px-[--p-content-s],w-full]
+                        sm:landscape:x-[auto-rows-auto,grid-cols-2,gap-x-[15dvw],mx-0]`}
+        >
+            <h1 className={`font-bold
+                            pb-[--p-content-s] text-heading-l leading-none
+                            sm:x-[pb-[--p-content-3xs],text-heading-s]
+                            sm:landscape:x-[pb-[0.5dvw],text-content]`}
+            >
+                Dashboard
+            </h1>
+            <div className={`sm:portrait:overflow-y-scroll sm:portrait:max-h-[calc(100%-3.06rem)]
+                            sm:landscape:x-[contents,text-[1.2dvw]]`}
+            >
+                <div
+                    className={cn(`
+                        text-section-xs
+                        sm:text-section-xxxs
+                        sm:landscape:col-start-1`,
+                        {['hidden']: !userCtx.userData}
+                    )}
                 >
-                    Help & FAQs
-                </span>
-                <span
-                    className={'cursor-pointer'}
-                    onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}>
-                    Support Hub
-                </span>
+                    {renderSinceDate(userCtx.userData?.registrationDate)}
+                </div>
+                <div className={`flex flex-wrap
+                                gap-[--p-content-s] my-[1.87rem]
+                                sm:x-[my-[--p-content-s],gap-[--p-content-3xs]]
+                                sm:landscape:x-[col-start-1,my-[1.3dvw],gap-[1.2dvw]]`}
+                >
+                    {NavBtns}
+                </div>
+                <div className={`grid
+                                grid-cols-2 gap-[--p-content-3xs]
+                                sm:grid-cols-1
+                                sm:landscape:x-[row-start-1,col-start-2,row-span-4,overflow-y-scroll,max-h-[55dvh]]`}
+                >
+                    {renderTable(subscriptionTable)}
+                    {renderTable({
+                        title: 'Community Events',
+                        columnNames: ['Event', 'Date'],
+                        data: communityEvents
+                    }, true)}
+                </div>
+                <div className={`flex-col inline-flex
+                                gap-y-[1.56rem] mt-[3.13rem] text-section-xs
+                                sm:x-[gap-y-[--p-content-3xs],mt-[3.88rem]]
+                                sm:landscape:x-[col-start-1,gap-y-[1dvw],mt-[1dvw],w-fit]`}
+                >
+                    <span className={`font-bold
+                                    mb-[0.32rem] text-heading
+                                    sm:text-basic
+                                    sm:landscape:x-[text-default,mb-0]`}
+                    >
+                        Additional Resources
+                    </span>
+                    <PageLink href={Route.Documentation}/>
+                    <span
+                        className={`cursor-pointer ${styles.clickable}`}
+                        onClick={() => isSmScreen
+                            ? navigate(Route.Help)
+                            : modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
+                    >
+                        Help & FAQs
+                    </span>
+                    <span
+                        className={`cursor-pointer ${styles.clickable}`}
+                        onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}
+                    >
+                        Support Hub
+                    </span>
+                </div>
             </div>
+            <ScrollEnd/>
         </div>
     );
 }

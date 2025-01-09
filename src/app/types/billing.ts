@@ -35,4 +35,27 @@ type Invoice = {
     type: SubscriptionRecurrency;
 }
 
-export type {CardData, Invoice}
+type InvoiceHistory = {
+    amount: number;
+    name: string;
+    startDate: string;
+}
+
+type SavedCard  = {
+    billingAddress: {
+      firstName: string,
+      lastName: string,
+      country: string,
+      address: string,
+      city: string,
+      zip: string,
+      state: string,
+    },
+    cardType: string,
+    expDate: string,
+    id: string,
+    last4: string,
+    preferred: boolean,
+}
+
+export type {CardData, Invoice, InvoiceHistory, SavedCard}

@@ -1,6 +1,7 @@
-import {Invoice} from "@/app/types/billing";
-
 // Misc
+import {Invoice} from "@/app/types/billing";
+import {Route} from "@/app/static/routing";
+
 const LANGUAGE = {
     'ab-GE': 'Abkhazian',
     'aa-ET': 'Afar',
@@ -45,9 +46,9 @@ const LANGUAGE = {
     'dv-MV': 'Divehi',
     'nl-NL': 'Dutch',
     'dz-BT': 'Dzongkha',
-    'en-US': 'English',
-    'en-AU': 'English, Australian',
-    'en-GB': 'English, UK',
+    'en-US': 'English (US)',
+    'en-AU': 'English (Australian)',
+    'en-GB': 'English (UK)',
     'eo-FR': 'Esperanto',
     'et-EE': 'Estonian',
     'ee-GH': 'Ewe',
@@ -210,6 +211,19 @@ const SALUTATION = {
     'MS': 'Ms.',
 }
 
+
+const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
+    fadeDuration: 500,
+    profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
+}
+
+const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
+    [Route.Products]: '/All',
+    [Route.TernKey]: '/Application',
+    [Route.Dot]: '/Download',
+    [Route.Service]: '/ARCH',
+}
+
 // Temp
 const INVOICE_TEMPLATE: Invoice = {
     id: 111111111111,
@@ -228,4 +242,4 @@ const INVOICE_TEMPLATE: Invoice = {
     status: 'paid'
 }
 
-export {INVOICE_TEMPLATE, LANGUAGE, SALUTATION};
+export {INVOICE_TEMPLATE, MAPPED_SUB_NAV_ROUTES, LANGUAGE, SALUTATION, LAYOUT};

@@ -1,16 +1,17 @@
-import {Dispatch, FC, ReactElement, SetStateAction} from "react";
+import {Dispatch, FC, ReactElement, SetStateAction, useEffect} from "react";
 import Image from "next/image";
 import {usePathname} from "next/navigation";
+import cn from "classnames";
 
-import {Route} from "@/app/static";
+import {NavLink} from "@/app/context/Layout.context";
+import {LAYOUT, Route} from "@/app/static";
 
-import {AuthService} from "@/app/services";
-
-import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
-import {useModal, useUser} from "@/app/context";
+import {checkSubRoute, getRouteRoot} from "@/app/utils";
+import {useBreakpointCheck, useMenu} from "@/app/hooks";
+import {useLayout, useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
-import {AuthModal} from "@/app/ui/modals";
+import {AuthModal, PreAuthModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
 import styles from '@/app/common.module.css'
@@ -19,18 +20,9 @@ import SVG_PROFILE from "@/assets/images/icons/profile.svg";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
-const PROFILE_ROUTES: Route[] = [Route.MyTern, Route.Profile, Route.Billing];
 
-const NAV_LINKS: Route[] = [Route.About, Route.Product, Route.Service, Route.Contact];
-const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit];
 
-const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
-    [Route.Product]: '/TernKey',
-    [Route.Service]: '/ARCH',
-    [Route.ARCodeToolCreate]: '/CreationTool',
-}
-
-const UNDERLINE_CN = 'after:absolute after:bottom-[-0.22rem] after:w-[2.5rem] after:border-b-small after:border-control6';
+const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.25rem] after:w-[2.5rem] after: after:border-b-small after:border-control-blue`;
 
 
 interface Props {
@@ -40,121 +32,102 @@ interface Props {
 const Header: FC<Props> = (props: Props): ReactElement => {
     const {profileMenuState} = props;
 
-    const [isProfileMenuVisible, setProfileMenuVisibility] = profileMenuState;
+    const [isProfileMenuOpened, setProfileMenuOpenState] = profileMenuState;
 
     const route = usePathname();
     const userCtx = useUser();
     const modalCtx = useModal();
+    const isSmScreen = useBreakpointCheck();
+    const layoutCtx = useLayout();
+    const [openMenu] = useMenu();
 
-    // Elements
-    let navLinks: Route[];
-    const isBreadCrumbsNav: boolean = BREADCRUMBS_NAV_ROUTES.some((subRoute) => checkSubRoute(route, subRoute));
-    switch (true) {
-        case checkSubRoute(route, Route.Documentation):
-            navLinks = [Route.Profile, Route.Documentation];
-            break;
-        case checkSubRoute(route, Route.Credo):
-            navLinks = [Route.About, Route.Credo];
-            break;
-        case checkSubRoute(route, Route.ARCodeToolEdit):
-            navLinks = [Route.About, Route.ARCodeToolEdit];
-            break;
-        default:
-            navLinks = NAV_LINKS;
-            break;
+
+    const toggleProfileMenu = () => {
+        if (!userCtx.isLoggedIn)
+            modalCtx.openModal(<PreAuthModal/>);
+        else
+            setProfileMenuOpenState(prevState => !prevState);
     }
 
-    const NavLinks: ReactElement[] = navLinks.map((link: Route, idx) => {
+    const toggleMenu = () => {
+        openMenu();
+        setProfileMenuOpenState(false);
+    }
+
+
+    useEffect(() => {
+        const handleClick = (event: MouseEvent) => {
+            if (
+                isProfileMenuOpened
+                && !document.querySelector('#profile-menu')?.contains(event.target as Node)
+            ) {
+                setProfileMenuOpenState(false);
+            }
+        }
+        window.addEventListener('mousedown', handleClick);
+        return () => window.removeEventListener('mousedown', handleClick);
+        // eslint-disable-next-line
+    }, [isProfileMenuOpened]);
+
+
+    // Elements
+    const NavLinks: ReactElement[] = layoutCtx.navLinks[NavLink.Nav]?.map((link: Route, idx) => {
+        const isActive = getRouteRoot(route) === link;
         return (
             <span key={link + idx} className={'contents'}>
                 <PageLink
                     href={link}
-                    className={`relative flex justify-center ${getRouteRoot(route) === link && !isBreadCrumbsNav ? UNDERLINE_CN : ''}`}
+                    icon={!isActive && isSmScreen ? 'forward' : undefined}
+                    className={`relative justify-center ${isActive && !layoutCtx.isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
                 />
-                {isBreadCrumbsNav && idx !== navLinks.length - 1 ? <span>/</span> : null}
+                {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1 ?
+                    <span>/</span> : null}
             </span>
         );
     });
 
-    let subNav: Route[] | null = null;
-    switch (route) {
-        case Route.MyTern:
-        case Route.Profile:
-        case Route.Billing:
-            subNav = PROFILE_ROUTES;
-            break;
-        case Route.Product:
-        case Route.ProductPricing:
-        case Route.ProductUserManual:
-            subNav = [Route.Product, Route.ProductPricing, Route.ProductUserManual];
-            break;
-        case Route.TernKeyManual:
-        case Route.ARHostingManual:
-        case Route.TernKitManual:
-        case Route.GHandbook:
-        case Route.TernHandbook:
-        case Route.BTMCHandbook:
-            subNav = [
-                Route.TernKeyManual,
-                Route.ARHostingManual,
-                Route.TernKitManual,
-                Route.GHandbook,
-                Route.TernHandbook,
-                Route.BTMCHandbook,
-            ];
-            break;
-        case Route.Service:
-        case Route.ARCodeToolCreate:
-        case Route.ServicePricing:
-        case Route.SavedCodes:
-        case Route.ServiceUserManual:
-            subNav = [
-                Route.Service,
-                Route.ARCodeToolCreate,
-                Route.ServicePricing,
-                Route.SavedCodes,
-                Route.ServiceUserManual,
-            ];
-            break
-    }
+    const SubNavItemsMdLg = isSmScreen
+        ? null
+        : (
+            layoutCtx.navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
+                const isActive = checkSubRoute(route, link, true);
+                return (
+                    <PageLink
+                        key={link + idx}
+                        href={link}
+                        icon={!isActive && isSmScreen ? 'forward' : undefined}
+                        className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive ? ACTIVE_ROUTE_CN : ''}`}
+                    />
+                );
+            })
+        );
 
-    // Find section with sub nav
-    let SubNavItems: ReactElement[] | null = null;
-    if (subNav) {
-        SubNavItems = subNav.map((link, idx) => (
-            <PageLink
-                key={link + idx}
-                href={link}
-                className={`relative flex justify-center ${checkSubRoute(route, link, true) ? UNDERLINE_CN : ''}`}
-            >
-                {getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], idx === 0)}
-            </PageLink>
-        ));
-    }
-
-    const SubNav = (
-        <ul className={`relative flex gap-[--px] px-[--px] w-full items-center bg-transparent border-b-small
-                        border-section cursor-pointer ${SubNavItems ? 'py-[1rem] '+styles.slideIn : styles.slideOut}`}>
-            {SubNavItems}
-        </ul>
-    );
 
     let userBtns: ReactElement | ReactElement[];
-    if (userCtx.isLoggedIn) {
-        const ProfileLinks: ReactElement[] = PROFILE_ROUTES.map((link, idx) => (
-            <li key={link + idx}>
+    if (userCtx.isLoggedIn || isSmScreen) {
+        const ProfileLinks: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
+            <li key={link + idx}
+                className={`w-full pb-[1.25rem] 
+                            sm:x-[border-b-small,pt-[1.25rem]]
+                            sm:landscape:x-[py-[--1dr],text-content-small]`}>
                 <PageLink
                     href={link}
                     className={`relative flex justify-center bg-control`}
+                    onClick={() => setProfileMenuOpenState(false)}
                 />
             </li>
         ));
 
         ProfileLinks.push(
             <li
-                key={'logout' + PROFILE_ROUTES.length}
-                onClick={() => userCtx.removeSession()}
-                className={'border-t-small pt-[1.2rem] cursor-pointer'}
+                key={'logout' + LAYOUT.profileLinks.length}
+                onClick={() => {
+                    setProfileMenuOpenState(false);
+                    userCtx.removeSession();
+                }}
+                className={`border-t-small pt-[1.25rem] cursor-pointer
+                            sm:x-[border-t-0,border-control-gray-l0,py-[1.25rem]]
+                            sm:landscape:x-[py-[--1dr],text-content-small]`}
             >
                 Log Out
             </li>
@@ -163,17 +136,22 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         userBtns = (
             <div className={'relative'}>
                 <Image
-                    src={userCtx.userData?.photo ? AuthService.getAPI + userCtx.userData?.photo : SVG_PROFILE}
+                    id={'profile-icon'}
+                    src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
                     width={29}
                     height={29}
                     alt={'profile icon'}
-                    className={'cursor-pointer rounded-full max-h-[1.8rem]'}
-                    onClick={() => setProfileMenuVisibility(prevState => !prevState)}
+                    className={'cursor-pointer rounded-full h-[1.8125rem]'}
+                    onClick={() => toggleProfileMenu()}
                 />
-                <ul
-                    className={`absolute z-10 right-0 flex flex-col items-start gap-[1.2rem] mt-[0.62rem] p-[0.75rem]
-                                border-small border-control rounded-[0.375rem] bg-control text-nowrap
-                                ${isProfileMenuVisible ? '' : 'hidden'}`}>
+                <ul id={'profile-menu'}
+                    className={cn(
+                        `absolute z-10 right-0 flex flex-col items-start mt-[0.6rem] p-[1.25rem] min-w-[8.75rem]
+                        border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap
+                        sm:x-[bg-control-white-d0,text-gray,rounded-none,py-0]`,
+                        {['hidden']: !isProfileMenuOpened}
+                    )}
+                >
                     {ProfileLinks}
                 </ul>
             </div>
@@ -183,8 +161,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             <Button
                 key={name + idx}
                 onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>, {darkenBg: true})}
-                className={`px-[0.75rem] py-[0.15rem] rounded-full border-small border-section font-bold capitalize 
-                            text-[0.7rem] ${idx ? 'bg-black text-white' : 'bg-white text-black'}`}
+                className={`px-[0.75rem] py-[0.2rem] rounded-full border-small border-section font-bold capitalize 
+                            text-[1rem] ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
             >
                 {name}
             </Button>
@@ -192,17 +170,33 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     return (
-        <header className={'font-neo text-primary text-[0.85rem]'}>
-            <div
-                className={`relative z-[2] bg-black flex w-full py-[1rem] px-[--px] justify-between items-center border-b-small border-section`}>
-                <nav
-                    className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+4.2rem)] before:absolute before:h-[2rem] before:-left-[--py]
-                                before:border-r-small before:border-section`}>
-                    <ul className={`flex ${isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[calc(1*var(--px))]'} cursor-pointer`}>{NavLinks}</ul>
+        <header className={'text-[1rem] leading-none'}>
+            <div className={`relative z-[2] flex justify-between items-center px-[2.06rem] w-full h-[5.13rem] 
+                            border-b-small border-section bg-black 
+                            sm:x-[flex-row-reverse,justify-start,px-[1.25rem],h-[4.31rem]]    after:sm:border-control-gray-l0`}
+            >
+                <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+var(--insignia-moved-size)+2.06rem)] h-full
+                                before:x-[absolute,h-[67%],-left-[2.06rem],border-r-small,border-section]
+                                sm:ml-[1.94rem] sm:before:x-[-left-[0.94rem],h-[52%],border-control-gray-l0]`}
+                >
+                    <Button
+                        onClick={() => toggleMenu()}
+                        icon={'burger'}
+                        className={`lg:hidden md:hidden`}
+                        classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
+                    />
+                    <ul className={`flex cursor-pointer text-content-small sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
+                        {NavLinks}
+                    </ul>
                 </nav>
                 <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </div>
-            {SubNav}
+            <ul className={`relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small
+                            border-section cursor-pointer ${SubNavItemsMdLg ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut}
+                            sm:hidden`}
+            >
+                {SubNavItemsMdLg}
+            </ul>
         </header>
     );
 }

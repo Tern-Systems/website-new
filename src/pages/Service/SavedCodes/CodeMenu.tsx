@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from "react";
+import React, {Dispatch, FC, ReactElement, SetStateAction} from "react";
 
 import {ARCode} from "@/app/types/arcode";
 import {OpenModal} from "@/app/context/Modal.context";
@@ -25,6 +25,7 @@ type CodeMenuData = {
     arCode: ARCode | null;
     x: number;
     y: number;
+    updateList: Dispatch<SetStateAction<boolean>>;
 }
 
 const MENU_ITEMS: MenuItem = {
@@ -32,22 +33,23 @@ const MENU_ITEMS: MenuItem = {
         svg: 'pencil',
         action: (args: { arCode: ARCode, navigate: (route: string) => void }) => {
             const {arCode, navigate} = args;
-            navigate(Route.ARCodeToolEdit + '/' + arCode.id);
+            sessionStorage.setItem('qr-code-edit', JSON.stringify(arCode));
+            navigate(Route.ARCodeToolEdit);
         }
     },
     Download: {
         svg: 'download',
-        action: async () => null
-    }, // TODO
+        action: async (args: { arCode: ARCode }) => window.open(args.arCode.downloadUrl, '_blank')
+    },
     Share: {
         svg: 'share',
         action: (args: { openModal: OpenModal, arCode: ARCode }) =>
-            args.openModal(<ShareModal name={args.arCode.name} file={args.arCode.file}/>, {darkenBg: true})
+            args.openModal(<ShareModal name={args.arCode.name} file={args.arCode.qrCodeUrl}/>, {darkenBg: true})
     },
     Delete: {
         svg: 'delete',
-        action: async (args: { openModal: OpenModal, arCode: ARCode }) =>
-            args.openModal(<DeleteModal adCode={args.arCode}/>, {darkenBg: true})
+        action: async (args: { openModal: OpenModal, arCode: ARCode, updateList: Dispatch<SetStateAction<boolean>> }) =>
+            args.openModal(<DeleteModal adCode={args.arCode} updateList={args.updateList}/>, {darkenBg: true})
     }
 }
 
@@ -66,8 +68,13 @@ const CodeMenu: FC<Props> = (props: Props) => {
         <Button
             key={name + idx}
             icon={value.svg}
-            className={'flex gap-x-[0.57rem] font-bold'}
-            onClick={() => value.action({openModal, navigate, arCode: menuData.arCode})}
+            className={'flex gap-x-[min(1.3dvw,0.57rem)] font-bold'}
+            onClick={() => value.action({
+                openModal,
+                navigate,
+                arCode: menuData.arCode,
+                updateList: menuData.updateList
+            })}
         >
             {name}
         </Button>
@@ -77,8 +84,8 @@ const CodeMenu: FC<Props> = (props: Props) => {
         <div
             id={'code-menu'}
             style={{top: menuData.y, left: menuData.x}}
-            className={`absolute flex flex-col bg-black border-small border-control-white-d0 rounded-smallest p-[0.63rem]
-                            gap-y-[0.62rem] z-10 items-start`}
+            className={`absolute flex flex-col bg-black border-small border-control-white-d0 rounded-smallest
+                        p-[--s-d2l-smallest] gap-y-[--s-d2l-smallest] z-10 items-start`}
         >
             {MenuItems}
         </div>

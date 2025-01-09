@@ -1,12 +1,17 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react'
 import {usePathname} from "next/navigation";
 import Image from "next/image";
+import cn from "classnames";
+
+import {Route} from "@/app/static";
 
 import {ContentAnchors, DocumentationContent} from "@/app/types/documentation";
 
+import {getRouteName} from "@/app/utils";
+import {useNavigate} from "@/app/hooks";
 import {useLayout} from "@/app/context";
 
-import {Button} from "@/app/ui/form";
+import {Button, Select} from "@/app/ui/form";
 
 import SVG_FULLSCREEN from "@/assets/images/icons/fullscreen.svg";
 import SVG_VIEW_VIEW from "@/assets/images/icons/view-view.svg";
@@ -20,10 +25,12 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
     const {contents} = props;
     const route = usePathname();
     const layoutCtx = useLayout();
+    const [navigate] = useNavigate();
 
     const [isPiPMode, setPiPModeState] = useState(false);
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
-    const [isMenuOpened, setMenuOpened] = useState<boolean>(false);
+    const [isMenuOpened, setMenuOpened] = useState(false);
+    const [isSelectOpened, setSelectOpenState] = useState(false);
 
     const documentationContent: DocumentationContent | null = route ? contents[route] : null;
 
@@ -32,11 +39,12 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
     const handleEnablePiP = () => {
         if (!route)
             return;
-        const newWindow = window.open(route, '_blank no', 'width=600,height=400');
+        const newWindow = window.open(route, '_blank', 'width=600,height=400');
         newWindow?.sessionStorage.setItem('pip-mode-child', '');
 
         const handleLoad = () => {
             setPiPModeState(true);
+            setMenuOpened(false);
             sessionStorage.setItem('pip-mode-parent', '');
         }
         const handleUnload = () => {
@@ -58,10 +66,10 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         setPiPModeState(sessionStorage.getItem('pip-mode-parent') !== null)
         setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null)
 
-        window.addEventListener('click', handleClick);
+        window.addEventListener('mousedown', handleClick);
         return () => {
             sessionStorage.removeItem('pip-mode-parent');
-            window.removeEventListener('click', handleClick);
+            window.removeEventListener('mousedown', handleClick);
         }
         //eslint-disable-next-line
     }, [])
@@ -95,9 +103,12 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
             }
 
             return (
-                <li key={anchorText + idx} className={'pl-[1rem]'}>
+                <li key={anchorText + idx} className={'pl-[1rem] mt-[0.5rem]'}>
                     <span
-                        onClick={() => document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'})}
+                        onClick={() => {
+                            document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'})
+                            setMenuOpened(false);
+                        }}
                         className={'cursor-pointer'}
                     >
                         {anchorText}
@@ -108,6 +119,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         });
         return <>{ListOptions}</>
     }
+
     const renderAnchorList = (list: ContentAnchors | undefined, isChapters: boolean | undefined): ReactElement => {
         const chapterCounter = 0;
         const chapterFlag = false;
@@ -119,11 +131,11 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         ? null
         : (
             <Button
-                className={'p-[0.2rem] h-[1.8125rem] min-w-[1.8125rem] rounded-smallest border-2 border-white'}
                 onClick={() => toggleMenuOpen()}
+                className={`p-[0.2rem] h-[1.8rem] min-w-[1.8125rem] rounded-smallest border-2 border-white`}
             >
                 <div
-                    className={`bg-white box-border h-[100%] rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
+                    className={`bg-control-white box-border h-full rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
             </Button>
         );
 
@@ -131,55 +143,109 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         ? null
         : (
             <>
-                <Button
-                    onClick={() => layoutCtx.toggleFullscreen()}
-                    className={'absolute top-[1.25rem] right-[1.25rem]'}
-                >
+                <Button onClick={() => layoutCtx.toggleFullscreen()} className={'size-[1.81rem]'}>
                     <Image src={SVG_FULLSCREEN} alt={'fullscreen'}/>
                 </Button>
-                <Button
-                    onClick={() => handleEnablePiP()}
-                    className={'absolute bottom-[1.25rem] right-[1.25rem]'}
-                >
+                <Button onClick={() => handleEnablePiP()}>
                     <Image src={SVG_VIEW_VIEW} alt={'view-view'}/>
                 </Button>
             </>
         );
 
+    const options: Record<string, string> = Object.fromEntries(
+        Object.keys(contents).map((key) => [key, getRouteName(key) ?? ''])
+    );
+
+    const selectCn = 'h-[2.5rem] ' + (isSelectOpened ? '[&]:bg-control-gray' : '[&]:bg-transparent border-none');
+
     return (
         <div
-            className={`self-center flex-grow ${layoutCtx.isNoLayout ? 'h-full' : 'max-h-[90%] max-w-[90%] pt-[--p-small]'}`}>
+            className={cn(
+                `self-center flex-grow h-full min-w-[70rem] text-default
+                sm:min-w-full`,
+                {
+                    [`
+                        my-[--p-content] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]
+                        sm:x-[max-w-full,my-0,mt-[--p-content-s],min-w-0]
+                        sm:h-[calc(100%-var(--p-content-s))]
+                    `]: !layoutCtx.isNoLayout,
+                }
+            )}
+        >
             <div
-                className={`relative flex h-full rounded-small border-small border-control-gray bg-control-navy                             text-[1.5rem] leading-[130%] box-content overflow-hidden`}>
+                className={`flex h-full rounded-small border-small border-control-gray bg-control-navy
+                            leading-[130%] box-content`}>
                 <aside
                     id={'documentation-menu'}
-                    className={`px-[--p-small] py-[--p-small] text-[1.0625rem] text-left overflow-y-hidden
-                                ${isMenuOpened ? 'bg-[#4D4D4D] min-w-[19.44rem] sm:portrait:w-screen' : 'h-fit bg-none'}`}
+                    className={cn(
+                        `p-[--p-content-s] text-left
+                        sm:x-[absolute,top-0,left-0,p-[--p-content-s],h-full]`,
+                        isMenuOpened
+                            ? `bg-control-gray min-w-[19rem]    sm:portrait:w-full`
+                            : `pr-0 ${isSelectOpened ? 'h-full' : 'sm:[&]:h-fit bg-none'}`
+                    )}
                 >
-                    <div className={`flex items-center`}>
-                        {MenuBtn}
-                        <span hidden={!isMenuOpened} className={'ml-[2.31rem] text-content-small'}>Table of Contents</span>
+                    <div className={`flex items-center h-[2rem] sm:x-[flex-col,items-start,h-[5rem]]`}>
+                        <span className={'flex gap-x-[0.62rem] lg:contents md:contents items-center h-[3rem]'}>
+                            {MenuBtn}
+                            <Select
+                                options={options}
+                                onChangeCustom={(route) => navigate(route as Route)}
+                                value={route ?? ''}
+                                onOpen={(isExpanded) => setSelectOpenState(isExpanded)}
+                                classNameWrapper={'md:hidden lg:hidden'}
+                                className={`text-[1.3rem] font-bold font-oxygen rounded-smallest 
+                                            pl-[0.62rem] pr-[1rem] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.5rem] ${selectCn}`}
+                                classNameOption={`w-full ${selectCn} border-small border-control-white`}
+                            />
+                        </span>
+                        <span hidden={!isMenuOpened}
+                              className={cn(`
+                                    ml-[0.77rem] text-section-s text-nowrap
+                                    sm:portrait:x-[my-[2.7rem],text-section-s]
+                                    sm:landscape:x-[my-[1rem]]`,
+                                  {['brightness-50']: isSelectOpened}
+                              )}
+                        >
+                            Table of Contents
+                        </span>
                     </div>
-                    <div className={'mt-[1.86rem] h-full overflow-y-scroll'}>
+                    <div
+                        className={cn(`
+                            pt-[1.5rem] h-[calc(100%-2rem)] text-section-s
+                            sm:h-[calc(100%-5rem)] sm:mt-0 
+                            sm:portrait:text-basic`,
+                            {['brightness-50']: isSelectOpened}
+                        )}
+                    >
                         <ul
                             hidden={!isMenuOpened}
-                            className={'ml-[-0.9rem]'}
+                            className={'overflow-y-scroll h-full'}
                         >
                             {renderAnchorList(documentationContent?.anchors, documentationContent?.isChapter)}
                         </ul>
                     </div>
                 </aside>
-                {ControlBtns}
                 <div
-                    className={`pl-[0.44rem] py-[--p-small] pr-[4.31rem] text-left content-center 
-                                ${layoutCtx.isNoLayout ? '' : 'max-w-[78.375rem]'} `}>
-                    <div className={`h-full overflow-y-scroll `}>
+                    className={cn(
+                        `p-[--p-content-s] pr-0 w-full h-full text-left content-center
+                        sm:p-[0.63rem]`,
+                        {['w-[58dvw] max-w-[70rem]']: !layoutCtx.isNoLayout}
+                    )}
+                >
+                    <div className={`h-full w-full overflow-y-scroll text-documentation leading-[130%]`}>
                         {isPiPMode
-                            ? <span
-                                className={'block text-center content-center text-[2rem] w-[70rem] h-full'}>Picture in picture mode</span>
+                            ? (
+                                <span className={'block content-center w-[70rem] h-full text-center text-heading-l'}>
+                                    Picture in picture mode
+                                </span>
+                            )
                             : documentationContent?.children}
                     </div>
                 </div>
+                <aside className={`p-[--p-content-s] flex flex-col justify-between    sm:hidden`}>
+                    {ControlBtns}
+                </aside>
             </div>
         </div>
     );

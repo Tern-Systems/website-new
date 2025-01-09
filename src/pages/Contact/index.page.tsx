@@ -23,26 +23,34 @@ const LINKS: { svg: string, href: string }[] = [
 ]
 
 
-const ContactPage: FC = () => {
+const ContactsPage: FC = () => {
     const Links = LINKS.map((link) => (
-        <li key={link.href} className={`size-[2rem] ${styles.clickable}`}>
+        <li key={link.href} className={`size-[2.5rem] sm:size-[1.87rem] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
-                <Image src={link.svg} alt={link.href}/>
+                <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
         </li>
     ));
 
     return (
         <div
-            className={`${styles.highlight} w-[26.5rem] gap-[3.12rem]`}>
-            <p className={'font-oxygen text-[2.8125rem]'}>Tern</p>
+            className={`${styles.highlight} gap-y-[3.12rem] w-full max-w-[26.5rem]
+                        sm:x-[gap-y-[1.88rem],max-w-[19.2rem],w-fit,text-section]
+                        sm:portrait:x-[mx-auto,p-[--p-content-s]]
+                        sm:landscape:gap-y-[1rem]`}
+        >
+            <h1 className={`font-oxygen
+                            sm:text-heading`}
+            >
+                Tern
+            </h1>
             <p>New York, New York</p>
-            <p className={'font-normal'}>
+            <p className={'font-normal text-[]'}>
                 <a href={'mailto:info@tern.ac'} target={'_blank'} className={styles.clickable}>info@tern.ac</a>
             </p>
-            <ul className={'flex gap-[0.84rem]'}>{Links}</ul>
+            <ul className={'flex gap-[--s-small]'}>{Links}</ul>
         </div>
     )
 }
 
-export default ContactPage
+export default ContactsPage

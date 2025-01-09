@@ -1,4 +1,5 @@
 import type {Config} from "tailwindcss";
+import Tailwind from "tailwindcss/plugin";
 
 const config: Config = {
     content: [
@@ -9,12 +10,9 @@ const config: Config = {
     theme: {
         extend: {
             screens: {
-                sm: {max: '833.9px'},
-                md: {min: '834px', max: '1439.9px'},
-                lg: {min: '1440px'}
-            },
-            backgroundImage: {
-                content: "url('../assets/images/bg-content.gif')"
+                sm: {max: '834px'},
+                md: {min: '835px', max: '1441px'},
+                lg: {min: '1442px'}
             },
             colors: {
                 primary: "var(--color-primary)",
@@ -22,7 +20,7 @@ const config: Config = {
                 gray: "var(--color-gray)",
                 placeholder: "var(--color-placeholder)",
                 blue: "var(--color-blue)",
-                blueL0: "var(--color-blue-l0)",
+                'blue-l0': "var(--color-blue-l0)",
                 red: "var(--color-red)",
             },
             backgroundColor: {
@@ -39,15 +37,17 @@ const config: Config = {
                 smallest1: 'var(--br-smallest-1)',
                 smallest: 'var(--br-smallest)',
                 small: 'var(--br-small)',
+                normal: 'var(--br-normal)',
             },
             borderColor: {
                 section: "var(--b-section)",
                 'control-gray': "var(--b-control-gray)",
                 'control-gray-l0': "var(--b-control-gray-l0)",
-                'control-grayL1': "var(--b-control-gray-l1)",
+                'control-gray-l1': "var(--b-control-gray-l1)",
                 'control-white-d0': "var(--b-control-white-d0)",
                 'control-white': "var(--b-control-white)",
                 'control-blue': "var(--b-control-blue)",
+                'control-red': "var(--b-control-red)",
             },
             borderWidth: {
                 small: 'var(--b-small)',
@@ -62,8 +62,22 @@ const config: Config = {
                 note: 'var(--fz-note)',
                 small: 'var(--fz-small)',
                 content: 'var(--fz-content)',
-                contentSmall: 'var(--fz-content-small)',
-                header: 'var(--fz-header)'
+                'content-small': 'var(--fz-content-small)',
+                default: 'var(--fz-default)',
+                header: 'var(--fz-header)',
+                'section-header': 'var(--fz-section-header)',
+                'header-l': 'var(--fz-header-l)',
+
+                'heading-l': 'var(--fz-heading-l)',
+                heading: 'var(--fz-heading)',
+                'heading-s': 'var(--fz-heading-s)',
+                documentation: 'var(--fz-documentation)',
+                section: 'var(--fz-section)',
+                'section-s': 'var(--fz-section-s)',
+                basic: 'var(--fz-basic)',
+                'section-xs': 'var(--fz-section-xs)',
+                'section-xxs': 'var(--fz-section-xxs)',
+                'section-xxxs': 'var(--fz-section-xxxs)',
             },
             keyframes: {
                 insignia: {
@@ -76,13 +90,35 @@ const config: Config = {
                     '100%': {
                         top: '0',
                         left: '0',
-                        transform: 'translate(var(--insignia-pl-moved), var(--insignia-pt-moved)) scale(var(--insignia-scale-moved))',
+                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
+                        transformOrigin: 'top left'
+                    }
+                },
+                insigniaReverse: {
+                    '100%': {
+                        top: '45%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%) scale(var(--insignia-scale-init))',
+                        transformOrigin: 'center center',
+                    },
+                    '0%': {
+                        top: '0',
+                        left: '0',
+                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
                         transformOrigin: 'top left'
                     }
                 }
             }
         },
     },
-    plugins: [],
+    plugins: [
+        Tailwind(({matchUtilities}) => {
+            matchUtilities({
+                'x': (value) => ({
+                    [`@apply ${value.replaceAll(',', ' ')}`]: {}
+                })
+            })
+        })
+    ],
 };
 export default config;

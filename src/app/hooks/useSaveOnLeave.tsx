@@ -5,7 +5,7 @@ import {useModal} from "@/app/context";
 import {SaveChangesModal} from "@/app/ui/modals";
 
 
-const useSaveOnLeave = (onSave: () => Promise<void>, onDontSave?: () => Promise<void>) => {
+const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => Promise<void>) => {
     const modalCtx = useModal();
     const [shouldPrevent, setPreventState] = useState(true);
 
@@ -33,7 +33,9 @@ const useSaveOnLeave = (onSave: () => Promise<void>, onDontSave?: () => Promise<
             window.removeEventListener('beforeunload', handle);
             window.removeEventListener('hashchange', handle);
         }
-    }, [onSave, onDontSave, shouldPrevent, modalCtx]);
+    }, [onSave, onDontSave, shouldPrevent, modalCtx])
+
+    return setPreventState;
 }
 
 
