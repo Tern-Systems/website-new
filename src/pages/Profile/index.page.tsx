@@ -239,8 +239,7 @@ const ProfilePage: FC = () => {
 
   // Company
   // @ts-expect-error wrong sub-industry key
-  const subIndustry =
-    SUB_INDUSTRY?.[userData.company.industry]?.[userData.company.subIndustry];
+  const subIndustry = SUB_INDUSTRY?.[userData.company.industry]?.[userData.company.subIndustry];
 
   return (
     <div className={"flex mt-[3.88rem] sm:mt-0"}>
