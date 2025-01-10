@@ -21,7 +21,6 @@ import SVG_DISCOVER from "@/assets/images/icons/card-discover.svg";
 import SVG_CARD_NUM from "@/assets/images/icons/card-num.svg";
 
 import styles from './Form.module.css'
-import axios from "axios";
 
 
 const SM_ROW_START = 'sm:row-start-auto';
@@ -96,34 +95,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         try {
             if (isPaymentCreation)
                 await BillingService.postSaveCard(formData, userData?.email);
-             else {
-                // Update Card
-                try {
-                    await axios({
-                        method: "POST",
-                        data: {
-                            profileId: savedCards[editCardIdx].customerProfileId,
-                            paymentProfileId: savedCards[editCardIdx].paymentProfileId,
-                            cardNumber: formData.cardNumber.replace(/•/g, "X").replace(/\s+/g, ""),
-                            expiryDate: formData.expirationDate,
-                            cardCode: formData.cvc,
-                            nickName: formData.nickName,
-                            firstName: formData.cardholderName.split(' ').slice(0, -1).join(' '),
-                            lastName: formData.cardholderName.split(' ').slice(-1).join('') || '',
-                            address: formData.addressLine1 + (formData.addressLine2 ? ` ${formData.addressLine2}` : ''),
-                            city: formData.city,
-                            state: formData.state,
-                            zip: formData.zip,
-                            country: formData.country,
-                            isPreferred: formData.isDefault || false,
-                        },
-                        url: `${process.env.NEXT_PUBLIC_API}update-card`,
-                        withCredentials: true,
-                    });
-                } catch (error: unknown) {
-                    console.error("Failed to fetch card details:", error);
-                }
-            }
+            else
+                await BillingService.postUpdateCard(formData, userData?.email);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
