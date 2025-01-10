@@ -32,11 +32,39 @@ interface IBillingService {
     getEditCards(email: string): Promise<Res<SavedCardFull[]>>;
 
     postUpdateCard(formData: CardData, email: string): Promise<Res>;
+
+    postDeleteCard(id: string, paymentId: string, email: string): Promise<Res>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
     constructor() {
         super(BillingServiceImpl.name)
+    }
+
+
+    async postDeleteCard(id: string, paymentId: string, email: string): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postUpdateCard.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `remove-card`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({
+                email,
+                profileId: id,
+                paymentProfileId: paymentId,
+            }),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
     }
 
     async postUpdateCard(formData: CardData, email: string): Promise<Res> {

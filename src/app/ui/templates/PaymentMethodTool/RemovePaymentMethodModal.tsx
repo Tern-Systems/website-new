@@ -1,11 +1,13 @@
-import {FC} from "react";
+import React, {FC} from "react";
 import Image from "next/image";
 
 import {CardData} from "@/app/types/billing";
 
-import {useModal} from "@/app/context";
+import {BillingService} from "@/app/services";
 
-import {BaseModal} from "@/app/ui/modals";
+import {useModal, useUser} from "@/app/context";
+
+import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
 import SVG_CARD from '@/assets/images/card.svg';
@@ -20,12 +22,20 @@ interface Props {
 
 const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
     const {card} = props;
-
+    const {userData} = useUser();
     const modalCtx = useModal();
 
     const handleRemove = async () => {
-        // TODO
-        modalCtx.closeModal();
+        if (!userData || !card.profileId)
+            return;
+        try {
+            await BillingService.postDeleteCard(card.profileId, card.id, userData.email);
+        } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+        } finally {
+            modalCtx.closeModal();
+        }
     }
 
     return (
