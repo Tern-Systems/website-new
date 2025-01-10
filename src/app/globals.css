@@ -161,6 +161,7 @@ body ::-webkit-scrollbar {
     src: url("../../public/fonts/NeoSansW1G-Regular.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
+    ascent-override: 110%;
 }
 
 @font-face {
