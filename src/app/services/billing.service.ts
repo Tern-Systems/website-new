@@ -42,8 +42,9 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
         const config: AxiosRequestConfig = {
             method: "POST",
-            data: JSON.stringify({email,}),
             url: this._API + `get-saved-cards-and-edit`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email,}),
             withCredentials: true,
         };
 
@@ -74,8 +75,8 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             address: `${formData.addressLine1} | ${formData.addressLine2}`,
             city: formData.city,
             state: formData.state,
-            zip: formData.postalCode,
-            country: formData.billingCountry
+            zip: formData.zip,
+            country: formData.country
         }
 
 
@@ -184,8 +185,8 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,
             state: data.state,
-            zip: data.postalCode,
-            country: data.billingCountry,
+            zip: data.zip,
+            country: data.country,
             firstName,
             lastName
         };

@@ -29,7 +29,7 @@ function PurchasingInformationPage() {
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
     // eslint-disable-next-line
-    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
+    const [defaultCardIdx, setDefaultCardIdx] = useState<number | null>();
     const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
 
     const router = useRouter();
@@ -55,17 +55,17 @@ function PurchasingInformationPage() {
         }
         fetchSubscriptionDetailsAndCards();
         // eslint-disable-next-line
-    }, []);
+    }, [userCtx.userData]);
 
 
     if (!isLoggedIn)
         return null;
 
-    const defaultCard: SavedCard | undefined = savedCards[defaultCardIdx];
+    const defaultCard: SavedCard | null = defaultCardIdx ? savedCards[defaultCardIdx] : null;
 
     // Elements
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
-        if (card.preferred)
+        if (card.preferred && defaultCardIdx === null)
             setDefaultCardIdx(idx);
         return (
             <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-content items-center'}>
@@ -112,7 +112,8 @@ function PurchasingInformationPage() {
                         <div className={`flex justify-between`}>
                             <h2 className={'text-header font-bold   sm:landscape:text-content'}>Payment Method</h2>
                             <PageLink href={Route.EditPaymentMethod} prevent={!savedCards.length}>
-                                <Button icon={'edit'} className={'text-small flex-row-reverse'} onClick={() => router.push(Route.EditPaymentMethod)}>
+                                <Button icon={'edit'} className={'text-small flex-row-reverse'}
+                                        onClick={() => router.push(Route.EditPaymentMethod)}>
                                     {isSmScreen ? '' : 'Edit'}
                                 </Button>
                             </PageLink>

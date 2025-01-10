@@ -1,4 +1,5 @@
 import React, {FC, FormEvent, useEffect, useState} from "react";
+import cn from "classnames";
 
 import {CardData, SavedCardFull} from "@/app/types/billing";
 import {COUNTRY, CountryKey, STATE_PROVINCE, StateKey} from "@/app/static";
@@ -30,18 +31,19 @@ const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
 
 
 const FORM_DATA_DEFAULT: CardData = {
+    profileId: '',
     id: '',
     type: '',
     cardNumber: '',
     expirationDate: '',
     cvc: '',
     cardholderName: '',
-    billingCountry: '',
+    country: '',
     billingAddress: '',
     addressLine1: '',
     addressLine2: '',
     city: '',
-    postalCode: '',
+    zip: '',
     state: '',
     nickName: '',
     isDefault: false,
@@ -103,22 +105,24 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
 
     const mapSavedCard = (card: SavedCardFull): CardData => {
-        const billingInfo = card?.billingAddress;
+        const billingInfo = card.billingAddress;
+        const [addressLine1, addressLine2] = card?.billingAddress.address.split('|');
         return {
-            id: '',
+            id: card.paymentProfileId,
+            profileId: card.customerProfileId,
             cardNumber: card.cardNumber,
-            billingAddress: billingInfo?.address + billingInfo?.city + billingInfo?.state + billingInfo?.zip + billingInfo?.country,
+            billingAddress: card?.billingAddress.address,
             nickName: card.nickName,
             type: card.cardType,
             cvc: '',
             expirationDate: card.expDate,
-            cardholderName: card.billingAddress.firstName + ' ' + card.billingAddress.lastName,
-            addressLine1: card.billingAddress.address,
-            addressLine2: '',
-            city: card.billingAddress.city,
-            state: card.billingAddress.state as StateKey,
-            postalCode: card.billingAddress.zip,
-            billingCountry: card.billingAddress.country as CountryKey,
+            cardholderName: billingInfo.firstName + ' ' + billingInfo.lastName,
+            addressLine1,
+            addressLine2,
+            city: billingInfo.city,
+            state: billingInfo.state as StateKey,
+            zip: billingInfo.zip,
+            country: billingInfo.country as CountryKey,
             isDefault: card.preferred,
         }
     }
@@ -171,9 +175,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         type={'number'}
                         value={formData.cardNumber}
                         maxLength={16}
+                        onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
                         icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
-                        classNameWrapper={`${FIELD_CN} row-start-3`}
+                        classNameWrapper={cn(FIELD_CN, `row-start-3`, {['brightness-[0.9]']: !isPaymentCreation})}
                         disabled={!isPaymentCreation}
                     >
                         Credit or Debit Card
@@ -262,7 +267,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         City / Locality
                     </Input>
                     <Select
-                        options={(STATE_PROVINCE?.[formData.billingCountry] ?? {})}
+                        options={(STATE_PROVINCE?.[formData.country] ?? {})}
                         value={formData.state}
                         onChangeCustom={(value) => setFormData('state')(value)}
                         classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}
@@ -273,9 +278,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Select>
                     <Input
                         type={'number'}
-                        value={formData.postalCode}
+                        value={formData.zip}
                         maxLength={5}
-                        onChange={setFormData('postalCode')}
+                        onChange={setFormData('zip')}
                         classNameWrapper={`${FIELD_CN} row-start-6 sm:[&&]:col-span-1`}
                         required
                     >
@@ -283,8 +288,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Input>
                     <Select
                         options={COUNTRY}
-                        value={formData.billingCountry}
-                        onChangeCustom={(value) => setFormData('billingCountry')(value)}
+                        value={formData.country}
+                        onChangeCustom={(value) => setFormData('country')(value)}
                         classNameWrapper={`${FIELD_CN} row-start-6 sm:[&&]:col-span-1`}
                         className={SELECT_CN}
                         required

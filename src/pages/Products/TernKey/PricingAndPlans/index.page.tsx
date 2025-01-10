@@ -3,8 +3,6 @@ import {FC, useEffect, useState} from "react";
 import {Route} from "@/app/static";
 import {SubscriptionPreview} from "@/app/types/subscription";
 
-import {useUser} from "@/app/context";
-
 import {PricingAndPlansScreen} from "@/app/ui/templates";
 
 import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
@@ -42,10 +40,7 @@ const PLAN_TEMPLATE: SubscriptionPreview = {
 
 
 const PricingAndPlansPage: FC = () => {
-    const [subscription, setSubscription] = useState<SubscriptionPreview | null>(
-        null
-    );
-    const {userData} = useUser();
+    const [subscription, setSubscription] = useState<SubscriptionPreview | null>(null);
     useEffect(() => {
         try {
             setSubscription(PLAN_TEMPLATE);

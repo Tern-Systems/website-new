@@ -3,6 +3,7 @@ import {KeysOfUnion} from "@/app/types/utils";
 
 const COUNTRY = {
     '': '',
+    'US': 'United States of America',
     'AF': 'Afghanistan',
     'AX': 'Åland Islands',
     'AL': 'Albania',
@@ -233,7 +234,6 @@ const COUNTRY = {
     'AE': 'United Arab Emirates',
     'GB': 'United Kingdom',
     'UM': 'United States Minor Outlying Islands',
-    'US': 'United States of America',
     'UY': 'Uruguay',
     'UZ': 'Uzbekistan',
     'VU': 'Vanuatu',

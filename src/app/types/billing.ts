@@ -2,18 +2,19 @@ import {CountryKey, StateKey} from "@/app/static";
 import {SubscriptionRecurrency} from "./subscription";
 
 type CardData = {
+    profileId?: string;
     id: string;
     type: string;
     cardNumber: string;
     expirationDate: string;
     cvc: string;
     cardholderName: string;
-    billingCountry: CountryKey;
+    country: CountryKey;
     billingAddress: string;
     addressLine1: string;
     addressLine2: string;
     city: string;
-    postalCode: string;
+    zip: string;
     state: StateKey;
     nickName: string;
     isDefault: boolean;
