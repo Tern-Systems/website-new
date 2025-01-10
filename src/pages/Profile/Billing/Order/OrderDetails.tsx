@@ -26,6 +26,8 @@ const OrderDetails: FC<Props> = (props: Props) => {
         ? invoice.totalDue - invoice.paidUSD
         : undefined;
 
+    const state = invoice?.country && invoice?.state ? STATE_PROVINCE?.[invoice.country]?.[invoice.state] : '';
+
     const Hr = <hr className={'border-control-white-d0 mt-[--1qdrs] mb-[--1qdr]'}/>
 
     return (
@@ -71,7 +73,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
                     <span>Total excluding tax</span>
                     <span className={'text-right'}>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
                     <span className={'text-secondary'}>
-                        Sales tax - {invoice?.country && invoice?.state ? STATE_PROVINCE[invoice.country][invoice.state] : '--'}
+                        Sales tax - {state ?? '--'}
                         &nbsp;({invoice?.taxPercent !== undefined ? invoice.taxPercent * 100 : '--'}%)
                     </span>
                     <span

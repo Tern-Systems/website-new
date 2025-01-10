@@ -620,7 +620,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 Country / Region
                             </Select>
                             <Select
-                                options={STATE_PROVINCE[formData[key].country]}
+                                options={(STATE_PROVINCE?.[formData[key].country] ?? {}) }
                                 value={formData[key]?.state ?? ''}
                                 placeholder={'Select'}
                                 onChangeCustom={(value) => requireOnChangeAddress(key, 'state')(value)}

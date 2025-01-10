@@ -1,12 +1,12 @@
 import {FC, useEffect, useState} from "react";
 
+import {Route} from "@/app/static";
 import {SubscriptionPreview} from "@/app/types/subscription";
 
 import {PricingAndPlansScreen} from "@/app/ui/templates";
 
 import SVG_DIAMOND_ACE from "@/assets/images/icons/diamond-ace.svg";
 import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
-import {Route} from "@/app/static";
 
 
 const PLAN_TEMPLATE: SubscriptionPreview = {
@@ -14,7 +14,7 @@ const PLAN_TEMPLATE: SubscriptionPreview = {
     isBasicKind: false,
     route: Route.ServiceSubscribe,
     type: {
-        standard: {
+        Standard: {
             icon: SVG_DIAMOND_ACE,
             priceUSD: {monthly: 10, annual: 8},
             benefits: [
@@ -25,7 +25,7 @@ const PLAN_TEMPLATE: SubscriptionPreview = {
                 'Data import and export',
             ]
         },
-        pro: {
+        Pro: {
             icon: SVG_DIAMOND,
             priceUSD: {monthly: 50, annual: 40},
             benefits: [

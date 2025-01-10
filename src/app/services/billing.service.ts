@@ -1,23 +1,24 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-import {CardData, InvoiceHistory} from "@/app/types/billing";
+import {CardData, InvoiceHistory, SavedCard, SavedCardFull} from "@/app/types/billing";
+import {PlanType} from "@/app/types/subscription";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
 
 
-type FormCardData = Omit<CardData, 'nickName' | 'isDefault' | 'cardId'>;
+type FormCardData = Omit<CardData, 'nickName' | 'isDefault'>;
 type SubscribeData = FormCardData & {
     savedCardIdx: string;
     acceptTerms: boolean;
 }
 
 interface IBillingService {
-    getCards(email: string): Promise<Res<CardData[]>>;
+    getCards(email: string): Promise<Res<SavedCard[]>>;
 
-    postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
+    postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res>;
 
-    postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
+    postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res>;
 
     //eslint-disable-next-line
     getPlanDetails(email: string): any;
@@ -25,6 +26,14 @@ interface IBillingService {
     postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>>;
 
     postExportTransaction(email: string): Promise<Res<string>>;
+
+    postSaveCard(formData: CardData, email: string): Promise<Res>;
+
+    getEditCards(email: string): Promise<Res<SavedCardFull[]>>;
+
+    postUpdateCard(formData: CardData, email: string): Promise<Res>;
+
+    postDeleteCard(id: string, paymentId: string, email: string): Promise<Res>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
@@ -32,6 +41,121 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         super(BillingServiceImpl.name)
     }
 
+
+    async postDeleteCard(id: string, paymentId: string, email: string): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postUpdateCard.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `remove-card`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({
+                email,
+                profileId: id,
+                paymentProfileId: paymentId,
+            }),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async postUpdateCard(formData: CardData, email: string): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postUpdateCard.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `update-card`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email, ...formData}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async getEditCards(email: string): Promise<Res<SavedCardFull[]>> {
+        const [debug, error] = this.getLoggers(this.postSaveCard.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `get-saved-cards-and-edit`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email,}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+
+            return {payload: response.data};
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async postSaveCard(formData: CardData, user: string): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postSaveCard.name);
+
+        const cardDetails = {
+            cardNumber: formData.cardNumber,
+            expiryDate: formData.expirationDate,
+            cardCode: formData.cvc
+        }
+
+        const [firstName, lastName] = formData.cardholderName.split(' ');
+
+        const billingDetails = {
+            firstName,
+            lastName,
+            address: `${formData.addressLine1} | ${formData.addressLine2}`,
+            city: formData.city,
+            state: formData.state,
+            zip: formData.zip,
+            country: formData.country
+        }
+
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `save-new-card`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({
+                user,
+                cardDetails: cardDetails,
+                billingDetails: billingDetails,
+                nickName: formData.nickName,
+                isPreferred: formData.isDefault
+            }),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
 
     async postExportTransaction(email: string): Promise<Res<string>> {
         const [debug, error] = this.getLoggers(this.postGetInvoices.name);
@@ -70,20 +194,21 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: response.data};
+            return {payload: [response.data]};
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
     }
 
-    async getCards(email: string): Promise<Res<CardData[]>> {
+    async getCards(email: string): Promise<Res<SavedCard[]>> {
         const [debug, error] = this.getLoggers(this.getCards.name);
 
         const config: AxiosRequestConfig = {
-            method: 'GET',
+            method: 'POST',
             url: this._API + `get-saved-cards`,
-            params: {email},
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email}),
             withCredentials: true,
         };
 
@@ -98,7 +223,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
+    async postProcessPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postProcessPayment.name);
 
         // TODO change body
@@ -106,23 +231,27 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardNumber: data.cardNumber,
             expiryDate: data.expirationDate,
             cardCode: data.cvc,
-            cardholderName: data.cardholderName.split(' '),
+            cardholderName: data.cardholderName,
         };
+        const [firstName, lastName] = data.cardholderName.split(' ');
         const billingDetails = {
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,
             state: data.state,
-            zip: data.postalCode,
-            country: data.billingCountry
+            zip: data.zip,
+            country: data.country,
+            firstName,
+            lastName
         };
         const selectedPlan = {
             planName: planType,
             price: planPrice,
+            duration: planDuration,
         };
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `process-payment`,
+            url: this._API + (isArch ? 'arch-' : '') + `process-payment`,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -147,7 +276,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
+    async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postProcessSavedPayment.name);
 
         try {
@@ -155,13 +284,11 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
             const config: AxiosRequestConfig = {
                 method: 'POST',
-                url: this._API + `process-payment-saved`,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                url: this._API + (isArch ? 'arch-' : '') + `process-payment-saved`,
+                headers: {'Content-Type': 'application/json'},
                 data: JSON.stringify({
                     user: email,
-                    cardId: data.cardNumber,
+                    cardId: data.id,
                     cvv: data.cvc,
                     planName: planType,
                     price: planPrice * (1 + taxResponse),

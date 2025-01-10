@@ -1,8 +1,9 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 import axios from "axios";
 
-import {CardData, InvoiceHistory} from "@/app/types/billing";
+import {InvoiceHistory, SavedCard} from "@/app/types/billing";
 import {Route} from "@/app/static";
 
 import {BillingService} from "@/app/services";
@@ -26,11 +27,12 @@ function PurchasingInformationPage() {
     const isSmScreen = useBreakpointCheck();
 
     // eslint-disable-next-line
-    const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
     // eslint-disable-next-line
-    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
+    const [defaultCardIdx, setDefaultCardIdx] = useState<number | null>();
     const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
 
+    const router = useRouter();
 
     useEffect(() => {
         const fetchSubscriptionDetailsAndCards = async () => {
@@ -59,18 +61,18 @@ function PurchasingInformationPage() {
     if (!isLoggedIn)
         return null;
 
-    const defaultCard: CardData | undefined = savedCards[defaultCardIdx];
+    const defaultCard: SavedCard | null = defaultCardIdx ? savedCards[defaultCardIdx] : null;
 
     // Elements
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
-        if (card.isDefault)
+        if (card.preferred && defaultCardIdx === null)
             setDefaultCardIdx(idx);
         return (
-            <li key={card.cardNumber + idx} className={'flex gap-[0.65rem] text-content items-center'}>
+            <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-content items-center'}>
                 <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
                 <span>{card.nickName}</span>
                 <span
-                    hidden={!card.isDefault}
+                    hidden={!card.preferred}
                     className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
                 >
                     Preferred
@@ -110,7 +112,8 @@ function PurchasingInformationPage() {
                         <div className={`flex justify-between`}>
                             <h2 className={'text-header font-bold   sm:landscape:text-content'}>Payment Method</h2>
                             <PageLink href={Route.EditPaymentMethod} prevent={!savedCards.length}>
-                                <Button icon={'edit'} className={'text-small flex-row-reverse'}>
+                                <Button icon={'edit'} className={'text-small flex-row-reverse'}
+                                        onClick={() => router.push(Route.EditPaymentMethod)}>
                                     {isSmScreen ? '' : 'Edit'}
                                 </Button>
                             </PageLink>
@@ -133,16 +136,20 @@ function PurchasingInformationPage() {
                                         sm:landscape:gap-y-[--s-d-small]`}
                         >
                             <span>Name</span>
-                            <span>{defaultCard ? defaultCard.cardholderName : '--'}</span>
+                            <span>
+                                {defaultCard
+                                    ? defaultCard.billingAddress.firstName + ' ' + defaultCard.billingAddress.lastName
+                                    : '--'}
+                            </span>
                             <span>Billing Address</span>
                             {defaultCard ? (
                                     <ul>
-                                        <li>{defaultCard.addressLine1}</li>
+                                        <li>{defaultCard.billingAddress.address}</li>
                                         <li>
-                                            {defaultCard.city}, {defaultCard.state}&nbsp;
-                                            {defaultCard.postalCode}
+                                            {defaultCard.billingAddress.city}, {defaultCard.billingAddress.state}&nbsp;
+                                            {defaultCard.billingAddress.zip}
                                         </li>
-                                        <li>{defaultCard.billingCountry}</li>
+                                        <li>{defaultCard.billingAddress.country}</li>
                                     </ul>
                                 )
                                 : <span>--</span>}

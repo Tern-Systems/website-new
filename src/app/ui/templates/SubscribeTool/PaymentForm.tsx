@@ -1,11 +1,11 @@
 import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 
-import {CardData} from "@/app/types/billing";
-import {SubscriptionRecurrency} from "@/app/types/subscription";
+import {SavedCard} from "@/app/types/billing";
+import {Subscription, SubscriptionRecurrency} from "@/app/types/subscription";
 import {SubscribeData} from "@/app/services/billing.service";
-import {COUNTRY, Route, STATE_PROVINCE} from "@/app/static";
+import {COUNTRY, CountryKey, Route, STATE_PROVINCE, StateKey} from "@/app/static";
 
-import {BillingService} from "@/app/services";
+import {BillingService, UserService} from "@/app/services";
 
 import {useForm, useNavigate} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
@@ -25,18 +25,19 @@ import styles from './Subscribe.module.css'
 
 
 const FORM_DEFAULT: SubscribeData = {
+    id: '',
     savedCardIdx: '-1',
     type: '',
     cardNumber: '',
     expirationDate: '',
     cvc: '',
     cardholderName: '',
-    billingCountry: '',
+    country: '',
     billingAddress: '',
     addressLine1: '',
     addressLine2: '',
     city: '',
-    postalCode: '',
+    zip: '',
     state: '',
     acceptTerms: false,
 }
@@ -46,14 +47,14 @@ const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-smallest border-small ${CONTRO
 
 
 interface Props {
-    type: string | undefined;
+    name: Subscription['subscription'] | undefined;
+    type: Subscription['type'] | undefined;
     recurrency: SubscriptionRecurrency | undefined;
     priceUSD: number | undefined;
 }
 
 const PaymentForm: FC<Props> = (props: Props) => {
-    const {type, recurrency, priceUSD} = props
-
+    const {type, name, recurrency, priceUSD} = props
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -64,7 +65,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     const [isBillingExpanded, setBillingExpandedState] = useState(false);
 
     const [paymentStatus, setPaymentStatus] = useState<boolean | null>(null);
-    const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
 
     // Fetch saved cards
     useEffect(() => {
@@ -82,10 +83,18 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
     // Flow / payment status
     useEffect(() => {
+        const refreshUserData = async () => {
+            if (!userCtx.token)
+                return;
+            const {payload: user} = await UserService.getUser(userCtx.token);
+            userCtx.setSession(user, userCtx.token);
+        }
+
         if (paymentStatus === false) {
             modalCtx.openModal(<DeclinedModal/>);
             setPaymentStatus(null);
         } else if (paymentStatus) {
+            refreshUserData();
             const next = flowCtx.next();
             if (next)
                 next();
@@ -106,11 +115,29 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 return;
 
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
+            let formDataMapped: SubscribeData = formData;
+            if (!isBillingExpanded) {
+                const billingAddress = formData.billingAddress.split(',');
+                formDataMapped = {
+                    ...formData,
+                    addressLine1: billingAddress[0] ?? '',
+                    addressLine2: billingAddress[1] ?? '',
+                    city: billingAddress[2] ?? '',
+                    state: billingAddress[3] as StateKey ?? '',
+                    zip: billingAddress[4] ?? '',
+                    country: billingAddress[5] as CountryKey ?? '',
+                }
+            }
 
-            if (savedCards.length)
-                await BillingService.postProcessSavedPayment(formData, type, recurrencyMapped, priceUSD, userCtx.userData.email);
-            else
-                await BillingService.postProcessPayment(formData, type, recurrencyMapped, priceUSD, userCtx.userData.email);
+            if (savedCards.length) {
+                const selectedCard: SavedCard = savedCards[+formData.savedCardIdx];
+                formDataMapped.id = selectedCard.id;
+                formDataMapped.cvc = formData.cvc;
+                formDataMapped.state = selectedCard.billingAddress.state;
+                await BillingService.postProcessSavedPayment(formDataMapped, type, recurrencyMapped, priceUSD, userCtx.userData.email, name === 'ARCH');
+            } else
+                await BillingService.postProcessPayment(formDataMapped, type, recurrencyMapped, priceUSD, userCtx.userData.email, name === 'ARCH');
+            setPaymentStatus(true);
         } catch (error: unknown) {
             setPaymentStatus(false);
         }
@@ -119,7 +146,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     // Elements
     const SavedCards: Record<string, string> = {}
     for (const key in savedCards)
-        SavedCards[key] = key + ' ' + savedCards[key].cardNumber;
+        SavedCards[key] = savedCards[key].cardType + ' **** ' + savedCards[key].last4;
 
     let FormInputs: ReactElement;
     if (savedCards.length) {
@@ -189,7 +216,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         value={formData.cardholderName}
                         onChange={setFormData('cardholderName')}
                         onKeyDown={(event) => {
-                            if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
+                            if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
                                 event.preventDefault();
                         }}
                         className={CONTROL_H_CN}
@@ -201,9 +228,9 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     <legend>Billing Address</legend>
                     <Select
                         options={COUNTRY}
-                        value={formData.billingCountry}
+                        value={formData.country}
                         placeholder={'Country / Region'}
-                        onChangeCustom={(value) => setFormData('billingCountry')(value)}
+                        onChangeCustom={(value) => setFormData('country')(value)}
                         className={`${SELECT_CN} bg-control-white [&&]:rounded-b-none`}
                         classNameOption={CONTROL_H_CN}
                         required
@@ -229,7 +256,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                     onChange={setFormData('city')}
                                     placeholder={'City / Locality'}
                                     onKeyDown={(event) => {
-                                        if (!/[a-z]/i.test(event.key) && event.key !== 'Backspace')
+                                        if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
                                             event.preventDefault();
                                     }}
                                     className={`[&&]:rounded-none [&&]:border-r-0 ${CONTROL_H_CN}`}
@@ -237,16 +264,16 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 />
                                 <Input
                                     type={'number'}
-                                    value={formData.postalCode}
+                                    value={formData.zip}
                                     maxLength={5}
-                                    onChange={setFormData('postalCode')}
+                                    onChange={setFormData('zip')}
                                     className={`[&&]:rounded-none ${CONTROL_H_CN}`}
                                     placeholder={'Postal / Zip Code'}
                                     required={isBillingExpanded}
                                 />
                             </div>
                             <Select
-                                options={STATE_PROVINCE[formData.billingCountry]}
+                                options={(STATE_PROVINCE?.[formData.country] ?? {})}
                                 hidden={!isBillingExpanded}
                                 value={formData.state}
                                 placeholder={'State / Province'}
@@ -281,11 +308,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
     return (
         <div className={`flex-1 w-1/2 bg-control-white h-full overflow-y-scroll
                         pt-[7.44rem] 
-                        sm:x-[overflow-y-visible,p-[--p-content-s],w-full,max-h-fit,shadow-none]`}
+                        sm:x-[overflow-y-visible,p-[--p-content-xs],w-full,max-h-fit,shadow-none]`}
         >
             <div className={'mx-auto max-w-[29rem] w-full'}>
                 <form className={styles.form} onSubmit={handleFormSubmit}>
-                    <h2 className={`mb-[--p-content-s] font-bold`}>
+                    <h2 className={`mb-[--p-content-xs] font-bold`}>
                         {savedCards.length ? 'Choose' : ''} Payment Method
                     </h2>
                     {FormInputs}
@@ -312,7 +339,6 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        onClick={() => setPaymentStatus(true)}
                         className={`mt-[min(4dvw,1.87rem)] w-full rounded-full bg-control-gray
                                     font-neo text-section-s font-bold text-primary
                                     h-[4.4rem]

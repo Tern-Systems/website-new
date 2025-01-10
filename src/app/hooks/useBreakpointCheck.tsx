@@ -10,7 +10,6 @@ const TailwindConfig = resolveConfig(tailwindConfig);
 const useBreakpointCheck = () => {
     const [isSmScreen, setSmScreenState] = useState(false);
 
-
     useEffect(() => {
         const handleResize = () => {
             // @ts-expect-error min is not defined in tailwind.config.tsx
@@ -25,6 +24,5 @@ const useBreakpointCheck = () => {
 
     return isSmScreen;
 }
-
 
 export {useBreakpointCheck};

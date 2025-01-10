@@ -36,7 +36,7 @@ const ContactsPage: FC = () => {
         <div
             className={`${styles.highlight} gap-y-[3.12rem] w-full max-w-[26.5rem]
                         sm:x-[gap-y-[1.88rem],max-w-[19.2rem],w-fit,text-section]
-                        sm:portrait:x-[mx-auto,p-[--p-content-s]]
+                        sm:portrait:x-[mx-auto,p-[--p-content-xs]]
                         sm:landscape:gap-y-[1rem]`}
         >
             <h1 className={`font-oxygen

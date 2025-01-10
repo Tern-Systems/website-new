@@ -1,37 +1,22 @@
-import React, {
-  Dispatch,
-  FC,
-  ReactElement,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState,} from "react";
 import axios from "axios";
 import cn from "classnames";
 
-import { EditableProps } from "@/app/ui/form/Editable";
+import {EditableProps} from "@/app/ui/form/Editable";
 
-import {
-  COUNTRY,
-  INDUSTRY,
-  JOB_FUNCTION,
-  LANGUAGE,
-  SALUTATION,
-  STATE_PROVINCE,
-  SUB_INDUSTRY,
-} from "@/app/static";
+import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY,} from "@/app/static";
 
-import { AuthService } from "@/app/services";
+import {AuthService} from "@/app/services";
 
-import { formatDate } from "@/app/utils/data";
-import { useBreakpointCheck, useLoginCheck, useSaveOnLeave } from "@/app/hooks";
-import { useModal, useUser } from "@/app/context";
+import {formatDate} from "@/app/utils/data";
+import {useBreakpointCheck, useLoginCheck, useSaveOnLeave} from "@/app/hooks";
+import {useModal, useUser} from "@/app/context";
 
-import { Collapsible } from "@/app/ui/misc";
-import { Button, Editable, Input } from "@/app/ui/form";
-import { DeleteAccountModal } from "./DeleteAccountModal";
+import {Collapsible} from "@/app/ui/misc";
+import {Button, Editable, Input} from "@/app/ui/form";
+import {DeleteAccountModal} from "./DeleteAccountModal";
 
-import { AuthenticationCode, MessageModal } from "@/app/ui/modals";
+import {AuthenticationCode, MessageModal} from "@/app/ui/modals";
 
 import styles from "./Profile.module.css";
 
@@ -203,6 +188,7 @@ const ProfilePage: FC = () => {
   const Addresses = Object.entries(userData.address)
     .filter((address) => address[1])
     .map(([type, address], idx) => {
+      const state = address ? STATE_PROVINCE?.[address.country]?.[address.state] : '';
       const addressInfo: ReactElement =
         address && address.state && address.country ? (
           <>
@@ -210,8 +196,7 @@ const ProfilePage: FC = () => {
               <span>{address.line1}</span>
               <span>{address.line2}</span>
               <span>
-                {address.city} {STATE_PROVINCE[address.country][address.state]}{" "}
-                {address.zip}
+                {address.city} {state} {address.zip}
               </span>
               <span>{COUNTRY[address.country]}</span>
             </span>
@@ -342,7 +327,7 @@ const ProfilePage: FC = () => {
             <span className={styles.midCol + " " + styles.ellipsis}>
               <span className={"block"}>•••••••••••••••</span>
               <span className={"text-small"}>
-                Last updated{" "}
+                Last updated&nbsp;
                 {userData.passwordUpdateDate
                   ? formatDate(new Date(userData.passwordUpdateDate), "short")
                   : "--"}
@@ -470,8 +455,7 @@ const ProfilePage: FC = () => {
                 ? SALUTATION[userData.name.salutation]
                 : "--"}
               &nbsp;
-              {userData.name.firstname} {userData.name.initial}{" "}
-              {userData.name.lastname}
+              {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
             </span>
           </Editable>
 
