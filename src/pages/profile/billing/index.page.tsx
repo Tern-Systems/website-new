@@ -79,16 +79,17 @@ const BillingPage: FC = () => {
                 onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
                 className={cn(styles.clickable,
                     `[&_td]:odd:bg-[#b3b3b326] cursor-pointer align-middle text-nowrap`,
-                    `hover:bg-control-gray-l0`,
-                    `lg:x-[h-[3.125rem],text-heading-s]`,
+                    `text-heading-s hover:bg-control-gray-l0`,
+                    `lg:h-[3.125rem]`,
+                    `md:h-[3.57rem]`,
                     `sm:x-[h-[--p-content-xs],text-section-xs]`,
-                    `sm:landscape:x-[h-[--p-content-xs],text-small]`
+                    `sm:landscape:x-[h-[--p-content-xs],text-section-xs]`
                 )}
             >
                 {renderTd(order.id, '', 'first')}
-                {renderTd(formatDate(new Date(order.date)), 'sm:portrait:hidden')}
-                {renderTd(order.subtotalUSD, 'sm:portrait:hidden before:content-["$"]')}
-                {renderTd(order.status, 'sm:hidden')}
+                {renderTd(formatDate(new Date(order.date)), 'md:hidden  sm:portrait:hidden')}
+                {renderTd(order.subtotalUSD.toFixed(2), 'before:content-["$"] before:-mr-[0.1rem]  md:hidden  sm:portrait:hidden')}
+                {renderTd(order.status, 'md:hidden  sm:hidden')}
                 {renderTd(order.item.name, '', 'last')}
             </tr>
         )
@@ -98,6 +99,7 @@ const BillingPage: FC = () => {
         <div className={cn(
             `grid auto-rows-min place-self-center h-full max-w-[90rem] w-full text-left`,
             `lg:mt-[5.56rem]`,
+            `md:x-[mt-[--p-content-l],px-[--p-content-l]]`,
             `sm:grid-rows-[min-content,1fr]`,
             `sm:px-[--p-content-xs]`,
             `sm:landscape:grid-cols-[1fr,3fr]`,
@@ -107,6 +109,7 @@ const BillingPage: FC = () => {
             <h1 className={cn(
                 `flex text-heading-l font-bold`,
                 `lg:pb-[1.87rem]`,
+                `md:x-[pb-[--p-content-xxs]]`,
                 `sm:x-[mb-0,text-section-s]`,
                 `sm:portrait:x-[pb-[--p-content-4xs],h-[4.69rem],items-end]`,
                 `sm:landscape:text-heading-s`,
@@ -122,6 +125,7 @@ const BillingPage: FC = () => {
                 <div className={cn(
                     `h-[27rem] bg-control-gray overflow-hidden rounded-small`,
                     `lg:p-[--p-content]`,
+                    `md:x-[p-[--p-content-s],h-[42rem]]`,
                     `sm:p-[--p-content-xxs]`,
                     `sm:landscape:x-[p-[--p-content-xxs],h-full,row-span-2]`,
                 )}
@@ -131,12 +135,12 @@ const BillingPage: FC = () => {
                             <thead
                                 className={`text-heading [&_td]:pb-[--p-content-xxs]   sm:text-section-3xs sm:[&_td]:pb-[--p-content-5xs]`}>
                             <tr>
-                                <td className={'lg:w-[15rem]     sm:portrait:w-[40%]  sm:landscape:w-1/4'}>Order
+                                <td className={'lg:w-[17%]  md:w-[40%]  sm:portrait:w-[40%]  sm:landscape:w-1/4'}>Order
                                     No.
                                 </td>
-                                <td className={'lg:w-[17.5rem]   sm:portrait:hidden  sm:landscape:w-1/4'}>Date</td>
-                                <td className={'lg:w-[13.5rem]   sm:portrait:hidden  sm:landscape:w-[10%]'}>Cost</td>
-                                <td className={'lg:w-[15.75rem]  sm:hidden'}>Status</td>
+                                <td className={'lg:w-[21%]  md:hidden  sm:portrait:hidden  sm:landscape:w-1/4'}>Date</td>
+                                <td className={'lg:w-[17%]  md:hidden  sm:portrait:hidden  sm:landscape:w-[10%]'}>Cost</td>
+                                <td className={'lg:w-[17%]  md:hidden  sm:hidden'}>Status</td>
                                 <td>Item</td>
                             </tr>
                             </thead>
@@ -147,7 +151,7 @@ const BillingPage: FC = () => {
                 <div className={cn(
                     `flex-col inline-flex`,
                     `gap-y-[--p-content-s] mt-[--p-content-l] text-section-xs`,
-                    `md:x-[mt-[--p-content-l],text-basic]`,
+                    `md:x-[gap-y-[--p-content-xs],mt-[1.88rem],text-basic]`,
                     `sm:x-[gap-y-[--p-content-4xs],mt-[--p-content-xs],text-section-xxs]`,
                     `sm:landscape:x-[col-start-1,gap-y-[--p-content-4xs],w-fit,place-content-end,text-section-3xs]`,
                 )}

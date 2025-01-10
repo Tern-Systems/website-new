@@ -245,8 +245,10 @@ const MyTernPage: FC = () => {
             >
                 Dashboard
             </h1>
-            <div className={`sm:portrait:overflow-y-scroll sm:portrait:h-[calc(100%-var(--p-content-xl))]
-                            sm:landscape:contents`}
+            <div className={cn(
+                `sm:portrait:h-[calc(100%-var(--p-content-xl))] sm:portrait:overflow-y-scroll`,
+                `sm:landscape:contents`
+            )}
             >
                 <div
                     className={cn(
