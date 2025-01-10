@@ -110,7 +110,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         return {
             id: card.paymentProfileId,
             profileId: card.customerProfileId,
-            cardNumber: card.cardNumber,
+            cardNumber: card.cardType + ' **** ' + card.last4,
             billingAddress: card?.billingAddress.address,
             nickName: card.nickName,
             type: card.cardType,
@@ -172,7 +172,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Select>
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
-                        type={'number'}
+                        type={'text'}
                         value={formData.cardNumber}
                         maxLength={16}
                         onChange={setFormData('cardNumber')}

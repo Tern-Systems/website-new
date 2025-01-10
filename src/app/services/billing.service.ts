@@ -92,9 +92,11 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardCode: formData.cvc
         }
 
+        const [firstName, lastName] = formData.cardholderName.split(' ');
+
         const billingDetails = {
-            firstName: formData.cardholderName,
-            lastName: formData.cardholderName,
+            firstName,
+            lastName,
             address: `${formData.addressLine1} | ${formData.addressLine2}`,
             city: formData.city,
             state: formData.state,
