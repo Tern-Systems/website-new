@@ -1,17 +1,17 @@
-import { FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
 // import { Phone, UserData } from "@/app/context/User.context";
-import { SignUpData } from "@/app/services/auth.service";
+import {SignUpData} from "@/app/services/auth.service";
 
-import { AuthService, UserService } from "@/app/services";
+import {AuthService, UserService} from "@/app/services";
 
-import { useBreakpointCheck, useForm } from "@/app/hooks";
-import { useFlow, useModal, useUser } from "@/app/context";
+import {useBreakpointCheck, useForm} from "@/app/hooks";
+import {useFlow, useModal, useUser} from "@/app/context";
 
-import { BaseModal, MessageModal, ResetPasswordModal } from "@/app/ui/modals";
-import { Button, Input } from "@/app/ui/form";
+import {BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
+import {Button, Input} from "@/app/ui/form";
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
 
@@ -21,16 +21,18 @@ const INPUT_CN = `h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-sma
 
 
 type FormData = SignUpData;
-const FORM_DEFAULT: FormData = { email: '', password: '', passwordConfirm: '' };
+const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 
 
 interface Props {
     info?: string;
     isLoginAction?: boolean;
+    onClose?: () => void;
+    preventClose?: boolean;
 }
 
 const AuthModal: FC<Props> = (props: Props): ReactElement => {
-    const { isLoginAction, info } = props;
+    const {isLoginAction, info, onClose, preventClose} = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -49,8 +51,8 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                const { payload: token } = await AuthService.postLogIn(formValue);
-                const { payload: userData } = await UserService.getUser(token);
+                const {payload: token} = await AuthService.postLogIn(formValue);
+                const {payload: userData} = await UserService.getUser(token);
 
                 userCtx.setSession(userData, token);
                 modalCtx.closeModal();
@@ -75,19 +77,21 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     return (
         <BaseModal
             adaptSmScreen
+            preventClose={preventClose}
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
+            onClose={() => onClose?.()}
             classNameContent={'w-[26rem]    sm:p-[1.25rem] sm:max-w-[21rem] sm:place-self-center    sm:landscape:w-full sm:landscape:max-w-full'}
         >
             <div>
                 <div className={'flex flex-col items-center text-center'}>
                     <span>{info}</span>
                     <div className={isSmScreen ? 'hidden' : 'mb-[1.9rem]'}>
-                        <Image src={SVG_INSIGNIA} alt={'insignia'} className={`my-[1.25rem] w-[10rem] h-[9rem]`} />
+                        <Image src={SVG_INSIGNIA} alt={'insignia'} className={`my-[1.25rem] w-[10rem] h-[9rem]`}/>
                         {isLoginForm ? null : <span className={'font-oxygen text-header'}>Tern</span>}
                     </div>
                 </div>
                 <form onSubmit={handleFormSubmit}
-                    className={'flex flex-col     sm:landscape:flex-row sm:landscape:justify-between'}>
+                      className={'flex flex-col     sm:landscape:flex-row sm:landscape:justify-between'}>
                     <fieldset
                         className={'flex flex-col     gap-[0.95rem] w-full    sm:landscape:max-w-fit sm:landscape:min-w-[21rem]'}>
                         <Input
@@ -121,7 +125,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             Forgot your password?&nbsp;
                             <Button
                                 className={'text-blue-l0'}
-                                onClick={() => modalCtx.openModal(<ResetPasswordModal />, { darkenBg: true })}
+                                onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
                             >
                                 Reset
                             </Button>
@@ -130,7 +134,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     </fieldset>
                     <div className={'flex flex-col  items-center    sm:landscape:w-[21rem]'}>
                         <Button type={'submit'}
-                            className={`place-self-center   py-[0.92rem] mt-[1.56rem] w-full    rounded-full border-small border-control
+                                className={`place-self-center   py-[0.92rem] mt-[1.56rem] w-full    rounded-full border-small border-control
                                             font-bold text-content-small
                                             sm:w-[90%]
                             ${isLoginForm
@@ -158,4 +162,4 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 }
 
 
-export { AuthModal }
+export {AuthModal}

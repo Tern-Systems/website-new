@@ -43,7 +43,10 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         setConfig({...config, doFading: config.doFading ?? true});
     }
 
-    const closeModal = () => handleModalChange(null, {});
+    const closeModal = () => {
+        handleModalChange(null, {});
+        layoutCtx.setFadeState(false);
+    }
 
     const openModal = (ModalElem: ReactElement, config?: ModalConfig) =>
         handleModalChange(ModalElem, config ?? {});
