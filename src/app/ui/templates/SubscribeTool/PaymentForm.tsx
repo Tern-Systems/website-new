@@ -32,12 +32,12 @@ const FORM_DEFAULT: SubscribeData = {
     expirationDate: '',
     cvc: '',
     cardholderName: '',
-    billingCountry: '',
+    country: '',
     billingAddress: '',
     addressLine1: '',
     addressLine2: '',
     city: '',
-    postalCode: '',
+    zip: '',
     state: '',
     acceptTerms: false,
 }
@@ -124,8 +124,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     addressLine2: billingAddress[1] ?? '',
                     city: billingAddress[2] ?? '',
                     state: billingAddress[3] as StateKey ?? '',
-                    postalCode: billingAddress[4] ?? '',
-                    billingCountry: billingAddress[5] as CountryKey ?? '',
+                    zip: billingAddress[4] ?? '',
+                    country: billingAddress[5] as CountryKey ?? '',
                 }
             }
 
@@ -228,9 +228,9 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     <legend>Billing Address</legend>
                     <Select
                         options={COUNTRY}
-                        value={formData.billingCountry}
+                        value={formData.country}
                         placeholder={'Country / Region'}
-                        onChangeCustom={(value) => setFormData('billingCountry')(value)}
+                        onChangeCustom={(value) => setFormData('country')(value)}
                         className={`${SELECT_CN} bg-control-white [&&]:rounded-b-none`}
                         classNameOption={CONTROL_H_CN}
                         required
@@ -264,16 +264,16 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 />
                                 <Input
                                     type={'number'}
-                                    value={formData.postalCode}
+                                    value={formData.zip}
                                     maxLength={5}
-                                    onChange={setFormData('postalCode')}
+                                    onChange={setFormData('zip')}
                                     className={`[&&]:rounded-none ${CONTROL_H_CN}`}
                                     placeholder={'Postal / Zip Code'}
                                     required={isBillingExpanded}
                                 />
                             </div>
                             <Select
-                                options={(STATE_PROVINCE?.[formData.billingCountry] ?? {})}
+                                options={(STATE_PROVINCE?.[formData.country] ?? {})}
                                 hidden={!isBillingExpanded}
                                 value={formData.state}
                                 placeholder={'State / Province'}

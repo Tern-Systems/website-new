@@ -1,7 +1,8 @@
 import React, {FC, FormEvent, useEffect, useState} from "react";
+import cn from "classnames";
 
-import {CardData} from "@/app/types/billing";
-import {COUNTRY, STATE_PROVINCE} from "@/app/static";
+import {CardData, SavedCardFull} from "@/app/types/billing";
+import {COUNTRY, CountryKey, STATE_PROVINCE, StateKey} from "@/app/static";
 
 import {BillingService} from "@/app/services";
 
@@ -22,49 +23,31 @@ import SVG_CARD_NUM from "@/assets/images/icons/card-num.svg";
 import styles from './Form.module.css'
 
 
-const CARDS_TEMPLATE: CardData[] = [
-    {
-        id: 'f98yui',
-        type: 'visa',
-        cardNumber: '1234123412341234',
-        expirationDate: '01/01',
-        cvc: '000',
-        cardholderName: 'NAME SURNAME',
-        billingCountry: 'US',
-        billingAddress: '123 St',
-        addressLine1: '',
-        addressLine2: '',
-        city: 'City',
-        postalCode: '98738',
-        state: 'SC',
-        nickName: 'John’s Personal Debit Card',
-        isDefault: true
-    }
-]
+const SM_ROW_START = 'sm:row-start-auto';
+const FIELDSET_CN = '[&&>*]:sm:col-start-1';
+const LEGEND_CN = `sm:mt-[2.7dvw] sm:[&&]:mb-0 ${SM_ROW_START}`;
+const SELECT_CN = 'px-[--s-d2l-smallest] py-[min(--s-d-small) h-[min(5.6dvw,3.25rem)] bg-white';
+const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
+
 
 const FORM_DATA_DEFAULT: CardData = {
+    profileId: '',
     id: '',
     type: '',
     cardNumber: '',
     expirationDate: '',
     cvc: '',
     cardholderName: '',
-    billingCountry: '',
+    country: '',
     billingAddress: '',
     addressLine1: '',
     addressLine2: '',
     city: '',
-    postalCode: '',
+    zip: '',
     state: '',
     nickName: '',
     isDefault: false,
 }
-
-const SM_ROW_START = 'sm:row-start-auto';
-const FIELDSET_CN = '[&&>*]:sm:col-start-1';
-const LEGEND_CN = `sm:mt-[2.7dvw] sm:[&&]:mb-0 ${SM_ROW_START}`;
-const SELECT_CN = 'px-[--s-d2l-smallest] py-[min(--s-d-small) h-[min(5.6dvw,3.25rem)] bg-white';
-const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
 
 
 interface Props {
@@ -79,20 +62,30 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const isSmScreen = useBreakpointCheck();
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
-    const [savedCards, setSavedCards] = useState<CardData[]>([]);
+    const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
 
     const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
+
 
     useEffect(() => {
         if (isPaymentCreation)
             return;
 
-        try {
-            // TODO fetch cards
-            setSavedCards(CARDS_TEMPLATE);
-        } catch (error: unknown) {
+        const fetchEditCards = async () => {
+            if (!userData)
+                return;
+
+            try {
+                const {payload: cards} = await BillingService.getEditCards(userData.email);
+                setSavedCards(cards);
+            } catch (error: unknown) {
+                if (typeof error === 'string')
+                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            }
         }
-    }, [isPaymentCreation])
+        fetchEditCards();
+        // eslint-disable-next-line
+    }, [isPaymentCreation]);
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -110,9 +103,35 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         }
     }
 
+
+    const mapSavedCard = (card: SavedCardFull): CardData => {
+        const billingInfo = card.billingAddress;
+        const [addressLine1, addressLine2] = card?.billingAddress.address.split('|');
+        return {
+            id: card.paymentProfileId,
+            profileId: card.customerProfileId,
+            cardNumber: card.cardNumber,
+            billingAddress: card?.billingAddress.address,
+            nickName: card.nickName,
+            type: card.cardType,
+            cvc: '',
+            expirationDate: card.expDate,
+            cardholderName: billingInfo.firstName + ' ' + billingInfo.lastName,
+            addressLine1,
+            addressLine2,
+            city: billingInfo.city,
+            state: billingInfo.state as StateKey,
+            zip: billingInfo.zip,
+            country: billingInfo.country as CountryKey,
+            isDefault: card.preferred,
+        }
+    }
+
     useEffect(() => {
-        if (editCardIdx > -1)
-            setFormDataState(savedCards[editCardIdx])
+        if (editCardIdx <= -1)
+            return;
+        const formData: CardData = mapSavedCard(savedCards[editCardIdx]);
+        setFormDataState(formData);
     }, [savedCards, editCardIdx, setFormDataState])
 
     // Elements
@@ -156,9 +175,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         type={'number'}
                         value={formData.cardNumber}
                         maxLength={16}
+                        onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
                         icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
-                        classNameWrapper={`${FIELD_CN} row-start-3`}
+                        classNameWrapper={cn(FIELD_CN, `row-start-3`, {['brightness-[0.9]']: !isPaymentCreation})}
                         disabled={!isPaymentCreation}
                     >
                         Credit or Debit Card
@@ -247,7 +267,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         City / Locality
                     </Input>
                     <Select
-                        options={(STATE_PROVINCE?.[formData.billingCountry] ?? {})}
+                        options={(STATE_PROVINCE?.[formData.country] ?? {})}
                         value={formData.state}
                         onChangeCustom={(value) => setFormData('state')(value)}
                         classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}
@@ -258,9 +278,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Select>
                     <Input
                         type={'number'}
-                        value={formData.postalCode}
+                        value={formData.zip}
                         maxLength={5}
-                        onChange={setFormData('postalCode')}
+                        onChange={setFormData('zip')}
                         classNameWrapper={`${FIELD_CN} row-start-6 sm:[&&]:col-span-1`}
                         required
                     >
@@ -268,8 +288,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Input>
                     <Select
                         options={COUNTRY}
-                        value={formData.billingCountry}
-                        onChangeCustom={(value) => setFormData('billingCountry')(value)}
+                        value={formData.country}
+                        onChangeCustom={(value) => setFormData('country')(value)}
                         classNameWrapper={`${FIELD_CN} row-start-6 sm:[&&]:col-span-1`}
                         className={SELECT_CN}
                         required
@@ -285,7 +305,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     onClick={() => {
                         if (savedCards[+editCardIdx]) {
                             modalCtx.openModal(
-                                <RemovePaymentMethodModal card={savedCards[+editCardIdx]}/>,
+                                <RemovePaymentMethodModal card={mapSavedCard(savedCards[+editCardIdx])}/>,
                                 {darkenBg: true}
                             );
                         }

@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-import {CardData, InvoiceHistory, SavedCard} from "@/app/types/billing";
+import {CardData, InvoiceHistory, SavedCard, SavedCardFull} from "@/app/types/billing";
 import {PlanType} from "@/app/types/subscription";
 import {Res} from "@/app/types/service";
 
@@ -28,11 +28,36 @@ interface IBillingService {
     postExportTransaction(email: string): Promise<Res<string>>;
 
     postSaveCard(formData: CardData, email: string): Promise<Res>;
+
+    getEditCards(email: string): Promise<Res<SavedCardFull[]>>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
     constructor() {
         super(BillingServiceImpl.name)
+    }
+
+    async getEditCards(email: string): Promise<Res<SavedCardFull[]>> {
+        const [debug, error] = this.getLoggers(this.postSaveCard.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `get-saved-cards-and-edit`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email,}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+
+            return {payload: response.data};
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
     }
 
     async postSaveCard(formData: CardData, user: string): Promise<Res> {
@@ -50,22 +75,22 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             address: `${formData.addressLine1} | ${formData.addressLine2}`,
             city: formData.city,
             state: formData.state,
-            zip: formData.postalCode,
-            country: formData.billingCountry
+            zip: formData.zip,
+            country: formData.country
         }
 
 
         const config: AxiosRequestConfig = {
-
             method: "POST",
             url: this._API + `save-new-card`,
-            data: {
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({
                 user,
                 cardDetails: cardDetails,
                 billingDetails: billingDetails,
                 nickName: formData.nickName,
                 isPreferred: formData.isDefault
-            },
+            }),
             withCredentials: true,
         };
 
@@ -160,8 +185,8 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,
             state: data.state,
-            zip: data.postalCode,
-            country: data.billingCountry,
+            zip: data.zip,
+            country: data.country,
             firstName,
             lastName
         };

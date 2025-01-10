@@ -12,6 +12,8 @@ const useLoginCheck = () => {
     useEffect(() => {
         if (!userCtx.isLoggedIn)
             modalCtx.openModal(<AuthModal isLoginAction/>, {hideContent: true});
+        else
+            modalCtx.closeModal();
         //eslint-disable-next-line
     }, [userCtx.isLoggedIn, modalCtx.isOpened])
 
