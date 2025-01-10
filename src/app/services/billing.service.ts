@@ -30,11 +30,34 @@ interface IBillingService {
     postSaveCard(formData: CardData, email: string): Promise<Res>;
 
     getEditCards(email: string): Promise<Res<SavedCardFull[]>>;
+
+    postUpdateCard(formData: CardData, email: string): Promise<Res>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
     constructor() {
         super(BillingServiceImpl.name)
+    }
+
+    async postUpdateCard(formData: CardData, email: string): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postUpdateCard.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `update-card`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({email, ...formData}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
     }
 
     async getEditCards(email: string): Promise<Res<SavedCardFull[]>> {
@@ -69,9 +92,11 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardCode: formData.cvc
         }
 
+        const [firstName, lastName] = formData.cardholderName.split(' ');
+
         const billingDetails = {
-            firstName: formData.cardholderName,
-            lastName: formData.cardholderName,
+            firstName,
+            lastName,
             address: `${formData.addressLine1} | ${formData.addressLine2}`,
             city: formData.city,
             state: formData.state,

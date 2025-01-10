@@ -95,8 +95,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         try {
             if (isPaymentCreation)
                 await BillingService.postSaveCard(formData, userData?.email);
-            else {
-            }
+            else
+                await BillingService.postUpdateCard(formData, userData?.email);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
@@ -110,15 +110,15 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         return {
             id: card.paymentProfileId,
             profileId: card.customerProfileId,
-            cardNumber: card.cardNumber,
+            cardNumber: card.cardType + ' **** ' + card.last4,
             billingAddress: card?.billingAddress.address,
             nickName: card.nickName,
             type: card.cardType,
             cvc: '',
             expirationDate: card.expDate,
             cardholderName: billingInfo.firstName + ' ' + billingInfo.lastName,
-            addressLine1,
-            addressLine2,
+            addressLine1: addressLine1 ?? '',
+            addressLine2: addressLine2 ?? '',
             city: billingInfo.city,
             state: billingInfo.state as StateKey,
             zip: billingInfo.zip,
@@ -172,7 +172,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Select>
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
-                        type={'number'}
+                        type={'text'}
                         value={formData.cardNumber}
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
