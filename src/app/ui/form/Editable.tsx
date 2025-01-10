@@ -9,21 +9,21 @@ import React, {
     useState
 } from "react";
 
-import { KeysOfUnion, NonNullableKeys } from "@/app/types/utils";
-import { INDUSTRY, IndustryKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey } from "@/app/static/company";
-import { COUNTRY, SALUTATION, STATE_PROVINCE } from "@/app/static";
+import {KeysOfUnion, NonNullableKeys} from "@/app/types/utils";
+import {INDUSTRY, IndustryKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey} from "@/app/static/company";
+import {COUNTRY, SALUTATION, STATE_PROVINCE} from "@/app/static";
 
-import { Address, Company, FullName, Phone, UserAddress, UserPhone } from "@/app/context/User.context";
+import {Address, Company, FullName, Phone, UserAddress, UserPhone} from "@/app/context/User.context";
 
-import { copyObject } from "@/app/utils";
-import { useBreakpointCheck, useForm } from "@/app/hooks";
+import {copyObject} from "@/app/utils";
+import {useBreakpointCheck, useForm} from "@/app/hooks";
 
-import { Button, Input, Select, Switch } from "@/app/ui/form";
+import {Button, Input, Select, Switch} from "@/app/ui/form";
 
 import SVG_PENCIL from "@/assets/images/icons/edit-line.svg";
-import { ReactSVG } from "react-svg";
+import {ReactSVG} from "react-svg";
 
-const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };
+const DEFAULT_PHONE: Phone = {number: '', isPrimary: false};
 const DEFAULT_ADDRESS: Address = {
     line1: '',
     line2: '',
@@ -63,7 +63,7 @@ type DataBase = {
     className?: string;
     title?: string;
     onSave: (formData: FormData) => Promise<void>;
-    onSwitch?: () => Promise<void>;
+    onSwitch?: (state: boolean) => Promise<void>;
     value: Value | null;
 }
 
@@ -96,17 +96,17 @@ const Editable: FC<Props> = (props: Props) => {
     let defaultFormValue: FormData;
     if (data.value === null)
         if (isSimpleSwitch)
-            defaultFormValue = { value: 'false' }
+            defaultFormValue = {value: 'false'}
         else
-            defaultFormValue = { currentPassword: '', newPassword: '', passwordConfirm: '' };
+            defaultFormValue = {currentPassword: '', newPassword: '', passwordConfirm: ''};
     else if ('business' in data.value) {
         defaultFormValue = {
-            business: data.value.business ? copyObject(data.value.business) : { ...DEFAULT_PHONE, ext: '' },
+            business: data.value.business ? copyObject(data.value.business) : {...DEFAULT_PHONE, ext: ''},
             personal: data.value.personal ? copyObject(data.value.personal) : DEFAULT_PHONE,
             mobile: data.value.mobile ? copyObject(data.value.mobile) : DEFAULT_PHONE,
         };
     } else if ('isEmailAdded' in data.value)
-        defaultFormValue = { value: data.value.suggestedPhone ?? '' };
+        defaultFormValue = {value: data.value.suggestedPhone ?? ''};
     else if ('personalAddress' in data.value) {
         defaultFormValue = copyObject({
             ...data.value,
@@ -157,7 +157,7 @@ const Editable: FC<Props> = (props: Props) => {
     }
 
     // Elements
-    const Hr = <hr className={'border-control-white-d0'} />;
+    const Hr = <hr className={'border-control-white-d0'}/>;
 
     const ControlBtns = (
         <span
@@ -217,7 +217,7 @@ const Editable: FC<Props> = (props: Props) => {
                             ${isEditState ? 'hidden' : ''}`}
             >
                 <span className={'sm:hidden'}>Edit</span>
-                <ReactSVG src={SVG_PENCIL.src} className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'} />
+                <ReactSVG src={SVG_PENCIL.src} className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}/>
             </span>
         );
 
@@ -248,7 +248,7 @@ const Editable: FC<Props> = (props: Props) => {
                             value={formData.value ?? ''}
                             onChange={(event) => {
                                 setWarning(null);
-                                setFormState({ value: event.currentTarget.value });
+                                setFormState({value: event.currentTarget.value});
                             }}
                             {...INPUT_CN}
                             required
@@ -277,7 +277,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={data.options}
                         value={formData.value ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) => setFormState({ value })}
+                        onChangeCustom={(value) => setFormState({value})}
                         {...SELECT_CN}
                         classNameOption={data?.className}
                         required
@@ -299,7 +299,7 @@ const Editable: FC<Props> = (props: Props) => {
                         onChange={(event) => {
                             setWarning(null);
                             const currentPassword = event.currentTarget.value;
-                            setFormState(prevState => ({ ...prevState, currentPassword }))
+                            setFormState(prevState => ({...prevState, currentPassword}))
                         }}
                         {...INPUT_CN}
                         required
@@ -313,7 +313,7 @@ const Editable: FC<Props> = (props: Props) => {
                         onChange={(event) => {
                             setWarning(null);
                             const newPassword = event.currentTarget.value;
-                            setFormState(prevState => ({ ...prevState, newPassword }))
+                            setFormState(prevState => ({...prevState, newPassword}))
                         }}
                         {...INPUT_CN}
                         required
@@ -332,7 +332,7 @@ const Editable: FC<Props> = (props: Props) => {
                         onChange={(event) => {
                             setWarning(null);
                             const passwordConfirm = event.currentTarget.value;
-                            setFormState(prevState => ({ ...prevState, passwordConfirm }))
+                            setFormState(prevState => ({...prevState, passwordConfirm}))
                         }}
                         {...INPUT_CN}
                         required
@@ -350,23 +350,23 @@ const Editable: FC<Props> = (props: Props) => {
             Form = (
                 <>
                     {children}
-                    <hr className={'border-control-white-d0'} />
-                    <div className={'flex justify-between'}>
-                        <Editable
-                            toggleType={'button'}
-                            keepChildrenOnEdit
-                            isSimpleSwitch
-                            isToggleBlocked={data.value.isEmailAdded}
-                            data={{
-                                className: FA2_INPUT_CN,
-                                title: 'Add your Email as a two-factor authentication option',
-                                value: null,
-                                onSave: data.onSave
-                            }}
-                        >
-                            Email
-                        </Editable>
-                    </div>
+                    <hr className={'border-control-white-d0'}/>
+                    {/*<div className={'flex justify-between'}>*/}
+                    {/*    <Editable*/}
+                    {/*        toggleType={'button'}*/}
+                    {/*        keepChildrenOnEdit*/}
+                    {/*        isSimpleSwitch*/}
+                    {/*        isToggleBlocked={data.value.isEmailAdded}*/}
+                    {/*        data={{*/}
+                    {/*            className: FA2_INPUT_CN,*/}
+                    {/*            title: 'Add your Email as a two-factor authentication option',*/}
+                    {/*            value: null,*/}
+                    {/*            onSave: data.onSave*/}
+                    {/*        }}*/}
+                    {/*    >*/}
+                    {/*        Email*/}
+                    {/*    </Editable>*/}
+                    {/*</div>*/}
                     <div className={'flex justify-between'}>
                         <Editable
                             toggleType={'button'}
@@ -385,28 +385,22 @@ const Editable: FC<Props> = (props: Props) => {
                     </div>
                 </>
             );
+
             EditToggle = (
-                // !data.value.isEmailAdded && // 2FA only work for phone
-                !data.value.isPhoneAdded ? (
-                    <Switch
-                        state={
-                            // data.value.isEmailAdded || //
-                            data.value.isPhoneAdded || isEditState}
-                        handleSwitch={async () => {
-                            if (!isEditState) {
-                                await data.onSwitch?.();
-                            }
+                <Switch
+                    state={isEditState}
+                    handleSwitch={async () => {
+                        await data.onSwitch?.(isEditState)
+                        if (
+                            'value' in formData && data.value
+                            && 'isEmailAdded' in data.value
+                            && (!data.value.isEmailAdded || !data.value.isPhoneAdded)
+                        ) {
                             toggleEditState();
-                        }}
-                        className={'justify-self-end'}
-                    />
-                ) : (
-                    <Switch
-                        state={data.value.isPhoneAdded || data.value.isEmailAdded}
-                        handleSwitch={async () => await data.onSwitch?.()}
-                        className={'justify-self-end'}
-                    />
-                )
+                        }
+                    }}
+                    className={'justify-self-end'}
+                />
             );
             break;
         case 'phone':
@@ -423,7 +417,7 @@ const Editable: FC<Props> = (props: Props) => {
 
                         const newState = {
                             ...prevState,
-                            [key]: { ...prevState[key], [subKey]: value }
+                            [key]: {...prevState[key], [subKey]: value}
                         };
 
                         // handle set-as-primary checkboxes
@@ -524,7 +518,7 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.salutation}
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
-                            setFormState(prevState => ({ ...prevState, salutation: value as keyof typeof SALUTATION }))}
+                            setFormState(prevState => ({...prevState, salutation: value as keyof typeof SALUTATION}))}
                         {...SELECT_CN}
                         classNameWrapper={SELECT_CN.classNameWrapper + ' w-[43%]'}
                         required
@@ -536,7 +530,7 @@ const Editable: FC<Props> = (props: Props) => {
                             value={formData.firstname}
                             onChange={(event) => {
                                 const firstname = event.currentTarget.value;
-                                setFormState(prevState => ({ ...prevState, firstname }))
+                                setFormState(prevState => ({...prevState, firstname}))
                             }}
                             {...INPUT_CN}
                             required
@@ -547,7 +541,7 @@ const Editable: FC<Props> = (props: Props) => {
                             value={formData.initial}
                             onChange={(event) => {
                                 const initial = event.currentTarget.value;
-                                setFormState(prevState => ({ ...prevState, initial }))
+                                setFormState(prevState => ({...prevState, initial}))
                             }}
                             {...INPUT_CN}
                         >
@@ -558,7 +552,7 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.lastname}
                         onChange={(event) => {
                             const lastname = event.currentTarget.value;
-                            setFormState(prevState => ({ ...prevState, lastname }))
+                            setFormState(prevState => ({...prevState, lastname}))
                         }}
                         {...INPUT_CN}
                         required
@@ -582,7 +576,7 @@ const Editable: FC<Props> = (props: Props) => {
                             ? value.currentTarget.checked
                             : value.currentTarget.value;
                     setFormState((prevState) => 'businessAddress' in prevState
-                        ? ({ ...prevState, [key]: { ...prevState[key], [subKey]: formValue } })
+                        ? ({...prevState, [key]: {...prevState[key], [subKey]: formValue}})
                         : prevState
                     );
                 }
@@ -602,7 +596,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 <span>{key.slice(0, 'Address'.length + 1)} Address</span>
                                 <span
                                     onClick={() =>
-                                        setFormState(prevState => ({ ...prevState, personalAddress: null }))}
+                                        setFormState(prevState => ({...prevState, personalAddress: null}))}
                                     className={isPersonal ? 'underline cursor-pointer' : 'hidden'}
                                 >
                                     Delete
@@ -620,7 +614,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 Country / Region
                             </Select>
                             <Select
-                                options={(STATE_PROVINCE?.[formData[key].country] ?? {}) }
+                                options={(STATE_PROVINCE?.[formData[key].country] ?? {})}
                                 value={formData[key]?.state ?? ''}
                                 placeholder={'Select'}
                                 onChangeCustom={(value) => requireOnChangeAddress(key, 'state')(value)}
@@ -677,7 +671,7 @@ const Editable: FC<Props> = (props: Props) => {
                         </Input>
                         <span
                             onClick={() =>
-                                setFormState(prevState => ({ ...prevState, personalAddress: DEFAULT_ADDRESS }))}
+                                setFormState(prevState => ({...prevState, personalAddress: DEFAULT_ADDRESS}))}
                             className={`underline cursor-pointer text-small mt-[--1qdrs]
                                         ${isPersonal || formData.personalAddress !== null ? 'hidden' : ''}`}
                         >
@@ -704,7 +698,7 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.jobTitle ?? ''}
                         onChange={(event) => {
                             const jobTitle = event.currentTarget.value;
-                            setFormState(prevState => ({ ...prevState, jobTitle }));
+                            setFormState(prevState => ({...prevState, jobTitle}));
                         }}
                         {...INPUT_CN}
                         classNameWrapper={INPUT_CN.classNameWrapper + ' col-span-2'}
@@ -717,7 +711,7 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.jobFunction ?? ''}
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
-                            setFormState(prevState => ({ ...prevState, jobFunction: value as JobFunctionKey }))}
+                            setFormState(prevState => ({...prevState, jobFunction: value as JobFunctionKey}))}
                         {...SELECT_CN}
                         required
                     >
@@ -728,7 +722,7 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.industry ?? ''}
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
-                            setFormState(prevState => ({ ...prevState, industry: value as IndustryKey }))}
+                            setFormState(prevState => ({...prevState, industry: value as IndustryKey}))}
                         {...SELECT_CN}
                         required
                     >
@@ -739,7 +733,7 @@ const Editable: FC<Props> = (props: Props) => {
                         value={formData.subIndustry ?? ''}
                         placeholder={'Select'}
                         onChangeCustom={(value) =>
-                            setFormState(prevState => ({ ...prevState, subIndustry: value as SubIndustryKey }))}
+                            setFormState(prevState => ({...prevState, subIndustry: value as SubIndustryKey}))}
                         {...SELECT_CN}
                         required
                     >
@@ -773,5 +767,5 @@ const Editable: FC<Props> = (props: Props) => {
     }
 }
 
-export type { Props as EditableProps };
-export { Editable };
+export type {Props as EditableProps};
+export {Editable};

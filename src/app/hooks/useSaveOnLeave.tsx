@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from "react";
 
-import {useModal} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {SaveChangesModal} from "@/app/ui/modals";
 
 
 const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => Promise<void>) => {
     const modalCtx = useModal();
+    const {isLoggedIn} = useUser();
+
     const [shouldPrevent, setPreventState] = useState(true);
 
     useEffect(() => {
+        if (!isLoggedIn)
+            return;
+
         const handle = (event: BeforeUnloadEvent | HashChangeEvent) => {
             const middleware = (handler: (() => Promise<void>) | undefined) => {
                 return async () => {
@@ -33,7 +38,7 @@ const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => Promise
             window.removeEventListener('beforeunload', handle);
             window.removeEventListener('hashchange', handle);
         }
-    }, [onSave, onDontSave, shouldPrevent, modalCtx])
+    }, [onSave, onDontSave, shouldPrevent, modalCtx, isLoggedIn])
 
     return setPreventState;
 }
