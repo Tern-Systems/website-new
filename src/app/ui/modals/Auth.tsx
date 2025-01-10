@@ -2,7 +2,7 @@ import { FC, FormEvent, ReactElement, useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 
-import { Phone, UserData } from "@/app/context/User.context";
+// import { Phone, UserData } from "@/app/context/User.context";
 import { SignUpData } from "@/app/services/auth.service";
 
 import { AuthService, UserService } from "@/app/services";

@@ -184,6 +184,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
 
         try {
             const response = await axios(config);
+            console.log(response)
         } catch (err: unknown) {
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
         }
