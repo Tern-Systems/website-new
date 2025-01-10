@@ -695,7 +695,7 @@ const ProfilePage: FC = () => {
             </>
           )}
           <span
-            className={`mt-[min(5.3dvw,1.88rem)] ${
+            className={`mt-[min(5.3dvw,--p-content)] ${
               styles.leftCol + " " + styles.ellipsis
             }`}
           >
@@ -709,7 +709,7 @@ const ProfilePage: FC = () => {
           {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
           <span
-            className={`mt-[min(5.3dvw,1.88rem)] ${
+            className={`mt-[min(5.3dvw,--p-content)] ${
               styles.leftCol + " " + styles.ellipsis
             }`}
           >

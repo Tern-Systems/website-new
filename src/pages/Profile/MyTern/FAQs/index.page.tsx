@@ -84,7 +84,7 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 }
                 classNameTitle={cn(styles.clickable,
                     `[&]:mb-0 text-section-s whitespace-pre-wrap text-left`,
-                    `py-[1.88rem]`,
+                    `py-[--p-content]`,
                     `md:py-[calc(0.5*var(--p-content-s))] md:text-section-xs`,
                     `sm:py-[calc(0.5*var(--p-content-s))] sm:text-section-xs`,
                     `sm:landscape:p-[--p-content-4xs]`,
@@ -100,7 +100,7 @@ const FAQsPage: FC<Props> = (props: Props) => {
 
     return (
         <div className={`h-full 
-                        sm:x-[px-[--p-content-s],pb-[--p-content-l]]
+                        sm:x-[px-[--p-content-s],pb-[--p-content-xl]]
                         sm:landscape:pb-[--p-content-s]`}
         >
             <h1 className={cn(`

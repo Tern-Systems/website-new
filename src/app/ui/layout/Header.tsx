@@ -180,7 +180,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         <header className={'text-[1rem] leading-none'}>
             <div className={cn(
                 `relative z-[2] flex justify-between items-center`,
-                `px-[--p-content] w-full h-[5.13rem]`,
+                `px-[--p-content-l] w-full h-[5.13rem]`,
                 `border-b-small border-section bg-black`,
                 `sm:x-[flex-row-reverse,justify-start,px-[--p-content-xs],h-[4.31rem]]    after:sm:border-control-gray-l0`
             )}
@@ -188,7 +188,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 <nav className={cn(
                     `relative flex items-center`,
                     `ml-[calc(var(--insignia-pl-moved)+var(--insignia-moved-size)+var(--p-content))] h-full`,
-                    `before:x-[absolute,h-[67%],-left-[--p-content],border-r-small,border-section]`,
+                    `before:x-[absolute,h-[67%],-left-[--p-content-l],border-r-small,border-section]`,
                     `sm:ml-[1.94rem] sm:before:x-[-left-[0.94rem],h-[52%],border-control-gray-l0]`,
                 )}
                 >

@@ -86,10 +86,11 @@
     /* Theme fix */
 
     /* Paddings */
-    --p-content-xxl: 4.13rem;
-    --p-content-xl: 3.06rem;
-    --p-content-l: 2.5rem;
-    --p-content: 2.06rem;
+    --p-content-3xl: 4.13rem;
+    --p-content-xxl: 3.06rem;
+    --p-content-xl: 2.5rem;
+    --p-content-l: 2.06rem;
+    --p-content: 1.88rem;
     --p-content-s: 1.56rem;
     --p-content-xs: 1.25rem;
     --p-content-xxs: 0.94rem;

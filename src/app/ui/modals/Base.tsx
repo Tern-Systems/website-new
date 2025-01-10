@@ -59,7 +59,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
             ? (
                 <h2 className={cn(`text-inherit font-oxygen text-header font-bold
                                     sm:landscape:text-content`, classNameTitle,
-                    {['mb-[1.87rem]']: isSmRulesApplied})}
+                    {['mb-[--p-content]']: isSmRulesApplied})}
                 >
                     {title}
                 </h2>
