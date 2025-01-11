@@ -1,5 +1,6 @@
 import React, {FC} from "react";
 import Image from "next/image";
+import cn from "classnames";
 
 import {Route} from "@/app/static";
 
@@ -10,19 +11,35 @@ import SVG_QR from "@/assets/images/qr.svg";
 
 
 const ARCHPage: FC = () => (
-    <div className={'my-auto'}>
-        <Image src={SVG_ARCH} alt={'arch-logo'} className={'h-[min(13dvw,4rem)] w-auto place-self-center mb-[min(5.3dvw,1.25rem)]'}/>
-        <Image
-            src={SVG_QR}
-            alt={'qr'}
-            className={'mb-[min(5.3dvw,--p-content)] w-[min(90dw,37rem)] h-auto cursor-pointer place-self-center'}
-        />
-        <PageLink
-            href={Route.ARCodeToolCreate}
-            className={'bg-control-white text-black rounded-full font-bold px-[min(4dvw,2rem)] place-self-center'}
+    <div className={'grid grid-cols-3 m-auto py-[--p-content-xs] sm:m-0'}>
+        <ul className={cn(
+            'm-auto w-fit list-decimal text-[4rem] leading-[1.25] text-left',
+            'md:text-heading',
+            'sm:text-heading',
+        )}
         >
+            <li>Scan code</li>
+            <li>Click allow</li>
+            <li>Scan code</li>
+            <li>Click play</li>
+        </ul>
+        <div>
+            <Image src={SVG_ARCH} alt={'arch-logo'} className={'max-h-[4rem] h-[3dvw] w-auto place-self-center'}/>
+            <Image
+                src={SVG_QR}
+                alt={'qr'}
+                className={cn(
+                    'my-[--p-content] max-w-[37rem] w-[31dvw] h-auto cursor-pointer place-self-center',
+                    'sm:x-[w-[20dvw],my-[--p-content-5xs]]'
+                )}
+            />
+            <PageLink
+                href={Route.ARCodeToolCreate}
+                className={'place-self-center px-[--p-content-xs] py-[0.1rem] rounded-full bg-control-white text-black font-bold'}
+            >
                 Create
-        </PageLink>
+            </PageLink>
+        </div>
     </div>
 );
 
