@@ -10,13 +10,13 @@ enum Route {
     Privacy = '/Privacy',
 
     // /Service
-    Service = '/Service',
-    ARCodeToolCreate = '/Service/CreationTool',
-    ARCodeToolEdit = '/Service/SavedCodes/Edit',
-    ServiceUserManual = '/Service/UserManual',
-    ServicePricing = '/Service/PricingAndPlans',
+    Services = '/Services',
+    ARCodeToolCreate = '/Services/CreationTool',
+    ARCodeToolEdit = '/Services/SavedCodes/Edit',
+    ServiceUserManual = '/Services/UserManual',
+    ServicePricing = '/Services/PricingAndPlans',
     ServiceSubscribe = '/Subscribe/ARCH',
-    SavedCodes = '/Service/SavedCodes',
+    SavedCodes = '/Services/SavedCodes',
 
     // /Product
     Products = '/Products',

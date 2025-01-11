@@ -25,7 +25,7 @@ enum NavLink {Nav, SubNav, Sub2Nav}
 type NavLinks = [Route[], Route [] | null, Route[] | null];
 
 
-const NAV_LINKS: Route[] = [Route.About, Route.Products, Route.Service, Route.Contact];
+const NAV_LINKS: Route[] = [Route.About, Route.Products, Route.Services, Route.Contact];
 const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit, Route.Dot, Route.TernKey];
 
 
@@ -117,12 +117,12 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                         Route.TernKitDoc,
                     ];
                 break;
-            case Route.Service:
+            case Route.Services:
             case Route.ARCodeToolCreate:
             case Route.ServicePricing:
             case Route.SavedCodes:
             case Route.ServiceUserManual:
-                links = [Route.Service, Route.ARCodeToolCreate, Route.ServicePricing, Route.ServiceUserManual];
+                links = [Route.Services, Route.ARCodeToolCreate, Route.ServicePricing, Route.ServiceUserManual];
                 if (userCtx.userData) links.splice(links.length - 1, 0, Route.SavedCodes);
 
                 if (isSmScreen)
