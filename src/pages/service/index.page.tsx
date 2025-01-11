@@ -5,8 +5,8 @@ import {Route} from "@/app/static";
 
 import {PageLink} from "@/app/ui/layout";
 
-import SVG_ARCH from "@/assets/images/arch-logo.svg";
-import SVG_QR from "@/assets/images/qr.svg";
+import SVG_ARCH from "/public/images/arch-logo.svg";
+import SVG_QR from "/public/images/qr.svg";
 
 
 const ARCHPage: FC = () => (

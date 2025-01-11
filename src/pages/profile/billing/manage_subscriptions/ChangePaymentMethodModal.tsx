@@ -12,8 +12,8 @@ import {PageLink} from "@/app/ui/layout";
 import {BaseModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
-import SVG_CARD from "@/assets/images/icons/card.svg";
-import SVG_MARK from "@/assets/images/icons/mark.svg";
+import SVG_CARD from "/public/images/icons/card.svg";
+import SVG_MARK from "/public/images/icons/mark.svg";
 
 
 const BTN_CN = 'px-[--1drs] h-[--h-control-dl] rounded-full';

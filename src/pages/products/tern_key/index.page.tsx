@@ -1,7 +1,7 @@
 import {FC} from "react";
 import Image from "next/image";
 
-import SVG_INSIGNIA from "@/assets/images/insignia.svg";
+import SVG_INSIGNIA from "/public/images/insignia.svg";
 
 import styles from "@/app/common.module.css";
 

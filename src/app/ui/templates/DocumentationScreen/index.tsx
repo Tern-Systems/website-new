@@ -13,8 +13,8 @@ import {useLayout} from "@/app/context";
 
 import {Button, Select} from "@/app/ui/form";
 
-import SVG_FULLSCREEN from "@/assets/images/icons/fullscreen.svg";
-import SVG_VIEW_VIEW from "@/assets/images/icons/view-view.svg";
+import SVG_FULLSCREEN from "/public/images/icons/fullscreen.svg";
+import SVG_VIEW_VIEW from "/public/images/icons/view-view.svg";
 
 
 interface Props {

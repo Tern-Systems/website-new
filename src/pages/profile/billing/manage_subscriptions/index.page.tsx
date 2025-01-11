@@ -21,8 +21,8 @@ import {CancelModal} from "./CancelModal";
 import {ChangePaymentMethodModal} from "./ChangePaymentMethodModal";
 
 
-import SVG_CARD from "@/assets/images/icons/card.svg";
-import SVG_PENCIL from "@/assets/images/icons/edit.svg";
+import SVG_CARD from "/public/images/icons/card.svg";
+import SVG_PENCIL from "/public/images/icons/edit.svg";
 
 
 const SELECT_H_CN = 'h-[min(5.9dvw,3.25rem)] sm:landscape:h-[--2dr]';

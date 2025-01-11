@@ -13,7 +13,7 @@ import {useLayout, useUser} from "@/app/context";
 import {BaseModal} from "@/app/ui/modals";
 import {PageLink} from "@/app/ui/layout";
 
-import SVG_GLOBE from "@/assets/images/icons/globe.svg";
+import SVG_GLOBE from "/public/images/icons/globe.svg";
 
 
 const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-control-blue]';

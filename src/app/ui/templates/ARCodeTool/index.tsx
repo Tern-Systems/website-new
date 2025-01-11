@@ -15,7 +15,7 @@ import {useFlow, useModal, useUser} from "@/app/context";
 import {AuthModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
-import SVG_ARCH from "@/assets/images/arch-logo.svg";
+import SVG_ARCH from "/public/images/arch-logo.svg";
 
 
 type ARCodeToolForm =

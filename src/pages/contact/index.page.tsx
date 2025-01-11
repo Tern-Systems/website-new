@@ -3,13 +3,13 @@ import Image from "next/image";
 
 import styles from '@/app/common.module.css';
 
-import SVG_DISCORD from "@/assets/images/icons/discord.svg";
-import SVG_STACKOVERFLOW from "@/assets/images/icons/stack-overflow.svg";
-import SVG_GITHUB from "@/assets/images/icons/github.svg";
-import SVG_X from "@/assets/images/icons/x-twitter.svg";
-import SVG_REDDIT from "@/assets/images/icons/reddit.svg";
-import SVG_LINKEDIN from "@/assets/images/icons/linkedin.svg";
-import SVG_FACEBOOK from "@/assets/images/icons/facebook.svg";
+import SVG_DISCORD from "/public/images/icons/discord.svg";
+import SVG_STACKOVERFLOW from "/public/images/icons/stack-overflow.svg";
+import SVG_GITHUB from "/public/images/icons/github.svg";
+import SVG_X from "/public/images/icons/x-twitter.svg";
+import SVG_REDDIT from "/public/images/icons/reddit.svg";
+import SVG_LINKEDIN from "/public/images/icons/linkedin.svg";
+import SVG_FACEBOOK from "/public/images/icons/facebook.svg";
 
 
 const LINKS: { svg: string, href: string }[] = [

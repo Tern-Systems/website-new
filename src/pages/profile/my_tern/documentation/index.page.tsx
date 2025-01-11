@@ -7,7 +7,7 @@ import {PageLink} from "@/app/ui/layout";
 
 import {useLoginCheck} from "@/app/hooks";
 
-import SVG_ARROW from "@/assets/images/icons/arrow.svg";
+import SVG_ARROW from "/public/images/icons/arrow.svg";
 
 
 const LINKS: { title: string; text: string; route: Route }[] = [

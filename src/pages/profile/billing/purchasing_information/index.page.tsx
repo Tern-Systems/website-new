@@ -17,7 +17,7 @@ import {MessageModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 import {ExportInvoiceModal} from "./ExportInvoiceModal";
 
-import SVG_CARD from "@/assets/images/icons/card.svg";
+import SVG_CARD from "/public/images/icons/card.svg";
 
 
 function PurchasingInformationPage() {

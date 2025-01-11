@@ -16,7 +16,7 @@ import {Button} from "@/app/ui/form";
 
 import styles from '@/app/common.module.css'
 
-import SVG_PROFILE from "@/assets/images/icons/profile.svg";
+import SVG_PROFILE from "/public/images/icons/profile.svg";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];

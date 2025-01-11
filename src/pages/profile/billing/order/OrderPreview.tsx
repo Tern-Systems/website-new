@@ -6,8 +6,8 @@ import {Invoice} from "@/app/types/billing";
 import {ScrollEnd} from "@/app/ui/misc";
 import {Button} from "@/app/ui/form";
 
-import SVG_TERN_LOGO from "@/assets/images/insignia-logo.png";
-import SVG_DOCUMENT from "@/assets/images/document.svg";
+import SVG_TERN_LOGO from "/public/images/insignia-logo.png";
+import SVG_DOCUMENT from "/public/images/document.svg";
 
 
 const BTN_CN = 'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)]';

@@ -17,7 +17,7 @@ import {Button} from "@/app/ui/form";
 import {FAQsModal} from "./faqs/index.page";
 
 
-import SVG_ARROW from '@/assets/images/icons/arrow.svg';
+import SVG_ARROW from '/public/images/icons/arrow.svg';
 
 import styles from "@/app/common.module.css";
 

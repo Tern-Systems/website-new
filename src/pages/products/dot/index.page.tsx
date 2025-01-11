@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import {Button} from "@/app/ui/form";
 
-import SVG_DOT from "@/assets/images/dot.svg";
+import SVG_DOT from "/public/images/dot.svg";
 
 import styles from "@/app/common.module.css";
 
