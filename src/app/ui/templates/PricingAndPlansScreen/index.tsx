@@ -327,7 +327,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         <div className={cn(
             `flex flex-col h-full`,
             `lg:x-[mt-[5.62rem]]`,
-            `sm:pb-[--p-content-xl]`,
+            `sm:pb-[--p-content-xxl]`,
             `sm:landscape:mt-[1.81rem]`,
         )}
         >
@@ -340,11 +340,11 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 </div>
             </div>
             <div className={cn(
-                'flex gap-x-[--p-content-xxl] w-full',
-                `lg:x-[mt-[--p-content-xl],justify-center]`,
+                'flex gap-x-[--p-content-3xl] w-full',
+                `lg:x-[mt-[--p-content-xxl],justify-center]`,
                 `sm:x-[gap-y-[--p-content-xxs]]`,
                 `sm:portrait:h-[calc(100%-6.75rem)] sm:portrait:x-[flex-col,px-[--p-content-xxs],overflow-y-scroll]`,
-                `sm:landscape:x-[gap-x-[--p-content-4xs],px-[--p-content-xxl],justify-items-start]`,
+                `sm:landscape:x-[gap-x-[--p-content-4xs],px-[--p-content-3xl],justify-items-start]`,
             )}
             >
                 {renderColumns()}

@@ -165,7 +165,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 sm:min-w-full`,
                 {
                     [`
-                        my-[--p-content] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]
+                        my-[--p-content-l] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]
                         sm:x-[max-w-full,my-0,mt-[--p-content-xs],min-w-0]
                         sm:h-[calc(100%-var(--p-content-xs))]
                     `]: !layoutCtx.isNoLayout,

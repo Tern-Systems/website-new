@@ -626,51 +626,51 @@ const ProfilePage: FC = () => {
           <span className={styles.leftCol + " " + styles.ellipsis}>
             Address {isSmScreen ? "" : "Information"}
           </span>
-                    <Editable
-                        type={"address"}
-                        {...getSimpleToggleProps(setEditState, isEditState)}
-                        data={{
-                            className: `${styles.singleInputBase} ${styles.common} ${styles.roundedWFull}`,
-                            value: userData.address,
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                            onSave: async (formData) => {
-                            }, //TODO
-                        }}
-                    >
-                        <span>{Addresses}</span>
-                    </Editable>
-                </Collapsible>
-                <Collapsible title={SECTIONS[4]} icon={"blocks"}>
-                    <span className={styles.leftCol + " " + styles.ellipsis}>Domain</span>
-                    {userData.personalDomain ? (
-                        <>
-                            <a href={userData.personalDomain.link} target={"_blank"}>
-                                {userData.personalDomain.link}
-                            </a>
-                            <Button
-                                disabled={userData.personalDomain.isVerified}
-                                icon={
-                                    userData.personalDomain.isVerified
-                                        ? "mark-flower"
-                                        : "plus-flower"
-                                }
-                                className={"col-start-3 flex-row-reverse place-self-end"}
-                            >
-                                {isSmScreen
-                                    ? ""
-                                    : `Verif${userData.personalDomain.isVerified ? "ied" : "y"}`}
-                            </Button>
-                        </>
-                    ) : (
-                        <>
-                            <span>--</span>
-                            <span>--</span>
-                        </>
-                    )}
-                    <span
-                        className={`mt-[min(5.3dvw,1.88rem)] ${styles.leftCol + " " + styles.ellipsis
-                        }`}
-                    >
+          <Editable
+            type={"address"}
+            {...getSimpleToggleProps(setEditState, isEditState)}
+            data={{
+              className: `${styles.singleInputBase} ${styles.common} ${styles.roundedWFull}`,
+              value: userData.address,
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              onSave: async (formData) => {}, //TODO
+            }}
+          >
+            <span>{Addresses}</span>
+          </Editable>
+        </Collapsible>
+        <Collapsible title={SECTIONS[4]} icon={"blocks"}>
+          <span className={styles.leftCol + " " + styles.ellipsis}>Domain</span>
+          {userData.personalDomain ? (
+            <>
+              <a href={userData.personalDomain.link} target={"_blank"}>
+                {userData.personalDomain.link}
+              </a>
+              <Button
+                disabled={userData.personalDomain.isVerified}
+                icon={
+                  userData.personalDomain.isVerified
+                    ? "mark-flower"
+                    : "plus-flower"
+                }
+                className={"col-start-3 flex-row-reverse place-self-end"}
+              >
+                {isSmScreen
+                  ? ""
+                  : `Verif${userData.personalDomain.isVerified ? "ied" : "y"}`}
+              </Button>
+            </>
+          ) : (
+            <>
+              <span>--</span>
+              <span>--</span>
+            </>
+          )}
+          <span
+            className={`mt-[min(5.3dvw,var(--p-content))] ${
+              styles.leftCol + " " + styles.ellipsis
+            }`}
+          >
             Data Storage
           </span>
                     <span
@@ -680,10 +680,11 @@ const ProfilePage: FC = () => {
           </span>
                     {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
-                    <span
-                        className={`mt-[min(5.3dvw,1.88rem)] ${styles.leftCol + " " + styles.ellipsis
-                        }`}
-                    >
+          <span
+            className={`mt-[min(5.3dvw,var(--p-content))] ${
+              styles.leftCol + " " + styles.ellipsis
+            }`}
+          >
             Social Media
           </span>
                     <span className={"col-start-2 text-small self-end"}>

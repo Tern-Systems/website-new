@@ -59,6 +59,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         const handleClick = (event: MouseEvent) => {
             if (
                 isProfileMenuOpened
+                && !document.querySelector('#profile-icon')?.contains(event.target as Node)
                 && !document.querySelector('#profile-menu')?.contains(event.target as Node)
             ) {
                 setProfileMenuOpenState(false);
@@ -107,9 +108,12 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     if (userCtx.isLoggedIn || isSmScreen) {
         const ProfileLinks: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
             <li key={link + idx}
-                className={`w-full pb-[1.25rem] 
-                            sm:x-[border-b-small,pt-[1.25rem]]
-                            sm:landscape:x-[py-[--1dr],text-content-small]`}>
+                className={cn(
+                    `w-full pb-[--p-content-xs]`,
+                    `sm:x-[border-b-small,pt-[--p-content-xs]]`,
+                    `sm:landscape:text-section-s`,
+                )}
+            >
                 <PageLink
                     href={link}
                     className={`relative flex justify-center bg-control`}
@@ -125,9 +129,11 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     setProfileMenuOpenState(false);
                     userCtx.removeSession();
                 }}
-                className={`border-t-small pt-[1.25rem] cursor-pointer
-                            sm:x-[border-t-0,border-control-gray-l0,py-[1.25rem]]
-                            sm:landscape:x-[py-[--1dr],text-content-small]`}
+                className={cn(
+                    `border-t-small pt-[--p-content-xs] cursor-pointer`,
+                    `sm:x-[border-t-0,border-control-gray-l0,py-[--p-content-xs]]`,
+                    `sm:landscape:text-section-s`,
+                )}
             >
                 Log Out
             </li>
@@ -146,9 +152,10 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 />
                 <ul id={'profile-menu'}
                     className={cn(
-                        `absolute z-10 right-0 flex flex-col items-start mt-[0.6rem] p-[1.25rem] min-w-[8.75rem]
-                        border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap
-                        sm:x-[bg-control-white-d0,text-gray,rounded-none,py-0]`,
+                        `absolute z-10 right-0 flex flex-col items-start`,
+                        `mt-[0.6rem] p-[--p-content-xs] min-w-[5.18rem]`,
+                        `border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap`,
+                        `sm:x-[min-w-[8.75rem],bg-control-white-d0,text-gray,rounded-none,py-0]`,
                         {['hidden']: !isProfileMenuOpened}
                     )}
                 >
@@ -171,13 +178,19 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <header className={'text-[1rem] leading-none'}>
-            <div className={`relative z-[2] flex justify-between items-center px-[2.06rem] w-full h-[5.13rem] 
-                            border-b-small border-section bg-black 
-                            sm:x-[flex-row-reverse,justify-start,px-[1.25rem],h-[4.31rem]]    after:sm:border-control-gray-l0`}
+            <div className={cn(
+                `relative z-[2] flex justify-between items-center`,
+                `px-[--p-content-l] w-full h-[5.13rem]`,
+                `border-b-small border-section bg-black`,
+                `sm:x-[flex-row-reverse,justify-start,px-[--p-content-xs],h-[4.31rem]]    after:sm:border-control-gray-l0`
+            )}
             >
-                <nav className={`relative flex items-center ml-[calc(var(--insignia-pl-moved)+var(--insignia-moved-size)+2.06rem)] h-full
-                                before:x-[absolute,h-[67%],-left-[2.06rem],border-r-small,border-section]
-                                sm:ml-[1.94rem] sm:before:x-[-left-[0.94rem],h-[52%],border-control-gray-l0]`}
+                <nav className={cn(
+                    `relative flex items-center`,
+                    `ml-[calc(var(--insignia-pl-moved)+var(--insignia-moved-size)+var(--p-content))] h-full`,
+                    `before:x-[absolute,h-[67%],-left-[--p-content-l],border-r-small,border-section]`,
+                    `sm:ml-[1.94rem] sm:before:x-[-left-[0.94rem],h-[52%],border-control-gray-l0]`,
+                )}
                 >
                     <Button
                         onClick={() => toggleMenu()}
@@ -191,9 +204,12 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 </nav>
                 <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </div>
-            <ul className={`relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small
-                            border-section cursor-pointer ${SubNavItemsMdLg?.length ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut}
-                            sm:hidden`}
+            <ul className={cn(
+                `relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small`,
+                `border-section cursor-pointer`,
+                SubNavItemsMdLg?.length ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut,
+                `sm:hidden`
+            )}
             >
                 {SubNavItemsMdLg}
             </ul>

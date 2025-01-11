@@ -86,7 +86,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <footer
                     className={cn(
                         `flex justify-between items-center`,
-                        `px-[--p-content] w-full min-h-[5.12rem] border-t-small border-section content-center text-basic leading-none`,
+                        `px-[--p-content-l] w-full min-h-[5.12rem] border-t-small border-section content-center text-basic leading-none`,
                         `sm:x-[flex-col-reverse,items-center,justify-between,p-[--p-content-xs],text-center]`,
                         `sm:portrait:x-[min-h-[4.94rem]]`,
                         `sm:landscape:x-[flex-row,py-0,min-h-[3.19rem]]`
