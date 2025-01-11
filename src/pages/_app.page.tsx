@@ -5,6 +5,7 @@ import {useBreakpointCheck} from "@/app/hooks";
 import {FlowProvider, LayoutProvider, ModalProvider, UserProvider} from "@/app/context";
 
 import {Layout} from "@/app/ui/layout";
+import Head from "next/head";
 
 
 export default function MyApp({Component, pageProps}: AppProps) {
@@ -32,14 +33,19 @@ export default function MyApp({Component, pageProps}: AppProps) {
         );
 
     return (
-        <UserProvider>
-            <LayoutProvider>
-                <FlowProvider>
-                    <ModalProvider>
-                        {FinalElement}
-                    </ModalProvider>
-                </FlowProvider>
-            </LayoutProvider>
-        </UserProvider>
+        <>
+            <Head>
+                <title>Tern</title>
+            </Head>
+            <UserProvider>
+                <LayoutProvider>
+                    <FlowProvider>
+                        <ModalProvider>
+                            {FinalElement}
+                        </ModalProvider>
+                    </FlowProvider>
+                </LayoutProvider>
+            </UserProvider>
+        </>
     );
 }
