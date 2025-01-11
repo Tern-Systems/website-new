@@ -82,7 +82,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 )}
             >
                 <div
-                    className={cn(`relative flex justify-between font-oxygen`, {['h-[--h-modal-header] p-[--p-content-xs]']: isSmRulesApplied})}>
+                    className={cn(`relative flex justify-between font-oxygen`, {['h-[--h-modal-header] p-[--p-content]']: isSmRulesApplied})}>
                     {isSmRulesApplied ? null : Heading}
                     {isSmRulesApplied
                         ? <Insignia insigniaMoved className={'w-[--insignia-moved-size] h-auto'}/>
