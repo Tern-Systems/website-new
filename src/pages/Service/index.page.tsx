@@ -15,7 +15,7 @@ const ARCHPage: FC = () => (
         <Image
             src={SVG_QR}
             alt={'qr'}
-            className={'mb-[min(5.3dvw,1.87rem)] w-[min(90dw,37rem)] h-auto cursor-pointer place-self-center'}
+            className={'mb-[min(5.3dvw,--p-content)] w-[min(90dw,37rem)] h-auto cursor-pointer place-self-center'}
         />
         <PageLink
             href={Route.ARCodeToolCreate}

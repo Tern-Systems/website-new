@@ -24,7 +24,7 @@ const ICON: Record<Icon, string> = {
 }
 
 
-const WRAPPER_CN = `p-[--p-content] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center`;
+const WRAPPER_CN = `p-[--p-content-l] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center`;
 
 
 interface Props extends PropsWithChildren {

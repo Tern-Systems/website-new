@@ -41,25 +41,30 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         return (
             <div
                 id={'modal'}
-                className={`absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem]
-                            ${isSmRulesApplied
-                    ? 'bg-control-white-d0 text-gray w-dvw h-dvh'
-                    : 'bg-control-gray-l0 rounded-smallest'} ${className} pointer-events-auto`}
+                className={cn(
+                    `absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem] pointer-events-auto`,
+                    isSmRulesApplied ? 'bg-control-white-d0 text-gray w-dvw h-dvh' : 'bg-control-gray-l0 rounded-smallest',
+                    className,
+                )}
             >
                 <div className={'w-full ' + classNameContent}>{children}</div>
                 <Button
                     icon={'close'}
                     onClick={() => handleClose()}
-                    className={`place-self-start min-w-[0.55rem] inline-block ${isSmRulesApplied ? '[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]' : ''}`}
+                    className={cn(
+                        `place-self-start min-w-[0.55rem] inline-block`,
+                        {['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied}
+                    )}
                 />
             </div>
         );
     } else {
         const Heading = title
             ? (
-                <h2 className={cn(`text-inherit font-oxygen text-header font-bold
-                                    sm:landscape:text-content`, classNameTitle,
-                    {['mb-[1.87rem]']: isSmRulesApplied})}
+                <h2 className={cn(
+                    `text-inherit font-oxygen text-header font-bold`,
+                    `sm:landscape:text-content`, classNameTitle,
+                    {['mb-[--p-content]']: isSmRulesApplied})}
                 >
                     {title}
                 </h2>
@@ -68,12 +73,16 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         return (
             <div
                 id={'modal'}
-                className={`${isSmRulesApplied
-                    ? 'bg-control-white-d0 text-gray w-dvw h-dvh z-50'
-                    : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--2dr]'}
-                            ${className} pointer-events-auto`}>
+                className={cn(
+                    `pointer-events-auto`,
+                    isSmRulesApplied
+                        ? 'bg-control-white-d0 text-gray w-dvw h-dvh z-50'
+                        : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--p-content-l]',
+                    className
+                )}
+            >
                 <div
-                    className={cn(`relative flex justify-between font-oxygen`, {['h-[--h-modal-header] p-[1.25rem]']: isSmRulesApplied})}>
+                    className={cn(`relative flex justify-between font-oxygen`, {['h-[--h-modal-header] p-[--p-content]']: isSmRulesApplied})}>
                     {isSmRulesApplied ? null : Heading}
                     {isSmRulesApplied
                         ? <Insignia insigniaMoved className={'w-[--insignia-moved-size] h-auto'}/>
@@ -84,8 +93,11 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                         classNameIcon={cn({['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied})}
                     />
                 </div>
-                <hr className={cn(classNameHr, {['relative -left-[0.72rem] mt-[--1qdrs] w-[calc(100%+1.44rem)] mb-[--s-normal] sm:landscape:x-[scale-[102%],my-[--1drs]]']: !isSmRulesApplied})}/>
-                <div className={classNameContent}>
+                <hr className={cn(classNameHr, {
+                    ['relative -left-[0.72rem] mt-[--p-content-xs] w-[calc(100%+1.44rem)] mb-[--s-normal] sm:landscape:x-[scale-[102%],my-[--1drs]]']: !isSmRulesApplied
+                })
+                }/>
+                <div className={cn(classNameContent, 'overflow-y-scroll h-[calc(100%-var(--h-modal-header))]')}>
                     {isSmRulesApplied ? Heading : null}
                     {children}
                 </div>

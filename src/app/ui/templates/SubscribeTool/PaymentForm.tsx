@@ -339,7 +339,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        className={`mt-[min(4dvw,1.87rem)] w-full rounded-full bg-control-gray
+                        className={`mt-[min(4dvw,--p-content)] w-full rounded-full bg-control-gray
                                     font-neo text-section-s font-bold text-primary
                                     h-[4.4rem]
                                     sm:h-[3.125rem]`}

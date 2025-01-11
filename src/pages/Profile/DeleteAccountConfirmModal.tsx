@@ -109,7 +109,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
         return (!isAllowedToDelete
                 ? (
                     <div className={'flex flex-col place-items-center'}>
-                        <span className={'inline-block w-[80%] text-note text-center mt-[min(4dvw,1.88rem)]'}>
+                        <span className={'inline-block w-[80%] text-note text-center mt-[min(4dvw,--p-content)]'}>
                             You may only delete your account if you have logged in within the last 5 minutes. Please login again,
                             then return here to continue.
                         </span>
@@ -134,7 +134,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
 
     return (
         <BaseModal title={'Delete Account Confirmation'} className={'w-[min(90dvw,34rem)] leading-[120%]'}>
-            <ul className={'list-disc pl-[min(3dvw,1rem)] flex flex-col gap-y-[min(2.7dvw,1.88rem)]'}>{ListItems}</ul>
+            <ul className={'list-disc pl-[min(3dvw,1rem)] flex flex-col gap-y-[min(2.7dvw,--p-content)]'}>{ListItems}</ul>
             {renderDeleteBlock()}
         </BaseModal>
     );

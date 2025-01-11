@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: 1fr min-content;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: min(2.6dvw, 1.87rem);
+  gap: min(2.6dvw, --p-content);
   max-width: min(90vw, 99rem);
   padding: 0 min(2.7dvw, 8.5rem);
   place-items: end;

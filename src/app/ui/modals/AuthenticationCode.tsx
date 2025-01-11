@@ -163,7 +163,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                             required
                         />
                         {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
-                        <Button className={`py-[0.37rem] mt-[1.88rem] text-small font-bold rounded-full
+                        <Button className={`py-[0.37rem] mt-[--p-content] text-small font-bold rounded-full
                                     w-[9.38563rem] place-self-center border-small border-control-blue
                                     ${isDisabling ? 'border-[#F42200] text-[#F42200]' : 'border-control-blue'}`}
                         >

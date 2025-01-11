@@ -31,7 +31,7 @@ const HomePage: FC = () => {
                             sm:landscape:w-[41dvw]`}
         >
             <h1 className={`text-blue
-                            mb-[1.87rem] text-[6.25rem]
+                            mb-[--p-content] text-[6.25rem]
                             sm:x-[mb-[0.94rem]]
                             sm:portrait:text-[3.125rem]
                             sm:landscape:text-[6.2dvw]`}>

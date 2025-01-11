@@ -25,7 +25,7 @@ const LINKS: { svg: string, href: string }[] = [
 
 const ContactsPage: FC = () => {
     const Links = LINKS.map((link) => (
-        <li key={link.href} className={`size-[2.5rem] sm:size-[1.87rem] ${styles.clickable}`}>
+        <li key={link.href} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
                 <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
@@ -35,7 +35,7 @@ const ContactsPage: FC = () => {
     return (
         <div
             className={`${styles.highlight} gap-y-[3.12rem] w-full max-w-[26.5rem]
-                        sm:x-[gap-y-[1.88rem],max-w-[19.2rem],w-fit,text-section]
+                        sm:x-[gap-y-[--p-content],max-w-[19.2rem],w-fit,text-section]
                         sm:portrait:x-[mx-auto,p-[--p-content-xs]]
                         sm:landscape:gap-y-[1rem]`}
         >

@@ -214,12 +214,12 @@ const MyTernPage: FC = () => {
         <div className={cn(
             `grid max-w-[90.63rem] w-full h-full text-left`,
             `lg:x-[auto-rows-min,w-3/4,mt-[5.94rem],mx-auto]`,
-            `md:x-[mt-[--p-content-l],px-[--p-content-l]]`,
+            `md:x-[mt-[--p-content-xl],px-[--p-content-xl]]`,
             `sm:grid-rows-[min-content,1fr]`,
             `sm:x-[mt-0,px-[--p-content-xs]]`,
             `sm:landscape:max-h-[calc(100%-2*var(--p-content-xs))]`,
             `sm:landscape:grid-cols-[1fr,2fr]`,
-            `sm:landscape:x-[auto-rows-auto,gap-x-[--p-content-l],mx-0,mt-[--p-content-xs]]`
+            `sm:landscape:x-[auto-rows-auto,gap-x-[--p-content-xl],mx-0,mt-[--p-content-xs]]`
         )}
         >
             <h1 className={cn(
@@ -247,7 +247,7 @@ const MyTernPage: FC = () => {
                     {renderSinceDate(userCtx.userData?.registrationDate)}
                 </div>
                 <div className={`flex flex-wrap
-                                gap-[--p-content-xs] my-[1.87rem]
+                                gap-[--p-content-xs] my-[--p-content]
                                 md:my-[--p-content-s]
                                 sm:x-[my-[--p-content-xs],gap-[--p-content-4xs]]
                                 sm:landscape:x-[col-start-1,gap-[--p-content-4xs],my-[0.94rem]]`}
@@ -268,8 +268,8 @@ const MyTernPage: FC = () => {
                     }, true)}
                 </div>
                 <div className={`flex-col inline-flex
-                                gap-y-[--p-content-s] mt-[--p-content-l] text-section-xs
-                                md:x-[mt-[--p-content-l],text-basic]
+                                gap-y-[--p-content-s] mt-[--p-content-xl] text-section-xs
+                                md:x-[mt-[--p-content-xl],text-basic]
                                 sm:x-[gap-y-[--p-content-4xs],mt-[3.88rem],text-section-xxs]
                                 sm:landscape:x-[col-start-1,gap-y-[--p-content-4xs],mt-[1dvw],w-fit]`}
                 >
