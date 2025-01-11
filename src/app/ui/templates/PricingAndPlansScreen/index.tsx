@@ -331,9 +331,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             `sm:landscape:mt-[1.81rem]`,
         )}
         >
-            <div className={'content-end sm:pb-[--p-content-xxs] sm:portrait:h-[6.75rem]'}>
+            <div className={'flex items-end justify-center sm:pb-[--p-content-xxs] sm:portrait:h-[6.75rem]'}>
                 <div className={cn(
-                    `flex place-self-center p-[0.2rem] border-small rounded-full text-section-xs`,
+                    `flex p-[0.2rem] w-fit h-fit border-small rounded-full text-section-xs`,
                 )}
                 >
                     {Switch}
