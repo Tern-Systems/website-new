@@ -1,6 +1,8 @@
 import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
+import cn from "classnames";
+
 import {SignUpData} from "@/app/services/auth.service";
 
 import {AuthService, UserService} from "@/app/services";
@@ -74,29 +76,35 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         <BaseModal
             adaptSmScreen
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
-            classNameContent={'w-[26rem]    sm:p-[1.25rem] sm:max-w-[21rem] sm:place-self-center    sm:landscape:w-full sm:landscape:max-w-full'}
+            classNameTitle={'justify-self-start text-heading   sm:[&]:mb-[--p-content-xs]   sm:landscape:ml-0 '}
+            classNameContent={cn(
+                'w-[30rem] items-start mx-auto place-items-center text-basic',
+                'sm:x-[px-[--p-content-xs],py-[--p-content],w-full]',
+                'sm:landscape:x-[max-w-[73rem],px-[--p-content-xxl]]'
+            )}
         >
-            <div>
+            <div className={'w-full'}>
                 <div className={'flex flex-col items-center text-center'}>
                     <span>{info}</span>
-                    <div className={isSmScreen ? 'hidden' : 'mb-[1.9rem]'}>
-                        <Image src={SVG_INSIGNIA} alt={'insignia'} className={`my-[1.25rem] w-[10rem] h-[9rem]`}/>
+                    <div className={isSmScreen ? 'hidden' : 'mb-[--p-content]'}>
+                        <Image src={SVG_INSIGNIA} alt={'insignia'}
+                               className={`my-[--p-content-xs] w-[10rem] h-[9rem]`}/>
                         {isLoginForm ? null : <span className={'font-oxygen text-header'}>Tern</span>}
                     </div>
                 </div>
                 <form onSubmit={handleFormSubmit}
-                      className={'flex flex-col     sm:landscape:flex-row sm:landscape:justify-between'}>
+                      className={'flex flex-col  sm:landscape:x-[flex-row,gap-x-[--p-content-3xl]]'}>
                     <fieldset
-                        className={'flex flex-col     gap-[0.95rem] w-full    sm:landscape:max-w-fit sm:landscape:min-w-[21rem]'}>
+                        className={'flex flex-col gap-[--p-content-xxs] w-full  sm:landscape:x-[max-w-fit,min-w-[21rem]]'}>
                         <Input
                             placeholder={'Email'}
                             value={formValue.email}
                             onChange={setFormValue('email')}
-                            classNameWrapper={'flex-col [&]:items-start gap-[0.625rem]'}
+                            classNameWrapper={'flex-col [&]:items-start gap-[--p-content-4xs]'}
                             className={INPUT_CN}
                             required
                         >
-                            Please enter credentials to {!isLoginForm ? 'create your Tern account' : 'login'}
+                            Please enter email to {!isLoginForm ? 'create your Tern account' : 'login'}
                         </Input>
                         <Input
                             type={"password"}
@@ -115,29 +123,33 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             className={INPUT_CN}
                             required={!isLoginForm}
                         />
-                        <span hidden={!isLoginForm} className={'mt-[0.62rem]'}>
+                        {warningMsg && <span className={'text-center'}>{warningMsg}</span>}
+                        <span hidden={!isLoginForm}>
                             Forgot your password?&nbsp;
                             <Button
+                                type={'button'}
                                 className={'text-blue-l0'}
                                 onClick={() => modalCtx.openModal(<ResetPasswordModal/>, {darkenBg: true})}
                             >
                                 Reset
                             </Button>
                         </span>
-                        {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
                     </fieldset>
-                    <div className={'flex flex-col  items-center    sm:landscape:w-[21rem]'}>
-                        <Button type={'submit'}
-                                className={`place-self-center   py-[0.92rem] mt-[1.56rem] w-full    rounded-full border-small border-control
-                                            font-bold text-content-small
-                                            sm:w-[90%]
-                            ${isLoginForm
-                                    ? (isSmScreen ? 'bg-control-blue text-primary' : 'text-gray bg-control-white')
-                                    : (isSmScreen ? 'border-b-small border-blue' : '')}`}
+                    <div className={'flex flex-col items-center sm:landscape:w-full'}>
+                        <Button
+                            type={'submit'}
+                            className={cn(
+                                `place-self-center py-[--p-content-xxs] mt-[--p-content-s] w-full rounded-full border-small border-control`,
+                                `font-bold text-section-s`,
+                                `sm:w-[90%]`,
+                                isLoginForm
+                                    ? (isSmScreen ? 'bg-control-blue text-primary  sm:landscape:mt-auto' : 'text-gray bg-control-white')
+                                    : (isSmScreen ? 'border-b-small border-blue  sm:landscape:mt-[--p-content-xl]' : '')
+                            )}
                         >
                             {!isLoginForm ? 'Sign Up' : 'Login'}
                         </Button>
-                        <div className={'mt-[1.55rem] text-center'}>
+                        <div className={'mt-[--p-content-s] text-center'}>
                             <span>
                                 {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
                                 <Button

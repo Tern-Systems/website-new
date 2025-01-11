@@ -1,11 +1,11 @@
 import {FC} from "react";
+import cn from "classnames";
 
 import {useModal} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals/Base";
 import {AuthModal} from "@/app/ui/modals/Auth";
 import {Button} from "@/app/ui/form";
-import cn from "classnames";
 
 
 const PreAuthModal: FC = () => {
