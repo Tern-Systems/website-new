@@ -62,8 +62,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         const Heading = title
             ? (
                 <h2 className={cn(
-                    `text-inherit font-oxygen text-header font-bold`,
-                    `sm:landscape:text-content`, classNameTitle,
+                    `text-inherit font-oxygen text-heading font-bold`,
+                    `sm:landscape:text-heading-s`, classNameTitle,
                     {['mb-[--p-content]']: isSmRulesApplied})}
                 >
                     {title}

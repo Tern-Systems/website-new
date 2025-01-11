@@ -6,17 +6,19 @@ import styles from '@/app/common.module.css'
 import SVG_UPLOAD from "@/assets/images/icons/upload.png";
 import SVG_COLOR_PICKER_BORDER from "@/assets/images/color-picker-border.svg";
 import SVG_EYE from "@/assets/images/icons/eye.svg";
+import {ReactSVG} from "react-svg";
 
 
 interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren {
     classNameWrapper?: string;
     classNameLabel?: string;
+    classNameIcon?: string;
     icons?: string[];
 }
 
 const Input: FC<Props> = (props: Props) => {
     const {
-        children, classNameWrapper, classNameLabel, className,
+        children, classNameWrapper, classNameLabel, className, classNameIcon,
         icons, ...inputProps
     } = props;
 
@@ -29,7 +31,10 @@ const Input: FC<Props> = (props: Props) => {
                     htmlFor={props.id}
                     className={`relative flex items-center justify-center cursor-pointer ${classNameWrapper} ${styles.clickable}`}
                 >
-                    <Image src={SVG_UPLOAD} alt={'upload icon'} className={'inline w-[min(4dvw,2rem)] h-auto'}/>
+                    <ReactSVG
+                        src={SVG_UPLOAD.src}
+                        className={`[&_*]:size-[2rem] ${classNameIcon}`}
+                    />
                     <span hidden={!children} className={classNameLabel}>{children}</span>
                     <input
                         {...inputProps}
@@ -53,7 +58,7 @@ const Input: FC<Props> = (props: Props) => {
                             <Image src={SVG_COLOR_PICKER_BORDER} alt={'color picker border'}/>
                             <input
                                 {...inputProps}
-                                className={`absolute bottom-0 -z-10 h-1 w-1 ${className}`}
+                                className={`absolute bottom-1/2 -z-10 h-1 w-1 ${className}`}
                             />
                     </span>
                 </label>

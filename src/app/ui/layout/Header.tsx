@@ -4,9 +4,9 @@ import {usePathname} from "next/navigation";
 import cn from "classnames";
 
 import {NavLink} from "@/app/context/Layout.context";
-import {LAYOUT, Route} from "@/app/static";
+import {LAYOUT, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
 
-import {checkSubRoute, getRouteRoot} from "@/app/utils";
+import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
 import {useBreakpointCheck, useMenu} from "@/app/hooks";
 import {useLayout, useModal, useUser} from "@/app/context";
 
@@ -97,8 +97,15 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         key={link + idx}
                         href={link}
                         icon={!isActive && isSmScreen ? 'forward' : undefined}
-                        className={`relative justify-center ${idx === 0 ? '[&]:border-t-0' : ''} ${isActive ? ACTIVE_ROUTE_CN : ''}`}
-                    />
+                        className={cn(`relative justify-center`,
+                            {
+                                ['[&]:border-t-0']: idx === 0,
+                                [ACTIVE_ROUTE_CN]: isActive
+                            }
+                        )}
+                    >
+                        {getRouteName(route && MAPPED_SUB_NAV_ROUTES?.[link] ? MAPPED_SUB_NAV_ROUTES[link] : link)}
+                    </PageLink>
                 );
             })
         );

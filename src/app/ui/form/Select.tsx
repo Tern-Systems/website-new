@@ -9,6 +9,7 @@ import React, {
     useState
 } from 'react';
 import Image from "next/image";
+import cn from "classnames";
 
 import SVG_CHEVRON from "@/assets/images/icons/chewron.svg";
 
@@ -69,11 +70,14 @@ const Select: FC<Props> = (props: Props) => {
         <option
             key={value + idx}
             value={value}
-            className={`px-[min(2dvw,0.75rem)] py-[min(--s-d-small)] border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0
-                        [&:first-of-type]:border-t-0 last-of-type:rounded-b-small overflow-ellipsis text-nowrap overflow-x-hidden
-                        bg-white content-center ${classNameOption}
-                        ${EMPTY_KEY === key ? 'text-placeholder text-small' : ''}`}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
+            className={cn(
+                `flex px-[min(2dvw,0.75rem)] py-[min(--s-d-small)] items-center overflow-x-hidden`,
+                `bg-white border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0`,
+                `[&:first-of-type]:border-t-0 last-of-type:rounded-b-small `,
+                `overflow-ellipsis text-nowrap`, classNameOption,
+                {['text-placeholder text-small']: EMPTY_KEY === key}
+            )}
         >
             {value}
         </option>
@@ -108,7 +112,7 @@ const Select: FC<Props> = (props: Props) => {
                 className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white [&]:rounded-small
                             ${className} ${isSelectExpanded ? `[&&]:rounded-b-none` : ''}`}
             >
-                <div className={`text-nowrap overflow-ellipsis overflow-hidden`}>
+                <div className={`text-nowrap overflow-ellipsis overflow-x-hidden leading-[1.3]`}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
                         {selectedOptionIdx < 0 || !optionsFinal[value] ? (placeholder ?? 'Select') : optionsFinal[value]}
                     </span>

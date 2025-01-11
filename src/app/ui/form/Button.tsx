@@ -15,6 +15,7 @@ import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
 import SVG_DOTS_V from "@/assets/images/icons/dots-v.svg";
 import SVG_DOWNLOAD from "@/assets/images/icons/download.svg";
 import SVG_EDIT from '@/assets/images/icons/edit-line.svg';
+import SVG_FILE from "@/assets/images/icons/file.svg";
 import SVG_GLASS from "@/assets/images/icons/glass.svg";
 import SVG_LABEL from "@/assets/images/icons/label.svg";
 import SVG_LOCK from "@/assets/images/icons/lock.svg";
@@ -26,6 +27,7 @@ import SVG_PLUS_SQUARE from '@/assets/images/icons/plus-square.svg';
 import SVG_SHARE from "@/assets/images/icons/share.svg";
 import SVG_WARN from "@/assets/images/icons/warn.svg";
 import SVG_BURGER_MENU from "@/assets/images/icons/burger-menu.svg";
+import cn from "classnames";
 
 
 type ButtonIcon =
@@ -40,6 +42,7 @@ type ButtonIcon =
     | 'dots'
     | 'download'
     | 'edit'
+    | 'file'
     | 'glass'
     | 'label'
     | 'lock'
@@ -67,6 +70,7 @@ const ICON: Record<ButtonIcon, { src: string }> = {
     dots: SVG_DOTS_V,
     download: SVG_DOWNLOAD,
     edit: SVG_EDIT,
+    file: SVG_FILE,
     glass: SVG_GLASS,
     label: SVG_LABEL,
     lock: SVG_LOCK,
@@ -78,6 +82,7 @@ const ICON: Record<ButtonIcon, { src: string }> = {
     share: SVG_SHARE,
     warn: SVG_WARN,
 }
+
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: ButtonIcon | null;
@@ -108,8 +113,11 @@ const Button: FC<Props> = (props: Props) => {
                 setHoverState(false);
                 props.onMouseLeave?.(event);
             }}
-            className={`text-nowrap cursor-pointer disabled:cursor-default ${className} ${styles.clickable}
-                        ${icon ? 'flex items-center justify-center gap-[0.5rem]' : ''}`}
+            className={cn(
+                `text-nowrap cursor-pointer  disabled:cursor-default`,
+                className, styles.clickable,
+                {['flex items-center justify-center gap-[0.5rem]']: stateIcon}
+            )}
         >
             {Icon}
             <span hidden={!children}>{isHovered && hovered?.text ? hovered.text : children}</span>
