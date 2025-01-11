@@ -118,7 +118,7 @@ const Editable: FC<Props> = (props: Props) => {
     const [isEditState, setEditState] = useState<boolean>(
         data.value !== null
         && 'isEmailAdded' in data.value
-        && (data.value.isEmailAdded || data.value.isPhoneAdded)
+        && data.value.isPhoneAdded
     );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [formData, _, setFormState] = useForm<FormData>(defaultFormValue);
@@ -394,7 +394,7 @@ const Editable: FC<Props> = (props: Props) => {
                         if (
                             'value' in formData && data.value
                             && 'isEmailAdded' in data.value
-                            && (!data.value.isEmailAdded || !data.value.isPhoneAdded)
+                            && !data.value.isPhoneAdded
                         ) {
                             toggleEditState();
                         }

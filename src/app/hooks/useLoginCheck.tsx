@@ -18,14 +18,14 @@ const useLoginCheck = () => {
 
 
     useEffect(() => {
-        console.log(userCtx.isLoggedIn)
+        if (userCtx.isLoggedIn === null)
+            return;
         if (!userCtx.isLoggedIn && route !== Route.Home && !layoutCtx.isFade) {
             modalCtx.openModal(
-                <AuthModal isLoginAction onClose={() => navigate(Route.Home)} preventClose={route !== Route.Home}/>,
+                <AuthModal isLoginAction onClose={() => navigate(Route.Home)}/>,
                 {hideContent: true}
             );
-        } else if (userCtx.isLoggedIn || route === Route.Home)
-            modalCtx.closeModal();
+        }
         //eslint-disable-next-line
     }, [userCtx.isLoggedIn, modalCtx.isOpened, route])
 
