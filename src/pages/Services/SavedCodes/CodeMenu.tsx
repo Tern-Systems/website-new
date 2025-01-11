@@ -1,4 +1,5 @@
 import React, {Dispatch, FC, ReactElement, SetStateAction} from "react";
+import cn from "classnames";
 
 import {ARCode} from "@/app/types/arcode";
 import {OpenModal} from "@/app/context/Modal.context";
@@ -68,7 +69,8 @@ const CodeMenu: FC<Props> = (props: Props) => {
         <Button
             key={name + idx}
             icon={value.svg}
-            className={'flex gap-x-[min(1.3dvw,0.57rem)] font-bold'}
+            className={'flex gap-x-[0.58rem] font-bold'}
+            classNameIcon={'[&_svg]:w-[1.125rem]'}
             onClick={() => value.action({
                 openModal,
                 navigate,
@@ -84,8 +86,10 @@ const CodeMenu: FC<Props> = (props: Props) => {
         <div
             id={'code-menu'}
             style={{top: menuData.y, left: menuData.x}}
-            className={`absolute flex flex-col bg-black border-small border-control-white-d0 rounded-smallest
-                        p-[--s-d2l-smallest] gap-y-[--s-d2l-smallest] z-10 items-start`}
+            className={cn(
+                `absolute z-10 flex flex-col gap-y-[--p-content-4xs] p-[--p-content-4xs] items-start`,
+                `rounded-smallest border-small bg-black border-control-white-d0 text-section-xxs`,
+            )}
         >
             {MenuItems}
         </div>

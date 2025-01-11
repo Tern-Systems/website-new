@@ -1,5 +1,6 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {useQRCode} from "next-qrcode";
+import cn from "classnames";
 
 import {SubscriptionBase} from "@/app/types/subscription";
 import {ARCode} from "@/app/types/arcode";
@@ -15,12 +16,8 @@ import {useModal, useUser} from "@/app/context";
 import {CodeMenu, CodeMenuData} from "./CodeMenu";
 
 
-const MAX_AR_CODE_WIDTH = 200;
-
-
 const SavedCodesPage: FC = () => {
     const [codeId, setCodeId] = useState<string | null>(null);
-    const [qrSize, setQrSize] = useState(MAX_AR_CODE_WIDTH);
     const [updateList, setUpdateList] = useState(false);
     const [qrList, setQRList] = useState<ARCode[]>([]);
     const [menuData, setMenuData] = useState<CodeMenuData>({
@@ -75,15 +72,9 @@ const SavedCodesPage: FC = () => {
             })
         }
 
-        const handleResize = () => setQrSize(Math.min(MAX_AR_CODE_WIDTH, MAX_AR_CODE_WIDTH * window.innerWidth / 500));
-        handleResize();
 
         window.addEventListener('click', handleClick);
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('click', handleClick);
-            window.removeEventListener('resize', handleResize);
-        }
+        return () => window.removeEventListener('click', handleClick);
     }, [codeId, menuData])
 
 
@@ -109,13 +100,12 @@ const SavedCodesPage: FC = () => {
 
     const SavedCodes: ReactElement[] = qrList.map((arCode, idx) => {
         return (
-            <div key={arCode.name + idx} id={'qr-' + arCode.mediaId + idx} className={'place-items-center'}>
+            <div key={arCode.name + idx} id={'qr-' + arCode.mediaId + idx} className={'w-full place-items-center'}>
                 <div
-                    className={'flex cursor-pointer mb-[--1dr] justify-center'}>
+                    className={'flex cursor-pointer mb-[--p-content-xxs] w-full justify-center [&_*]:x-[w-full,h-auto]'}>
                     <SVG
                         text={'https://arch.tern.ac/' + arCode?.mediaId}
                         options={{
-                            width: qrSize,
                             margin: 1,
                             color: {
                                 dark: arCode.backgroundColor,
@@ -125,15 +115,21 @@ const SavedCodesPage: FC = () => {
                     />
                 </div>
                 <div
-                    className={`relative flex bg-control-gray h-[min(8dvw,2.3rem)] items-center justify-center rounded-smallest
-                                w-[10rem] max-w-[40dvw]`}>
-                    <span
-                        className={'px-[min(1.1dvw,1rem)] text-header overflow-ellipsis text-nowrap overflow-x-hidden'}>
+                    className={cn(
+                        `relative flex w-full h-[2.3rem] items-center justify-center rounded-smallest bg-control-gray`,
+                        `sm:x-[border-small,border-control-white,bg-control-gray-l0]`,
+                    )}
+                >
+                    <span className={cn(
+                        'px-[--p-content-l] overflow-x-hidden overflow-ellipsis text-nowrap text-heading leading-[1.2]',
+                        'sm:text-basic',
+                    )}
+                    >
                         {arCode.name}
                     </span>
                     <Button
                         icon={'dots'}
-                        className={`absolute inline right-[min(2.6dvw,0.63rem)] w-[0.3rem] h-[min(4dvw,1.15rem)] cursor-pointer place-self-center`}
+                        className={`absolute right-[--p-content-4xs] place-self-center [&&_*]:w-[0.3rem]`}
                         onClick={() => {
                             setMenuData(prevState => ({
                                 ...prevState,
@@ -150,11 +146,21 @@ const SavedCodesPage: FC = () => {
     });
 
     return (
-        <div
-            className={`grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-y-[min(5.3dvw,4.5rem)] gap-x-[4.9dvw]
-                        after:flex-auto     sm:gap-x-[1.3dvw]`}>
-            {SavedCodes}
-            {menuData.isOpened ? <CodeMenu menuData={menuData}/> : null}
+        <div className={'w-full h-full sm:py-[3.36rem]'}>
+            <div
+                className={cn(
+                    `grid`,
+                    `gap-x-[min(5dvw,5.94rem)] gap-y-[min(3.75dvw,4.5rem)]`,
+                    `lg:x-[px-[9rem],py-[5.94rem]]`,
+                    `lg:grid-cols-[repeat(auto-fill,minmax(0,15.6rem))]`,
+                    `after:flex-auto`,
+                    `sm:grid-cols-[repeat(auto-fill,minmax(0,10.3rem))]`,
+                    `sm:x-[gap-x-[1.3dvw],gap-y-[--p-content-xs],px-[--p-content-xs],overflow-y-scroll] sm:portrait:h-full`
+                )}
+            >
+                {menuData.isOpened ? <CodeMenu menuData={menuData}/> : null}
+                {SavedCodes}
+            </div>
         </div>
     );
 }
