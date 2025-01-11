@@ -15,11 +15,11 @@ import {PageLink} from "@/app/ui/layout";
 import {Button, Input, Select} from '@/app/ui/form';
 import {DeclinedModal} from "./DeclinedModal";
 
-import SVG_VISA from '@/assets/images/icons/card-visa.svg';
-import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';
-import SVG_AMEX from '@/assets/images/icons/card-amex.svg';
-import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
-import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
+import SVG_VISA from '/public/images/icons/card-visa.svg';
+import SVG_MASTER from '/public/images/icons/card-master-card.svg';
+import SVG_AMEX from '/public/images/icons/card-amex.svg';
+import SVG_DISCOVER from '/public/images/icons/card-discover.svg';
+import SVG_CARD_NUM from '/public/images/icons/card-num.svg';
 
 import styles from './Subscribe.module.css'
 

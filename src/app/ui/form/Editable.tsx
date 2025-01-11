@@ -20,7 +20,7 @@ import { useBreakpointCheck, useForm } from "@/app/hooks";
 
 import { Button, Input, Select, Switch } from "@/app/ui/form";
 
-import SVG_PENCIL from "@/assets/images/icons/edit-line.svg";
+import SVG_PENCIL from "/public/images/icons/edit-line.svg";
 import { ReactSVG } from "react-svg";
 
 const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };

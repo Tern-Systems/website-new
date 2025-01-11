@@ -222,6 +222,7 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.TernKey]: '/Application',
     [Route.Dot]: '/Download',
     [Route.Service]: '/ARCH',
+    [Route.TBD]: '/TBD',
 }
 
 // Temp

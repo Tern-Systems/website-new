@@ -8,8 +8,8 @@ import {Route} from "@/app/static";
 import {getRouteName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
 
-import SVG_ARROW from "@/assets/images/icons/arrow.svg";
-import SVG_INSIGNIA from "@/assets/images/insignia.svg";
+import SVG_ARROW from "/public/images/icons/arrow.svg";
+import SVG_INSIGNIA from "/public/images/insignia.svg";
 
 import styles from '@/app/common.module.css'
 import {getRouteLeave} from "@/app/utils/router";

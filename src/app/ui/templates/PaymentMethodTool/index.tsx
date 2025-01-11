@@ -14,11 +14,11 @@ import {Button, Input, Select} from "@/app/ui/form";
 import {MessageModal} from "@/app/ui/modals";
 import {RemovePaymentMethodModal} from "./RemovePaymentMethodModal";
 
-import SVG_VISA from "@/assets/images/icons/card-visa.svg";
-import SVG_MASTER from "@/assets/images/icons/card-master-card.svg";
-import SVG_AMEX from "@/assets/images/icons/card-amex.svg";
-import SVG_DISCOVER from "@/assets/images/icons/card-discover.svg";
-import SVG_CARD_NUM from "@/assets/images/icons/card-num.svg";
+import SVG_VISA from "/public/images/icons/card-visa.svg";
+import SVG_MASTER from "/public/images/icons/card-master-card.svg";
+import SVG_AMEX from "/public/images/icons/card-amex.svg";
+import SVG_DISCOVER from "/public/images/icons/card-discover.svg";
+import SVG_CARD_NUM from "/public/images/icons/card-num.svg";
 
 import styles from './Form.module.css'
 

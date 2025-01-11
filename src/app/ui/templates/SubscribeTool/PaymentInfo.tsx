@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import {SubscriptionBase} from "@/app/types/subscription";
 
-import SVG_INFO from '@/assets/images/icons/info.svg';
+import SVG_INFO from '/public/images/icons/info.svg';
 
 
 interface Props {
