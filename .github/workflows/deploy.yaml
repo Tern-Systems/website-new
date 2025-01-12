@@ -40,8 +40,6 @@ jobs:
             npm install
             # Build the application for production
             npm run build
-            #Start Application
-             pm2 start npm --name "mini-website" -- start || pm2 restart "mini-website"
             # Restart the application service to apply updates
             sudo service website-app restart
           EOF
