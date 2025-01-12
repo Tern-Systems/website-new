@@ -29,7 +29,7 @@ function PurchasingInformationPage() {
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
     // eslint-disable-next-line
-    const [defaultCardIdx, setDefaultCardIdx] = useState<number | null>();
+    const [defaultCardIdx, setDefaultCardIdx] = useState<number | undefined>();
     const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
 
     const router = useRouter();
@@ -61,12 +61,13 @@ function PurchasingInformationPage() {
     if (!isLoggedIn)
         return null;
 
-    const defaultCard: SavedCard | null = defaultCardIdx ? savedCards[defaultCardIdx] : null;
+    const defaultCard: SavedCard | null = defaultCardIdx !== undefined ? savedCards[defaultCardIdx] : null;
 
     // Elements
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
-        if (card.preferred && defaultCardIdx === null)
+        if (card.preferred && defaultCardIdx === undefined)
             setDefaultCardIdx(idx);
+
         return (
             <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-content items-center'}>
                 <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
@@ -131,7 +132,7 @@ function PurchasingInformationPage() {
                         <h2 className={`text-header font-bold   sm:landscape:text-content`}>Billing Details</h2>
                         {Hr}
                         <div
-                            className={`grid grid-rows-2 grid-cols-[max-content,max-content]
+                            className={`grid grid-rows-2 grid-cols-[max-content,1fr]
                                         gap-y-[--1qdrs] gap-x-[min(10dvw,3rem)]
                                         sm:landscape:gap-y-[--s-d-small]`}
                         >
@@ -144,7 +145,7 @@ function PurchasingInformationPage() {
                             <span>Billing Address</span>
                             {defaultCard ? (
                                     <ul>
-                                        <li>{defaultCard.billingAddress.address}</li>
+                                        <li>{defaultCard.billingAddress.address.split('|').join('')}</li>
                                         <li>
                                             {defaultCard.billingAddress.city}, {defaultCard.billingAddress.state}&nbsp;
                                             {defaultCard.billingAddress.zip}
