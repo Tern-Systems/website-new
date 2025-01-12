@@ -14,7 +14,7 @@ enum Route {
     // /service
     Services = '/services',
     ARCodeToolCreate = '/services/create',
-    ARCodeToolEdit = '/services/saved_codes/edit',
+    ARCodeToolEdit = '/services/library/edit',
     ServiceUserManual = '/services/user_manual',
     ServicePricing = '/services/plans',
     ServiceSubscribe = '/subscribe/arch',
