@@ -13,15 +13,16 @@ import SVG_QR from "/public/images/qr.svg";
 const ARCHPage: FC = () => (
     <div className={cn(
         'grid grid-cols-3 m-auto py-[--p-content-xs]',
+        'md:portrait:x-[flex,flex-col-reverse,gap-y-[--p-content-3xl]]',
         'sm:mx-0',
-        'sm:portrait:x-[grid-rows-2,grid-cols-1]',
+        'sm:portrait:x-[flex,flex-col-reverse,gap-y-[--p-content-xxl]]',
     )}>
         <ul className={cn(
             'm-auto w-fit list-decimal text-[4rem] leading-[1.25] text-left',
-            'md:text-heading',
-            'sm:text-heading',
+            'md:text-heading-l',
+            'sm:text-section',
             'sm:portrait:row-start-2',
-            'sm:landscape:pl-[35%]',
+            'sm:landscape:x-[pl-[35%],text-section]',
         )}
         >
             <li>Scan code</li>
@@ -30,19 +31,31 @@ const ARCHPage: FC = () => (
             <li>Click play</li>
         </ul>
         <div className={'flex flex-col'}>
-            <Image src={SVG_ARCH} alt={'arch-logo'} className={'max-h-[4rem] h-[3dvw] w-auto place-self-center'}/>
+            <Image src={SVG_ARCH} alt={'arch-logo'}
+                   className={cn(
+                       'max-h-[4rem] h-[4dvw] w-auto place-self-center',
+                       'md:portrait:h-[10dvw]',
+                       'sm:portrait:h-[8dvw]',
+                       'sm:landscape:h-[3dvw]',
+                   )}
+            />
             <Image
                 src={SVG_QR}
                 alt={'qr'}
                 className={cn(
                     'my-[--p-content] max-w-[37rem] w-[31dvw] h-auto cursor-pointer place-self-center',
+                    'md:portrait:w-[50dvw]',
                     'sm:x-[w-[50dvw],my-[--p-content-3xs]]',
                     'sm:landscape:w-[20dvw]',
                 )}
             />
             <PageLink
                 href={Route.ARCodeToolCreate}
-                className={'place-self-center px-[--p-content-xs] py-[0.1rem] rounded-full bg-control-white text-black font-bold'}
+                className={cn(
+                    'place-self-center px-[--p-content-xl] py-[--p-content-5xs] rounded-full bg-control-white text-black font-bold',
+                    'md:text-heading',
+                    'sm:landscape:x-[px-[--p-content-xs],py-[0.1rem],text-basic]',
+                )}
             >
                 Create
             </PageLink>
