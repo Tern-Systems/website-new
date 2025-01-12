@@ -42,7 +42,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const modalCtx = useModal();
     const userCtx = useUser();
     const [navigate] = useNavigate();
-    const isSmScreen = useBreakpointCheck();
+    const breakpoint = useBreakpointCheck();
 
     const [selectedRecurrency, setSelectedRecurrency] =
         useState<SubscriptionRecurrency>("monthly");
@@ -203,20 +203,24 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const CollapsedContentSm = (
             <>
                 <h2 className={cn(
-                    `flex items-center mb-[--p-content-xxs] font-oxygen text-heading font-bold capitalize`,
-                    `sm:x-[mb-[--p-content-4xs],text-heading-s]`,
+                    `flex items-center font-oxygen font-bold capitalize`,
+                    `mb-[--p-content-4xs] text-heading-s`,
+                    `lg:x-[mb-[--p-content-xxs],text-heading]`,
+                    `md:text-heading`,
                 )}
                 >
                     {data?.icon
                         ? <Image src={data.icon} alt={type + ' icon'}
-                                 className={`mr-[--p-content-5xs] h-auto    w-[1.375rem]    sm:w-[0.9375rem]`}/>
+                                 className={`mr-[--p-content-5xs] h-auto  w-[1.375rem]  sm:w-[0.9375rem]`}/>
                         : '--'}
                     <span>{type}</span>
                 </h2>
                 <div className={cn(
-                    'mb-[2.2rem] text-secondary',
+                    'text-secondary',
                     'text-section',
-                    'sm:x-[mb-[--p-content-4xs]]',
+                    'lg:mb-[2.2rem]',
+                    'md:mb-[--p-content]',
+                    'sm:mb-[--p-content-4xs]',
                     'sm:landscape:text-section-s'
                 )}
                 >
@@ -237,20 +241,22 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             </>
         );
 
-
         return (
             <Collapsible
                 key={type + idx}
+                title={type + idx}
                 isChevron
-                expandedState={[!isSmScreen]}
+                expandedState={[breakpoint === 'lg']}
                 collapsedContent={CollapsedContentSm}
                 classNameWrapper={cn(
-                    `[&]:self-start [&]:max-w-[25rem] [&]:w-full border-small border-control-white-d0 text-left`,
-                    `lg:h-full`,
-                    `sm:x-[p-[--p-content-xxs],border-none]`,
+                    `[&]:self-start [&]:max-w-[25rem] border-small border-control-white-d0 text-left`,
+                    `min-w-[25rem]`,
+                    `[&]:h-full`,
+                    `md:x-[p-[--p-content-s],min-w-[24rem]]`,
+                    `sm:x-[p-[--p-content-xxs],min-w-[20rem],border-none]`,
                     `sm:landscape:[&]:x-[self-start,max-w-[21rem]]`,
                 )}
-                classNameIcon={'[&]:w-[0.8125rem] top-[1.5rem]'}
+                classNameIcon={'[&]:w-[0.8125rem]  md:right-[--p-content-s] md:top-[calc(var(--p-content-s)+0.5*var(--fz-heading))]'}
                 className={'flex flex-col h-full'}
             >
                 {CollapsedContentSm}
@@ -264,7 +270,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 </ul>
                 <div className={cn(
                     `flex flex-col flex-grow mt-[2.1rem] font-oxygen text-secondary text-section-xxs`,
-                    `sm:landscape:text-section-xxxs`
+                    `sm:landscape:text-section-3xs`
                 )}
                 >
                     <span className={'flex flex-col mt-auto'}>{Links}</span>
@@ -315,13 +321,17 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     return (
         <div className={cn(
             `flex flex-col h-full`,
+            `md:pb-[--p-content-l]`,
             `sm:pb-[--p-content-xxl]`,
             `sm:landscape:mt-[1.81rem]`,
         )}
         >
             <div className={cn(
-                'flex items-end justify-center sm:pb-[--p-content-xxs]',
-                `lg:x-[mb-[--p-content],min-h-[5rem]]`,
+                'flex items-end justify-center',
+                `lg:x-[mb-[--p-content],h-[5rem]]`,
+                `md:pb-[--p-content-xxs]`,
+                `md:h-[6.75rem]`,
+                `sm:pb-[--p-content-xxs]`,
                 `sm:portrait:h-[6.75rem]`,
             )}>
                 <div className={cn(
@@ -332,14 +342,17 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 </div>
             </div>
             <div className={cn(
-                'grid auto-rows-min',
-                'lg:h-[calc(100%-2.5rem)] lg:overflow-scroll',
-                'sm:portrait:h-[calc(100%-6.75rem)] sm:overflow-scroll'
+                'grid auto-rows-min justify-center overflow-scroll',
+                'lg:h-[calc(100%-2.5rem)]',
+                'md:portrait:h-[calc(100%-6.75rem)]',
+                'sm:portrait:h-[calc(100%-6.75rem)]',
             )}
             >
                 <div className={cn(
                     'flex gap-x-[--p-content-3xl] w-full h-full',
                     `lg:justify-center`,
+                    `md:gap-y-[--p-content-xxs]`,
+                    `md:portrait:x-[flex-col,px-[--p-content-xxs]]`,
                     `sm:gap-y-[--p-content-xxs]`,
                     `sm:portrait:x-[flex-col,px-[--p-content-xxs]]`,
                     `sm:landscape:x-[gap-x-[--p-content-4xs],px-[--p-content-3xl],justify-items-start]`,
