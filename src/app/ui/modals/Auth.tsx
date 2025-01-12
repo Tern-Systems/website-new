@@ -27,10 +27,12 @@ const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 interface Props {
     info?: string;
     isLoginAction?: boolean;
+    onClose?: () => void;
+    preventClose?: boolean;
 }
 
 const AuthModal: FC<Props> = (props: Props): ReactElement => {
-    const {isLoginAction, info} = props;
+    const {isLoginAction, info, onClose, preventClose} = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -75,7 +77,9 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     return (
         <BaseModal
             adaptSmScreen
+            preventClose={preventClose}
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
+            onClose={() => onClose?.()}
             classNameTitle={'justify-self-start text-heading   sm:[&]:mb-[--p-content-xs]   sm:landscape:ml-0 '}
             classNameContent={cn(
                 'w-[30rem] items-start mx-auto place-items-center text-basic',
@@ -156,7 +160,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                                     className={`text-blue-l0`}
                                     onClick={() => setLoginFormState(prevState => !prevState)}
                                 >
-                                  {isLoginForm ? 'Sign Up' : 'Login'}
+                                    {isLoginForm ? 'Sign Up' : 'Login'}
                                 </Button>
                             </span>
                         </div>

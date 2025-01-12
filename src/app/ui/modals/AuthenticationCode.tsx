@@ -1,9 +1,6 @@
 import React, {FC, FormEvent, ReactElement, useCallback, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
-import axios from "axios";
 
-// Commenting Out for Hasky Checker
-import {UserData} from "@/app/context/User.context";
 import {AuthService, UserService} from "@/app/services";
 
 import {useForm} from "@/app/hooks";
@@ -19,16 +16,19 @@ type FormData = { code: string };
 
 const FORM_DEFAULT: FormData = {code: ''};
 
+
 interface Props {
     token: string;
     phone: string;
     email: string;
     isDisabling?: boolean;
     isPhoneEnabling?: boolean;
+    is2FA?: boolean;
+    isLogin?: boolean;
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const {token, phone, email, isDisabling = false, isPhoneEnabling = false} = props;
+    const {token, phone, email, is2FA, isLogin, isDisabling = false, isPhoneEnabling = false} = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -38,18 +38,13 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
     const handleSendNewCode = useCallback(async () => {
         try {
-
-            await AuthService.postSendOTP(email);
-
+            if (is2FA)
+                await AuthService.post2FASendOTP(email, phone);
+            else
+                await AuthService.postSendOTP(email);
         } catch (error: unknown) {
-            console.log(error); // TODO remove after testing
-
-            if (axios.isAxiosError(error)) {
-                const errorMsg = error.response?.data?.msg || 'Something went wrong. Please try again later.';
-                modalCtx.openModal(<MessageModal>{errorMsg}</MessageModal>);
-            } else {
-                modalCtx.openModal(<MessageModal>Unexpected error occurred. Please try again.</MessageModal>);
-            }
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
 
         //eslint-disable-next-line
@@ -62,64 +57,31 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        if (!userCtx.userData)
+            return;
+
         try {
+            if (isLogin)
+                await AuthService.postLoginVerifyOTP(formValue.code, email);
+            else
+                await AuthService.postVerifyOTP(formValue.code, email);
 
-            const verifyRes = await AuthService.postVerifyOTP(formValue.code, email);
-
-            if (verifyRes) {
-                if (isDisabling) {
-                    try {
-                        const offRes = await AuthService.post2FATurnOff(email);
-                        if (offRes) {
-                            if (userCtx.userData) {
-                                const updatedUserData = {
-                                    ...userCtx.userData,
-                                    state2FA: {
-                                        email: null,
-                                        phone: null
-                                    }
-                                };
-                                userCtx.setSession(updatedUserData, token);
-                                modalCtx.openModal(<MessageModal>Two-factor authentication has been disabled
-                                    successfully</MessageModal>);
-                            }
-                        }
-
-                    } catch (error: unknown) {
-                        console.error("Error 2FA Turn off: ", error); // TODO remove after testing
-                        modalCtx.openModal(<MessageModal>Failed to turn off 2FA. Please try again
-                            later.</MessageModal>);
-                    }
-                } else {
-                    if (isPhoneEnabling) {
-                        if (userCtx.userData) {
-                            const updatedUserData = {
-                                ...userCtx.userData,
-                                state2FA: {
-                                    ...userCtx.userData.state2FA,
-                                    phone: phone
-                                }
-                            };
-                            userCtx.setSession(updatedUserData, userCtx?.token || '');
-                            modalCtx.openModal(<MessageModal>Phone number successfully saved for 2FA.</MessageModal>);
-                        }
-                    } else {
-                        const {payload: userData} = await UserService.getUser(token);
-                        userCtx.setSession(userData as UserData, token); // TODO remove type casting
-                        modalCtx.closeModal();
-                    }
-                }
+            if (isDisabling) {
+                await AuthService.post2FATurnOff(email);
+                modalCtx.openModal(
+                    <MessageModal>Two-factor authentication has been disabled successfully.</MessageModal>
+                );
+            } else if (isPhoneEnabling) {
+                await AuthService.post2FASavePhone(userCtx.userData.email, phone);
+                modalCtx.openModal(<MessageModal>Phone number successfully saved for 2FA.</MessageModal>);
             }
 
+            const {payload: userData} = await UserService.getUser(token);
+            userCtx.setSession(userData, token);
+            modalCtx.closeModal();
         } catch (error: unknown) {
-
-            console.log('error', error); // TODO remove after testing
-
-            if (axios.isAxiosError(error) && error.status === 400) {
-                return setWarningMsg("Incorrect OTP. Please try again.")
-            } else {
-                modalCtx.openModal(<MessageModal>Unexpected error occurred. Please try again later.</MessageModal>);
-            }
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     }
 
@@ -138,11 +100,11 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                     <div
                         className={'flex flex-col items-center mb-[1.875rem] text-center leading-[120%]    sm:landscape:text-left'}>
                         <span>
-                    {isDisabling
-                        ? 'You are about to disable two-factor authentication for your account. To proceed, please confirm your identity by entering the authorization code sent to '
-                        : 'Please confirm your account by entering the authorization code sent to '} &nbsp;
+                            {isDisabling
+                                ? 'You are about to disable two-factor authentication for your account. To proceed, please confirm your identity by entering the authorization code sent to '
+                                : 'Please confirm your account by entering the authorization code sent to '} &nbsp;
                             <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
-                </span>
+                        </span>
                     </div>
                     <form
                         className={'flex flex-col'}
@@ -165,16 +127,16 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
                         <Button className={`py-[0.37rem] mt-[--p-content] text-small font-bold rounded-full
                                     w-[9.38563rem] place-self-center border-small border-control-blue
-                                    ${isDisabling ? 'border-[#F42200] text-[#F42200]' : 'border-control-blue'}`}
+                                    ${isDisabling ? 'border-control-red text-red' : 'border-control-blue'}`}
                         >
                             {isDisabling ? 'Disable' : 'Submit and Login'}
                         </Button>
                     </form>
                     <div className={'text-small mt-[2.51rem] sm:portrait:w-[14.75rem]'}>
-                <span>
-                    It may take a minute to receive your code. Haven’t received it?&nbsp;
-                    <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendNewCode()}>Resend a new code.</span>
-                </span>
+                        <span>
+                            It may take a minute to receive your code. Haven’t received it?&nbsp;
+                            <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendNewCode()}>Resend a new code.</span>
+                        </span>
                     </div>
                 </div>
             </div>

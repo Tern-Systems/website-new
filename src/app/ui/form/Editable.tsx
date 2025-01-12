@@ -8,6 +8,7 @@ import React, {
     SetStateAction,
     useState
 } from "react";
+import { ReactSVG } from "react-svg";
 
 import { KeysOfUnion, NonNullableKeys } from "@/app/types/utils";
 import { INDUSTRY, IndustryKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey } from "@/app/static/company";
@@ -21,7 +22,6 @@ import { useBreakpointCheck, useForm } from "@/app/hooks";
 import { Button, Input, Select, Switch } from "@/app/ui/form";
 
 import SVG_PENCIL from "/public/images/icons/edit-line.svg";
-import { ReactSVG } from "react-svg";
 
 const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };
 const DEFAULT_ADDRESS: Address = {
@@ -63,7 +63,7 @@ type DataBase = {
     className?: string;
     title?: string;
     onSave: (formData: FormData) => Promise<void>;
-    onSwitch?: () => Promise<void>;
+    onSwitch?: (state: boolean) => Promise<void>;
     value: Value | null;
 }
 
@@ -118,7 +118,7 @@ const Editable: FC<Props> = (props: Props) => {
     const [isEditState, setEditState] = useState<boolean>(
         data.value !== null
         && 'isEmailAdded' in data.value
-        && (data.value.isEmailAdded || data.value.isPhoneAdded)
+        && data.value.isPhoneAdded
     );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [formData, _, setFormState] = useForm<FormData>(defaultFormValue);
@@ -158,7 +158,7 @@ const Editable: FC<Props> = (props: Props) => {
 
     // Elements
     const Hr = <hr className={'border-control-white-d0'} />;
-    
+
     const ControlBtns = (
         <span
             className={`flex gap-x-[min(1dvw,0.75rem)] h-[--h-control] mt-[min(1.3dvw,0.95rem)] text-small font-bold`}>
@@ -350,23 +350,23 @@ const Editable: FC<Props> = (props: Props) => {
             Form = (
                 <>
                     {children}
-                    <hr className={'border-control-white-d0'} />
-                    <div className={'flex justify-between'}>
-                        <Editable
-                            toggleType={'button'}
-                            keepChildrenOnEdit
-                            isSimpleSwitch
-                            isToggleBlocked={data.value.isEmailAdded}
-                            data={{
-                                className: FA2_INPUT_CN,
-                                title: 'Add your Email as a two-factor authentication option',
-                                value: null,
-                                onSave: data.onSave
-                            }}
-                        >
-                            Email
-                        </Editable>
-                    </div>
+                    <hr className={'border-control-white-d0'}/>
+                    {/*<div className={'flex justify-between'}>*/}
+                    {/*    <Editable*/}
+                    {/*        toggleType={'button'}*/}
+                    {/*        keepChildrenOnEdit*/}
+                    {/*        isSimpleSwitch*/}
+                    {/*        isToggleBlocked={data.value.isEmailAdded}*/}
+                    {/*        data={{*/}
+                    {/*            className: FA2_INPUT_CN,*/}
+                    {/*            title: 'Add your Email as a two-factor authentication option',*/}
+                    {/*            value: null,*/}
+                    {/*            onSave: data.onSave*/}
+                    {/*        }}*/}
+                    {/*    >*/}
+                    {/*        Email*/}
+                    {/*    </Editable>*/}
+                    {/*</div>*/}
                     <div className={'flex justify-between'}>
                         <Editable
                             toggleType={'button'}
@@ -385,28 +385,22 @@ const Editable: FC<Props> = (props: Props) => {
                     </div>
                 </>
             );
+
             EditToggle = (
-                // !data.value.isEmailAdded && // 2FA only work for phone
-                !data.value.isPhoneAdded ? (
-                    <Switch
-                        state={
-                            // data.value.isEmailAdded || //
-                            data.value.isPhoneAdded || isEditState}
-                        handleSwitch={async () => {
-                            if (!isEditState) {
-                                await data.onSwitch?.();
-                            }
+                <Switch
+                    state={isEditState}
+                    handleSwitch={async () => {
+                        await data.onSwitch?.(isEditState)
+                        if (
+                            'value' in formData && data.value
+                            && 'isEmailAdded' in data.value
+                            && !data.value.isPhoneAdded
+                        ) {
                             toggleEditState();
-                        }}
-                        className={'justify-self-end'}
-                    />
-                ) : (
-                    <Switch
-                        state={data.value.isPhoneAdded || data.value.isEmailAdded}
-                        handleSwitch={async () => await data.onSwitch?.()}
-                        className={'justify-self-end'}
-                    />
-                )
+                        }
+                    }}
+                    className={'justify-self-end'}
+                />
             );
             break;
         case 'phone':
@@ -755,11 +749,11 @@ const Editable: FC<Props> = (props: Props) => {
 
     if (keepChildrenOnEdit) {
         return (
-            <form onSubmit={handleFormSubmit} className={'w-full overflow-x-hidden overflow-ellipsis'}>
+            <div className={'w-full overflow-x-hidden overflow-ellipsis'}>
                 <div
                     className={`flex justify-between ${isFormShown ? 'mb-[0.94rem]' : ''}`}>{children}{EditToggle}</div>
                 {isFormShown ? Form : null}
-            </form>
+            </div>
         );
     } else {
         return (

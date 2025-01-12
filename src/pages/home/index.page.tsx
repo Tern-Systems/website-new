@@ -1,10 +1,9 @@
 'use client'
 
 import React, {FC, useEffect} from "react";
-import {useRouter, useSearchParams} from "next/navigation";
+import {useSearchParams} from "next/navigation";
 
-import {Route} from "@/app/static";
-
+import {useLoginCheck} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
 import {ResetPasswordModal} from "@/app/ui/modals";
@@ -15,16 +14,16 @@ import styles from "@/app/common.module.css";
 const HomePage: FC = () => {
     const params = useSearchParams();
     const modalCtx = useModal();
-    const router = useRouter();
+    useLoginCheck();
 
     useEffect(() => {
         const token = params?.get('resetToken');
         if (token) {
             modalCtx.openModal(<ResetPasswordModal token={token}/>);
-            router.push(Route.Home);
         }
         //eslint-disable-next-line
     }, [params]);
+
 
     return (
         <div className={`${styles.highlight} max-w-[57rem]
