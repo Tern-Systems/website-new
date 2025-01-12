@@ -14,8 +14,7 @@ const useMenu = (isSingleSubLink?: boolean): [() => void, () => void] => {
     }
 
     const closeMenu = () => {
-        if (isSmScreen)
-            modalCtx.closeModal();
+        modalCtx.closeModal();
     }
 
     return [openMenu, closeMenu];
