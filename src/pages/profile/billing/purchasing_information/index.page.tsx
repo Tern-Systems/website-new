@@ -29,7 +29,7 @@ function PurchasingInformationPage() {
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
     // eslint-disable-next-line
-    const [defaultCardIdx, setDefaultCardIdx] = useState<number | null>();
+    const [defaultCardIdx, setDefaultCardIdx] = useState<number | undefined>();
     const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
 
     const router = useRouter();
@@ -61,12 +61,13 @@ function PurchasingInformationPage() {
     if (!isLoggedIn)
         return null;
 
-    const defaultCard: SavedCard | null = defaultCardIdx ? savedCards[defaultCardIdx] : null;
+    const defaultCard: SavedCard | null = defaultCardIdx !==undefined? savedCards[defaultCardIdx] : null;
 
     // Elements
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
-        if (card.preferred && defaultCardIdx === null)
+        if (card.preferred && defaultCardIdx === undefined)
             setDefaultCardIdx(idx);
+
         return (
             <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-content items-center'}>
                 <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
