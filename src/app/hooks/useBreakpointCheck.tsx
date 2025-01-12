@@ -8,7 +8,7 @@ const TailwindConfig = resolveConfig(tailwindConfig);
 
 
 const useBreakpointCheck = () => {
-    const [isSmScreen, setSmScreenState] = useState(false);
+    const [isSmScreen, setSmScreenState] = useState<boolean | null>(null);
 
     useEffect(() => {
         const handleResize = () => {
@@ -24,5 +24,6 @@ const useBreakpointCheck = () => {
 
     return isSmScreen;
 }
+
 
 export {useBreakpointCheck};

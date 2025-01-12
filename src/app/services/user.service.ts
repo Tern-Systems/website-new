@@ -10,7 +10,7 @@ import {BaseService} from "./base.service";
 type SubscriptionData = {
     name: PlanType;
     price: number;
-    tax: number;
+    tax_amount: number;
     endDate: string;
     duration: number;
     source: PlanName;
@@ -49,7 +49,7 @@ class UserServiceImpl extends BaseService implements IUserService {
                 isBasicKind: entry.name === 'Basic',
                 recurrency: entry.duration === 12 ? 'annual' : 'monthly',
                 renewDate: new Date(entry.endDate ?? 0).getTime(),
-                tax: entry.tax ?? NaN,
+                tax: entry.tax_amount ?? NaN,
                 priceUSD: entry.price ?? NaN,
             }))
 

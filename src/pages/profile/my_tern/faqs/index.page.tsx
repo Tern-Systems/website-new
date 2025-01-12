@@ -1,12 +1,15 @@
 import React, {FC, useEffect, useState} from "react";
 import cn from "classnames";
 
+import {Route} from "@/app/static";
+
+import {useBreakpointCheck, useNavigate} from "@/app/hooks";
+import {useModal} from "@/app/context";
+
 import {BaseModal} from "@/app/ui/modals";
 import {Collapsible} from "@/app/ui/misc";
 
 import styles from "@/app/common.module.css";
-import {useBreakpointCheck} from "@/app/hooks";
-import {useModal} from "@/app/context";
 
 
 const FAQs: { question: string, answer: string }[] = [
@@ -70,7 +73,18 @@ interface Props {
 }
 
 const FAQsPage: FC<Props> = (props: Props) => {
+    const isSmScreen = useBreakpointCheck();
+    const [navigate] = useNavigate();
+
     const [expandedItemIdx, setExpandedItemIdx] = useState(-1);
+
+    useEffect(() => {
+        if (isSmScreen === false)
+            navigate(Route.MyTern);
+    }, [isSmScreen, navigate])
+
+    if (!isSmScreen)
+        return null;
 
     const FAQsList = FAQs.map((faq, idx) => (
         <li key={faq.question + idx}>

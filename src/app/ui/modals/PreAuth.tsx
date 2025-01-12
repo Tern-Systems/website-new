@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import cn from "classnames";
 
 import {useModal} from "@/app/context";
@@ -6,10 +6,19 @@ import {useModal} from "@/app/context";
 import {BaseModal} from "@/app/ui/modals/Base";
 import {AuthModal} from "@/app/ui/modals/Auth";
 import {Button} from "@/app/ui/form";
+import {useBreakpointCheck} from "@/app/hooks";
 
 
 const PreAuthModal: FC = () => {
     const modalCtx = useModal();
+    const isSmScreen = useBreakpointCheck();
+
+    useEffect(() => {
+        if (isSmScreen === false)
+            modalCtx.closeModal();
+        // eslint-disable-next-line
+    }, [isSmScreen]);
+
 
     return (
         <BaseModal
