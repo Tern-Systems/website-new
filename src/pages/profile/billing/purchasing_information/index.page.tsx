@@ -61,7 +61,7 @@ function PurchasingInformationPage() {
     if (!isLoggedIn)
         return null;
 
-    const defaultCard: SavedCard | null = defaultCardIdx !==undefined? savedCards[defaultCardIdx] : null;
+    const defaultCard: SavedCard | null = defaultCardIdx !== undefined ? savedCards[defaultCardIdx] : null;
 
     // Elements
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
@@ -132,7 +132,7 @@ function PurchasingInformationPage() {
                         <h2 className={`text-header font-bold   sm:landscape:text-content`}>Billing Details</h2>
                         {Hr}
                         <div
-                            className={`grid grid-rows-2 grid-cols-[max-content,max-content]
+                            className={`grid grid-rows-2 grid-cols-[max-content,1fr]
                                         gap-y-[--1qdrs] gap-x-[min(10dvw,3rem)]
                                         sm:landscape:gap-y-[--s-d-small]`}
                         >
@@ -145,7 +145,7 @@ function PurchasingInformationPage() {
                             <span>Billing Address</span>
                             {defaultCard ? (
                                     <ul>
-                                        <li>{defaultCard.billingAddress.address}</li>
+                                        <li>{defaultCard.billingAddress.address.split('|').join('')}</li>
                                         <li>
                                             {defaultCard.billingAddress.city}, {defaultCard.billingAddress.state}&nbsp;
                                             {defaultCard.billingAddress.zip}
