@@ -173,10 +173,10 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     onSubmit={handleFormSubmit}
                     className={cn(
                         `grid auto-rows-min`,
-                        `rounded-small bg-control-navy border-small border-control-gray`,
                         'grid-cols-[minmax(0,32rem),1fr] gap-x-[min(6.4dvw,8.15rem)] p-[3rem] h-fit [&>*]:w-full',
-                        'lg:x-[gap-y-[--p-content-xxl],p-[4rem]] lg:[&>*]:col-start-2',
+                        'lg:[&>*]:col-start-2 lg:x-[gap-y-[--p-content-xxl],p-[4rem],rounded-small,bg-control-navy,border-small,border-control-gray]',
                         'md:gap-y-[--p-content]',
+                        'md:p-0',
                         'md:portrait:grid-cols-1',
                         `sm:x-[gap-y-[--p-content-xs],p-0,border-none,bg-transparent]`,
                         'sm:portrait:grid-cols-1',
@@ -188,6 +188,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                         className={cn(
                             `flex justify-center cursor-pointer`,
                             `[&]:col-start-1 row-span-6 [&_*]:x-[w-full,h-full]`,
+                            `md:row-span-1`,
                             `sm:portrait:[&_*]:w-[66dvw]`,
                             `sm:landscape:[&_*]:h-full sm:landscape:[&]:x-[col-start-2,row-start-1,row-span-4]`,
                         )}
@@ -206,55 +207,63 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     <Image
                         src={SVG_ARCH}
                         alt={'arch-logo'}
-                        className={`place-self-center h-[4rem] w-auto  lg:-mb-[1rem]  sm:hidden`}
+                        className={`hidden place-self-center h-[4rem] w-auto  lg:x-[inline,-mb-[1rem]]`}
                     />
-                    <Input
-                        type={"text"}
-                        placeholder={'Name'}
-                        value={formValue.name}
-                        onChange={setFormValue('name')}
+                    <span
                         className={cn(
-                            `px-[0.68rem] h-[2.3rem] w-full`,
-                            `lg:-mb-[0.72rem]`,
-                            `rounded-smallest border-small border-control-white bg-control-gray-l0`,
-                            `text-heading`
+                            'contents',
+                            'md:x-[flex,flex-col,gap-y-[--p-content],p-[3rem],bg-control-navy]',
+                            'md:landscape:justify-between'
                         )}
-                        required
-                    />
-                    <Input
-                        type={"file"}
-                        accept={'image/*,video/*'}
-                        onChange={(event) => {
-                            if (!event.target.files)
-                                return;
-                            const file = Array.from(event.target.files)?.[0];
-                            if (file) {
-                                setFormValueState((prevState) =>
-                                    ({...prevState, video: file, videoPath: file.name})
-                                );
-                            }
-                        }}
-                        classNameWrapper={'h-[3.125rem] rounded-full bg-control-white font-bold text-heading-s text-black'}
-                        classNameIcon={'[&_*]:w-[1rem]'}
-                        required={!arCode}
                     >
-                        {formValue.videoPath ? formValue.videoPath : 'Upload Media'}
-                    </Input>
-                    {ColorPickers}
-                    <Button
-                        type={'submit'}
-                        icon={'file'}
-                        className={cn(
-                            `px-[4.3rem] h-[3.125rem] w-full`,
-                            `rounded-full border-control-gray-l0 border-small bg-control-navy`,
-                            `text-heading-s font-bold`,
-                            `sm:border-none`,
-                            'sm:landscape:[&]:x-[flex-col,col-start-3,row-start-2,row-span-2,p-[--p-content-xs],h-full,rounded-small,text-section]'
-                        )}
-                        classNameIcon={'hidden [&_*]:w-[2.5rem]  sm:landscape:block'}
-                    >
+                        <Input
+                            type={"text"}
+                            placeholder={'Name'}
+                            value={formValue.name}
+                            onChange={setFormValue('name')}
+                            className={cn(
+                                `px-[0.68rem] h-[2.3rem] w-full`,
+                                `lg:-mb-[0.72rem]`,
+                                `rounded-smallest border-small border-control-white bg-control-gray-l0`,
+                                `text-heading`
+                            )}
+                            required
+                        />
+                        <Input
+                            type={"file"}
+                            accept={'image/*,video/*'}
+                            onChange={(event) => {
+                                if (!event.target.files)
+                                    return;
+                                const file = Array.from(event.target.files)?.[0];
+                                if (file) {
+                                    setFormValueState((prevState) =>
+                                        ({...prevState, video: file, videoPath: file.name})
+                                    );
+                                }
+                            }}
+                            classNameWrapper={'h-[3.125rem] rounded-full bg-control-white font-bold text-heading-s text-black'}
+                            classNameIcon={'[&_*]:w-[1rem]'}
+                            required={!arCode}
+                        >
+                            {formValue.videoPath ? formValue.videoPath : 'Upload Media'}
+                        </Input>
+                        {ColorPickers}
+                        <Button
+                            type={'submit'}
+                            icon={'file'}
+                            className={cn(
+                                `px-[4.3rem] h-[3.125rem] w-full`,
+                                `rounded-full border-control-gray-l0 border-small bg-control-navy`,
+                                `text-heading-s font-bold`,
+                                `sm:border-none`,
+                                'sm:landscape:[&]:x-[flex-col,col-start-3,row-start-2,row-span-2,p-[--p-content-xs],h-full,rounded-small,text-section]'
+                            )}
+                            classNameIcon={'hidden [&_*]:w-[2.5rem]  sm:landscape:block'}
+                        >
                         Save to Library
                     </Button>
+                    </span>
                 </form>
                 <ScrollEnd/>
             </div>
