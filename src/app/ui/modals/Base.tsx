@@ -13,6 +13,7 @@ interface ModalConfig extends PropsWithChildren {
     isSimple?: boolean;
     title?: string;
     onClose?: () => void;
+    preventClose?: boolean;
     className?: string;
     classNameContent?: string;
     classNameTitle?: string;
@@ -23,7 +24,7 @@ interface ModalConfig extends PropsWithChildren {
 
 const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const {
-        children, isSimple, title, onClose,
+        children, isSimple, title, onClose, preventClose,
         className, classNameContent, classNameTitle, classNameHr, adaptSmScreen, smScreenOnly
     } = props;
 
@@ -33,8 +34,9 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const isSmRulesApplied = isSmScreen && adaptSmScreen || smScreenOnly;
 
     const handleClose = () => {
-        modalCtx.closeModal();
         onClose?.();
+        if (!preventClose)
+            modalCtx.closeModal();
     }
 
     if (isSimple) {

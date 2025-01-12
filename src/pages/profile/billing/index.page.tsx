@@ -1,4 +1,5 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
+import cn from "classnames";
 
 import {Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static";
@@ -6,18 +7,20 @@ import {Route} from "@/app/static";
 import {useLoginCheck} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
+import {ScrollEnd} from "@/app/ui/misc";
 import {PageLink} from "@/app/ui/layout";
 import {HelpModal} from "@/app/ui/modals";
 
 import styles from '@/app/common.module.css'
+import {formatDate} from "@/app/utils";
 
 
 const INVOICE_TEMPLATE: Invoice = {
-    id: 111111111111,
+    id: 888888888888,
     date: Date.now(),
     to: 'John Doe',
     from: 'Tern Systems, LLC',
-    card: {cardNumber: '1111222233334444', type: 'visa', nickName: 'john doe'},
+    card: {cardNumber: '888888888888', type: 'visa', nickName: 'john doe'},
     item: {name: 'ARCH Standard Subscription', priceUSD: 10},
     subtotalUSD: 10,
     totalDue: 10.60,
@@ -30,7 +33,7 @@ const INVOICE_TEMPLATE: Invoice = {
 }
 
 
-const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE]
+const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE, INVOICE_TEMPLATE, INVOICE_TEMPLATE]
 
 
 const BillingPage: FC = () => {
@@ -55,16 +58,16 @@ const BillingPage: FC = () => {
 
     // Elements
     const OrderRows: ReactElement[] = (orders ?? []).map((order, idx) => {
-        const renderTd = (title: string | number, type?: 'first' | 'last') => {
+        const renderTd = (title: string | number, className: string, type?: 'first' | 'last') => {
             const cn = type === undefined
-                ? 'sm:hidden'
-                : 'px-[--s-dl-small] '
+                ? className
+                : 'px-[0.75rem] text-nowrap overflow-ellipsis overflow-hidden   sm:px-[0.38rem] '
                 + (type === 'first'
-                    ? `rounded-l-[0.56rem]`
-                    : `rounded-r-[0.56rem]`);
+                    ? `rounded-l-[0.56rem] sm:rounded-l-[0.18rem]`
+                    : `rounded-r-[0.56rem] sm:rounded-r-[0.18rem]`);
             return (
-                <td className={`overflow-ellipsis overflow-hidden ${cn}`}>
-                    <PageLink href={Route.Invoice} className={'hover:transform-none w-full'}>
+                <td className={cn}>
+                    <PageLink href={Route.Invoice} className={`contents hover:transform-none`}>
                         {title}
                     </PageLink>
                 </td>
@@ -74,43 +77,70 @@ const BillingPage: FC = () => {
             <tr
                 key={order.id + idx}
                 onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
-                className={`h-[min(5.3dvw,3.125rem)]  text-content odd:bg-[#b3b3b326] cursor-pointer align-middle text-nowrap
-                            hover:bg-control-gray-l0 ${styles.clickable}
-                            sm:landscape:x-[h-[3dvw],text-small]`}
+                className={cn(styles.clickable,
+                    `[&_td]:odd:bg-[#b3b3b326] cursor-pointer align-middle text-nowrap`,
+                    `text-heading-s hover:bg-control-gray-l0`,
+                    `lg:h-[3.125rem]`,
+                    `md:h-[3.57rem]`,
+                    `sm:x-[h-[--p-content-xs],text-section-xs]`,
+                    `sm:landscape:x-[h-[--p-content-xs],text-section-xs]`
+                )}
             >
-                {renderTd(order.id, 'first')}
-                {renderTd(order.date)}
-                {renderTd(order.subtotalUSD)}
-                {renderTd(order.status)}
-                {renderTd(order.item.name, 'last')}
+                {renderTd(order.id, '', 'first')}
+                {renderTd(formatDate(new Date(order.date)), 'md:hidden  sm:portrait:hidden')}
+                {renderTd(order.subtotalUSD.toFixed(2), 'before:content-["$"] before:-mr-[0.1rem]  md:hidden  sm:portrait:hidden')}
+                {renderTd(order.status, 'md:hidden  sm:hidden')}
+                {renderTd(order.item.name, '', 'last')}
             </tr>
         )
     });
 
     return (
-        <div className={`grid place-self-center text-left h-full
-                        my-auto w-[min(100%,90rem)]
-                        sm:landscape:x-[grid-rows-2,grid-cols-2,my-0]`}>
-            <h1 className={`text-section-header font-bold pb-[--1qdr]
-                            sm:mb-0
-                            sm:landscape:x-[pb-[0.5dvw],text-content]`}>
+        <div className={cn(
+            `grid auto-rows-min place-self-center h-full max-w-[90rem] w-full text-left`,
+            `lg:mt-[5.56rem]`,
+            `md:x-[mt-[--p-content-l],px-[--p-content-l]]`,
+            `sm:grid-rows-[min-content,1fr]`,
+            `sm:px-[--p-content-xs]`,
+            `sm:landscape:grid-cols-[1fr,3fr]`,
+            `sm:landscape:x-[auto-rows-auto,pt-[--p-content-xs]]`,
+        )}
+        >
+            <h1 className={cn(
+                `flex text-heading-l font-bold`,
+                `lg:pb-[1.87rem]`,
+                `md:x-[pb-[--p-content-xxs]]`,
+                `sm:x-[mb-0,text-section-s]`,
+                `sm:portrait:x-[pb-[--p-content-4xs],h-[4.69rem],items-end]`,
+                `sm:landscape:text-heading-s`,
+            )}
+            >
                 Order Information
             </h1>
-            <div className={`sm:portrait:x-[overflow-y-scroll,max-h-[65dvh]]
-                            sm:landscape:x-[contents,text-[1.2dvw]]`}>
-                <div
-                    className={`bg-control-gray overflow-hidden rounded-small h-[27rem]
-                                p-[--2dr] 
-                                sm:landscape:x-[p-[--1dr],h-full,row-span-2]`}>
-                    <div className={`overflow-y-scroll h-full text-content capitalize`}>
-                        <table className={'w-full'}>
-                            <thead className={`text-[min(2.7dvw,var(--fz-header-))] [&_td]:pb-[--1dr]
-                                                sm:text-small`}>
+            <div className={cn(
+                `sm:portrait:overflow-y-scroll sm:portrait:max-h-[calc(100%-var(--p-content-xl))]`,
+                `sm:landscape:contents`
+            )}
+            >
+                <div className={cn(
+                    `h-[27rem] bg-control-gray overflow-hidden rounded-small`,
+                    `lg:p-[--p-content]`,
+                    `md:x-[p-[--p-content-s],h-[42rem]]`,
+                    `sm:p-[--p-content-xxs]`,
+                    `sm:landscape:x-[p-[--p-content-xxs],h-full,row-span-2]`,
+                )}
+                >
+                    <div className={`h-full overflow-y-scroll capitalize`}>
+                        <table className={'w-full table-fixed'}>
+                            <thead
+                                className={`text-heading [&_td]:pb-[--p-content-xxs]   sm:text-section-3xs sm:[&_td]:pb-[--p-content-5xs]`}>
                             <tr>
-                                <td>Order No.</td>
-                                <td className={'sm:hidden'}>Date</td>
-                                <td className={'sm:hidden'}>Cost</td>
-                                <td className={'sm:hidden'}>Status</td>
+                                <td className={'lg:w-[17%]  md:w-[40%]  sm:portrait:w-[40%]  sm:landscape:w-1/4'}>Order
+                                    No.
+                                </td>
+                                <td className={'lg:w-[21%]  md:hidden  sm:portrait:hidden  sm:landscape:w-1/4'}>Date</td>
+                                <td className={'lg:w-[17%]  md:hidden  sm:portrait:hidden  sm:landscape:w-[10%]'}>Cost</td>
+                                <td className={'lg:w-[17%]  md:hidden  sm:hidden'}>Status</td>
                                 <td>Item</td>
                             </tr>
                             </thead>
@@ -118,14 +148,18 @@ const BillingPage: FC = () => {
                         </table>
                     </div>
                 </div>
-                <div className={`flex-col inline-flex
-                                gap-y-[min(2.6dvw,1.6rem)] mt-[3rem]
-                                sm:mt-[3.8rem]
-                                sm:landscape:x-[col-start-1,gap-y-[1dvw],mt-[1dvw],w-fit,self-end]`}
+                <div className={cn(
+                    `flex-col inline-flex`,
+                    `gap-y-[--p-content-s] mt-[--p-content-l] text-section-xs`,
+                    `md:x-[gap-y-[--p-content-xs],mt-[1.88rem],text-basic]`,
+                    `sm:x-[gap-y-[--p-content-4xs],mt-[--p-content-xs],text-section-xxs]`,
+                    `sm:landscape:x-[col-start-1,gap-y-[--p-content-4xs],w-fit,place-content-end,text-section-3xs]`,
+                )}
                 >
                     <span className={`font-bold
-                                    mb-[0.3rem] text-header
-                                    sm:landscape:x-[text-default,mb-0]`}
+                                    mb-[--p-content-5xs] text-heading
+                                    sm:text-basic
+                                    sm:landscape:mb-0`}
                     >
                         Additional Resources
                     </span>
@@ -139,6 +173,7 @@ const BillingPage: FC = () => {
                     </span>
                 </div>
             </div>
+            <ScrollEnd/>
         </div>
     )
 }

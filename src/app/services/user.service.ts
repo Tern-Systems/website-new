@@ -92,8 +92,8 @@ class UserServiceImpl extends BaseService implements IUserService {
                     social: [],
                 },
                 state2FA: {
-                    email: userData.email,
-                    phone: userData.phones.personal?.number ?? userData.phones.mobile?.number ?? userData.phones.business?.number ?? ''
+                    email: userData.state2FA.email,
+                    phone: userData.state2FA.phone,
                 }
             }
 

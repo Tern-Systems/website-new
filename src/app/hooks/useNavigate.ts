@@ -15,6 +15,8 @@ const useNavigate = (preventModalClosing?: boolean): [(route: Route) => Promise<
 
     useEffect(() => {
         layoutCtx.setFadeState(false);
+        if (!preventModalClosing)
+            modalCtx.closeModal();
         //eslint-disable-next-line
     }, [pageRoute]);
 
@@ -24,8 +26,6 @@ const useNavigate = (preventModalClosing?: boolean): [(route: Route) => Promise<
         layoutCtx.setFadeState(true);
         setTimeout(() => {
             router.push(route);
-            if (!preventModalClosing)
-                modalCtx.closeModal();
         }, LAYOUT.fadeDuration);
     };
 

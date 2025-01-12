@@ -23,17 +23,19 @@ interface IAuthService {
 
     postForgotPassword(email: string): Promise<void>;
 
+    postSendOTP(email: string): Promise<void>;
+
+    postLoginVerifyOTP(otp: string, userEmail: string): Promise<void>;
+
     postResetPassword(token: string, newPassword: string): Promise<void>;
 
     postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<void>
 
-    postSendOTP(email: string): Promise<void>;
+    postVerifyOTP(otp: string, userEmail: string): Promise<void>;
 
-    postVerifyOTP(otp: string, userEmail: string): Promise<boolean>;
+    post2FATurnOff(email: string): Promise<void>;
 
-    post2FATurnOff(email: string): Promise<boolean>;
-
-    post2FASavePhone(userEmail: string, phone: string): Promise<boolean>;
+    post2FASavePhone(userEmail: string, phone: string): Promise<void>;
 
     postDeleteAccount(email: string, password: string): Promise<void>;
 }
@@ -137,34 +139,96 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         }
     }
 
-    async postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<void> {
-        const [debug, error] = this.getLoggers(this.postChangePassword.name);
-
-        const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: this._API + `change-password`,
-            headers: {'Content-Type': 'application/json',},
-            data: {oldPassword, newPassword, confirmPassword, email},
-            withCredentials: true,
-        };
-
-        try {
-            debug(config);
-            const response = await axios(config);
-            debug(response);
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
-        }
-    }
-
-
-    async postSendOTP(userEmail: string): Promise<void> {
+    async postSendOTP(email: string): Promise<void> {
         const [debug, error] = this.getLoggers(this.postSendOTP.name);
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: `${this._API}send-otp`,
+            url: this._API + `send-otp`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({userEmail: email}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? error : 'Unknown error!';
+        }
+    }
+
+    async postLoginVerifyOTP(otp: string, userEmail: string): Promise<void> {
+        const [debug, error] = this.getLoggers(this.postLoginVerifyOTP.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `2FA-login-verify-otp`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({userEmail, otp}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async post2FASendOTP(email: string, phone: string): Promise<void> {
+        const [debug, error] = this.getLoggers(this.post2FASendOTP.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `2FA-send-otp`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({userEmail: email, phone: phone}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async postVerifyOTP(otp: string, userEmail: string): Promise<void> {
+        const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `2FA-verify-otp`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({otp, userEmail}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async post2FATurnOff(userEmail: string): Promise<void> {
+        const [debug, error] = this.getLoggers(this.post2FATurnOff.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `2FA-turn-off`,
             data: {userEmail},
             withCredentials: true,
         };
@@ -179,50 +243,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         }
     }
 
-    async postVerifyOTP(otp: string, userEmail: string): Promise<boolean> {
-        const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
-
-        const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: `${this._API}2FA-verify-otp`,
-            data: {otp, userEmail},
-            withCredentials: true,
-        };
-
-        try {
-            debug(config);
-            const response = await axios(config);
-            debug(response);
-            return response.data.success;
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
-        }
-    }
-
-    async post2FATurnOff(userEmail: string): Promise<boolean> {
-        const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
-
-        const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: `${this._API}2FA-turn-off`,
-            data: {userEmail},
-            withCredentials: true,
-        };
-
-        try {
-            debug(config);
-            const response = await axios(config);
-            debug(response);
-            return response.data.success;
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
-        }
-    }
-
-    async post2FASavePhone(userEmail: string, phone: string ): Promise<boolean> {
-                const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
+    async post2FASavePhone(userEmail: string, phone: string): Promise<void> {
+        const [debug, error] = this.getLoggers(this.post2FASavePhone.name);
 
         const config: AxiosRequestConfig = {
             method: 'POST',
@@ -236,7 +258,6 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return response.data.success;
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
@@ -244,7 +265,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     }
 
     async postDeleteAccount(email: string, confirm: string): Promise<void> {
-        const [debug, error] = this.getLoggers(this.postSendOTP.name);
+        const [debug, error] = this.getLoggers(this.postDeleteAccount.name);
 
         const config: AxiosRequestConfig = {
             method: 'POST',
@@ -259,6 +280,27 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             const response = await axios(config);
             debug(response);
             return response.data.success;
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
+
+    async postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<void> {
+        const [debug, error] = this.getLoggers(this.postChangePassword.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + 'change-password',
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({oldPassword, newPassword, confirmPassword, email}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';

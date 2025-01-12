@@ -91,7 +91,7 @@ interface UserData {
 
 interface IUserContext {
     userData: UserData | null;
-    isLoggedIn: boolean;
+    isLoggedIn: null | boolean;
     token: string | null;
     setSession: (data: UserData, token: string) => void;
     removeSession: () => void;
@@ -101,7 +101,7 @@ interface IUserContext {
 const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-    const [isLoggedIn, setLoggedState] = useState(false);
+    const [isLoggedIn, setLoggedState] = useState<boolean | null>(null);
     const [userData, setUserDataHelper] = useState<UserData | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
@@ -128,6 +128,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
         const token = localStorage.getItem("token");
         if (token) fetchUserData(token);
+        else setLoggedState(false);
     }, []);
 
     return (
