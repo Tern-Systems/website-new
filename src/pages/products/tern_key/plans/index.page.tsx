@@ -15,7 +15,7 @@ const PLAN_TEMPLATE: SubscriptionPreview = {
   type: {
     Basic: {
       icon: SVG_DIAMOND_ACE,
-      priceUSD: { monthly: 8, annual: 10 },
+      priceUSD: { monthly: 0, annual: 0 },
       benefits: [
         "Unlimited Key drafts",
         "10 daily Key compositions",

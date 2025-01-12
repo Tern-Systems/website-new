@@ -13,7 +13,7 @@ enum Route {
 
     // /service
     Services = '/services',
-    ARCodeToolCreate = '/services/creation_tool',
+    ARCodeToolCreate = '/services/create',
     ARCodeToolEdit = '/services/saved_codes/edit',
     ServiceUserManual = '/services/user_manual',
     ServicePricing = '/services/plans',

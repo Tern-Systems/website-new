@@ -253,7 +253,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                         )}
                         classNameIcon={'hidden [&_*]:w-[2.5rem]  sm:landscape:block'}
                     >
-                        Save AR Code
+                        Save to Library
                     </Button>
                 </form>
                 <ScrollEnd/>
