@@ -13,11 +13,11 @@ import {ARCHService} from "@/app/services";
 import {useForm, useNavigate, useSaveOnLeave} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
+import {ScrollEnd} from "@/app/ui/misc";
 import {AuthModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
-import SVG_ARCH from "@/assets/images/arch-logo.svg";
-import {ScrollEnd} from "@/app/ui/misc";
+import SVG_ARCH from "/public/images/arch-logo.svg";
 
 
 type ARCodeToolForm =

@@ -2,17 +2,15 @@ import React, {ReactElement} from "react";
 
 import {DocumentationContent} from "@/app/types/documentation";
 import {Route} from "@/app/static";
-
-import {CONTENTS} from "@/pages/profile/my_tern/documentation/[content]/index.page";
+import {COMING_SOON_DOC} from "@/app/static/documentation";
 
 import {DocumentationScreen} from "@/app/ui/templates";
 import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
 
 
-const DOCUMENTATION_CONTENTS: Record<Route.ServiceUserManual, DocumentationContent> = {
-    [Route.ServiceUserManual]: CONTENTS[Route.ARCHDoc],
+const DOCUMENTATION_CONTENTS: Record<Route.DotProductManual, DocumentationContent> = {
+    [Route.DotProductManual]: COMING_SOON_DOC,
 }
-
 
 function UserManualPage() {
     return <DocumentationScreen contents={DOCUMENTATION_CONTENTS}/>;

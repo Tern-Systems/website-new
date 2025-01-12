@@ -21,8 +21,8 @@ import {Button} from "@/app/ui/form";
 import {LimitsModal} from "./LimitsModal";
 import {Collapsible, ScrollEnd} from "@/app/ui/misc";
 
-import SVG_BULLET from "@/assets/images/icons/bullet.svg";
-import SVG_STAR from "@/assets/images/icons/star.svg";
+import SVG_BULLET from "/public/images/icons/bullet.svg";
+import SVG_STAR from "/public/images/icons/star.svg";
 
 import styles from "@/app/common.module.css";
 

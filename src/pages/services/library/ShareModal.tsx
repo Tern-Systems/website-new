@@ -26,9 +26,9 @@ import {BaseModal} from "@/app/ui/modals";
 import styles from '@/app/common.module.css';
 
 
-import SVG_FIGURE_FALLBACK from '@/assets/images/figure.svg';
-import SVG_CHEVRON from '@/assets/images/icons/chewron.svg';
-import SVG_COPY from '@/assets/images/icons/copy.svg';
+import SVG_FIGURE_FALLBACK from '/public/images/figure.svg';
+import SVG_CHEVRON from '/public/images/icons/chewron.svg';
+import SVG_COPY from '/public/images/icons/copy.svg';
 
 
 const ICONS = [ // TODO

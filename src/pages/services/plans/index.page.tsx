@@ -5,8 +5,8 @@ import {SubscriptionPreview} from "@/app/types/subscription";
 
 import {PricingAndPlansScreen} from "@/app/ui/templates";
 
-import SVG_DIAMOND_ACE from "@/assets/images/icons/diamond-ace.svg";
-import SVG_DIAMOND from "@/assets/images/icons/diamond.svg";
+import SVG_DIAMOND_ACE from "/public/images/icons/diamond-ace.svg";
+import SVG_DIAMOND from "/public/images/icons/diamond.svg";
 
 
 const PLAN_TEMPLATE: SubscriptionPreview = {

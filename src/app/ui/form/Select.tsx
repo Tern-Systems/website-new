@@ -11,7 +11,7 @@ import React, {
 import Image from "next/image";
 import cn from "classnames";
 
-import SVG_CHEVRON from "@/assets/images/icons/chewron.svg";
+import SVG_CHEVRON from "/public/images/icons/chewron.svg";
 
 
 const EMPTY_KEY = '';

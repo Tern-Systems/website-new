@@ -9,8 +9,8 @@ import {DocumentationScreen} from "@/app/ui/templates";
 import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
 
 
-const DOCUMENTATION_CONTENTS: Record<Route.ServiceUserManual, DocumentationContent> = {
-    [Route.ServiceUserManual]: CONTENTS[Route.ARCHDoc],
+const DOCUMENTATION_CONTENTS: Record<Route.TernKeyProductManual, DocumentationContent> = {
+    [Route.TernKeyProductManual]: CONTENTS[Route.TernKeyDoc],
 }
 
 

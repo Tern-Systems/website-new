@@ -25,7 +25,7 @@ enum NavLink {Nav, SubNav, Sub2Nav}
 type NavLinks = [Route[], Route [] | null, Route[] | null];
 
 
-const NAV_LINKS: Route[] = [Route.About, Route.Products, Route.Services, Route.Contact];
+const NAV_LINKS: Route[] = [Route.About, Route.Products, Route.Services, Route.Contact, Route.AllWays];
 const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit, Route.Dot, Route.TernKey];
 
 
@@ -70,6 +70,18 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 break;
             case Route.Credo:
                 links = [Route.Credo];
+                if (isSmScreen)
+                    subNavLinks = links;
+                break;
+            case Route.AllWays:
+                links = [Route.AllWays, Route.TBD, Route.TBD, Route.TBD];
+                if (isSmScreen)
+                    subNavLinks = links;
+                else
+                    sub2NavLinks = links;
+                break;
+            case Route.TBD:
+                links = [Route.AllWays, Route.TBD, Route.TBD, Route.TBD];
                 if (isSmScreen)
                     subNavLinks = links;
                 else

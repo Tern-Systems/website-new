@@ -3,9 +3,9 @@ import Image from "next/image";
 
 import styles from '@/app/common.module.css'
 
-import SVG_UPLOAD from "@/assets/images/icons/upload.png";
-import SVG_COLOR_PICKER_BORDER from "@/assets/images/color-picker-border.svg";
-import SVG_EYE from "@/assets/images/icons/eye.svg";
+import SVG_UPLOAD from "/public/images/icons/upload.png";
+import SVG_COLOR_PICKER_BORDER from "/public/images/color-picker-border.svg";
+import SVG_EYE from "/public/images/icons/eye.svg";
 import {ReactSVG} from "react-svg";
 
 

@@ -1,14 +1,14 @@
 const getRouteName = (route: string | undefined, joinWords = false): string | undefined => route
     ?.split('/')
     .pop()
-    ?.match(/([A-Z][a-z]*)/g)
-    ?.map(route => route)
+    ?.split('_')
+    ?.filter(value => value)
+    ?.map(value => value.charAt(0).toUpperCase() + value.slice(1))
     ?.reduce(
-        (result, char) => result + (char.match(/[A-Z][a-z]+/g) ? (joinWords ? '' : ' ') + char : char)
+        (result, char) => result + ((joinWords ? '' : ' ') + char)
         , ''
-    )
-    .split('And')
-    .join(' and ');
+    );
+
 
 const getRouteRoot = (route: string | null): string => '/' + route?.split('/')?.[1];
 

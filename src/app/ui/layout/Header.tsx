@@ -16,7 +16,7 @@ import {Button} from "@/app/ui/form";
 
 import styles from '@/app/common.module.css'
 
-import SVG_PROFILE from "@/assets/images/icons/profile.svg";
+import SVG_PROFILE from "/public/images/icons/profile.svg";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
@@ -81,8 +81,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     icon={!isActive && isSmScreen ? 'forward' : undefined}
                     className={`relative justify-center ${isActive && !layoutCtx.isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
                 />
-                {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1 ?
-                    <span>/</span> : null}
+                {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1
+                    ? <span>/</span>
+                    : null}
             </span>
         );
     });
@@ -91,7 +92,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         ? null
         : (
             layoutCtx.navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
-                const isActive = checkSubRoute(route, link, true);
+                const isActive = checkSubRoute(route, link);
+                const isActiveCN = checkSubRoute(route, link, true);
+
                 return (
                     <PageLink
                         key={link + idx}
@@ -100,11 +103,11 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         className={cn(`relative justify-center`,
                             {
                                 ['[&]:border-t-0']: idx === 0,
-                                [ACTIVE_ROUTE_CN]: isActive
+                                [ACTIVE_ROUTE_CN]: isActiveCN
                             }
                         )}
                     >
-                        {getRouteName(route && MAPPED_SUB_NAV_ROUTES?.[link] ? MAPPED_SUB_NAV_ROUTES[link] : link)}
+                        {getRouteName(isActive && MAPPED_SUB_NAV_ROUTES?.[link] ? MAPPED_SUB_NAV_ROUTES[link] : link)}
                     </PageLink>
                 );
             })
@@ -205,7 +208,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         className={`lg:hidden md:hidden`}
                         classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
                     />
-                    <ul className={`flex cursor-pointer text-content-small sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
+                    <ul className={`flex text-content-small sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
                         {NavLinks}
                     </ul>
                 </nav>
@@ -213,7 +216,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             </div>
             <ul className={cn(
                 `relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small`,
-                `border-section cursor-pointer`,
+                `border-section`,
                 SubNavItemsMdLg?.length ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut,
                 `sm:hidden`
             )}
