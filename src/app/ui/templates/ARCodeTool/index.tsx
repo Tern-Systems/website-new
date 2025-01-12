@@ -1,6 +1,7 @@
-import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
+import React, {FC, FormEvent, useCallback, useEffect} from "react";
 import Image from "next/image";
 import {useQRCode} from "next-qrcode";
+import cn from "classnames";
 
 import {SubscriptionBase} from "@/app/types/subscription";
 import {ARCode} from "@/app/types/arcode";
@@ -9,9 +10,10 @@ import {Route} from "@/app/static";
 
 import {ARCHService} from "@/app/services";
 
-import {useBreakpointCheck, useForm, useNavigate, useSaveOnLeave} from "@/app/hooks";
+import {useForm, useNavigate, useSaveOnLeave} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
 
+import {ScrollEnd} from "@/app/ui/misc";
 import {AuthModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
@@ -32,7 +34,6 @@ const FORM_DEFAULT: ARCodeToolForm = {
     qrCodeUrl: '',
 }
 const FORM_COLOR_PICKERS = ['module', 'background'];
-const MAX_AR_CODE_WIDTH = 440;
 
 
 interface Props {
@@ -46,10 +47,8 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     const modalCtx = useModal();
     const {isLoggedIn, userData} = useUser();
     const [navigate] = useNavigate();
-    const isSmScreen = useBreakpointCheck();
     const {SVG} = useQRCode();
 
-    const [qrSize, setQrSize] = useState(MAX_AR_CODE_WIDTH);
     const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>(
         (arCode
             ? {
@@ -113,14 +112,6 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     }, [setFormValueState, arCode])
 
 
-    useEffect(() => {
-        const handleResize = () => setQrSize(Math.min(MAX_AR_CODE_WIDTH, MAX_AR_CODE_WIDTH * window.innerWidth / 1100));
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -159,7 +150,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 type={'color'}
                 value={formValue[key]}
                 style={{backgroundColor: formValue[key]}}
-                classNameLabel={'text-[min(8dvw,1.875rem)]'}
+                classNameLabel={'text-[1.875rem]'}
                 onChange={setFormValue(key)}
                 required
             >
@@ -171,63 +162,111 @@ const ARCodeTool: FC<Props> = (props: Props) => {
 
     // Generate QR code as data URL
     return (
-        <div
-            className={`flex place-self-center my-auto p-[4rem] w-[min(90dvw,69rem)] bg-control-navy border-small border-control-gray rounded-small
-                        sm:bg-transparent sm:flex-col sm:border-none sm:p-0 place-items-center`}>
-            <div
-                className={`mr-[min(6.4dvw,7.7rem)] cursor-pointer content-center place-items-center place-self-center   sm:mr-0 sm:mb-[5.3dvw]`}>
-                <SVG
-                    text={'https://arch.tern.ac/' + arCode?.mediaId}
-                    options={{
-                        width: qrSize,
-                        margin: 1,
-                        color: {
-                            dark: formValue.backgroundColor,
-                            light: formValue.moduleColor,
-                        }
-                    }}
-                />
-            </div>
-            <form
-                className={'flex flex-col justify-between w-[min(100%,21rem)] gap-y-[min(5.3dvw,1.3rem)] ml-auto sm:ml-0'}
-                onSubmit={handleFormSubmit}
+        <div className={'flex my-auto w-full h-full px-[--p-content-xs] justify-center items-center'}>
+            <div className={cn(
+                `h-[calc(100%-2*var(--p-content-xxl))] content-center`,
+                'sm:overflow-y-scroll',
+                'sm:landscape:h-[calc(100%-var(--p-content-xs))]',
+            )}
             >
-                <Image src={SVG_ARCH} alt={'arch-logo'}
-                       className={`h-[4rem] w-auto place-self-center ${isSmScreen ? 'hidden' : ''}`}/>
-                <Input
-                    type={"text"}
-                    placeholder={'Name'}
-                    value={formValue.name}
-                    onChange={setFormValue('name')}
-                    className={`px-[min(3.4dvw,0.68rem)] h-[min(10dvw,2.3rem)] w-full text-header bg-control-gray-l0
-                                border-small border-control-white rounded-smallest`}
-                    required
-                />
-                <Input
-                    type={"file"}
-                    accept={'image/*,video/*'}
-                    onChange={(event) => {
-                        if (!event.target.files)
-                            return;
-                        const file = Array.from(event.target.files)?.[0];
-                        if (file) {
-                            setFormValueState((prevState) =>
-                                ({...prevState, video: file, videoPath: file.name})
-                            );
-                        }
-                    }}
-                    classNameWrapper={'h-[min(13dvw,3.1rem)] font-bold text-content text-black bg-control-white rounded-full'}
-                    required={!arCode}
+                <form
+                    onSubmit={handleFormSubmit}
+                    className={cn(
+                        `grid auto-rows-min`,
+                        'grid-cols-[minmax(0,32rem),1fr] gap-x-[min(6.4dvw,8.15rem)] p-[3rem] h-fit [&>*]:w-full',
+                        'lg:[&>*]:col-start-2 lg:x-[gap-y-[--p-content-xxl],p-[4rem],rounded-small,bg-control-navy,border-small,border-control-gray]',
+                        'md:gap-y-[--p-content]',
+                        'md:p-0',
+                        'md:portrait:grid-cols-1',
+                        `sm:x-[gap-y-[--p-content-xs],p-0,border-none,bg-transparent]`,
+                        'sm:portrait:grid-cols-1',
+                        `sm:landscape:gap-[--p-content-xs]`,
+                        `sm:landscape:grid-cols-[minmax(21rem,17fr),10fr,10rem] sm:landscape:[&>*]:col-start-1`,
+                    )}
                 >
-                    {formValue.videoPath ? formValue.videoPath : 'Upload Media'}
-                </Input>
-                {ColorPickers}
-                <Button
-                    className={`px-[4.3rem] h-[min(13dvw,3.1rem)] text-content font-bold border-small border-control-gray-l0
-                                rounded-full bg-control-navy    sm:border-none`}>
-                    Save AR Code
-                </Button>
-            </form>
+                    <div
+                        className={cn(
+                            `flex justify-center cursor-pointer`,
+                            `[&]:col-start-1 row-span-6 [&_*]:x-[w-full,h-full]`,
+                            `md:row-span-1`,
+                            `sm:portrait:[&_*]:w-[66dvw]`,
+                            `sm:landscape:[&_*]:h-full sm:landscape:[&]:x-[col-start-2,row-start-1,row-span-4]`,
+                        )}
+                    >
+                        <SVG
+                            text={'https://arch.tern.ac/' + arCode?.mediaId}
+                            options={{
+                                margin: 1,
+                                color: {
+                                    dark: formValue.backgroundColor,
+                                    light: formValue.moduleColor,
+                                }
+                            }}
+                        />
+                    </div>
+                    <Image
+                        src={SVG_ARCH}
+                        alt={'arch-logo'}
+                        className={`hidden place-self-center h-[4rem] w-auto  lg:x-[inline,-mb-[1rem]]`}
+                    />
+                    <span
+                        className={cn(
+                            'contents',
+                            'md:x-[flex,flex-col,gap-y-[--p-content],p-[3rem],bg-control-navy]',
+                            'md:landscape:justify-between'
+                        )}
+                    >
+                        <Input
+                            type={"text"}
+                            placeholder={'Name'}
+                            value={formValue.name}
+                            onChange={setFormValue('name')}
+                            className={cn(
+                                `px-[0.68rem] h-[2.3rem] w-full`,
+                                `lg:-mb-[0.72rem]`,
+                                `rounded-smallest border-small border-control-white bg-control-gray-l0`,
+                                `text-heading`
+                            )}
+                            required
+                        />
+                        <Input
+                            type={"file"}
+                            accept={'image/*,video/*'}
+                            onChange={(event) => {
+                                if (!event.target.files)
+                                    return;
+                                const file = Array.from(event.target.files)?.[0];
+                                if (file) {
+                                    setFormValueState((prevState) =>
+                                        ({...prevState, video: file, videoPath: file.name})
+                                    );
+                                }
+                            }}
+                            classNameWrapper={'h-[3.125rem] rounded-full bg-control-white font-bold text-heading-s text-black'}
+                            classNameIcon={'[&_*]:w-[1rem]'}
+                            required={!arCode}
+                        >
+                            {formValue.videoPath ? formValue.videoPath : 'Upload Media'}
+                        </Input>
+                        {ColorPickers}
+                        <Button
+                            type={'submit'}
+                            icon={'file'}
+                            className={cn(
+                                `px-[4.3rem] h-[3.125rem] w-full`,
+                                `rounded-full border-control-gray-l0 border-small bg-control-navy`,
+                                `text-heading-s font-bold`,
+                                `sm:border-none`,
+                                'sm:landscape:[&]:x-[flex-col,col-start-3,row-start-2,row-span-2,p-[--p-content-xs],h-full,rounded-small,text-section]'
+                            )}
+                            classNameIcon={'hidden [&_*]:w-[2.5rem]  sm:landscape:block'}
+                        >
+                        Save to Library
+                    </Button>
+                    </span>
+                </form>
+                <ScrollEnd/>
+            </div>
         </div>
     );
 }

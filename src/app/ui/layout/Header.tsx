@@ -17,12 +17,13 @@ import {Button} from "@/app/ui/form";
 import styles from '@/app/common.module.css'
 
 import SVG_PROFILE from "/public/images/icons/profile.svg";
+import {getRouteLeave} from "@/app/utils/router";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
 
 
-const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.25rem] after:w-[2.5rem] after: after:border-b-small after:border-control-blue`;
+const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.3rem] after:w-[2.5rem] after:border-b-[2px] after:border-control-blue`;
 
 
 interface Props {
@@ -107,7 +108,10 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                             }
                         )}
                     >
-                        {getRouteName(isActive && MAPPED_SUB_NAV_ROUTES?.[link] ? MAPPED_SUB_NAV_ROUTES[link] : link)}
+                        {getRouteName(
+                            isActive && MAPPED_SUB_NAV_ROUTES?.[link] ? MAPPED_SUB_NAV_ROUTES[link] : link,
+                            getRouteLeave(link) === getRouteLeave(Route.TernKey)
+                        )}
                     </PageLink>
                 );
             })
@@ -179,7 +183,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 key={name + idx}
                 onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>, {darkenBg: true})}
                 className={`px-[0.75rem] py-[0.2rem] rounded-full border-small border-section font-bold capitalize 
-                            text-[1rem] ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
+                            text-basic ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
             >
                 {name}
             </Button>
@@ -187,7 +191,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     return (
-        <header className={'text-[1rem] leading-none'}>
+        <header className={'text-basic leading-none'}>
             <div className={cn(
                 `relative z-[2] flex justify-between items-center`,
                 `px-[--p-content-l] w-full h-[5.13rem]`,
@@ -208,14 +212,14 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         className={`lg:hidden md:hidden`}
                         classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
                     />
-                    <ul className={`flex text-content-small sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
+                    <ul className={`flex cursor-pointer text-section-s sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
                         {NavLinks}
                     </ul>
                 </nav>
                 <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
             </div>
             <ul className={cn(
-                `relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-content-small`,
+                `relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-section-s`,
                 `border-section`,
                 SubNavItemsMdLg?.length ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut,
                 `sm:hidden`

@@ -12,13 +12,13 @@ enum Route {
     Privacy = '/privacy',
 
     // /service
-    Service = '/service',
-    ARCodeToolCreate = '/service/creation_tool',
-    ARCodeToolEdit = '/service/saved_codes/edit',
-    ServiceUserManual = '/service/user_manual',
-    ServicePricing = '/service/plans',
+    Services = '/services',
+    ARCodeToolCreate = '/services/create',
+    ARCodeToolEdit = '/services/library/edit',
+    ServiceUserManual = '/services/user_manual',
+    ServicePricing = '/services/plans',
     ServiceSubscribe = '/subscribe/arch',
-    SavedCodes = '/service/library',
+    SavedCodes = '/services/library',
 
     // /product
     Products = '/products',

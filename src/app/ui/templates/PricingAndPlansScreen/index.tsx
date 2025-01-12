@@ -21,10 +21,11 @@ import {Button} from "@/app/ui/form";
 import {LimitsModal} from "./LimitsModal";
 import {Collapsible, ScrollEnd} from "@/app/ui/misc";
 
+import styles from '@/app/common.module.css'
+
+import SVG_BULLET_DASHED from "/public/images/icons/bullet-dashed.svg";
 import SVG_BULLET from "/public/images/icons/bullet.svg";
 import SVG_STAR from "/public/images/icons/star.svg";
-
-import styles from "@/app/common.module.css";
 
 
 const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ["monthly", "annual"];
@@ -75,22 +76,37 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 modalCtx.openModal(<HelpModal type={"brc"}/>, {darkenBg: true})
             }
         >
-      billing resolution center
-    </span>
+          billing resolution center
+        </span>
     );
 
     const renderColumn = (
+        firstPlanType: PlanType,
         userSubscription: SubscriptionBase | undefined,
         type: PlanType,
         data: SubscriptionPreviewData | undefined,
         idx: number,
+        isProUser: boolean,
+        isCurrentSubscription: boolean,
         cutBasicColumn: boolean,
     ): ReactElement => {
+        const isAnnualRecurrency = selectedRecurrency.toLocaleLowerCase() === 'annual'.toLocaleLowerCase();
+        const isCurrentRecurrency = userSubscription?.recurrency.toLocaleLowerCase() === selectedRecurrency.toLocaleLowerCase();
+        const isCurrentType = userSubscription?.type.toLocaleLowerCase() === type.toLocaleLowerCase();
+        const {isBasicKind} = subscriptionData ?? {};
+        const isBasicPlan = type.toLocaleLowerCase() === 'Basic'.toLocaleLowerCase();
+
+        const isBtnDisabled = isCurrentSubscription && isCurrentRecurrency && isCurrentType || isBasicPlan;
+
         const benefitsData = data?.benefits ?? generateFallbackEntries(5);
+        const benefitsIcon = !isBtnDisabled
+            ? SVG_BULLET_DASHED
+            : (type === 'Pro' ? SVG_STAR : SVG_BULLET);
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
             <li key={type + subIndex}
-                className={'flex items-start gap-x-[--p-content-4xs] whitespace-pre-wrap leading-[120%]'}>
-                <Image src={type === 'Pro' ? SVG_STAR : SVG_BULLET} alt={'list-icon'} className={'inline'}/>
+                className={'flex items-start gap-x-[--p-content-4xs] whitespace-pre-wrap leading-[120%]'}
+            >
+                <Image src={benefitsIcon} alt={'list-icon'} className={'inline [&]:size-[1rem]'}/>
                 <span>{benefit}</span>
             </li>
         ));
@@ -98,120 +114,89 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         if (idx) {
             const Additional = (
                 <div key={"additional"}>
-                    <span>Everything in {type}, and:</span>
+                    <span>Everything in {firstPlanType}, and:</span>
                 </div>
             );
             Benefits.unshift(Additional);
         }
 
-        const isAnnualSwitchOption = selectedRecurrency === "annual";
-        const isBasicPlan = type === "Basic";
-        const hasUserBasicPlan = userSubscription?.type === 'Basic';
-        const isUserMonthlySubscriber = userSubscription
-            ? userSubscription.recurrency === "monthly"
-            : false;
-        const isCurrentPlan = userSubscription
-            ? userSubscription.type === type
-            : false;
-        const isCurrentRecurrency = userSubscription
-            ? userSubscription.recurrency === selectedRecurrency
-            : false;
-        const isBtnDisabled =
-            (isBasicPlan && subscriptionData?.isBasicKind) ||
-            (isCurrentPlan && isCurrentRecurrency) ||
-            !subscriptionData;
 
-        let subscribeBtnText: string | ReactElement;
-        let Links: ReactElement | null;
         const Limits: ReactElement = (
             <span
                 className={"underline cursor-pointer"}
                 onClick={() => modalCtx.openModal(<LimitsModal/>, {darkenBg: true})}
             >
-            Limits apply
-          </span>
+                Limits apply
+            </span>
         );
 
-        if (isCurrentRecurrency || isBasicPlan || hasUserBasicPlan || !userSubscription) {
-            if (isCurrentPlan || isBasicPlan || !userSubscription) {
-                subscribeBtnText = isBtnDisabled || isBasicPlan ? "Your current plan" : "Subscribe";
-                Links =
-                    isBasicPlan
-                        ? (
-                            <span>
-                                Have an existing plan? See the&nbsp;
-                                <span onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
-                                      className={`${styles.clickable} underline`}>
-                                    billing resolution center
-                                </span>
-                            </span>
-                        )
-                        : (
-                            <>
-                                <span className={`${LINKS_MB_CN} underline`}>
-                                    <PageLink
-                                        href={Route.ManageSubscriptions}
-                                        className={"cursor-pointer"}
-                                    >
-                                        Manage subscription
-                                    </PageLink>
-                                </span>
-                                <span className={"first-letter:capitalize"}>
-                                    {BillingResolution}
-                                </span>
-                            </>
-                        );
-            } else {
-                subscribeBtnText = (
-                    <>
-                        {idx + +cutBasicColumn ? "Up" : "Down"}grade to&nbsp;
-                        <span className={"capitalize"}>{type}</span>
-                    </>
-                );
-                const billedText = isAnnualSwitchOption
-                    ? (
-                        <span className={LINKS_MB_CN}>
-                           *Price billed annually
+        let subscribeBtnText: string | ReactElement = userSubscription && isBasicKind && !isProUser ? 'Upgrade to Pro' : 'Subscribe';
+        let Links: ReactElement = Limits;
+
+        if (isBtnDisabled || isBasicPlan) {
+            subscribeBtnText = 'Your current plan';
+            Links = isBasicPlan
+                ? (
+                    <span>
+                        Have an existing plan? See the&nbsp;
+                        <span onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
+                              className={`${styles.clickable} underline`}>
+                            billing resolution center
                         </span>
-                    )
-                    : null;
-                Links = (
+                    </span>
+                )
+                : (
                     <>
-                        {billedText}
-                        {Limits}
+                        <span className={`${LINKS_MB_CN} underline`}>
+                            <PageLink
+                                href={Route.ManageSubscriptions}
+                                className={"cursor-pointer"}
+                            >
+                                Manage subscription
+                            </PageLink>
+                        </span>
+                        <span className={"first-letter:capitalize"}>
+                            {BillingResolution}
+                        </span>
                     </>
                 );
-            }
-        } else {
+        } else if (!isCurrentType && userSubscription) {
             subscribeBtnText = (
                 <>
-                    Switch to&nbsp;
-                    <span className={"capitalize"}>
-                        {PLAN_TIME_RANGE[+isUserMonthlySubscriber]}
-                    </span>
-                    &nbsp;Plan
+                    {idx + +cutBasicColumn ? "Up" : "Down"}grade to&nbsp;
+                    <span className={"capitalize"}>{type}</span>
                 </>
             );
+        } else if (!isCurrentRecurrency) {
+            subscribeBtnText = isBasicKind && !isProUser || !isCurrentSubscription
+                ? subscribeBtnText
+                : (
+                    <>
+                        Switch to&nbsp;
+                        <span className={"capitalize"}>
+                            {PLAN_TIME_RANGE[+isAnnualRecurrency]}
+                        </span>
+                        &nbsp;Plan
+                    </>
+                );
+        }
 
-            const billedText = isAnnualSwitchOption
-                ? (
+        const showAsterisk = isAnnualRecurrency && !isBasicPlan && !isBtnDisabled;
+
+        if (showAsterisk) {
+            Links = (
+                <>
                     <span className={LINKS_MB_CN}>
                        *Price billed annually
                     </span>
-                )
-                : null;
-
-            Links = (
-                <>
-                    {billedText}
-                    {Limits}
+                    {Links}
                 </>
             );
         }
 
         const pricing: string = data
             ? data.priceUSD[selectedRecurrency]
-                ? "$" + data.priceUSD[selectedRecurrency].toFixed(2) + "/month"
+                ? "$" + data.priceUSD[selectedRecurrency] + "/month"
                 : "Free"
             : "--";
 
@@ -235,7 +220,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     'sm:landscape:text-section-s'
                 )}
                 >
-                    <span>{pricing + (isAnnualSwitchOption ? '*' : '')}</span>
+                    <span>{pricing + (showAsterisk ? '*' : '')}</span>
                 </div>
                 <Button
                     onClick={() => handleSubscribeClick(type)}
@@ -260,8 +245,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 expandedState={[!isSmScreen]}
                 collapsedContent={CollapsedContentSm}
                 classNameWrapper={cn(
-                    `[&]:self-center [&]:max-w-[25rem] [&]:w-full border-small border-control-white-d0 text-left`,
-                    `lg:[&&]:h-full`,
+                    `[&]:self-start [&]:max-w-[25rem] [&]:w-full border-small border-control-white-d0 text-left`,
+                    `lg:h-full`,
                     `sm:x-[p-[--p-content-xxs],border-none]`,
                     `sm:landscape:[&]:x-[self-start,max-w-[21rem]]`,
                 )}
@@ -290,14 +275,18 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
     const renderColumns = (): ReactElement[] => {
         const {userData} = userCtx;
-        const userSubscription: SubscriptionBase | undefined =
-            userData?.subscriptions.find(
-                (subscription: SubscriptionBase) =>
-                    subscription.subscription === subscriptionData?.subscription
-            );
+        const userSubscription: SubscriptionBase | undefined = userData?.subscriptions.find(
+            (subscription: SubscriptionBase) =>
+                subscription.subscription === subscriptionData?.subscription
+        );
+
+        const isProUser = userSubscription?.type.toLocaleLowerCase() === 'Pro'.toLocaleLowerCase();
+        const isCurrentSubscription = userSubscription?.subscription.toLocaleLowerCase() === subscriptionData?.subscription.toLocaleLowerCase();
+
         const cutBasicColumn =
-            subscriptionData?.isBasicKind === true &&
-            userSubscription?.type !== "Basic";
+            subscriptionData?.isBasicKind === true
+            && isCurrentSubscription
+            && isProUser;
 
         const columnsData = subscriptionData?.type
             ? Object.entries(subscriptionData.type)
@@ -305,7 +294,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             : generateFallbackEntries(cutBasicColumn ? 1 : 2);
 
         return (columnsData as [PlanType, SubscriptionPreviewData][]).map(
-            ([type, data], idx) => renderColumn(userSubscription, type, data, idx, cutBasicColumn)
+            ([type, data], idx, columns) => renderColumn(columns[0][0], userSubscription, type, data, idx, isProUser, isCurrentSubscription, cutBasicColumn)
         );
     };
 
@@ -326,30 +315,40 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     return (
         <div className={cn(
             `flex flex-col h-full`,
-            `lg:x-[mt-[5.62rem]]`,
             `sm:pb-[--p-content-xxl]`,
             `sm:landscape:mt-[1.81rem]`,
         )}
         >
-            <div className={'content-end sm:pb-[--p-content-xxs] sm:portrait:h-[6.75rem]'}>
+            <div className={cn(
+                'flex items-end justify-center sm:pb-[--p-content-xxs]',
+                `lg:x-[mb-[--p-content],min-h-[5rem]]`,
+                `sm:portrait:h-[6.75rem]`,
+            )}>
                 <div className={cn(
-                    `flex place-self-center p-[0.2rem] border-small rounded-full text-section-xs`,
+                    `flex p-[0.2rem] w-fit h-fit border-small rounded-full text-section-xs`,
                 )}
                 >
                     {Switch}
                 </div>
             </div>
             <div className={cn(
-                'flex gap-x-[--p-content-3xl] w-full',
-                `lg:x-[mt-[--p-content-xxl],justify-center]`,
-                `sm:x-[gap-y-[--p-content-xxs]]`,
-                `sm:portrait:h-[calc(100%-6.75rem)] sm:portrait:x-[flex-col,px-[--p-content-xxs],overflow-y-scroll]`,
-                `sm:landscape:x-[gap-x-[--p-content-4xs],px-[--p-content-3xl],justify-items-start]`,
+                'grid auto-rows-min',
+                'lg:h-[calc(100%-2.5rem)] lg:overflow-scroll',
+                'sm:portrait:h-[calc(100%-6.75rem)] sm:overflow-scroll'
             )}
             >
-                {renderColumns()}
+                <div className={cn(
+                    'flex gap-x-[--p-content-3xl] w-full h-full',
+                    `lg:justify-center`,
+                    `sm:gap-y-[--p-content-xxs]`,
+                    `sm:portrait:x-[flex-col,px-[--p-content-xxs]]`,
+                    `sm:landscape:x-[gap-x-[--p-content-4xs],px-[--p-content-3xl],justify-items-start]`,
+                )}
+                >
+                    {renderColumns()}
+                </div>
+                <ScrollEnd/>
             </div>
-            <ScrollEnd/>
         </div>
     )
 }
