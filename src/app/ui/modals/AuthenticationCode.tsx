@@ -9,7 +9,7 @@ import {useModal, useUser} from "@/app/context";
 import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
-import SVG_SAFE from '@/assets/images/safe.svg'
+import SVG_SAFE from '/public/images/safe.svg'
 
 
 type FormData = { code: string };

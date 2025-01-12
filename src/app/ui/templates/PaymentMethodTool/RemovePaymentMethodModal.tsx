@@ -10,7 +10,7 @@ import {useModal, useUser} from "@/app/context";
 import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
-import SVG_CARD from '@/assets/images/card.svg';
+import SVG_CARD from '/public/images/card.svg';
 
 
 const BTN_CN = 'px-[--1drs] h-[--h-control] rounded-full';

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import {BaseModal} from "@/app/ui/modals";
 
-import SVG_DECLINED from '@/assets/images/declined.svg';
+import SVG_DECLINED from '/public/images/declined.svg';
 
 
 const DeclinedModal: FC = () => (

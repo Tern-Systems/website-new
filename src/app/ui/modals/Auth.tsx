@@ -13,7 +13,7 @@ import {useFlow, useModal, useUser} from "@/app/context";
 import {BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
-import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
+import SVG_INSIGNIA from '/public/images/insignia-logo.png'
 
 
 const INPUT_CN = `h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
@@ -143,7 +143,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         <Button
                             type={'submit'}
                             className={cn(
-                                `place-self-center py-[--p-content-xxs] mt-[--p-content-s] w-full rounded-full border-small border-control`,
+                                `place-self-center py-[--p-content-xxs] mt-[--p-content-s] w-[60%] rounded-full border-small border-control`,
                                 `font-bold text-section-s`,
                                 `sm:w-[90%]`,
                                 isLoginForm

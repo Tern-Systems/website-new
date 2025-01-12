@@ -6,7 +6,7 @@ import {Route} from "@/app/static";
 
 import {useNavigate} from "@/app/hooks";
 
-import SVG_INSIGNIA from '@/assets/images/insignia-logo.png'
+import SVG_INSIGNIA from '/public/images/insignia-logo.png'
 
 
 interface Props {
