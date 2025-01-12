@@ -13,7 +13,7 @@
 
 ## About Website
 
-Website is a sleek, performance-driven web application built with [Next.js](https://nextjs.org/). It offers a minimalist design with optimized performance, making it a perfect starting point for creating responsive and scalable websites. Built using the powerful Next.js framework, this project ensures fast load times, optimized assets, and an enhanced developer experience.
+Website is a sleek, performance-driven web application built with [Next.js](https://nextjs.org/). It offers a minimalist design with optimized performance, making it a perfect starting point for creating responsive and scalable websites..Built using the powerful Next.js framework, this project ensures fast load times, optimized assets, and an enhanced developer experience.
 
 ### **What's New in Version 2.0.0?**
 
