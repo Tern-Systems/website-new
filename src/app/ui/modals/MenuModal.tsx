@@ -4,7 +4,14 @@ import Image from "next/image";
 import cn from "classnames";
 
 import {NavLink} from "@/app/context/Layout.context";
-import {LANGUAGE, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
+import {
+    ALWAYS_MAPPED_ROUTES,
+    LANGUAGE,
+    MAPPED_NAV_ROUTES,
+    MAPPED_SUB_NAV_ROUTES,
+    MERGED_SUB_NAV_ROUTES,
+    Route
+} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
 import {useMenu} from "@/app/hooks";
@@ -14,6 +21,7 @@ import {BaseModal} from "@/app/ui/modals";
 import {PageLink} from "@/app/ui/layout";
 
 import SVG_GLOBE from "/public/images/icons/globe.svg";
+import {getRouteLeave} from "@/app/utils/router";
 
 
 const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-control-blue]';
@@ -52,12 +60,13 @@ const MenuModal: FC<Props> = (props: Props) => {
             const isActive = checkSubRoute(route, link, true);
             const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
 
-            const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], link === Route.TernKey);
+            const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], MERGED_SUB_NAV_ROUTES.includes(link));
 
             return (
                 <span key={link + idx} className={'contents'}>
                     <PageLink
                         href={link}
+                        timeout={0}
                         icon={!isActive ? 'forward' : undefined}
                         style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 2 : 2) * 0.6 : 2.6) + 'rem'}}
                         className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
@@ -89,16 +98,23 @@ const MenuModal: FC<Props> = (props: Props) => {
                 && (checkSubRoute(route, link) || isSingleSubLink)
                 && !subNavRoute?.split(subNav?.[0] ?? '').filter(link => link).length;
 
+            const mappedLink = MAPPED_SUB_NAV_ROUTES?.[link];
+            const mapRoute = ALWAYS_MAPPED_ROUTES.some(check => mappedLink && (
+                    getRouteLeave(link).includes(check))
+                || isActive && !renderSubRoutes
+                || !isActive && checkSubRoute(route, link) && !renderSubRoutes
+            );
+
             const routeName = getRouteName(
-                isActive && !renderSubRoutes || !isActive && checkSubRoute(route, link) && !renderSubRoutes ? MAPPED_SUB_NAV_ROUTES?.[link] : link,
-                link === Route.TernKey
+                mapRoute ? mappedLink : link,
+                MERGED_SUB_NAV_ROUTES.includes(link)
             );
 
             return (
                 <span key={link + idx} className={'contents'}>
                     <PageLink
                         href={link}
-                        preventModalClose={hasSubRoutes}
+                        timeout={0}
                         icon={!isActive ? 'forward' : undefined}
                         style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 1.6) + 'rem'}}
                         className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
@@ -125,10 +141,8 @@ const MenuModal: FC<Props> = (props: Props) => {
                 routes[0] = route;
         }
 
-        const [subNav] = getSubNavs(link as Route);
-        const hasSubRoutes = subNav !== null && subNav.length > 0;
-        const isActive = getRouteRoot(routes[0]) === routes[1];
-        const isNextActive = getRouteRoot(routes[0]) === routes[2]; // last+1 always undefined
+        const isActive = checkSubRoute(routes[1], getRouteRoot(routes[0]));
+        const isNextActive = checkSubRoute(routes[2], getRouteRoot(routes[0]));
 
         if (isActive) {
             if (!idx && !isFirstActive)
@@ -141,14 +155,20 @@ const MenuModal: FC<Props> = (props: Props) => {
             <span key={link + idx} className={'contents'}>
                 <PageLink
                     href={link}
-                    preventModalClose={hasSubRoutes}
+                    timeout={0}
                     icon={!isActive ? 'forward' : undefined}
                     className={cn(`justify-center`, NAV_CN, {
                         [ACTIVE_ROUTE_CN]: isActive,
                         ['mx-[1.25rem]']: !isActive,
                         ['border-b-small']: !isNextActive
                     })}
-                />
+                >
+                    <span>
+                          {MAPPED_NAV_ROUTES[link]
+                              ? MAPPED_NAV_ROUTES[link]
+                              : getRouteName(link, MERGED_SUB_NAV_ROUTES.includes(link ?? ''))}
+                    </span>
+                </PageLink>
                 {isActive ? renderSubNav() : null}
             </span>
         );

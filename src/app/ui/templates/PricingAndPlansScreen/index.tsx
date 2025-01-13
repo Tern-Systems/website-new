@@ -75,7 +75,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 modalCtx.openModal(<HelpModal type={"brc"}/>, {darkenBg: true})
             }
         >
-          billing resolution center
+          Billing Resolution Center
         </span>
     );
 
@@ -132,7 +132,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     <span onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
                           className={`${styles.clickable} underline`}
                     >
-                        billing resolution center
+                        Billing Resolution Center
                     </span>
                 </span>
             </>
@@ -145,17 +145,17 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             subscribeBtnText = 'Your current plan';
             Links = (
                 <>
-                    <span className={`underline`}>
-                        <PageLink
-                            href={Route.ManageSubscriptions}
-                            className={"cursor-pointer"}
-                        >
-                            Manage subscription
-                        </PageLink>
-                    </span>
+                        <span className={`underline`}>
+                            <PageLink
+                                href={Route.ManageSubscriptions}
+                                className={"cursor-pointer"}
+                            >
+                                Manage subscription
+                            </PageLink>
+                        </span>
                     <span className={"first-letter:capitalize"}>
-                        {BillingResolution}
-                    </span>
+                            {BillingResolution}
+                        </span>
                 </>
             );
         } else if (!isCurrentType && userSubscription) {

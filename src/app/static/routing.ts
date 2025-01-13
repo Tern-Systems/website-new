@@ -3,7 +3,9 @@ enum Route {
     Home = '/home',
 
     AllWays = '/all_ways',
-    TBD = '/all_ways/TBD',
+    TBD0 = '/all_ways/TBD0',
+    TBD1 = '/all_ways/TBD1',
+    TBD2 = '/all_ways/TBD2',
     About = '/about',
     Credo = '/about/our_credo',
     Contact = '/contact',
@@ -12,7 +14,7 @@ enum Route {
     Privacy = '/privacy',
 
     // /service
-    Services = '/services',
+    Services = '/services/all',
     ARCodeToolCreate = '/services/create',
     ARCodeToolEdit = '/services/library/edit',
     ServiceUserManual = '/services/user_manual',
@@ -21,11 +23,11 @@ enum Route {
     SavedCodes = '/services/library',
 
     // /product
-    Products = '/products',
-    TernKey = '/products/tern_key',
-    TernKeyPricing = '/products/tern_key/plans',
-    TernKeyProductManual = '/products/tern_key/user_manual',
-    TernKeySubscribe = '/subscribe/tern_key',
+    Products = '/products/all',
+    TernKey = '/products/ternkey',
+    TernKeyPricing = '/products/ternkey/plans',
+    TernKeyProductManual = '/products/ternkey/user_manual',
+    TernKeySubscribe = '/subscribe/ternkey',
     Dot = '/products/dot',
     DotPricing = '/products/dot/pricing',
     DotProductManual = '/products/dot/user_manual',
@@ -42,7 +44,7 @@ enum Route {
 
     Help = '/profile/my_tern/faqs',
     Documentation = '/profile/my_tern/documentation',
-    TernKeyDoc = '/profile/my_tern/documentation/tern_key',
+    TernKeyDoc = '/profile/my_tern/documentation/ternkey',
     GDoc = '/profile/my_tern/documentation/g',
     TernKitDoc = '/profile/my_tern/documentation/tern_kit',
     TernDoc = '/profile/my_tern/documentation/tern',

@@ -4,7 +4,14 @@ import {usePathname} from "next/navigation";
 import cn from "classnames";
 
 import {NavLink} from "@/app/context/Layout.context";
-import {LAYOUT, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
+import {
+    ALWAYS_MAPPED_ROUTES,
+    LAYOUT,
+    MAPPED_NAV_ROUTES,
+    MAPPED_SUB_NAV_ROUTES,
+    MERGED_SUB_NAV_ROUTES,
+    Route
+} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
 import {useBreakpointCheck, useMenu} from "@/app/hooks";
@@ -75,14 +82,22 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     // Elements
     const NavLinks: ReactElement[] = layoutCtx.navLinks[NavLink.Nav]?.map((link: Route, idx) => {
-        const isActive = getRouteRoot(route) === link;
+        const isActive = link.includes(getRouteRoot(route));
+        const mappedLink = MAPPED_NAV_ROUTES?.[link];
+
         return (
             <span key={link + idx} className={'contents'}>
                 <PageLink
                     href={link}
                     icon={!isActive && isSmScreen ? 'forward' : undefined}
                     className={`relative justify-center ${isActive && !layoutCtx.isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
-                />
+                >
+                    <span>
+                        {mappedLink
+                            ? mappedLink
+                            : getRouteName(link, MERGED_SUB_NAV_ROUTES.includes(link ?? ''))}
+                    </span>
+                </PageLink>
                 {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1
                     ? <span>/</span>
                     : null}
@@ -94,14 +109,17 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         ? null
         : (
             layoutCtx.navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
-                const isActive = checkSubRoute(route, link);
+                const mappedLink = MAPPED_SUB_NAV_ROUTES?.[link];
+                const mapRoute = mappedLink && (
+                    checkSubRoute(route, link)
+                    || ALWAYS_MAPPED_ROUTES.some(check => getRouteLeave(link).includes(check))
+                );
                 const isActiveCN = checkSubRoute(route, link, true);
 
                 return (
                     <PageLink
                         key={link + idx}
                         href={link}
-                        icon={!isActive && isSmScreen ? 'forward' : undefined}
                         className={cn(`relative justify-center`,
                             {
                                 ['[&]:border-t-0']: idx === 0,
@@ -110,8 +128,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         )}
                     >
                         {getRouteName(
-                            isActive && MAPPED_SUB_NAV_ROUTES?.[link] ? MAPPED_SUB_NAV_ROUTES[link] : link,
-                            getRouteLeave(link) === getRouteLeave(Route.TernKey)
+                            mapRoute ? mappedLink : link,
+                            MERGED_SUB_NAV_ROUTES.includes(link)
                         )}
                     </PageLink>
                 );

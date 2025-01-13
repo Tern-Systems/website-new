@@ -9,7 +9,7 @@ import {useLoginCheck} from "@/app/hooks";
 import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
 import {DocumentationScreen} from "@/app/ui/templates/DocumentationScreen";
 
-import {TernKeyManualAnchors, TernKeyManualContent} from "./tern_key";
+import {TernKeyManualAnchors, TernKeyManualContent} from "./ternkey";
 import {GHandbookAnchors, GHandbookContent} from "./g";
 
 

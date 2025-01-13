@@ -1,4 +1,3 @@
-// Misc
 import {Route} from "@/app/static/routing";
 
 const LANGUAGE = {
@@ -216,13 +215,34 @@ const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
 }
 
+const MAPPED_NAV_ROUTES: Record<string, string> = {
+    [Route.Products]: 'Products',
+    [Route.Services]: 'Services',
+    [Route.TernKey]: 'TernKey',
+
+}
+
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.Products]: '/All',
     [Route.TernKey]: '/Application',
     [Route.Dot]: '/Download',
     [Route.Services]: '/ARCH',
-    [Route.TBD]: '/TBD',
+    [Route.TBD0]: '/TBD',
+    [Route.TBD1]: '/TBD',
+    [Route.TBD2]: '/TBD',
 }
 
+const MERGED_SUB_NAV_ROUTES: string[] = [Route.TernKey];
+const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
-export {MAPPED_SUB_NAV_ROUTES, LANGUAGE, SALUTATION, LAYOUT};
+
+
+export {
+    MAPPED_NAV_ROUTES,
+    MERGED_SUB_NAV_ROUTES,
+    ALWAYS_MAPPED_ROUTES,
+    MAPPED_SUB_NAV_ROUTES,
+    LANGUAGE,
+    SALUTATION,
+    LAYOUT
+};

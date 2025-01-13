@@ -47,7 +47,6 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         //eslint-disable-next-line
     }, [route]);
 
-
     // Elements
     const Layout = route === Route.Start
         ? (
