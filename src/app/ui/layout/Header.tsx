@@ -4,7 +4,7 @@ import {usePathname} from "next/navigation";
 import cn from "classnames";
 
 import {NavLink} from "@/app/context/Layout.context";
-import {LAYOUT, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
+import {LAYOUT, MAPPED_SUB_NAV_ROUTES, MERGED_SUB_NAV_ROUTES, Route} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
 import {useBreakpointCheck, useMenu} from "@/app/hooks";
@@ -17,7 +17,6 @@ import {Button} from "@/app/ui/form";
 import styles from '@/app/common.module.css'
 
 import SVG_PROFILE from "/public/images/icons/profile.svg";
-import {getRouteLeave} from "@/app/utils/router";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
@@ -94,14 +93,13 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         ? null
         : (
             layoutCtx.navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
-                const isActive = checkSubRoute(route, link);
+                const mapRoute = checkSubRoute(route, link) || MAPPED_SUB_NAV_ROUTES?.[link];
                 const isActiveCN = checkSubRoute(route, link, true);
 
                 return (
                     <PageLink
                         key={link + idx}
                         href={link}
-                        icon={!isActive && isSmScreen ? 'forward' : undefined}
                         className={cn(`relative justify-center`,
                             {
                                 ['[&]:border-t-0']: idx === 0,
@@ -110,8 +108,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         )}
                     >
                         {getRouteName(
-                            isActive && MAPPED_SUB_NAV_ROUTES?.[link] ? MAPPED_SUB_NAV_ROUTES[link] : link,
-                            getRouteLeave(link) === getRouteLeave(Route.TernKey)
+                            mapRoute ? MAPPED_SUB_NAV_ROUTES[link] : link,
+                            MERGED_SUB_NAV_ROUTES.includes(link)
                         )}
                     </PageLink>
                 );

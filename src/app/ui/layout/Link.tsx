@@ -3,7 +3,7 @@ import {ReactSVG} from "react-svg";
 import {usePathname} from "next/navigation";
 import Link from "next/link";
 
-import {Route} from "@/app/static";
+import {MERGED_SUB_NAV_ROUTES, Route} from "@/app/static";
 
 import {getRouteName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
@@ -12,7 +12,6 @@ import SVG_ARROW from "/public/images/icons/arrow.svg";
 import SVG_INSIGNIA from "/public/images/insignia.svg";
 
 import styles from '@/app/common.module.css'
-import {getRouteLeave} from "@/app/utils/router";
 import cn from "classnames";
 
 
@@ -65,7 +64,7 @@ const PageLink: FC<Props> = (props: Props) => {
 
     const splitHref = children
         ? children
-        : <span>{getRouteName(props.href, getRouteLeave(props.href ?? null) === getRouteLeave(Route.TernKey))}</span>;
+        : <span>{getRouteName(props.href, MERGED_SUB_NAV_ROUTES.includes(props.href ?? ''))}</span>;
 
     return (
         <Link

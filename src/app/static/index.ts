@@ -1,6 +1,13 @@
 export {Route, TERN_AC_HREF} from "./routing";
 
-export {MAPPED_SUB_NAV_ROUTES, LANGUAGE, SALUTATION, LAYOUT} from './misc';
+export {
+    ALWAYS_MAPPED_ROUTES,
+    MAPPED_SUB_NAV_ROUTES,
+    MERGED_SUB_NAV_ROUTES,
+    LANGUAGE,
+    SALUTATION,
+    LAYOUT
+} from './misc';
 
 export type {StateKey, CountryKey} from './location';
 export {STATE_PROVINCE, COUNTRY} from './location';

@@ -4,7 +4,7 @@ import Image from "next/image";
 import cn from "classnames";
 
 import {NavLink} from "@/app/context/Layout.context";
-import {LANGUAGE, MAPPED_SUB_NAV_ROUTES, Route} from "@/app/static";
+import {ALWAYS_MAPPED_ROUTES, LANGUAGE, MAPPED_SUB_NAV_ROUTES, MERGED_SUB_NAV_ROUTES, Route} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
 import {useMenu} from "@/app/hooks";
@@ -14,6 +14,7 @@ import {BaseModal} from "@/app/ui/modals";
 import {PageLink} from "@/app/ui/layout";
 
 import SVG_GLOBE from "/public/images/icons/globe.svg";
+import {getRouteLeave} from "@/app/utils/router";
 
 
 const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-control-blue]';
@@ -52,7 +53,7 @@ const MenuModal: FC<Props> = (props: Props) => {
             const isActive = checkSubRoute(route, link, true);
             const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
 
-            const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], link === Route.TernKey);
+            const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], MERGED_SUB_NAV_ROUTES.includes(link));
 
             return (
                 <span key={link + idx} className={'contents'}>
@@ -90,8 +91,11 @@ const MenuModal: FC<Props> = (props: Props) => {
                 && !subNavRoute?.split(subNav?.[0] ?? '').filter(link => link).length;
 
             const routeName = getRouteName(
-                isActive && !renderSubRoutes || !isActive && checkSubRoute(route, link) && !renderSubRoutes ? MAPPED_SUB_NAV_ROUTES?.[link] : link,
-                link === Route.TernKey
+                ALWAYS_MAPPED_ROUTES.some(check=>getRouteLeave(link).includes(check))
+                || isActive && !renderSubRoutes
+                || !isActive && checkSubRoute(route, link) && !renderSubRoutes
+                    ? MAPPED_SUB_NAV_ROUTES?.[link] : link,
+                MERGED_SUB_NAV_ROUTES.includes(link)
             );
 
             return (
