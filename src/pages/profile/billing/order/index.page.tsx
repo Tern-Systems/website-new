@@ -14,8 +14,8 @@ import {OrderPreview} from "./OrderPreview";
 const COLUMN_CN = 'flex-1 pt-[min(8dvw,8rem)] px-[--2dr] w-1/2 overflow-y-scroll sm:w-full';
 
 
-function OrderPage(){
-    const [invoice, setInvoice] = useState<Invoice>();
+function OrderPage() {
+    const [invoice, setInvoice] = useState<Invoice | null>(null);
     const [isDetailsToggled, setDetailsToggleState] = useState(false);
 
 
@@ -47,14 +47,14 @@ function OrderPage(){
 
     let invoiceDateStr = '--';
     let renewDateStr = '--';
-    if (invoice?.date) {
-        const invoiceDate = new Date(invoice.date);
+    if (invoice?.startDate) {
+        const invoiceDate = new Date(invoice.startDate);
         const renewDate = new Date(new Date(invoiceDate).setMonth(invoiceDate.getMonth() + (invoice?.type === 'monthly' ? 1 : 12)));
         invoiceDateStr = formatDate(invoiceDate);
         renewDateStr = formatDate(renewDate);
     }
 
-    const card = (invoice?.card.type ?? '--') + ' •••• ' + (invoice?.card.cardNumber.slice(-4) ?? '--');
+    const card = (invoice?.card.cardType ?? '--') + ' •••• ' + (invoice?.card.last4 ?? '--');
 
     return (
         <div className={'flex h-full font-oxygen sm:flex-col'}>

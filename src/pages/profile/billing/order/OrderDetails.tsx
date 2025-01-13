@@ -8,7 +8,7 @@ import {ScrollEnd} from "@/app/ui/misc";
 
 
 interface Props {
-    invoice: Invoice | undefined;
+    invoice: Invoice | null;
     card: string;
     invoiceDate: string;
     renewDate: string;
@@ -55,7 +55,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
                     <span className={'font-bold'}>
                             <span className={'flex justify-between'}>
                                 <span>{invoice?.item.name ?? '--'}</span>
-                                <span>{invoice?.item.priceUSD.toFixed(2) ?? '--'}</span>
+                                <span>${invoice?.item.priceUSD.toFixed(2) ?? '--'}</span>
                             </span>
                         </span>
                     <span className={'text-secondary text-small'}>Qty {invoice?.item ? 1 : '--'}</span>
@@ -74,7 +74,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
                     <span className={'text-right'}>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
                     <span className={'text-secondary'}>
                         Sales tax - {state ?? '--'}
-                        &nbsp;({invoice?.taxPercent !== undefined ? invoice.taxPercent * 100 : '--'}%)
+                        &nbsp;({invoice?.taxPercent !== undefined ? invoice.taxPercent?.toFixed(0) : '--'}%)
                     </span>
                     <span
                         className={'text-secondary text-right'}>${taxAmount?.toFixed(2) ?? '--'}</span>
@@ -83,7 +83,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
                 {Hr}
                 <div className={'font-bold flex justify-between'}>
                     <span>Total due</span>
-                    <span>${invoice?.totalDue.toFixed(2) ?? '--'}</span>
+                    <span>${invoice?.totalDue?.toFixed(2) ?? '--'}</span>
                 </div>
 
                 {Hr}

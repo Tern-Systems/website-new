@@ -22,10 +22,10 @@ type CardData = {
 
 type Invoice = {
     id: number;
-    date: number;
+    startDate: number;
     to: string;
     from: string;
-    card: Pick<CardData, 'cardNumber' | 'type' | 'nickName'>;
+    card: Pick<SavedCard, 'last4' | 'cardType' | 'nickName'>;
     item: { name: string, priceUSD: number };
     subtotalUSD: number;
     totalDue: number;
@@ -35,12 +35,6 @@ type Invoice = {
     state: StateKey;
     status: 'paid' | 'unpaid';
     type: SubscriptionRecurrency;
-}
-
-type InvoiceHistory = {
-    amount: number;
-    name: string;
-    startDate: string;
 }
 
 type SavedCard = {
@@ -81,4 +75,4 @@ type SavedCardFull = {
     preferred: boolean;
 };
 
-export type {CardData, Invoice, InvoiceHistory, SavedCard, SavedCardFull}
+export type {CardData, Invoice, SavedCard, SavedCardFull}

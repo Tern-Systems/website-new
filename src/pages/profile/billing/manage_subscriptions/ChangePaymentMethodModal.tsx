@@ -27,7 +27,7 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
     const {savedCards} = props;
 
     const modalCtx = useModal();
-    useSaveOnLeave(async ()=>{
+    useSaveOnLeave(async () => {
         // TODO save
     });
 
@@ -49,10 +49,12 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
                             sm:py-0 ${!isPreferred && selectedCardIdx === idx ? 'bg-control-white-d1' : ''}`}
             >
                 <span className={`flex items-center ${isPreferred ? 'brightness-[2.4]' : ''}`}>
-                    <ReactSVG src={SVG_CARD.src} className={`[&_svg]:w-[min(3.9dvw,1.35rem)] mr-[min(2dvw,0.65rem)] [&_path]:fill-gray`}/>
-                    <span className={'text-content'}>{card.nickName}</span>
+                    <ReactSVG src={SVG_CARD.src}
+                              className={`[&_svg]:w-[min(3.9dvw,1.35rem)] mr-[min(2dvw,0.65rem)] [&_path]:fill-gray`}/>
+                    <span className={'text-content'}>{card.nickName ?? (card.cardType + ' **** ' + card.last4)}</span>
                 </span>
-                {isPreferred ? <Image src={SVG_MARK} alt={'mark'} className={'w-[min(2.4dvw,0.8125rem)] h-auto'}/> : null}
+                {isPreferred ?
+                    <Image src={SVG_MARK} alt={'mark'} className={'w-[min(2.4dvw,0.8125rem)] h-auto'}/> : null}
             </li>
         )
     });
@@ -64,7 +66,8 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             classNameContent={'text-gray text-center'}
         >
             <ul className={'list-none flex flex-col gap-y-[--s-small]'}>{SavedCards}</ul>
-            <PageLink href={Route.EditPaymentMethod} className={'w-full justify-center sm:justify-start sm:px-[--s-small]'}>
+            <PageLink href={Route.EditPaymentMethod}
+                      className={'w-full justify-center sm:justify-start sm:px-[--s-small]'}>
                 <Button
                     icon={'plus'}
                     className={'font-bold text-content mt-[min(2.7dvw,1.5rem)]'}

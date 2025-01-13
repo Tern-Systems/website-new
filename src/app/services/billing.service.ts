@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-import {CardData, InvoiceHistory, SavedCard, SavedCardFull} from "@/app/types/billing";
+import {CardData, Invoice, SavedCard, SavedCardFull} from "@/app/types/billing";
 import {PlanType} from "@/app/types/subscription";
 import {Res} from "@/app/types/service";
 
@@ -23,7 +23,7 @@ interface IBillingService {
     //eslint-disable-next-line
     getPlanDetails(email: string): any;
 
-    postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>>;
+    getInvoices(email: string): Promise<Res<Invoice[]>>;
 
     postExportTransaction(email: string): Promise<Res<string>>;
 
@@ -34,6 +34,8 @@ interface IBillingService {
     postUpdateCard(formData: CardData, email: string): Promise<Res>;
 
     postDeleteCard(id: string, paymentId: string, email: string): Promise<Res>;
+
+    postCancelSubscription(email: string): Promise<Res>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
@@ -41,6 +43,26 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         super(BillingServiceImpl.name)
     }
 
+    async postCancelSubscription(email: string): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postUpdateCard.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `cancel-subscription`,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify({userEmail: email}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+        }
+    }
 
     async postDeleteCard(id: string, paymentId: string, email: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postUpdateCard.name);
@@ -158,7 +180,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     }
 
     async postExportTransaction(email: string): Promise<Res<string>> {
-        const [debug, error] = this.getLoggers(this.postGetInvoices.name);
+        const [debug, error] = this.getLoggers(this.getInvoices.name);
 
         const config: AxiosRequestConfig = {
             method: "POST",
@@ -179,14 +201,13 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postGetInvoices(email: string): Promise<Res<InvoiceHistory[]>> {
-        const [debug, error] = this.getLoggers(this.postGetInvoices.name);
+    async getInvoices(email: string): Promise<Res<Invoice[]>> {
+        const [debug, error] = this.getLoggers(this.getInvoices.name);
 
         const config: AxiosRequestConfig = {
-            method: "POST",
+            method: 'GET',
             url: this._API + `get-subscription-details`,
-            headers: {'Content-Type': 'application/json'},
-            data: JSON.stringify({email}),
+            params: {email},
             withCredentials: true,
         };
 
@@ -194,7 +215,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: [response.data]};
+            return {payload: response.data};
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
@@ -293,6 +314,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                     planName: planType,
                     price: planPrice * (1 + taxResponse),
                     duration: planDuration,
+                    country: data.country,
                     state: data.state
                 }),
                 withCredentials: true,

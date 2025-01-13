@@ -75,7 +75,9 @@ function ManageSubscriptionsPage() {
             <li key={method.nickName + idx} className={'flex [&&_path]:fill-gray items-center'}>
                 <span className={'flex gap-x-[--s-d2l-smallest] items-center'}>
                     <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem] h-auto'}/>
-                    <span className={'text-content sm:landscape:text-content-small'}>{method.nickName}</span>
+                    <span className={'text-content sm:landscape:text-content-small'}>
+                        {method.nickName ?? (method.cardType + ' **** ' + method.last4)}
+                    </span>
                     <span className={`flex items-center px-[--s-d-small] h-[min(3.5dvw,1.3rem)] rounded-smallest1
                                     bg-control-white-d0 text-gray text-center text-note font-oxygen`}>
                         Preferred

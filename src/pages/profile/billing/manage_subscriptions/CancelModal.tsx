@@ -2,21 +2,25 @@ import {FC} from "react";
 
 import {Route} from "@/app/static";
 
-import {useModal} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 import {PageLink} from "@/app/ui/layout";
+import {BillingService} from "@/app/services";
 
 
 const BTN_CN = 'px-[min(2.7dvw,1rem)] h-[--h-control-dl] rounded-full';
 
 
 const CancelModal: FC = () => {
+    const {userData} = useUser();
     const modalCtx = useModal();
 
     const handleDelete = async () => {
-        // TODO
+        if (!userData)
+            return;
+        await BillingService.postCancelSubscription(userData.email);
         modalCtx.closeModal();
     }
 

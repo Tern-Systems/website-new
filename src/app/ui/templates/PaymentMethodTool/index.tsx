@@ -1,4 +1,4 @@
-import React, {FC, FormEvent, useEffect, useState} from "react";
+import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
 import cn from "classnames";
 
 import {CardData, SavedCardFull} from "@/app/types/billing";
@@ -59,33 +59,32 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const {userData} = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck()=== 'sm';
+    const isSmScreen = useBreakpointCheck() === 'sm';
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
 
     const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
 
+    const fetchEditCards = useCallback(async () => {
+        if (!userData)
+            return;
+        try {
+            const {payload: cards} = await BillingService.getEditCards(userData.email);
+            setSavedCards(cards);
+        } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+        }
+        // eslint-disable-next-line
+    }, [userData]);
 
     useEffect(() => {
         if (isPaymentCreation)
             return;
-
-        const fetchEditCards = async () => {
-            if (!userData)
-                return;
-
-            try {
-                const {payload: cards} = await BillingService.getEditCards(userData.email);
-                setSavedCards(cards);
-            } catch (error: unknown) {
-                if (typeof error === 'string')
-                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
-            }
-        }
         fetchEditCards();
         // eslint-disable-next-line
-    }, [isPaymentCreation]);
+    }, [fetchEditCards, isPaymentCreation]);
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -97,6 +96,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                 await BillingService.postSaveCard(formData, userData?.email);
             else
                 await BillingService.postUpdateCard(formData, userData?.email);
+            await fetchEditCards();
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
@@ -110,7 +110,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         return {
             id: card.paymentProfileId,
             profileId: card.customerProfileId,
-            cardNumber: card.cardType + ' **** ' + card.last4,
+            cardNumber: card.cardNumber,
             billingAddress: card?.billingAddress.address,
             nickName: card.nickName,
             type: card.cardType,
@@ -137,7 +137,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     // Elements
     const SavedCardOptions: Record<string, string> = Object.fromEntries(
         savedCards?.map((card, idx) =>
-            [idx, card.nickName])
+            [idx, card.nickName ?? (card.cardType + ' **** ' + card.last4)])
         ?? []
     );
 
@@ -173,7 +173,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
                         type={'text'}
-                        value={formData.cardNumber}
+                        value={savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4}
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}

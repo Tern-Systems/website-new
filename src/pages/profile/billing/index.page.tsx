@@ -4,60 +4,49 @@ import cn from "classnames";
 import {Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static";
 
-import {useLoginCheck} from "@/app/hooks";
-import {useModal} from "@/app/context";
+import {BillingService} from "@/app/services";
 
+import {useLoginCheck, useNavigate} from "@/app/hooks";
+import {useModal, useUser} from "@/app/context";
+
+import {formatDate} from "@/app/utils";
 import {ScrollEnd} from "@/app/ui/misc";
 import {PageLink} from "@/app/ui/layout";
-import {HelpModal} from "@/app/ui/modals";
+import {HelpModal, MessageModal} from "@/app/ui/modals";
 
 import styles from '@/app/common.module.css'
-import {formatDate} from "@/app/utils";
-
-
-const INVOICE_TEMPLATE: Invoice = {
-    id: 888888888888,
-    date: Date.now(),
-    to: 'John Doe',
-    from: 'Tern Systems, LLC',
-    card: {cardNumber: '888888888888', type: 'visa', nickName: 'john doe'},
-    item: {name: 'ARCH Standard Subscription', priceUSD: 10},
-    subtotalUSD: 10,
-    totalDue: 10.60,
-    taxPercent: 0.06,
-    paidUSD: 10.6,
-    country: 'US',
-    state: 'PA',
-    type: 'monthly',
-    status: 'paid'
-}
-
-
-const ORDERS_TEMPLATE: Invoice[] = [INVOICE_TEMPLATE, INVOICE_TEMPLATE, INVOICE_TEMPLATE]
 
 
 const BillingPage: FC = () => {
+    const userContext = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
+    const [navigate] = useNavigate();
 
-    const [orders, setOrders] = useState<Invoice[]>([]);
+    const [invoices, setInvoices] = useState<Invoice[]>([]);
 
     useEffect(() => {
-        try {
-            // TODO fetch orders
-            const orders: Invoice[] = ORDERS_TEMPLATE;
-            if (orders)
-                setOrders(ORDERS_TEMPLATE)
-        } catch (error: unknown) {
+        const fetchInvoices = async () => {
+            if (!userContext.userData)
+                return;
+            try {
+                const {payload: invoices} = await BillingService.getInvoices(userContext.userData.email);
+                setInvoices(invoices);
+            } catch (error: unknown) {
+                if (typeof error === 'string')
+                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            }
         }
-    }, [])
+        fetchInvoices();
+        //eslint-disable-next-line
+    }, [userContext.isLoggedIn])
 
     if (!isLoggedIn)
         return null;
 
 
     // Elements
-    const OrderRows: ReactElement[] = (orders ?? []).map((order, idx) => {
+    const OrderRows: ReactElement[] = (invoices ?? []).map((order, idx) => {
         const renderTd = (title: string | number, className: string, type?: 'first' | 'last') => {
             const cn = type === undefined
                 ? className
@@ -65,18 +54,15 @@ const BillingPage: FC = () => {
                 + (type === 'first'
                     ? `rounded-l-[0.56rem] sm:rounded-l-[0.18rem]`
                     : `rounded-r-[0.56rem] sm:rounded-r-[0.18rem]`);
-            return (
-                <td className={cn}>
-                    <PageLink href={Route.Invoice} className={`contents hover:transform-none`}>
-                        {title}
-                    </PageLink>
-                </td>
-            );
+            return <td className={cn}>{title}</td>;
         }
         return (
             <tr
                 key={order.id + idx}
-                onClick={() => sessionStorage.setItem('invoice', JSON.stringify(order))}
+                onClick={() => {
+                    sessionStorage.setItem('invoice', JSON.stringify(order));
+                    navigate(Route.Invoice);
+                }}
                 className={cn(styles.clickable,
                     `[&_td]:odd:bg-[#b3b3b326] cursor-pointer align-middle text-nowrap`,
                     `text-heading-s hover:bg-control-gray-l0`,
@@ -86,11 +72,11 @@ const BillingPage: FC = () => {
                     `sm:landscape:x-[h-[--p-content-xs],text-section-xs]`
                 )}
             >
-                {renderTd(order.id, '', 'first')}
-                {renderTd(formatDate(new Date(order.date)), 'md:hidden  sm:portrait:hidden')}
-                {renderTd(order.subtotalUSD.toFixed(2), 'before:content-["$"] before:-mr-[0.1rem]  md:hidden  sm:portrait:hidden')}
-                {renderTd(order.status, 'md:hidden  sm:hidden')}
-                {renderTd(order.item.name, '', 'last')}
+                {renderTd(order?.id, '', 'first')}
+                {renderTd(formatDate(new Date(order?.startDate)), 'md:hidden  sm:portrait:hidden')}
+                {renderTd(order?.paidUSD?.toFixed(2), 'before:content-["$"] before:-mr-[0.1rem]  md:hidden  sm:portrait:hidden')}
+                {renderTd(order?.status, 'md:hidden  sm:hidden')}
+                {renderTd(order?.item?.name, '', 'last')}
             </tr>
         )
     });
@@ -132,8 +118,11 @@ const BillingPage: FC = () => {
                 >
                     <div className={`h-full overflow-y-scroll capitalize`}>
                         <table className={'w-full table-fixed'}>
-                            <thead
-                                className={`text-heading [&_td]:pb-[--p-content-xxs]   sm:text-section-3xs sm:[&_td]:pb-[--p-content-5xs]`}>
+                            <thead className={cn(
+                                `sticky z-10 top-0 text-heading bg-control-gray  [&_td]:pb-[--p-content-xxs]`,
+                                `sm:text-section-3xs  sm:[&_td]:pb-[--p-content-5xs]`
+                            )}
+                            >
                             <tr>
                                 <td className={'lg:w-[17%]  md:w-[40%]  sm:portrait:w-[40%]  sm:landscape:w-1/4'}>Order
                                     No.

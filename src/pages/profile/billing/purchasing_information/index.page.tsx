@@ -1,9 +1,8 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
-import axios from "axios";
 
-import {InvoiceHistory, SavedCard} from "@/app/types/billing";
+import {Invoice, SavedCard} from "@/app/types/billing";
 import {Route} from "@/app/static";
 
 import {BillingService} from "@/app/services";
@@ -24,13 +23,13 @@ function PurchasingInformationPage() {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck()=== 'sm';
+    const isSmScreen = useBreakpointCheck() === 'sm';
 
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
     // eslint-disable-next-line
     const [defaultCardIdx, setDefaultCardIdx] = useState<number | undefined>();
-    const [invoiceHistory, setInvoiceHistory] = useState<InvoiceHistory[]>([]);
+    const [invoiceHistory, setInvoiceHistory] = useState<Invoice[]>([]);
 
     const router = useRouter();
 
@@ -39,18 +38,14 @@ function PurchasingInformationPage() {
             if (!userCtx.userData)
                 return;
             try {
-                const {payload: invoices} = await BillingService.postGetInvoices(userCtx.userData.email);
+                const {payload: invoices} = await BillingService.getInvoices(userCtx.userData.email);
                 setInvoiceHistory(invoices);
 
                 const {payload: cards} = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
             } catch (error) {
-                let message: string = 'Unknown error';
-                if (axios.isAxiosError(error))
-                    message = error.cause?.message ?? message;
-                else if (typeof error === 'string')
-                    message = error;
-                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+                if (typeof error === 'string')
+                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
             }
         }
         fetchSubscriptionDetailsAndCards();
@@ -71,7 +66,7 @@ function PurchasingInformationPage() {
         return (
             <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-content items-center'}>
                 <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
-                <span>{card.nickName}</span>
+                <span>{card.nickName ?? (card.cardType + ' **** ' + card.last4)}</span>
                 <span
                     hidden={!card.preferred}
                     className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
@@ -89,9 +84,14 @@ function PurchasingInformationPage() {
         const invoiceDate = new Date(order.startDate);
         return (
             <tr key={idx}>
-                <td>{invoiceDate.toLocaleString('default', {month: 'long'})} {invoiceDate.getDate()}th, {invoiceDate.getFullYear()}</td>
-                <td className={'sm:hidden'}>${order.amount}</td>
-                <td className={'text-right sm:hidden'}>{order.name}</td>
+                <td className={'leading-[1.5rem] lg:w-[15%]  md:w-[31%]'}> {order.id}</td>
+                <td className={'lg:w-[15%]  md:hidden'}>
+                    {invoiceDate.toLocaleString('default', {month: 'long'})} {invoiceDate.getDate()}th, {invoiceDate.getFullYear()}
+                </td>
+                <td className={'lg:w-[11%]  md:w-[21%]'}>${order.paidUSD}</td>
+                <td className={'lg:w-[11%]  md:hidden'}>{order.status}</td>
+                <td className={'lg:w-[22%]  lg:table-cell'}>{order.card?.nickName ?? (order.card.cardType + ' **** ' + order.card.last4)}</td>
+                <td className={'sm:hidden'}>{order.item?.name}</td>
             </tr>
         )
     });
@@ -139,18 +139,18 @@ function PurchasingInformationPage() {
                             <span>Name</span>
                             <span>
                                 {defaultCard
-                                    ? defaultCard.billingAddress.firstName + ' ' + defaultCard.billingAddress.lastName
+                                    ? defaultCard.billingAddress?.firstName + ' ' + defaultCard.billingAddress?.lastName
                                     : '--'}
                             </span>
                             <span>Billing Address</span>
                             {defaultCard ? (
                                     <ul>
-                                        <li>{defaultCard.billingAddress.address.split('|').join('')}</li>
+                                        <li>{defaultCard.billingAddress?.address?.split('|')?.join('')}</li>
                                         <li>
-                                            {defaultCard.billingAddress.city}, {defaultCard.billingAddress.state}&nbsp;
-                                            {defaultCard.billingAddress.zip}
+                                            {defaultCard.billingAddress?.city}, {defaultCard.billingAddress?.state}&nbsp;
+                                            {defaultCard.billingAddress?.zip}
                                         </li>
-                                        <li>{defaultCard.billingAddress.country}</li>
+                                        <li>{defaultCard.billingAddress?.country}</li>
                                     </ul>
                                 )
                                 : <span>--</span>}
