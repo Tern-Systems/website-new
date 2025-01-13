@@ -98,6 +98,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             else
                 await BillingService.postUpdateCard(formData, userData?.email);
             await fetchEditCards();
+            modalCtx.openModal(<MessageModal>Card information was updated successfully</MessageModal>);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);

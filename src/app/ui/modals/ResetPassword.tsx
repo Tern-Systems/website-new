@@ -62,7 +62,6 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
             else {
                 await AuthService.postResetPassword(token, formValue.passwordConfirm);
                 router.push(Route.Home);
-                modalCtx.closeModal();
                 modalCtx.openModal(<MessageModal>Your password has been reset successfully!</MessageModal>);
             }
         } catch (error: unknown) {

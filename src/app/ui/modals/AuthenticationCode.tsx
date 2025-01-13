@@ -42,6 +42,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 await AuthService.post2FASendOTP(email, phone);
             else
                 await AuthService.postSendOTP(email);
+            setWarningMsg(`OTP was sent to ${phone}`);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
@@ -78,7 +79,6 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
             const {payload: userData} = await UserService.getUser(token);
             userCtx.setSession(userData, token);
-            modalCtx.closeModal();
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);

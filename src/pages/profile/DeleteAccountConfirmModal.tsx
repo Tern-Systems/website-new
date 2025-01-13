@@ -2,12 +2,12 @@ import React, {FC, FormEvent, ReactElement} from "react";
 
 import {UserData} from "@/app/context/User.context";
 
-import { AuthService } from "@/app/services";
+import {AuthService} from "@/app/services";
 
 import {useForm} from "@/app/hooks";
-import {useUser} from "@/app/context";
+import {useModal, useUser} from "@/app/context";
 
-import {BaseModal} from "@/app/ui/modals";
+import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 
@@ -47,6 +47,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
     const {userData} = props;
 
     const userCtx = useUser();
+    const modalCtx = useModal();
     const [formData, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 
     const handleAccountDelete = async (event: FormEvent<HTMLFormElement>) => {
@@ -56,8 +57,11 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
         try {
             // delete account + logoff
             await AuthService.postDeleteAccount(formData.email, formData.confirm);
+            modalCtx.openModal(<MessageModal>our account was deleted</MessageModal>);
             userCtx.removeSession()
         } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     }
 

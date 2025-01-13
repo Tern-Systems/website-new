@@ -1,10 +1,10 @@
-import {FC} from "react";
+import React, {FC} from "react";
 
 import {Route} from "@/app/static";
 
 import {useModal, useUser} from "@/app/context";
 
-import {BaseModal} from "@/app/ui/modals";
+import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 import {PageLink} from "@/app/ui/layout";
 import {BillingService} from "@/app/services";
@@ -21,7 +21,7 @@ const CancelModal: FC = () => {
         if (!userData)
             return;
         await BillingService.postCancelSubscription(userData.email);
-        modalCtx.closeModal();
+        modalCtx.openModal(<MessageModal>The plan was cancelled</MessageModal>);
     }
 
     return (
