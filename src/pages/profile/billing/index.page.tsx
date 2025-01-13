@@ -158,7 +158,7 @@ const BillingPage: FC = () => {
                         className={'cursor-pointer'}
                         onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
                     >
-                        Billing resolution center
+                        Billing Resolution Center
                     </span>
                 </div>
             </div>
