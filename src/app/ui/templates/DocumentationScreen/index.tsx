@@ -161,8 +161,8 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
     return (
         <div
             className={cn(
-                `self-center flex-grow h-full min-w-[70rem] text-default
-                sm:min-w-full`,
+                `self-center flex-grow h-full min-w-[min(calc(100%-2*var(--p-content-l)),70rem)] text-default`,
+                `sm:min-w-full`,
                 {
                     [`
                         my-[--p-content-l] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]
@@ -233,7 +233,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                         {['w-[58dvw] max-w-[70rem]']: !layoutCtx.isNoLayout}
                     )}
                 >
-                    <div className={`h-full w-full overflow-y-scroll text-documentation leading-[130%]`}>
+                    <div className={`h-full w-full overflow-y-scroll text-documentation leading-[130%] select-all`}>
                         {isPiPMode
                             ? (
                                 <span className={'block content-center w-[70rem] h-full text-center text-heading-l'}>
