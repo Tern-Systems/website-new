@@ -37,7 +37,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck()=== 'sm';
 
     const [isLoginForm, setLoginFormState] = useState(isLoginAction);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);

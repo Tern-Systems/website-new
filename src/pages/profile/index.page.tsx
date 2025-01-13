@@ -63,7 +63,7 @@ const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const {userData, token} = useUser();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck()=== 'sm';
     useSaveOnLeave();
 
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);

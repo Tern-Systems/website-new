@@ -1,6 +1,7 @@
 'use client';
 
 import React, {createContext, FC, PropsWithChildren, ReactElement, useContext, useEffect, useState} from 'react';
+import cn from "classnames";
 
 import {useLayout} from "@/app/context/Layout.context";
 
@@ -62,8 +63,10 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             }}
         >
             <div
-                className={`absolute z-50 w-full h-full flex overflow-hidden pointer-events-auto font-neo text-primary
-                            ${Modal ? '' : 'hidden'} ${layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn}`}
+                className={cn(
+                    `absolute z-50 w-full h-full flex overflow-hidden pointer-events-auto font-neo text-primary select-none`,
+                    {['hidden']:!Modal},layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn
+                )}
             >
                 {Modal}
             </div>

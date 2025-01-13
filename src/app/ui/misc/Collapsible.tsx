@@ -56,11 +56,19 @@ const Collapsible: FC<Props> = (props: Props) => {
     const [isExpanded, setExpandState] = useState<boolean>(expandedState?.[0] ?? true);
 
     const isExpandedFinal = isExpanded || expandedState?.[0] === true;
+    const titleFinal = title?.toLowerCase().split(' ').join('');
+
 
     const handleToggle = () => {
         if (expandedState?.[1])
             expandedState[1]();
         else setExpandState(prevState => !prevState);
+        if (!isExpandedFinal) {
+            setTimeout(
+                () => document.querySelector('#' + titleFinal)?.scrollIntoView({behavior: 'smooth', block: 'end'}),
+                0
+            );
+        }
     }
 
     const Icon = icon
@@ -88,14 +96,17 @@ const Collapsible: FC<Props> = (props: Props) => {
             : collapsedContent
 
         return (
-            <div className={`relative ${WRAPPER_CN} ${classNameWrapper}`}>
+            <div
+                id={titleFinal}
+                className={cn(`relative`, {['[&&]:h-fit']: !isExpanded}, WRAPPER_CN, classNameWrapper)}
+            >
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
                     onClick={() => handleToggle()}
                     className={cn(collapseCN,
-                        `absolute w-[min(3.5dvw,1.8rem)] h-auto top-[--2dr] right-[--2dr]`,
-                        `md:hidden lg:hidden`,
+                        `absolute w-[1.8rem] h-auto top-[--p-content-l] right-[--p-content-l]`,
+                        `lg:hidden`,
                         `sm:landscape:size-[2dvw]`,
                         classNameIcon
                     )}
@@ -107,8 +118,9 @@ const Collapsible: FC<Props> = (props: Props) => {
 
     return (
         <div
-            id={title?.toLowerCase().split(' ').join('')}
-            className={`${WRAPPER_CN} ${isExpandedFinal ? '' : 'pb-0'} ${classNameWrapper}`}>
+            id={titleFinal}
+            className={cn(WRAPPER_CN, {['pb-0']: !isExpandedFinal}, classNameWrapper)}
+        >
             <div
                 onClick={() => handleToggle()}
                 className={cn(classNameTitle, `flex items-center justify-between cursor-pointer gap-x-[0.2rem]`, {['mb-[min(16dvw,3.75rem)]']: isChevron})}

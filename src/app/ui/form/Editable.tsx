@@ -90,7 +90,7 @@ const Editable: FC<Props> = (props: Props) => {
         isSimpleSwitch, isToggleBlocked, setParentEditState,
         classNameWrapper, classNameToggle, data, children
     } = props;
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck()=== 'sm';;
 
     // State
     let defaultFormValue: FormData;

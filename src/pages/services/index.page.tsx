@@ -7,7 +7,7 @@ import {Route} from "@/app/static";
 import {PageLink} from "@/app/ui/layout";
 
 import SVG_ARCH from "/public/images/arch-logo.svg";
-import SVG_QR from "/public/images/qr.svg";
+import SVG_QR from "/public/images/qr.png";
 
 
 const ARCHPage: FC = () => (
@@ -43,6 +43,7 @@ const ARCHPage: FC = () => (
                 src={SVG_QR}
                 alt={'qr'}
                 className={cn(
+                    `rounded-small`,
                     'my-[--p-content] max-w-[37rem] w-[31dvw] h-auto cursor-pointer place-self-center',
                     'md:portrait:w-[50dvw]',
                     'sm:x-[w-[50dvw],my-[--p-content-3xs]]',
