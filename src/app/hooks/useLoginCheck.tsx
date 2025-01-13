@@ -18,9 +18,7 @@ const useLoginCheck = () => {
 
 
     useEffect(() => {
-        if (userCtx.isLoggedIn === null)
-            return;
-        if (!userCtx.isLoggedIn && route !== Route.Home && !layoutCtx.isFade) {
+        if (userCtx.isLoggedIn === false && route !== Route.Home && !layoutCtx.isFade) {
             modalCtx.openModal(
                 <AuthModal isLoginAction onClose={() => navigate(Route.Home)}/>,
                 {hideContent: true}

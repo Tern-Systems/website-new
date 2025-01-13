@@ -123,6 +123,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 const {payload: user} = await UserService.getUser(token);
                 setSession(user, token);
             } catch (error: unknown) {
+                setLoggedState(false);
             }
         };
 
