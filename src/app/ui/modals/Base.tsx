@@ -29,7 +29,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     } = props;
 
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck() === 'sm';
 
     const isSmRulesApplied = isSmScreen && adaptSmScreen || smScreenOnly;
 
@@ -65,7 +65,9 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
             ? (
                 <h2 className={cn(
                     `text-inherit font-oxygen text-heading font-bold`,
-                    `sm:landscape:text-heading-s`, classNameTitle,
+                    `sm:portrait:text-heading-s`,
+                    `sm:landscape:text-section-s`,
+                    classNameTitle,
                     {['mb-[--p-content]']: isSmRulesApplied})}
                 >
                     {title}
@@ -79,7 +81,12 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     `pointer-events-auto`,
                     isSmRulesApplied
                         ? 'bg-control-white-d0 text-gray w-dvw h-dvh z-50'
-                        : 'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0 p-[--p-content-l]',
+                        : cn(
+                            'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0',
+                            'lg:p-[--p-content-l]',
+                            'md:p-[--p-content-s]',
+                            'sm:max-w-[calc(100%-2*var(--p-content-xs))] sm:p-[--p-content-xxs]'
+                        ),
                     className
                 )}
             >
@@ -92,11 +99,20 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     <Button
                         icon={'close'}
                         onClick={() => handleClose()}
-                        classNameIcon={cn({['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied})}
+                        classNameIcon={cn(
+                            'sm:[&_*]:w-[0.75rem]',
+                            {['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied}
+                        )}
                     />
                 </div>
                 <hr className={cn(classNameHr, {
-                    ['relative -left-[0.72rem] mt-[--p-content-xs] w-[calc(100%+1.44rem)] mb-[--s-normal] sm:landscape:x-[scale-[102%],my-[--1drs]]']: !isSmRulesApplied
+                    [cn(
+                        'relative',
+                        'mb-[--p-content-xs]',
+                        'lg:x-[-left-[0.72rem],mt-[--p-content-xs]] lg:w-[calc(100%+1.44rem)]',
+                        'md:x-[-left-[--p-content-4xs],mt-[--p-content-xxs]] md:w-[calc(100%+2*var(--p-content-4xs))]',
+                        'sm:x-[-left-[--p-content-5xs],mt-[--p-content-xxs]] sm:w-[calc(100%+2*var(--p-content-5xs))]',
+                    )]: !isSmRulesApplied
                 })
                 }/>
                 <div className={cn(classNameContent, 'overflow-y-scroll h-[calc(100%-var(--h-modal-header))]')}>

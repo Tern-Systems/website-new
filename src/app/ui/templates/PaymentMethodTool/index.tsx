@@ -59,7 +59,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const {userData} = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck()=== 'sm';
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);

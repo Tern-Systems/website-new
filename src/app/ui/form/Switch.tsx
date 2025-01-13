@@ -10,7 +10,7 @@ interface Props {
 
 const Switch: FC<Props> = (props: Props) => {
     const {handleSwitch, state, className} = props;
-    const isSmScreen = useBreakpointCheck()
+    const isSmScreen = useBreakpointCheck()=== 'sm';
 
     return (
         <div

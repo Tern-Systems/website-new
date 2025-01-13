@@ -6,7 +6,7 @@ import {MenuModal} from "@/app/ui/modals";
 
 const useMenu = (isSingleSubLink?: boolean): [() => void, () => void] => {
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck() === 'sm';
 
     const openMenu = () => {
         if (isSmScreen)
