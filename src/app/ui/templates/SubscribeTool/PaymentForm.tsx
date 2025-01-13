@@ -1,5 +1,6 @@
 import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 
+import {FlowQueue} from "@/app/context/Flow.context";
 import {SavedCard} from "@/app/types/billing";
 import {Subscription, SubscriptionRecurrency} from "@/app/types/subscription";
 import {SubscribeData} from "@/app/services/billing.service";
@@ -13,6 +14,7 @@ import {useFlow, useModal, useUser} from "@/app/context";
 import {ScrollEnd} from "@/app/ui/misc";
 import {PageLink} from "@/app/ui/layout";
 import {Button, Input, Select} from '@/app/ui/form';
+import {MessageModal} from "@/app/ui/modals";
 import {DeclinedModal} from "./DeclinedModal";
 
 import SVG_VISA from '/public/images/icons/card-visa.svg';
@@ -98,8 +100,16 @@ const PaymentForm: FC<Props> = (props: Props) => {
             const next = flowCtx.next();
             if (next)
                 next();
-            else
-                navigate(Route.Home);
+            else {
+                const flow: FlowQueue = [];
+                flow.push(() => {
+                    navigate(Route.Home);
+                });
+                flow.push(() => {
+                    modalCtx.openModal(<MessageModal>Successfully subscribed to {name} {type} plan</MessageModal>);
+                });
+                flowCtx.run(flow);
+            }
         }
         // eslint-disable-next-line
     }, [paymentStatus]);

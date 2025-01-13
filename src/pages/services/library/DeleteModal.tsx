@@ -26,7 +26,7 @@ const DeleteModal: FC<Props> = (props: Props) => {
             return;
         try {
             await ARCHService.deleteQr(userCtx.userData.email, adCode.mediaId);
-            modalCtx.closeModal();
+            modalCtx.openModal(<MessageModal>QR code was deleted</MessageModal>);
             updateList(true);
         } catch (error: unknown) {
             if (typeof error === 'string')
