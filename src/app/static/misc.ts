@@ -1,5 +1,4 @@
 // Misc
-import {Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static/routing";
 
 const LANGUAGE = {
@@ -225,22 +224,5 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.TBD]: '/TBD',
 }
 
-// Temp
-const INVOICE_TEMPLATE: Invoice = {
-    id: 111111111111,
-    date: Date.now(),
-    to: 'John Doe',
-    from: 'Tern Systems, LLC',
-    card: {cardNumber: '1111222233334444', type: 'visa', nickName: 'john doe'},
-    item: {name: 'ARCH Standard Subscription', priceUSD: 10},
-    subtotalUSD: 10,
-    totalDue: 10.60,
-    taxPercent: 0.06,
-    paidUSD: 10.6,
-    country: 'US',
-    state: 'PA',
-    type: 'monthly',
-    status: 'paid'
-}
 
-export {INVOICE_TEMPLATE, MAPPED_SUB_NAV_ROUTES, LANGUAGE, SALUTATION, LAYOUT};
+export {MAPPED_SUB_NAV_ROUTES, LANGUAGE, SALUTATION, LAYOUT};

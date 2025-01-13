@@ -3,7 +3,7 @@ import {ReactSVG} from "react-svg";
 import Image from "next/image";
 import cn from "classnames";
 
-import {SavedCard} from "@/app/types/billing";
+import {SavedCardFull} from "@/app/types/billing";
 import {Subscription} from "@/app/types/subscription";
 import {Route} from "@/app/static";
 
@@ -36,14 +36,14 @@ function ManageSubscriptionsPage() {
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
     // eslint-disable-next-line
-    const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
+    const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
 
     useEffect(() => {
         const fetchCards = async () => {
             if (!userData)
                 return;
             try {
-                const {payload: cards} = await BillingService.getCards(userData.email);
+                const {payload: cards} = await BillingService.getEditCards(userData.email);
                 setSavedCards(cards);
             } catch (error: unknown) {
                 if (typeof error === 'string')
@@ -73,11 +73,18 @@ function ManageSubscriptionsPage() {
 
         let SavedCards = savedCards.map((method, idx) => (
             <li key={method.nickName + idx} className={'flex [&&_path]:fill-gray items-center'}>
-                <span className={'flex gap-x-[--s-d2l-smallest] items-center'}>
+                <span className={'flex items-center'}>
                     <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem] h-auto'}/>
-                    <span className={'text-content sm:landscape:text-content-small'}>{method.nickName}</span>
-                    <span className={`flex items-center px-[--s-d-small] h-[min(3.5dvw,1.3rem)] rounded-smallest1
-                                    bg-control-white-d0 text-gray text-center text-note font-oxygen`}>
+                    <span
+                        className={'block mx-[--p-content-5xs] overflow-x-hidden leading-[1.3] overflow-ellipsis text-nowrap text-content  sm:max-w-[70%] sm:landscape:text-content-small'}>
+                        {method.nickName ?? (method.cardType + ' **** ' + method.last4)}
+                    </span>
+                    <span className={cn(
+                        `flex items-center px-[--s-d-small] h-[min(3.5dvw,1.3rem)] rounded-smallest1`,
+                        `bg-control-white-d0 text-gray text-center text-note font-oxygen`,
+                        {['hidden']: !method.preferred}
+                    )}
+                    >
                         Preferred
                     </span>
                 </span>

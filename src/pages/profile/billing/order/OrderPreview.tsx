@@ -14,7 +14,7 @@ const BTN_CN = 'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-ful
 
 
 interface Props {
-    invoice: Invoice | undefined;
+    invoice: Invoice | null;
     card: string;
     invoiceDate: string;
     VisibilityToggle: ReactElement;
