@@ -14,9 +14,10 @@ import {useLoginCheck, useNavigate} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {CodeMenu, CodeMenuData} from "./CodeMenu";
+import {ScrollEnd} from "@/app/ui/misc";
 
 
-const SavedCodesPage: FC = () => {
+const LibraryPage: FC = () => {
     const [codeId, setCodeId] = useState<string | null>(null);
     const [updateList, setUpdateList] = useState(false);
     const [qrList, setQRList] = useState<ARCode[]>([]);
@@ -36,6 +37,8 @@ const SavedCodesPage: FC = () => {
 
 
     useEffect(() => {
+        if (userCtx.isLoggedIn === null)
+            return;
         const subscription: SubscriptionBase | undefined = userCtx.userData?.subscriptions.find((entry: SubscriptionBase) => entry.subscription === 'ARCH');
         if (!subscription) {
             setTimeout(() => {
@@ -102,7 +105,10 @@ const SavedCodesPage: FC = () => {
         return (
             <div key={arCode.name + idx} id={'qr-' + arCode.mediaId + idx} className={'w-full place-items-center'}>
                 <div
-                    className={'flex cursor-pointer mb-[--p-content-xxs] w-full justify-center [&_*]:x-[w-full,h-auto]'}
+                    className={cn(
+                        'flex cursor-pointer mb-[--p-content-xxs] w-full justify-center [&_*]:x-[w-full,h-auto]',
+                        `sm:mb-[--p-content-4xs]`
+                    )}
                 >
                     <SVG
                         text={'https://arch.tern.ac/' + arCode?.mediaId}
@@ -117,12 +123,13 @@ const SavedCodesPage: FC = () => {
                 </div>
                 <div
                     className={cn(
-                        `relative flex w-full h-[2.3rem] items-center justify-center rounded-smallest bg-control-gray`,
-                        `sm:x-[border-small,border-control-white,bg-control-gray-l0]`,
+                        `relative flex w-full items-center justify-center rounded-smallest bg-control-gray`,
+                        `h-[2.3rem]`,
+                        `sm:x-[h-[1.875rem],border-small,border-control-white,bg-control-gray-l0]`,
                     )}
                 >
                     <span className={cn(
-                        'px-[--p-content-l] overflow-x-hidden overflow-ellipsis text-nowrap text-heading leading-[1.2]',
+                        'px-[--p-content-xs] overflow-x-hidden overflow-ellipsis text-nowrap text-heading leading-[1.2]',
                         'sm:text-basic',
                     )}
                     >
@@ -147,23 +154,31 @@ const SavedCodesPage: FC = () => {
     });
 
     return (
-        <div className={'w-full h-full sm:py-[3.36rem]'}>
+        <div className={cn(
+            'w-full h-full',
+            'lg:x-[px-[9rem],pt-[5.94rem]]',
+            'md:x-[px-[--p-content-s],py-[--p-content-xl]]',
+            'sm:portrait:py-[--p-content-xxl]',
+            'sm:landscape:py-[--p-content-xs]',
+        )}
+        >
             <div
                 className={cn(
-                    `grid`,
-                    `gap-x-[min(5dvw,5.94rem)] gap-y-[min(3.75dvw,4.5rem)]`,
-                    `lg:x-[px-[9rem],py-[5.94rem]]`,
-                    `lg:grid-cols-[repeat(auto-fill,minmax(0,15.6rem))]`,
-                    `after:flex-auto`,
+                    `grid justify-center h-full overflow-y-scroll`,
+                    `auto-rows-min grid-cols-[repeat(auto-fill,minmax(0,15.6rem))] gap-x-[5.94rem] gap-y-[4.5rem]`,
+                    `lg:x-[h-fit,overflow-visible]`,
                     `sm:grid-cols-[repeat(auto-fill,minmax(0,10.3rem))]`,
-                    `sm:x-[gap-x-[1.3dvw],gap-y-[--p-content-xs],px-[--p-content-xs],overflow-y-scroll] sm:portrait:h-full`
+                    `md:gap-[--p-content-xxs]`,
+                    `sm:x-[gap-x-[--p-content-5xs],gap-y-[--p-content-xs],px-[--p-content-xs]]`,
+                    `sm:landscape:gap-x-[--p-content]`,
                 )}
             >
                 {menuData.isOpened ? <CodeMenu menuData={menuData}/> : null}
                 {SavedCodes}
             </div>
+            <ScrollEnd/>
         </div>
     );
 }
 
-export default SavedCodesPage;
+export default LibraryPage;

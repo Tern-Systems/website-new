@@ -37,12 +37,14 @@ const DeleteModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal
             title={'Delete AR Code?'}
-            className={'text-center w-[30.31rem]'}
-            classNameContent={'flex flex-col w-[19.65rem] items-center mx-auto'}
+            className={'text-center w-[30.3rem]'}
+            classNameContent={'flex flex-col items-center mx-auto leading-[1.2]  lg:w-[90%]'}
         >
-            <p>Are you sure you want to proceed with this action?</p>
-            <p> This will delete <span className={'font-bold'}>{adCode.name}</span>. </p>
-            <span className={'flex gap-[0.62rem] font-bold mt-[1.56rem] text-small'}>
+            <p>
+                This will delete <span className={'font-bold'}>{adCode.name}</span> from your library.
+                Are you sure you want to proceed with this action?
+            </p>
+            <span className={'flex gap-[0.62rem] font-bold mt-[--p-content-xs] text-small'}>
                 <Button
                     className={'text-red border-control-red border-small px-[1rem] h-[1.43rem] rounded-full'}
                     onClick={() => handleDelete()}

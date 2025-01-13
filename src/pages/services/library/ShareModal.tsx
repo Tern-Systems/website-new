@@ -1,5 +1,6 @@
 import {FC, useState} from "react";
 import Image from "next/image";
+import cn from "classnames";
 import {
     FacebookIcon,
     FacebookShareButton,
@@ -61,8 +62,13 @@ const ShareModal: FC<Props> = (props: Props) => {
 
     const handleLinkCopy = async () => {
         setInfoState('');
-        await navigator.clipboard.writeText(file);
 
+        if (!navigator.clipboard) {
+            setInfoState(`The link can't be copied if you are using http://`);
+            return;
+        }
+
+        await navigator.clipboard?.writeText(file);
         setTimeout(() => {
             setInfoState('The link has been copied to your clipboard');
         }, LINK_COPY_TIMEOUT_MS);
@@ -75,60 +81,83 @@ const ShareModal: FC<Props> = (props: Props) => {
                       summary={LINK_DESCRIPTION}
                       description={LINK_DESCRIPTION}
                       media={file}
-                      className={`inline-block [&_path]:bg-control-white  rounded-full overflow-hidden ${styles.clickable}`}
+                      className={`inline-block [&_path]:bg-control-white rounded-full overflow-hidden ${styles.clickable}`}
         >
-            <icon.svg className={'w-[--2hdr] h-auto rounded-full'}/>
+            <icon.svg className={'w-[--p-content-xl] h-auto rounded-full  sm:w-[--p-content-s]'}/>
         </icon.element>
     ));
 
     return (
-        <BaseModal title={'Share AR Code'} className={'w-[min(90dvw,30rem)]'}
-                   classNameContent={'flex flex-col place-items-center'}>
+        <BaseModal title={'Share AR Code'}
+                   className={'max-w-[30rem] w-full  sm:landscape:max-w-[21rem]'}
+                   classNameContent={'flex flex-col place-items-center'}
+        >
             <Image
                 src={file || SVG_FIGURE_FALLBACK}
                 width={85}
                 height={85}
                 alt={'figure'}
-                className={`w-[43%] h-auto rounded-small border-[0.1875rem] border-control-white p-[min(4dvw,1.44rem)]`}
+                className={cn(
+                    `p-[--p-content-xs] w-[43%] h-auto rounded-small border-[0.1875rem] border-control-white`,
+                    `sm:landscape:x-[p-[--p-content-4xs],max-w-[6.25rem]]`
+                )}
             />
-            <span className={'font-oxygen text-content font-bold mt-[min(2.7dvw,1rem)] mb-[min(5.3dvw,1.9rem)]'}>
+            <span
+                className={cn(
+                    'mt-[--p-content-xxs] w-[90%] font-oxygen text-center leading-[1.2] font-bold select-all',
+                    'mb-[--p-content] text-heading-s',
+                    'md:x-[mb-[--p-content-s],text-section-s]',
+                    'sm:x-[mb-[--p-content-xs],text-basic]',
+                    'sm:landscape:x-[text-nowrap,overflow-x-hidden,overflow-ellipsis]',
+                )}
+            >
                 {name}
             </span>
             <span className={'flex place-items-center'}>
                 <Image
                     src={SVG_CHEVRON}
                     alt={'right'}
-                    className={'w-[min(2.8dvw,0.875rem)] h-auto rotate-90 cursor-pointer'}
+                    className={'w-[0.875rem] h-auto rotate-90 cursor-pointer'}
                     onClick={() => setIconStartIdx(prevState => prevState > 0 ? prevState - 1 : prevState)}
                 />
-                <span className={`inline-block h-[--2hdr] w-[100%]`}>
-                    <span className={'flex gap-x-[--s-small] px-[min(1dvw,0.63rem)]'}>
+                <span className={`inline-block w-full`}>
+                    <span className={'flex gap-x-[--p-content-3xs] px-[--p-content-4xs]  sm:gap-x-[--p-content-4xs]'}>
                         {Icons}
                     </span>
                 </span>
                 <Image
                     src={SVG_CHEVRON}
                     alt={'right'}
-                    className={'w-[min(2.8dvw,0.875rem)] h-auto -rotate-90 cursor-pointer'}
+                    className={'w-[0.875rem] h-auto -rotate-90 cursor-pointer'}
                     onClick={() =>
                         setIconStartIdx(prevState => ICONS.length - prevState > VISIBLE_ICONS_COUNT ? prevState + 1 : prevState)
                     }
                 />
             </span>
             <span
-                className={`px-[min(4dvw,0.56rem)] flex place-items-center mt-[--1hdr] h-[min(6.1dvw,1.6rem)] rounded-smallest
-                            w-[90%] max-w-[20rem] overflow-ellipsis border-small border-control-grayL1 bg-control-gray-l0`}>
+                className={cn(
+                    `flex place-items-center mt-[--p-content-s] px-[0.56rem] w-[90%]`,
+                    `h-[1.6rem] rounded-smallest border-small border-control-white bg-control-gray-l0`,
+                    `md:mt-[--p-content-xs]`,
+                    `sm:x-[mt-[--p-content-xxs],h-[1.4rem]]`,
+                )}
+            >
                 <Image
                     src={SVG_COPY}
                     alt={'copy'}
                     className={`${styles.clickable} cursor-pointer h-[75%] w-auto`}
                     onClick={() => handleLinkCopy()}
                 />
-                <span className={'ml-[min(4dvw,0.51rem)] text-nowrap overflow-ellipsis overflow-hidden'}>
+                <span
+                    className={cn(
+                        'ml-[0.51rem] overflow-ellipsis overflow-hidden text-nowrap leading-[1.2] select-all',
+                        'sm:text-section-xxs'
+                    )}
+                >
                     {file}
                 </span>
             </span>
-            <span className={'mt-[0.5rem] text-small'}>{infoState}</span>
+            <span className={'mt-[--p-content-4xs] text-small leading-[1.2]  sm:text-section-xxs'}>{infoState}</span>
         </BaseModal>
     )
 }

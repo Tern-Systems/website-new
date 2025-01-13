@@ -69,7 +69,7 @@ const CodeMenu: FC<Props> = (props: Props) => {
         <Button
             key={name + idx}
             icon={value.svg}
-            className={'flex gap-x-[0.58rem] font-bold'}
+            className={'flex gap-x-[0.58rem] font-bold w-full [&]:justify-start'}
             classNameIcon={'[&_svg]:w-[1.125rem]'}
             onClick={() => value.action({
                 openModal,
