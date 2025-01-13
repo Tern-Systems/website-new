@@ -29,7 +29,6 @@ import SVG_STAR from "/public/images/icons/star.svg";
 
 
 const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ["monthly", "annual"];
-const LINKS_MB_CN = "mb-[min(1.3dvw,0.45rem)]";
 
 
 interface Props {
@@ -120,14 +119,23 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             Benefits.unshift(Additional);
         }
 
-
         const Limits: ReactElement = (
-            <span
-                className={"underline cursor-pointer"}
-                onClick={() => modalCtx.openModal(<LimitsModal/>, {darkenBg: true})}
-            >
-                Limits apply
-            </span>
+            <>
+                <span
+                    className={"underline cursor-pointer"}
+                    onClick={() => modalCtx.openModal(<LimitsModal/>, {darkenBg: true})}
+                >
+                    Limits apply
+                </span>
+                <span className={cn({['hidden']: userSubscription})}>
+                    Have an existing plan? See the&nbsp;
+                    <span onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
+                          className={`${styles.clickable} underline`}
+                    >
+                        billing resolution center
+                    </span>
+                </span>
+            </>
         );
 
         let subscribeBtnText: string | ReactElement = userSubscription && isBasicKind && !isProUser ? 'Upgrade to Pro' : 'Subscribe';
@@ -135,31 +143,21 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         if (isBtnDisabled || isBasicPlan) {
             subscribeBtnText = 'Your current plan';
-            Links = isBasicPlan
-                ? (
-                    <span>
-                        Have an existing plan? See the&nbsp;
-                        <span onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
-                              className={`${styles.clickable} underline`}>
-                            billing resolution center
-                        </span>
+            Links = (
+                <>
+                    <span className={`underline`}>
+                        <PageLink
+                            href={Route.ManageSubscriptions}
+                            className={"cursor-pointer"}
+                        >
+                            Manage subscription
+                        </PageLink>
                     </span>
-                )
-                : (
-                    <>
-                        <span className={`${LINKS_MB_CN} underline`}>
-                            <PageLink
-                                href={Route.ManageSubscriptions}
-                                className={"cursor-pointer"}
-                            >
-                                Manage subscription
-                            </PageLink>
-                        </span>
-                        <span className={"first-letter:capitalize"}>
-                            {BillingResolution}
-                        </span>
-                    </>
-                );
+                    <span className={"first-letter:capitalize"}>
+                        {BillingResolution}
+                    </span>
+                </>
+            );
         } else if (!isCurrentType && userSubscription) {
             subscribeBtnText = (
                 <>
@@ -186,9 +184,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         if (showAsterisk) {
             Links = (
                 <>
-                    <span className={LINKS_MB_CN}>
-                       *Price billed annually
-                    </span>
+                    <span>*Price billed annually</span>
                     {Links}
                 </>
             );
@@ -249,12 +245,11 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 expandedState={[breakpoint === 'lg']}
                 collapsedContent={CollapsedContentSm}
                 classNameWrapper={cn(
-                    `[&]:self-start [&]:max-w-[25rem] border-small border-control-white-d0 text-left`,
-                    `min-w-[25rem]`,
-                    `[&]:h-full`,
-                    `md:x-[p-[--p-content-s],min-w-[24rem]]`,
-                    `sm:x-[p-[--p-content-xxs],min-w-[20rem],border-none]`,
-                    `sm:landscape:[&]:x-[self-start,max-w-[21rem]]`,
+                    `[&]:self-start [&]:max-w-[25rem] w-full h-full border-small border-control-white-d0 text-left`,
+                    'lg:h-[35.5rem]',
+                    `md:x-[p-[--p-content-s],h-[35.5rem]]`,
+                    `md:landscape:h-[35.5rem]`,
+                    `sm:x-[p-[--p-content-xxs],border-none]`,
                 )}
                 classNameIcon={'[&]:w-[0.8125rem]  md:right-[--p-content-s] md:top-[calc(var(--p-content-s)+0.5*var(--fz-heading))]'}
                 className={'flex flex-col h-full'}
@@ -273,7 +268,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     `sm:landscape:text-section-3xs`
                 )}
                 >
-                    <span className={'flex flex-col mt-auto'}>{Links}</span>
+                    <span className={'flex flex-col gap-y-[--p-content-5xs] mt-auto'}>{Links}</span>
                 </div>
             </Collapsible>
         )
@@ -322,13 +317,14 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         <div className={cn(
             `flex flex-col h-full`,
             `md:pb-[--p-content-l]`,
-            `sm:pb-[--p-content-xxl]`,
+            `sm:px-[--p-content-xs]`,
+            `sm:portrait:pb-[--p-content-xxl]`,
             `sm:landscape:mt-[1.81rem]`,
         )}
         >
             <div className={cn(
                 'flex items-end justify-center',
-                `lg:x-[mb-[--p-content],h-[5rem]]`,
+                `lg:x-[mb-[--p-content],h-[11rem]]`,
                 `md:pb-[--p-content-xxs]`,
                 `md:h-[6.75rem]`,
                 `sm:pb-[--p-content-xxs]`,
@@ -342,26 +338,18 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 </div>
             </div>
             <div className={cn(
-                'grid auto-rows-min justify-center overflow-scroll',
-                'lg:h-[calc(100%-2.5rem)]',
-                'md:portrait:h-[calc(100%-6.75rem)]',
-                'sm:portrait:h-[calc(100%-6.75rem)]',
+                'grid auto-rows-min justify-center self-center w-full overflow-scroll',
+                'lg:gap-x-[4.13rem]',
+                'lg:grid-cols-[repeat(2,minmax(0,25rem))] lg:h-[calc(100%-2.5rem)]',
+                'md:portrait:h-[calc(100%-6.75rem)] md:portrait:grid-cols-[minmax(0,24rem)] md:landscape:grid-cols-[repeat(2,minmax(0,24rem))]',
+                'md:gap-[--p-content-xxs]',
+                'sm:portrait:gap-y-[--p-content-4xs] sm:portrait:h-[calc(100%-6.75rem)] sm:portrait:grid-cols-[minmax(0,20rem)]',
+                'sm:landscape:x-[gap-x-[--p-content-3xs],overflow-visible] sm:landscape:grid-cols-[repeat(2,minmax(0,20rem))]',
             )}
             >
-                <div className={cn(
-                    'flex gap-x-[--p-content-3xl] w-full h-full',
-                    `lg:justify-center`,
-                    `md:gap-y-[--p-content-xxs]`,
-                    `md:portrait:x-[flex-col,px-[--p-content-xxs]]`,
-                    `sm:gap-y-[--p-content-xxs]`,
-                    `sm:portrait:x-[flex-col,px-[--p-content-xxs]]`,
-                    `sm:landscape:x-[gap-x-[--p-content-4xs],px-[--p-content-3xl],justify-items-start]`,
-                )}
-                >
-                    {renderColumns()}
-                </div>
-                <ScrollEnd/>
+                {renderColumns()}
             </div>
+            <ScrollEnd/>
         </div>
     )
 }
