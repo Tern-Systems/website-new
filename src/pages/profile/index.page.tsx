@@ -92,11 +92,13 @@ const ProfilePage: FC = () => {
     // Elements
     const Primary = (
         <span
-            className={`col-start-2 bg-control-white-d0 rounded-smallest1 w-[4.15rem] py-[0.1rem] block
-                          text-gray text-center text-note font-oxygen mt-[0.62rem]`}
+            className={cn(
+                `col-start-2 bg-control-white-d0 rounded-smallest1 w-[4.15rem] py-[0.1rem] block`,
+                `text-gray text-center text-section-xxs font-oxygen mt-[0.62rem]`
+            )}
         >
-      Primary
-    </span>
+            Primary
+        </span>
     );
 
     const SectionsNav: ReactElement[] = SECTIONS.map((link, idx) => (
@@ -108,17 +110,17 @@ const ProfilePage: FC = () => {
                 {[`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx}
             )}
         >
-      <span
-          onClick={() => {
-              setActiveSectionIdx(idx);
-              const id = "#" + link.toLowerCase().split(" ").join("");
-              document
-                  .querySelector(id)
-                  ?.scrollIntoView({behavior: "smooth", inline: "center"});
-          }}
-      >
-        {link}
-      </span>
+            <span
+                onClick={() => {
+                    setActiveSectionIdx(idx);
+                    const id = "#" + link.toLowerCase().split(" ").join("");
+                    document
+                        .querySelector(id)
+                        ?.scrollIntoView({behavior: "smooth", inline: "center"});
+                }}
+            >
+                {link}
+            </span>
         </li>
     ));
 
@@ -134,54 +136,51 @@ const ProfilePage: FC = () => {
 
             return (
                 <span key={text + idx} className={"contents"}>
-          {isFound ? (
-              <a
-                  href={userApp?.link}
-                  className={`capitalize col-start-2 ${styles.midCol + " " + styles.ellipsis
-                  }`}
-                  target={"_blank"}
-              >
-                  {userApp?.name}
-              </a>
-          ) : (
-              <span
-                  className={`capitalize col-start-2 ${styles.midCol + " " + styles.ellipsis
-                  }`}
-              >
-              {app}
-            </span>
-          )}
+                    {isFound
+                        ? (
+                            <a
+                                href={userApp?.link}
+                                className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}
+                                target={"_blank"}
+                            >
+                                {userApp?.name}
+                            </a>
+                        )
+                        : <span className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}>{app}</span>
+                    }
                     <Button
                         icon={isFound ? "mark-square" : "plus-square"}
                         hovered={{
                             icon: isFound ? "close-square" : null,
                             text: isFound ? "Disconnect" : "",
                         }}
-                        className={`col-start-3 flex-row-reverse place-self-end ${styles.ellipsis
-                        } ${styles.connectBtn} ${isFound && styles.connected} ${isFound ? styles.disconnect : styles.connect
-                        }`}
+                        className={cn(
+                            `col-start-3 flex-row-reverse place-self-end`, styles.ellipsis, styles.connectBtn,
+                            isFound ? styles.disconnect : styles.connect,
+                            {[styles.connected]: isFound}
+                        )}
                         onClick={() => {
                             // TODO
                         }}
                     >
-            {isSmScreen ? "" : text}
-          </Button>
-        </span>
-            );
+                       <span className={'sm:hidden'}>{text}</span>
+                    </Button>
+                </span>
+            )
         });
     };
 
     // Contact
     const Phones = Object.entries(userData.phones).map(([type, phone], idx) =>
-        phone ? (
-            <span key={type + idx}>
-        <span className={"text-small block mb-[0.62rem] mt-[1rem] capitalize"}>
-          {type}
-        </span>
-        <span>{phone.number + ("ext" in phone ? " - " + phone.ext : "")}</span>
-                {phone.isPrimary ? Primary : null}
-      </span>
-        ) : null
+        phone
+            ? (
+                <span key={type + idx}>
+                    <span className={"text-section-xs block mb-[0.62rem] mt-[1rem] capitalize"}>{type}</span>
+                    <span>{phone.number + ("ext" in phone ? " - " + phone.ext : "")}</span>
+                    {phone.isPrimary ? Primary : null}
+                </span>
+            )
+            : null
     );
 
     // Addresses
@@ -189,32 +188,27 @@ const ProfilePage: FC = () => {
         .filter((address) => address[1])
         .map(([type, address], idx) => {
             const state = address ? STATE_PROVINCE?.[address.country]?.[address.state] : '';
-            const addressInfo: ReactElement =
-                address && address.state && address.country ? (
+            const addressInfo: ReactElement = address && address.state && address.country
+                ? (
                     <>
-            <span className={"w-[14.69rem] flex flex-col"}>
-              <span>{address.line1}</span>
-              <span>{address.line2}</span>
-              <span>
-                {address.city} {state} {address.zip}
-              </span>
-              <span>{COUNTRY[address.country]}</span>
-            </span>
+                        <span className={"w-[14.69rem] flex flex-col"}>
+                            <span>{address.line1}</span>
+                            <span>{address.line2}</span>
+                            <span>{address.city} {state} {address.zip}</span>
+                            <span>{COUNTRY[address.country]}</span>
+                        </span>
                         {address.isPrimary ? Primary : null}
                     </>
-                ) : (
-                    <span>--</span>
-                );
+                )
+                : <span>--</span>;
 
             return (
                 <span key={type + idx} className={"col-start-2"}>
-          <span
-              className={"text-small mt-[0.76rem] mb-[0.2rem] capitalize block"}
-          >
-            {type.slice(0, "Address".length + 1)} Address
-          </span>
+                    <span className={"text-section-xs mt-[0.76rem] mb-[0.2rem] capitalize block"}>
+                        {type.slice(0, "Address".length + 1)} Address
+                    </span>
                     {addressInfo}
-        </span>
+                </span>
             );
         });
 
@@ -223,46 +217,65 @@ const ProfilePage: FC = () => {
     const subIndustry = SUB_INDUSTRY?.[userData.company.industry]?.[userData.company.subIndustry];
 
     return (
-        <div className={"flex mt-[3.88rem] sm:mt-0"}>
+        <div className={cn(
+            "flex",
+            'lg:mt-[3.88rem]',
+            `md:portrait:h-[calc(100%-2*var(--p-content-xs))] md:x-[mt-[--p-content-xs],px-[--p-content-xs],overflow-y-scroll]`,
+            `sm:mt-0`,
+            `sm:portrait:h-[calc(100%-2*var(--p-content-xxl))] sm:portrait:x-[mt-[--p-content-xxl],px-[--p-content-xs],overflow-y-scroll]`,
+            `sm:landscape:h-[calc(100%-2*var(--p-content-xs))] sm:landscape:x-[mt-[--p-content-xs],px-[--p-content-xs],overflow-y-scroll]`,
+        )}
+        >
             <aside
-                className={`sticky self-start text-left text-nowrap
-                            top-[min(25.3dvw,5.94rem)] ml-[min(5.3dvw,15rem)]
-                            sm:portrait:hidden
-                            sm:landscape:x-[top-0,ml-[--1dr],mr-[--2dr]]`}
+                className={cn(
+                    `sticky self-start text-left text-nowrap`,
+                    `hidden top-[min(25.3dvw,3.88rem)] ml-[min(5.3dvw,15rem)]`,
+                    `lg:block`,
+                )}
             >
                 <div
-                    className={`font-bold
-                                mb-[--1hdrs] text-header
-                                sm:landscape:text-content`}
+                    className={cn(
+                        `font-bold`,
+                        `mb-[--1hdrs] text-heading`,
+                        `sm:landscape:text-heading-s`,
+                    )}
                 >
                     <span>Sections</span>
                 </div>
                 <ul
-                    className={`flex flex-col ${styles.line} before:bg-control-white
-                                text-content-small 
-                                sm:landscape:text-small`}
+                    className={cn(styles.line,
+                        `flex flex-col before:bg-control-white`,
+                        `text-section`,
+                        `sm:landscape:text-section-xs`,
+                    )}
                 >
                     {SectionsNav}
                 </ul>
             </aside>
             <div
-                className={`flex-grow flex flex-col gap-y-[--s-dl-smallest]
-                            ml-[10rem]
-                            sm:ml-0
-                            sm:portrait:x-[overflow-y-scroll,max-h-[70dvh]]`}
+                className={cn(
+                    `flex-grow flex flex-col gap-y-[--p-content-4xs]`,
+                    `lg:ml-[10rem]`,
+                    `sm:landscape:x-[grid,auto-rows-min,grid-cols-2,gap-[--p-content-5xs]] sm:landscape:[&>div]:place-self-start`,
+                )}
             >
                 <Collapsible
                     title={SECTIONS[0]}
                     icon={"key"}
                     className={styles.collapsible}
                 >
-          <span className={styles.leftCol + " " + styles.ellipsis}>
-            Profile Picture
-          </span>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>
+                        Profile Picture
+                    </span>
                     <Input
                         type={"file"}
-                        classNameWrapper={`bg-control-white text-gray px-[min(3dvw,1rem)] w-fit font-bold rounded-full
-                                            h-[--h-control-dl] text-small box-content`}
+                        classNameWrapper={cn(
+                            `px-[--p-content-xxs] [&]:w-fit rounded-full bg-control-white text-gray font-bold`,
+                            `h-[1.43rem] text-section-xs`,
+                            `sm:x-[h-[1.125rem],text-section-xxs]`,
+                        )}
+                        className={'w-fit'}
+                        classNameIcon={'[&&_*]:size-[--p-content-xxs]  sm:[&_*]:size-[--p-content-4xs]'}
                     >
                         Upload Media
                     </Input>
@@ -271,8 +284,7 @@ const ProfilePage: FC = () => {
                     <Editable
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${styles.singleInput + " " + styles.singleInputBase
-                            } ${styles.common}`,
+                            className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                             title: "Update your TernID",
                             value: {value: userData.email},
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -280,24 +292,16 @@ const ProfilePage: FC = () => {
                             }, //TODO
                         }}
                     >
-            <span className={styles.midCol + " " + styles.ellipsis}>
-              {userData.email}
-            </span>
+                        <span className={styles.midCol + " " + styles.ellipsis}>{userData.email}</span>
                     </Editable>
 
-                    <span className={styles.leftCol + " " + styles.ellipsis}>
-            Password
-          </span>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>Password</span>
                     <Editable
                         type={"password"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
-                        classNameWrapper={
-                            getSimpleToggleProps(setEditState, isEditState).classNameWrapper +
-                            " gap-y-[--1dr]"
-                        }
+                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + " gap-y-[--p-content-xxs]"}
                         data={{
-                            className: `${styles.singleInput + " " + styles.singleInputBase
-                            } ${styles.common}`,
+                            className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                             title: "Update password",
                             value: null,
                             onSave: async (formData) => {
@@ -323,24 +327,24 @@ const ProfilePage: FC = () => {
                             },
                         }}
                     >
-            <span className={styles.midCol + " " + styles.ellipsis}>
-              <span className={"block"}>•••••••••••••••</span>
-              <span className={"text-small"}>
-                Last updated&nbsp;
-                  {userData.passwordUpdateDate
-                      ? formatDate(new Date(userData.passwordUpdateDate), "short")
-                      : "--"}
-              </span>
-            </span>
+                    <span className={styles.midCol + " " + styles.ellipsis}>
+                        <span className={"block"}>•••••••••••••••</span>
+                        <span className={"text-section-xs"}>
+                            Last updated&nbsp;
+                            {userData.passwordUpdateDate
+                                ? formatDate(new Date(userData.passwordUpdateDate), "short")
+                                : "--"}
+                        </span>
+                    </span>
                     </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>
-            Security
-          </span>
+                        Security
+                    </span>
                     <Editable
                         type={"2FA"}
                         {...getSimpleToggleProps()}
-                        classNameWrapper={getSimpleToggleProps().classNameWrapper + " gap-y-[min(3.2dvw,0.94rem)]"}
+                        classNameWrapper={getSimpleToggleProps().classNameWrapper + " gap-y-[--p-content-xxs]"}
                         data={{
                             value: {
                                 isEmailAdded: !!userData.state2FA.email,
@@ -354,9 +358,8 @@ const ProfilePage: FC = () => {
                                     || typeof formData.value !== "string"
                                     || !token
                                     || !userData
-                                ) {
+                                )
                                     return;
-                                }
                                 const phone = formData.value.trim();
                                 const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format validation
 
@@ -400,9 +403,9 @@ const ProfilePage: FC = () => {
                             }
                         }}
                     >
-            <span className={styles.midCol + " " + styles.ellipsis}>
-              Enable / disable your two-factor authentication
-            </span>
+                        <span className={styles.midCol + " " + styles.ellipsis}>
+                            Enable / disable your {isSmScreen ? '2FA' : 'two - factor authentication'}
+                        </span>
                     </Editable>
                 </Collapsible>
                 <Collapsible
@@ -415,33 +418,28 @@ const ProfilePage: FC = () => {
                         type={"name"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${styles.singleInputBase} ${styles.common} ${styles.roundedWFull}`,
+                            className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
                             value: userData.name,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             }, //TODO
                         }}
                     >
-            <span
-                className={`capitalize ${styles.midCol + " " + styles.ellipsis}`}
-            >
-              {userData.name.salutation
-                  ? SALUTATION[userData.name.salutation]
-                  : "--"}
-                &nbsp;
-                {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
-            </span>
+                        <span className={`capitalize ${styles.midCol + " " + styles.ellipsis}`}>
+                            {userData.name.salutation
+                                ? SALUTATION[userData.name.salutation]
+                                : "--"}
+                            &nbsp;
+                            {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
+                        </span>
                     </Editable>
 
-                    <span className={styles.leftCol + " " + styles.ellipsis}>
-            Display Name
-          </span>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>Display Name</span>
                     {userData.username ? (
                         <Editable
                             {...getSimpleToggleProps(setEditState, isEditState)}
                             data={{
-                                className: `${styles.singleInput + " " + styles.singleInputBase
-                                } ${styles.common}`,
+                                className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                                 title: "Update your Display Name",
                                 value: {value: userData.username},
                                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -460,14 +458,11 @@ const ProfilePage: FC = () => {
                         </>
                     )}
 
-                    <span className={styles.leftCol + " " + styles.ellipsis}>
-            Email Address
-          </span>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>Email Address</span>
                     <Editable
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${styles.singleInput + " " + styles.singleInputBase
-                            } ${styles.common}`,
+                            className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                             title: "Update your Email Address",
                             value: {
                                 value: userData.email,
@@ -483,15 +478,12 @@ const ProfilePage: FC = () => {
                         <span>{userData.email}</span>
                     </Editable>
 
-                    <span className={styles.leftCol + " " + styles.ellipsis}>
-            Phone Number
-          </span>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>Phone Number</span>
                     <Editable
                         type={"phone"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${styles.singleInput + " " + styles.singleInputBase
-                            } ${styles.common}`,
+                            className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                             value: userData.phones,
                             onSave: async (formData) => {
                                 if (!("business" in formData)) return;
@@ -506,8 +498,9 @@ const ProfilePage: FC = () => {
                     </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>
-            Country or Region {isSmScreen ? "" : "of Residence"}
-          </span>
+                        Country or Region
+                       <span className={'sm:hidden'}>of Residence</span>
+                    </span>
                     <Editable
                         type={"select"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
@@ -521,16 +514,16 @@ const ProfilePage: FC = () => {
                             }, //TODO
                         }}
                     >
-            <span>
-              {userData.address.personalAddress?.country
-                  ? COUNTRY[userData.address.personalAddress?.country]
-                  : "--"}
-            </span>
+                    <span>
+                      {userData.address.personalAddress?.country
+                          ? COUNTRY[userData.address.personalAddress?.country]
+                          : "--"}
+                    </span>
                     </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>
-            {isSmScreen ? "" : "Preferred"} Language
-          </span>
+                        <span className={'sm:hidden'}>Preferred</span> Language
+                    </span>
                     <Editable
                         type={"select"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
@@ -552,14 +545,13 @@ const ProfilePage: FC = () => {
                     icon={"building"}
                     className={styles.collapsible}
                 >
-          <span className={styles.leftCol + " " + styles.ellipsis}>
-            Organization{isSmScreen ? "" : "al Information"}
-          </span>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>
+                        Organization<span className={'sm:hidden'}>al Information</span>
+                    </span>
                     <Editable
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${styles.singleInput + " " + styles.singleInputBase
-                            } ${styles.common}`,
+                            className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                             value: {value: userData.company?.name ?? "-"},
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -570,50 +562,42 @@ const ProfilePage: FC = () => {
                     </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>
-            Career {isSmScreen ? "" : "Information"}
-          </span>
+                        Career <span className={'sm:hidden'}>Information</span>
+                    </span>
                     <Editable
                         type={"company"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${styles.singleInput + " " + styles.singleInputBase
-                            } px-[0.76rem] border-small ${styles.roundedWFull}`,
+                            className: cn(styles.singleInput, styles.singleInputBase, `px-[0.76rem] border-small`, styles.roundedWFull),
                             value: userData.company,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
                             }, //TODO
                         }}
                     >
-                        {userData.company ? (
-                            <>
-                <span className={"col-start-2 row-start-2"}>
-                  <span className={"col-start-2 text-small block mb-[0.2rem]"}>
-                    Job Title
-                  </span>
-                  <span>{userData.company.jobTitle}</span>
-                </span>
-                                <span className={"mt-[1.25rem]"}>
-                  <span className={"col-start-2 text-small block mb-[0.2rem]"}>
-                    Job Function
-                  </span>
-                  <span>{JOB_FUNCTION[userData.company.jobFunction]}</span>
-                </span>
-                                <span className={"mt-[1.25rem]"}>
-                  <span className={"col-start-2 text-small block mb-[0.2rem]"}>
-                    Industry
-                  </span>
-                  <span>{INDUSTRY[userData.company.industry]}</span>
-                </span>
-                                <span className={"mt-[1.25rem]"}>
-                  <span className={"col-start-2 text-small block mb-[0.2rem]"}>
-                    Sub-Industry
-                  </span>
-                  <span>{subIndustry}</span>
-                </span>
-                            </>
-                        ) : (
-                            <>--</>
-                        )}
+                        {userData.company
+                            ? (
+                                <div
+                                    className={'flex flex-col gap-y-[--p-content-xs]  [&>span]:x-[col-start-2,text-section-xs,block,mb-[0.2rem]]'}>
+                                    <span className={"col-start-2 row-start-2"}>
+                                        <span>Job Title</span>
+                                        <span>{userData.company.jobTitle}</span>
+                                    </span>
+                                    <span>
+                                        <span>Job Function</span>
+                                        <span>{JOB_FUNCTION[userData.company.jobFunction]}</span>
+                                    </span>
+                                    <span>
+                                        <span>Industry</span>
+                                        <span>{INDUSTRY[userData.company.industry]}</span>
+                                    </span>
+                                    <span>
+                                        <span>Sub-Industry</span>
+                                        <span>{subIndustry}</span>
+                                    </span>
+                                </div>
+                            )
+                            : <>--</>}
                     </Editable>
                 </Collapsible>
                 <Collapsible
@@ -621,14 +605,14 @@ const ProfilePage: FC = () => {
                     icon={"geo"}
                     className={"[&]:items-start"}
                 >
-          <span className={styles.leftCol + " " + styles.ellipsis}>
-            Address {isSmScreen ? "" : "Information"}
-          </span>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>
+                        Address <span className={'sm:hidden'}>Information</span>
+                    </span>
                     <Editable
                         type={"address"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: `${styles.singleInputBase} ${styles.common} ${styles.roundedWFull}`,
+                            className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
                             value: userData.address,
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
@@ -654,9 +638,9 @@ const ProfilePage: FC = () => {
                                 }
                                 className={"col-start-3 flex-row-reverse place-self-end"}
                             >
-                                {isSmScreen
-                                    ? ""
-                                    : `Verif${userData.personalDomain.isVerified ? "ied" : "y"}`}
+                                <span className={'sm:hidden'}>
+                                    Verif{userData.personalDomain.isVerified ? "ied" : "y"}
+                                </span>
                             </Button>
                         </>
                     ) : (
@@ -665,49 +649,34 @@ const ProfilePage: FC = () => {
                             <span>--</span>
                         </>
                     )}
-                    <span
-                        className={`mt-[min(5.3dvw,var(--p-content))] ${
-                            styles.leftCol + " " + styles.ellipsis
-                        }`}
-                    >
-            Data Storage
-          </span>
-                    <span
-                        className={`col-start-2 text-small self-end ${styles.ellipsis}`}
-                    >
-            Applications
-          </span>
+                    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>
+                        Data Storage
+                    </span>
+                    <span className={`col-start-2 text-section-xs self-end ${styles.ellipsis}`}>
+                        Applications
+                    </span>
                     {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
-
-                    <span
-                        className={`mt-[min(5.3dvw,var(--p-content))] ${
-                            styles.leftCol + " " + styles.ellipsis
-                        }`}
-                    >
-            Social Media
-          </span>
-                    <span className={"col-start-2 text-small self-end"}>
-            Applications
-          </span>
+                    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>
+                        Social Media
+                    </span>
+                    <span className={"col-start-2 text-section-xs self-end"}>
+                        Applications
+                    </span>
                     {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
                 </Collapsible>
                 <Collapsible title={SECTIONS[5]}>
-          <span className={styles.leftCol + " " + styles.ellipsis}>
-            {isSmScreen ? "" : "Account"} Offboarding
-          </span>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>
+                         <span className={'sm:hidden'}>Account</span> Offboarding
+                    </span>
                     <span className={styles.midCol + " " + styles.ellipsis}>
-            Delete your account and data
-          </span>
+                        Delete your account and data
+                    </span>
                     <Button
                         icon={"delete-square"}
                         className={"flex-row-reverse [&]:place-content-end"}
-                        onClick={() =>
-                            modalCtx.openModal(<DeleteAccountModal userData={userData}/>, {
-                                darkenBg: true,
-                            })
-                        }
+                        onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData}/>, {darkenBg: true})}
                     >
-                        {isSmScreen ? "" : "Delete"}
+                        <span className={'sm:hidden'}>Delete</span>
                     </Button>
                 </Collapsible>
             </div>
