@@ -2,10 +2,11 @@ import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
 import cn from "classnames";
 
 import {CardData, SavedCardFull} from "@/app/types/billing";
-import {COUNTRY, CountryKey, STATE_PROVINCE, StateKey} from "@/app/static";
+import {COUNTRY, STATE_PROVINCE} from "@/app/static";
 
 import {BillingService} from "@/app/services";
 
+import {mapSavedCard} from "@/app/utils";
 import {useBreakpointCheck, useForm} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
@@ -46,7 +47,7 @@ const FORM_DATA_DEFAULT: CardData = {
     zip: '',
     state: '',
     nickName: '',
-    isDefault: false,
+    isPreferred: false,
 }
 
 
@@ -89,7 +90,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!userData)
+        if (!userData || editCardIdx <= -1)
             return;
         try {
             if (isPaymentCreation)
@@ -103,29 +104,6 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         }
     }
 
-
-    const mapSavedCard = (card: SavedCardFull): CardData => {
-        const billingInfo = card.billingAddress;
-        const [addressLine1, addressLine2] = card?.billingAddress.address.split('|');
-        return {
-            id: card.paymentProfileId,
-            profileId: card.customerProfileId,
-            cardNumber: card.cardNumber,
-            billingAddress: card?.billingAddress.address,
-            nickName: card.nickName,
-            type: card.cardType,
-            cvc: '',
-            expirationDate: card.expDate,
-            cardholderName: billingInfo.firstName + ' ' + billingInfo.lastName,
-            addressLine1: addressLine1 ?? '',
-            addressLine2: addressLine2 ?? '',
-            city: billingInfo.city,
-            state: billingInfo.state as StateKey,
-            zip: billingInfo.zip,
-            country: billingInfo.country as CountryKey,
-            isDefault: card.preferred,
-        }
-    }
 
     useEffect(() => {
         if (editCardIdx <= -1)
@@ -173,7 +151,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
                         type={'text'}
-                        value={savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4}
+                        value={editCardIdx ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
@@ -217,8 +195,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <span className={'row-start-6'}>
                         <Input
                             type={'checkbox'}
-                            checked={formData.isDefault}
-                            onChange={setFormData('isDefault')}
+                            checked={formData.isPreferred}
+                            onChange={setFormData('isPreferred')}
                             classNameWrapper={`flex-row-reverse place-self-start [&&]:mb-[1rem] sm:[&&]:mb-0 sm:[&&]:mt-[1.3dvw]`}
                             classNameLabel={'text-small [&&]:mb-0'}
                             className={'max-w-[--1drl] max-h-[--1drl]'}

@@ -17,7 +17,7 @@ type CardData = {
     zip: string;
     state: StateKey;
     nickName: string;
-    isDefault: boolean;
+    isPreferred: boolean;
 }
 
 type Invoice = {

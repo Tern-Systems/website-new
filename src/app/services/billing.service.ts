@@ -7,7 +7,7 @@ import {Res} from "@/app/types/service";
 import {BaseService} from "@/app/services/base.service";
 
 
-type FormCardData = Omit<CardData, 'nickName' | 'isDefault'>;
+type FormCardData = Omit<CardData, 'nickName' | 'isPreferred'>;
 type SubscribeData = FormCardData & {
     savedCardIdx: string;
     acceptTerms: boolean;
@@ -44,7 +44,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     }
 
     async postCancelSubscription(email: string): Promise<Res> {
-        const [debug, error] = this.getLoggers(this.postUpdateCard.name);
+        const [debug, error] = this.getLoggers(this.postCancelSubscription.name);
 
         const config: AxiosRequestConfig = {
             method: "POST",
@@ -164,7 +164,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                 cardDetails: cardDetails,
                 billingDetails: billingDetails,
                 nickName: formData.nickName,
-                isPreferred: formData.isDefault
+                isPreferred: formData.isPreferred
             }),
             withCredentials: true,
         };
