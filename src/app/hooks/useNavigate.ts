@@ -7,7 +7,7 @@ import {LAYOUT, Route} from "@/app/static";
 import {useLayout, useModal} from "@/app/context";
 
 
-const useNavigate = (preventModalClosing?: boolean): [(route: Route) => Promise<void>, AppRouterInstance] => {
+const useNavigate = (preventModalClosing?: boolean, closeModalImmediately?: boolean): [(route: Route) => Promise<void>, AppRouterInstance] => {
     const pageRoute = usePathname();
     const router = useRouter();
     const layoutCtx = useLayout();
@@ -18,6 +18,12 @@ const useNavigate = (preventModalClosing?: boolean): [(route: Route) => Promise<
         //eslint-disable-next-line
     }, [pageRoute]);
 
+
+    const closeModal = () => {
+        if (!preventModalClosing)
+            modalCtx.closeModal();
+    }
+
     const navigate = async (route: Route) => {
         if (pageRoute === route)
             return;
@@ -25,10 +31,14 @@ const useNavigate = (preventModalClosing?: boolean): [(route: Route) => Promise<
         setTimeout(() => {
             router.push(route);
         }, LAYOUT.fadeDuration);
-        setTimeout(() => {
-            if (!preventModalClosing)
-                modalCtx.closeModal();
-        }, 3 * LAYOUT.fadeDuration);
+
+        if (closeModalImmediately)
+            closeModal();
+        else {
+            setTimeout(() => {
+                closeModal();
+            }, 3 * LAYOUT.fadeDuration);
+        }
     };
 
     return [navigate, router];

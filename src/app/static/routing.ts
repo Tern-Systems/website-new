@@ -14,7 +14,7 @@ enum Route {
     Privacy = '/privacy',
 
     // /service
-    Services = '/services',
+    Services = '/services/all',
     ARCodeToolCreate = '/services/create',
     ARCodeToolEdit = '/services/library/edit',
     ServiceUserManual = '/services/user_manual',
@@ -23,7 +23,7 @@ enum Route {
     SavedCodes = '/services/library',
 
     // /product
-    Products = '/products',
+    Products = '/products/all',
     TernKey = '/products/ternkey',
     TernKeyPricing = '/products/ternkey/plans',
     TernKeyProductManual = '/products/ternkey/user_manual',

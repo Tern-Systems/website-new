@@ -37,7 +37,7 @@ const PageLink: FC<Props> = (props: Props) => {
     const {icon, iconClassName, children, href, isExternal, prevent, preventModalClose, timeout, ...linkProps} = props;
 
     const route = usePathname();
-    const [navigate] = useNavigate(preventModalClose);
+    const [navigate] = useNavigate(preventModalClose, timeout === 0);
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
         linkProps.onClick?.(event);

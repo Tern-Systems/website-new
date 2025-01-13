@@ -2,6 +2,7 @@ export {Route, TERN_AC_HREF} from "./routing";
 
 export {
     ALWAYS_MAPPED_ROUTES,
+    MAPPED_NAV_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
     MERGED_SUB_NAV_ROUTES,
     LANGUAGE,
