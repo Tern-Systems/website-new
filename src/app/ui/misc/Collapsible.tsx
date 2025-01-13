@@ -98,7 +98,7 @@ const Collapsible: FC<Props> = (props: Props) => {
         return (
             <div
                 id={titleFinal}
-                className={cn(`relative`, {['[&&]:h-fit']: !isExpanded}, WRAPPER_CN, classNameWrapper)}
+                className={cn(`relative`, {['[&]:h-fit lg:h-full']: !isExpanded}, WRAPPER_CN, classNameWrapper)}
             >
                 <Image
                     src={CollapseIcon}

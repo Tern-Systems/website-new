@@ -112,7 +112,7 @@ const Input: FC<Props> = (props: Props) => {
                         key={alt}
                         src={icon}
                         alt={alt}
-                        className={'max-w-[min(6.4dvw,1.5rem)]'}
+                        className={`max-w-[min(6.4dvw,1.5rem)] ${classNameIcon}`}
                     />
                 );
             });
