@@ -187,7 +187,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     <div
                         className={cn(
                             `flex justify-center cursor-pointer`,
-                            `[&]:col-start-1 row-span-6 [&_*]:x-[w-full,h-full]`,
+                            `[&]:col-start-1 row-span-6 [&_*]:x-[w-full,h-full,rounded-small]`,
                             `md:row-span-1`,
                             `sm:portrait:[&_*]:w-[66dvw]`,
                             `sm:landscape:[&_*]:h-full sm:landscape:[&]:x-[col-start-2,row-start-1,row-span-4]`,
@@ -261,8 +261,8 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                             )}
                             classNameIcon={'hidden [&_*]:w-[2.5rem]  sm:landscape:block'}
                         >
-                        Save to Library
-                    </Button>
+                            Save to Library
+                        </Button>
                     </span>
                 </form>
                 <ScrollEnd/>

@@ -24,7 +24,7 @@ function PurchasingInformationPage() {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck()=== 'sm';
 
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);

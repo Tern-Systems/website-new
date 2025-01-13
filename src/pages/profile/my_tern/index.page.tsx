@@ -158,7 +158,7 @@ const MyTernPage: FC = () => {
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
     const [navigate] = useNavigate();
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck()=== 'sm';
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 

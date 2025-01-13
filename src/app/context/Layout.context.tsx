@@ -48,7 +48,7 @@ const LayoutContext = createContext<ILayoutContext | null>(null);
 const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const userCtx = useUser();
     const route = usePathname();
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck() === 'sm';
 
     const [isNoLayout, setNoLayoutState] = useState(false);
     const [isFade, setFadeState] = useState(false);

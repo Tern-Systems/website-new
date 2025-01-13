@@ -9,7 +9,7 @@ import Head from "next/head";
 
 
 export default function MyApp({Component, pageProps}: AppProps) {
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck()=== 'sm';
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
 
     // Click checking

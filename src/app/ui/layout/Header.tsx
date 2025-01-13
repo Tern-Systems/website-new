@@ -38,14 +38,15 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     const route = usePathname();
     const userCtx = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck();
+    const breakpoint = useBreakpointCheck();
     const layoutCtx = useLayout();
     const [openMenu] = useMenu();
 
+    const isSmScreen = breakpoint === 'sm';
 
     const toggleProfileMenu = () => {
         if (!userCtx.isLoggedIn)
-            modalCtx.openModal(<PreAuthModal/>);
+            modalCtx.openModal(isSmScreen ? <PreAuthModal/> : <AuthModal/>, {darkenBg: !isSmScreen});
         else
             setProfileMenuOpenState(prevState => !prevState);
     }
@@ -119,7 +120,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
 
     let userBtns: ReactElement | ReactElement[];
-    if (userCtx.isLoggedIn || isSmScreen) {
+    if (userCtx.isLoggedIn || breakpoint !== 'lg') {
         const ProfileLinks: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
             <li key={link + idx}
                 className={cn(

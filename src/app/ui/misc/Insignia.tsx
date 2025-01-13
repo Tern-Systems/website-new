@@ -27,6 +27,8 @@ const Insignia: FC<Props> = (props: Props) => {
                 ? (
                     <Image
                         src={SVG_INSIGNIA}
+                        width={29}
+                        height={29}
                         alt={'insignia'}
                         onClick={() => navigate(Route.Home)}
                         className={'w-full h-auto'}

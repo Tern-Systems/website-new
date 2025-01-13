@@ -73,13 +73,13 @@ interface Props {
 }
 
 const FAQsPage: FC<Props> = (props: Props) => {
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck() === 'sm';
     const [navigate] = useNavigate();
 
     const [expandedItemIdx, setExpandedItemIdx] = useState(-1);
 
     useEffect(() => {
-        if (isSmScreen === false)
+        if (!isSmScreen)
             navigate(Route.MyTern);
     }, [isSmScreen, navigate])
 
@@ -165,7 +165,7 @@ const FAQsPage: FC<Props> = (props: Props) => {
 }
 
 const FAQsModal: FC = () => {
-    const isSmScreen = useBreakpointCheck();
+    const isSmScreen = useBreakpointCheck() === 'sm';
     const modalCtx = useModal();
 
     useEffect(() => {

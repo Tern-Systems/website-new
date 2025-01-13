@@ -1,12 +1,12 @@
 import React, {FC, InputHTMLAttributes, MutableRefObject, PropsWithChildren, ReactElement, useRef} from "react";
 import Image from "next/image";
+import {ReactSVG} from "react-svg";
 
 import styles from '@/app/common.module.css'
 
-import SVG_UPLOAD from "/public/images/icons/upload.png";
+import SVG_UPLOAD from "/public/images/icons/upload.svg";
 import SVG_COLOR_PICKER_BORDER from "/public/images/color-picker-border.svg";
 import SVG_EYE from "/public/images/icons/eye.svg";
-import {ReactSVG} from "react-svg";
 
 
 interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren {
@@ -29,13 +29,15 @@ const Input: FC<Props> = (props: Props) => {
             return (
                 <label
                     htmlFor={props.id}
-                    className={`relative flex items-center justify-center cursor-pointer ${classNameWrapper} ${styles.clickable}`}
+                    className={`relative flex items-center justify-center w-full cursor-pointer ${classNameWrapper} ${styles.clickable}`}
                 >
                     <ReactSVG
                         src={SVG_UPLOAD.src}
-                        className={`[&_*]:size-[2rem] ${classNameIcon}`}
+                        className={`[&_*]:size-[2rem] mr-[--p-content-5xs] ${classNameIcon}`}
                     />
-                    <span hidden={!children} className={classNameLabel}>{children}</span>
+                    <span hidden={!children} className={classNameLabel+' max-w-[75%] overflow-hidden text-nowrap overflow-ellipsis leading-[1.2]'}>
+                        {children}
+                    </span>
                     <input
                         {...inputProps}
                         className={`absolute bottom-0 -z-10 h-1 w-1 hover:hidden ${className}`}

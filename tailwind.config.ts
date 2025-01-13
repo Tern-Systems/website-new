@@ -10,9 +10,9 @@ const config: Config = {
     theme: {
         extend: {
             screens: {
-                sm: {max: '834px'},
-                md: {min: '835px', max: '1441px'},
-                lg: {min: '1442px'}
+                sm: {max: '835px'},
+                md: {min: '835px', max: '1440px'},
+                lg: {min: '1440px'}
             },
             colors: {
                 primary: "var(--color-primary)",

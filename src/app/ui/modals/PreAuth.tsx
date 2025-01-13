@@ -11,13 +11,13 @@ import {useBreakpointCheck} from "@/app/hooks";
 
 const PreAuthModal: FC = () => {
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck();
+    const breakpoint = useBreakpointCheck();
 
     useEffect(() => {
-        if (isSmScreen === false)
+        if (breakpoint !== null && breakpoint !== 'sm')
             modalCtx.closeModal();
         // eslint-disable-next-line
-    }, [isSmScreen]);
+    }, [breakpoint]);
 
 
     return (
