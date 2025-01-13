@@ -35,7 +35,10 @@ const Input: FC<Props> = (props: Props) => {
                         src={SVG_UPLOAD.src}
                         className={`[&_*]:size-[2rem] mr-[--p-content-5xs] ${classNameIcon}`}
                     />
-                    <span hidden={!children} className={classNameLabel+' max-w-[75%] overflow-hidden text-nowrap overflow-ellipsis leading-[1.2]'}>
+                    <span
+                        hidden={!children}
+                        className={classNameLabel + ' overflow-hidden text-nowrap overflow-ellipsis leading-[1.2]'}
+                    >
                         {children}
                     </span>
                     <input

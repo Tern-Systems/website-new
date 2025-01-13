@@ -216,7 +216,7 @@ const Editable: FC<Props> = (props: Props) => {
                 className={`cursor-pointer text-small flex gap-[0.4rem] items-center ${classNameToggle} place-self-end self-start
                             ${isEditState ? 'hidden' : ''}`}
             >
-                <span className={'sm:hidden'}>Edit</span>
+                <span className={'hidden lg:inline'}>Edit</span>
                 <ReactSVG src={SVG_PENCIL.src} className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'} />
             </span>
         );

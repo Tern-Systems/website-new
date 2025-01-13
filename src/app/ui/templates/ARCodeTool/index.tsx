@@ -243,6 +243,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                                 }
                             }}
                             classNameWrapper={'h-[3.125rem] rounded-full bg-control-white font-bold text-heading-s text-black'}
+                            classNameLabel={'max-w-[75%]'}
                             classNameIcon={'[&_*]:w-[1rem]'}
                             required={!arCode}
                         >

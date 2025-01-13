@@ -24,7 +24,11 @@ const ICON: Record<Icon, string> = {
 }
 
 
-const WRAPPER_CN = `p-[--p-content-l] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center`;
+const WRAPPER_CN = cn(
+    `p-[--p-content-l] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center`,
+    `md:p-[--p-content-s]`,
+    `sm:p-[--p-content-xxs]`,
+);
 
 
 interface Props extends PropsWithChildren {
@@ -123,16 +127,19 @@ const Collapsible: FC<Props> = (props: Props) => {
         >
             <div
                 onClick={() => handleToggle()}
-                className={cn(classNameTitle, `flex items-center justify-between cursor-pointer gap-x-[0.2rem]`, {['mb-[min(16dvw,3.75rem)]']: isChevron})}
+                className={cn(classNameTitle,
+                    `flex items-center justify-between cursor-pointer gap-x-[0.2rem] text-heading  sm:text-section-s`,
+                    {['mb-[min(16dvw,3.75rem)]']: isChevron}
+                )}
             >
-                <h2 className={`text-inherit font-bold flex gap-[0.65rem] items-center`}>
+                <h2 className={`text-inherit font-bold flex gap-[0.65rem] items-center leading-none`}>
                     {Icon}
                     <span>{title}</span>
                 </h2>
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline w-[0.9rem] h-auto ${collapseCN} ${classNameIcon}`}
+                    className={`inline size-[0.9rem] ${collapseCN} ${classNameIcon}`}
                 />
             </div>
             <hr className={cn({['hidden']: isChevron}, `scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)]
