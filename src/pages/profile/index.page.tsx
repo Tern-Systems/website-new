@@ -1,7 +1,7 @@
 import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState,} from "react";
 import cn from "classnames";
 
-
+import {Res} from "@/app/types/service";
 import {UserData} from "@/app/context/User.context";
 import {LanguageKey} from "@/app/static/misc";
 import {UpdateUserData} from "@/app/services/user.service";
@@ -24,14 +24,13 @@ import {formatDate} from "@/app/utils/data";
 import {useBreakpointCheck, useLoginCheck, useSaveOnLeave} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
-import {Collapsible} from "@/app/ui/misc";
+import {Collapsible, ScrollEnd} from "@/app/ui/misc";
 import {Button, Editable, Input} from "@/app/ui/form";
 import {DeleteAccountModal} from "./DeleteAccountModal";
 
 import {AuthenticationCode, MessageModal} from "@/app/ui/modals";
 
 import styles from "./Profile.module.css";
-import {Res} from "@/app/types/service";
 
 
 const SECTIONS: string[] = [
@@ -43,19 +42,19 @@ const SECTIONS: string[] = [
     "Offboarding",
 ];
 
-const DATA_STORAGE: string[] = ["Google Drive", "Dropbox", "SharePoint"];
-
-const SOCIAL_MEDIA: string[] = [
-    "Discord",
-    "WhatsApp",
-    "Instagram",
-    "Stack Overflow",
-    "GitHub",
-    "X",
-    "Reddit",
-    "LinkedIn",
-    "Facebook",
-];
+// const DATA_STORAGE: string[] = ["Google Drive", "Dropbox", "SharePoint"];
+//
+// const SOCIAL_MEDIA: string[] = [
+//     "Discord",
+//     "WhatsApp",
+//     "Instagram",
+//     "Stack Overflow",
+//     "GitHub",
+//     "X",
+//     "Reddit",
+//     "LinkedIn",
+//     "Facebook",
+// ];
 
 const getSimpleToggleProps = (
     setEditState?: Dispatch<SetStateAction<boolean>>,
@@ -160,59 +159,57 @@ const ProfilePage: FC = () => {
     ));
 
     // Third-Party Apps
-    const renderConnectedApps = (
-        apps: string[],
-        userApps: { name: string; link: string }[]
-    ): ReactElement[] => {
-        return apps.map((app, idx) => {
-            const userApp = userApps.find((userApp) => userApp.name === app);
-            const isFound = userApp !== undefined;
-            const text: string = `${isFound ? `Connected` : `Connect`}`;
-
-            return (
-                <span key={text + idx} className={"contents"}>
-                    {isFound
-                        ? (
-                            <a
-                                href={userApp?.link}
-                                className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}
-                                target={"_blank"}
-                            >
-                                {userApp?.name}
-                            </a>
-                        )
-                        : <span className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}>{app}</span>
-                    }
-                    <Button
-                        icon={isFound ? "mark-square" : "plus-square"}
-                        hovered={{
-                            icon: isFound ? "close-square" : null,
-                            text: isFound ? "Disconnect" : "",
-                        }}
-                        className={cn(
-                            `col-start-3 flex-row-reverse place-self-end`, styles.ellipsis, styles.connectBtn,
-                            isFound ? styles.disconnect : styles.connect,
-                            {[styles.connected]: isFound}
-                        )}
-                        onClick={() => {
-                            // TODO
-                        }}
-                    >
-                       <span className={'sm:hidden'}>{text}</span>
-                    </Button>
-                </span>
-            )
-        });
-    };
+    // const renderConnectedApps = (
+    //     apps: string[],
+    //     userApps: { name: string; link: string }[]
+    // ): ReactElement[] => {
+    //     return apps.map((app, idx) => {
+    //         const userApp = userApps.find((userApp) => userApp.name === app);
+    //         const isFound = userApp !== undefined;
+    //         const text = `Connect` + (isFound ? `ed` : ``);
+    //         const icon: ButtonIcon = isFound ? "mark-square" : "plus-square";
+    //
+    //         return (
+    //             <span key={app + idx} className={"contents"}>
+    //                 {isFound
+    //                     ? (
+    //                         <a
+    //                             href={userApp?.link}
+    //                             className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}
+    //                             target={"_blank"}
+    //                         >
+    //                             {app}
+    //                         </a>
+    //                     )
+    //                     : <span className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}>{app}</span>
+    //                 }
+    //                 <Button
+    //                     icon={icon}
+    //                     hovered={{
+    //                         icon: isFound ? "close-square" : icon,
+    //                         text: isFound ? "" : "Disconnect",
+    //                         className: isFound ? 'bg-red' : 'bg-blue',
+    //                     }}
+    //                     className={cn(`col-start-3 flex-row-reverse place-self-end text-section-xs font-bold`, styles.ellipsis)}
+    //                     onClick={() => {
+    //                         // TODO
+    //                     }}
+    //                 >
+    //                    <span className={'sm:hidden'}>{text}</span>
+    //                 </Button>
+    //             </span>
+    //         )
+    //     });
+    // };
 
     // Contact
     const Phones = Object.entries(userData.phones).map(([type, phone], idx) =>
-        phone
+        phone?.number
             ? (
                 <span key={type + idx}>
                     <span className={"text-section-xs block mb-[0.62rem] mt-[1rem] capitalize"}>{type}</span>
                     <span>{phone.number + ("ext" in phone ? " - " + phone.ext : "")}</span>
-                    {phone.isPrimary ? Primary : null}
+                    <span>{phone.isPrimary ? Primary : null}</span>
                 </span>
             )
             : null
@@ -228,7 +225,7 @@ const ProfilePage: FC = () => {
             const addressInfo: ReactElement | null =
                 (
                     <>
-                        <span className={"w-[14.69rem] flex flex-col"}>
+                        <span className={"w-full flex flex-col"}>
                             <span>{address.line1}</span>
                             <span>{address.line2}</span>
                             <span>{address.city} {state} {address.zip}</span>
@@ -446,6 +443,7 @@ const ProfilePage: FC = () => {
                         </span>
                     </Editable>
                 </Collapsible>
+
                 <Collapsible
                     title={SECTIONS[1]}
                     icon={"book"}
@@ -554,9 +552,7 @@ const ProfilePage: FC = () => {
                         }}
                     >
                     <span>
-                      {userData.address.personalAddress?.country
-                          ? COUNTRY[userData.address.personalAddress?.country]
-                          : "--"}
+                      {COUNTRY[userData.address.personalAddress?.country ?? userData.address.businessAddress?.country ?? ''] ?? "--"}
                     </span>
                     </Editable>
 
@@ -569,7 +565,7 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${styles.singleInputBase} ${styles.common}`,
                             title: "Language",
-                            value: {value: "EN"},
+                            value: {value: userData.language},
                             options: LANGUAGE,
                             onSave: async (formData) => {
                                 if (!("value" in formData) || !formData.value)
@@ -581,6 +577,7 @@ const ProfilePage: FC = () => {
                         <span>{LANGUAGE[userData.language] ?? "--"}</span>
                     </Editable>
                 </Collapsible>
+
                 <Collapsible
                     title={SECTIONS[2]}
                     icon={"building"}
@@ -636,8 +633,13 @@ const ProfilePage: FC = () => {
                         {userData.company
                             ? (
                                 <div
-                                    className={'flex flex-col gap-y-[--p-content-xs]  [&>span]:x-[col-start-2,text-section-xs,block,mb-[0.2rem]]'}>
-                                    <span className={"col-start-2 row-start-2"}>
+                                    className={cn(
+                                        'flex flex-col gap-y-[--p-content-xs]',
+                                        '[&>span]:x-[col-start-2,flex,flex-col,gap-y-[--p-content-5xs],text-basic]',
+                                        '[&>span>span]:text-section-xs',
+                                    )}
+                                >
+                                    <span>
                                         <span>Job Title</span>
                                         <span>{userData.company.jobTitle}</span>
                                     </span>
@@ -651,13 +653,14 @@ const ProfilePage: FC = () => {
                                     </span>
                                     <span>
                                         <span>Sub-Industry</span>
-                                        <span>{subIndustry}</span>
+                                        <span>{subIndustry ?? '--'}</span>
                                     </span>
                                 </div>
                             )
                             : <>--</>}
                     </Editable>
                 </Collapsible>
+
                 <Collapsible
                     title={SECTIONS[3]}
                     icon={"geo"}
@@ -683,48 +686,49 @@ const ProfilePage: FC = () => {
                         <span>{Addresses}</span>
                     </Editable>
                 </Collapsible>
-                <Collapsible title={SECTIONS[4]} icon={"blocks"}>
-                    <span className={styles.leftCol + " " + styles.ellipsis}>Domain</span>
-                    {userData.personalDomain ? (
-                        <>
-                            <a href={userData.personalDomain.link} target={"_blank"}>
-                                {userData.personalDomain.link}
-                            </a>
-                            <Button
-                                disabled={userData.personalDomain.isVerified}
-                                icon={
-                                    userData.personalDomain.isVerified
-                                        ? "mark-flower"
-                                        : "plus-flower"
-                                }
-                                className={"col-start-3 flex-row-reverse place-self-end"}
-                            >
-                                <span className={'sm:hidden'}>
-                                    Verif{userData.personalDomain.isVerified ? "ied" : "y"}
-                                </span>
-                            </Button>
-                        </>
-                    ) : (
-                        <>
-                            <span>--</span>
-                            <span>--</span>
-                        </>
-                    )}
-                    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>
-                        Data Storage
-                    </span>
-                    <span className={`col-start-2 text-section-xs self-end ${styles.ellipsis}`}>
-                        Applications
-                    </span>
-                    {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
-                    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>
-                        Social Media
-                    </span>
-                    <span className={"col-start-2 text-section-xs self-end"}>
-                        Applications
-                    </span>
-                    {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
-                </Collapsible>
+
+                {/*<Collapsible title={SECTIONS[4]} icon={"blocks"}>*/}
+                {/*    <span className={styles.leftCol + " " + styles.ellipsis}>Domain</span>*/}
+                {/*    {userData.personalDomain*/}
+                {/*        ? (*/}
+                {/*            <>*/}
+                {/*                <a href={userData.personalDomain.link} target={"_blank"}>*/}
+                {/*                    {userData.personalDomain.link}*/}
+                {/*                </a>*/}
+                {/*            </>*/}
+                {/*        )*/}
+                {/*        : <span>--</span>*/}
+                {/*    }*/}
+
+                {/*    <Button*/}
+                {/*        disabled={userData.personalDomain?.isVerified}*/}
+                {/*        icon={*/}
+                {/*            userData.personalDomain?.isVerified*/}
+                {/*                ? "mark-flower"*/}
+                {/*                : "plus-flower"*/}
+                {/*        }*/}
+                {/*        className={"col-start-3 flex-row-reverse place-self-end"}*/}
+                {/*    >*/}
+                {/*        <span className={'sm:hidden'}>Verif{userData.personalDomain?.isVerified ? "ied" : "y"}</span>*/}
+                {/*    </Button>*/}
+
+                {/*    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>*/}
+                {/*        Data Storage*/}
+                {/*    </span>*/}
+                {/*    <span className={`col-start-2 text-section-xs self-end ${styles.ellipsis}`}>*/}
+                {/*        Applications*/}
+                {/*    </span>*/}
+                {/*    {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}*/}
+
+                {/*    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>*/}
+                {/*        Social Media*/}
+                {/*    </span>*/}
+                {/*    <span className={"col-start-2 text-section-xs self-end"}>*/}
+                {/*        Applications*/}
+                {/*    </span>*/}
+                {/*    {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}*/}
+                {/*</Collapsible>*/}
+
                 <Collapsible title={SECTIONS[5]}>
                     <span className={styles.leftCol + " " + styles.ellipsis}>
                          <span className={'sm:hidden'}>Account</span> Offboarding
@@ -740,6 +744,7 @@ const ProfilePage: FC = () => {
                         <span className={'sm:hidden'}>Delete</span>
                     </Button>
                 </Collapsible>
+                <ScrollEnd/>
             </div>
         </div>
     );

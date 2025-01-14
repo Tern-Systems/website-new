@@ -66,27 +66,6 @@
     font-size: var(--fz-section-s);
 }
 
-.connectBtn {
-    height: 23px;
-    color: #ECF0F3;
-    font-size: var(--fz-section-xs);
-    font-weight: 700;
-}
-
-.connected {
-    background-color: #178ab7;
-    font-weight: 700;
-}
-
-.connect:hover {
-    background-color: #178ab7;
-    font-weight: 700;
-}
-
-.disconnect:hover {
-    background-color: #f42200;
-    font-weight: 700;
-}
 
 @media screen and (max-width: 835px) and (orientation: landscape) {
     .leftCol {
