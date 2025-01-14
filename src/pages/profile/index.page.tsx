@@ -31,6 +31,7 @@ import {DeleteAccountModal} from "./DeleteAccountModal";
 import {AuthenticationCode, MessageModal} from "@/app/ui/modals";
 
 import styles from "./Profile.module.css";
+import {Res} from "@/app/types/service";
 
 
 const SECTIONS: string[] = [
@@ -103,16 +104,19 @@ const ProfilePage: FC = () => {
     if (!userData || !isLoggedIn || !token) return null;
 
 
-    const handleUpdate = async (valueOrHandle: Partial<UpdateUserData> | (() => Promise<void>)) => {
+    const handleUpdate = async (valueOrHandle: Partial<UpdateUserData> | (() => Promise<Res>)) => {
         try {
-            if (typeof valueOrHandle === 'function')
-                await valueOrHandle();
-            else {
+            let responseMsg: string;
+            if (typeof valueOrHandle === 'function') {
+                const {message} = await valueOrHandle();
+                responseMsg = message;
+            } else {
                 const newUserData = {...userData, photo: null, ...valueOrHandle};
-                await UserService.postUpdateUser(userData.email, newUserData);
+                const {message} = await UserService.postUpdateUser(userData.email, newUserData);
+                responseMsg = message;
             }
 
-            modalCtx.openModal(<MessageModal>User was successfully updated</MessageModal>);
+            modalCtx.openModal(<MessageModal>{responseMsg}</MessageModal>);
             await fetchUserData();
         } catch (error: unknown) {
             if (typeof error === 'string')
@@ -355,12 +359,13 @@ const ProfilePage: FC = () => {
                             value: null,
                             onSave: async (formData) => {
                                 await handleUpdate(async () => {
-                                    if (!("passwordConfirm" in formData) || !userData) return;
+                                    if (!("passwordConfirm" in formData) || !userData)
+                                        throw 'Wrong request setup';
 
                                     if (formData.passwordConfirm !== formData.newPassword)
                                         throw `Passwords don't match`;
 
-                                    await AuthService.postChangePassword(
+                                    return await AuthService.postChangePassword(
                                         formData.currentPassword,
                                         formData.newPassword,
                                         formData.passwordConfirm,
@@ -395,36 +400,31 @@ const ProfilePage: FC = () => {
                                 suggestedPhone: userData.phones.personal?.number ?? null,
                             },
                             onSave: async (formData) => {
-                                await handleUpdate(async () => {
-                                    if (
-                                        !formData
-                                        || !("value" in formData)
-                                        || typeof formData.value !== "string"
-                                    )
-                                        return;
-                                    const phone = formData.value.trim();
-                                    const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format validation
+                                if (!("value" in formData) || !formData.value)
+                                    throw 'Wrong request setup';
 
-                                    if (!phoneRegex.test(phone))
-                                        throw `Invalid phone number format. Please enter a valid number.`;
+                                const phone = formData.value.trim();
+                                const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format validation
+
+                                if (!phoneRegex.test(phone))
+                                    throw `Invalid phone number format. Please enter a valid number.`;
 
 
-                                    const numericPhone = phone.startsWith("+")
-                                        ? phone.slice(1)
-                                        : phone;
-                                    if (numericPhone.length < 10 || numericPhone.length > 15)
-                                        throw `Phone number must contain 10 digits long.`;
+                                const numericPhone = phone.startsWith("+")
+                                    ? phone.slice(1)
+                                    : phone;
+                                if (numericPhone.length < 10 || numericPhone.length > 15)
+                                    throw `Phone number must contain 10 digits long.`;
 
-                                    modalCtx.openModal(
-                                        <AuthenticationCode
-                                            is2FA
-                                            isPhoneEnabling
-                                            token={token}
-                                            phone={phone}
-                                            email={userData.email || ""}
-                                        />
-                                    );
-                                });
+                                modalCtx.openModal(
+                                    <AuthenticationCode
+                                        is2FA
+                                        isPhoneEnabling
+                                        token={token}
+                                        phone={phone}
+                                        email={userData.email || ""}
+                                    />
+                                );
                             },
                             onSwitch: async (state: boolean) => {
                                 if (token && userData.state2FA?.phone) {
@@ -490,7 +490,7 @@ const ProfilePage: FC = () => {
                                     await handleUpdate(async () => {
                                         if (!('value' in formData) || !formData.value)
                                             throw 'Wrong request setup';
-                                        await UserService.postUpdateUserName(userData.email, formData.value);
+                                        return await UserService.postUpdateUserName(userData.email, formData.value);
                                     });
                                 }
                             }}

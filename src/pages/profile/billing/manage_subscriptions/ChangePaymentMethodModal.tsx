@@ -56,8 +56,8 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
                 isPreferred: true,
                 cvc: formData.cvc,
             }
-            await BillingService.postUpdateCard(updatedCard, userData.email);
-            modalCtx.openModal(<MessageModal>Card information was updated successfully</MessageModal>);
+            const {message} = await BillingService.postUpdateCard(updatedCard, userData.email);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             setUpdateCards(true);
         } catch (error: unknown) {
             if (typeof error === 'string')

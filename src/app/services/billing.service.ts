@@ -14,7 +14,7 @@ type SubscribeData = FormCardData & {
 }
 
 interface IBillingService {
-    getCards(email: string): Promise<Res<SavedCard[]>>;
+    getCards(email: string): Promise<Res<SavedCard[], false>>;
 
     postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res>;
 
@@ -23,13 +23,13 @@ interface IBillingService {
     //eslint-disable-next-line
     getPlanDetails(email: string): any;
 
-    getInvoices(email: string): Promise<Res<Invoice[]>>;
+    getInvoices(email: string): Promise<Res<Invoice[], false>>;
 
     postExportTransaction(email: string): Promise<Res<string>>;
 
     postSaveCard(formData: CardData, email: string): Promise<Res>;
 
-    getEditCards(email: string): Promise<Res<SavedCardFull[]>>;
+    getEditCards(email: string): Promise<Res<SavedCardFull[], false>>;
 
     postUpdateCard(formData: CardData, email: string): Promise<Res>;
 
@@ -58,9 +58,10 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -83,9 +84,10 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -104,13 +106,14 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async getEditCards(email: string): Promise<Res<SavedCardFull[]>> {
+    async getEditCards(email: string): Promise<Res<SavedCardFull[], false>> {
         const [debug, error] = this.getLoggers(this.postSaveCard.name);
 
         const config: AxiosRequestConfig = {
@@ -125,11 +128,10 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-
             return {payload: response.data};
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -173,9 +175,10 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -194,10 +197,13 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: response.data};
+            return {
+                message: response.data.msg,
+                payload: response.data,
+            };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -215,10 +221,13 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: response.data};
+            return {
+                message: response.data.msg,
+                payload: response.data
+            };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -237,10 +246,13 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: response.data};
+            return {
+                message: response.data.msg,
+                payload: response.data
+            };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -290,10 +302,10 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return response.data;
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 

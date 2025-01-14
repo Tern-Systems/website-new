@@ -20,15 +20,15 @@ interface Props {
 }
 
 const CancelModal: FC<Props> = (props: Props) => {
-    const {userData,fetchUserData} = useUser();
+    const {userData, fetchUserData} = useUser();
     const modalCtx = useModal();
 
     const handleDelete = async () => {
         if (!userData)
             return;
         try {
-            await BillingService.postCancelSubscription(userData.email, props.plan);
-            modalCtx.openModal(<MessageModal>The plan was cancelled</MessageModal>);
+            const {message} = await BillingService.postCancelSubscription(userData.email, props.plan);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             await fetchUserData();
         } catch (error: unknown) {
             if (typeof error === 'string')

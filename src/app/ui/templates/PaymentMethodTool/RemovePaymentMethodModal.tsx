@@ -29,8 +29,8 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
         if (!userData || !card.profileId)
             return;
         try {
-            await BillingService.postDeleteCard(card.profileId, card.id, userData.email);
-            modalCtx.openModal(<MessageModal>The card was deleted successfully</MessageModal>);
+            const {message} = await BillingService.postDeleteCard(card.profileId, card.id, userData.email);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             await fetchUserData();
         } catch (error: unknown) {
             if (typeof error === 'string')

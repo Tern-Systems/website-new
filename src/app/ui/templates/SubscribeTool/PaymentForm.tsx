@@ -66,7 +66,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
     const [isBillingExpanded, setBillingExpandedState] = useState(false);
 
-    const [paymentStatus, setPaymentStatus] = useState<boolean | null>(null);
+    const [paymentStatus, setPaymentStatus] = useState<boolean | string | null>(null);
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
 
     // Fetch saved cards
@@ -99,7 +99,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     navigate(Route.Home);
                 });
                 flow.push(() => {
-                    modalCtx.openModal(<MessageModal>Successfully subscribed to {name} {type} plan</MessageModal>);
+                    modalCtx.openModal(<MessageModal>{paymentStatus}</MessageModal>);
                 });
                 flowCtx.run(flow);
             }

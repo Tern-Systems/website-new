@@ -58,8 +58,8 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
-                await AuthService.postSignUp(formValue);
-                modalCtx.openModal(<MessageModal>Successfully registered a new user</MessageModal>);
+                const {message} = await AuthService.postSignUp(formValue);
+                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
                 flowCtx.next()?.();
             }
         } catch (error: unknown) {

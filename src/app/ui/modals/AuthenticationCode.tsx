@@ -28,7 +28,7 @@ interface Props {
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const { phone, email, is2FA, isLogin, isDisabling = false, isPhoneEnabling = false} = props;
+    const {phone, email, is2FA, isLogin, isDisabling = false, isPhoneEnabling = false} = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -68,13 +68,11 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 await AuthService.postVerifyOTP(formValue.code, email);
 
             if (isDisabling) {
-                await AuthService.post2FATurnOff(email);
-                modalCtx.openModal(
-                    <MessageModal>Two-factor authentication has been disabled successfully.</MessageModal>
-                );
+                const {message} = await AuthService.post2FATurnOff(email);
+                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             } else if (isPhoneEnabling) {
-                await AuthService.post2FASavePhone(userCtx.userData.email, phone);
-                modalCtx.openModal(<MessageModal>Phone number successfully saved for 2FA.</MessageModal>);
+                const {message} = await AuthService.post2FASavePhone(userCtx.userData.email, phone);
+                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
 
             await userCtx.fetchUserData();
