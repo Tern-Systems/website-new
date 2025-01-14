@@ -26,20 +26,20 @@ const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 
 interface Props {
     info?: string;
-    isLoginAction?: boolean;
+    registration?: boolean;
     onClose?: () => void;
     preventClose?: boolean;
 }
 
 const AuthModal: FC<Props> = (props: Props): ReactElement => {
-    const {isLoginAction, info, onClose, preventClose} = props;
+    const {registration, info, onClose, preventClose} = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
     const isSmScreen = useBreakpointCheck() === 'sm';
 
-    const [isLoginForm, setLoginFormState] = useState(isLoginAction);
+    const [isLoginForm, setLoginFormState] = useState(!registration);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 

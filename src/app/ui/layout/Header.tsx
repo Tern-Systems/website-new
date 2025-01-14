@@ -200,7 +200,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         userBtns = AUTH_BTNS.map((name, idx) => (
             <Button
                 key={name + idx}
-                onClick={() => modalCtx.openModal(<AuthModal isLoginAction={!idx}/>, {darkenBg: true})}
+                onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1}/>, {darkenBg: true})}
                 className={`px-[0.75rem] py-[0.2rem] rounded-full border-small border-section font-bold capitalize 
                             text-basic ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
             >

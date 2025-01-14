@@ -49,7 +49,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const handleSubscribeClick = (type: PlanType) => {
         if (!userCtx.isLoggedIn) {
             const info = `You must log into a Tern account to subscribe to ${subscriptionData?.subscription}. Please login or create an account to purchase a Plan.`;
-            return modalCtx.openModal(<AuthModal info={info} isLoginAction/>, {
+            return modalCtx.openModal(<AuthModal info={info}/>, {
                 hideContent: true,
             });
         }
