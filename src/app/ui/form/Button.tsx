@@ -129,7 +129,8 @@ const Button: FC<Props> = (props: Props) => {
             )}
         >
             {Icon}
-            <span hidden={!children}>{children}</span>
+            <span hidden={!children} className={cn({['hover:hidden']: hovered?.text})}>{children}</span>
+            <span hidden={!children} className={cn({['hidden hover:inline']: hovered?.text})}>{hovered?.text}</span>
         </button>
     );
 }

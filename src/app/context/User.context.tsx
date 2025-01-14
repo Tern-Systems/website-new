@@ -2,13 +2,13 @@
 
 import React, {createContext, FC, PropsWithChildren, useCallback, useContext, useEffect, useState,} from "react";
 
+
+import {CountryKey, StateKey} from "@/app/static";
+import {LanguageKey, SalutationKey} from "@/app/static/misc";
 import {Subscription} from "@/app/types/subscription";
 import {IndustryKey, JobFunctionKey, SubIndustryKey,} from "@/app/static/company";
 
 import {UserService} from "@/app/services";
-
-import {CountryKey, StateKey} from "@/app/static";
-import {LanguageKey, SalutationKey} from "@/app/static/misc";
 
 
 type AddressType = "businessAddress" | "personalAddress";
