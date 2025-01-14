@@ -74,7 +74,7 @@ const getSimpleToggleProps = (
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
-    const {userData, token, setSession} = useUser();
+    const {userData, token, fetchUserData} = useUser();
     const isLoggedIn = useLoginCheck();
     const isSmScreen = useBreakpointCheck() === 'sm';
     useSaveOnLeave();
@@ -113,8 +113,7 @@ const ProfilePage: FC = () => {
             }
 
             modalCtx.openModal(<MessageModal>User was successfully updated</MessageModal>);
-            const {payload: updatedUser} = await UserService.getUser(token);
-            setSession(token, updatedUser);
+            await fetchUserData();
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);

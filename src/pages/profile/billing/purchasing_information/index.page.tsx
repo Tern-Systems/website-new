@@ -23,7 +23,6 @@ function PurchasingInformationPage() {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck() === 'sm';
 
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
@@ -115,7 +114,7 @@ function PurchasingInformationPage() {
                             <PageLink href={Route.EditPaymentMethod} prevent={!savedCards.length}>
                                 <Button icon={'edit'} className={'text-small flex-row-reverse'}
                                         onClick={() => router.push(Route.EditPaymentMethod)}>
-                                    {isSmScreen ? '' : 'Edit'}
+                                    <span className={'sm:hidden'}>Edit</span>
                                 </Button>
                             </PageLink>
                         </div>

@@ -6,7 +6,7 @@ import {Subscription, SubscriptionRecurrency} from "@/app/types/subscription";
 import {SubscribeData} from "@/app/services/billing.service";
 import {COUNTRY, CountryKey, Route, STATE_PROVINCE, StateKey} from "@/app/static";
 
-import {BillingService, UserService} from "@/app/services";
+import {BillingService} from "@/app/services";
 
 import {useForm, useNavigate} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
@@ -85,18 +85,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
     // Flow / payment status
     useEffect(() => {
-        const refreshUserData = async () => {
-            if (!userCtx.token)
-                return;
-            const {payload: user} = await UserService.getUser(userCtx.token);
-            userCtx.setSession(userCtx.token, user);
-        }
-
         if (paymentStatus === false) {
             modalCtx.openModal(<DeclinedModal/>);
             setPaymentStatus(null);
         } else if (paymentStatus) {
-            refreshUserData();
+            userCtx.fetchUserData();
             const next = flowCtx.next();
             if (next)
                 next();

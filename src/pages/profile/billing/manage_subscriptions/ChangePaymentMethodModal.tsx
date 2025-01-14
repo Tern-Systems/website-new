@@ -1,4 +1,4 @@
-import React, {FC, FormEvent, useRef} from "react";
+import React, {Dispatch, FC, FormEvent, SetStateAction, useRef, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
 
@@ -34,10 +34,11 @@ const BTN_CN = 'px-[--1drs] h-[--h-control-dl] rounded-full';
 
 interface Props {
     savedCards: SavedCardFull[];
+    setUpdateCards: Dispatch<SetStateAction<boolean>>;
 }
 
 const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
-    const {savedCards} = props;
+    const {savedCards, setUpdateCards} = props;
 
     const modalCtx = useModal();
     const {userData} = useUser();
@@ -57,6 +58,7 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             }
             await BillingService.postUpdateCard(updatedCard, userData.email);
             modalCtx.openModal(<MessageModal>Card information was updated successfully</MessageModal>);
+            setUpdateCards(true);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);

@@ -1,7 +1,7 @@
 import React, {FC, FormEvent, ReactElement, useCallback, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 
-import {AuthService, UserService} from "@/app/services";
+import {AuthService} from "@/app/services";
 
 import {useForm} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
@@ -28,7 +28,7 @@ interface Props {
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const {token, phone, email, is2FA, isLogin, isDisabling = false, isPhoneEnabling = false} = props;
+    const { phone, email, is2FA, isLogin, isDisabling = false, isPhoneEnabling = false} = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -77,8 +77,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 modalCtx.openModal(<MessageModal>Phone number successfully saved for 2FA.</MessageModal>);
             }
 
-            const {payload: userData} = await UserService.getUser(token);
-            userCtx.setSession(token, userData);
+            await userCtx.fetchUserData();
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);

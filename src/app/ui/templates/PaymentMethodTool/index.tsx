@@ -152,7 +152,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
                         type={'text'}
-                        value={editCardIdx ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
+                        value={editCardIdx && !isPaymentCreation ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}

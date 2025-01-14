@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig} from "axios";
 
 import {CardData, Invoice, SavedCard, SavedCardFull} from "@/app/types/billing";
-import {PlanType} from "@/app/types/subscription";
+import {PlanName, PlanType} from "@/app/types/subscription";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
@@ -35,7 +35,7 @@ interface IBillingService {
 
     postDeleteCard(id: string, paymentId: string, email: string): Promise<Res>;
 
-    postCancelSubscription(email: string): Promise<Res>;
+    postCancelSubscription(email: string, source: PlanName): Promise<Res>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
@@ -43,14 +43,14 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         super(BillingServiceImpl.name)
     }
 
-    async postCancelSubscription(email: string): Promise<Res> {
+    async postCancelSubscription(email: string, source: PlanName): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postCancelSubscription.name);
 
         const config: AxiosRequestConfig = {
             method: "POST",
             url: this._API + `cancel-subscription`,
             headers: {'Content-Type': 'application/json'},
-            data: JSON.stringify({userEmail: email}),
+            data: JSON.stringify({userEmail: email, source}),
             withCredentials: true,
         };
 

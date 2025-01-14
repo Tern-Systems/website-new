@@ -19,7 +19,7 @@ import {ScrollEnd} from "@/app/ui/misc";
 
 const LibraryPage: FC = () => {
     const [codeId, setCodeId] = useState<string | null>(null);
-    const [updateList, setUpdateList] = useState(false);
+    const [updateList, setUpdateList] = useState(true);
     const [qrList, setQRList] = useState<ARCode[]>([]);
     const [menuData, setMenuData] = useState<CodeMenuData>({
         arCode: null,
@@ -83,7 +83,7 @@ const LibraryPage: FC = () => {
 
     useEffect(() => {
         const fetchListQR = async () => {
-            if (!userCtx.userData)
+            if (!userCtx.userData || !updateList)
                 return;
             try {
                 const {payload: qrList} = await ARCHService.getListQRs(userCtx.userData.email);

@@ -3,7 +3,7 @@ import {Route} from "@/app/static";
 
 type SubscriptionRecurrency = 'annual' | 'monthly';
 type PlanName = 'ARCH' | 'dot' | 'TernKey' | 'trial';
-type PlanType = 'Basic' | 'Standard' | 'Pro';
+type PlanType = 'Free' | 'Basic' | 'Standard' | 'Pro';
 
 type SubscriptionBase = {
     subscription: PlanName;

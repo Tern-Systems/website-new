@@ -35,16 +35,18 @@ function ManageSubscriptionsPage() {
 
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
     const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
+    const [updateCards, setUpdateCards] = useState(true);
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
 
     useEffect(() => {
         const fetchCards = async () => {
-            if (!userData)
+            if (!userData || !updateCards)
                 return;
             try {
                 const {payload: cards} = await BillingService.getEditCards(userData.email);
                 setSavedCards(cards);
+                setUpdateCards(false);
             } catch (error: unknown) {
                 if (typeof error === 'string')
                     modalCtx.openModal(<MessageModal>{error}</MessageModal>);
@@ -52,7 +54,7 @@ function ManageSubscriptionsPage() {
         }
         fetchCards();
         // eslint-disable-next-line
-    }, [setSavedCards, userData])
+    }, [setSavedCards, userData, updateCards])
 
     if (!isLoggedIn)
         return null;
@@ -61,8 +63,10 @@ function ManageSubscriptionsPage() {
 
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
-        subscriptions?.map((subscription, idx) =>
-            [idx, subscription.subscription.toUpperCase() + ' ' + subscription.type + ' Plan'])
+        subscriptions
+            ?.filter((subscription) => !subscription.type.toLowerCase().includes('free'))
+            ?.map((subscription, idx) =>
+                [idx, subscription.subscription.toUpperCase() + ' ' + subscription.type + ' Plan'])
         ?? []
     );
 
@@ -91,7 +95,7 @@ function ManageSubscriptionsPage() {
                 <ReactSVG
                     src={SVG_PENCIL.src}
                     onClick={() => modalCtx.openModal(
-                        <ChangePaymentMethodModal savedCards={savedCards}/>,
+                        <ChangePaymentMethodModal savedCards={savedCards} setUpdateCards={setUpdateCards}/>,
                         {darkenBg: true}
                     )}
                     className={'size-[min(2.4dvw,0.8rem)] [&_path]:fill-primary ml-auto cursor-pointer'}
@@ -116,7 +120,10 @@ function ManageSubscriptionsPage() {
                         </h2>
                         <Button
                             className={'border-small border-control-white-d0 px-[--1drs] text-small h-[--h-control] rounded-full font-bold'}
-                            onClick={() => modalCtx.openModal(<CancelModal/>, {darkenBg: true})}
+                            onClick={() => modalCtx.openModal(
+                                <CancelModal plan={selectedPlan?.subscription}/>,
+                                {darkenBg: true}
+                            )}
                         >
                             Cancel Plan
                         </Button>

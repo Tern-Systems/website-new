@@ -22,7 +22,7 @@ interface Props {
 
 const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
     const {card} = props;
-    const {userData} = useUser();
+    const {userData, fetchUserData} = useUser();
     const modalCtx = useModal();
 
     const handleRemove = async () => {
@@ -31,6 +31,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
         try {
             await BillingService.postDeleteCard(card.profileId, card.id, userData.email);
             modalCtx.openModal(<MessageModal>The card was deleted successfully</MessageModal>);
+            await fetchUserData();
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
