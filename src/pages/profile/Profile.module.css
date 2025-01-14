@@ -1,104 +1,99 @@
 .line {
-  position: relative;
+    position: relative;
 }
 
 .line::before {
-  content: '';
-  position: absolute;
-  left: 0;
+    content: '';
+    position: absolute;
+    left: 0;
 
-  width: 0.18rem;
-  height: 100%;
+    width: 0.18rem;
+    height: 100%;
 
-  border-radius: 0.1rem;
+    border-radius: 0.1rem;
 }
 
 
 .collapsible {
-  row-gap: var(--2dr);
+    row-gap: var(--p-content-l);
 }
 
 .common {
-  border: var(--b-small) solid var(--b-control-white);
+    border: var(--b-small) solid var(--b-control-white);
 
-  --px: 0.76rem;
-  padding-left: var(--px);
-  padding-right: var(--px);
+    --px: 0.76rem;
+    padding-left: var(--px);
+    padding-right: var(--px);
 }
 
 .roundedWFull {
-  border-radius: var(--br-smallest);
-  width: 100%;
+    border-radius: var(--br-smallest);
+    width: 100%;
 }
 
 .ellipsis {
-  overflow-x: hidden;
-  text-overflow: ellipsis;
+    @media screen and (max-width: 835px) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 120%;
+    }
 }
 
 
 .leftCol {
-  grid-column-start: 1;
-  font-size: var(--fz-content);
+    grid-column-start: 1;
+    font-size: var(--fz-heading-s);
 }
 
 .midCol {
-  grid-column-start: 2;
-  font-size: var(--fz-content-small);
+    grid-column-start: 2;
+    font-size: var(--fz-section-s);
 }
 
 
 .singleInputBase {
-  background-color: var(--bg-control-gray-l0);
+    background-color: var(--bg-control-gray-l0);
 
-  --py: min(1.7dvw, 0.35rem);
-  padding-top: var(--py);
-  padding-bottom: var(--py);
+    --py: var(--p-content-5xs);
+    padding-top: var(--py);
+    padding-bottom: var(--py);
 }
 
 .singleInput {
-  height: min(5.8dvw, 2rem);
-  width: 100%;
-  border-radius: var(--br-smallest);
-  font-size: var(--fz-content-small);
+    height: min(5.8dvw, 2rem);
+    width: 100%;
+    border-radius: var(--br-smallest);
+    font-size: var(--fz-section-s);
 }
 
 .connectBtn {
-  width: 113px;
-  height: 23px;
-  flex-shrink: 0;
-  border-radius: 15px;
-  border: 2px solid #808080;
-  background: #4D4D4D;
-  font-size: 16px;
-  color: #ECF0F3;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+    height: 23px;
+    color: #ECF0F3;
+    font-size: var(--fz-section-xs);
+    font-weight: 700;
 }
 
 .connected {
-  background-color: #178ab7;
-  font-weight: 700;
+    background-color: #178ab7;
+    font-weight: 700;
 }
 
 .connect:hover {
-  background-color: #178ab7;
-  font-weight: 700;
+    background-color: #178ab7;
+    font-weight: 700;
 }
 
 .disconnect:hover {
-  background-color: #f42200;
-  font-weight: 700;
+    background-color: #f42200;
+    font-weight: 700;
 }
 
 @media screen and (max-width: 835px) and (orientation: landscape) {
-  .leftCol {
-    font-size: var(--fz-content-small);
-  }
+    .leftCol {
+        font-size: var(--fz-section-s);
+    }
 
-  .midCol {
-    font-size: var(--fz-small);
-  }
+    .midCol {
+        font-size: var(--fz-section-xs);
+    }
 }

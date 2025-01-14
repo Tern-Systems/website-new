@@ -1,23 +1,13 @@
 "use client";
 
-import React, {
-    createContext,
-    FC,
-    PropsWithChildren,
-    useContext,
-    useEffect,
-    useState,
-} from "react";
+import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState,} from "react";
 
 import {Subscription} from "@/app/types/subscription";
-import {
-    IndustryKey,
-    JobFunctionKey,
-    SubIndustryKey,
-} from "@/app/static/company";
+import {IndustryKey, JobFunctionKey, SubIndustryKey,} from "@/app/static/company";
 
-import {CountryKey, LANGUAGE, SALUTATION, StateKey} from "@/app/static";
+import {CountryKey, StateKey} from "@/app/static";
 import {UserService} from "@/app/services";
+import {LanguageKey, SalutationKey} from "@/app/static/misc";
 
 type AddressType = "businessAddress" | "personalAddress";
 type Address = {
@@ -40,9 +30,9 @@ type Phone = PhoneBase | (PhoneBase & { ext: string });
 type UserPhone = Record<PhoneType, Phone | null>;
 
 type FullName = {
-    salutation: keyof typeof SALUTATION | "";
-    firstname: string;
-    lastname: string;
+    salutation: SalutationKey | "";
+    firstName: string;
+    lastName: string;
     initial?: string;
 };
 
@@ -60,7 +50,7 @@ interface UserData {
     name: FullName;
     ternID: string;
     username: string;
-    preferredLanguage: keyof typeof LANGUAGE;
+    language: LanguageKey;
     email: string;
     registrationDate: number;
     phones: UserPhone;
