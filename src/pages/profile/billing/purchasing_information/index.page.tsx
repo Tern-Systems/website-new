@@ -7,7 +7,7 @@ import {Route} from "@/app/static";
 
 import {BillingService} from "@/app/services";
 
-import {useBreakpointCheck, useLoginCheck} from "@/app/hooks";
+import {useLoginCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {ScrollEnd} from "@/app/ui/misc";

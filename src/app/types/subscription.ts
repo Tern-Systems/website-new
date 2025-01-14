@@ -3,7 +3,7 @@ import {Route} from "@/app/static";
 
 type SubscriptionRecurrency = 'annual' | 'monthly';
 type PlanName = 'ARCH' | 'dot' | 'TernKey' | 'trial';
-type PlanType = 'Free' | 'Basic' | 'Standard' | 'Pro';
+type PlanType = 'Basic' | 'Standard' | 'Pro';
 
 type SubscriptionBase = {
     subscription: PlanName;
@@ -19,7 +19,6 @@ type Subscription = SubscriptionBase & {
 }
 
 type SubscriptionPreviewData = {
-    icon: string;
     priceUSD: Record<SubscriptionRecurrency, number>;
     benefits: string[];
 }

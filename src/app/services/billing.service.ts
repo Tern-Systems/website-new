@@ -1,12 +1,20 @@
-import axios, {AxiosRequestConfig} from "axios";
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 
 import {CardData, Invoice, SavedCard, SavedCardFull} from "@/app/types/billing";
-import {PlanName, PlanType} from "@/app/types/subscription";
+import {PlanName, PlanType, SubscriptionPreview} from "@/app/types/subscription";
 import {Res} from "@/app/types/service";
 
 import {BaseService} from "@/app/services/base.service";
+import {Route} from "@/app/static";
+import {copyObject} from "@/app/utils";
 
-
+type PlanDetails = {
+    Details: string[];
+    Duration: number;
+    Plan: PlanType;
+    Price: number;
+    Source: PlanName;
+}
 type FormCardData = Omit<CardData, 'nickName' | 'isPreferred'>;
 type SubscribeData = FormCardData & {
     savedCardIdx: string;
@@ -20,8 +28,7 @@ interface IBillingService {
 
     postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res>;
 
-    //eslint-disable-next-line
-    getPlanDetails(email: string): any;
+    getPlanDetails(email: string): Promise<Res<SubscriptionPreview, false>>;
 
     getInvoices(email: string): Promise<Res<Invoice[], false>>;
 
@@ -313,8 +320,6 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         const [debug, error] = this.getLoggers(this.postProcessSavedPayment.name);
 
         try {
-            const taxResponse = await this._fetchTaxes('place');
-
             const config: AxiosRequestConfig = {
                 method: 'POST',
                 url: this._API + (isArch ? 'arch-' : '') + `process-payment-saved`,
@@ -324,7 +329,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                     cardId: data.id,
                     cvv: data.cvc,
                     planName: planType,
-                    price: planPrice * (1 + taxResponse),
+                    price: planPrice,
                     duration: planDuration,
                     country: data.country,
                     state: data.state
@@ -335,41 +340,56 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return response.data;
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     };
 
-    async getPlanDetails(email: string) {
+    async getPlanDetails(source: PlanName): Promise<Res<SubscriptionPreview, false>> {
+        const [debug, error] = this.getLoggers(this.postProcessSavedPayment.name);
 
         const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: this._API + `arch-current-plan`,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data: {user: email},
+            method: 'GET',
+            url: this._API + `plan-details`,
             withCredentials: false,
         };
+
         try {
-            const response = await axios(config);
+            debug(config);
+            const response: AxiosResponse<{ allplanDetails: PlanDetails[] }> = await axios(config);
+            debug(response);
 
-            return response.data;
+            let previewResult: SubscriptionPreview = {
+                route: source === 'TernKey' ? Route.TernKeySubscribe : Route.ServiceSubscribe,
+                subscription: source,
+                isBasicKind: source === 'TernKey',
+                type: {},
+            };
+            previewResult = response.data.allplanDetails
+                .filter((subscription: PlanDetails) => subscription.Source === source)
+                .reduce((result, subscription: PlanDetails): SubscriptionPreview => {
+                    const updatedResult: SubscriptionPreview = copyObject(result);
+                    if (!updatedResult.type[subscription.Plan]) {
+                        updatedResult.type[subscription.Plan] = {
+                            benefits: subscription.Details,
+                            priceUSD: {annual: 0, monthly: 0},
+                        }
+                    }
+
+                    updatedResult.type[subscription.Plan].priceUSD[subscription.Duration === 1 ? 'monthly' : 'annual'] = subscription.Price;
+                    return updatedResult;
+                }, previewResult);
+
+            return {payload: previewResult}
         } catch (err: unknown) {
-
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            error(err);
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
-
-    // eslint-disable-next-line
-    private async _fetchTaxes(place: string): Promise<number> { // TODO
-        // eslint-disable-next-line
-        const [debug, error] = this.getLoggers(this._fetchTaxes.name);
-        return 0;
-    }
 }
+
 
 const BillingService = new BillingServiceImpl();
 export {BillingService}

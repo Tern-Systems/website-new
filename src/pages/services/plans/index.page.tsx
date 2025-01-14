@@ -1,54 +1,30 @@
-import {FC, useEffect, useState} from "react";
-
-import {Route} from "@/app/static";
+import React, {FC, useEffect, useState} from "react";
 import {SubscriptionPreview} from "@/app/types/subscription";
 
+import {BillingService} from "@/app/services";
+
 import {PricingAndPlansScreen} from "@/app/ui/templates";
-
-import SVG_DIAMOND_ACE from "/public/images/icons/diamond-ace.svg";
-import SVG_DIAMOND from "/public/images/icons/diamond.svg";
-
-
-const PLAN_TEMPLATE: SubscriptionPreview = {
-    subscription: 'ARCH',
-    isBasicKind: false,
-    route: Route.ServiceSubscribe,
-    type: {
-        Standard: {
-            icon: SVG_DIAMOND_ACE,
-            priceUSD: {monthly: 10, annual: 8},
-            benefits: [
-                'Create and manage one AR code',
-                '100 scans per month',
-                'Detailed scan analytics',
-                'Custom personalization features',
-                'Data import and export',
-            ]
-        },
-        Pro: {
-            icon: SVG_DIAMOND,
-            priceUSD: {monthly: 50, annual: 40},
-            benefits: [
-                'Manage up to 5 AR codes',
-                '1,000 scans per month',
-                'AR code design customization',
-                'Video support up to 30 seconds',
-                'Access to dedicated support team'
-            ]
-        }
-    }
-}
+import {MessageModal} from "@/app/ui/modals";
+import {useModal} from "@/app/context";
 
 
 const PricingAndPlansPage: FC = () => {
+    const modalCtx = useModal();
+
     const [subscription, setSubscription] = useState<SubscriptionPreview | null>(null);
 
     useEffect(() => {
-        try {
-            // TODO fetch plan details
-            setSubscription(PLAN_TEMPLATE);
-        } catch (error: unknown) {
+        const fetchPlanDetails = async () => {
+            try {
+                const {payload: planPreview} = await BillingService.getPlanDetails('ARCH');
+                setSubscription(planPreview);
+            } catch (error: unknown) {
+                if (typeof error === 'string')
+                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            }
         }
+        fetchPlanDetails();
+        //eslint-disable-next-line
     }, []);
 
     return <PricingAndPlansScreen subscriptionData={subscription}/>;

@@ -1,51 +1,30 @@
-import {FC, useEffect, useState} from "react";
-
-import {Route} from "@/app/static";
+import React, {FC, useEffect, useState} from "react";
 import {SubscriptionPreview} from "@/app/types/subscription";
 
+import {BillingService} from "@/app/services";
+
 import {PricingAndPlansScreen} from "@/app/ui/templates";
-
-import SVG_DIAMOND from "/public/images/icons/diamond.svg";
-import SVG_DIAMOND_ACE from "/public/images/icons/diamond-ace.svg";
-
-const PLAN_TEMPLATE: SubscriptionPreview = {
-  subscription: "TernKey",
-  isBasicKind: true,
-  route: Route.TernKeySubscribe,
-  type: {
-    Basic: {
-      icon: SVG_DIAMOND_ACE,
-      priceUSD: { monthly: 0, annual: 0 },
-      benefits: [
-        "Unlimited Key drafts",
-        "10 daily Key compositions",
-        "Access to standard G, TERN, and BTMC language capabilities",
-        "Personalization features in settings",
-        "Ability to import and export programs on your device",
-      ],
-    },
-    Pro: {
-      icon: SVG_DIAMOND,
-      priceUSD: { monthly: 20, annual: 18 },
-      benefits: [
-        "Access to Explore Keys",
-        "Unlimited daily Key compositions",
-        "Access to sidebar with saved history",
-        "Ability to save and publish Keys",
-        "Early access to new features and updates",
-      ],
-    },
-  },
-};
+import {MessageModal} from "@/app/ui/modals";
+import {useModal} from "@/app/context";
 
 
 const PricingAndPlansPage: FC = () => {
+    const modalCtx = useModal();
+
     const [subscription, setSubscription] = useState<SubscriptionPreview | null>(null);
+
     useEffect(() => {
-        try {
-            setSubscription(PLAN_TEMPLATE);
-        } catch (error: unknown) {
+        const fetchPlanDetails = async () => {
+            try {
+                const {payload: planPreview} = await BillingService.getPlanDetails('TernKey');
+                setSubscription(planPreview);
+            } catch (error: unknown) {
+                if (typeof error === 'string')
+                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            }
         }
+        fetchPlanDetails();
+        //eslint-disable-next-line
     }, []);
 
     return <PricingAndPlansScreen subscriptionData={subscription}/>;

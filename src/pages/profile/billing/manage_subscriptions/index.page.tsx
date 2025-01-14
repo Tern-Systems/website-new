@@ -64,7 +64,7 @@ function ManageSubscriptionsPage() {
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
         subscriptions
-            ?.filter((subscription) => !subscription.type.toLowerCase().includes('free'))
+            ?.filter((subscription) => !subscription.type.toLowerCase().includes('basic'))
             ?.map((subscription, idx) =>
                 [idx, subscription.subscription.toUpperCase() + ' ' + subscription.type + ' Plan'])
         ?? []
