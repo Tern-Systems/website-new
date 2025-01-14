@@ -109,7 +109,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                     alt={'plus-minus'}
                     onClick={() => handleToggle()}
                     className={cn(collapseCN,
-                        `absolute w-[1.8rem] h-auto top-[--p-content-l] right-[--p-content-l]`,
+                        `absolute w-[1.8rem] h-auto top-[--p-content-l] right-[--p-content-l] cursor-pointer`,
                         `lg:hidden`,
                         `sm:landscape:size-[2dvw]`,
                         classNameIcon
@@ -139,7 +139,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline size-[0.9rem] ${collapseCN} ${classNameIcon}`}
+                    className={`inline size-[0.9rem] cursor-pointer ${collapseCN} ${classNameIcon}`}
                 />
             </div>
             <hr className={cn({['hidden']: isChevron}, `scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)]

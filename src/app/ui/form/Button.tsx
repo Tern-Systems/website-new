@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes, FC, ReactElement, useState} from "react";
+import {ButtonHTMLAttributes, FC, ReactElement} from "react";
 import {ReactSVG} from "react-svg";
 import cn from "classnames";
 
@@ -87,7 +87,7 @@ const ICON: Record<ButtonIcon, { src: string }> = {
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: ButtonIcon | null;
-    hovered?: { icon?: ButtonIcon | null; text?: string; }
+    hovered?: { icon?: ButtonIcon | null, text?: string, className?: string };
     isIconFlippedY?: boolean;
     classNameIcon?: string;
 }
@@ -95,33 +95,41 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: FC<Props> = (props: Props) => {
     const {children, icon, isIconFlippedY, className, classNameIcon, hovered, ...btnProps} = props;
 
-    const [isHovered, setHoverState] = useState(false);
-
-    const stateIcon: ButtonIcon | null | undefined = hovered?.icon && isHovered ? hovered?.icon : icon;
-    const Icon: ReactElement | null = stateIcon
-        ? <ReactSVG src={ICON[stateIcon].src}
-                    className={`inline [&_*]:w-[1rem] [&_svg]:h-auto ${isIconFlippedY ? 'rotate-180' : ''} ${classNameIcon}`}/>
-        : null;
+    const iconClassName = cn(`inline [&_*]:size-[1rem]`, {['rotate-180']: isIconFlippedY}, classNameIcon);
+    const Icon: ReactElement | null = (
+        <>
+            {icon
+                ? (
+                    <ReactSVG
+                        src={ICON[icon].src}
+                        className={cn(iconClassName, {['group-hover:hidden']: hovered?.icon})}
+                    />
+                )
+                : null
+            }
+            {hovered?.icon
+                ? (
+                    <ReactSVG
+                        src={ICON[hovered.icon].src}
+                        className={cn(iconClassName, 'hidden group-hover:inline', hovered.className)}
+                    />
+                )
+                : null
+            }
+        </>
+    );
 
     return (
         <button
             {...btnProps}
-            onMouseEnter={(event) => {
-                setHoverState(true);
-                props.onMouseEnter?.(event);
-            }}
-            onMouseLeave={(event) => {
-                setHoverState(false);
-                props.onMouseLeave?.(event);
-            }}
             className={cn(
-                `text-nowrap cursor-pointer  disabled:cursor-default`,
+                `text-nowrap cursor-pointer  disabled:cursor-default group`,
                 className, styles.clickable,
-                {['flex items-center justify-center gap-[0.5rem]']: stateIcon}
+                {['flex items-center justify-center gap-[0.5rem]']: icon ?? hovered?.icon}
             )}
         >
             {Icon}
-            <span hidden={!children}>{isHovered && hovered?.text ? hovered.text : children}</span>
+            <span hidden={!children}>{children}</span>
         </button>
     );
 }

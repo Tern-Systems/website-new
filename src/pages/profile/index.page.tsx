@@ -114,7 +114,7 @@ const ProfilePage: FC = () => {
 
             modalCtx.openModal(<MessageModal>User was successfully updated</MessageModal>);
             const {payload: updatedUser} = await UserService.getUser(token);
-            setSession(updatedUser, token);
+            setSession(token, updatedUser);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);

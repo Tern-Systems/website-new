@@ -89,7 +89,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             if (!userCtx.token)
                 return;
             const {payload: user} = await UserService.getUser(userCtx.token);
-            userCtx.setSession(user, userCtx.token);
+            userCtx.setSession(userCtx.token, user);
         }
 
         if (paymentStatus === false) {

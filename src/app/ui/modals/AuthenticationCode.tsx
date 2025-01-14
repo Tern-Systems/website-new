@@ -78,7 +78,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             }
 
             const {payload: userData} = await UserService.getUser(token);
-            userCtx.setSession(userData, token);
+            userCtx.setSession(token, userData);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
