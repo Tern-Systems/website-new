@@ -1,11 +1,24 @@
 import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState,} from "react";
 import cn from "classnames";
 
-import {EditableProps} from "@/app/ui/form/Editable";
 
-import {COUNTRY, INDUSTRY, JOB_FUNCTION, LANGUAGE, SALUTATION, STATE_PROVINCE, SUB_INDUSTRY,} from "@/app/static";
+import {UserData} from "@/app/context/User.context";
+import {LanguageKey} from "@/app/static/misc";
+import {UpdateUserData} from "@/app/services/user.service";
+import {DEFAULT_ADDRESS, EditableProps} from "@/app/ui/form/Editable";
 
-import {AuthService} from "@/app/services";
+import {
+    COUNTRY,
+    CountryKey,
+    INDUSTRY,
+    JOB_FUNCTION,
+    LANGUAGE,
+    SALUTATION,
+    STATE_PROVINCE,
+    SUB_INDUSTRY,
+} from "@/app/static";
+
+import {AuthService, UserService} from "@/app/services";
 
 import {formatDate} from "@/app/utils/data";
 import {useBreakpointCheck, useLoginCheck, useSaveOnLeave} from "@/app/hooks";
@@ -61,7 +74,7 @@ const getSimpleToggleProps = (
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
-    const {userData, token} = useUser();
+    const {userData, token, setSession} = useUser();
     const isLoggedIn = useLoginCheck();
     const isSmScreen = useBreakpointCheck() === 'sm';
     useSaveOnLeave();
@@ -87,7 +100,22 @@ const ProfilePage: FC = () => {
         return () => window.removeEventListener("wheel", handleScroll);
     }, [isSmScreen]);
 
-    if (!userData || !isLoggedIn) return null;
+    if (!userData || !isLoggedIn || !token) return null;
+
+
+    const handleUpdate = async (data: Partial<UpdateUserData>) => {
+        try {
+            const newUserData = {...userData, photo: null, ...data};
+            await UserService.postUpdateUser(userData.email, newUserData);
+
+            modalCtx.openModal(<MessageModal>User was successfully updated</MessageModal>);
+            const {payload: updatedUser} = await UserService.getUser(token);
+            setSession(updatedUser, token);
+        } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+        }
+    }
 
     // Elements
     const Primary = (
@@ -184,12 +212,14 @@ const ProfilePage: FC = () => {
     );
 
     // Addresses
-    const Addresses = Object.entries(userData.address)
+    const Addresses: (ReactElement | null)[] = Object.entries(userData.address)
         .filter((address) => address[1])
         .map(([type, address], idx) => {
+            if (!address || !address.state || !address.country)
+                return null;
             const state = address ? STATE_PROVINCE?.[address.country]?.[address.state] : '';
-            const addressInfo: ReactElement = address && address.state && address.country
-                ? (
+            const addressInfo: ReactElement | null =
+                (
                     <>
                         <span className={"w-[14.69rem] flex flex-col"}>
                             <span>{address.line1}</span>
@@ -199,8 +229,7 @@ const ProfilePage: FC = () => {
                         </span>
                         {address.isPrimary ? Primary : null}
                     </>
-                )
-                : <span>--</span>;
+                );
 
             return (
                 <span key={type + idx} className={"col-start-2"}>
@@ -269,6 +298,19 @@ const ProfilePage: FC = () => {
                     </span>
                     <Input
                         type={"file"}
+                        onClick={(event) => {
+                            if (event.currentTarget)
+                                event.currentTarget.value = ''
+                        }}
+                        onChange={async (event) => {
+                            if (!('target' in event) || !event.target.files)
+                                throw 'No file has been uploaded';
+                            const file = Array.from(event.target?.files)?.[0];
+                            if (!file)
+                                throw 'No file has been uploaded';
+                            const newPhotoUserData: UpdateUserData = {...userData, photo: file};
+                            await UserService.postUpdateUser(userData.email, newPhotoUserData);
+                        }}
                         classNameWrapper={cn(
                             `px-[--p-content-xxs] [&]:w-fit rounded-full bg-control-white text-gray font-bold`,
                             `h-[1.43rem] text-section-xs`,
@@ -289,10 +331,14 @@ const ProfilePage: FC = () => {
                             value: {value: userData.email},
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
-                            }, //TODO
+                                // TODO ternID
+                                // if ("value" in formData)
+                                // await handleUpdate('general',{ternId:formData.value});
+                            },
                         }}
                     >
-                        <span className={styles.midCol + " " + styles.ellipsis}>{userData.email}</span>
+                        <span
+                            className={styles.midCol + " " + styles.ellipsis}>{userData.ternID ?? userData.email}</span>
                     </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>Password</span>
@@ -310,21 +356,13 @@ const ProfilePage: FC = () => {
                                 if (formData.passwordConfirm !== formData.newPassword)
                                     throw `Passwords don't match`;
 
-                                try {
-                                    await AuthService.postChangePassword(
-                                        formData.currentPassword,
-                                        formData.newPassword,
-                                        formData.passwordConfirm,
-                                        userData?.email
-                                    );
-                                    modalCtx.openModal(
-                                        <MessageModal>Your Password has been changed successfully!</MessageModal>
-                                    );
-                                } catch (error: unknown) {
-                                    if (typeof error === "string")
-                                        modalCtx.openModal(<MessageModal>{error}</MessageModal>);
-                                }
-                            },
+                                await AuthService.postChangePassword(
+                                    formData.currentPassword,
+                                    formData.newPassword,
+                                    formData.passwordConfirm,
+                                    userData.email
+                                );
+                            }
                         }}
                     >
                     <span className={styles.midCol + " " + styles.ellipsis}>
@@ -356,8 +394,6 @@ const ProfilePage: FC = () => {
                                     !formData
                                     || !("value" in formData)
                                     || typeof formData.value !== "string"
-                                    || !token
-                                    || !userData
                                 )
                                     return;
                                 const phone = formData.value.trim();
@@ -380,7 +416,7 @@ const ProfilePage: FC = () => {
                                             isPhoneEnabling
                                             token={token}
                                             phone={phone}
-                                            email={userData?.email || ""}
+                                            email={userData.email || ""}
                                         />
                                     );
                                 } catch (error: unknown) {
@@ -389,13 +425,13 @@ const ProfilePage: FC = () => {
                                 }
                             },
                             onSwitch: async (state: boolean) => {
-                                if (token && userData?.state2FA?.phone) {
+                                if (token && userData.state2FA?.phone) {
                                     modalCtx.openModal(
                                         <AuthenticationCode
                                             is2FA
                                             isDisabling={state}
                                             token={token}
-                                            phone={userData?.state2FA?.phone}
+                                            phone={userData.state2FA?.phone}
                                             email={userData.email}
                                         />
                                     );
@@ -419,10 +455,16 @@ const ProfilePage: FC = () => {
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
-                            value: userData.name,
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                            value: {
+                                firstName: userData.name.firstName ?? '',
+                                lastName: userData.name.lastName ?? '',
+                                salutation: userData.name.salutation ?? '',
+                                initial: userData.name.initial ?? '',
+                            },
                             onSave: async (formData) => {
-                            }, //TODO
+                                if ("salutation" in formData)
+                                    await handleUpdate({name: formData});
+                            },
                         }}
                     >
                         <span className={`capitalize ${styles.midCol + " " + styles.ellipsis}`}>
@@ -430,7 +472,7 @@ const ProfilePage: FC = () => {
                                 ? SALUTATION[userData.name.salutation]
                                 : "--"}
                             &nbsp;
-                            {userData.name.firstname} {userData.name.initial} {userData.name.lastname}
+                            {userData.name.firstName} {userData.name.initial} {userData.name.lastName}
                         </span>
                     </Editable>
 
@@ -442,9 +484,11 @@ const ProfilePage: FC = () => {
                                 className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                                 title: "Update your Display Name",
                                 value: {value: userData.username},
-                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                 onSave: async (formData) => {
-                                }, //TODO
+                                    if (!('value' in formData) || !formData.value)
+                                        throw 'Wrong request setup';
+                                    await UserService.postUpdateUserName(userData.email, formData.value);
+                                }
                             }}
                             setParentEditState={setEditState}
                             isToggleBlocked={isEditState}
@@ -459,24 +503,7 @@ const ProfilePage: FC = () => {
                     )}
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>Email Address</span>
-                    <Editable
-                        {...getSimpleToggleProps(setEditState, isEditState)}
-                        data={{
-                            className: cn(styles.singleInput, styles.singleInputBase, styles.common),
-                            title: "Update your Email Address",
-                            value: {
-                                value: userData.email,
-                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                                verify: async (formData) => {
-                                }, //TODO
-                            },
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                            onSave: async (formData) => {
-                            }, //TODO
-                        }}
-                    >
-                        <span>{userData.email}</span>
-                    </Editable>
+                    <span>{userData.email}</span>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>Phone Number</span>
                     <Editable
@@ -486,20 +513,19 @@ const ProfilePage: FC = () => {
                             className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                             value: userData.phones,
                             onSave: async (formData) => {
-                                if (!("business" in formData)) return;
-                                Object.entries(formData).forEach(([type, number]) => {
-                                    if (number.number !== "" && number.number.length < 10)
-                                        throw type + ` number must contain 10 digits`;
-                                });
-                            }, //TODO
+                                if (!("mobile" in formData))
+                                    throw 'Incorrect request setup';
+                                const newPhones: UserData['phones'] = {...(userData?.phones ?? {}), ...formData}
+                                await handleUpdate({phones: newPhones});
+                            },
                         }}
                     >
                         <span>{Phones}</span>
                     </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>
-                        Country or Region
-                       <span className={'sm:hidden'}>of Residence</span>
+                        Country or Region&nbsp;
+                        <span className={'sm:hidden'}>of Residence</span>
                     </span>
                     <Editable
                         type={"select"}
@@ -507,11 +533,20 @@ const ProfilePage: FC = () => {
                         data={{
                             className: `${styles.singleInputBase} ${styles.common}`,
                             title: "Country / Region",
-                            value: {value: "US"},
+                            value: {value: userData.address.personalAddress?.country ?? ''},
                             options: COUNTRY,
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
-                            }, //TODO
+                                if (!("value" in formData) || !formData.value)
+                                    throw 'Incorrect request setup';
+                                const newAddress: UserData['address'] = {
+                                    ...userData.address,
+                                    personalAddress: {
+                                        ...(userData?.address?.personalAddress ?? DEFAULT_ADDRESS),
+                                        country: formData.value as CountryKey
+                                    }
+                                }
+                                await handleUpdate({address: newAddress});
+                            }
                         }}
                     >
                     <span>
@@ -532,12 +567,14 @@ const ProfilePage: FC = () => {
                             title: "Language",
                             value: {value: "EN"},
                             options: LANGUAGE,
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
-                            }, //TODO
+                                if (!("value" in formData) || !formData.value)
+                                    throw 'Incorrect request setup';
+                                await handleUpdate({language: formData.value as LanguageKey});
+                            },
                         }}
                     >
-                        <span>{LANGUAGE[userData.preferredLanguage] ?? "--"}</span>
+                        <span>{LANGUAGE[userData.language] ?? "--"}</span>
                     </Editable>
                 </Collapsible>
                 <Collapsible
@@ -552,10 +589,21 @@ const ProfilePage: FC = () => {
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
                             className: cn(styles.singleInput, styles.singleInputBase, styles.common),
-                            value: {value: userData.company?.name ?? "-"},
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                            value: {value: userData.company?.name ?? ''},
                             onSave: async (formData) => {
-                            }, //TODO
+                                if (!("value" in formData) || !formData.value)
+                                    throw 'Incorrect request setup';
+                                const newCompany: UserData['company'] = {
+                                    ...(userData.company ?? {
+                                        jobTitle: '',
+                                        jobFunction: '',
+                                        subIndustry: '',
+                                        industry: ''
+                                    }),
+                                    name: formData.value,
+                                }
+                                await handleUpdate({company: newCompany});
+                            },
                         }}
                     >
                         <span>{userData.company?.name ?? "--"}</span>
@@ -570,9 +618,15 @@ const ProfilePage: FC = () => {
                         data={{
                             className: cn(styles.singleInput, styles.singleInputBase, `px-[0.76rem] border-small`, styles.roundedWFull),
                             value: userData.company,
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
-                            }, //TODO
+                                if (!("industry" in formData))
+                                    throw 'Incorrect request setup';
+                                const newCompany: UserData['company'] = {
+                                    ...formData,
+                                    name: userData.company?.name ?? ''
+                                }
+                                await handleUpdate({company: newCompany});
+                            },
                         }}
                     >
                         {userData.company
@@ -614,9 +668,12 @@ const ProfilePage: FC = () => {
                         data={{
                             className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
                             value: userData.address,
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             onSave: async (formData) => {
-                            }, //TODO
+                                if (!("personalAddress" in formData))
+                                    throw 'Incorrect request setup';
+                                const newAddress: UserData['address'] = {...userData.address, ...formData}
+                                await handleUpdate({address: newAddress});
+                            },
                         }}
                     >
                         <span>{Addresses}</span>

@@ -199,7 +199,7 @@ const LANGUAGE = {
     'za-CN': 'Zhuang',
     'zu-ZA': 'Zulu',
 }
-
+type LanguageKey = keyof typeof LANGUAGE;
 
 const SALUTATION = {
     'DR': 'Dr.',
@@ -208,6 +208,7 @@ const SALUTATION = {
     'MRS': 'Mrs.',
     'MS': 'Ms.',
 }
+type SalutationKey = keyof typeof SALUTATION;
 
 
 const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
@@ -236,7 +237,7 @@ const MERGED_SUB_NAV_ROUTES: string[] = [Route.TernKey];
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
 
-
+export type  {SalutationKey, LanguageKey};
 export {
     MAPPED_NAV_ROUTES,
     MERGED_SUB_NAV_ROUTES,

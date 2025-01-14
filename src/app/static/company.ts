@@ -1,6 +1,7 @@
 import {KeysOfUnion} from "@/app/types/utils";
 
 const JOB_FUNCTION = {
+    '': '',
     D19: 'Academic Executive',
     L01: 'Accounting',
     D13: 'Accounting Executive',
@@ -133,6 +134,7 @@ const JOB_FUNCTION = {
 }
 
 const INDUSTRY = {
+    '': '',
     V: 'Aerospace & Defense',
     J: 'Automotive',
     F: 'Banking',
@@ -159,6 +161,7 @@ const INDUSTRY = {
 }
 
 const SUB_INDUSTRY = {
+    '': {'': ''},
     V: {
         V9: 'HQ Allocation for Aerospace & Defense and Industrial Products',
         VA: 'Aerospace',
