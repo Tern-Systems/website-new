@@ -193,10 +193,9 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         const [debug, error] = this.getLoggers(this.getInvoices.name);
 
         const config: AxiosRequestConfig = {
-            method: "POST",
+            method: "GET",
             url: this._API + `export-transaction-details`,
-            headers: {'Content-Type': 'application/json'},
-            data: JSON.stringify({email}),
+            params: {email},
             withCredentials: true,
         };
 

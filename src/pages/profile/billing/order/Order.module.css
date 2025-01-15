@@ -1,0 +1,12 @@
+.column {
+    flex: 1;
+    padding: 8rem 2rem 0 2rem;
+    width: 50%;
+    overflow-y: scroll;
+}
+
+.hidden {
+    @media screen and (max-width: 835px) {
+        display: none;
+    }
+}

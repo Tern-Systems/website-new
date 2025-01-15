@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from "react";
+import React, {ForwardedRef, forwardRef, ForwardRefRenderFunction, PropsWithoutRef, ReactElement} from "react";
 
 import {Invoice} from "@/app/types/billing";
 import {Route, STATE_PROVINCE} from "@/app/static";
@@ -16,7 +16,7 @@ interface Props {
     className?: string;
 }
 
-const OrderDetails: FC<Props> = (props: Props) => {
+const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWithoutRef<Props>> = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     const {invoice, className, VisibilityToggle, card, invoiceDate, renewDate} = props;
 
     const taxAmount = invoice?.taxPercent !== undefined && invoice?.subtotalUSD !== undefined
@@ -32,7 +32,7 @@ const OrderDetails: FC<Props> = (props: Props) => {
 
     return (
         <div className={`${className} bg-control-white`}>
-            <div className={'w-[min(100%,29rem)] place-self-center'}>
+            <div ref={ref} className={'w-[min(100%,29rem)] place-self-center'}>
                 <h2 className={'font-bold text-header'}>
                     Paid on {invoiceDate}
                 </h2>
@@ -121,4 +121,5 @@ const OrderDetails: FC<Props> = (props: Props) => {
 }
 
 
+const OrderDetails = forwardRef(OrderDetailsComponent);
 export {OrderDetails};
