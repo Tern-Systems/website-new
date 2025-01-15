@@ -1,27 +1,39 @@
 import React, {FC} from "react";
 
+import {PlanName} from "@/app/types/subscription";
 import {Route} from "@/app/static";
+
+import {BillingService} from "@/app/services";
 
 import {useModal, useUser} from "@/app/context";
 
 import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 import {PageLink} from "@/app/ui/layout";
-import {BillingService} from "@/app/services";
 
 
 const BTN_CN = 'px-[min(2.7dvw,1rem)] h-[--h-control-dl] rounded-full';
 
 
-const CancelModal: FC = () => {
-    const {userData} = useUser();
+interface Props {
+    plan: PlanName;
+}
+
+const CancelModal: FC<Props> = (props: Props) => {
+    const {userData, fetchUserData} = useUser();
     const modalCtx = useModal();
 
     const handleDelete = async () => {
         if (!userData)
             return;
-        await BillingService.postCancelSubscription(userData.email);
-        modalCtx.openModal(<MessageModal>The plan was cancelled</MessageModal>);
+        try {
+            const {message} = await BillingService.postCancelSubscription(userData.email, props.plan);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+            await fetchUserData();
+        } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+        }
     }
 
     return (

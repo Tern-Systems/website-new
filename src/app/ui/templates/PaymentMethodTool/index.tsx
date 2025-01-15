@@ -93,12 +93,16 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         if (!userData || editCardIdx <= -1)
             return;
         try {
-            if (isPaymentCreation)
-                await BillingService.postSaveCard(formData, userData?.email);
-            else
-                await BillingService.postUpdateCard(formData, userData?.email);
+            let responseMsg: string;
+            if (isPaymentCreation) {
+                const {message} = await BillingService.postSaveCard(formData, userData?.email);
+                responseMsg = message;
+            } else {
+                const {message} = await BillingService.postUpdateCard(formData, userData?.email);
+                responseMsg = message;
+            }
+            modalCtx.openModal(<MessageModal>{responseMsg}</MessageModal>);
             await fetchEditCards();
-            modalCtx.openModal(<MessageModal>Card information was updated successfully</MessageModal>);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
@@ -152,7 +156,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
                         type={'text'}
-                        value={editCardIdx ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
+                        value={editCardIdx && !isPaymentCreation ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}

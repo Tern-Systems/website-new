@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 
 import {Res} from "@/app/types/service";
 import {PlanName, PlanType, Subscription} from "@/app/types/subscription";
@@ -20,9 +20,9 @@ type SubscriptionData = {
 
 
 interface IUserService {
-    getUser(token: string): Promise<Res<UserData>>;
+    getUser(token: string): Promise<Res<UserData, false>>;
 
-    getPlanDetails(email: string): Promise<Res<Subscription[]>>;
+    getUserActivePlans(email: string): Promise<Res<Subscription[], false>>;
 
     postUpdateUser(email: string, data: UpdateUserData): Promise<Res>;
 
@@ -49,9 +49,10 @@ class UserServiceImpl extends BaseService implements IUserService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -110,14 +111,15 @@ class UserServiceImpl extends BaseService implements IUserService {
             debug(Object.fromEntries(Array.from(userFormData)));
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async getPlanDetails(email: string): Promise<Res<Subscription[]>> {
-        const [debug, error] = this.getLoggers(this.getPlanDetails.name);
+    async getUserActivePlans(email: string): Promise<Res<Subscription[], false>> {
+        const [debug, error] = this.getLoggers(this.getUserActivePlans.name);
 
         const config: AxiosRequestConfig = {
             method: 'GET',
@@ -128,27 +130,31 @@ class UserServiceImpl extends BaseService implements IUserService {
 
         try {
             debug(config);
-            const response: AxiosResponse<SubscriptionData[], AxiosRequestConfig> = await axios(config);
+            const response = await axios(config);
             debug(response);
 
-            const userSubscriptions: Subscription[] = response.data.map((entry) => ({
-                subscription: entry.source ?? '--',
-                type: entry.name ?? '--',
-                isBasicKind: entry.name === 'Basic',
-                recurrency: entry.duration === 12 ? 'annual' : 'monthly',
-                renewDate: new Date(entry.endDate ?? 0).getTime(),
-                tax: entry.tax_amount ?? NaN,
-                priceUSD: entry.price ?? NaN,
-            }))
+            const userSubscriptions: Subscription[] = response.data.map((entry: SubscriptionData): Subscription => {
+                if (!('tax_amount' in entry))
+                    throw 'Received wrong response schema from the server'
+                return {
+                    subscription: entry.source ?? '--',
+                    type: entry.name ?? '--',
+                    isBasicKind: entry.name === 'Basic',
+                    recurrency: entry.duration === 12 ? 'annual' : 'monthly',
+                    renewDate: new Date(entry.endDate ?? 0).getTime(),
+                    tax: entry.tax_amount ?? NaN,
+                    priceUSD: entry.price ?? NaN,
+                }
+            })
 
             return {payload: userSubscriptions};
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async getUser(token: string): Promise<Res<UserData>> {
+    async getUser(token: string): Promise<Res<UserData, false>> {
         const [debug, error] = this.getLoggers(this.getUser.name);
 
         const config: AxiosRequestConfig = {
@@ -168,10 +174,8 @@ class UserServiceImpl extends BaseService implements IUserService {
             if (!userData.email)
                 throw "Incorrect response from server";
 
-            // const ternKeyResponse = await this.getPlanDetails(userData.email);
-            const {payload: subscriptions} = await this.getPlanDetails(userData.email);
+            const {payload: subscriptions} = await this.getUserActivePlans(userData.email);
 
-            // Todo 2FA
             const userDataMapped: UserData = {
                 ...userData,
                 subscriptions,
@@ -188,7 +192,7 @@ class UserServiceImpl extends BaseService implements IUserService {
             return {payload: userDataMapped};
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 

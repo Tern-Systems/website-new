@@ -1,13 +1,15 @@
 "use client";
 
-import React, {createContext, FC, PropsWithChildren, useContext, useEffect, useState,} from "react";
+import React, {createContext, FC, PropsWithChildren, useCallback, useContext, useEffect, useState,} from "react";
 
+
+import {CountryKey, StateKey} from "@/app/static";
+import {LanguageKey, SalutationKey} from "@/app/static/misc";
 import {Subscription} from "@/app/types/subscription";
 import {IndustryKey, JobFunctionKey, SubIndustryKey,} from "@/app/static/company";
 
-import {CountryKey, StateKey} from "@/app/static";
 import {UserService} from "@/app/services";
-import {LanguageKey, SalutationKey} from "@/app/static/misc";
+
 
 type AddressType = "businessAddress" | "personalAddress";
 type Address = {
@@ -83,8 +85,9 @@ interface IUserContext {
     userData: UserData | null;
     isLoggedIn: null | boolean;
     token: string | null;
-    setSession: (data: UserData, token: string) => void;
+    setSession: (token: string, data?: UserData) => void;
     removeSession: () => void;
+    fetchUserData: (token?: string) => Promise<void>;
 }
 
 
@@ -95,8 +98,9 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [userData, setUserDataHelper] = useState<UserData | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
-    const setSession = (userData: UserData, token: string) => {
-        setUserDataHelper(userData);
+    const setSession = (token: string, userData?: UserData) => {
+        if (userData)
+            setUserDataHelper(userData);
         setLoggedState(true);
         setToken(token);
         localStorage.setItem("token", token);
@@ -107,24 +111,28 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         localStorage.removeItem("token");
     };
 
-    useEffect(() => {
-        const fetchUserData = async (token: string) => {
-            try {
-                const {payload: user} = await UserService.getUser(token);
-                setSession(user, token);
-            } catch (error: unknown) {
-                setLoggedState(false);
-            }
-        };
+    const fetchUserData = useCallback(async (bearer?: string) => {
+        const tokenFinal = bearer ?? token;
+        if (!tokenFinal)
+            return;
 
+        try {
+            const {payload: user} = await UserService.getUser(tokenFinal);
+            setSession(tokenFinal, user);
+        } catch (error: unknown) {
+            setLoggedState(false);
+        }
+    }, [token])
+
+    useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) fetchUserData(token);
         else setLoggedState(false);
-    }, []);
+    }, [fetchUserData]);
 
     return (
         <UserContext.Provider
-            value={{userData, isLoggedIn, setSession, removeSession, token}}
+            value={{userData, isLoggedIn, setSession, removeSession, fetchUserData, token}}
         >
             {props.children}
         </UserContext.Provider>

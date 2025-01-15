@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 
 import {Res} from "@/app/types/service";
 
@@ -11,9 +11,9 @@ interface IARCHService {
 
     postSaveQR(email: string, name: string, isEdit: boolean, mediaId?: string, backgroundColor?: string, moduleColor?: string, qrFile?: File, video?: File): Promise<Res>;
 
-    getListQRs(email: string): Promise<Res<ARCode[]>>;
+    getListQRs(email: string): Promise<Res<ARCode[], false>>;
 
-    getQrDetails(email: string, mediaId: string): Promise<Res<ARCode>>;
+    getQrDetails(email: string, mediaId: string): Promise<Res<ARCode, false>>;
 
     deleteQr(email: string, mediaId: string): Promise<Res>;
 }
@@ -23,7 +23,7 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
         super(ARCHServiceImpl.name)
     }
 
-    async getQrDetails(email: string, mediaId: string): Promise<Res<ARCode>> {
+    async getQrDetails(email: string, mediaId: string): Promise<Res<ARCode, false>> {
         const [debug, error] = this.getLoggers(this.getQrDetails.name);
 
         const config: AxiosRequestConfig = {
@@ -33,20 +33,19 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
             withCredentials: true,
         };
 
-        let response: AxiosResponse;
         try {
             debug(config);
-            response = await axios(config);
+            const response = await axios(config);
             debug(response);
+
+            if (!Object.hasOwn(response.data, 'qrCodeUrl'))
+                throw 'Received wrong response schema from the server'
+
+            return {payload: response.data};
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
-
-        if (!Object.hasOwn(response.data, 'qrCodeUrl'))
-            throw 'Received wrong response schema from the server'
-
-        return {payload: response.data};
     }
 
     async postGenerateQR(moduleColor: string, backgroundColor: string): Promise<Res<{ url: string; id: string }>> {
@@ -64,10 +63,13 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: {url: response.data.qrCode?.qrDataUrl, id: response.data.qrCode?.mediaId}};
+            return {
+                message: response.data.msg,
+                payload: {url: response.data.qrCode?.qrDataUrl, id: response.data.qrCode?.mediaId}
+            };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -104,13 +106,14 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
             debug(Object.fromEntries(Array.from(formData)));
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async getListQRs(email: string): Promise<Res<ARCode[]>> {
+    async getListQRs(email: string): Promise<Res<ARCode[], false>> {
         const [debug, error] = this.getLoggers(this.getListQRs.name);
 
         const config: AxiosRequestConfig = {
@@ -127,7 +130,7 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
             return {payload: response.data.qrCodes};
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -145,9 +148,10 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 

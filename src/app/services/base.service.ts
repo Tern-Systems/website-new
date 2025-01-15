@@ -18,7 +18,9 @@ abstract class BaseService {
     }
 
     protected getLoggers(method: string) {
-        console.log(this._serviceName + ' - ' + method + ':');
+        const env: string | undefined = process.env.NEXT_PUBLIC_NODE_ENV ?? process.env.NODE_ENV ?? 'development';
+        if (env === 'development')
+            console.log(this._serviceName + ' - ' + method + ':');
         return [this.debug, this.error];
     }
 

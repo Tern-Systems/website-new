@@ -21,23 +21,23 @@ interface IAuthService {
 
     postLogIn(data: LoginData): Promise<Res<string>>;
 
-    postForgotPassword(email: string): Promise<void>;
+    postForgotPassword(email: string): Promise<Res>;
 
-    postSendOTP(email: string): Promise<void>;
+    postSendOTP(email: string): Promise<Res>;
 
-    postLoginVerifyOTP(otp: string, userEmail: string): Promise<void>;
+    postLoginVerifyOTP(otp: string, userEmail: string): Promise<Res>;
 
-    postResetPassword(token: string, newPassword: string): Promise<void>;
+    postResetPassword(token: string, newPassword: string): Promise<Res>;
 
-    postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<void>
+    postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<Res>
 
-    postVerifyOTP(otp: string, userEmail: string): Promise<void>;
+    postVerifyOTP(otp: string, userEmail: string): Promise<Res>;
 
-    post2FATurnOff(email: string): Promise<void>;
+    post2FATurnOff(email: string): Promise<Res>;
 
-    post2FASavePhone(userEmail: string, phone: string): Promise<void>;
+    post2FASavePhone(userEmail: string, phone: string): Promise<Res>;
 
-    postDeleteAccount(email: string, password: string): Promise<void>;
+    postDeleteAccount(email: string, password: string): Promise<Res>;
 }
 
 class AuthServiceImpl extends BaseService implements IAuthService {
@@ -66,9 +66,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
@@ -90,14 +91,17 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {payload: response.data.token};
+            return {
+                message: response.data.msg,
+                payload: response.data.token,
+            };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async postForgotPassword(email: string): Promise<void> {
+    async postForgotPassword(email: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postForgotPassword.name);
 
         const config: AxiosRequestConfig = {
@@ -112,13 +116,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async postResetPassword(token: string, newPassword: string): Promise<void> {
+    async postResetPassword(token: string, newPassword: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postResetPassword.name);
 
         const config: AxiosRequestConfig = {
@@ -133,13 +138,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async postSendOTP(email: string): Promise<void> {
+    async postSendOTP(email: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postSendOTP.name);
 
         const config: AxiosRequestConfig = {
@@ -154,13 +160,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? error : 'Unknown error!';
         }
     }
 
-    async postLoginVerifyOTP(otp: string, userEmail: string): Promise<void> {
+    async postLoginVerifyOTP(otp: string, userEmail: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postLoginVerifyOTP.name);
 
         const config: AxiosRequestConfig = {
@@ -175,13 +182,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async post2FASendOTP(email: string, phone: string): Promise<void> {
+    async post2FASendOTP(email: string, phone: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.post2FASendOTP.name);
 
         const config: AxiosRequestConfig = {
@@ -196,13 +204,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async postVerifyOTP(otp: string, userEmail: string): Promise<void> {
+    async postVerifyOTP(otp: string, userEmail: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postVerifyOTP.name);
 
         const config: AxiosRequestConfig = {
@@ -217,13 +226,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async post2FATurnOff(userEmail: string): Promise<void> {
+    async post2FATurnOff(userEmail: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.post2FATurnOff.name);
 
         const config: AxiosRequestConfig = {
@@ -237,13 +247,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async post2FASavePhone(userEmail: string, phone: string): Promise<void> {
+    async post2FASavePhone(userEmail: string, phone: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.post2FASavePhone.name);
 
         const config: AxiosRequestConfig = {
@@ -258,13 +269,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async postDeleteAccount(email: string, confirm: string): Promise<void> {
+    async postDeleteAccount(email: string, confirm: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postDeleteAccount.name);
 
         const config: AxiosRequestConfig = {
@@ -279,14 +291,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return response.data.success;
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 
-    async postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<void> {
+    async postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postChangePassword.name);
 
         const config: AxiosRequestConfig = {
@@ -301,9 +313,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
+            return {message: response.data.msg}
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
         }
     }
 }

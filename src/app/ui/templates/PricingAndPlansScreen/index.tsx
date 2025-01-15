@@ -26,6 +26,8 @@ import styles from '@/app/common.module.css'
 import SVG_BULLET_DASHED from "/public/images/icons/bullet-dashed.svg";
 import SVG_BULLET from "/public/images/icons/bullet.svg";
 import SVG_STAR from "/public/images/icons/star.svg";
+import SVG_DIAMOND from "/public/images/icons/diamond.svg";
+import SVG_DIAMOND_ACE from "/public/images/icons/diamond-ace.svg";
 
 
 const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ["monthly", "annual"];
@@ -49,7 +51,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const handleSubscribeClick = (type: PlanType) => {
         if (!userCtx.isLoggedIn) {
             const info = `You must log into a Tern account to subscribe to ${subscriptionData?.subscription}. Please login or create an account to purchase a Plan.`;
-            return modalCtx.openModal(<AuthModal info={info} isLoginAction/>, {
+            return modalCtx.openModal(<AuthModal info={info}/>, {
                 hideContent: true,
             });
         }
@@ -205,10 +207,11 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     `md:text-heading`,
                 )}
                 >
-                    {data?.icon
-                        ? <Image src={data.icon} alt={type + ' icon'}
-                                 className={`mr-[--p-content-5xs] h-auto  w-[1.375rem]  sm:w-[0.9375rem]`}/>
-                        : '--'}
+                    <Image
+                        src={idx ? SVG_DIAMOND: SVG_DIAMOND_ACE }
+                        alt={type + ' icon'}
+                        className={`mr-[--p-content-5xs] h-auto  w-[1.375rem]  sm:w-[0.9375rem]`}
+                    />
                     <span>{type}</span>
                 </h2>
                 <div className={cn(

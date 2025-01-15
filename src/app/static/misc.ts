@@ -234,7 +234,7 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
 }
 
 const MERGED_SUB_NAV_ROUTES: string[] = [Route.TernKey];
-const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
+const ALWAYS_MAPPED_ROUTES: string[] = ['TBD', 'arch'];
 
 
 export type  {SalutationKey, LanguageKey};

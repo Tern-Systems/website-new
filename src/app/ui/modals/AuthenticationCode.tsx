@@ -1,7 +1,7 @@
 import React, {FC, FormEvent, ReactElement, useCallback, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 
-import {AuthService, UserService} from "@/app/services";
+import {AuthService} from "@/app/services";
 
 import {useForm} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
@@ -28,7 +28,7 @@ interface Props {
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const {token, phone, email, is2FA, isLogin, isDisabling = false, isPhoneEnabling = false} = props;
+    const {phone, email, is2FA, isLogin, isDisabling = false, isPhoneEnabling = false} = props;
 
     const modalCtx = useModal();
     const userCtx = useUser();
@@ -68,17 +68,14 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 await AuthService.postVerifyOTP(formValue.code, email);
 
             if (isDisabling) {
-                await AuthService.post2FATurnOff(email);
-                modalCtx.openModal(
-                    <MessageModal>Two-factor authentication has been disabled successfully.</MessageModal>
-                );
+                const {message} = await AuthService.post2FATurnOff(email);
+                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             } else if (isPhoneEnabling) {
-                await AuthService.post2FASavePhone(userCtx.userData.email, phone);
-                modalCtx.openModal(<MessageModal>Phone number successfully saved for 2FA.</MessageModal>);
+                const {message} = await AuthService.post2FASavePhone(userCtx.userData.email, phone);
+                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
 
-            const {payload: userData} = await UserService.getUser(token);
-            userCtx.setSession(userData, token);
+            await userCtx.fetchUserData();
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);

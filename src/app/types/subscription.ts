@@ -19,7 +19,6 @@ type Subscription = SubscriptionBase & {
 }
 
 type SubscriptionPreviewData = {
-    icon: string;
     priceUSD: Record<SubscriptionRecurrency, number>;
     benefits: string[];
 }

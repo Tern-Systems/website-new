@@ -20,7 +20,7 @@ const useLoginCheck = () => {
     useEffect(() => {
         if (userCtx.isLoggedIn === false && route !== Route.Home && !layoutCtx.isFade) {
             modalCtx.openModal(
-                <AuthModal isLoginAction onClose={() => navigate(Route.Home)}/>,
+                <AuthModal onClose={() => navigate(Route.Home)}/>,
                 {hideContent: true}
             );
         }

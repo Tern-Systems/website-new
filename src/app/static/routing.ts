@@ -14,7 +14,7 @@ enum Route {
     Privacy = '/privacy',
 
     // /service
-    Services = '/services/all',
+    Services = '/services/arch',
     ARCodeToolCreate = '/services/create',
     ARCodeToolEdit = '/services/library/edit',
     ServiceUserManual = '/services/user_manual',

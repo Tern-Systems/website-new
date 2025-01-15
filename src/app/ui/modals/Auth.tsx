@@ -5,7 +5,7 @@ import cn from "classnames";
 
 import {SignUpData} from "@/app/services/auth.service";
 
-import {AuthService, UserService} from "@/app/services";
+import {AuthService} from "@/app/services";
 
 import {useBreakpointCheck, useForm} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
@@ -26,20 +26,20 @@ const FORM_DEFAULT: FormData = {email: '', password: '', passwordConfirm: ''};
 
 interface Props {
     info?: string;
-    isLoginAction?: boolean;
+    registration?: boolean;
     onClose?: () => void;
     preventClose?: boolean;
 }
 
 const AuthModal: FC<Props> = (props: Props): ReactElement => {
-    const {isLoginAction, info, onClose, preventClose} = props;
+    const {registration, info, onClose, preventClose} = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
-    const isSmScreen = useBreakpointCheck()=== 'sm';
+    const isSmScreen = useBreakpointCheck() === 'sm';
 
-    const [isLoginForm, setLoginFormState] = useState(isLoginAction);
+    const [isLoginForm, setLoginFormState] = useState(!registration);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 
@@ -52,16 +52,14 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         try {
             if (isLoginForm) {
                 const {payload: token} = await AuthService.postLogIn(formValue);
-                const {payload: userData} = await UserService.getUser(token);
-
-                userCtx.setSession(userData, token);
+                await userCtx.fetchUserData(token);
                 modalCtx.closeModal();
                 flowCtx.next()?.();
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
-                await AuthService.postSignUp(formValue);
-                modalCtx.openModal(<MessageModal>Successfully registered a new user</MessageModal>);
+                const {message} = await AuthService.postSignUp(formValue);
+                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
                 flowCtx.next()?.();
             }
         } catch (error: unknown) {

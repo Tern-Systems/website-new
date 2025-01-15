@@ -52,12 +52,9 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
 
     const handleAccountDelete = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // TO DO: success and failed toasters.
-        // Check delete account api again.
         try {
-            // delete account + logoff
-            await AuthService.postDeleteAccount(formData.email, formData.confirm);
-            modalCtx.openModal(<MessageModal>our account was deleted</MessageModal>);
+            const {message} = await AuthService.postDeleteAccount(formData.email, formData.confirm);
+            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             userCtx.removeSession()
         } catch (error: unknown) {
             if (typeof error === 'string')

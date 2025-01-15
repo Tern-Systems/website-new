@@ -60,9 +60,8 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
             } else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
-                await AuthService.postResetPassword(token, formValue.passwordConfirm);
-                router.push(Route.Home);
-                modalCtx.openModal(<MessageModal>Your password has been reset successfully!</MessageModal>);
+                const {message} = await AuthService.postResetPassword(token, formValue.passwordConfirm);
+                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
         } catch (error: unknown) {
             let message: string = 'Unknown error';

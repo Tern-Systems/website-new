@@ -6,7 +6,7 @@ import {Subscription, SubscriptionRecurrency} from "@/app/types/subscription";
 import {SubscribeData} from "@/app/services/billing.service";
 import {COUNTRY, CountryKey, Route, STATE_PROVINCE, StateKey} from "@/app/static";
 
-import {BillingService, UserService} from "@/app/services";
+import {BillingService} from "@/app/services";
 
 import {useForm, useNavigate} from "@/app/hooks";
 import {useFlow, useModal, useUser} from "@/app/context";
@@ -66,7 +66,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
     const [isBillingExpanded, setBillingExpandedState] = useState(false);
 
-    const [paymentStatus, setPaymentStatus] = useState<boolean | null>(null);
+    const [paymentStatus, setPaymentStatus] = useState<boolean | string | null>(null);
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
 
     // Fetch saved cards
@@ -85,18 +85,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
     // Flow / payment status
     useEffect(() => {
-        const refreshUserData = async () => {
-            if (!userCtx.token)
-                return;
-            const {payload: user} = await UserService.getUser(userCtx.token);
-            userCtx.setSession(user, userCtx.token);
-        }
-
         if (paymentStatus === false) {
             modalCtx.openModal(<DeclinedModal/>);
             setPaymentStatus(null);
         } else if (paymentStatus) {
-            refreshUserData();
+            userCtx.fetchUserData();
             const next = flowCtx.next();
             if (next)
                 next();
@@ -106,7 +99,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     navigate(Route.Home);
                 });
                 flow.push(() => {
-                    modalCtx.openModal(<MessageModal>Successfully subscribed to {name} {type} plan</MessageModal>);
+                    modalCtx.openModal(<MessageModal>{paymentStatus}</MessageModal>);
                 });
                 flowCtx.run(flow);
             }
