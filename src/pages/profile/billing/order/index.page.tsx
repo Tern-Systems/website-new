@@ -1,4 +1,6 @@
 import React, {ReactElement, useEffect, useState} from "react";
+import {Margin, Resolution, usePDF} from "react-to-pdf";
+import cn from "classnames";
 
 import {Invoice} from "@/app/types/billing";
 import {Route} from "@/app/static";
@@ -10,11 +12,17 @@ import {Button} from "@/app/ui/form";
 import {OrderDetails} from "./OrderDetails";
 import {OrderPreview} from "./OrderPreview";
 
-
-const COLUMN_CN = 'flex-1 pt-[min(8dvw,8rem)] px-[--2dr] w-1/2 overflow-y-scroll sm:w-full';
+import styles from './Order.module.css'
 
 
 function OrderPage() {
+    const {toPDF, targetRef: receiptRef} = usePDF({
+        filename: 'receipt.pdf',
+        method: 'open',
+        page: {margin: Margin.LARGE},
+        resolution: Resolution.NORMAL
+    });
+
     const [invoice, setInvoice] = useState<Invoice | null>(null);
     const [isDetailsToggled, setDetailsToggleState] = useState(false);
 
@@ -24,8 +32,6 @@ function OrderPage() {
             const subscriptionData = sessionStorage.getItem('invoice');
             if (!subscriptionData)
                 throw 'Error retrieving invoice data';
-
-            // TODO fetch data
             const invoice = JSON.parse(subscriptionData) as Invoice;
             if (invoice)
                 setInvoice(invoice)
@@ -59,18 +65,20 @@ function OrderPage() {
     return (
         <div className={'flex h-full font-oxygen sm:flex-col'}>
             <OrderPreview
+                toPDFReceipt={toPDF}
                 invoice={invoice}
                 card={card}
                 invoiceDate={invoiceDateStr}
-                className={COLUMN_CN + (isDetailsToggled ? ' sm:hidden' : '')}
+                className={cn(styles.column, isDetailsToggled ? ' sm:hidden' : '')}
                 VisibilityToggle={ToggleDetailsBtn}
             />
             <OrderDetails
+                ref={receiptRef}
                 invoice={invoice}
                 card={card}
                 invoiceDate={invoiceDateStr}
                 renewDate={renewDateStr}
-                className={COLUMN_CN + (isDetailsToggled ? '' : ' sm:hidden')}
+                className={cn(styles.column, isDetailsToggled ? '' : styles.hidden)}
                 VisibilityToggle={ToggleDetailsBtn}
             />
         </div>
