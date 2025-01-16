@@ -27,11 +27,36 @@ interface IUserService {
     postUpdateUser(email: string, data: UpdateUserData): Promise<Res>;
 
     postUpdateUserName(email: string, username: string): Promise<Res>;
+
+    postRemoveProfilePicture(email: string): Promise<Res>;
 }
 
 class UserServiceImpl extends BaseService implements IUserService {
     constructor() {
         super(UserServiceImpl.name)
+    }
+
+
+    async postRemoveProfilePicture(email: string): Promise<Res> {
+        const [debug, error] = this.getLoggers(this.postRemoveProfilePicture.name);
+
+        const config: AxiosRequestConfig = {
+            method: "POST",
+            url: this._API + `remove-photo`,
+            headers: {'Content-Type': 'application/json',},
+            data: JSON.stringify({userEmail: email}),
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            const response = await axios(config);
+            debug(response);
+            return {message: response.data.msg}
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+        }
     }
 
     async postUpdateUserName(email: string, username: string): Promise<Res> {
@@ -154,7 +179,7 @@ class UserServiceImpl extends BaseService implements IUserService {
         }
     }
 
-    async getUser(token: string): Promise<Res<UserData, false>> {
+    async getUser(token: string, fetchPlanDetails: boolean = false): Promise<Res<UserData, false>> {
         const [debug, error] = this.getLoggers(this.getUser.name);
 
         const config: AxiosRequestConfig = {
@@ -174,7 +199,11 @@ class UserServiceImpl extends BaseService implements IUserService {
             if (!userData.email)
                 throw "Incorrect response from server";
 
-            const {payload: subscriptions} = await this.getUserActivePlans(userData.email);
+            let subscriptions: Subscription[] = userData.subscriptions;
+            if (fetchPlanDetails) {
+                const {payload: activeSubscriptions} = await this.getUserActivePlans(userData.email);
+                subscriptions = activeSubscriptions;
+            }
 
             const userDataMapped: UserData = {
                 ...userData,

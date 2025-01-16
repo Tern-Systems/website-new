@@ -6,9 +6,11 @@ import React, {
     PropsWithChildren,
     ReactElement,
     SetStateAction,
+    useEffect,
     useState
 } from "react";
 import {ReactSVG} from "react-svg";
+import {v4} from "uuid";
 
 import {KeysOfUnion, NonNullableKeys} from "@/app/types/utils";
 import {INDUSTRY, IndustryKey, JOB_FUNCTION, JobFunctionKey, SUB_INDUSTRY, SubIndustryKey} from "@/app/static/company";
@@ -17,11 +19,14 @@ import {COUNTRY, SALUTATION, STATE_PROVINCE} from "@/app/static";
 import {Address, Company, FullName, Phone, UserAddress, UserPhone} from "@/app/context/User.context";
 
 import {copyObject} from "@/app/utils";
-import {useBreakpointCheck, useForm} from "@/app/hooks";
+import {useForm} from "@/app/hooks";
+import {useModal} from "@/app/context";
 
 import {Button, Input, Select, Switch} from "@/app/ui/form";
+import {RemoveProfilePictureModal} from "@/pages/profile/RemoveProfilePictureModal";
 
 import SVG_PENCIL from "/public/images/icons/edit-line.svg";
+
 
 const DEFAULT_PHONE: Phone = {number: '', isPrimary: false};
 const DEFAULT_ADDRESS: Address = {
@@ -45,6 +50,7 @@ const CHECKBOX_CN = {
 type EditableFormData =
     | { value: string | null }
     | { currentPassword: string; newPassword: string; passwordConfirm: string }
+    | { file: File | null, fileName: string | null }
     | NonNullableKeys<UserPhone>
     | FullName
     | UserAddress
@@ -53,6 +59,7 @@ type EditableFormData =
 type Value =
     | { value: string; verify?: (formData: EditableFormData) => Promise<void>; }
     | { value: string | null }
+    | { file: File | null, fileName: string | null }
     | { isEmailAdded: boolean; isPhoneAdded: boolean; suggestedPhone: string | null }
     | UserPhone
     | FullName
@@ -69,14 +76,15 @@ type DataBase = {
 
 
 interface Props extends PropsWithChildren {
-    type?: 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'address' | 'company';
+    type?: 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'address' | 'image' | 'company';
     toggleType?: 'icon' | 'button',
     data: DataBase | DataBase & { options: Record<string, string> }
 
-    setParentEditState?: Dispatch<SetStateAction<boolean>>;
+    setParentEditID?: Dispatch<SetStateAction<string | null>>;
+    parentEditID?: string | null;
 
-    isToggleBlocked?: boolean;
-    isSimpleSwitch?: boolean;
+    toggleBlocked?: boolean;
+    simpleSwitch?: boolean;
     keepChildrenOnEdit?: boolean;
     checkEmpty?: boolean;
 
@@ -86,21 +94,23 @@ interface Props extends PropsWithChildren {
 
 const Editable: FC<Props> = (props: Props) => {
     const {
-        type, checkEmpty, toggleType, keepChildrenOnEdit,
-        isSimpleSwitch, isToggleBlocked, setParentEditState,
+        type, checkEmpty, toggleType, keepChildrenOnEdit, toggleBlocked,
+        simpleSwitch, parentEditID, setParentEditID,
         classNameWrapper, classNameToggle, data, children
     } = props;
-    const isSmScreen = useBreakpointCheck() === 'sm';
-    ;
+
+    const modalCtx = useModal();
 
     // State
     let defaultFormValue: EditableFormData;
     if (data.value === null)
-        if (isSimpleSwitch)
-            defaultFormValue = {value: 'false'}
+        if (simpleSwitch)
+            defaultFormValue = {value: false.toString()}
         else
             defaultFormValue = {currentPassword: '', newPassword: '', passwordConfirm: ''};
-    else if ('business' in data.value) {
+    else if ('fileName' in data.value) {
+        defaultFormValue = {file: null, fileName: data.value.fileName};
+    } else if ('business' in data.value) {
         defaultFormValue = {
             business: data.value.business ? copyObject(data.value.business) : {...DEFAULT_PHONE, ext: ''},
             personal: data.value.personal ? copyObject(data.value.personal) : DEFAULT_PHONE,
@@ -116,21 +126,33 @@ const Editable: FC<Props> = (props: Props) => {
     } else
         defaultFormValue = copyObject(data.value);
 
-    const [isEditState, setEditState] = useState<boolean>(
+    const [editID, setEditID] = useState<string | null>(null);
+    const [isEditState, setIsEditState] = useState<boolean>(
         data.value !== null
         && 'isEmailAdded' in data.value
         && data.value.isPhoneAdded
     );
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [formData, _, setFormState] = useForm<EditableFormData>(defaultFormValue);
     const [waring, setWarning] = useState<string | null>(null);
 
+    useEffect(() => {
+        setIsEditState(parentEditID === editID);
+    }, [parentEditID, editID])
+
+    useEffect(() => {
+        setEditID(v4())
+    }, [])
+
     // handlers
     const toggleEditState = () => {
-        setEditState(prevState => {
+        setIsEditState(prevState => {
+            console.log(defaultFormValue)
             if (prevState)
                 setFormState(defaultFormValue);
-            setParentEditState?.(!prevState);
+            else
+                setParentEditID?.(editID);
             return !prevState;
         });
     }
@@ -160,19 +182,24 @@ const Editable: FC<Props> = (props: Props) => {
     // Elements
     const Hr = <hr className={'border-control-white-d0'}/>;
 
+    const CancelBtn = (
+        <Button
+            type={"reset"}
+            className={'bg-control-gray-l0 px-[--1drs] h-full rounded-full'}
+            onClick={() => toggleEditState()}
+        >
+            Cancel
+        </Button>
+
+    );
     const ControlBtns = (
         <span
             className={`flex gap-x-[min(1dvw,0.75rem)] h-[--h-control] mt-[min(1.3dvw,0.95rem)] text-small font-bold`}>
-            <Button
-                className={'bg-control-gray-l0 px-[--1drs] h-full rounded-full'}
-                onClick={() => toggleEditState()}
-            >
-                Cancel
-            </Button>
+            {CancelBtn}
             <Button
                 type={'submit'}
                 disabled={checkUpdateBtnDisabledState()}
-                className={'bg-[#00397F] px-[--1drs] rounded-full disabled:bg-control-gray-l0 disabled:text-gray'}
+                className={'bg-control-navy px-[--1drs] rounded-full disabled:bg-control-gray-l0 disabled:text-gray'}
             >
                 Update
             </Button>
@@ -180,25 +207,24 @@ const Editable: FC<Props> = (props: Props) => {
     );
 
     const renderToggleBtn = () => {
-        const isDisabled = isToggleBlocked || isEditState;
-
+        const isDisabled = toggleBlocked || isEditState;
         return (
             <Button
                 disabled={isDisabled}
                 onClick={() => {
-                    if (isSimpleSwitch)
+                    if (simpleSwitch)
                         data.onSave(formData);
                     toggleEditState();
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
                 className={`text-note font-oxygen py-[0.3rem] px-[--s-dl-small] rounded-smallest1 box-content
-                    ${isToggleBlocked ? '!bg-[#0C545C] !text-[#ECF0F3] ' : ''}
+                    ${parentEditID ? '!bg-[#0C545C] !text-[#ECF0F3] ' : ''}
                     ${!isDisabled ? 'hover:bg-control-blue hover:text-primary' : ''}
                     ${classNameToggle} ${isEditState ? '[&]:bg-control-blue' : '[&]:bg-control-white-d0 text-gray'}`}
             >
                 {
-                    isToggleBlocked
+                    parentEditID
                         ? 'Enabled'
                         : isEditState
                             ? 'Enable'
@@ -212,7 +238,7 @@ const Editable: FC<Props> = (props: Props) => {
         ? renderToggleBtn()
         : (
             <span
-                onClick={() => !isToggleBlocked && toggleEditState()}
+                onClick={() => toggleEditState()}
                 className={`cursor-pointer text-small flex gap-[0.4rem] items-center ${classNameToggle} place-self-end self-start
                             ${isEditState ? 'hidden' : ''}`}
             >
@@ -263,8 +289,61 @@ const Editable: FC<Props> = (props: Props) => {
                             Verify
                         </span>
                     </span>
-                    <span className={`block mt-[--1drs] ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span className={`block mt-[--1drs] text-section-xs ${waring ? '' : 'hidden'}`}>{waring}</span>
                     {ControlBtns}
+                </>
+            )
+            break;
+        case 'image':
+            if (!('fileName' in formData) || !data.value || !('fileName' in data.value))
+                break;
+            Form = (
+                <>
+                    <Input
+                        type={"file"}
+                        accept={"image/*"}
+                        onClick={(event) => {
+                            if (event.currentTarget)
+                                event.currentTarget.value = ''
+                        }}
+                        onChange={async (event) => {
+                            if (!('target' in event) || !event.target.files)
+                                return;
+                            const file = Array.from(event.target?.files)?.[0];
+                            if (file)
+                                setFormState({file, fileName: file.name})
+                        }}
+                        classNameWrapper={data.className}
+                        className={'w-fit'}
+                        classNameIcon={'[&&_*]:size-[--p-content-3xs]  sm:[&_*]:size-[--p-content-4xs]'}
+                    >
+                        {(formData.fileName ?? data.value.fileName) || 'Upload media'}
+                    </Input>
+                    <span className={`block mt-[--1drs] text-section-xs ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span
+                        className={`flex gap-x-[min(1dvw,0.75rem)] h-[--h-control] mt-[min(1.3dvw,0.95rem)] text-small font-bold`}>
+                        {CancelBtn}
+                        <Button
+                            type={'button'}
+                            disabled={!formData.fileName || formData.fileName !== data.value.fileName}
+                            onClick={() => {
+                                modalCtx.openModal(
+                                    <RemoveProfilePictureModal onRemove={() => toggleEditState()}/>,
+                                    {darkenBg: true}
+                                )
+                            }}
+                            className={'px-[--1drs] rounded-full border-small border-red text-red disabled:x-[bg-control-gray-l0,border-none,text-gray]'}
+                        >
+                            Remove
+                        </Button>
+                        <Button
+                            type={'submit'}
+                            disabled={!formData.fileName || formData.fileName === data.value.fileName}
+                            className={'px-[--1drs] bg-control-navy rounded-full disabled:x-[bg-control-gray-l0,border-none,text-gray]'}
+                        >
+                            Replace
+                        </Button>
+                    </span>
                 </>
             )
             break;
@@ -322,10 +401,21 @@ const Editable: FC<Props> = (props: Props) => {
                         New Password
                     </Input>
                     <ul className={'grid grid-cols-2 list-disc list-inside ml-[min(2dvw,1rem)] text-note'}>
-                        <li>{isSmScreen ? '' : 'Minimum of'} 9 characters</li>
-                        <li>{isSmScreen ? 'U' : 'One u'}ppercase letter</li>
-                        <li>{isSmScreen ? 'L' : 'One l'}owercase leter</li>
-                        <li>{isSmScreen ? 'N' : 'One n'}umber</li>
+                        <li>
+                            <span className={'sm:hidden'}>Minimum of </span>9 characters
+                        </li>
+                        <li>
+                            <span className={'hidden sm:inline'}>U</span><span className={'sm:hidden'}>One u</span>
+                            ppercase letter
+                        </li>
+                        <li>
+                            <span className={'hidden sm:inline'}>L</span><span className={'sm:hidden'}>One l</span>
+                            owercase leter
+                        </li>
+                        <li>
+                            <span className={'hidden sm:inline'}>N</span><span className={'sm:hidden'}>One n</span>
+                            umber
+                        </li>
                     </ul>
                     <Input
                         type={'password'}
@@ -340,7 +430,7 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         Confirm New Password
                     </Input>
-                    <span className={waring ? '' : 'hidden'}>{waring}</span>
+                    <span className={waring ? 'text-section-xs' : 'hidden'}>{waring}</span>
                     {ControlBtns}
                 </>
             );
@@ -373,7 +463,7 @@ const Editable: FC<Props> = (props: Props) => {
                             toggleType={'button'}
                             keepChildrenOnEdit
                             checkEmpty
-                            isToggleBlocked={data.value.isPhoneAdded}
+                            toggleBlocked={data.value.isPhoneAdded}
                             data={{
                                 className: FA2_INPUT_CN,
                                 title: 'Add your Phone as a two-factor authentication option',
@@ -381,10 +471,10 @@ const Editable: FC<Props> = (props: Props) => {
                                 onSave: data.onSave
                             }}
                         >
-                            Phone {isSmScreen ? '' : 'number'}
+                            <span>Phone <span className={'sm:hidden'}>number</span></span>
                         </Editable>
                     </div>
-                    <span className={`block mt-[--1drs] ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span className={waring ? 'block mt-[--1drs] text-section-xs ' : 'hidden'}>{waring}</span>
                 </>
             );
 
@@ -501,11 +591,10 @@ const Editable: FC<Props> = (props: Props) => {
                         {renderPhoneFieldset('business', 'ext' in formData.business ? formData.business?.ext : '')}
                         {renderPhoneFieldset('mobile')}
                         {renderPhoneFieldset('personal')}
-                        <span className={`first-letter:capitalize mt-[--1drs] ${waring ? '' : 'hidden'}`}>
+                        <span className={waring ? 'block mt-[--1drs] first-letter:capitalize' : 'hidden'}>
                             {waring}
                         </span>
                     </div>
-                    <span className={`block mt-[--1drs] ${waring ? '' : 'hidden'}`}>{waring}</span>
                     {ControlBtns}
                 </>
             );
@@ -547,7 +636,7 @@ const Editable: FC<Props> = (props: Props) => {
                             }}
                             {...INPUT_CN}
                         >
-                            Initial {isSmScreen ? '' : '(optional)'}
+                            <span>Initial <span className={'sm:hidden'}>(optional)</span></span>
                         </Input>
                     </span>
                     <Input
@@ -561,7 +650,7 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         Last Name
                     </Input>
-                    <span className={`block mt-[--1drs] ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span className={waring ? 'block mt-[--1drs] text-section-xs' : 'hidden'}>{waring}</span>
                     {ControlBtns}
                 </div>
             );
@@ -686,7 +775,7 @@ const Editable: FC<Props> = (props: Props) => {
                 <>
                     {renderAddressForm('businessAddress')}
                     {formData.personalAddress ? renderAddressForm('personalAddress') : null}
-                    <span className={`block mt-[--1drs] ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span className={waring ? 'block mt-[--1drs] text-section-xs' : 'hidden'}>{waring}</span>
                     {ControlBtns}
                 </>
             );
@@ -748,8 +837,7 @@ const Editable: FC<Props> = (props: Props) => {
             break;
     }
 
-    const isFormShown = isEditState && Form && !isSimpleSwitch;
-
+    const isFormShown = isEditState && Form && !simpleSwitch;
     if (keepChildrenOnEdit) {
         return (
             <div className={'w-full overflow-x-hidden overflow-ellipsis'}>

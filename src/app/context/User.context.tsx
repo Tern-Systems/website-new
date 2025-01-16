@@ -3,8 +3,7 @@
 import React, {createContext, FC, PropsWithChildren, useCallback, useContext, useEffect, useState,} from "react";
 
 
-import {CountryKey, StateKey} from "@/app/static";
-import {LanguageKey, SalutationKey} from "@/app/static/misc";
+import {CountryKey, LanguageKey, SalutationKey, StateKey} from "@/app/static";
 import {Subscription} from "@/app/types/subscription";
 import {IndustryKey, JobFunctionKey, SubIndustryKey,} from "@/app/static/company";
 

@@ -47,7 +47,7 @@
 
 .midCol {
     grid-column-start: 2;
-    font-size: var(--fz-section-s);
+    font-size: var(--fz-basic);
 }
 
 
@@ -64,6 +64,33 @@
     width: 100%;
     border-radius: var(--br-smallest);
     font-size: var(--fz-section-s);
+}
+
+.photoInput {
+    display: flex;
+    align-items: center;
+
+    padding: 0 var(--p-content-xxs);
+    max-width: 10rem;
+    width: fit-content;
+    height: 1.43rem;
+
+
+    overflow-x: hidden;
+
+    border-radius: 9999px;
+    background-color: white;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--color-gray);
+    font-size: var(--fz-section-xs);
+    font-weight: 700;
+
+    @media screen and (max-width: 835px) {
+        height: 1.125rem;
+        font-size: var(--fz-section-xxs);
+    }
 }
 
 

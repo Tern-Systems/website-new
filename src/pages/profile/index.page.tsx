@@ -1,31 +1,31 @@
-import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState,} from "react";
+import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useRef, useState,} from "react";
 import cn from "classnames";
 
 import {Res} from "@/app/types/service";
 import {UserData} from "@/app/context/User.context";
-import {LanguageKey} from "@/app/static/misc";
-import {UpdateUserData} from "@/app/services/user.service";
-import {DEFAULT_ADDRESS, EditableProps} from "@/app/ui/form/Editable";
-
 import {
     COUNTRY,
     CountryKey,
     INDUSTRY,
     JOB_FUNCTION,
     LANGUAGE,
+    LanguageKey,
+    REGEX,
     SALUTATION,
     STATE_PROVINCE,
-    SUB_INDUSTRY,
+    SUB_INDUSTRY
 } from "@/app/static";
+import {UpdateUserData} from "@/app/services/user.service";
+import {DEFAULT_ADDRESS, EditableProps} from "@/app/ui/form/Editable";
 
 import {AuthService, UserService} from "@/app/services";
 
 import {formatDate} from "@/app/utils/data";
-import {useBreakpointCheck, useLoginCheck, useSaveOnLeave} from "@/app/hooks";
+import {useBreakpointCheck, useLoginCheck} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {Collapsible, ScrollEnd} from "@/app/ui/misc";
-import {Button, Editable, Input} from "@/app/ui/form";
+import {Button, Editable} from "@/app/ui/form";
 import {DeleteAccountModal} from "./DeleteAccountModal";
 
 import {AuthenticationCode, MessageModal} from "@/app/ui/modals";
@@ -57,41 +57,43 @@ const SECTIONS: string[] = [
 // ];
 
 const getSimpleToggleProps = (
-    setEditState?: Dispatch<SetStateAction<boolean>>,
-    isEditState?: boolean
+    setEditState?: Dispatch<SetStateAction<string | null>>,
+    isEditState?: string | null
 ): Pick<
     EditableProps,
     | "classNameWrapper"
     | "classNameToggle"
-    | "setParentEditState"
-    | "isToggleBlocked"
+    | "setParentEditID"
+    | "parentEditID"
 > => ({
     classNameWrapper: "w-[min(100%,21.625rem)]",
     classNameToggle: "col-start-3",
-    setParentEditState: setEditState,
-    isToggleBlocked: isEditState,
+    setParentEditID: setEditState,
+    parentEditID: isEditState,
 });
+
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const {userData, token, fetchUserData} = useUser();
     const isLoggedIn = useLoginCheck();
     const isSmScreen = useBreakpointCheck() === 'sm';
-    useSaveOnLeave();
+    // useSaveOnLeave();
 
+    const sectionsRef = useRef<HTMLDivElement>(null);
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
-    const [isEditState, setEditState] = useState(false);
+    const [isEditState, setEditState] = useState<string | null>('');
 
     useEffect(() => {
         const handleScroll = () => {
+            console.log('------------')
             SECTIONS.forEach((section, index) => {
                 const elem = document.getElementById(
                     section.toLowerCase().split(" ").join("")
                 );
                 if (
                     elem &&
-                    elem.getBoundingClientRect().top <
-                    (elem.offsetTop / window.innerHeight) * (isSmScreen ? 28 : 350)
+                    elem.getBoundingClientRect().top < 0.5 * window.innerHeight
                 )
                     setActiveSectionIdx(index);
             });
@@ -114,9 +116,8 @@ const ProfilePage: FC = () => {
                 const {message} = await UserService.postUpdateUser(userData.email, newUserData);
                 responseMsg = message;
             }
-
             modalCtx.openModal(<MessageModal>{responseMsg}</MessageModal>);
-            await fetchUserData();
+            await fetchUserData(false);
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
@@ -203,25 +204,27 @@ const ProfilePage: FC = () => {
     // };
 
     // Contact
-    const Phones = Object.entries(userData.phones).map(([type, phone], idx) =>
-        phone?.number
-            ? (
-                <span key={type + idx}>
+    const Phones = Object.entries(userData.phones)
+        .map(([type, phone], idx) =>
+            phone?.number
+                ? (
+                    <span key={type + idx}>
                     <span className={"text-section-xs block mb-[0.62rem] mt-[1rem] capitalize"}>{type}</span>
                     <span>{phone.number + ("ext" in phone ? " - " + phone.ext : "")}</span>
                     <span>{phone.isPrimary ? Primary : null}</span>
                 </span>
-            )
-            : null
-    );
+                )
+                : null
+        )
+        .filter((phone) => phone);
 
     // Addresses
     const Addresses: (ReactElement | null)[] = Object.entries(userData.address)
-        .filter((address) => address[1])
+        .filter((address) => address[1]?.country)
         .map(([type, address], idx) => {
-            if (!address || !address.state || !address.country)
+            if (!address)
                 return null;
-            const state = address ? STATE_PROVINCE?.[address.country]?.[address.state] : '';
+            const state = address ? STATE_PROVINCE[address.country]?.[address.state] : '';
             const addressInfo: ReactElement | null =
                 (
                     <>
@@ -248,6 +251,7 @@ const ProfilePage: FC = () => {
     // Company
     // @ts-expect-error wrong sub-industry key
     const subIndustry = SUB_INDUSTRY?.[userData.company.industry]?.[userData.company.subIndustry];
+    const userPhoto = userData.photo?.split('?').shift()?.split('_')?.pop() ?? '';
 
     return (
         <div className={cn(
@@ -286,6 +290,7 @@ const ProfilePage: FC = () => {
                 </ul>
             </aside>
             <div
+                ref={sectionsRef}
                 className={cn(
                     `flex-grow flex flex-col gap-y-[--p-content-4xs]`,
                     `lg:ml-[10rem]`,
@@ -300,31 +305,31 @@ const ProfilePage: FC = () => {
                     <span className={styles.leftCol + " " + styles.ellipsis}>
                         Profile Picture
                     </span>
-                    <Input
-                        type={"file"}
-                        onClick={(event) => {
-                            if (event.currentTarget)
-                                event.currentTarget.value = ''
+                    <Editable
+                        type={'image'}
+                        {...getSimpleToggleProps(setEditState, isEditState)}
+                        data={{
+                            className: styles.photoInput,
+                            value: {fileName: userPhoto, file: null},
+                            onSave: async (formData) => {
+                                if (!('fileName' in formData))
+                                    throw 'Wrong request setup';
+                                await handleUpdate(async () => {
+                                    const newPhotoUserData: UpdateUserData = {...userData, photo: formData.file};
+                                    return await UserService.postUpdateUser(userData.email, newPhotoUserData)
+                                });
+                            },
                         }}
-                        onChange={async (event) => {
-                            if (!('target' in event) || !event.target.files)
-                                throw 'No file has been uploaded';
-                            const file = Array.from(event.target?.files)?.[0];
-                            if (!file)
-                                throw 'No file has been uploaded';
-                            const newPhotoUserData: UpdateUserData = {...userData, photo: file};
-                            await UserService.postUpdateUser(userData.email, newPhotoUserData);
-                        }}
-                        classNameWrapper={cn(
-                            `px-[--p-content-xxs] [&]:w-fit rounded-full bg-control-white text-gray font-bold`,
-                            `h-[1.43rem] text-section-xs`,
-                            `sm:x-[h-[1.125rem],text-section-xxs]`,
-                        )}
-                        className={'w-fit'}
-                        classNameIcon={'[&&_*]:size-[--p-content-xxs]  sm:[&_*]:size-[--p-content-4xs]'}
                     >
-                        Upload Media
-                    </Input>
+                        <Button
+                            disabled
+                            icon={'upload'}
+                            className={styles.photoInput}
+                            classNameIcon={`[&_*]:size-[--p-content-3xs]  sm:[&_*]:size-[--p-content-4xs]`}
+                        >
+                            {userPhoto || 'Upload media'}
+                        </Button>
+                    </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>TernID</span>
                     <Editable
@@ -355,13 +360,15 @@ const ProfilePage: FC = () => {
                             title: "Update password",
                             value: null,
                             onSave: async (formData) => {
+                                if (!("passwordConfirm" in formData) || !userData)
+                                    throw 'Wrong request setup';
+
+                                if (formData.passwordConfirm !== formData.newPassword)
+                                    throw `Passwords don't match`;
+                                if (!REGEX.password.test(formData.newPassword))
+                                    throw `Entered password doesn't meet the requirements`;
+
                                 await handleUpdate(async () => {
-                                    if (!("passwordConfirm" in formData) || !userData)
-                                        throw 'Wrong request setup';
-
-                                    if (formData.passwordConfirm !== formData.newPassword)
-                                        throw `Passwords don't match`;
-
                                     return await AuthService.postChangePassword(
                                         formData.currentPassword,
                                         formData.newPassword,
@@ -372,15 +379,15 @@ const ProfilePage: FC = () => {
                             }
                         }}
                     >
-                    <span className={styles.midCol + " " + styles.ellipsis}>
-                        <span className={"block"}>•••••••••••••••</span>
-                        <span className={"text-section-xs"}>
-                            Last updated&nbsp;
-                            {userData.passwordUpdateDate
-                                ? formatDate(new Date(userData.passwordUpdateDate), "short")
-                                : "--"}
+                        <span className={styles.midCol + " " + styles.ellipsis}>
+                            <span className={"block"}>•••••••••••••••</span>
+                            <span className={"text-section-xs"}>
+                                Last updated&nbsp;
+                                {userData.passwordUpdateDate
+                                    ? formatDate(new Date(userData.passwordUpdateDate), "short")
+                                    : "--"}
+                            </span>
                         </span>
-                    </span>
                     </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>
@@ -401,9 +408,7 @@ const ProfilePage: FC = () => {
                                     throw 'Wrong request setup';
 
                                 const phone = formData.value.trim();
-                                const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format validation
-
-                                if (!phoneRegex.test(phone))
+                                if (!REGEX.phone.test(phone))
                                     throw `Invalid phone number format. Please enter a valid number.`;
 
 
@@ -424,7 +429,7 @@ const ProfilePage: FC = () => {
                                 );
                             },
                             onSwitch: async (state: boolean) => {
-                                if (token && userData.state2FA?.phone) {
+                                if (userData.state2FA?.phone) {
                                     modalCtx.openModal(
                                         <AuthenticationCode
                                             is2FA
@@ -438,8 +443,8 @@ const ProfilePage: FC = () => {
                             }
                         }}
                     >
-                        <span className={styles.midCol + " " + styles.ellipsis}>
-                            Enable / disable your {isSmScreen ? '2FA' : 'two - factor authentication'}
+                        <span className={styles.midCol + " [&&]:text-basic " + styles.ellipsis}>
+                            Enable / disable your {isSmScreen ? '2FA' : 'two-factor authentication'}
                         </span>
                     </Editable>
                 </Collapsible>
@@ -468,9 +473,7 @@ const ProfilePage: FC = () => {
                         }}
                     >
                         <span className={`capitalize ${styles.midCol + " " + styles.ellipsis}`}>
-                            {userData.name.salutation
-                                ? SALUTATION[userData.name.salutation]
-                                : "--"}
+                            {SALUTATION[userData.name.salutation ?? ''] || "--"}
                             &nbsp;
                             {userData.name.firstName} {userData.name.initial} {userData.name.lastName}
                         </span>
@@ -485,15 +488,13 @@ const ProfilePage: FC = () => {
                                 title: "Update your Display Name",
                                 value: {value: userData.username},
                                 onSave: async (formData) => {
-                                    await handleUpdate(async () => {
-                                        if (!('value' in formData) || !formData.value)
-                                            throw 'Wrong request setup';
-                                        return await UserService.postUpdateUserName(userData.email, formData.value);
-                                    });
+                                    if (!('value' in formData) || !formData.value)
+                                        throw 'Wrong request setup';
+                                    await handleUpdate(async () =>
+                                        await UserService.postUpdateUserName(userData.email, formData.value ?? '')
+                                    );
                                 }
                             }}
-                            setParentEditState={setEditState}
-                            isToggleBlocked={isEditState}
                         >
                             <span>{userData.username}</span>
                         </Editable>
@@ -522,7 +523,7 @@ const ProfilePage: FC = () => {
                             },
                         }}
                     >
-                        <span>{Phones}</span>
+                        <span>{Phones.length ? Phones : '--'}</span>
                     </Editable>
 
                     <span className={styles.leftCol + " " + styles.ellipsis}>
@@ -641,15 +642,15 @@ const ProfilePage: FC = () => {
                                 >
                                     <span>
                                         <span>Job Title</span>
-                                        <span>{userData.company.jobTitle}</span>
+                                        <span>{userData.company.jobTitle ?? '--'}</span>
                                     </span>
                                     <span>
                                         <span>Job Function</span>
-                                        <span>{JOB_FUNCTION[userData.company.jobFunction]}</span>
+                                        <span>{JOB_FUNCTION[userData.company.jobFunction] ?? '--'}</span>
                                     </span>
                                     <span>
                                         <span>Industry</span>
-                                        <span>{INDUSTRY[userData.company.industry]}</span>
+                                        <span>{INDUSTRY[userData.company.industry] ?? '--'}</span>
                                     </span>
                                     <span>
                                         <span>Sub-Industry</span>
@@ -744,6 +745,7 @@ const ProfilePage: FC = () => {
                         <span className={'sm:hidden'}>Delete</span>
                     </Button>
                 </Collapsible>
+
                 <ScrollEnd/>
             </div>
         </div>
