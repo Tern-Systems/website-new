@@ -19,7 +19,7 @@ import {COUNTRY, SALUTATION, STATE_PROVINCE} from "@/app/static";
 import {Address, Company, FullName, Phone, UserAddress, UserPhone} from "@/app/context/User.context";
 
 import {copyObject} from "@/app/utils";
-import {useForm} from "@/app/hooks";
+import {useForm, useSaveOnLeave} from "@/app/hooks";
 import {useModal} from "@/app/context";
 
 import {Button, Input, Select, Switch} from "@/app/ui/form";
@@ -99,8 +99,6 @@ const Editable: FC<Props> = (props: Props) => {
         classNameWrapper, classNameToggle, data, children
     } = props;
 
-    const modalCtx = useModal();
-
     // State
     let defaultFormValue: EditableFormData;
     if (data.value === null)
@@ -133,9 +131,18 @@ const Editable: FC<Props> = (props: Props) => {
         && data.value.isPhoneAdded
     );
 
+    const modalCtx = useModal();
+    const setPreventState = useSaveOnLeave(
+        async () => {
+            if (!checkUpdateBtnDisabledState())
+                await submitForm()
+        },
+        async () => toggleEditState()
+    );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [formData, _, setFormState] = useForm<EditableFormData>(defaultFormValue);
     const [waring, setWarning] = useState<string | null>(null);
+
 
     useEffect(() => {
         setIsEditState(parentEditID === editID);
@@ -145,20 +152,23 @@ const Editable: FC<Props> = (props: Props) => {
         setEditID(v4())
     }, [])
 
+
     // handlers
     const toggleEditState = () => {
         setIsEditState(prevState => {
-            console.log(defaultFormValue)
-            if (prevState)
+            if (prevState) {
                 setFormState(defaultFormValue);
-            else
+                setParentEditID?.(null);
+            }
+            else {
                 setParentEditID?.(editID);
+                setPreventState(true);
+            }
             return !prevState;
         });
     }
 
-    const handleFormSubmit = async (event: FormEvent) => {
-        event.preventDefault();
+    const submitForm = async () => {
         try {
             await data?.onSave(formData);
             toggleEditState();
@@ -166,6 +176,11 @@ const Editable: FC<Props> = (props: Props) => {
             if (typeof error === 'string')
                 setWarning(error);
         }
+    }
+
+    const handleFormSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+        await submitForm();
     }
 
     const checkUpdateBtnDisabledState = () => {

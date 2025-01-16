@@ -38,7 +38,7 @@ const SECTIONS: string[] = [
     "Contact Information",
     "Company or Organization",
     "Addresses",
-    "Third-Party Applications",
+    // "Third-Party Applications",
     "Offboarding",
 ];
 
@@ -78,7 +78,6 @@ const ProfilePage: FC = () => {
     const {userData, token, fetchUserData} = useUser();
     const isLoggedIn = useLoginCheck();
     const isSmScreen = useBreakpointCheck() === 'sm';
-    // useSaveOnLeave();
 
     const sectionsRef = useRef<HTMLDivElement>(null);
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
@@ -86,7 +85,6 @@ const ProfilePage: FC = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            console.log('------------')
             SECTIONS.forEach((section, index) => {
                 const elem = document.getElementById(
                     section.toLowerCase().split(" ").join("")
@@ -325,7 +323,7 @@ const ProfilePage: FC = () => {
                             disabled
                             icon={'upload'}
                             className={styles.photoInput}
-                            classNameIcon={`[&_*]:size-[--p-content-3xs]  sm:[&_*]:size-[--p-content-4xs]`}
+                            classNameIcon={`[&&_*]:size-[--p-content-3xs]  sm:[&_*]:size-[--p-content-4xs]`}
                         >
                             {userPhoto || 'Upload media'}
                         </Button>
@@ -409,8 +407,7 @@ const ProfilePage: FC = () => {
 
                                 const phone = formData.value.trim();
                                 if (!REGEX.phone.test(phone))
-                                    throw `Invalid phone number format. Please enter a valid number.`;
-
+                                    throw `Entered phone number should be in the format '+1234567890'`;
 
                                 const numericPhone = phone.startsWith("+")
                                     ? phone.slice(1)
@@ -518,6 +515,10 @@ const ProfilePage: FC = () => {
                             onSave: async (formData) => {
                                 if (!("mobile" in formData))
                                     throw 'Incorrect request setup';
+
+                                if (Object.values(formData).some(phone => phone.number && !REGEX.phone.test('+'+phone.number)))
+                                    throw `Entered phone number(s) should be in the format '+1234567890'`;
+
                                 const newPhones: UserData['phones'] = {...(userData?.phones ?? {}), ...formData}
                                 await handleUpdate({phones: newPhones});
                             },
@@ -730,7 +731,7 @@ const ProfilePage: FC = () => {
                 {/*    {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}*/}
                 {/*</Collapsible>*/}
 
-                <Collapsible title={SECTIONS[5]}>
+                <Collapsible title={SECTIONS[4]}>
                     <span className={styles.leftCol + " " + styles.ellipsis}>
                          <span className={'sm:hidden'}>Account</span> Offboarding
                     </span>
