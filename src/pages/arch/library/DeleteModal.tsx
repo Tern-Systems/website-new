@@ -11,7 +11,7 @@ import {Button} from "@/app/ui/form";
 
 
 interface Props {
-    adCode: ARCode;
+    adCode: Pick<ARCode, 'name' | 'mediaId'>;
     updateList: Dispatch<SetStateAction<boolean>>;
 }
 

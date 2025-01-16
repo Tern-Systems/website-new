@@ -1,10 +1,13 @@
 import React, {FC} from "react";
-import cn from "classnames";
 import {useQRCode} from "next-qrcode";
+import Image from "next/image";
+import cn from "classnames";
 
 import {Route} from "@/app/static";
 
 import {PageLink} from "@/app/ui/layout";
+
+import SVG_ARCH from "/public/images/arch-logo.svg";
 
 
 const ARCHPage: FC = () => {
@@ -30,6 +33,14 @@ const ARCHPage: FC = () => {
                 <li>Click play</li>
             </ul>
             <div className={'flex flex-col'}>
+                <Image src={SVG_ARCH} alt={'arch-logo'}
+                       className={cn(
+                           'max-h-[4rem] h-[4dvw] w-auto place-self-center',
+                           'md:portrait:h-[10dvw]',
+                           'sm:portrait:h-[8dvw]',
+                           'sm:landscape:h-[3dvw]',
+                       )}
+                />
                 <div
                     className={cn(
                         `rounded-small overflow-hidden`,

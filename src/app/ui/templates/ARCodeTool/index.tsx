@@ -1,4 +1,4 @@
-import React, {FC, FormEvent, useCallback, useEffect} from "react";
+import React, {FC, FormEvent, useCallback, useEffect, useRef} from "react";
 import Image from "next/image";
 import {useQRCode} from "next-qrcode";
 import cn from "classnames";
@@ -18,10 +18,11 @@ import {AuthModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_ARCH from "/public/images/arch-logo.svg";
+import html2canvas from "html2canvas";
 
 
 type ARCodeToolForm =
-    Pick<ARCode, 'backgroundColor' | 'moduleColor' | 'name' | 'mediaId' | 'qrCodeUrl' | 'videoPath'>
+    Pick<ARCode, 'backgroundColor' | 'moduleColor' | 'name' | 'mediaId' | 'qrCodeUrl' | 'videoPath' | 'buttonLink'>
     & Partial<Pick<ARCode, 'video'>>;
 
 const FORM_DEFAULT: ARCodeToolForm = {
@@ -32,6 +33,7 @@ const FORM_DEFAULT: ARCodeToolForm = {
     video: undefined,
     videoPath: '',
     qrCodeUrl: '',
+    buttonLink: '',
 }
 const FORM_COLOR_PICKERS = ['module', 'background'];
 
@@ -46,9 +48,10 @@ const ARCodeTool: FC<Props> = (props: Props) => {
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const {isLoggedIn, userData} = useUser();
-    const [navigate] = useNavigate();
+    const [navigate] = useNavigate(true);
     const {SVG} = useQRCode();
 
+    const qrRef = useRef<HTMLDivElement | null>(null);
     const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>(
         (arCode
             ? {
@@ -58,30 +61,29 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                 name: arCode.name,
                 qrCodeUrl: arCode.qrCodeUrl,
                 videoPath: arCode.videoPath,
+                buttonLink: arCode.buttonLink,
             }
             : FORM_DEFAULT),
         () => preventLeaving(true)
     );
 
+
     const processCode = useCallback(async () => {
-        if (!userData || !formValue)
+        if (!userData || !formValue || !qrRef.current)
             return;
 
         try {
-            const {
-                payload: {id, url}
-            } = await ARCHService.postGenerateQR(formValue.moduleColor, formValue.backgroundColor);
-
-            const mediaId = arCode ? arCode.mediaId : id;
-
-            // Fetch and create an image of QR
-            const response = await fetch(url);
+            // Create an image of QR
+            const canvas = await html2canvas(qrRef.current);
+            const data = canvas.toDataURL('image/png');
+            const response = await fetch(data);
             const blob = await response.blob();
             const qrImage: File = new File([blob], formValue.name, {type: "image/png"});
 
             await ARCHService.postSaveQR(
-                userData.email, formValue.name, arCode !== undefined, mediaId,
-                formValue.backgroundColor, formValue.moduleColor, qrImage, formValue.video
+                userData.email, formValue.name, arCode !== undefined, arCode?.mediaId ?? null,
+                formValue.backgroundColor, formValue.moduleColor, qrImage, formValue.video,
+                formValue.buttonLink,
             );
 
             const SuccessModal = () => (
@@ -89,7 +91,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     Your AR Code <span className={'font-bold'}>{formValue.name}</span> has been successfully saved
                 </MessageModal>
             );
-            modalCtx.openModal(<SuccessModal/>)
+            modalCtx.openModal(<SuccessModal/>);
 
             preventLeaving(false);
             if (!arCode)
@@ -174,35 +176,36 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     className={cn(
                         `grid auto-rows-min`,
                         'grid-cols-[minmax(0,32rem),1fr] gap-x-[min(6.4dvw,8.15rem)] p-[3rem] h-fit [&>*]:w-full',
-                        'lg:[&>*]:col-start-2 lg:x-[gap-y-[--p-content-xxl],p-[4rem],rounded-small,bg-section-navy,border-small,border-control-gray]',
-                        'md:gap-y-[--p-content]',
-                        'md:p-0',
+                        'lg:[&>*]:col-start-2 lg:x-[gap-y-[--p-content-xl],p-[4rem],rounded-small,bg-section-navy,border-small,border-control-gray]',
+                        'md:x-[gap-[--p-content],p-0]',
                         'md:portrait:grid-cols-1',
                         `sm:x-[gap-y-[--p-content-xs],p-0,border-none,bg-transparent]`,
                         'sm:portrait:grid-cols-1',
-                        `sm:landscape:gap-[--p-content-xs]`,
-                        `sm:landscape:grid-cols-[minmax(21rem,17fr),10fr,10rem] sm:landscape:[&>*]:col-start-1`,
+                        `sm:landscape:x-[grid-rows-5,gap-y-[--p-content-5xs],gap-x-[--p-content-3xs]]`,
+                        `sm:landscape:grid-cols-[minmax(21rem,14fr),10fr,10rem] sm:landscape:[&>*]:col-start-1`,
                     )}
                 >
                     <div
                         className={cn(
                             `flex justify-center cursor-pointer`,
-                            `[&]:col-start-1 row-span-6 [&_*]:x-[w-full,h-full,rounded-small]`,
+                            `[&]:col-start-1 row-span-7 [&_*]:x-[w-full,h-full] rounded-small overflow-hidden`,
                             `md:row-span-1`,
                             `sm:portrait:[&_*]:w-[66dvw]`,
-                            `sm:landscape:[&_*]:h-full sm:landscape:[&]:x-[col-start-2,row-start-1,row-span-4]`,
+                            `sm:landscape:[&_*]:h-full sm:landscape:[&]:x-[col-start-2,row-start-1,row-span-5]`,
                         )}
                     >
-                        <SVG
-                            text={'https://arch.tern.ac/' + arCode?.mediaId}
-                            options={{
-                                margin: 1,
-                                color: {
-                                    dark: formValue.backgroundColor,
-                                    light: formValue.moduleColor,
-                                }
-                            }}
-                        />
+                        <div ref={qrRef}>
+                            <SVG
+                                text={'https://arch.tern.ac/' + arCode?.mediaId}
+                                options={{
+                                    margin: 1,
+                                    color: {
+                                        dark: formValue.backgroundColor,
+                                        light: formValue.moduleColor,
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
                     <Image
                         src={SVG_ARCH}
@@ -212,7 +215,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     <span
                         className={cn(
                             'contents',
-                            'md:x-[flex,flex-col,gap-y-[--p-content],p-[3rem],bg-section-navy]',
+                            'md:x-[flex,flex-col,gap-y-[--p-content],p-[3rem],rounded-small,bg-section-navy]',
                             'md:landscape:justify-between'
                         )}
                     >
@@ -242,7 +245,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                                     );
                                 }
                             }}
-                            classNameWrapper={'h-[3.125rem] rounded-full bg-control-white font-bold text-heading-s text-black'}
+                            classNameWrapper={'h-[3.125rem] rounded-full bg-control-white font-bold text-heading-s text-black  sm:landscape:col-start-1'}
                             classNameLabel={'max-w-[75%]'}
                             classNameIcon={'[&_*]:w-[1rem]'}
                             required={!arCode}
@@ -250,6 +253,19 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                             {formValue.videoPath ? formValue.videoPath : 'Upload Media'}
                         </Input>
                         {ColorPickers}
+                        <Input
+                            type={"text"}
+                            placeholder={'Button Link'}
+                            value={formValue.buttonLink}
+                            onChange={setFormValue('buttonLink')}
+                            className={cn(
+                                `px-[0.68rem] h-[2.3rem] w-full`,
+                                `lg:-mb-[0.72rem]`,
+                                `rounded-smallest border-small border-control-white bg-control-gray-l0`,
+                                `text-heading`,
+                            )}
+                            required
+                        />
                         <Button
                             type={'submit'}
                             icon={'file'}
@@ -258,9 +274,9 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                                 `rounded-full border-control-gray-l0 border-small bg-section-navy`,
                                 `text-heading-s font-bold`,
                                 `sm:border-none`,
-                                'sm:landscape:[&]:x-[flex-col,col-start-3,row-start-2,row-span-2,p-[--p-content-xs],h-full,rounded-small,text-section]'
+                                'sm:landscape:[&]:x-[col-start-3,row-start-2,row-span-3,flex-col,justify-between,p-[--p-content-xs],h-full,rounded-small,text-section]'
                             )}
-                            classNameIcon={'hidden [&_*]:w-[2.5rem]  sm:landscape:block'}
+                            classNameIcon={'hidden [&_*]:size-[2.5rem]  sm:landscape:block'}
                         >
                             Save to Library
                         </Button>
