@@ -9,7 +9,7 @@ import {
     LAYOUT,
     MAPPED_NAV_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
-    MERGED_SUB_NAV_ROUTES,
+    SPECIAL_NAV_ROUTES,
     Route
 } from "@/app/static";
 
@@ -84,6 +84,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     const NavLinks: ReactElement[] = layoutCtx.navLinks[NavLink.Nav]?.map((link: Route, idx) => {
         const isActive = link.includes(getRouteRoot(route));
         const mappedLink = MAPPED_NAV_ROUTES?.[link];
+        const linkFinal = SPECIAL_NAV_ROUTES?.[link] ?? link;
 
         return (
             <span key={link + idx} className={'contents'}>
@@ -92,11 +93,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     icon={!isActive && isSmScreen ? 'forward' : undefined}
                     className={`relative justify-center ${isActive && !layoutCtx.isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
                 >
-                    <span>
-                        {mappedLink
-                            ? mappedLink
-                            : getRouteName(link, MERGED_SUB_NAV_ROUTES.includes(link ?? ''))}
-                    </span>
+                    <span>{mappedLink ? mappedLink : getRouteName(linkFinal)}</span>
                 </PageLink>
                 {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1
                     ? <span>/</span>
@@ -109,6 +106,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         ? null
         : (
             layoutCtx.navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
+                const linkFinal = SPECIAL_NAV_ROUTES?.[link] ?? link;
                 const mappedLink = MAPPED_SUB_NAV_ROUTES?.[link];
                 const mapRoute = mappedLink && (
                     checkSubRoute(route, link)
@@ -127,10 +125,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                             }
                         )}
                     >
-                        {getRouteName(
-                            mapRoute ? mappedLink : link,
-                            MERGED_SUB_NAV_ROUTES.includes(link)
-                        )}
+                        {getRouteName(linkFinal ?? (mapRoute ? mappedLink : link))}
                     </PageLink>
                 );
             })

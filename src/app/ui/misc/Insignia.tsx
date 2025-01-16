@@ -1,6 +1,7 @@
 import React, {FC} from "react";
 import Image from "next/image";
 import Spline from '@splinetool/react-spline';
+import {usePathname} from "next/navigation";
 
 import {Route} from "@/app/static";
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const Insignia: FC<Props> = (props: Props) => {
+    const route = usePathname();
     const {insigniaMoved, className} = props;
 
     const [navigate] = useNavigate();
@@ -23,7 +25,7 @@ const Insignia: FC<Props> = (props: Props) => {
     // 2 pre-rendered insignias for moving without flickering
     return (
         <div className={className}>
-            {insigniaMoved
+            {insigniaMoved || route !== Route.Start
                 ? (
                     <Image
                         src={SVG_INSIGNIA}

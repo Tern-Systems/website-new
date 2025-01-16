@@ -10,7 +10,7 @@ const useMenu = (isSingleSubLink?: boolean): [() => void, () => void] => {
 
     const openMenu = () => {
         if (isSmScreen)
-            modalCtx.openModal(<MenuModal isSingleSubLink={isSingleSubLink}/>, {doFading: false});
+            modalCtx.openModal(<MenuModal singleSublink={isSingleSubLink}/>, {doFading: false});
     }
 
     const closeMenu = () => {

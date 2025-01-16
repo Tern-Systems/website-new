@@ -9,8 +9,7 @@ import {
     LANGUAGE,
     MAPPED_NAV_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
-    MERGED_SUB_NAV_ROUTES,
-    Route
+    Route, SPECIAL_NAV_ROUTES
 } from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
@@ -28,11 +27,11 @@ const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [
 const ACTIVE_ROUTE_CN = `border-small border-control-blue mx-0 px-[1.125rem] border-l-[0.2rem]`;
 
 interface Props {
-    isSingleSubLink?: boolean;
+    singleSublink?: boolean;
 }
 
 const MenuModal: FC<Props> = (props: Props) => {
-    const {isSingleSubLink} = props;
+    const {singleSublink} = props;
 
     const route = usePathname();
     const userCtx = useUser();
@@ -60,7 +59,7 @@ const MenuModal: FC<Props> = (props: Props) => {
             const isActive = checkSubRoute(route, link, true);
             const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
 
-            const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link], MERGED_SUB_NAV_ROUTES.includes(link));
+            const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link] ?? link);
 
             return (
                 <span key={link + idx} className={'contents'}>
@@ -85,30 +84,27 @@ const MenuModal: FC<Props> = (props: Props) => {
         navLinks[NavLink.SubNav]?.map((link, idx, array) => {
             const isProfilePath = route?.includes(Route.Profile);
 
-            const subNavRoute = isSingleSubLink ? route : link;
+            const subNavRoute = singleSublink ? route : link;
 
-            const isActive = checkSubRoute(route, link, isSingleSubLink || !idx);
-            const isNextActive = checkSubRoute(route, array[idx + 1], isSingleSubLink || idx !== 0); // last+1 always undefined
+            const isActive = checkSubRoute(route, link, singleSublink || !idx);
+            const isNextActive = checkSubRoute(route, array[idx + 1], singleSublink); // last+1 always undefined
 
             const subNav = getSubNavs(subNavRoute as Route)[1];
 
             const hasSubRoutes = subNav !== null && subNav?.length > 0;
             const renderSubRoutes = hasSubRoutes
                 && route && link.length <= route.length
-                && (checkSubRoute(route, link) || isSingleSubLink)
+                && (checkSubRoute(route, link) || singleSublink)
                 && !subNavRoute?.split(subNav?.[0] ?? '').filter(link => link).length;
 
             const mappedLink = MAPPED_SUB_NAV_ROUTES?.[link];
-            const mapRoute = ALWAYS_MAPPED_ROUTES.some(check => mappedLink && (
+            const mapRoute = mappedLink && ALWAYS_MAPPED_ROUTES.some(check => (
                     getRouteLeave(link).includes(check))
                 || isActive && !renderSubRoutes
                 || !isActive && checkSubRoute(route, link) && !renderSubRoutes
             );
 
-            const routeName = getRouteName(
-                mapRoute ? mappedLink : link,
-                MERGED_SUB_NAV_ROUTES.includes(link)
-            );
+            const routeName = getRouteName(SPECIAL_NAV_ROUTES?.[link] ?? (mapRoute ? mappedLink : link));
 
             return (
                 <span key={link + idx} className={'contents'}>
@@ -141,6 +137,8 @@ const MenuModal: FC<Props> = (props: Props) => {
                 routes[0] = route;
         }
 
+        const mappedLink = MAPPED_SUB_NAV_ROUTES?.[link];
+
         const isActive = checkSubRoute(routes[1], getRouteRoot(routes[0]));
         const isNextActive = checkSubRoute(routes[2], getRouteRoot(routes[0]));
 
@@ -164,9 +162,7 @@ const MenuModal: FC<Props> = (props: Props) => {
                     })}
                 >
                     <span>
-                          {MAPPED_NAV_ROUTES[link]
-                              ? MAPPED_NAV_ROUTES[link]
-                              : getRouteName(link, MERGED_SUB_NAV_ROUTES.includes(link ?? ''))}
+                          {mappedLink ? mappedLink : getRouteName(SPECIAL_NAV_ROUTES?.[link] ?? link)}
                     </span>
                 </PageLink>
                 {isActive ? renderSubNav() : null}
