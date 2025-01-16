@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 
+
 const useBackground = (): string => {
     const [bgSrc, setBgSrc] = useState('');
 

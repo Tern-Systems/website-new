@@ -87,7 +87,7 @@ interface IUserContext {
     token: string | null;
     setSession: (token: string, data?: UserData) => void;
     removeSession: () => void;
-    fetchUserData: (token?: string) => Promise<void>;
+    fetchUserData: (fetchPlanDetails?: boolean, token?: string) => Promise<void>;
 }
 
 
@@ -111,13 +111,13 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         localStorage.removeItem("token");
     };
 
-    const fetchUserData = useCallback(async (bearer?: string) => {
+    const fetchUserData = useCallback(async (fetchPlanDetails?: boolean, bearer?: string) => {
         const tokenFinal = bearer ?? token;
         if (!tokenFinal)
             return;
 
         try {
-            const {payload: user} = await UserService.getUser(tokenFinal);
+            const {payload: user} = await UserService.getUser(tokenFinal, fetchPlanDetails === true);
             setSession(tokenFinal, user);
         } catch (error: unknown) {
             setLoggedState(false);
@@ -126,7 +126,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token) fetchUserData(token);
+        if (token) fetchUserData(true, token);
         else setLoggedState(false);
     }, [fetchUserData]);
 
