@@ -53,11 +53,11 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                 <div className={`flex flex-col gap-y-[--1dr] mb-[min(8dvw,1.5rem)]`}>
                     <span className={'col-span-2 text-secondary font-bold'}>{invoiceDate} - {renewDate}</span>
                     <span className={'font-bold'}>
-                            <span className={'flex justify-between'}>
-                                <span>{invoice?.item.name ?? '--'}</span>
-                                <span>${invoice?.item.priceUSD.toFixed(2) ?? '--'}</span>
-                            </span>
+                        <span className={'flex justify-between'}>
+                            <span>{invoice?.item.name ?? '--'}</span>
+                            <span>${invoice?.item.priceUSD.toFixed(2) ?? '--'}</span>
                         </span>
+                    </span>
                     <span className={'text-secondary text-small'}>Qty {invoice?.item ? 1 : '--'}</span>
                 </div>
 
@@ -74,7 +74,7 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                     <span className={'text-right'}>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
                     <span className={'text-secondary'}>
                         Sales tax - {state ?? '--'}
-                        &nbsp;({invoice?.taxPercent !== undefined ? invoice.taxPercent?.toFixed(0) : '--'}%)
+                        &nbsp;({invoice?.taxPercent !== undefined ? (100 * invoice.taxPercent)?.toFixed(0) : '--'}%)
                     </span>
                     <span
                         className={'text-secondary text-right'}>${taxAmount?.toFixed(2) ?? '--'}</span>
@@ -105,12 +105,12 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                 </div>
 
                 <div className={'mt-[--2hdr] text-small text-secondary'}>
-                        <span>
-                            Questions?&nbsp;
-                            <PageLink href={Route.Contact} className={'text-blue cursor-pointer'}>
-                                Contact Tern Systems, LLC
-                            </PageLink>
-                        </span>
+                    <span>
+                        Questions?&nbsp;
+                        <PageLink href={Route.Contact} className={'text-blue cursor-pointer'}>
+                            Contact Tern Systems, LLC
+                        </PageLink>
+                    </span>
                 </div>
 
                 {VisibilityToggle}

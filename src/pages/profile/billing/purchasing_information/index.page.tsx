@@ -27,7 +27,7 @@ function PurchasingInformationPage() {
     // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
     // eslint-disable-next-line
-    const [defaultCardIdx, setDefaultCardIdx] = useState<number | undefined>();
+    const [defaultCardIdx, setDefaultCardIdx] = useState<number>(-1);
     const [invoiceHistory, setInvoiceHistory] = useState<Invoice[]>([]);
 
     const router = useRouter();
@@ -42,6 +42,8 @@ function PurchasingInformationPage() {
 
                 const {payload: cards} = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
+                if (cards.length === 1)
+                    setDefaultCardIdx(0);
             } catch (error) {
                 if (typeof error === 'string')
                     modalCtx.openModal(<MessageModal>{error}</MessageModal>);
@@ -55,11 +57,11 @@ function PurchasingInformationPage() {
     if (!isLoggedIn)
         return null;
 
-    const defaultCard: SavedCard | null = defaultCardIdx !== undefined ? savedCards[defaultCardIdx] : null;
+    const defaultCard: SavedCard | null = savedCards[defaultCardIdx] ?? null;
 
     // Elements
     let Cards: ReactElement[] = savedCards.map((card, idx) => {
-        if (card.preferred && defaultCardIdx === undefined)
+        if (card.preferred && defaultCardIdx === -1)
             setDefaultCardIdx(idx);
 
         return (
