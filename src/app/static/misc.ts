@@ -224,26 +224,30 @@ const MAPPED_NAV_ROUTES: Record<string, string> = {
 }
 
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
-    [Route.Products]: '/All',
-    [Route.TernKey]: '/Application',
-    [Route.Dot]: '/Download',
-    [Route.Services]: '/ARCH',
-    [Route.TBD0]: '/TBD',
-    [Route.TBD1]: '/TBD',
-    [Route.TBD2]: '/TBD',
+    [Route.Products]: 'All',
+    [Route.TernKey]: 'Application',
+    [Route.Dot]: 'Download',
+    [Route.TBD0]: 'TBD',
+    [Route.TBD1]: 'TBD',
+    [Route.TBD2]: 'TBD',
 }
 
-const MERGED_SUB_NAV_ROUTES: string[] = [Route.TernKey];
-const ALWAYS_MAPPED_ROUTES: string[] = ['TBD', 'arch'];
+const SPECIAL_NAV_ROUTES: Record<string, string> = {
+    [Route.TernKey]: 'TernKey',
+    [Route.TernKeyDoc]: 'TernKey',
+    [Route.Services]: 'ARCH',
+    [Route.ARCHDoc]: 'ARCH',
+};
+const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
 
-export type  {SalutationKey, LanguageKey};
+export type {SalutationKey, LanguageKey}
 export {
     MAPPED_NAV_ROUTES,
-    MERGED_SUB_NAV_ROUTES,
+    SPECIAL_NAV_ROUTES,
     ALWAYS_MAPPED_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
-    LANGUAGE,
+    LAYOUT,
     SALUTATION,
-    LAYOUT
+    LANGUAGE
 };

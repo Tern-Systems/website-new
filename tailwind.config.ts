@@ -31,7 +31,8 @@ const config: Config = {
                 'control-white': "var(--bg-control-white)",
                 'control-blue': "var(--bg-control-blue)",
                 'control-red': "var(--bg-control-red)",
-                'control-navy': "var(--bg-section-navy)",
+                'section-navy': "var(--bg-section-navy)",
+                'control-navy': "var(--bg-control-navy)",
             },
             borderRadius: {
                 smallest1: 'var(--br-smallest-1)',

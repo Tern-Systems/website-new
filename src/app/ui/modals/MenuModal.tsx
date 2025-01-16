@@ -4,13 +4,7 @@ import Image from "next/image";
 import cn from "classnames";
 
 import {NavLink} from "@/app/context/Layout.context";
-import {
-    ALWAYS_MAPPED_ROUTES,
-    LANGUAGE,
-    MAPPED_NAV_ROUTES,
-    MAPPED_SUB_NAV_ROUTES,
-    Route, SPECIAL_NAV_ROUTES
-} from "@/app/static";
+import {ALWAYS_MAPPED_ROUTES, LANGUAGE, MAPPED_SUB_NAV_ROUTES, Route, SPECIAL_NAV_ROUTES} from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
 import {useMenu} from "@/app/hooks";

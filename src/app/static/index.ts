@@ -1,11 +1,12 @@
 export {Route, TERN_AC_HREF} from "./routing";
 
+export type {SalutationKey, LanguageKey} from './misc';
 export {
     ALWAYS_MAPPED_ROUTES,
     MAPPED_NAV_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
     SPECIAL_NAV_ROUTES,
-    LAYOUT
+    LAYOUT, SALUTATION, LANGUAGE
 } from './misc';
 
 export type {StateKey, CountryKey} from './location';
