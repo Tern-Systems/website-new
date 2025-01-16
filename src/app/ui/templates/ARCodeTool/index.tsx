@@ -174,7 +174,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     className={cn(
                         `grid auto-rows-min`,
                         'grid-cols-[minmax(0,32rem),1fr] gap-x-[min(6.4dvw,8.15rem)] p-[3rem] h-fit [&>*]:w-full',
-                        'lg:[&>*]:col-start-2 lg:x-[gap-y-[--p-content-xxl],p-[4rem],rounded-small,bg-control-navy,border-small,border-control-gray]',
+                        'lg:[&>*]:col-start-2 lg:x-[gap-y-[--p-content-xxl],p-[4rem],rounded-small,bg-section-navy,border-small,border-control-gray]',
                         'md:gap-y-[--p-content]',
                         'md:p-0',
                         'md:portrait:grid-cols-1',
@@ -212,7 +212,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                     <span
                         className={cn(
                             'contents',
-                            'md:x-[flex,flex-col,gap-y-[--p-content],p-[3rem],bg-control-navy]',
+                            'md:x-[flex,flex-col,gap-y-[--p-content],p-[3rem],bg-section-navy]',
                             'md:landscape:justify-between'
                         )}
                     >
@@ -255,7 +255,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                             icon={'file'}
                             className={cn(
                                 `px-[4.3rem] h-[3.125rem] w-full`,
-                                `rounded-full border-control-gray-l0 border-small bg-control-navy`,
+                                `rounded-full border-control-gray-l0 border-small bg-section-navy`,
                                 `text-heading-s font-bold`,
                                 `sm:border-none`,
                                 'sm:landscape:[&]:x-[flex-col,col-start-3,row-start-2,row-span-2,p-[--p-content-xs],h-full,rounded-small,text-section]'

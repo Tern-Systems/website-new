@@ -119,8 +119,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     // Elements
     const SavedCardOptions: Record<string, string> = Object.fromEntries(
-        savedCards?.map((card, idx) =>
-            [idx, card.nickName ?? (card.cardType + ' **** ' + card.last4)])
+        savedCards?.map((card: SavedCardFull | undefined, idx) =>
+            [idx, card ? (card.nickName ?? (card.cardType + ' **** ' + card.last4)) : ''])
         ?? []
     );
 
@@ -156,7 +156,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
                         type={'text'}
-                        value={editCardIdx && !isPaymentCreation ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
+                        value={editCardIdx >= 0 && !isPaymentCreation ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}

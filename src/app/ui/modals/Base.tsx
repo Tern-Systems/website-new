@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren} from "react"
+import React, {Dispatch, FC, PropsWithChildren, SetStateAction} from "react"
 import cn from "classnames";
 
 
@@ -13,6 +13,7 @@ interface ModalConfig extends PropsWithChildren {
     isSimple?: boolean;
     title?: string;
     onClose?: () => void;
+    setHoverState?: Dispatch<SetStateAction<boolean>>;
     preventClose?: boolean;
     className?: string;
     classNameContent?: string;
@@ -24,7 +25,7 @@ interface ModalConfig extends PropsWithChildren {
 
 const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const {
-        children, isSimple, title, onClose, preventClose,
+        children, isSimple, title, onClose, setHoverState, preventClose,
         className, classNameContent, classNameTitle, classNameHr, adaptSmScreen, smScreenOnly
     } = props;
 
@@ -43,6 +44,9 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         return (
             <div
                 id={'modal'}
+                onMouseEnter={() => setHoverState?.(true)}
+                onMouseLeave={() => setHoverState?.(false)}
+                onClick={() => modalCtx.closeModal()}
                 className={cn(
                     `absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem] pointer-events-auto`,
                     isSmRulesApplied ? 'bg-control-white-d0 text-gray w-dvw h-dvh' : 'bg-control-gray-l0 rounded-smallest',
@@ -55,7 +59,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     onClick={() => handleClose()}
                     className={cn(
                         `place-self-start min-w-[0.55rem] inline-block`,
-                        {['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied}
+                        {['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied},
+                        classNameTitle
                     )}
                 />
             </div>

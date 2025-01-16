@@ -47,7 +47,7 @@
 
 .midCol {
     grid-column-start: 2;
-    font-size: var(--fz-section-s);
+    font-size: var(--fz-basic);
 }
 
 
@@ -66,27 +66,33 @@
     font-size: var(--fz-section-s);
 }
 
-.connectBtn {
-    height: 23px;
-    color: #ECF0F3;
+.photoInput {
+    display: flex;
+    align-items: center;
+
+    padding: 0 var(--p-content-xxs);
+    max-width: 10rem;
+    width: fit-content;
+    height: 1.43rem;
+
+
+    overflow-x: hidden;
+
+    border-radius: 9999px;
+    background-color: white;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--color-gray);
     font-size: var(--fz-section-xs);
     font-weight: 700;
+
+    @media screen and (max-width: 835px) {
+        height: 1.125rem;
+        font-size: var(--fz-section-xxs);
+    }
 }
 
-.connected {
-    background-color: #178ab7;
-    font-weight: 700;
-}
-
-.connect:hover {
-    background-color: #178ab7;
-    font-weight: 700;
-}
-
-.disconnect:hover {
-    background-color: #f42200;
-    font-weight: 700;
-}
 
 @media screen and (max-width: 835px) and (orientation: landscape) {
     .leftCol {

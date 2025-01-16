@@ -12,6 +12,7 @@ import Image from "next/image";
 import cn from "classnames";
 
 import SVG_CHEVRON from "/public/images/icons/chewron.svg";
+import {copyObject} from "@/app/utils";
 
 
 const EMPTY_KEY = '';
@@ -35,12 +36,11 @@ const Select: FC<Props> = (props: Props) => {
         onChangeCustom, placeholder, ...selectPropsRest
     } = props;
 
-    let optionsEntries = Object.entries(options);
+    const optionsFinal: Record<string, string> = copyObject(options ?? {});
+    let optionsEntries = Object.entries(optionsFinal ?? {});
+
     const hasEmptyOption = optionsEntries.find(([key]) => key === EMPTY_KEY) !== undefined;
     const isValueNullish = [EMPTY_KEY, -1].includes(value);
-
-    const optionsFinal: Record<string, string> = options;
-
     if (optionsEntries.length === (1 + +hasEmptyOption) && !isValueNullish || optionsEntries.length === 0)
         optionsFinal[EMPTY_KEY] = 'Empty list';
     else
@@ -48,7 +48,7 @@ const Select: FC<Props> = (props: Props) => {
     optionsEntries = Object.entries(optionsFinal);
 
     const ref: MutableRefObject<HTMLLabelElement | null> = useRef(null);
-    const [isSelectExpanded, setSelectExpanded] = useState<boolean>(false);
+    const [isSelectExpanded, setSelectExpanded] = useState(false);
 
     const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
 
@@ -72,9 +72,9 @@ const Select: FC<Props> = (props: Props) => {
             value={value}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
             className={cn(
-                `flex px-[min(2dvw,0.75rem)] py-[min(--s-d-small)] items-center overflow-x-hidden`,
+                `flex px-[min(2dvw,0.75rem)] py-[--s-d-small] items-center overflow-x-hidden`,
                 `bg-white border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0`,
-                `[&:first-of-type]:border-t-0 last-of-type:rounded-b-small `,
+                `[&:first-of-type]:border-t-0 last-of-type:rounded-b-small`,
                 `overflow-ellipsis text-nowrap`, classNameOption,
                 {['text-placeholder text-small']: EMPTY_KEY === key}
             )}
@@ -112,7 +112,7 @@ const Select: FC<Props> = (props: Props) => {
                 className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white [&]:rounded-small
                             ${className} ${isSelectExpanded ? `[&&]:rounded-b-none` : ''}`}
             >
-                <div className={`text-nowrap overflow-ellipsis overflow-x-hidden leading-[1.3]`}>
+                <div className={`w-[90%] text-nowrap overflow-ellipsis overflow-x-hidden leading-[1.3]`}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
                         {selectedOptionIdx < 0 || !optionsFinal[value] ? (placeholder ?? 'Select') : optionsFinal[value]}
                     </span>

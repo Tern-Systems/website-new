@@ -3,10 +3,10 @@
 import React, {createContext, FC, PropsWithChildren, useCallback, useContext, useEffect, useState,} from "react";
 
 
-import {CountryKey, StateKey} from "@/app/static";
-import {LanguageKey, SalutationKey} from "@/app/static/misc";
 import {Subscription} from "@/app/types/subscription";
 import {IndustryKey, JobFunctionKey, SubIndustryKey,} from "@/app/static/company";
+
+import {CountryKey, LanguageKey, SalutationKey, StateKey} from "@/app/static";
 
 import {UserService} from "@/app/services";
 
@@ -87,7 +87,7 @@ interface IUserContext {
     token: string | null;
     setSession: (token: string, data?: UserData) => void;
     removeSession: () => void;
-    fetchUserData: (token?: string) => Promise<void>;
+    fetchUserData: (fetchPlanDetails?: boolean, token?: string) => Promise<void>;
 }
 
 
@@ -111,7 +111,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         localStorage.removeItem("token");
     };
 
-    const fetchUserData = useCallback(async (bearer?: string) => {
+    const fetchUserData = useCallback(async (fetchPlanDetails?: boolean, bearer?: string) => {
         const tokenFinal = bearer ?? token;
         if (!tokenFinal)
             return;
@@ -126,7 +126,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token) fetchUserData(token);
+        if (token) fetchUserData(true, token);
         else setLoggedState(false);
     }, [fetchUserData]);
 

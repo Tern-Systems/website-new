@@ -6,6 +6,7 @@ import styles from '@/app/common.module.css'
 
 
 import SVG_ARROW from '/public/images/icons/arrow.svg';
+import SVG_BURGER_MENU from "/public/images/icons/burger-menu.svg";
 import SVG_CHECK_FLOWER from '/public/images/icons/checkmark-flower.svg';
 import SVG_CHECK_SQUARE from '/public/images/icons/checkmark-square.svg';
 import SVG_CHEVRON from "/public/images/icons/chewron.svg";
@@ -27,8 +28,8 @@ import SVG_PLUS from '/public/images/icons/plus.svg';
 import SVG_PLUS_FLOWER from '/public/images/icons/plus-flower.svg';
 import SVG_PLUS_SQUARE from '/public/images/icons/plus-square.svg';
 import SVG_SHARE from "/public/images/icons/share.svg";
+import SVG_UPLOAD from "/public/images/icons/upload.svg";
 import SVG_WARN from "/public/images/icons/warn.svg";
-import SVG_BURGER_MENU from "/public/images/icons/burger-menu.svg";
 
 
 type ButtonIcon =
@@ -55,6 +56,7 @@ type ButtonIcon =
     | 'plus-flower'
     | 'plus-square'
     | 'share'
+    | 'upload'
     | 'warn';
 
 const ICON: Record<ButtonIcon, { src: string }> = {
@@ -81,6 +83,7 @@ const ICON: Record<ButtonIcon, { src: string }> = {
     'plus-flower': SVG_PLUS_FLOWER,
     'plus-square': SVG_PLUS_SQUARE,
     share: SVG_SHARE,
+    upload: SVG_UPLOAD,
     warn: SVG_WARN,
 }
 
@@ -95,7 +98,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: FC<Props> = (props: Props) => {
     const {children, icon, isIconFlippedY, className, classNameIcon, hovered, ...btnProps} = props;
 
-    const iconClassName = cn(`inline [&_*]:size-[1rem]`, {['rotate-180']: isIconFlippedY}, classNameIcon);
+    const iconClassName = cn(`inline [&_*]:size-[1rem] mr-[--p-content-5xs]`, {['rotate-180']: isIconFlippedY}, classNameIcon);
     const Icon: ReactElement | null = (
         <>
             {icon
@@ -125,7 +128,7 @@ const Button: FC<Props> = (props: Props) => {
             className={cn(
                 `text-nowrap cursor-pointer  disabled:cursor-default group`,
                 className, styles.clickable,
-                {['flex items-center justify-center gap-[0.5rem]']: icon ?? hovered?.icon}
+                {['flex items-center justify-center']: icon ?? hovered?.icon}
             )}
         >
             {Icon}

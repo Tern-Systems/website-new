@@ -173,7 +173,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
             )}
         >
             <div
-                className={`flex h-full rounded-small border-small border-control-gray bg-control-navy
+                className={`flex h-full rounded-small border-small border-control-gray bg-section-navy
                             leading-[130%] box-content`}>
                 <aside
                     id={'documentation-menu'}

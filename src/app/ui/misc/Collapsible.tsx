@@ -139,7 +139,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline size-[0.9rem] cursor-pointer ${collapseCN} ${classNameIcon}`}
+                    className={`inline-block size-[0.9rem] cursor-pointer ${collapseCN} ${classNameIcon}`}
                 />
             </div>
             <hr className={cn({['hidden']: isChevron}, `scale-[105%] mt-[min(2.1dvw,1.25rem)] mb-[min(2.6dvw,1.54rem)]

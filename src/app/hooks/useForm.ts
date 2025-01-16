@@ -9,8 +9,10 @@ const useForm = <T extends object>(defaultValue: T, onChange?: () => void): [T, 
 
     const setFormValueHelper = (key: keyof T) => {
         return <E extends FormElement>(event: ChangeEvent<E> | string) => {
-            const value = typeof event === 'string' ? event : event.target[event.target.type === 'checkbox' ? 'checked' : 'value'];
-            setFormValue(prevState => ({...prevState, [key]: value}));
+            const value = typeof event === 'string'
+                ? event
+                : event.target[event.target.type === 'checkbox' ? 'checked' : 'value'];
+            setFormValue(prevState => ({...prevState, [key]: typeof value === 'string' ? value.trim() : value}));
             onChange?.();
         }
     }

@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, FormEvent, SetStateAction, useRef} from "react";
+import React, {Dispatch, FC, FormEvent, SetStateAction, useRef, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
 
@@ -8,26 +8,16 @@ import {Route} from "@/app/static";
 import {BillingService} from "@/app/services";
 
 import {mapSavedCard} from "@/app/utils";
-import {useForm, useSaveOnLeave} from "@/app/hooks";
+import {useSaveOnLeave} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
 import {BaseModal, MessageModal} from "@/app/ui/modals";
-import {Button, Input} from "@/app/ui/form";
+import {Button} from "@/app/ui/form";
 
 import SVG_CARD from "/public/images/icons/card.svg";
 import SVG_MARK from "/public/images/icons/mark.svg";
-import SVG_CARD_NUM from "/public/images/icons/card-num.svg";
 
-
-type FormData = Pick<CardData, 'cvc'> & {
-    selectedCardIdx: number | null;
-}
-
-const fORM_DATA_DEFAUL: FormData = {
-    cvc: '',
-    selectedCardIdx: null,
-}
 
 const BTN_CN = 'px-[--1drs] h-[--h-control-dl] rounded-full';
 
@@ -44,17 +34,16 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
     const {userData} = useUser();
 
     const formRef = useRef<HTMLFormElement | null>(null);
-    const [formData, setFormData, setFormState] = useForm<FormData>(fORM_DATA_DEFAUL);
+    const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
 
 
     const updateCard = async () => {
-        if (!userData || formData.selectedCardIdx === null)
+        if (!userData || selectedCardIdx === null)
             return;
         try {
             const updatedCard: CardData = {
-                ...mapSavedCard(savedCards[formData.selectedCardIdx]),
+                ...mapSavedCard(savedCards[selectedCardIdx]),
                 isPreferred: true,
-                cvc: formData.cvc,
             }
             const {message} = await BillingService.postUpdateCard(updatedCard, userData.email);
             modalCtx.openModal(<MessageModal>{message}</MessageModal>);
@@ -83,9 +72,9 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
         return (
             <li
                 key={card.nickName + idx}
-                onClick={() => setFormState((prevState) => ({...prevState, selectedCardIdx: idx}))}
+                onClick={() => setSelectedCardIdx(idx)}
                 className={`flex justify-between text-content items-center px-[--s-small] py-[0.7rem] rounded-small
-                            sm:py-0 ${!preferred && formData.selectedCardIdx === idx ? 'bg-control-white-d1' : ''}`}
+                            sm:py-0 ${!preferred && selectedCardIdx === idx ? 'bg-control-white-d1' : ''}`}
             >
                 <span className={`flex items-center ${preferred ? 'brightness-[2.4]' : ''}`}>
                     <ReactSVG src={SVG_CARD.src}
@@ -107,18 +96,6 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
         >
             <form ref={formRef} onSubmit={handleFormSubmit} className={'contents'}>
                 <ul className={'list-none flex flex-col gap-y-[--s-small]'}>{SavedCards}</ul>
-                <Input
-                    type={'number'}
-                    value={formData.cvc}
-                    maxLength={3}
-                    onChange={setFormData('cvc')}
-                    placeholder={'CVC'}
-                    icons={[SVG_CARD_NUM]}
-                    classNameWrapper={'w-full py-[--p-content-5xs]'}
-                    className={'w-full h-[3rem] rounded-small px-[--p-content-3xs]  sm:x-[h-[1rem],text-section-3xs]'}
-                    classNameIcon={'sm:w-[--p-content-3xs]'}
-                    required
-                />
                 <PageLink href={Route.EditPaymentMethod}
                           className={'w-full justify-center sm:justify-start sm:px-[--s-small]'}>
                     <Button

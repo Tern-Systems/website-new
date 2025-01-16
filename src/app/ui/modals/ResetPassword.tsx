@@ -1,9 +1,7 @@
 import React, {FC, FormEvent, ReactElement, useState} from "react";
-import {useRouter} from "next/navigation";
-import axios from "axios";
 import Image from "next/image";
 
-import {Route} from "@/app/static";
+import {REGEX} from "@/app/static";
 
 import {AuthService, SignUpData} from "@/app/services/auth.service";
 
@@ -29,12 +27,10 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
     const {token} = props;
 
     const modalCtx = useModal();
-    const router = useRouter();
     const isSmScreen = useBreakpointCheck() === 'sm';
 
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
-
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -55,22 +51,22 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
 
         try {
             if (!token) {
+                if (!REGEX.email.test(formValue.email))
+                    return setWarningMsg(`Entered email doesn't match the email format`);
+
                 await AuthService.postForgotPassword(formValue.email);
                 modalCtx.openModal(<EmailSentModal/>, {darkenBg: true});
-            } else if (formValue.password !== formValue.passwordConfirm)
+            } else if (!REGEX.password.test(formValue.password))
+                setWarningMsg(`Entered password doesn't meet the requirements`);
+            else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
                 const {message} = await AuthService.postResetPassword(token, formValue.passwordConfirm);
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
         } catch (error: unknown) {
-            let message: string = 'Unknown error';
-            if (axios.isAxiosError(error))
-                message = error.cause?.message ?? message;
-            else if (typeof error === 'string')
-                message = error;
-            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
-            router.push(Route.Home);
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     }
 

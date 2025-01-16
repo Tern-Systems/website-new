@@ -34,7 +34,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         if (token)
             router.push(Route.Home + '?resetToken=' + token);
         //eslint-disable-next-line
-    }, [params]);
+    }, [params?.size]);
 
     useEffect(() => {
         if (route) {

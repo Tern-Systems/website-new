@@ -4,6 +4,7 @@ import Image from "next/image";
 import cn from "classnames";
 
 import {SignUpData} from "@/app/services/auth.service";
+import {REGEX} from "@/app/static";
 
 import {AuthService} from "@/app/services";
 
@@ -52,16 +53,19 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         try {
             if (isLoginForm) {
                 const {payload: token} = await AuthService.postLogIn(formValue);
-                await userCtx.fetchUserData(token);
+                await userCtx.fetchUserData(true, token);
                 modalCtx.closeModal();
-                flowCtx.next()?.();
-            } else if (formValue.password !== formValue.passwordConfirm)
+            } else if (!REGEX.password.test(formValue.password))
+                setWarningMsg(`Entered email doesn't match the email format`);
+            else if (!REGEX.password.test(formValue.password))
+                setWarningMsg(`Entered password doesn't meet the requirements`);
+            else if (formValue.password !== formValue.passwordConfirm)
                 setWarningMsg("Passwords don't match");
             else {
                 const {message} = await AuthService.postSignUp(formValue);
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
-                flowCtx.next()?.();
             }
+            flowCtx.next()?.();
         } catch (error: unknown) {
             let message: string = 'Unknown error';
             if (axios.isAxiosError(error))

@@ -3,7 +3,7 @@ import {ReactSVG} from "react-svg";
 import {usePathname} from "next/navigation";
 import Link from "next/link";
 
-import {MERGED_SUB_NAV_ROUTES, Route} from "@/app/static";
+import {Route, SPECIAL_NAV_ROUTES} from "@/app/static";
 
 import {getRouteName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
@@ -62,9 +62,10 @@ const PageLink: FC<Props> = (props: Props) => {
         )
         : null;
 
+    const linkFinal: string = SPECIAL_NAV_ROUTES?.[href ?? ''] ?? href ?? '';
     const splitHref = children
         ? children
-        : <span>{getRouteName(props.href, MERGED_SUB_NAV_ROUTES.includes(props.href ?? ''))}</span>;
+        : <span>{getRouteName(linkFinal)}</span>;
 
     return (
         <Link
