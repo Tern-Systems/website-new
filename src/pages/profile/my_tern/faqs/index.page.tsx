@@ -83,19 +83,17 @@ const FAQsPage: FC<Props> = (props: Props) => {
             navigate(Route.MyTern);
     }, [isSmScreen, navigate])
 
-    if (!isSmScreen)
-        return null;
-
     const FAQsList = FAQs.map((faq, idx) => (
         <li key={faq.question + idx}>
             <Collapsible
                 title={faq.question}
                 isChevron
                 expandedState={[expandedItemIdx === idx, () => setExpandedItemIdx(prevState => prevState === idx ? -1 : idx)]}
-                classNameWrapper={`[&]:p-0 rounded-none
-                                    sm:[&]:portrait:px-[--p-content-xs]
-                                    sm:landscape:flex sm:landscape:hover:brightness-125`
-                }
+                classNameWrapper={cn(
+                    `[&]:p-0 rounded-none`,
+                    `sm:[&]:portrait:px-[--p-content-xs]`,
+                    `sm:landscape:flex sm:landscape:hover:brightness-125`,
+                )}
                 classNameTitle={cn(styles.clickable,
                     `[&]:mb-0 text-section-s whitespace-pre-wrap text-left`,
                     `py-[--p-content]`,
@@ -113,23 +111,27 @@ const FAQsPage: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <div className={`h-full 
-                        sm:x-[px-[--p-content-s],pb-[--p-content-xl]]
-                        sm:landscape:pb-[--p-content-s]`}
+        <div className={cn(
+            `h-full`,
+            `sm:x-[px-[--p-content-s],pb-[--p-content-xl]]`,
+            `sm:landscape:pb-[--p-content-s]`,
+        )}
         >
-            <h1 className={cn(`
-                block h-[5rem] font-bold text-left content-end
-                text-heading
-                sm:x-[pb-[--p-content-s],text-heading-s]
-                sm:landscape:x-[h-[3.19rem],pb-[--p-content-xs]]`,
+            <h1 className={cn(
+                `block h-[5rem] font-bold text-left content-end`,
+                `text-heading`,
+                `sm:x-[pb-[--p-content-s],text-heading-s]`,
+                `sm:landscape:x-[h-[3.19rem],pb-[--p-content-xs]]`,
                 {['hidden']: props.hideTitle}
             )}
             >
                 Help & FAQs
             </h1>
             <div
-                className={`sm:h-[calc(100%-5rem)] sm:overflow-y-scroll
-                            sm:landscape:h-[calc(100%-3.19rem)] sm:landscape:x-[flex,gap-x-[0.12rem]]`}
+                className={cn(
+                    `sm:h-[calc(100%-5rem)] sm:overflow-y-scroll`,
+                    `sm:landscape:h-[calc(100%-3.19rem)] sm:landscape:x-[flex,gap-x-[0.12rem]]`
+                )}
             >
                 <ul className={cn(
                     `bg-control-gray rounded-small overflow-y-scroll`,
@@ -146,8 +148,8 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 </ul>
                 <div
                     className={cn(
-                        `hidden p-[--p-content-xs] w-1/2 bg-control-gray rounded-small
-                         text-left text-section-xs leading-[1.2]`,
+                        `hidden p-[--p-content-xs] w-1/2 bg-control-gray rounded-small`,
+                        `text-left text-section-xs leading-[1.2]`,
                         {['sm:landscape:[&]:block ']: expandedItemIdx !== -1}
                     )}
                 >

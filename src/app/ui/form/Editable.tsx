@@ -591,7 +591,7 @@ const Editable: FC<Props> = (props: Props) => {
                         {renderPhoneFieldset('business', 'ext' in formData.business ? formData.business?.ext : '')}
                         {renderPhoneFieldset('mobile')}
                         {renderPhoneFieldset('personal')}
-                        <span className={waring ? 'block mt-[--1drs] first-letter:capitalize' : 'hidden'}>
+                        <span className={waring ? 'block first-letter:capitalize text-section-xs' : 'hidden'}>
                             {waring}
                         </span>
                     </div>

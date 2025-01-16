@@ -59,14 +59,13 @@ function ManageSubscriptionsPage() {
     if (!isLoggedIn)
         return null;
 
-    const subscriptions = userData?.subscriptions;
+    const subscriptions = userData?.subscriptions
+        ?.filter((subscription) => !subscription.type.toLowerCase().includes('basic'));
 
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
-        subscriptions
-            ?.filter((subscription) => !subscription.type.toLowerCase().includes('basic'))
-            ?.map((subscription, idx) =>
-                [idx, subscription.subscription.toUpperCase() + ' ' + subscription.type + ' Plan'])
+        subscriptions?.map((subscription, idx) =>
+            [idx, subscription.subscription + ' ' + subscription.type + ' Plan'])
         ?? []
     );
 
@@ -80,7 +79,11 @@ function ManageSubscriptionsPage() {
                 <span className={'flex items-center'}>
                     <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem] h-auto'}/>
                     <span
-                        className={'block mx-[--p-content-5xs] overflow-x-hidden leading-[1.3] overflow-ellipsis text-nowrap text-content  sm:max-w-[70%] sm:landscape:text-content-small'}>
+                        className={cn(
+                            'block mx-[--p-content-5xs] overflow-x-hidden leading-[1.3] overflow-ellipsis text-nowrap text-content',
+                            'sm:max-w-[70%] sm:landscape:text-content-small'
+                        )}
+                    >
                         {method.nickName ?? (method.cardType + ' **** ' + method.last4)}
                     </span>
                     <span className={cn(

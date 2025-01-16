@@ -160,7 +160,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
-                    className={`${SELECT_CN} mb-[--1dr]`}
+                    classNameWrapper={'mb-[--1dr]'}
+                    className={SELECT_CN}
                     classNameOption={CONTROL_H_CN}
                     required
                 />
