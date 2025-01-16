@@ -28,14 +28,17 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
             <span className={'flex mt-[--1qdrs] gap-[min(1.1dvw,0.625rem)] text-small font-bold justify-center'}>
                 <Button
                     className={`bg-control-white text-gray ${BTN_CN}`}
-                    onClick={() => onSave()}
+                    onClick={async () => {
+                        await onSave();
+                        modalCtx.closeModal();
+                    }}
                 >
                     Save
                 </Button>
                 <Button
                     className={`border-small border-control-gray-l1 text-primary ${BTN_CN}`}
-                    onClick={() => {
-                        onDontSave?.();
+                    onClick={async () => {
+                        await onDontSave?.();
                         modalCtx.closeModal();
                     }}
                 >
@@ -43,7 +46,8 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
                 </Button>
                 <Button
                     className={`bg-control-gray-l0 ${BTN_CN}`}
-                    onClick={() => modalCtx.closeModal()}>
+                    onClick={() => modalCtx.closeModal()}
+                >
                     Cancel
                 </Button>
             </span>
