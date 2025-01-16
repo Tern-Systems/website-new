@@ -53,7 +53,7 @@ const NAV_BTNS_DEFAULT: { title: string; icon: ButtonIcon; href: string, isExter
 
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
     ARCH: Route.ARCodeToolCreate,
-    dot: Route.Dot,
+    // dot: Route.Dot,
     TernKey: TERN_AC_HREF,
     trial: '',
 }
