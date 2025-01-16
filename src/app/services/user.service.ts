@@ -20,7 +20,7 @@ type SubscriptionData = {
 
 
 interface IUserService {
-    getUser(token: string): Promise<Res<UserData, false>>;
+    getUser(token: string, fetchPlanDetails: boolean): Promise<Res<UserData, false>>;
 
     getUserActivePlans(email: string): Promise<Res<Subscription[], false>>;
 
