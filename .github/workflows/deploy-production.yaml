@@ -5,7 +5,7 @@ env:
   
 on:
   repository_dispatch:
-    types: [deploy]
+    types: [deploy-production]
   
 jobs:
   deploy:
@@ -18,12 +18,12 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh  # Create .ssh directory if it doesn't exist
-          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
+          echo "${{ secrets.GCP_SSH_KEY_PRD }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
           chmod 600 ~/.ssh/id_rsa  # Set appropriate permissions for the SSH key
 
       - name: Verify SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_PRD }} << 'EOF'
             # Display Node.js and npm versions to confirm connection and environment setup
             node -v
             npm -v
@@ -31,7 +31,7 @@ jobs:
 
       - name: SSH into the GCP instance and run the deployment script
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_PRD }} << 'EOF'
             # Navigate to the project directory on the GCP instance
             cd /home/${{ secrets.GCP_USERNAME }}/Website
             # Pull the latest changes from the main branch
