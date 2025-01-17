@@ -77,7 +77,7 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
     }
 
     async postSaveQR(
-        email: string, name: string, isEdit: boolean, mediaId: string | null, backgroundColor?: string, moduleColor?: string,
+        email: string, name: string, isEdit: boolean, mediaId: string, backgroundColor?: string, moduleColor?: string,
         qrFile?: File, video?: File, buttonLink?: string
     ): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postSaveQR.name);

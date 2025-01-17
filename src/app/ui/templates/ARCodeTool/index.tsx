@@ -1,4 +1,6 @@
 import React, {FC, FormEvent, useCallback, useEffect, useRef} from "react";
+import html2canvas from "html2canvas";
+import {randomBytes} from "crypto";
 import Image from "next/image";
 import {useQRCode} from "next-qrcode";
 import cn from "classnames";
@@ -18,15 +20,17 @@ import {AuthModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_ARCH from "/public/images/arch-logo.svg";
-import html2canvas from "html2canvas";
 
+
+const MEDIA_ID_LENGTH = 16;
 
 type ARCodeToolForm =
     Pick<ARCode, 'backgroundColor' | 'moduleColor' | 'name' | 'mediaId' | 'qrCodeUrl' | 'videoPath' | 'buttonLink'>
     & Partial<Pick<ARCode, 'video'>>;
 
-const FORM_DEFAULT: ARCodeToolForm = {
-    mediaId: '',
+const generateId = () => randomBytes(MEDIA_ID_LENGTH).toString('hex');
+const generateFormDefault = (): ARCodeToolForm => ({
+    mediaId: generateId(),
     backgroundColor: '#000000',
     moduleColor: '#ffffff',
     name: '',
@@ -34,7 +38,7 @@ const FORM_DEFAULT: ARCodeToolForm = {
     videoPath: '',
     qrCodeUrl: '',
     buttonLink: '',
-}
+})
 const FORM_COLOR_PICKERS = ['module', 'background'];
 
 
@@ -44,6 +48,7 @@ interface Props {
 
 const ARCodeTool: FC<Props> = (props: Props) => {
     const {arCode} = props;
+    const isEdit = arCode !== undefined;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -53,35 +58,38 @@ const ARCodeTool: FC<Props> = (props: Props) => {
 
     const qrRef = useRef<HTMLDivElement | null>(null);
     const [formValue, setFormValue, setFormValueState] = useForm<ARCodeToolForm>(
-        (arCode
-            ? {
-                mediaId: arCode.mediaId,
-                backgroundColor: arCode.backgroundColor,
-                moduleColor: arCode.moduleColor,
-                name: arCode.name,
-                qrCodeUrl: arCode.qrCodeUrl,
-                videoPath: arCode.videoPath,
-                buttonLink: arCode.buttonLink,
-            }
-            : FORM_DEFAULT),
+        (isEdit
+                ? {
+                    mediaId: arCode.mediaId,
+                    backgroundColor: arCode.backgroundColor,
+                    moduleColor: arCode.moduleColor,
+                    name: arCode.name,
+                    qrCodeUrl: arCode.qrCodeUrl,
+                    videoPath: arCode.videoPath,
+                    buttonLink: arCode.buttonLink,
+                }
+                : generateFormDefault()
+        ),
         () => preventLeaving(true)
     );
-
 
     const processCode = useCallback(async () => {
         if (!userData || !formValue || !qrRef.current)
             return;
 
         try {
+            let qrImage: File | undefined = undefined;
             // Create an image of QR
-            const canvas = await html2canvas(qrRef.current);
-            const data = canvas.toDataURL('image/png');
-            const response = await fetch(data);
-            const blob = await response.blob();
-            const qrImage: File = new File([blob], formValue.name, {type: "image/png"});
+            if (!isEdit) {
+                const canvas = await html2canvas(qrRef.current);
+                const data = canvas.toDataURL('image/png');
+                const response = await fetch(data);
+                const blob = await response.blob();
+                qrImage = new File([blob], formValue.name, {type: "image/png"});
+            }
 
             await ARCHService.postSaveQR(
-                userData.email, formValue.name, arCode !== undefined, arCode?.mediaId ?? null,
+                userData.email, formValue.name, isEdit, formValue.mediaId,
                 formValue.backgroundColor, formValue.moduleColor, qrImage, formValue.video,
                 formValue.buttonLink,
             );
@@ -95,7 +103,7 @@ const ARCodeTool: FC<Props> = (props: Props) => {
 
             preventLeaving(false);
             if (!arCode)
-                setFormValueState(FORM_DEFAULT);
+                setFormValueState(generateFormDefault());
             else
                 navigate(Route.SavedCodes);
         } catch (error: unknown) {
@@ -194,9 +202,9 @@ const ARCodeTool: FC<Props> = (props: Props) => {
                             `sm:landscape:[&_*]:h-full sm:landscape:[&]:x-[col-start-2,row-start-1,row-span-5]`,
                         )}
                     >
-                        <div ref={qrRef}>
+                        <div ref={qrRef} onClick={() => setFormValue('mediaId')(generateId())}>
                             <SVG
-                                text={'https://arch.tern.ac/' + arCode?.mediaId}
+                                text={'https://arch.tern.ac/' + formValue.mediaId}
                                 options={{
                                     margin: 1,
                                     color: {

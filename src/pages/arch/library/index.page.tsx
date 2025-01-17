@@ -166,7 +166,7 @@ const LibraryPage: FC = () => {
         >
             <div
                 className={cn(
-                    `grid justify-center h-full overflow-y-scroll`,
+                    `grid h-full justify-center overflow-y-scroll`,
                     `auto-rows-min grid-cols-[repeat(auto-fill,minmax(0,15.6rem))] gap-x-[5.94rem] gap-y-[4.5rem]`,
                     `lg:x-[h-fit,overflow-visible]`,
                     `sm:grid-cols-[repeat(auto-fill,minmax(0,10.3rem))]`,
