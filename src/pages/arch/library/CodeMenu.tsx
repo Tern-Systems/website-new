@@ -14,7 +14,7 @@ import {ShareModal} from "./ShareModal";
 import {DeleteModal} from "./DeleteModal";
 
 
-type MenuItems = 'Edit' | 'Download' | 'Share' | 'Delete';
+type MenuItems = 'edit' | 'download' | 'share' | 'delete';
 type MenuItem = Record<MenuItems, {
     svg: ButtonIcon;
     // eslint-disable-next-line
@@ -30,26 +30,29 @@ type CodeMenuData = {
 }
 
 const MENU_ITEMS: MenuItem = {
-    Edit: {
+    edit: {
         svg: 'pencil',
         action: (args: { arCode: ARCode, navigate: (route: string) => void }) => {
-            const {arCode, navigate} = args;
-            sessionStorage.setItem('qr-code-edit', JSON.stringify(arCode));
-            navigate(Route.ARCodeToolEdit);
+            sessionStorage.setItem('qr-code-edit', JSON.stringify(args.arCode));
+            args.navigate(Route.ARCodeToolEdit);
         }
     },
-    Download: {
+    download: {
         svg: 'download',
         action: async (args: { arCode: ARCode }) => window.open(args.arCode.downloadUrl, '_blank')
     },
-    Share: {
+    share: {
         svg: 'share',
         action: (args: { openModal: OpenModal, arCode: ARCode }) =>
             args.openModal(<ShareModal name={args.arCode.name} file={args.arCode.qrCodeUrl}/>, {darkenBg: true})
     },
-    Delete: {
+    delete: {
         svg: 'delete',
-        action: async (args: { openModal: OpenModal, arCode: ARCode, updateList: Dispatch<SetStateAction<boolean>> }) =>
+        action: async (args: {
+            openModal: OpenModal,
+            arCode: ARCode,
+            updateList: Dispatch<SetStateAction<boolean>>
+        }) =>
             args.openModal(<DeleteModal adCode={args.arCode} updateList={args.updateList}/>, {darkenBg: true})
     }
 }
@@ -69,13 +72,13 @@ const CodeMenu: FC<Props> = (props: Props) => {
         <Button
             key={name + idx}
             icon={value.svg}
-            className={'flex gap-x-[0.58rem] font-bold w-full [&]:justify-start'}
+            className={'flex gap-x-[0.58rem] font-bold w-full [&]:justify-start capitalize'}
             classNameIcon={'[&_svg]:w-[1.125rem]'}
             onClick={() => value.action({
                 openModal,
                 navigate,
                 arCode: menuData.arCode,
-                updateList: menuData.updateList
+                updateList: menuData.updateList,
             })}
         >
             {name}
@@ -96,5 +99,5 @@ const CodeMenu: FC<Props> = (props: Props) => {
     );
 }
 
-export {CodeMenu}
 export type {CodeMenuData}
+export {CodeMenu}
