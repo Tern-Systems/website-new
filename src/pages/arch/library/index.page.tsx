@@ -8,13 +8,14 @@ import {LAYOUT, Route} from "@/app/static";
 
 import {ARCHService} from "@/app/services";
 
-import {MessageModal} from "@/app/ui/modals";
-import {Button} from "@/app/ui/form";
 import {useLoginCheck, useNavigate} from "@/app/hooks";
 import {useModal, useUser} from "@/app/context";
 
-import {CodeMenu, CodeMenuData} from "./CodeMenu";
+import {MessageModal} from "@/app/ui/modals";
 import {ScrollEnd} from "@/app/ui/misc";
+import {Button} from "@/app/ui/form";
+
+import {CodeMenu, CodeMenuData} from "./CodeMenu";
 
 
 const LibraryPage: FC = () => {
@@ -39,7 +40,7 @@ const LibraryPage: FC = () => {
     useEffect(() => {
         if (userCtx.isLoggedIn === null)
             return;
-        const subscription: SubscriptionBase | undefined = userCtx.userData?.subscriptions.find((entry: SubscriptionBase) => entry.subscription === 'ARCH');
+        const subscription: SubscriptionBase | undefined = userCtx.userData?.subscriptions?.find((entry: SubscriptionBase) => entry.subscription === 'ARCH');
         if (!subscription) {
             setTimeout(() => {
                 navigate(Route.ServicePricing);
@@ -75,7 +76,6 @@ const LibraryPage: FC = () => {
             })
         }
 
-
         window.addEventListener('click', handleClick);
         return () => window.removeEventListener('click', handleClick);
     }, [codeId, menuData])
@@ -98,15 +98,17 @@ const LibraryPage: FC = () => {
         // eslint-disable-next-line
     }, [userCtx.userData, updateList]);
 
+
     if (!isLoggedIn)
         return null;
+
 
     const SavedCodes: ReactElement[] = qrList.map((arCode, idx) => {
         return (
             <div key={arCode.name + idx} id={'qr-' + arCode.mediaId + idx} className={'w-full place-items-center'}>
                 <div
                     className={cn(
-                        'flex cursor-pointer mb-[--p-content-xxs] w-full justify-center [&_*]:x-[w-full,h-auto]',
+                        'flex cursor-pointer mb-[--p-content-xxs] w-full justify-center [&_*]:x-[w-full,h-auto,rounded-small]',
                         `sm:mb-[--p-content-4xs]`
                     )}
                 >
@@ -164,7 +166,7 @@ const LibraryPage: FC = () => {
         >
             <div
                 className={cn(
-                    `grid justify-center h-full overflow-y-scroll`,
+                    `grid h-full justify-center overflow-y-scroll`,
                     `auto-rows-min grid-cols-[repeat(auto-fill,minmax(0,15.6rem))] gap-x-[5.94rem] gap-y-[4.5rem]`,
                     `lg:x-[h-fit,overflow-visible]`,
                     `sm:grid-cols-[repeat(auto-fill,minmax(0,10.3rem))]`,

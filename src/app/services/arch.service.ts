@@ -9,7 +9,10 @@ import {ARCode} from "@/app/types/arcode";
 interface IARCHService {
     postGenerateQR(moduleColor: string, backgroundColor: string): Promise<Res<{ url: string; id: string }>>;
 
-    postSaveQR(email: string, name: string, isEdit: boolean, mediaId?: string, backgroundColor?: string, moduleColor?: string, qrFile?: File, video?: File): Promise<Res>;
+    postSaveQR(
+        email: string, name: string, isEdit: boolean, mediaId: string, backgroundColor?: string,
+        moduleColor?: string, qrFile?: File, video?: File, buttonLink?: string
+    ): Promise<Res>;
 
     getListQRs(email: string): Promise<Res<ARCode[], false>>;
 
@@ -73,7 +76,10 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
         }
     }
 
-    async postSaveQR(email: string, name: string, isEdit: boolean, mediaId?: string, backgroundColor?: string, moduleColor?: string, qrFile?: File, video?: File): Promise<Res> {
+    async postSaveQR(
+        email: string, name: string, isEdit: boolean, mediaId: string, backgroundColor?: string, moduleColor?: string,
+        qrFile?: File, video?: File, buttonLink?: string
+    ): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postSaveQR.name);
 
         const formData = new FormData();
@@ -91,6 +97,8 @@ class ARCHServiceImpl extends BaseService implements IARCHService {
             formData.append('media', qrFile);
         if (video)
             formData.append('video', video);
+        if (buttonLink)
+            formData.append('buttonLink', buttonLink);
 
 
         const config: AxiosRequestConfig = {
