@@ -108,17 +108,18 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         : (
             <>
                 <Insignia insigniaMoved={layoutCtx.isInsigniaMoved}
-                          className={`absolute z-30 w-[29rem] h-[24rem] cursor-pointer
-                          ${layoutCtx.isInsigniaMoved
-                              ? `[&]:size-[--insignia-moved-size] ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
+                          className={cn(
+                              `absolute z-30 w-[29rem] h-[24rem] cursor-pointer`,
+                              layoutCtx.isInsigniaMoved
+                                  ? `[&]:size-[--insignia-moved-size] ml-[--insignia-pl-moved] mt-[--insignia-pt-moved]
                                 sm:x-[ml-[--p-content-xs],mt-[--p-content-xs]]`
-                              : (layoutCtx.isInsigniaMovedAnim
-                                  ? `animate-[insignia_1s_ease-in-out_forwards]`
-                                  : 'animate-[insigniaReverse_1s_ease-in-out_forwards]')
-                          }`}
+                                  : (layoutCtx.isInsigniaMovedAnim
+                                      ? `animate-[insignia_1s_ease-in-out_forwards]`
+                                      : 'animate-[insigniaReverse_1s_ease-in-out_forwards]')
+                          )}
                 />
                 <div
-                    className={`flex flex-col flex-grow justify-between h-full`}>
+                    className={`flex flex-col flex-grow justify-between h-full select-none`}>
                     {Layout}
                 </div>
             </>

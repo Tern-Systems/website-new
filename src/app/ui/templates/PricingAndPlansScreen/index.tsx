@@ -129,7 +129,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 >
                     Limits apply
                 </span>
-                <span className={cn({['hidden']: userSubscription})}>
+                <span className={cn(userSubscription ? 'hidden' : 'whitespace-pre-wrap')}>
                     Have an existing plan? See the&nbsp;
                     <span onClick={() => modalCtx.openModal(<HelpModal type={'brc'}/>, {darkenBg: true})}
                           className={`${styles.clickable} underline`}
@@ -208,7 +208,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 )}
                 >
                     <Image
-                        src={idx ? SVG_DIAMOND: SVG_DIAMOND_ACE }
+                        src={idx ? SVG_DIAMOND : SVG_DIAMOND_ACE}
                         alt={type + ' icon'}
                         className={`mr-[--p-content-5xs] h-auto  w-[1.375rem]  sm:w-[0.9375rem]`}
                     />
@@ -279,7 +279,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
     const renderColumns = (): ReactElement[] => {
         const {userData} = userCtx;
-        const userSubscription: SubscriptionBase | undefined = userData?.subscriptions.find(
+        const userSubscription: SubscriptionBase | undefined = userData?.subscriptions?.find(
             (subscription: SubscriptionBase) =>
                 subscription.subscription === subscriptionData?.subscription
         );
@@ -329,7 +329,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 'flex items-end justify-center',
                 `lg:x-[mb-[--p-content],h-[11rem]]`,
                 `md:pb-[--p-content-xxs]`,
-                `md:h-[6.75rem]`,
+                `md:min-h-[6.75rem]`,
                 `sm:pb-[--p-content-xxs]`,
                 `sm:portrait:h-[6.75rem]`,
             )}>

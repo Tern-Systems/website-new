@@ -85,7 +85,8 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             classNameTitle={'justify-self-start text-heading   sm:[&]:mb-[--p-content-xs]   sm:landscape:ml-0 '}
             classNameContent={cn(
                 'w-[30rem] items-start mx-auto place-items-center text-basic',
-                'sm:x-[px-[--p-content-xs],py-[--p-content],w-full]',
+                '[&]:overflow-y-visible',
+                'sm:[&]:x-[px-[--p-content-xs],py-[--p-content],w-full,overflow-y-scroll]',
                 'sm:landscape:x-[max-w-[73rem],px-[--p-content-xxl]]'
             )}
         >

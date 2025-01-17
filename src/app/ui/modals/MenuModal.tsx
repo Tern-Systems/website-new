@@ -21,11 +21,11 @@ const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [
 const ACTIVE_ROUTE_CN = `border-small border-control-blue mx-0 px-[1.125rem] border-l-[0.2rem]`;
 
 interface Props {
-    singleSublink?: boolean;
+    singleSubLink?: boolean;
 }
 
 const MenuModal: FC<Props> = (props: Props) => {
-    const {singleSublink} = props;
+    const {singleSubLink} = props;
 
     const route = usePathname();
     const userCtx = useUser();
@@ -78,17 +78,17 @@ const MenuModal: FC<Props> = (props: Props) => {
         navLinks[NavLink.SubNav]?.map((link, idx, array) => {
             const isProfilePath = route?.includes(Route.Profile);
 
-            const subNavRoute = singleSublink ? route : link;
+            const subNavRoute = singleSubLink ? route : link;
 
-            const isActive = checkSubRoute(route, link, singleSublink || !idx);
-            const isNextActive = checkSubRoute(route, array[idx + 1], singleSublink); // last+1 always undefined
+            const isActive = checkSubRoute(route, link, singleSubLink || !idx);
+            const isNextActive = checkSubRoute(route, array[idx + 1], singleSubLink); // last+1 always undefined
 
             const subNav = getSubNavs(subNavRoute as Route)[1];
 
             const hasSubRoutes = subNav !== null && subNav?.length > 0;
             const renderSubRoutes = hasSubRoutes
                 && route && link.length <= route.length
-                && (checkSubRoute(route, link) || singleSublink)
+                && (checkSubRoute(route, link) || singleSubLink)
                 && !subNavRoute?.split(subNav?.[0] ?? '').filter(link => link).length;
 
             const mappedLink = MAPPED_SUB_NAV_ROUTES?.[link];

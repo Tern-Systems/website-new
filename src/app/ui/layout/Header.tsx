@@ -150,22 +150,24 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             </li>
         ));
 
-        ProfileLinks.push(
-            <li
-                key={'logout' + LAYOUT.profileLinks.length}
-                onClick={() => {
-                    setProfileMenuOpenState(false);
-                    userCtx.removeSession();
-                }}
-                className={cn(
-                    `border-t-small pt-[--p-content-xs] cursor-pointer`,
-                    `sm:x-[border-t-0,border-control-gray-l0,py-[--p-content-xs]]`,
-                    `sm:landscape:text-section-s`,
-                )}
-            >
-                Log Out
-            </li>
-        );
+        if (userCtx.isLoggedIn) {
+            ProfileLinks.push(
+                <li
+                    key={'logout' + LAYOUT.profileLinks.length}
+                    onClick={() => {
+                        setProfileMenuOpenState(false);
+                        userCtx.removeSession();
+                    }}
+                    className={cn(
+                        `border-t-small pt-[--p-content-xs] cursor-pointer`,
+                        `sm:x-[border-t-0,border-control-gray-l0,py-[--p-content-xs]]`,
+                        `sm:landscape:text-section-s`,
+                    )}
+                >
+                    Log Out
+                </li>
+            );
+        }
 
         userBtns = (
             <div className={'relative'}>

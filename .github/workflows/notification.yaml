@@ -1,9 +1,10 @@
-name: Fetch PR Data on Push to Main
+name: Fetch PR Data on Push to Staging or Main
 
 on:
   push:
     branches:
       - main
+      - staging
 
 jobs:
   fetch-pr-details:
@@ -18,11 +19,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
-          echo "Fetching details for the latest PR merged into the main branch"
+          echo "Fetching details for the latest PR merged into the ${{ github.ref_name }} branch"
 
           # Fetch the latest merged PR
           PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&base=main")
+            "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&base=${{ github.ref_name }}")
 
           PR_NUMBER=$(echo "$PR_INFO" | jq -r '[.[] | select(.merged_at != null)][0].number')
           if [ -z "$PR_NUMBER" ]; then
@@ -55,7 +56,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.PAT }}
-          event-type: deploy
+          event-type: ${{ github.ref_name == 'main' && 'deploy-production' || 'deploy-staging' }}
           client-payload: >
             {
               "creator": "${{ env.creator }}",

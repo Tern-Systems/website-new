@@ -117,11 +117,14 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             return;
 
         try {
-            const {payload: user} = await UserService.getUser(tokenFinal);
+            const {payload: user} = await UserService.getUser(tokenFinal, fetchPlanDetails);
+            if (!fetchPlanDetails && userData)
+                user.subscriptions = userData?.subscriptions;
             setSession(tokenFinal, user);
         } catch (error: unknown) {
             setLoggedState(false);
         }
+        //eslint-disable-next-line
     }, [token])
 
     useEffect(() => {

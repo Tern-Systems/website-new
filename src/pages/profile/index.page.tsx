@@ -2,6 +2,7 @@ import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useRef, us
 import cn from "classnames";
 
 import {Res} from "@/app/types/service";
+import {ButtonIcon} from "@/app/ui/form/Button";
 import {UserData} from "@/app/context/User.context";
 import {
     COUNTRY,
@@ -42,19 +43,19 @@ const SECTIONS: string[] = [
     "Offboarding",
 ];
 
-// const DATA_STORAGE: string[] = ["Google Drive", "Dropbox", "SharePoint"];
-//
-// const SOCIAL_MEDIA: string[] = [
-//     "Discord",
-//     "WhatsApp",
-//     "Instagram",
-//     "Stack Overflow",
-//     "GitHub",
-//     "X",
-//     "Reddit",
-//     "LinkedIn",
-//     "Facebook",
-// ];
+const DATA_STORAGE: string[] = ["Google Drive", "Dropbox", "SharePoint"];
+
+const SOCIAL_MEDIA: string[] = [
+    "Discord",
+    "WhatsApp",
+    "Instagram",
+    "Stack Overflow",
+    "GitHub",
+    "X",
+    "Reddit",
+    "LinkedIn",
+    "Facebook",
+];
 
 const getSimpleToggleProps = (
     setEditState?: Dispatch<SetStateAction<string | null>>,
@@ -78,7 +79,6 @@ const ProfilePage: FC = () => {
     const {userData, token, fetchUserData} = useUser();
     const isLoggedIn = useLoginCheck();
     const isSmScreen = useBreakpointCheck() === 'sm';
-    // useSaveOnLeave();
 
     const sectionsRef = useRef<HTMLDivElement>(null);
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
@@ -86,7 +86,6 @@ const ProfilePage: FC = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            console.log('------------')
             SECTIONS.forEach((section, index) => {
                 const elem = document.getElementById(
                     section.toLowerCase().split(" ").join("")
@@ -160,48 +159,48 @@ const ProfilePage: FC = () => {
     ));
 
     // Third-Party Apps
-    // const renderConnectedApps = (
-    //     apps: string[],
-    //     userApps: { name: string; link: string }[]
-    // ): ReactElement[] => {
-    //     return apps.map((app, idx) => {
-    //         const userApp = userApps.find((userApp) => userApp.name === app);
-    //         const isFound = userApp !== undefined;
-    //         const text = `Connect` + (isFound ? `ed` : ``);
-    //         const icon: ButtonIcon = isFound ? "mark-square" : "plus-square";
-    //
-    //         return (
-    //             <span key={app + idx} className={"contents"}>
-    //                 {isFound
-    //                     ? (
-    //                         <a
-    //                             href={userApp?.link}
-    //                             className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}
-    //                             target={"_blank"}
-    //                         >
-    //                             {app}
-    //                         </a>
-    //                     )
-    //                     : <span className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}>{app}</span>
-    //                 }
-    //                 <Button
-    //                     icon={icon}
-    //                     hovered={{
-    //                         icon: isFound ? "close-square" : icon,
-    //                         text: isFound ? "" : "Disconnect",
-    //                         className: isFound ? 'bg-red' : 'bg-blue',
-    //                     }}
-    //                     className={cn(`col-start-3 flex-row-reverse place-self-end text-section-xs font-bold`, styles.ellipsis)}
-    //                     onClick={() => {
-    //                         // TODO
-    //                     }}
-    //                 >
-    //                    <span className={'sm:hidden'}>{text}</span>
-    //                 </Button>
-    //             </span>
-    //         )
-    //     });
-    // };
+    const renderConnectedApps = (
+        apps: string[],
+        userApps: { name: string; link: string }[]
+    ): ReactElement[] => {
+        return apps.map((app, idx) => {
+            const userApp = userApps.find((userApp) => userApp.name === app);
+            const isFound = userApp !== undefined;
+            const text = `Connect` + (isFound ? `ed` : ``);
+            const icon: ButtonIcon = isFound ? "mark-square" : "plus-square";
+
+            return (
+                <span key={app + idx} className={"contents"}>
+                    {isFound
+                        ? (
+                            <a
+                                href={userApp?.link}
+                                className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}
+                                target={"_blank"}
+                            >
+                                {app}
+                            </a>
+                        )
+                        : <span className={`capitalize col-start-2 ${styles.midCol} ${styles.ellipsis}`}>{app}</span>
+                    }
+                    <Button
+                        icon={icon}
+                        hovered={{
+                            icon: isFound ? "close-square" : icon,
+                            text: isFound ? "" : "Disconnect",
+                            className: isFound ? 'bg-red' : 'bg-blue',
+                        }}
+                        className={cn(`col-start-3 flex-row-reverse place-self-end text-section-xs font-bold`, styles.ellipsis)}
+                        onClick={() => {
+                            // TODO
+                        }}
+                    >
+                       <span className={'sm:hidden'}>{text}</span>
+                    </Button>
+                </span>
+            )
+        });
+    };
 
     // Contact
     const Phones = Object.entries(userData.phones)
@@ -325,7 +324,7 @@ const ProfilePage: FC = () => {
                             disabled
                             icon={'upload'}
                             className={styles.photoInput}
-                            classNameIcon={`[&_*]:size-[--p-content-3xs]  sm:[&_*]:size-[--p-content-4xs]`}
+                            classNameIcon={`[&&_*]:size-[--p-content-3xs]  sm:[&_*]:size-[--p-content-4xs]`}
                         >
                             {userPhoto || 'Upload media'}
                         </Button>
@@ -409,8 +408,7 @@ const ProfilePage: FC = () => {
 
                                 const phone = formData.value.trim();
                                 if (!REGEX.phone.test(phone))
-                                    throw `Invalid phone number format. Please enter a valid number.`;
-
+                                    throw `Entered phone number should be in the format '+1234567890'`;
 
                                 const numericPhone = phone.startsWith("+")
                                     ? phone.slice(1)
@@ -518,6 +516,10 @@ const ProfilePage: FC = () => {
                             onSave: async (formData) => {
                                 if (!("mobile" in formData))
                                     throw 'Incorrect request setup';
+
+                                if (Object.values(formData).some(phone => phone.number && !REGEX.phone.test('+'+phone.number)))
+                                    throw `Entered phone number(s) should be in the format '+1234567890'`;
+
                                 const newPhones: UserData['phones'] = {...(userData?.phones ?? {}), ...formData}
                                 await handleUpdate({phones: newPhones});
                             },
@@ -688,47 +690,47 @@ const ProfilePage: FC = () => {
                     </Editable>
                 </Collapsible>
 
-                {/*<Collapsible title={SECTIONS[4]} icon={"blocks"}>*/}
-                {/*    <span className={styles.leftCol + " " + styles.ellipsis}>Domain</span>*/}
-                {/*    {userData.personalDomain*/}
-                {/*        ? (*/}
-                {/*            <>*/}
-                {/*                <a href={userData.personalDomain.link} target={"_blank"}>*/}
-                {/*                    {userData.personalDomain.link}*/}
-                {/*                </a>*/}
-                {/*            </>*/}
-                {/*        )*/}
-                {/*        : <span>--</span>*/}
-                {/*    }*/}
+                <Collapsible title={SECTIONS[4]} icon={"blocks"}>
+                    <span className={styles.leftCol + " " + styles.ellipsis}>Domain</span>
+                    {userData.personalDomain
+                        ? (
+                            <>
+                                <a href={userData.personalDomain.link} target={"_blank"}>
+                                    {userData.personalDomain.link}
+                                </a>
+                            </>
+                        )
+                        : <span>--</span>
+                    }
 
-                {/*    <Button*/}
-                {/*        disabled={userData.personalDomain?.isVerified}*/}
-                {/*        icon={*/}
-                {/*            userData.personalDomain?.isVerified*/}
-                {/*                ? "mark-flower"*/}
-                {/*                : "plus-flower"*/}
-                {/*        }*/}
-                {/*        className={"col-start-3 flex-row-reverse place-self-end"}*/}
-                {/*    >*/}
-                {/*        <span className={'sm:hidden'}>Verif{userData.personalDomain?.isVerified ? "ied" : "y"}</span>*/}
-                {/*    </Button>*/}
+                    <Button
+                        disabled={userData.personalDomain?.isVerified}
+                        icon={
+                            userData.personalDomain?.isVerified
+                                ? "mark-flower"
+                                : "plus-flower"
+                        }
+                        className={"col-start-3 flex-row-reverse place-self-end"}
+                    >
+                        <span className={'sm:hidden'}>Verif{userData.personalDomain?.isVerified ? "ied" : "y"}</span>
+                    </Button>
 
-                {/*    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>*/}
-                {/*        Data Storage*/}
-                {/*    </span>*/}
-                {/*    <span className={`col-start-2 text-section-xs self-end ${styles.ellipsis}`}>*/}
-                {/*        Applications*/}
-                {/*    </span>*/}
-                {/*    {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}*/}
+                    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>
+                        Data Storage
+                    </span>
+                    <span className={`col-start-2 text-section-xs self-end ${styles.ellipsis}`}>
+                        Applications
+                    </span>
+                    {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
-                {/*    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>*/}
-                {/*        Social Media*/}
-                {/*    </span>*/}
-                {/*    <span className={"col-start-2 text-section-xs self-end"}>*/}
-                {/*        Applications*/}
-                {/*    </span>*/}
-                {/*    {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}*/}
-                {/*</Collapsible>*/}
+                    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>
+                        Social Media
+                    </span>
+                    <span className={"col-start-2 text-section-xs self-end"}>
+                        Applications
+                    </span>
+                    {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
+                </Collapsible>
 
                 <Collapsible title={SECTIONS[5]}>
                     <span className={styles.leftCol + " " + styles.ellipsis}>
