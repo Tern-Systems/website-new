@@ -84,7 +84,7 @@ const BillingPage: FC = () => {
     return (
         <div className={cn(
             `grid auto-rows-min place-self-center h-full max-w-[90rem] w-full text-left`,
-            `lg:mt-[5.56rem]`,
+            `lg:mt-[--p-content-3xl]`,
             `md:x-[mt-[--p-content-l],px-[--p-content-l]]`,
             `sm:grid-rows-[min-content,1fr]`,
             `sm:px-[--p-content-xs]`,

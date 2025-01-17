@@ -163,15 +163,15 @@ const MyTernPage: FC = () => {
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
     const navBtns = copyObject(NAV_BTNS_DEFAULT);
-    if (userCtx.userData?.subscriptions.find((plan) => plan.subscription === 'trial'))
+    if (userCtx.userData?.subscriptions?.find((plan) => plan.subscription === 'trial'))
         navBtns.splice(1, 0, {title: 'Try TernKey Pro', icon: 'diamond', href: Route.ServicePricing});
 
     const subscriptionTable: TableSection = {
         title: 'Subscription',
         columnNames: ['Item', 'Plan Type'],
         data: userCtx.userData?.subscriptions
-            .filter((plan) => plan.subscription !== 'trial')
-            .map((plan) => ({
+            ?.filter((plan) => plan.subscription !== 'trial')
+            ?.map((plan) => ({
                 name: plan.subscription,
                 data: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
                 href: SUBSCRIPTION_LINK_DICT[plan.subscription]
@@ -225,7 +225,7 @@ const MyTernPage: FC = () => {
     return (
         <div className={cn(
             `grid max-w-[90.63rem] w-full h-full text-left`,
-            `lg:x-[auto-rows-min,w-3/4,mt-[5.94rem],mx-auto]`,
+            `lg:x-[auto-rows-min,w-3/4,mt-[--p-content-xxl],mx-auto]`,
             `md:x-[mt-[--p-content-xl],px-[--p-content-xl]]`,
             `sm:grid-rows-[min-content,1fr]`,
             `sm:x-[mt-0,px-[--p-content-xs]]`,

@@ -5,21 +5,21 @@ import {useModal, useUser} from "@/app/context";
 import {SaveChangesModal} from "@/app/ui/modals";
 
 
-const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => Promise<void>) => {
+const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => void | Promise<void>) => {
     const modalCtx = useModal();
     const {isLoggedIn} = useUser();
 
-    const [shouldPrevent, setPreventState] = useState(true);
+    const [shouldPrevent, setPreventState] = useState(false);
 
     useEffect(() => {
         if (!isLoggedIn)
             return;
 
         const handle = (event: BeforeUnloadEvent | HashChangeEvent) => {
-            const middleware = (handler: (() => Promise<void>) | undefined) => {
+            const middleware = (handler: (() => void | Promise<void>) | undefined) => {
                 return async () => {
                     setPreventState(false);
-                    handler?.();
+                    await handler?.();
                 };
             }
 

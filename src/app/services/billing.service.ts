@@ -265,14 +265,13 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     async postProcessPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postProcessPayment.name);
 
-        // TODO change body
         const cardDetails = {
             cardNumber: data.cardNumber,
             expiryDate: data.expirationDate,
             cardCode: data.cvc,
             cardholderName: data.cardholderName,
         };
-        const [firstName, lastName] = data.cardholderName.split(' ');
+        const [firstName, ...lastName] = data.cardholderName.split(' ');
         const billingDetails = {
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,

@@ -164,11 +164,11 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 `self-center flex-grow h-full min-w-[min(calc(100%-2*var(--p-content-l)),70rem)] text-default`,
                 `sm:min-w-full`,
                 {
-                    [`
-                        my-[--p-content-l] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]
-                        sm:x-[max-w-full,my-0,mt-[--p-content-xs],min-w-0]
-                        sm:h-[calc(100%-var(--p-content-xs))]
-                    `]: !layoutCtx.isNoLayout,
+                    [cn(
+                        `my-[--p-content-l] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]`,
+                        `sm:x-[max-w-full,my-0,mt-[--p-content-xs],min-w-0]`,
+                        `sm:h-[calc(100%-var(--p-content-xs))]`,
+                    )]: !layoutCtx.isNoLayout,
                 }
             )}
         >
@@ -178,8 +178,8 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 <aside
                     id={'documentation-menu'}
                     className={cn(
-                        `p-[--p-content-xs] text-left
-                        sm:x-[absolute,top-0,left-0,p-[--p-content-xs],h-full]`,
+                        `p-[--p-content-xs] rounded-l-small text-left`,
+                        `sm:x-[absolute,top-0,left-0,p-[--p-content-xs],h-full]`,
                         isMenuOpened
                             ? `bg-control-gray min-w-[19rem]    sm:portrait:w-full`
                             : `pr-0 ${isSelectOpened ? 'h-full' : 'sm:[&]:h-fit bg-none'}`

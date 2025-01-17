@@ -60,7 +60,7 @@ const Collapsible: FC<Props> = (props: Props) => {
     const [isExpanded, setExpandState] = useState<boolean>(expandedState?.[0] ?? true);
 
     const isExpandedFinal = isExpanded || expandedState?.[0] === true;
-    const titleFinal = title?.toLowerCase().split(' ').join('');
+    const titleFinal = title?.toLowerCase().split(' ').join('').replaceAll(/[^a-zA-Z\d]/g, '');
 
 
     const handleToggle = () => {

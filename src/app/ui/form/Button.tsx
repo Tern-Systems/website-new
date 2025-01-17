@@ -98,7 +98,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: FC<Props> = (props: Props) => {
     const {children, icon, isIconFlippedY, className, classNameIcon, hovered, ...btnProps} = props;
 
-    const iconClassName = cn(`inline [&_*]:size-[1rem] mr-[--p-content-5xs]`, {['rotate-180']: isIconFlippedY}, classNameIcon);
+    const iconClassName = cn(`inline [&_*]:size-[1rem]`, {['rotate-180']: isIconFlippedY}, classNameIcon);
     const Icon: ReactElement | null = (
         <>
             {icon
@@ -128,12 +128,15 @@ const Button: FC<Props> = (props: Props) => {
             className={cn(
                 `text-nowrap cursor-pointer  disabled:cursor-default group`,
                 className, styles.clickable,
-                {['flex items-center justify-center']: icon ?? hovered?.icon}
+                {['flex items-center justify-center gap-x-[--p-content-5xs]']: icon ?? hovered?.icon}
             )}
         >
             {Icon}
             <span hidden={!children} className={cn({['hover:hidden']: hovered?.text})}>{children}</span>
-            <span hidden={!children} className={cn({['hidden hover:inline']: hovered?.text})}>{hovered?.text}</span>
+            {hovered?.text
+                ? <span hidden={!children} className={cn({['hover:inline']: hovered?.text})}>{hovered?.text}</span>
+                : null
+            }
         </button>
     );
 }

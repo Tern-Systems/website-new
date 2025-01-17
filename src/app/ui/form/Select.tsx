@@ -109,8 +109,11 @@ const Select: FC<Props> = (props: Props) => {
                     toggleSelectExpand();
                 }}
                 onBlur={() => setSelectExpanded(false)}
-                className={`flex items-center cursor-pointer select-none capitalize w-full border-small border-control-white-d0 bg-white [&]:rounded-small
-                            ${className} ${isSelectExpanded ? `[&&]:rounded-b-none` : ''}`}
+                className={cn(
+                    `flex items-center cursor-pointer select-none capitalize w-full`,
+                    `border-small border-control-white-d0 bg-white [&]:rounded-small`,
+                    className, {[`[&&]:rounded-b-none`]: isSelectExpanded}
+                )}
             >
                 <div className={`w-[90%] text-nowrap overflow-ellipsis overflow-x-hidden leading-[1.3]`}>
                     <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>

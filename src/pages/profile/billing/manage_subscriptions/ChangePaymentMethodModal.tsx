@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, FormEvent, SetStateAction, useRef, useState} from "react";
+import React, {Dispatch, FC, FormEvent, SetStateAction, useEffect, useRef, useState} from "react";
 import {ReactSVG} from "react-svg";
 import Image from "next/image";
 
@@ -34,8 +34,15 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
     const {userData} = useUser();
 
     const formRef = useRef<HTMLFormElement | null>(null);
+
+    const setPreventLeaveState = useSaveOnLeave(async () => {
+        if (formRef.current !== null)
+            await updateCard();
+    });
     const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
 
+
+    useEffect(() => setPreventLeaveState(true), [setPreventLeaveState]);
 
     const updateCard = async () => {
         if (!userData || selectedCardIdx === null)
@@ -53,11 +60,6 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     }
-
-    useSaveOnLeave(async () => {
-        if (formRef.current !== null)
-            await updateCard();
-    });
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
