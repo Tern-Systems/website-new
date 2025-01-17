@@ -6,25 +6,25 @@ const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
 }
 
 const MAPPED_NAV_ROUTES: Record<string, string> = {
-    [Route.Products]: 'Products',
-    [Route.Services]: 'Services',
+    // [Route.Products]: 'Products',
+    // [Route.ARCH]: 'Services',
     [Route.TernKey]: 'TernKey',
 
 }
 
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
-    [Route.Products]: 'All',
-    [Route.TernKey]: 'Application',
-    [Route.Dot]: 'Download',
-    [Route.TBD0]: 'TBD',
-    [Route.TBD1]: 'TBD',
-    [Route.TBD2]: 'TBD',
+    // [Route.Products]: 'All',
+    // [Route.TernKey]: 'Application',
+    // [Route.Dot]: 'Download',
+    // [Route.TBD0]: 'TBD',
+    // [Route.TBD1]: 'TBD',
+    // [Route.TBD2]: 'TBD',
 }
 
 const SPECIAL_NAV_ROUTES: Record<string, string> = {
     [Route.TernKey]: 'TernKey',
     [Route.TernKeyDoc]: 'TernKey',
-    [Route.Services]: 'ARCH',
+    [Route.ARCH]: 'ARCH',
     [Route.ARCHDoc]: 'ARCH',
 };
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
