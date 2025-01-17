@@ -199,7 +199,7 @@ class UserServiceImpl extends BaseService implements IUserService {
             if (!userData.email)
                 throw "Incorrect response from server";
 
-            let subscriptions: Subscription[] = userData.subscriptions;
+            let subscriptions: Subscription[] = [];
             if (fetchPlanDetails) {
                 const {payload: activeSubscriptions} = await this.getUserActivePlans(userData.email);
                 subscriptions = activeSubscriptions;
@@ -212,9 +212,12 @@ class UserServiceImpl extends BaseService implements IUserService {
                     data: [],
                     social: [],
                 },
-                state2FA: {
-                    email: userData.state2FA.email,
-                    phone: userData.state2FA.phone,
+                phones: {
+                    ...userData.phones,
+                    mobile: {
+                        number: userData.phones.mobile?.number ?? userData.state2FA.phone ?? '',
+                        isPrimary: userData.phones.mobile?.isPrimary ?? Boolean(userData.state2FA.phone) ?? false,
+                    }
                 }
             }
 
