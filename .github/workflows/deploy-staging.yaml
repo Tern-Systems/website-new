@@ -1,0 +1,60 @@
+name: Deploy Website to GCP Compute Engine
+
+env: 
+  DEBUG: true 
+  
+on:
+  repository_dispatch:
+    types: [deploy-staging]
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  
+
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh  # Create .ssh directory if it doesn't exist
+          echo "${{ secrets.GCP_SSH_KEY_STG }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
+          chmod 600 ~/.ssh/id_rsa  # Set appropriate permissions for the SSH key
+
+      - name: Verify SSH connection
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME_STG }}@${{ secrets.GCP_INSTANCE_IP_STG }} << 'EOF'
+            # Display Node.js and npm versions to confirm connection and environment setup
+            node -v
+            npm -v
+          EOF
+
+      - name: SSH into the GCP instance and run the deployment script
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME_STG }}@${{ secrets.GCP_INSTANCE_IP_STG }} << 'EOF'
+            # Navigate to the project directory on the GCP instance
+            cd /home/${{ secrets.GCP_USERNAME_STG }}/Website
+            # Pull the latest changes from the main branch
+            git pull origin main
+            # Install any new dependencies
+            npm install
+            # Build the application for production
+            npm run build
+            # Restart the application service to apply updates
+            sudo service website-app restart
+          EOF
+      
+      - name: Send Deployment Status Notification to Discord
+        if: always()  # Run this step regardless of success or failure
+        run: |
+          # Capture the job status
+          STATUS="${{ job.status }}"
+          MESSAGE=":x: Deployment failed"
+          if [ "$STATUS" == "success" ]; then
+            MESSAGE=":white_check_mark: Deployment successful"
+          fi
+
+          # Send message to Discord
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\":\"**Deploy Website-Staging**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $MESSAGE\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
