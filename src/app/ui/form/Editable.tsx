@@ -6,7 +6,7 @@ import React, {
     PropsWithChildren,
     ReactElement,
     SetStateAction,
-    useEffect,
+    useEffect, useRef,
     useState
 } from "react";
 import {ReactSVG} from "react-svg";
@@ -135,7 +135,8 @@ const Editable: FC<Props> = (props: Props) => {
     const setPreventState = useSaveOnLeave(
         async () => {
             if (!checkUpdateBtnDisabledState())
-                await submitForm()
+                return await submitForm();
+            return false;
         },
         async () => toggleEditState()
     );
@@ -143,6 +144,9 @@ const Editable: FC<Props> = (props: Props) => {
     const [formData, _, setFormState] = useForm<EditableFormData>(defaultFormValue);
     const [waring, setWarning] = useState<string | null>(null);
 
+
+    const formRef = useRef<HTMLFormElement | null>(null);
+    const submitRef = useRef<HTMLButtonElement | null>(null);
 
     useEffect(() => {
         setIsEditState(parentEditID === editID);
@@ -159,8 +163,7 @@ const Editable: FC<Props> = (props: Props) => {
             if (prevState) {
                 setFormState(defaultFormValue);
                 setParentEditID?.(null);
-            }
-            else {
+            } else {
                 setParentEditID?.(editID);
                 setPreventState(true);
             }
@@ -169,12 +172,22 @@ const Editable: FC<Props> = (props: Props) => {
     }
 
     const submitForm = async () => {
+        if (!formRef.current || !submitRef.current)
+            return false;
+
         try {
+            if (!formRef.current.checkValidity()) {
+                submitRef.current.click();
+                return false;
+            }
+
             await data?.onSave(formData);
             toggleEditState();
+            return true;
         } catch (error: unknown) {
             if (typeof error === 'string')
                 setWarning(error);
+            return false;
         }
     }
 
@@ -212,6 +225,7 @@ const Editable: FC<Props> = (props: Props) => {
             className={`flex gap-x-[min(1dvw,0.75rem)] h-[--h-control] mt-[min(1.3dvw,0.95rem)] text-small font-bold`}>
             {CancelBtn}
             <Button
+                ref={submitRef}
                 type={'submit'}
                 disabled={checkUpdateBtnDisabledState()}
                 className={'bg-control-navy px-[--1drs] rounded-full disabled:bg-control-gray-l0 disabled:text-gray'}
@@ -864,7 +878,7 @@ const Editable: FC<Props> = (props: Props) => {
     } else {
         return (
             <>
-                <form onSubmit={handleFormSubmit} className={`${classNameWrapper} flex flex-col`}>
+                <form ref={formRef} onSubmit={handleFormSubmit} className={`${classNameWrapper} flex flex-col`}>
                     {isFormShown ? Form : children}
                 </form>
                 {isEditState && Form && type !== '2FA' ? null : EditToggle}

@@ -2,6 +2,7 @@ import {AnchorHTMLAttributes, FC, MouseEvent, ReactElement} from "react";
 import {ReactSVG} from "react-svg";
 import {usePathname} from "next/navigation";
 import Link from "next/link";
+import cn from "classnames";
 
 import {Route, SPECIAL_NAV_ROUTES} from "@/app/static";
 
@@ -12,7 +13,6 @@ import SVG_ARROW from "/public/images/icons/arrow.svg";
 import SVG_INSIGNIA from "/public/images/insignia.svg";
 
 import styles from '@/app/common.module.css'
-import cn from "classnames";
 
 
 type Icon = 'back' | 'forward' | 'insignia';
@@ -52,14 +52,8 @@ const PageLink: FC<Props> = (props: Props) => {
 
     const Icon: ReactElement | null = icon
         ? (
-            <ReactSVG
-                src={ICON[icon].src}
-                className={cn(
-                    `inline size-[1rem]`,
-                    {['rotate-180']: icon === 'forward'},
-                    iconClassName
-                )}
-            />
+            <ReactSVG src={ICON[icon].src}
+                      className={cn(`inline size-[1rem]`, {['rotate-180']: icon === 'forward'}, iconClassName)}/>
         )
         : null;
 

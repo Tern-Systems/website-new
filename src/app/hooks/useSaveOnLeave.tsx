@@ -1,35 +1,70 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 
-import {useModal, useUser} from "@/app/context";
+import {NavigationState} from "@/app/context/Layout.context";
+
+import {useLayout, useModal} from "@/app/context";
 
 import {SaveChangesModal} from "@/app/ui/modals";
+import {useNavigate} from "@/app/hooks/useNavigate";
 
 
-const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => void | Promise<void>) => {
+const useSaveOnLeave = (
+    onSave?: () => Promise<boolean>,
+    onDontSave?: () => void | Promise<void>
+): ((prevent: boolean) => void) => {
     const modalCtx = useModal();
-    const {isLoggedIn} = useUser();
+    const [navigate] = useNavigate();
 
-    const [shouldPrevent, setPreventState] = useState(false);
+    const layoutCtx = useLayout();
+    //eslint-disable-next-line
+    const [navigationState, setNavigationState, blockedRoute, setBlockedRoute] = layoutCtx.navigateState;
+
+
+    const setPreventState = (prevent: boolean) => {
+        setNavigationState(prevent ? NavigationState.BLOCKED : NavigationState.FREE);
+    }
 
     useEffect(() => {
-        if (!isLoggedIn)
+        if (navigationState !== NavigationState.TRY_NAVIGATE)
             return;
 
-        const handle = (event: BeforeUnloadEvent | HashChangeEvent) => {
-            const middleware = (handler: (() => void | Promise<void>) | undefined) => {
-                return async () => {
-                    setPreventState(false);
-                    await handler?.();
-                };
+        const handleNavigation = async () => {
+            const navigateBlockedRoute = async () => {
+                if (blockedRoute) {
+                    await navigate(blockedRoute);
+                    setBlockedRoute(null);
+                }
             }
 
-            if (shouldPrevent) {
+            modalCtx.openModal(
+                <SaveChangesModal
+                    onSave={async () => {
+                        const success = await onSave?.();
+                        if (success) {
+                            setNavigationState(NavigationState.FREE);
+                            await navigateBlockedRoute();
+                        } else
+                            setNavigationState(NavigationState.BLOCKED);
+                    }}
+                    onDontSave={async () => {
+                        onDontSave?.();
+                        setNavigationState(NavigationState.FREE);
+                        await navigateBlockedRoute();
+                    }}
+                    onCancel={() => setNavigationState(NavigationState.BLOCKED)}
+                />,
+                {darkenBg: true}
+            );
+        }
+        handleNavigation();
+        //eslint-disable-next-line
+    }, [navigationState]);
+
+
+    useEffect(() => {
+        const handle = (event: BeforeUnloadEvent | HashChangeEvent) => {
+            if (navigationState === NavigationState.BLOCKED)
                 event.preventDefault();
-                modalCtx.openModal(
-                    <SaveChangesModal onSave={middleware(onSave)} onDontSave={middleware(onDontSave)}/>,
-                    {darkenBg: true}
-                );
-            }
         };
 
         window.addEventListener('beforeunload', handle);
@@ -38,7 +73,8 @@ const useSaveOnLeave = (onSave?: () => Promise<void>, onDontSave?: () => void | 
             window.removeEventListener('beforeunload', handle);
             window.removeEventListener('hashchange', handle);
         }
-    }, [onSave, onDontSave, shouldPrevent, modalCtx, isLoggedIn])
+        //eslint-disable-next-line
+    }, [navigationState])
 
     return setPreventState;
 }

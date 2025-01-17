@@ -11,17 +11,19 @@ const BTN_CN = 'h-[--h-control] px-[--1drs] rounded-full';
 
 interface Props {
     onSave: () => Promise<void>;
-    onDontSave?: () => Promise<void>;
+    onDontSave: () => void;
+    onCancel: () => void;
 }
 
 const SaveChangesModal: FC<Props> = (props: Props) => {
-    const {onSave, onDontSave} = props;
+    const {onSave, onDontSave, onCancel} = props;
 
     const modalCtx = useModal();
 
     return (
         <BaseModal
             title={'Save Changes?'}
+            onClose={() => onCancel()}
             className={`w-[min(90dvw,30rem)] border-control-white border-small text-center sm:landscape:w-[50dvw]`}
         >
             <span>Do you want to save your changes before returning to the previous page?</span>
@@ -37,8 +39,8 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
                 </Button>
                 <Button
                     className={`border-small border-control-gray-l1 text-primary ${BTN_CN}`}
-                    onClick={async () => {
-                        await onDontSave?.();
+                    onClick={() => {
+                        onDontSave();
                         modalCtx.closeModal();
                     }}
                 >
@@ -46,7 +48,10 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
                 </Button>
                 <Button
                     className={`bg-control-gray-l0 ${BTN_CN}`}
-                    onClick={() => modalCtx.closeModal()}
+                    onClick={() => {
+                        onCancel();
+                        modalCtx.closeModal()
+                    }}
                 >
                     Cancel
                 </Button>

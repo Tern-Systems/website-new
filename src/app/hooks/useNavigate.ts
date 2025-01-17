@@ -5,13 +5,17 @@ import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-
 import {LAYOUT, Route} from "@/app/static";
 
 import {useLayout, useModal} from "@/app/context";
+import {NavigationState} from "@/app/context/Layout.context";
 
 
 const useNavigate = (preventModalClosing?: boolean, closeModalImmediately?: boolean): [(route: Route) => Promise<void>, AppRouterInstance] => {
     const pageRoute = usePathname();
     const router = useRouter();
-    const layoutCtx = useLayout();
     const modalCtx = useModal();
+
+    const layoutCtx = useLayout();
+    //eslint-disable-next-line
+    const [navigationState, setNavigationState, _, setBlockedRoute] = layoutCtx.navigateState;
 
     useEffect(() => {
         layoutCtx.setFadeState(false);
@@ -25,6 +29,11 @@ const useNavigate = (preventModalClosing?: boolean, closeModalImmediately?: bool
     }
 
     const navigate = async (route: Route) => {
+        if (navigationState === NavigationState.BLOCKED) {
+            setNavigationState(NavigationState.TRY_NAVIGATE);
+            setBlockedRoute(route);
+            return;
+        }
         if (pageRoute === route)
             return;
         layoutCtx.setFadeState(true);

@@ -19,6 +19,11 @@ import {checkSubRoute} from "@/app/utils";
 import {useBreakpointCheck} from "@/app/hooks";
 
 
+
+type SetState<T> = Dispatch<SetStateAction<T>>
+
+enum NavigationState { FREE, BLOCKED, TRY_NAVIGATE}
+
 // Main links, sub links, sub sub links
 enum NavLink {Nav, SubNav, Sub2Nav}
 
@@ -37,6 +42,7 @@ interface ILayoutContext {
     navLinks: NavLinks;
     isBreadCrumbsNav: boolean;
     getSubNavs: (route: Route) => [Route [] | null, Route[] | null];
+    navigateState: [NavigationState, SetState<NavigationState>, Route | null, SetState<Route | null>];
 }
 
 const LayoutContext = createContext<ILayoutContext | null>(null);
@@ -48,6 +54,9 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [isNoLayout, setNoLayoutState] = useState(false);
     const [isFade, setFadeState] = useState(false);
 
+
+    const [navigationState, setNavigationState] = useState<NavigationState>(NavigationState.FREE);
+    const [blockedRoute, setBlockedRoute] = useState<Route | null>(null);
     const fullscreenRef = useRef<HTMLDivElement | null>(null);
 
 
@@ -163,6 +172,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 navLinks,
                 isBreadCrumbsNav,
                 getSubNavs,
+                navigateState: [navigationState, setNavigationState, blockedRoute, setBlockedRoute]
             }}>
             <span ref={fullscreenRef}>
                 {props.children}
@@ -179,4 +189,4 @@ const useLayout = (): ILayoutContext => {
 };
 
 export type {NavLinks};
-export {NavLink, LayoutProvider, useLayout}
+export {NavLink, NavigationState, LayoutProvider, useLayout}
