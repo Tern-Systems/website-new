@@ -9,12 +9,14 @@ import { useUser } from "@/app/context";
 
 const TernKeyPage: FC = () => {
     const userCtx = useUser();
+    const env: string | undefined = process.env.NEXT_PUBLIC_NODE_ENV ?? process.env.NODE_ENV ?? 'development';
+    const api: string | undefined = env === 'development' ? 'http://localhost:3001/' : process.env.NEXT_PUBLIC_API;
     return (
         <div className={`${styles.highlight} place-items-center mx-auto w-[min(90dvw,33rem)] text-center
                         sm:landscape:x-[grid,grid-rows-2,grid-cols-2]`}
         >
             <span className={'text-[min(9.6dvw,3.75rem)] font-oxygen font-bold'}>TernKey</span>
-            <a href={userCtx.token ? `http://www.tern.ac/ternkey?website_login=${encodeURIComponent(userCtx.token || '')}` : `http://www.tern.ac/ternkey/`}
+            <a href={userCtx.token ? `${api}?website_login=${encodeURIComponent(userCtx.token || '')}` : api}
             target={'_blank'}
             className={'my-[min(5.3dvw,3.15rem)] sm:landscape:x-[row-span-2,my-0]'}
             >
