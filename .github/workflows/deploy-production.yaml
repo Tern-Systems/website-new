@@ -18,7 +18,7 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh  # Create .ssh directory if it doesn't exist
-          echo "${{ secrets.GCP_SSH_KEY_PRD }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
+          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
           chmod 600 ~/.ssh/id_rsa  # Set appropriate permissions for the SSH key
 
       - name: Verify SSH connection
