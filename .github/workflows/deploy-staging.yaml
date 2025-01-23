@@ -35,7 +35,7 @@ jobs:
             # Navigate to the project directory on the GCP instance
             cd /home/${{ secrets.GCP_USERNAME }}/Website
             # Pull the latest changes from the main branch
-            git pull origin main
+            git pull origin staging
             # Install any new dependencies
             npm install
             # Build the application for production
