@@ -4,8 +4,9 @@ env:
   DEBUG: true 
   
 on:
-  repository_dispatch:
-    types: [deploy-staging]
+  push:
+    branches:
+    - staging
   
 jobs:
   deploy:
