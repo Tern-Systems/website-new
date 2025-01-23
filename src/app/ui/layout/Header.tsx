@@ -83,7 +83,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     // Elements
     const NavLinks: ReactElement[] = layoutCtx.navLinks[NavLink.Nav]?.map((link: Route, idx) => {
-        const isActive = link.includes(getRouteRoot(route));
+        const isActive = route !== Route.Home && link.includes(getRouteRoot(route));
         const mappedLink = MAPPED_NAV_ROUTES?.[link];
         const linkFinal = SPECIAL_NAV_ROUTES?.[link] ?? link;
 
