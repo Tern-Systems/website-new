@@ -113,10 +113,6 @@
 
     /* Insignia */
     --insignia-moved-size: 2.125rem;
-    --insignia-pl-moved: var(--p-content);
-    --insignia-pt-moved: 1.66rem;
-    --insignia-scale-init: 0.8;
-    --insignia-scale-moved: 0.2;
 }
 
 body {

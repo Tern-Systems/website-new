@@ -1,6 +1,5 @@
 enum Route {
-    Start = '/',
-    Home = '/home',
+    Home = '/',
 
     // AllWays = '/all_ways',
     // TBD0 = '/all_ways/TBD0',

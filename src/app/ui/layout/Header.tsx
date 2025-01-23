@@ -1,4 +1,4 @@
-import {Dispatch, FC, ReactElement, SetStateAction, useEffect} from "react";
+import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect} from "react";
 import Image from "next/image";
 import {usePathname} from "next/navigation";
 import cn from "classnames";
@@ -25,6 +25,7 @@ import styles from '@/app/common.module.css'
 
 import SVG_PROFILE from "/public/images/icons/profile.svg";
 import {getRouteLeave} from "@/app/utils/router";
+import {Insignia} from "@/app/ui/misc";
 
 
 const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
@@ -82,7 +83,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     // Elements
     const NavLinks: ReactElement[] = layoutCtx.navLinks[NavLink.Nav]?.map((link: Route, idx) => {
-        const isActive = link.includes(getRouteRoot(route));
+        const isActive = route !== Route.Home && link.includes(getRouteRoot(route));
         const mappedLink = MAPPED_NAV_ROUTES?.[link];
         const linkFinal = SPECIAL_NAV_ROUTES?.[link] ?? link;
 
@@ -208,19 +209,22 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <header className={'text-basic leading-none'}>
-            <div className={cn(
-                `relative z-[2] flex justify-between items-center`,
-                `px-[--p-content-l] w-full h-[5.13rem]`,
-                `border-b-small border-section bg-black`,
-                `sm:x-[flex-row-reverse,justify-start,px-[--p-content-xs],h-[4.31rem]]    after:sm:border-control-gray-l0`
-            )}
-            >
-                <nav className={cn(
-                    `relative flex items-center`,
-                    `ml-[calc(var(--insignia-pl-moved)+var(--insignia-moved-size)+var(--p-content))] h-full`,
-                    `before:x-[absolute,h-[67%],-left-[--p-content-l],border-r-small,border-section]`,
-                    `sm:ml-[1.94rem] sm:before:x-[-left-[0.94rem],h-[52%],border-control-gray-l0]`,
+            <div
+                className={cn(
+                    `relative z-[2] flex items-center`,
+                    `px-[--p-content-l] w-full h-[5.13rem]`,
+                    `border-b-small border-section bg-black`,
+                    `sm:x-[px-[--p-content-xs],h-[4.31rem]]    after:sm:border-control-gray-l0`
                 )}
+            >
+                <Insignia/>
+                <nav
+                    className={cn(
+                        `relative flex items-center`,
+                        `ml-[calc(2*var(--p-content))] h-full`,
+                        `before:x-[absolute,h-[67%],-left-[--p-content],border-r-small,border-section]`,
+                        `sm:x-[order-last,ml-[--p-content]] sm:before:x-[-left-[--p-content-xxs],h-[52%],border-control-gray-l0]`,
+                    )}
                 >
                     <Button
                         onClick={() => toggleMenu()}
@@ -232,14 +236,15 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         {NavLinks}
                     </ul>
                 </nav>
-                <div className={'flex gap-[0.75rem]'}>{userBtns}</div>
+                <div className={'flex gap-[0.75rem] ml-auto  sm:ml-auto'}>{userBtns}</div>
             </div>
-            <ul className={cn(
-                `relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-section-s`,
-                `border-section`,
-                SubNavItemsMdLg?.length ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut,
-                `sm:hidden`
-            )}
+            <ul
+                className={cn(
+                    `relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-section-s`,
+                    `border-section`,
+                    SubNavItemsMdLg?.length ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut,
+                    `sm:hidden`
+                )}
             >
                 {SubNavItemsMdLg}
             </ul>

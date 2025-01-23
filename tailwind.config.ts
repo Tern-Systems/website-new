@@ -79,36 +79,6 @@ const config: Config = {
                 'section-xs': 'var(--fz-section-xs)',
                 'section-xxs': 'var(--fz-section-xxs)',
                 'section-3xs': 'var(--fz-section-3xs)',
-            },
-            keyframes: {
-                insignia: {
-                    '0%': {
-                        top: '45%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%) scale(var(--insignia-scale-init))',
-                        transformOrigin: 'center center',
-                    },
-                    '100%': {
-                        top: '0',
-                        left: '0',
-                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
-                        transformOrigin: 'top left'
-                    }
-                },
-                insigniaReverse: {
-                    '100%': {
-                        top: '45%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%) scale(var(--insignia-scale-init))',
-                        transformOrigin: 'center center',
-                    },
-                    '0%': {
-                        top: '0',
-                        left: '0',
-                        transform: 'translate(0,0) scale(var(--insignia-scale-moved))',
-                        transformOrigin: 'top left'
-                    }
-                }
             }
         },
     },

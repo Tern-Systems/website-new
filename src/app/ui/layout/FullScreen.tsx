@@ -25,8 +25,9 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
     return (
         <div className={`h-dvh max-h-dvh relative font-oxygen text-gray bg-control-white text-content
                          ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}>
-            <div className={`flex items-center justify-between font-oxygen h-[--h-modal-header] p-[1.25rem] lg:hidden md:hidden`}>
-                <Insignia insigniaMoved className={'w-[2.125rem] h-auto'}/>
+            <div
+                className={`flex items-center justify-between font-oxygen h-[--h-modal-header] p-[1.25rem] lg:hidden md:hidden`}>
+                <Insignia/>
                 <Button
                     icon={'close'}
                     onClick={() => navigate(backButtonSection)}

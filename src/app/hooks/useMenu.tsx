@@ -13,9 +13,7 @@ const useMenu = (isSingleSubLink?: boolean): [() => void, () => void] => {
             modalCtx.openModal(<MenuModal singleSubLink={isSingleSubLink}/>, {doFading: false});
     }
 
-    const closeMenu = () => {
-        modalCtx.closeModal();
-    }
+    const closeMenu = () => modalCtx.closeModal();
 
     return [openMenu, closeMenu];
 }
