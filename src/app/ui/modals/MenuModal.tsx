@@ -6,15 +6,13 @@ import cn from "classnames";
 import {NavLink} from "@/app/context/Layout.context";
 import {ALWAYS_MAPPED_ROUTES, LANGUAGE, MAPPED_SUB_NAV_ROUTES, Route, SPECIAL_NAV_ROUTES} from "@/app/static";
 
-import {checkSubRoute, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
-import {useMenu} from "@/app/hooks";
-import {useLayout, useUser} from "@/app/context";
+import {checkSubRoute, getRouteLeave, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
+import {useLayout, useModal, useUser} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals";
 import {PageLink} from "@/app/ui/layout";
 
 import SVG_GLOBE from "/public/images/icons/globe.svg";
-import {getRouteLeave} from "@/app/utils/router";
 
 
 const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-control-blue]';
@@ -31,19 +29,19 @@ const MenuModal: FC<Props> = (props: Props) => {
     const userCtx = useUser();
     const {navLinks, getSubNavs} = useLayout();
     //eslint-disable-next-line
-    const [_, closeMenu] = useMenu();
+    const modalCtx = useModal();
 
     const [isFirstActive, setFirstActiveState] = useState(false);
 
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
             if (!document.querySelector('#modal')?.contains(event.target as Node))
-                closeMenu();
+                modalCtx.closeModal();
         }
         window.addEventListener('mousedown', handleClick);
         return () => window.removeEventListener('mousedown', handleClick);
         // eslint-disable-next-line
-    }, [closeMenu])
+    }, [])
 
 
     const renderSub2Nav = (): ReactElement[] | undefined =>
@@ -133,8 +131,8 @@ const MenuModal: FC<Props> = (props: Props) => {
 
         const mappedLink = MAPPED_SUB_NAV_ROUTES?.[link];
 
-        const isActive = checkSubRoute(routes[1], getRouteRoot(routes[0]));
-        const isNextActive = checkSubRoute(routes[2], getRouteRoot(routes[0]));
+        const isActive = route !== Route.Home && checkSubRoute(routes[1], getRouteRoot(routes[0]));
+        const isNextActive = route !== Route.Home && checkSubRoute(routes[2], getRouteRoot(routes[0]));
 
         if (isActive) {
             if (!idx && !isFirstActive)
@@ -184,6 +182,4 @@ const MenuModal: FC<Props> = (props: Props) => {
     )
 }
 
-export {
-    MenuModal
-};
+export {MenuModal};
