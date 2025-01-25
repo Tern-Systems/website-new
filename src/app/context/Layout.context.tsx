@@ -98,8 +98,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             case Route.TernKeyProductManual:
             case Route.TernKey:
                 links = [Route.TernKeyPricing, Route.TernKeyProductManual];
-                if (!checkSubRoute(route, Route.TernKey, true))
-                    links.unshift(Route.TernKey);
+                if (!userCtx.userData) links.shift();
                 if (isSmScreen)
                     subNavLinks = links;
                 else
@@ -134,11 +133,8 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             case Route.ARCodeToolCreate:
             case Route.SavedCodes:
             case Route.ServiceUserManual:
-                links = [Route.ARCodeToolCreate, Route.ServicePricing, Route.ServiceUserManual];
-                if (!checkSubRoute(route, Route.ARCH, true))
-                    links.unshift(Route.ARCH);
-                if (userCtx.userData) links.splice(links.length - 1, 0, Route.SavedCodes);
-
+                links = [Route.ServicePricing, Route.ServiceUserManual];
+                if (!userCtx.userData) links.shift();
                 if (isSmScreen)
                     subNavLinks = links;
                 else
