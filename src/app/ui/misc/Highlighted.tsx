@@ -16,18 +16,18 @@ const Highlighted: FC<Props> = (props: Props) => {
     const {heading, className, classNameContentWrapper, classNameWrapper, children, btn} = props;
 
     return (
-        <div className={`${styles.highlight} max-w-[62.5rem] max-h-[41.6rem]
-                    sm:x-[max-h-[35.25rem] sm:portrait:h-[calc(100%-2*3.06rem)]
+        <div className={`${styles.highlight} max-w-[62.5rem] max-h-[80%]
+                    sm:max-h-[75vh] sm:portrait:h-[calc(100%-2*3.06rem)]
                     sm:landscape:my-[--p-content-xs] sm:landscape:h-[calc(100%-calc(2*var(--p-content-xs)))]
-                    ${classNameWrapper}`}
+                    ${classNameWrapper} flex flex-col justify-center`}
         >
             <h1 className={`text-heading-l
                         sm:text-heading
-                        sm:landscape:text-section`}
+                        sm:landscape:text-section flex-none`}
             >
                 {heading}
             </h1>
-            <div className={`overflow-y-scroll h-full
+            <div className={`overflow-y-auto flex-1
                         mt-[3rem]
                         sm:mt-[--p-content-xs]
                         ${classNameContentWrapper}`}
