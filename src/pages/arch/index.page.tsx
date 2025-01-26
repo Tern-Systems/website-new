@@ -14,29 +14,15 @@ const ARCHPage: FC = () => {
     const {SVG} = useQRCode();
     return (
         <div className={cn(
-            'grid grid-cols-3 m-auto py-[--p-content-xs]',
-            'md:portrait:x-[flex,flex-col-reverse,gap-y-[--p-content-3xl]]',
+            'flex flex-col m-auto py-[--p-content-xs]',
             'sm:mx-0',
-            'sm:portrait:x-[flex,flex-col-reverse,gap-y-[--p-content-xxl]]',
         )}>
-            <ul className={cn(
-                'm-auto w-fit list-decimal text-[4rem] leading-[1.25] text-left',
-                'md:text-heading-l',
-                'sm:text-section',
-                'sm:portrait:row-start-2',
-                'sm:landscape:x-[pl-[35%],text-section]',
-            )}
-            >
-                <li>Scan code</li>
-                <li>Click allow</li>
-                <li>Scan code</li>
-                <li>Click play</li>
-            </ul>
             <div className={'flex flex-col'}>
                 <Image src={SVG_ARCH} alt={'arch-logo'}
                        className={cn(
                            'max-h-[4rem] h-[4dvw] w-auto place-self-center',
                            'md:portrait:h-[10dvw]',
+                           'sm:min-h-[1.56rem]',
                            'sm:portrait:h-[8dvw]',
                            'sm:landscape:h-[3dvw]',
                        )}
@@ -47,7 +33,7 @@ const ARCHPage: FC = () => {
                         'my-[--p-content] max-w-[37rem] w-[31dvw] h-auto cursor-pointer place-self-center',
                         '[&_*]:w-full [&_*]:h-full',
                         'md:portrait:w-[50dvw]',
-                        'sm:x-[w-[50dvw],my-[--p-content-3xs]]',
+                        'sm:x-[w-[50dvw],my-[--p-content-3xs],min-w-[10rem]]',
                         'sm:landscape:w-[20dvw]',
                     )}
                 >
