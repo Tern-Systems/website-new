@@ -1,12 +1,12 @@
-import React, {Dispatch, FC, PropsWithChildren, SetStateAction} from "react"
+import React, { Dispatch, FC, PropsWithChildren, SetStateAction } from "react"
 import cn from "classnames";
 
 
-import {useModal} from "@/app/context"
+import { useModal } from "@/app/context"
 
-import {Button} from "@/app/ui/form";
-import {useBreakpointCheck} from "@/app/hooks";
-import {Insignia} from "@/app/ui/misc";
+import { Button } from "@/app/ui/form";
+import { useBreakpointCheck } from "@/app/hooks";
+import { Insignia } from "@/app/ui/misc";
 
 
 interface ModalConfig extends PropsWithChildren {
@@ -59,7 +59,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     onClick={() => handleClose()}
                     className={cn(
                         `place-self-start min-w-[0.55rem] inline-block`,
-                        {['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied},
+                        { ['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied },
                         classNameTitle
                     )}
                 />
@@ -73,7 +73,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     `sm:portrait:text-heading-s`,
                     `sm:landscape:text-section-s`,
                     classNameTitle,
-                    {['mb-[--p-content]']: isSmRulesApplied})}
+                    { ['mb-[--p-content]']: isSmRulesApplied })}
                 >
                     {title}
                 </h2>
@@ -82,6 +82,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         return (
             <div
                 id={'modal'}
+                onClick={(event) => { event.stopPropagation() }}
                 className={cn(
                     `pointer-events-auto`,
                     isSmRulesApplied
@@ -96,14 +97,14 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 )}
             >
                 <div
-                    className={cn(`relative flex justify-between font-oxygen`, {['h-[--h-modal-header] p-[--p-content-xs]']: isSmRulesApplied})}>
-                    {isSmRulesApplied ? <Insignia/> : Heading}
+                    className={cn(`relative flex justify-between font-oxygen`, { ['h-[--h-modal-header] p-[--p-content-xs]']: isSmRulesApplied })}>
+                    {isSmRulesApplied ? <Insignia /> : Heading}
                     <Button
                         icon={'close'}
                         onClick={() => handleClose()}
                         classNameIcon={cn(
                             'sm:[&_*]:w-[0.75rem]',
-                            {['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied}
+                            { ['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied }
                         )}
                     />
                 </div>
@@ -116,7 +117,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                         'sm:x-[-left-[--p-content-5xs],mt-[--p-content-xxs]] sm:w-[calc(100%+2*var(--p-content-5xs))]',
                     )]: !isSmRulesApplied
                 })
-                }/>
+                } />
                 <div className={cn(classNameContent, 'overflow-y-scroll h-[calc(100%-var(--h-modal-header))]')}>
                     {isSmRulesApplied ? Heading : null}
                     {children}
@@ -126,4 +127,4 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     }
 }
 
-export {BaseModal}
+export { BaseModal }
