@@ -1,5 +1,6 @@
 import {Route} from "@/app/static/routing";
 
+
 const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
     fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
@@ -24,9 +25,8 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
 const SPECIAL_NAV_ROUTES: Record<string, string> = {
     [Route.TernKey]: 'TernKey',
     [Route.TernKeyDoc]: 'TernKey',
-    [Route.ARCH]: 'ARCH',
-    [Route.ARCHDoc]: 'ARCH',
 };
+
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
 

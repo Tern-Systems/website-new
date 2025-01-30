@@ -10,7 +10,7 @@ import {
     MAPPED_NAV_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
     SPECIAL_NAV_ROUTES,
-    Route
+    Route,
 } from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";

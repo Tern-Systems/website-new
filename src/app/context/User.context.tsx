@@ -57,7 +57,6 @@ interface UserData {
     registrationDate: number;
     phones: UserPhone;
     ternKeyPurchased: boolean;
-    archPurchased: boolean;
     subscriptions: Subscription[];
     lastLogin: number;
     connectedApps: {
