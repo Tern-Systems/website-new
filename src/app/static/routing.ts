@@ -3,7 +3,6 @@ enum Route {
 
     AllWays = '/all_ways',
     About = '/about',
-    Credo = '/about/our_credo',
     Contact = '/contact',
     Terms = '/terms',
     Cookies = '/cookies',

@@ -8,12 +8,11 @@ interface Props extends PropsWithChildren {
     className?: string;
     classNameContentWrapper?: string;
     classNameWrapper?: string;
-    btn?: ReactElement;
 }
 
 
 const Highlighted: FC<Props> = (props: Props) => {
-    const {heading, className, classNameContentWrapper, classNameWrapper, children, btn} = props;
+    const {heading, className, classNameContentWrapper, classNameWrapper, children} = props;
 
     return (
         <div className={`${styles.highlight} max-w-[62.5rem] max-h-[80%]
@@ -41,7 +40,6 @@ const Highlighted: FC<Props> = (props: Props) => {
                     {children}
                 </div>
             </div>
-            {btn}
         </div>
     );
 }

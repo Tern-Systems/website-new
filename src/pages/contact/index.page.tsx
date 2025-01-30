@@ -1,26 +1,9 @@
 import React, {FC} from "react";
 import Image from "next/image";
 
+import {LINKS} from "@/app/static";
+
 import styles from '@/app/common.module.css';
-
-import SVG_DISCORD from "/public/images/icons/discord.svg";
-import SVG_STACKOVERFLOW from "/public/images/icons/stack-overflow.svg";
-import SVG_GITHUB from "/public/images/icons/github.svg";
-import SVG_X from "/public/images/icons/x-twitter.svg";
-import SVG_REDDIT from "/public/images/icons/reddit.svg";
-import SVG_LINKEDIN from "/public/images/icons/linkedin.svg";
-import SVG_FACEBOOK from "/public/images/icons/facebook.svg";
-
-
-const LINKS: { svg: string, href: string }[] = [
-    {svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
-    {svg: SVG_STACKOVERFLOW, href: 'https://stackoverflow.com/users/24470835/tern'},
-    {svg: SVG_GITHUB, href: 'https://github.com/Tern-Systems'},
-    {svg: SVG_X, href: 'https://x.com/Tern_Systems'},
-    {svg: SVG_REDDIT, href: 'https://www.reddit.com/user/Tern_Systems'},
-    {svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys'},
-    {svg: SVG_FACEBOOK, href: 'https://www.facebook.com/ternsystemsinc'},
-]
 
 
 const ContactsPage: FC = () => {

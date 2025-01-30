@@ -12,7 +12,7 @@ const config: Config = {
             screens: {
                 sm: {max: '835px'},
                 md: {min: '835px', max: '1440px'},
-                lg: {min: '1440px'}
+                lg: {min: '1440px'},
             },
             minHeight: {
                 heading: 'var(--h-heading)',
