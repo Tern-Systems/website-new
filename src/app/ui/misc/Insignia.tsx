@@ -18,7 +18,7 @@ const Insignia: FC = () => {
                 height={29}
                 alt={'insignia'}
                 onClick={() => navigate(Route.Home)}
-                className={'w-[--insignia-moved-size] h-auto  cursor-pointer'}
+                className={'w-[--insignia-size] h-auto  cursor-pointer'}
             />
         </div>
     );

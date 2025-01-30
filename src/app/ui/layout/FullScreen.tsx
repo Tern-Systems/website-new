@@ -26,7 +26,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
         <div className={`h-dvh max-h-dvh relative font-oxygen text-gray bg-control-white text-content
                          ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}>
             <div
-                className={`flex items-center justify-between font-oxygen h-[--h-modal-header] p-[1.25rem] lg:hidden md:hidden`}>
+                className={`flex items-center justify-between font-oxygen h-heading p-[1.25rem] lg:hidden md:hidden`}>
                 <Insignia/>
                 <Button
                     icon={'close'}
@@ -35,7 +35,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
                 />
             </div>
             <hr className={`lg:hidden md:hidden`}/>
-            <div className={`relative h-full overflow-y-scroll  sm:h-[calc(100dvh-var(--h-modal-header))] sm:landscape:h-[76dvh]
+            <div className={`relative h-full overflow-y-scroll  sm:h-[calc(100dvh-var(--h-heading))] sm:landscape:h-[76dvh]
                             ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
             >
                 <PageLink

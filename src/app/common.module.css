@@ -24,12 +24,15 @@
   flex-direction: column;
   text-align: left;
   margin: auto 0;
-  margin-left: 3.88rem;
-  background-color: #4D4D4D4C;
+  background-color: #4d4d4d4c;
   border-radius: 0.5625rem;
   padding: var(--p-content);
   font-size: var(--fz-heading-l);
   font-weight: 700;
+
+  @media screen and (min-width: 835px) and (max-width: 1440px) {
+    margin: auto var(--p-content-l);
+  }
 
   @media screen and (max-width: 834px) {
     padding: 0.62rem;
@@ -52,7 +55,7 @@
 }
 
 .disconnect:hover {
-  background-color: #FF4422;
+  background-color: #ff4422;
   font-weight: 700;
 }
 

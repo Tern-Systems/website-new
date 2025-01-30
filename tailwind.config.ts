@@ -14,6 +14,14 @@ const config: Config = {
                 md: {min: '835px', max: '1440px'},
                 lg: {min: '1440px'}
             },
+            minHeight: {
+                heading: 'var(--h-heading)',
+                'heading-lg': 'var(--h-heading-lg)',
+            },
+            height: {
+                heading: 'var(--h-heading)',
+                'heading-lg': 'var(--h-heading-lg)',
+            },
             colors: {
                 primary: "var(--color-primary)",
                 secondary: "var(--color-secondary)",

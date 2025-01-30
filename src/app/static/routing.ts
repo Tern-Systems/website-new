@@ -2,9 +2,6 @@ enum Route {
     Home = '/',
 
     AllWays = '/all_ways',
-    TBD0 = '/all_ways/TBD0',
-    TBD1 = '/all_ways/TBD1',
-    TBD2 = '/all_ways/TBD2',
     About = '/about',
     Credo = '/about/our_credo',
     Contact = '/contact',

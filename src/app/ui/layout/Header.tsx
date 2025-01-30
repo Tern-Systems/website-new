@@ -200,7 +200,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 key={name + idx}
                 onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1}/>, {darkenBg: true})}
                 className={`px-[0.75rem] py-[0.2rem] rounded-full border-small border-section font-bold capitalize 
-                            text-basic ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
+                            text-section-xs ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
             >
                 {name}
             </Button>
@@ -208,46 +208,55 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }
 
     return (
-        <header className={'text-basic leading-none'}>
-            <div
-                className={cn(
-                    `relative z-[2] flex items-center`,
-                    `px-[--p-content-l] w-full h-[5.13rem]`,
-                    `border-b-small border-section bg-black`,
-                    `sm:x-[px-[--p-content-xs],h-[4.31rem]]    after:sm:border-control-gray-l0`
-                )}
-            >
-                <Insignia/>
-                <nav
+        <header className={'text-section-xs leading-none bg-black'}>
+            <div className={'border-b-small border-section'}>
+                <div
                     className={cn(
-                        `relative flex items-center`,
-                        `ml-[calc(2*var(--p-content))] h-full`,
-                        `before:x-[absolute,h-[67%],-left-[--p-content],border-r-small,border-section]`,
-                        `sm:x-[order-last,ml-[--p-content]] sm:before:x-[-left-[--p-content-xxs],h-[52%],border-control-gray-l0]`,
+                        `relative z-[2] flex items-center`,
+                        `px-[--p-content-l] w-full h-heading-lg`,
+                        `lg:x-[mx-auto,w-3/4,max-w-[90rem]]`,
+                        `sm:px-[--p-content-xs]    after:sm:border-control-gray-l0`
                     )}
                 >
-                    <Button
-                        onClick={() => toggleMenu()}
-                        icon={'burger'}
-                        className={`lg:hidden md:hidden`}
-                        classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
-                    />
-                    <ul className={`flex cursor-pointer text-section-s sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
-                        {NavLinks}
-                    </ul>
-                </nav>
-                <div className={'flex gap-[0.75rem] ml-auto  sm:ml-auto'}>{userBtns}</div>
+                    <Insignia/>
+                    <nav
+                        className={cn(
+                            `relative flex items-center`,
+                            `ml-[calc(2*var(--p-content-xs))] h-full`,
+                            `before:x-[absolute,h-[67%],-left-[--p-content-xs],border-r-small,border-section]`,
+                            `sm:x-[order-last,ml-[--p-content]] sm:before:x-[-left-[--p-content-xxs],h-[52%],border-control-gray-l0]`,
+                        )}
+                    >
+                        <Button
+                            onClick={() => toggleMenu()}
+                            icon={'burger'}
+                            className={`lg:hidden md:hidden`}
+                            classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
+                        />
+                        <ul className={`flex cursor-pointer sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
+                            {NavLinks}
+                        </ul>
+                    </nav>
+                    <div className={'flex gap-[0.75rem] ml-auto  sm:ml-auto'}>{userBtns}</div>
+                </div>
             </div>
-            <ul
-                className={cn(
-                    `relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-section-s`,
-                    `border-section`,
-                    SubNavItemsMdLg?.length ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut,
-                    `sm:hidden`
-                )}
-            >
-                {SubNavItemsMdLg}
-            </ul>
+            {SubNavItemsMdLg?.length
+                ? (
+                    <div className={'border-b-small border-section'}>
+                        <ul
+                            className={cn(
+                                `relative flex gap-[--s-default] px-[--s-default] w-full items-center`,
+                                SubNavItemsMdLg?.length ? 'h-heading-lg ' + styles.slideIn : styles.slideOut,
+                                `lg:x-[mx-auto,w-3/4]`,
+                                `sm:hidden`
+                            )}
+                        >
+                            {SubNavItemsMdLg}
+                        </ul>
+                    </div>
+                )
+                : null
+            }
         </header>
     );
 }

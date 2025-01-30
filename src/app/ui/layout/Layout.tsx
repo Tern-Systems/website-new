@@ -45,16 +45,18 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             <div
                 id={'content'}
                 style={{backgroundImage: `url("${bgSrc}")`}}
-                className={`relative flex flex-col flex-grow h-full w-full justify-center items-center 
-                                bg-cover bg-no-repeat bg-fixed text-center bg-center
-                                overflow-y-scroll
-                                sm:overflow-hidden
-                                sm:landscape:overflow-y-scroll`}
+                className={cn(
+                    `relative flex flex-col flex-grow w-full justify-center items-center`,
+                    `bg-cover bg-no-repeat bg-fixed text-center bg-center`,
+                    `overflow-y-scroll`,
+                    `sm:overflow-hidden`,
+                    `sm:landscape:overflow-y-scroll`,
+                )}
             >
                 <div
                     className={cn(
-                        `h-full w-full flex flex-col
-                            lg:overflow-scroll md:overflow-scroll`,
+                        `h-full w-full flex flex-col`,
+                        `lg:x-[mx-auto,px-[--p-content-l],w-3/4,max-w-[90rem]]`,
                         layoutCtx.isFade ? styles.fadeOut : styles.fadeIn,
                         modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'),
                     )}
@@ -62,24 +64,27 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     {children}
                 </div>
             </div>
-            <footer
-                className={cn(
-                    `flex justify-between items-center`,
-                    `px-[--p-content-l] w-full min-h-[5.12rem] border-t-small border-section content-center text-basic leading-none`,
-                    `sm:x-[flex-col-reverse,items-center,justify-between,p-[--p-content-xs],text-center]`,
-                    `sm:portrait:x-[min-h-[4.94rem]]`,
-                    `sm:landscape:x-[flex-row,py-0,min-h-[3.19rem]]`
-                )}
-            >
-                <span>Copyright © 2025 Tern Systems LLC</span>
-                <span className={'flex'}>
-                        <PageLink href={Route.Cookies}/>
-                    &nbsp;&nbsp;·&nbsp;&nbsp;
-                    <PageLink href={Route.Privacy}/>
-                    &nbsp;&nbsp;·&nbsp;&nbsp;
-                    <PageLink href={Route.Terms}/>
-                    </span>
-            </footer>
+            <header className={'border-t-small border-section'}>
+                <div
+                    className={cn(
+                        `flex justify-between items-center`,
+                        `px-[--p-content-l] w-full h-[calc(0.8*var(--h-heading-lg))] content-center text-section-3xs leading-none`,
+                        `lg:x-[mx-auto,w-3/4,max-w-[90rem]]`,
+                        `sm:x-[flex-col-reverse,items-center,justify-between,px-[--p-content-xs],py-[--p-content-xxs],text-center]`,
+                        `sm:portrait:h-[calc(1.2*var(--h-heading-lg))]`,
+                        `sm:landscape:h-heading-lg sm:landscape:x-[flex-row,py-0]`
+                    )}
+                >
+                    <span>Copyright © 2025 Tern Systems LLC</span>
+                    <span className={'flex'}>
+                    <PageLink href={Route.Cookies}/>
+                        &nbsp;&nbsp;·&nbsp;&nbsp;
+                        <PageLink href={Route.Privacy}/>
+                        &nbsp;&nbsp;·&nbsp;&nbsp;
+                        <PageLink href={Route.Terms}/>
+                </span>
+                </div>
+            </header>
         </>
     );
 

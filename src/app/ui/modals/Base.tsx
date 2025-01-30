@@ -97,7 +97,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 )}
             >
                 <div
-                    className={cn(`relative flex justify-between font-oxygen`, { ['h-[--h-modal-header] p-[--p-content-xs]']: isSmRulesApplied })}>
+                    className={cn(`relative flex justify-between font-oxygen`, { ['h-heading p-[--p-content-xs]']: isSmRulesApplied })}>
                     {isSmRulesApplied ? <Insignia /> : Heading}
                     <Button
                         icon={'close'}
@@ -118,7 +118,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     )]: !isSmRulesApplied
                 })
                 } />
-                <div className={cn(classNameContent, 'overflow-y-scroll h-[calc(100%-var(--h-modal-header))]')}>
+                <div className={cn(classNameContent, 'overflow-y-scroll h-[calc(100%-var(--h-heading))]')}>
                     {isSmRulesApplied ? Heading : null}
                     {children}
                 </div>

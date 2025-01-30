@@ -66,22 +66,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 if (isSmScreen)
                     subNavLinks = links;
                 break;
-            case Route.AllWays:
-                links = [Route.AllWays, Route.TBD0, Route.TBD1, Route.TBD2];
-                if (isSmScreen)
-                    subNavLinks = links;
-                else
-                    sub2NavLinks = links;
-                break;
-            case Route.TBD0:
-            case Route.TBD1:
-            case Route.TBD2:
-                links = [Route.AllWays, Route.TBD0, Route.TBD1, Route.TBD2];
-                if (isSmScreen)
-                    subNavLinks = links;
-                else
-                    sub2NavLinks = links;
-                break;
             case Route.MyTern:
             case Route.Profile:
             case Route.Billing:
