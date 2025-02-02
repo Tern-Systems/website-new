@@ -3,7 +3,7 @@ import React, {ReactElement} from "react";
 import {DocumentationContent} from "@/app/types/documentation";
 import {Route} from "@/app/static";
 
-import {CONTENTS} from "@/pages/profile/my_tern/documentation/[content]/index.page";
+import {CONTENTS} from "@/pages/documentation/[content]/index.page";
 
 import {DocumentationScreen} from "@/app/ui/templates";
 import {DocumentationMobileLayout} from "@/app/ui/layout/DocumentationMobile";
@@ -22,5 +22,6 @@ function UserManualPage() {
 UserManualPage.getMobileLayout = (page: ReactElement) => (
     <DocumentationMobileLayout>{page}</DocumentationMobileLayout>
 );
+
 
 export default UserManualPage;

@@ -205,6 +205,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             ProfileMenu = (
                 <div
                     id={'profile-menu'}
+                    onClick={() => setProfileMenuOpened(false)}
                     className={cn(
                         'absolute z-10 mt-[--p-content-5xs] right-0 p-[--p-content] rounded-normal border-small',
                         'border-control-gray-l0 bg-black text-nowrap'

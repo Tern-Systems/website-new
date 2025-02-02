@@ -13,7 +13,7 @@ const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildr
     const {children} = props;
 
     const route = usePathname();
-    const [openMenu] = useMenu(checkSubRoute(route, Route.Documentation));
+    const [openMenu] = useMenu(checkSubRoute(route, Route.MyDocumentation));
     const bgSrc = useBackground();
 
 
