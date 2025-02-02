@@ -38,7 +38,5 @@ enum Route {
     BTMCDoc = '/documentation/btmc',
 }
 
-const TERN_AC_HREF = 'https://tern.ac/ternkey';
 
-
-export {Route, TERN_AC_HREF};
+export {Route};
