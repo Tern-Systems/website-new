@@ -5,22 +5,24 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import Image from "next/image";
 import cn from "classnames";
 
-import {CONTACT_LINKS, LAYOUT, MEDIA_LINKS, Route} from "@/app/static";
+import {IModalContext} from "@/app/context/Modal.context";
+import {CONTACT_LINKS, LAYOUT, MEDIA_LINKS, MISC_LINKS, Route} from "@/app/static";
 
 import {getRouteName} from "@/app/utils";
 import {useBackground} from "@/app/hooks";
 import {useLayout, useModal} from "@/app/context";
+
 import {Header, PageLink} from "@/app/ui/layout";
+import {HelpModal} from "@/app/ui/modals";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
 
 import SVG_LOGO from "/public/images/tern-logo.png";
-import {IModalContext} from "@/app/context/Modal.context";
-import {HelpModal} from "@/app/ui/modals";
 
 
 type FooterLink = Route | { title: string; action: string | ((modalCtx: IModalContext) => void) };
+
 
 const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
     {
@@ -29,17 +31,17 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
             Route.About,
             Route.TernKey,
             Route.Contact,
-            {title: 'TernKit', action: 'https://'},
-            {title: 'Cyrus', action: 'https://'},
-            {title: 'Cereers', action: 'https://'}
+            // {title: 'TernKit', action: 'https://'},
+            // {title: 'Cyrus', action: 'https://'},
+            {title: 'Careers', action: MISC_LINKS.Careers.href}
         ]
     },
     {
         title: 'Engage',
         links: [
             Route.AllWays,
-            {title: 'Events', action: 'https://'},
-            {title: 'Podcast', action: 'https://'},
+            {title: 'Events', action: MISC_LINKS.Events.href},
+            {title: 'Podcast', action: MEDIA_LINKS.YouTube.href},
         ]
     },
     {
@@ -53,9 +55,16 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
                 title: 'Support Hub',
                 action: (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'support'}/>)
             },
-            Route.Documentation,
-            {title: 'Careers', action: 'https://'},
-            {title: 'Learning Material', action: 'https://'}
+            Route.MyDocumentation,
+            {title: 'Learning Material', action: MEDIA_LINKS.YouTube.href}
+        ]
+    },
+    {
+        title: 'Policies',
+        links: [
+            Route.Cookies,
+            Route.Privacy,
+            Route.Terms,
         ]
     }
 ];
@@ -120,8 +129,8 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         );
     });
 
-    const ContactLinks: ReactElement[] = [...CONTACT_LINKS, ...MEDIA_LINKS].map((link, idx) => (
-        <li key={link.href + idx} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
+    const ContactLinks: ReactElement[] = Object.entries({...CONTACT_LINKS, ...MEDIA_LINKS}).map(([title, link], idx) => (
+        <li key={title + idx} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
                 <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
@@ -179,14 +188,6 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     </p>
                     <ul className={'flex w-full justify-between'}>
                         {FooterLinksLi}
-                        <p className={'flex  lg:x-[flex-col,gap-y-[--p-content-xs]]'}>
-                            <span className={'font-bold text-section-s'}>Policies</span>
-                            <PageLink href={Route.Cookies}/>
-                            <span className={'lg:hidden'}>&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-                            <PageLink href={Route.Privacy}/>
-                            <span className={'lg:hidden'}>&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-                            <PageLink href={Route.Terms}/>
-                        </p>
                     </ul>
                     <div className={'col-span-2 flex mt-[7rem] w-full justify-between items-center'}>
                         <p>Copyright © 2025 Tern Systems LLC</p>
