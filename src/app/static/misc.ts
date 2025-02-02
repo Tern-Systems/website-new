@@ -60,8 +60,10 @@ const MEDIA_LINKS = {
 };
 
 const MISC_LINKS = {
-    Careers: {svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys/jobs/'},
-    Events: {svg: SVG_LINKEDIN, href: 'https://www.eventbrite.com/o/tern-103937850401'},
+    Careers: 'https://www.linkedin.com/company/tern-sys/jobs/',
+    Events: 'https://www.eventbrite.com/o/tern-103937850401',
+    TernKey: 'https://tern.ac/ternkey',
+    TernKeyDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
 };
 
 

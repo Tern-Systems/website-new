@@ -4,7 +4,7 @@ import cn from "classnames";
 
 import {PlanName} from "@/app/types/subscription";
 import {ButtonIcon} from "@/app/ui/form/Button";
-import {Route, TERN_AC_HREF} from "@/app/static";
+import {MISC_LINKS, Route} from "@/app/static";
 
 import {capitalize, copyObject} from "@/app/utils";
 import {useModal, useUser} from "@/app/context";
@@ -46,13 +46,13 @@ type TableSection = {
 
 
 const NAV_BTNS_DEFAULT: { title: string; icon: ButtonIcon; href: string, isExternal?: boolean }[] = [
-    {title: 'Build Key', icon: 'plus', href: TERN_AC_HREF, isExternal: true},
-    {title: 'Explore Keys', icon: 'glass', href: TERN_AC_HREF + '/explore', isExternal: true},
+    {title: 'Build Key', icon: 'plus', href: MISC_LINKS.TernKey, isExternal: true},
+    {title: 'Explore Keys', icon: 'glass', href: MISC_LINKS.TernKey + '/explore', isExternal: true},
 ];
 
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
     // dot: Route.Dot,
-    TernKey: TERN_AC_HREF,
+    TernKey: MISC_LINKS.TernKey,
     trial: '',
 }
 
@@ -156,7 +156,7 @@ const MyTernPage: FC = () => {
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
     const [navigate] = useNavigate();
-    const isSmScreen = useBreakpointCheck()=== 'sm';
+    const isSmScreen = useBreakpointCheck() === 'sm';
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
