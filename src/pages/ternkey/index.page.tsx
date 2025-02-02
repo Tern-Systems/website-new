@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import Image from "next/image";
 import cn from "classnames";
 
-import {TERN_AC_HREF} from "@/app/static";
+import {MISC_LINKS} from "@/app/static";
 
 import styles from "@/app/common.module.css";
 
@@ -17,7 +17,7 @@ import SVG_TERNKEY from "/public/images/ternkey.png";
 const TernKeyPage: FC = () => {
     const userCtx = useUser();
     const env: string | undefined = process.env.NEXT_PUBLIC_NODE_ENV ?? process.env.NODE_ENV ?? 'development';
-    const website: string | undefined = env === 'development' ? 'http://localhost:3001' : TERN_AC_HREF;
+    const website: string | undefined = env === 'development' ? 'http://localhost:3001' : MISC_LINKS.TernKey;
     return (
         <>
             <span className={cn(styles.highlight, 'flex-row gap-x-[--p-content-l]')}>

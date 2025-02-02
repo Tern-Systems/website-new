@@ -1,4 +1,4 @@
-export {Route, TERN_AC_HREF} from "./routing";
+export {Route} from "./routing";
 
 export {
     ALWAYS_MAPPED_ROUTES,
