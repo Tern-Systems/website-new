@@ -1,30 +1,31 @@
-'use client'
+'use client';
 
-import React, {FC, ReactElement, useEffect} from "react";
-import {useSearchParams} from "next/navigation";
-import {StaticImageData} from "next/image";
-import cn from "classnames";
+import React, { FC, ReactElement, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Image, { StaticImageData } from 'next/image';
+import { Button } from '@/app/ui/form/Button';
+import cn from 'classnames';
 
-import {InfoSection, SectionCard} from "@/app/types/layout";
+import { InfoSection, SectionCard } from '@/app/types/layout';
 
-import {CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route} from "@/app/static";
+import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
-import {useBackground, useLoginCheck} from "@/app/hooks";
-import {useFlow, useModal} from "@/app/context";
+import { useBackground, useLoginCheck } from '@/app/hooks';
+import { useFlow, useModal } from '@/app/context';
 
-import {ResetPasswordModal} from "@/app/ui/modals";
-import {Carousel} from "@/app/ui/misc";
-import {PageLink} from "@/app/ui/layout";
-import {Info, InsideTern} from "@/app/ui/templates";
+import { ResetPasswordModal } from '@/app/ui/modals';
+import { Carousel } from '@/app/ui/misc';
+import { PageLink } from '@/app/ui/layout';
+import { Info, InsideTern } from '@/app/ui/templates';
 
-import styles from "@/app/common.module.css";
+import styles from '@/app/common.module.css';
 
-import SVG_CITY from "/public/images/city-glowing-way.jpg";
-import SVG_MICROPROCESSOR from "/public/images/microprocessor.png";
-import SVG_NATURE from "/public/images/nature.png";
-import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png'
-import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png'
-import SVG_CIRCUIT from '/public/images/microchip.png'
+import SVG_CITY from '/public/images/city-glowing-way.jpg';
+import SVG_MICROPROCESSOR from '/public/images/microprocessor.png';
+import SVG_NATURE from '/public/images/nature.png';
+import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png';
+import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png';
+import SVG_CIRCUIT from '/public/images/microchip.png';
 
 
 const CARDS: {
@@ -148,6 +149,27 @@ const HomePage: FC = () => {
                     {card.link.title}
                 </PageLink>
             </div>
+        </li>
+    ));
+
+    const CompanyLi: ReactElement[] = COMPANY.map((entry, idx) => (
+        <li
+            key={entry.title + idx}
+            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
+        >
+            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
+                {entry.title}
+            </h4>
+            <p>{entry.description}</p>
+            <Image src={entry.icon} alt={'office girl 2'} className={'w-full'}/>
+            <Button
+                icon={entry.btnIcon}
+                onClick={() => window.open(entry.href, '_blank')}
+                className={'self-start text-blue flex-row-reverse'}
+                classNameIcon={cn('[&_path]:fill-blue', entry.btnIconCN)}
+            >
+                {entry.action}
+            </Button>
         </li>
     ));
 
