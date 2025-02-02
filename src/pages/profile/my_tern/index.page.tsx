@@ -298,7 +298,7 @@ const MyTernPage: FC = () => {
                     >
                         Additional Resources
                     </span>
-                    <PageLink href={Route.Documentation}/>
+                    <PageLink href={Route.MyDocumentation}/>
                     <span
                         className={`cursor-pointer ${styles.clickable}`}
                         onClick={() => isSmScreen

@@ -25,7 +25,7 @@ const useLoginCheck = () => {
             );
         }
         //eslint-disable-next-line
-    }, [userCtx.isLoggedIn, modalCtx.isOpened, route])
+    }, [userCtx.isLoggedIn, modalCtx.isOpened, layoutCtx.isFade, route])
 
 
     return userCtx.isLoggedIn;

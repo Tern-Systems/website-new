@@ -17,6 +17,7 @@ import {LAYOUT, Route} from "@/app/static";
 
 import {checkSubRoute} from "@/app/utils";
 import {useBreakpointCheck} from "@/app/hooks";
+import {useUser} from "@/app/context/User.context";
 
 
 // Main links, sub links, sub sub links
@@ -44,6 +45,7 @@ const LayoutContext = createContext<ILayoutContext | null>(null);
 const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const route = usePathname();
     const isSmScreen = useBreakpointCheck() === 'sm';
+    const userCtx = useUser();
 
     const [isNoLayout, setNoLayoutState] = useState(false);
     const [isFade, setFadeState] = useState(false);
@@ -56,8 +58,8 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         let sub2NavLinks: Route [] | null = [];
 
         switch (route) {
-            case Route.Documentation:
-                subNavLinks = isSmScreen ? [Route.Documentation] : null;
+            case Route.MyDocumentation:
+                subNavLinks = isSmScreen ? [Route.MyDocumentation] : null;
                 break;
             case Route.MyTern:
             case Route.Profile:
@@ -92,7 +94,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             case Route.TernDoc:
             case Route.TernKeyDoc:
             case Route.TernKitDoc:
-                subNavLinks = [Route.Documentation];
+                subNavLinks = [Route.MyDocumentation];
                 sub2NavLinks = isSmScreen
                     ? [route as Route]
                     : [
@@ -114,7 +116,10 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     if (!isSmScreen && isBreadCrumbsNav) {
         switch (true) {
             case checkSubRoute(route, Route.Documentation):
-                navLinks[NavLink.Nav] = [Route.MyTern, Route.Documentation];
+                navLinks[NavLink.Nav] = [
+                    userCtx.isLoggedIn ? Route.MyTern : Route.Home,
+                    userCtx.isLoggedIn ? Route.MyDocumentation : Route.Documentation,
+                ];
                 break;
             // case checkSubRoute(route, Route.TernKey):
             //     navLinks[NavLink.Nav] = [Route.Products, Route.TernKey];
@@ -171,12 +176,14 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     );
 };
 
+
 const useLayout = (): ILayoutContext => {
     const context = useContext(LayoutContext);
     if (!context)
         throw new Error('useLayout must be used within a ModalProvider!');
     return context;
 };
+
 
 export type {NavLinks};
 export {NavLink, LayoutProvider, useLayout}
