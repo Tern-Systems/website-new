@@ -68,6 +68,7 @@ const config: Config = {
                 neo: ['"Neo Sans W1G"', 'sans-serif'],
                 english: ['"Old English Five"', 'serif'],
                 oxygen: ['"Oxygen"', 'sans-serif'],
+                arial: ['"Arial"', 'serif'],
             },
             fontSize: {
                 note: 'var(--fz-note)',
