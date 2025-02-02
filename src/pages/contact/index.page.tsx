@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, ReactElement} from "react";
 import Image from "next/image";
 
 import {CONTACT_LINKS} from "@/app/static";
@@ -7,8 +7,8 @@ import styles from '@/app/common.module.css';
 
 
 const ContactsPage: FC = () => {
-    const Links = CONTACT_LINKS.map((link) => (
-        <li key={link.href} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
+    const Links: ReactElement[] = Object.entries(CONTACT_LINKS).map(([title, link]) => (
+        <li key={title} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
                 <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
@@ -36,4 +36,5 @@ const ContactsPage: FC = () => {
     )
 }
 
-export default ContactsPage
+
+export default ContactsPage;

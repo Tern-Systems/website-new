@@ -8,6 +8,7 @@ export {
     LAYOUT,
     CONTACT_LINKS,
     MEDIA_LINKS,
+    MISC_LINKS,
 } from './misc';
 
 export type {StateKey, CountryKey, SalutationKey, LanguageKey} from './profile';

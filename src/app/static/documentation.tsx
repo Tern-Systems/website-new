@@ -12,7 +12,6 @@ const COMING_SOON_DOC: DocumentationContent = {
         </span>
     ),
     anchors: [],
-    isChapter: false
 };
 
 

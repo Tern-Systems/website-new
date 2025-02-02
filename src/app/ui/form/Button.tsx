@@ -6,6 +6,7 @@ import styles from '@/app/common.module.css'
 
 
 import SVG_ARROW from '/public/images/icons/arrow.svg';
+import SVG_ARROW_SQUARE from '/public/images/icons/arrow-square.svg';
 import SVG_BURGER_MENU from "/public/images/icons/burger-menu.svg";
 import SVG_CHECK_FLOWER from '/public/images/icons/checkmark-flower.svg';
 import SVG_CHECK_SQUARE from '/public/images/icons/checkmark-square.svg';
@@ -34,6 +35,7 @@ import SVG_WARN from "/public/images/icons/warn.svg";
 
 type ButtonIcon =
     | 'arrow'
+    | 'arrow-square'
     | 'burger'
     | 'chevron'
     | 'close'
@@ -61,6 +63,7 @@ type ButtonIcon =
 
 const ICON: Record<ButtonIcon, { src: string }> = {
     arrow: SVG_ARROW,
+    'arrow-square': SVG_ARROW_SQUARE,
     burger: SVG_BURGER_MENU,
     chevron: SVG_CHEVRON,
     close: SVG_CLOSE,

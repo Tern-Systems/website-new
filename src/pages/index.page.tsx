@@ -3,7 +3,10 @@
 import React, {FC, ReactElement, useEffect} from "react";
 import {useSearchParams} from "next/navigation";
 import Image, {StaticImageData} from "next/image";
+import {ButtonIcon} from "@/app/ui/form/Button";
 import cn from "classnames";
+
+import {CONTACT_LINKS, MEDIA_LINKS, Route} from "@/app/static";
 
 import {useBackground, useBreakpointCheck, useLoginCheck} from "@/app/hooks";
 import {useFlow, useModal} from "@/app/context";
@@ -19,28 +22,58 @@ import SVG_NATURE from "/public/images/nature.png";
 import SVG_CIRCUIT from '/public/images/circuit.svg'
 import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png'
 import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png'
+import {PageLink} from "@/app/ui/layout";
 
 
-const CARDS: { title: string; info: string; image: StaticImageData; link: { title: string; href: string } }[] = [
+const CARDS: { title: string; info: string; image: StaticImageData; link: { title: string; href: Route.AllWays | string } }[] = [
     {
         title: 'Exec Tech',
         info: 'Join team Tern as they discuss how the current state of chip technology with team members and other guests.',
-        link: {title: 'Listen to Podcast', href: 'https://'},
+        link: {title: 'Listen to Podcast', href: MEDIA_LINKS.YouTube.href},
         image: SVG_CITY,
     },
     {
         title: 'All Ways',
         info: 'Keep up with us by reading our daily blog where we highlight the hottest topics in computer technology.',
-        link: {title: 'Read Blog', href: 'https://'},
+        link: {title: 'Read Blog', href: Route.AllWays},
         image: SVG_MICROPROCESSOR,
     },
     {
         title: 'Company Server',
         info: 'We focus on fostering community around our mission and vision. Join our online community to be apart of the next technological revolution!',
-        link: {title: 'Join Community', href: 'https://'},
+        link: {title: 'Join Community', href: CONTACT_LINKS.Discord.href},
         image: SVG_NATURE,
     },
-]
+];
+
+const COMPANY: {
+    title: string;
+    description: string;
+    action: string;
+    href: string;
+    icon: StaticImageData;
+    btnIcon: ButtonIcon,
+    btnIconCN?: string
+}[] = [
+    {
+        title: 'Tern Careers',
+        description: 'Become a ternster',
+        action: 'Explore Jobs',
+        href: 'https://',
+        icon: SVG_OFFICE_GIRL_1,
+        btnIcon: 'arrow',
+        btnIconCN: 'rotate-180',
+    },
+    {
+        title: 'Tern Academy',
+        description: 'Explore Learning Opportunities',
+        action: 'Start Learning',
+        href: 'https://',
+        icon: SVG_OFFICE_GIRL_2,
+        btnIcon: 'arrow-square',
+    },
+];
+
 
 // const PARAGRAPHS: string[] = [
 //     "We abide by the following doctrine, which outlines our core ideology's six core values and exclusive purpose. We look for consistency, earnestness, acumen, flexibility, obsession, and ingenuity in each constituent we interact with. These six values, defined as follows, outline our organization's expectations and illustrate the characteristics we respect and adhere to.",
@@ -67,7 +100,7 @@ const HomePage: FC = () => {
 
     // const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx}>{p}</p>)
 
-    const Cards: ReactElement[] = CARDS.map((card, idx) => (
+    const CardsLi: ReactElement[] = CARDS.map((card, idx) => (
         <li
             key={card.title + idx}
             className={'flex flex-col h-full overflow-hidden rounded-normal border-small border-control-gray-l1'}
@@ -88,13 +121,35 @@ const HomePage: FC = () => {
             <div
                 className={'flex-grow flex flex-col p-[--p-content-xs] pb-[--p-content-xl] justify-between items-center leading-[1.2]'}>
                 <p>{card.info}</p>
-                <Button
-                    onClick={() => window.open(card.link.href, '_blank')}
+                <PageLink
+                    href={card.link.href}
+                    isExternal={card.link.href.startsWith('https://')}
                     className={'mt-auto px-[--p-content-xs] w-fit h-[2.375rem] rounded-full border-small border-control-gray-l0 text-blue text-section-s'}
                 >
                     {card.link.title}
-                </Button>
+                </PageLink>
             </div>
+        </li>
+    ));
+
+    const CompanyLi: ReactElement[] = COMPANY.map((entry, idx) => (
+        <li
+            key={entry.title + idx}
+            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
+        >
+            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
+                {entry.title}
+            </h4>
+            <p>{entry.description}</p>
+            <Image src={entry.icon} alt={'office girl 2'} className={'w-full'}/>
+            <Button
+                icon={entry.btnIcon}
+                onClick={() => window.open(entry.href, '_blank')}
+                className={'self-start text-blue flex-row-reverse'}
+                classNameIcon={cn('[&_path]:fill-blue', entry.btnIconCN)}
+            >
+                {entry.action}
+            </Button>
         </li>
     ));
 
@@ -165,7 +220,7 @@ const HomePage: FC = () => {
                             <p>All Ways.</p>
                         </h2>
                         <ul className={'grid grid-cols-3 gap-[--p-content-xl] h-[35.3125rem] flex-grow'}>
-                            {Cards}
+                            {CardsLi}
                         </ul>
                         <p
                             className={cn(styles.textGlow,
@@ -184,7 +239,8 @@ const HomePage: FC = () => {
                             <p className={'text-right text-[2rem] font-bold'}>and neither is the future.</p>
                         </div>
                     </section>
-                    <section className={'pt-[3.5rem] pb-[12.25rem] !w-dvw !max-w-[100dvw] bg-[--bg-section-green] font-oxygen'}>
+                    <section
+                        className={'pt-[3.5rem] pb-[12.25rem] !w-dvw !max-w-[100dvw] bg-[--bg-section-green] font-oxygen'}>
                         <div className={'mx-auto px-[--p-content-xl] w-3/4 max-w-[90rem]'}>
                             <h2 className={'mb-[4.62rem] font-bold font-oxygen text-[2.5rem]'}>
                                 Building the Ternary Microprocessor
@@ -199,11 +255,12 @@ const HomePage: FC = () => {
                                         growing demand for energy consumption. Our advanced microprocessor designs serve as
                                         the catalyst for the next technological revolution in computing.
                                     </span>
-                                    <Button
+                                    <PageLink
+                                        href={Route.Documentation}
                                         className={'mt-[--p-content-xl] px-[--p-content] h-[2.375rem] rounded-full bg-blue text-heading-s'}
                                     >
                                         Review Documentation
-                                    </Button>
+                                    </PageLink>
                                 </span>
                                 <Image src={SVG_CIRCUIT} alt={'circuit'} className={'min-h-full w-auto'}/>
                             </div>
@@ -214,36 +271,7 @@ const HomePage: FC = () => {
                         <div className={'mx-auto px-[--p-content-xl] w-3/4 max-w-[90rem] text-[1.25rem]'}>
                             <h2 className={'mb-[5rem] font-bold text-[2.5rem] text-left'}>Inside Tern</h2>
                             <ul className={'grid grid-cols-2 gap-x-[3.63rem]'}>
-                                <li className={'flex flex-col gap-y-[--p-content-3xs] text-left'}>
-                                    <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
-                                        Tern Careers
-                                    </h4>
-                                    <p>Become a Ternster</p>
-                                    <Image src={SVG_OFFICE_GIRL_1} alt={'office girl 1'} className={'w-full'}/>
-                                    <Button
-                                        icon={'arrow'}
-                                        onClick={() => window.open('https://', '_blank')}
-                                        className={'self-start text-blue flex-row-reverse'}
-                                        classNameIcon={'[&_path]:fill-blue rotate-180'}
-                                    >
-                                        Explore Jobs
-                                    </Button>
-                                </li>
-                                <li className={'flex flex-col gap-y-[--p-content-3xs] text-left'}>
-                                    <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
-                                        Tern Academy
-                                    </h4>
-                                    <p>Explore Learning Opportunities</p>
-                                    <Image src={SVG_OFFICE_GIRL_2} alt={'office girl 2'} className={'w-full'}/>
-                                    <Button
-                                        icon={'arrow'}
-                                        onClick={() => window.open('https://', '_blank')}
-                                        className={'self-start text-blue flex-row-reverse'}
-                                        classNameIcon={'[&_path]:fill-blue rotate-180'}
-                                    >
-                                        Start Learning
-                                    </Button>
-                                </li>
+                                {CompanyLi}
                             </ul>
                         </div>
                     </section>

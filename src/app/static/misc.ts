@@ -20,6 +20,7 @@ const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
 const MAPPED_NAV_ROUTES: Record<string, string> = {
     // [Route.Products]: 'Products',
     // [Route.ARCH]: 'Services',
+    [Route.Home]: 'Home',
     [Route.TernKey]: 'TernKey',
 
 }
@@ -34,6 +35,7 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
 }
 
 const SPECIAL_NAV_ROUTES: Record<string, string> = {
+    [Route.BTMCDoc]: 'BTMC',
     [Route.TernKey]: 'TernKey',
     [Route.TernKeyDoc]: 'TernKey',
 };
@@ -41,21 +43,27 @@ const SPECIAL_NAV_ROUTES: Record<string, string> = {
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
 
-const CONTACT_LINKS: { title: string; svg: string; href: string }[] = [
-    {title: 'Discord', svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
-    {title: 'Stack Overflow', svg: SVG_STACKOVERFLOW, href: 'https://stackoverflow.com/users/24470835/tern'},
-    {title: 'GitHub', svg: SVG_GITHUB, href: 'https://github.com/Tern-Systems'},
-    {title: 'X', svg: SVG_X, href: 'https://x.com/Tern_Systems'},
-    {title: 'Reddit', svg: SVG_REDDIT, href: 'https://www.reddit.com/user/Tern_Systems'},
-    {title: 'LinkedIn', svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys'},
-    {title: 'Facebook', svg: SVG_FACEBOOK, href: 'https://www.facebook.com/ternsystemsinc'},
-];
+const CONTACT_LINKS = {
+    Discord: {svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
+    'Stack overflow': {svg: SVG_STACKOVERFLOW, href: 'https://stackoverflow.com/users/24470835/tern'},
+    GitHub: {svg: SVG_GITHUB, href: 'https://github.com/Tern-Systems'},
+    X: {svg: SVG_X, href: 'https://x.com/Tern_Systems'},
+    Reddit: {svg: SVG_REDDIT, href: 'https://www.reddit.com/user/Tern_Systems'},
+    LinkedIn: {svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys'},
+    Facebook: {svg: SVG_FACEBOOK, href: 'https://www.facebook.com/ternsystemsinc'},
+};
 
-const MEDIA_LINKS: { title: string; href: string; svg: string }[] = [
-    {title: 'Instagram', svg: SVG_INSTAGRAM, href: 'https://www.instagram.com/ternsystems/'},
-    {title: 'YouTube', svg: SVG_YOUTUBE, href: 'https://www.youtube.com/@Tern_Systems'},
-    {title: 'YouTube', svg: SVG_TWITCH, href: 'https://www.twitch.tv/tern_systems'},
-];
+const MEDIA_LINKS = {
+    Instagram: {svg: SVG_INSTAGRAM, href: 'https://www.instagram.com/ternsystems/'},
+    YouTube: {svg: SVG_YOUTUBE, href: 'https://www.youtube.com/@Tern_Systems'},
+    Twitch: {svg: SVG_TWITCH, href: 'https://www.twitch.tv/tern_systems'},
+};
+
+const MISC_LINKS = {
+    Careers: {svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys/jobs/'},
+    Events: {svg: SVG_LINKEDIN, href: 'https://www.eventbrite.com/o/tern-103937850401'},
+};
+
 
 export {
     MAPPED_NAV_ROUTES,
@@ -65,4 +73,5 @@ export {
     LAYOUT,
     CONTACT_LINKS,
     MEDIA_LINKS,
+    MISC_LINKS,
 };
