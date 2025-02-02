@@ -18,6 +18,8 @@ import {HelpModal} from "@/app/ui/modals";
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
 
+import SVG_LOGO from "/public/images/tern-logo.png";
+
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);
 
@@ -38,14 +40,14 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
             Route.Contact,
             // {title: 'TernKit', action: 'https://'},
             // {title: 'Cyrus', action: 'https://'},
-            {title: 'Careers', action: MISC_LINKS.Careers}
+            {title: 'Careers', action: MISC_LINKS.Careers.href}
         ]
     },
     {
         title: 'Engage',
         links: [
             Route.AllWays,
-            {title: 'Events', action: MISC_LINKS.Events},
+            {title: 'Events', action: MISC_LINKS.Events.href},
             {title: 'Podcast', action: MEDIA_LINKS.YouTube.href},
         ]
     },
@@ -141,7 +143,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     });
 
     const ContactLinks: ReactElement[] = Object.entries({...CONTACT_LINKS, ...MEDIA_LINKS}).map(([title, link], idx) => (
-        <li key={title + idx} className={`size-[2.5rem] sm:size-[--p-content-xl] ${styles.clickable}`}>
+        <li key={title + idx} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
                 <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
