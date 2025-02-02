@@ -1,11 +1,6 @@
 import React, {FC} from "react";
 
-import {Route} from "@/app/static";
-
 import {Highlighted} from "@/app/ui/misc";
-import {PageLink} from "@/app/ui/layout";
-
-import styles from "@/app/common.module.css";
 
 
 const AboutPage: FC = () => (

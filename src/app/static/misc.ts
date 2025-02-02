@@ -7,6 +7,9 @@ import SVG_X from "/public/images/icons/x-twitter.svg";
 import SVG_REDDIT from "/public/images/icons/reddit.svg";
 import SVG_LINKEDIN from "/public/images/icons/linkedin.svg";
 import SVG_FACEBOOK from "/public/images/icons/facebook.svg";
+import SVG_YOUTUBE from "/public/images/icons/youtube.svg";
+import SVG_INSTAGRAM from "/public/images/icons/instagram.svg";
+import SVG_TWITCH from "/public/images/icons/twitch.svg";
 
 
 const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
@@ -38,7 +41,7 @@ const SPECIAL_NAV_ROUTES: Record<string, string> = {
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
 
-const LINKS: { title: string; svg: string; href: string }[] = [
+const CONTACT_LINKS: { title: string; svg: string; href: string }[] = [
     {title: 'Discord', svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
     {title: 'Stack Overflow', svg: SVG_STACKOVERFLOW, href: 'https://stackoverflow.com/users/24470835/tern'},
     {title: 'GitHub', svg: SVG_GITHUB, href: 'https://github.com/Tern-Systems'},
@@ -46,7 +49,13 @@ const LINKS: { title: string; svg: string; href: string }[] = [
     {title: 'Reddit', svg: SVG_REDDIT, href: 'https://www.reddit.com/user/Tern_Systems'},
     {title: 'LinkedIn', svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys'},
     {title: 'Facebook', svg: SVG_FACEBOOK, href: 'https://www.facebook.com/ternsystemsinc'},
-]
+];
+
+const MEDIA_LINKS: { title: string; href: string; svg: string }[] = [
+    {title: 'Instagram', svg: SVG_INSTAGRAM, href: 'https://www.instagram.com/ternsystems/'},
+    {title: 'YouTube', svg: SVG_YOUTUBE, href: 'https://www.youtube.com/@Tern_Systems'},
+    {title: 'YouTube', svg: SVG_TWITCH, href: 'https://www.twitch.tv/tern_systems'},
+];
 
 export {
     MAPPED_NAV_ROUTES,
@@ -54,5 +63,6 @@ export {
     ALWAYS_MAPPED_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
     LAYOUT,
-    LINKS
+    CONTACT_LINKS,
+    MEDIA_LINKS,
 };

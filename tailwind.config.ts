@@ -37,9 +37,11 @@ const config: Config = {
                 'control-white-d1': "var(--bg-control-white-d1)",
                 'control-white-d0': "var(--bg-control-white-d0)",
                 'control-white': "var(--bg-control-white)",
+                'control-blue-l0': "var(--bg-control-blue-l0)",
                 'control-blue': "var(--bg-control-blue)",
                 'control-red': "var(--bg-control-red)",
                 'section-navy': "var(--bg-section-navy)",
+                'section-green': "var(--bg-section-green)",
                 'control-navy': "var(--bg-control-navy)",
             },
             borderRadius: {

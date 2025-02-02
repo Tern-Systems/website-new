@@ -6,7 +6,8 @@ export {
     MAPPED_SUB_NAV_ROUTES,
     SPECIAL_NAV_ROUTES,
     LAYOUT,
-    LINKS
+    CONTACT_LINKS,
+    MEDIA_LINKS,
 } from './misc';
 
 export type {StateKey, CountryKey, SalutationKey, LanguageKey} from './profile';

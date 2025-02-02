@@ -1,13 +1,13 @@
 import React, {FC} from "react";
 import Image from "next/image";
 
-import {LINKS} from "@/app/static";
+import {CONTACT_LINKS} from "@/app/static";
 
 import styles from '@/app/common.module.css';
 
 
 const ContactsPage: FC = () => {
-    const Links = LINKS.map((link) => (
+    const Links = CONTACT_LINKS.map((link) => (
         <li key={link.href} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
                 <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>

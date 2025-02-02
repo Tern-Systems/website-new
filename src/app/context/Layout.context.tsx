@@ -17,7 +17,7 @@ import {LAYOUT, Route} from "@/app/static";
 
 import {checkSubRoute} from "@/app/utils";
 import {useBreakpointCheck} from "@/app/hooks";
-import {useUser} from "@/app/context/User.context";
+
 
 // Main links, sub links, sub sub links
 enum NavLink {Nav, SubNav, Sub2Nav}
@@ -55,7 +55,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         let subNavLinks: Route [] | null = [];
         let sub2NavLinks: Route [] | null = [];
 
-        let links: Route[] = [];
         switch (route) {
             case Route.Documentation:
                 subNavLinks = isSmScreen ? [Route.Documentation] : null;

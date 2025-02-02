@@ -1,3 +1,11 @@
+.textGlow {
+  text-shadow: 0 0 10px #ffffffaa;
+}
+.textBlueGlow {
+  text-shadow: 0 0 10px #178ab7aa;
+}
+
+
 .fadeIn {
   opacity: 1;
   transition: opacity 0.5s ease-in;
@@ -18,6 +26,7 @@
   transform: translateY(-100%);
   transition: 0.2s ease-out;
 }
+
 
 .highlight {
   display: flex;

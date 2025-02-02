@@ -10,10 +10,12 @@
     --bg-control-white-d0: #D9D9D9;
     --bg-control-white: #f2f2f2;
     --bg-control-red: #F42200;
+    --bg-control-blue-l0: #1EA8DE;
     --bg-control-blue: #178AB7;
     --bg-control-navy: #00397F;
 
     --bg-section-navy: #001125;
+    --bg-section-green: #0C545C;
 
     --b-small: 0.0625rem;
 
@@ -58,7 +60,7 @@
     --h-control-dl: min(6.1dvw, 1.45rem);
     --h-heading: 4.3rem;
     --h-heading-lg: 3rem;
-    --h-footer-lg: 15rem;
+    --h-footer-lg: 28.5rem;
 
     /* Spacings */
     --s-dl-smallest: min(1.3dvw, 0.6rem);
@@ -114,7 +116,7 @@
     --fz-section-3xs: 0.625rem;
 
     /* Insignia */
-    --insignia-size: 1.5rem;
+    --insignia-h: 1.25rem;
 }
 
 body {

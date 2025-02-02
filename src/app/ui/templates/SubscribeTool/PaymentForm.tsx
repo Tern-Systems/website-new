@@ -56,7 +56,7 @@ interface Props {
 }
 
 const PaymentForm: FC<Props> = (props: Props) => {
-    const {type, name, recurrency, priceUSD} = props
+    const {type, recurrency, priceUSD} = props
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
