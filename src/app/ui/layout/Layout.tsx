@@ -12,12 +12,11 @@ import {getRouteName} from "@/app/utils";
 import {useLayout, useModal, useUser} from "@/app/context";
 
 import {Header, PageLink} from "@/app/ui/layout";
+import {Insignia} from "@/app/ui/misc";
 import {HelpModal} from "@/app/ui/modals";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
-
-import SVG_LOGO from "/public/images/tern-logo.png";
 
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);
@@ -174,23 +173,26 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             <footer className={'border-t-small border-section'}>
                 <div
                     className={cn(styles.content,
-                        `grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] h-[--h-footer-lg] py-[--p-content-l]`,
-                        `leading-none`,
+                        `grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] h-[--h-footer-lg] py-[--p-content-l] leading-none`,
+                        `sm:gap-y-[--p-content-xxl]`,
                     )}
                 >
-                    <p className={'contents'}>
-                        <Image
-                            src={SVG_LOGO}
-                            alt={'Logo'}
-                            className={'flex mb-auto gap-x-[--p-content-5xs] w-[5.875rem] items-center'}
-                        />
-                    </p>
-                    <ul className={'flex w-full justify-between'}>
+                    <Insignia className={'[&_*]:h-[2.5rem]'}/>
+                    <ul className={'flex w-full justify-between  sm:x-[row-start-2,flex-col,mx-auto,gap-y-[--p-content-xxl],w-fit]'}>
                         {FooterLinksLi}
                     </ul>
-                    <div className={'col-span-2 flex mt-[7rem] w-full justify-between items-center'}>
-                        <p>Copyright © 2025 Tern Systems LLC</p>
-                        <ul className={'col-span-3 flex gap-[--p-content-3xs]'}>{ContactLinks}</ul>
+                    <div className={'col-span-2 flex mt-[7rem] w-full justify-between items-center  sm:contents'}>
+                        <p className={'sm:x-[row-start-3,col-span-2,pb-[--p-content],text-center]'}>
+                            Copyright © 2025 Tern Systems LLC
+                        </p>
+                        <ul
+                            className={cn(
+                                'col-span-3 flex gap-[--p-content-3xs]',
+                                'sm:x-[col-start-1,row-start-2,col-span-1,flex-col,h-full,justify-between]',
+                            )}
+                        >
+                            {ContactLinks}
+                        </ul>
                     </div>
                 </div>
             </footer>
