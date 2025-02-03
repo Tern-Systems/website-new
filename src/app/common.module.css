@@ -20,6 +20,10 @@
   padding-left: var(--p-content-xl);
   padding-right: var(--p-content-xl);
 
+  @media screen  and (min-width: 1440px) {
+    width: 80%;
+  }
+
   @media screen  and (max-width: 835px) {
     padding-left: var(--p-content-xs);
     padding-right: var(--p-content-xs);
