@@ -2,9 +2,10 @@
 
 import React, {FC, ReactElement, useEffect} from "react";
 import {useSearchParams} from "next/navigation";
-import Image, {StaticImageData} from "next/image";
-import {ButtonIcon} from "@/app/ui/form/Button";
+import {StaticImageData} from "next/image";
 import cn from "classnames";
+
+import {InfoSection, SectionCard} from "@/app/types/layout";
 
 import {CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route} from "@/app/static";
 
@@ -12,18 +13,18 @@ import {useBackground, useLoginCheck} from "@/app/hooks";
 import {useFlow, useModal} from "@/app/context";
 
 import {ResetPasswordModal} from "@/app/ui/modals";
-import {Button} from "@/app/ui/form";
+import {Carousel} from "@/app/ui/misc";
 import {PageLink} from "@/app/ui/layout";
+import {Info, InsideTern} from "@/app/ui/templates";
 
 import styles from "@/app/common.module.css";
 
 import SVG_CITY from "/public/images/city-glowing-way.jpg";
 import SVG_MICROPROCESSOR from "/public/images/microprocessor.png";
 import SVG_NATURE from "/public/images/nature.png";
-import SVG_CIRCUIT from '/public/images/microchip.png'
 import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png'
 import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png'
-import {Carousel} from "@/app/ui/misc";
+import SVG_CIRCUIT from '/public/images/microchip.png'
 
 
 const CARDS: {
@@ -52,15 +53,16 @@ const CARDS: {
     },
 ];
 
-const COMPANY: {
-    title: string;
-    description: string;
-    action: string;
-    href: string;
-    icon: StaticImageData;
-    btnIcon: ButtonIcon,
-    btnIconCN?: string
-}[] = [
+const INFO: InfoSection = {
+    title: 'Building the Ternary Microprocessor',
+    image: SVG_CIRCUIT,
+    subTitle: 'Imperative Paradigm Shift',
+    link: Route.Documentation,
+    linkTitle: 'Review Documentation',
+    description: 'AI is here to stay, and it’s crucial to ensure we meet the growing demand for energy consumption. Our advanced microprocessor designs serve as the catalyst for the next technological revolution in computing.',
+}
+
+const COMPANY: SectionCard[] = [
     {
         title: 'Tern Careers',
         description: 'Become a ternster',
@@ -146,27 +148,6 @@ const HomePage: FC = () => {
                     {card.link.title}
                 </PageLink>
             </div>
-        </li>
-    ));
-
-    const CompanyLi: ReactElement[] = COMPANY.map((entry, idx) => (
-        <li
-            key={entry.title + idx}
-            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
-        >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
-                {entry.title}
-            </h4>
-            <p>{entry.description}</p>
-            <Image src={entry.icon} alt={'office girl 2'} className={'w-full'}/>
-            <Button
-                icon={entry.btnIcon}
-                onClick={() => window.open(entry.href, '_blank')}
-                className={'self-start text-blue flex-row-reverse'}
-                classNameIcon={cn('[&_path]:fill-blue-l0', entry.btnIconCN)}
-            >
-                {entry.action}
-            </Button>
         </li>
     ));
 
@@ -278,65 +259,8 @@ const HomePage: FC = () => {
                         </p>
                     </div>
                 </section>
-                <section className={cn(styles.section, 'bg-[--bg-section-green]')}>
-                    <div className={cn(styles.content, 'pt-[3.5rem] pb-[12.25rem] font-oxygen')}>
-                        <h2
-                            className={cn(
-                                'mb-[4.62rem] text-center font-bold font-oxygen',
-                                'text-[1.75rem]',
-                                'lg:text-[2.5rem]',
-                            )}
-                        >
-                            Building the Ternary Microprocessor
-                        </h2>
-                        <div
-                            className={'flex justify-between items-center  sm:x-[gap-y-[--p-content-xxl],flex-col-reverse]'}>
-                            <span className={'w-[40%] text-left   sm:x-[w-full,text-center]'}>
-                                <span
-                                    className={'block mb-[--p-content-5xs]  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs'}>
-                                    Imperative Paradigm Shift
-                                </span>
-                                <span className={'block leading-[1.2]  text-[0.9375rem]  lg:text-section'}>
-                                    AI is here to stay, and it’s crucial to ensure we meet the
-                                    growing demand for energy consumption. Our advanced microprocessor designs serve as
-                                    the catalyst for the next technological revolution in computing.
-                                </span>
-                                <PageLink
-                                    href={Route.Documentation}
-                                    className={cn(
-                                        'px-[--p-content] rounded-full bg-blue',
-                                        'mt-[--p-content-xl] h-[1.875rem] text-basic',
-                                        'lg:x-[h-[2.375rem],text-heading-s]',
-                                        'sm:mt-[--p-content-s]',
-                                    )}
-                                >
-                                    Review Documentation
-                                </PageLink>
-                            </span>
-                            <Image
-                                src={SVG_CIRCUIT}
-                                alt={'circuit'}
-                                className={'max-w-[13.5rem] w-[15%]  md:w-1/5  sm:w-[30%]'}
-                            />
-                        </div>
-                    </div>
-                </section>
-                <section
-                    className={cn(styles.section,
-                        'bg-gradient-to-t  from-black via-[#0a313a] to-[--bg-section-green]',
-                        'sm:x-[from-black,via-black,to-[--bg-section-green]]',
-                    )}
-                >
-                    <div
-                        className={cn(styles.content, 'pt-[8.19rem] text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]')}>
-                        <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
-                            Inside Tern
-                        </h2>
-                        <ul className={'grid  grid-cols-1 gap-[--p-content-xxl]  lg:x-[grid-cols-2,gap-[3.63rem]]'}>
-                            {CompanyLi}
-                        </ul>
-                    </div>
-                </section>
+                <Info data={INFO}/>
+                <InsideTern data={COMPANY}/>
             </div>
         </>
     );
