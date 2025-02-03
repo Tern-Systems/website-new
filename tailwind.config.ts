@@ -16,11 +16,11 @@ const config: Config = {
             },
             minHeight: {
                 heading: 'var(--h-heading)',
-                'heading-lg': 'var(--h-heading-lg)',
+                'heading-modal': 'var(--h-heading-modal)',
             },
             height: {
                 heading: 'var(--h-heading)',
-                'heading-lg': 'var(--h-heading-lg)',
+                'heading-modal': 'var(--h-heading-modal)',
             },
             colors: {
                 primary: "var(--color-primary)",
@@ -62,6 +62,7 @@ const config: Config = {
             },
             borderWidth: {
                 small: 'var(--b-small)',
+                normal: 'var(--b-normal)',
             },
             fontFamily: {
                 caslon: ['"Adobe Caslon Pro"', 'serif'],

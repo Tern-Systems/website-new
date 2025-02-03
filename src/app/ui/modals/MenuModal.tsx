@@ -165,10 +165,10 @@ const MenuModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal adaptSmScreen smScreenOnly
                    className={cn(
-                       `ml-auto w-full sm:landscape:x-[max-w-[46dvw],text-content-small]`,
+                       `ml-auto w-full sm:landscape:x-[!max-w-[46dvw],!w-[46dvw],text-content-small]`,
                        {['[&_hr]:hidden']: isFirstActive}
                    )}
-                   classNameContent={'h-[calc(100dvh-var(--h-heading))] overflow-y-scroll'}
+                   classNameContent={'h-[calc(100dvh-var(--h-heading-modal))] overflow-y-scroll'}
         >
             <ul className={`flex flex-col  gap-x-[--s-default]`}>
                 {NavLinks}
