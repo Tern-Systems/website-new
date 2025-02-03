@@ -18,8 +18,6 @@ import {HelpModal} from "@/app/ui/modals";
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
 
-import SVG_LOGO from "/public/images/tern-logo.png";
-
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);
 

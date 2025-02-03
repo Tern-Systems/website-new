@@ -167,7 +167,7 @@ const HomePage: FC = () => {
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
                 className={'self-start text-blue flex-row-reverse'}
-                classNameIcon={cn('[&_path]:fill-blue', entry.btnIconCN)}
+                classNameIcon={cn('[&_path]:fill-blue-l0', entry.btnIconCN)}
             >
                 {entry.action}
             </Button>
@@ -284,6 +284,65 @@ const HomePage: FC = () => {
                 </section>
                 <Info data={INFO} className={'bg-[--bg-section-green]'}/>
                 <InsideTern data={COMPANY} className={cn('to-[--bg-section-green]','lg:x-[bg-gradient-to-t,from-black,via-[#0a313a],to-[--bg-section-green]]')}/>
+                <section className={cn(styles.section, 'bg-[--bg-section-green]')}>
+                    <div className={cn(styles.content, 'pt-[3.5rem] pb-[12.25rem] font-oxygen')}>
+                        <h2
+                            className={cn(
+                                'mb-[4.62rem] text-center font-bold font-oxygen',
+                                'text-[1.75rem]',
+                                'lg:text-[2.5rem]',
+                            )}
+                        >
+                            Building the Ternary Microprocessor
+                        </h2>
+                        <div
+                            className={'flex justify-between items-center  sm:x-[gap-y-[--p-content-xxl],flex-col-reverse]'}>
+                            <span className={'w-[40%] text-left   sm:x-[w-full,text-center]'}>
+                                <span
+                                    className={'block mb-[--p-content-5xs]  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs'}>
+                                    Imperative Paradigm Shift
+                                </span>
+                                <span className={'block leading-[1.2]  text-[0.9375rem]  lg:text-section'}>
+                                    AI is here to stay, and it’s crucial to ensure we meet the
+                                    growing demand for energy consumption. Our advanced microprocessor designs serve as
+                                    the catalyst for the next technological revolution in computing.
+                                </span>
+                                <PageLink
+                                    href={Route.Documentation}
+                                    className={cn(
+                                        'px-[--p-content] rounded-full bg-blue',
+                                        'mt-[--p-content-xl] h-[1.875rem] text-basic',
+                                        'lg:x-[h-[2.375rem],text-heading-s]',
+                                        'sm:mt-[--p-content-s]',
+                                    )}
+                                >
+                                    Review Documentation
+                                </PageLink>
+                            </span>
+                            <Image
+                                src={SVG_CIRCUIT}
+                                alt={'circuit'}
+                                className={'max-w-[13.5rem] w-[15%]  md:w-1/5  sm:w-[30%]'}
+                            />
+                        </div>
+                    </div>
+                </section>
+                <section
+                    className={cn(styles.section,
+                        'bg-gradient-to-t  from-black via-[#0a313a] to-[--bg-section-green]',
+                        'sm:x-[from-black,via-black,to-[--bg-section-green]]',
+                    )}
+                >
+                    <div
+                        className={cn(styles.content, 'pt-[8.19rem] text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]')}>
+                        <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
+                            Inside Tern
+                        </h2>
+                        <ul className={'grid  grid-cols-1 gap-[--p-content-xxl]  lg:x-[grid-cols-2,gap-[3.63rem]]'}>
+                            {CompanyLi}
+                        </ul>
+                    </div>
+                </section>
             </div>
         </>
     );
