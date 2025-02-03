@@ -166,7 +166,7 @@ const HomePage: FC = () => {
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
                 className={'self-start text-blue flex-row-reverse'}
-                classNameIcon={cn('[&_path]:fill-blue', entry.btnIconCN)}
+                classNameIcon={cn('[&_path]:fill-blue-l0', entry.btnIconCN)}
             >
                 {entry.action}
             </Button>
