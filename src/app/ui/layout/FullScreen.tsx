@@ -35,7 +35,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
                 />
             </div>
             <hr className={`lg:hidden md:hidden`}/>
-            <div className={`relative h-full overflow-y-scroll  sm:h-[calc(100dvh-var(--h-heading))] sm:landscape:h-[76dvh]
+            <div className={`relative h-full overflow-y-scroll  sm:h-[calc(100dvh-var(--h-heading-modal))] sm:landscape:h-[76dvh]
                             ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
             >
                 <PageLink
