@@ -2,6 +2,7 @@ enum Route {
     Home = '/',
 
     AllWays = '/all_ways',
+    Credo = '/about/credo',
     About = '/about',
     Contact = '/contact',
     Terms = '/terms',
