@@ -186,10 +186,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     <p className={'text-section-s'}>{entry.title}</p>
                     <p className={'text-gray'}>{entry.description}</p>
                     <Button
-                        onClick={() => modalCtx.openModal(
-                            isSmScreen ? <PreAuthModal/> : <AuthModal/>,
-                            {darkenBg: !isSmScreen},
-                        )}
+                        onClick={() =>
+                            modalCtx.openModal(<AuthModal registration={idx === 1}/>, {darkenBg: !isSmScreen})
+                        }
                         className={cn(
                             `w-full py-[--p-content-5xs] rounded-full border-small border-section font-bold capitalize text-section`,
                             idx ? 'bg-black text-primary' : 'bg-control-white text-black'
@@ -202,7 +201,6 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             ProfileMenu = (
                 <div
                     id={'profile-menu'}
-                    onClick={() => setProfileMenuOpened(false)}
                     className={cn(
                         'absolute z-10 mt-[--p-content-5xs] right-0 p-[--p-content] rounded-normal border-small',
                         'border-control-gray-l0 bg-black text-nowrap'
@@ -224,7 +222,16 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 height={29}
                 alt={'profile icon'}
                 className={'cursor-pointer rounded-full h-[1.8125rem]'}
-                onClick={() => setProfileMenuOpened(prevState => !prevState)}
+                onClick={() => {
+                    if (isSmScreen) {
+                        if (userCtx.isLoggedIn)
+                            openMenu();
+                        else
+                            modalCtx.openModal(<PreAuthModal/>);
+                    }
+                    else
+                        setProfileMenuOpened(prevState => !prevState);
+                }}
             />
             {ProfileMenu}
         </div>
@@ -236,7 +243,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             <div className={'border-b-small border-section'}>
                 <div
                     className={cn(styles.content,
-                        `relative z-[2] flex !h-[--h-heading-lg] items-center`,
+                        `relative z-[2] flex !h-[--h-heading] items-center`,
                     )}
                 >
                     <Insignia/>
@@ -267,7 +274,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         <ul
                             className={cn(styles.content,
                                 `relative flex gap-[--s-default] items-center`,
-                                SubNavItemsMdLg?.length ? 'h-heading-lg ' + styles.slideIn : styles.slideOut,
+                                SubNavItemsMdLg?.length ? 'h-heading ' + styles.slideIn : styles.slideOut,
                                 `sm:hidden`
                             )}
                         >
