@@ -259,8 +259,8 @@ const HomePage: FC = () => {
                         </p>
                     </div>
                 </section>
-                <Info data={INFO}/>
-                <InsideTern data={COMPANY}/>
+                <Info data={INFO} className={'bg-[--bg-section-green]'}/>
+                <InsideTern data={COMPANY} className={cn('to-[--bg-section-green]','lg:x-[bg-gradient-to-t,from-black,via-[#0a313a],to-[--bg-section-green]]')}/>
             </div>
         </>
     );

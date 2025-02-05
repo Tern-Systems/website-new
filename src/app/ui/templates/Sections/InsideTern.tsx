@@ -11,10 +11,12 @@ import styles from "@/app/common.module.css";
 
 interface Props {
     data: SectionCard[]
+    className?: string
 }
 
 const InsideTern: FC<Props> = (props: Props) => {
-    const CompanyLi: ReactElement[] = props.data.map((entry, idx) => (
+    const {data, className} = props;
+    const CompanyLi: ReactElement[] = data.map((entry, idx) => (
         <li
             key={entry.title + idx}
             className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
@@ -38,8 +40,8 @@ const InsideTern: FC<Props> = (props: Props) => {
     return (
         <section
             className={cn(styles.section,
-                'from-black via-black to-[--bg-section-green]',
-                'lg:x-[bg-gradient-to-t,from-black,via-[#0a313a],to-[--bg-section-green]]',
+                'from-black via-black',
+                className
             )}
         >
             <div

@@ -1,11 +1,11 @@
-import React, {FC} from "react";
+import React, { FC } from "react";
 import cn from "classnames";
 
-import {InfoSection, SectionCard} from "@/app/types/layout";
-import {MEDIA_LINKS, MISC_LINKS, Route} from "@/app/static";
+import { InfoSection, SectionCard } from "@/app/types/layout";
+import { MEDIA_LINKS, MISC_LINKS, Route } from "@/app/static";
 
-import {PageLink} from "@/app/ui/layout";
-import {Info, InsideTern} from "@/app/ui/templates";
+import { PageLink } from "@/app/ui/layout";
+import { Info, InsideTern } from "@/app/ui/templates";
 
 import styles from "@/app/common.module.css";
 
@@ -50,19 +50,27 @@ const AboutPage: FC = () => {
     return (
         <>
             <div
-                style={{backgroundImage: `url("${SVG_ROCKET.src}")`}}
-                className={'absolute top-0 left-0 w-dvw max-w-dwv h-screen max-h-[100rem] bg-cover bg-center bg-no-repeat'}
+                style={{
+                    backgroundImage: `url("${SVG_ROCKET.src}")`,
+                }}
+                className={cn(
+                    'absolute top-0 left-0',
+                    'bg-black bg-center bg-no-repeat bg-[size:auto_100%]',
+                    'w-full h-screen',
+                    'sm:bg-[25%_center]',
+                    'md:bg-[35%_center]',
+                )}
             />
             <div className={'relative z-10'}>
                 <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <div className={cn(styles.content, 'flex justify-end items-center')}>
+                    <div className={cn(styles.content, 'flex justify-end items-center  sm:items-start')}>
                         <div>
                             <h1
                                 className={cn(styles.textGlow,
                                     `w-min font-oxygen font-bold text-right leading-[1.2]`,
                                     `mb-[--p-content] text-[8rem]`,
-                                    `md:text-[3.4375rem]`,
-                                    `sm:x-[mb-[--p-content-xs],text-[2.9375rem]]`,
+                                    `md:text-[6rem]`,
+                                    `sm:x-[flex,w-[20rem],mt-[--p-content-xl],text-[2.5rem]]`,
                                 )}
                             >
                                 Reaching New Heights
@@ -73,25 +81,33 @@ const AboutPage: FC = () => {
 
                 <section
                     className={cn(styles.textGlow, styles.section, styles.fullHeightSection,
-                        'relative bg-gradient-to-t from-[--bg-control-blue] via-transparent to-[--bg-control-blue]',
+                        'relative',
                     )}
                 >
                     <div
-                        style={{backgroundImage: `url("${SVG_NEURONS.src}")`}}
-                        className={cn(styles.fullHeightSection, 'absolute top-0 left-0 w-dvw max-w-dwv bg-cover bg-center bg-no-repeat')}
+                        style={{ backgroundImage: `url("${SVG_NEURONS.src}")` }}
+                        className={cn(styles.fullHeightSection, 'absolute top-0 left-0 w-dvw max-w-dwv bg-cover bg-center bg-no-repeat z-10')}
                     />
+                    <div className="absolute inset-x-0 top-0 h-[45%] bg-gradient-to-b from-[--bg-control-blue] to-transparent z-0  md:h-[60%]  sm:h-[60%]" />
+                    <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-[--bg-control-blue] to-transparent z-0  md:h-[22%]  sm:h-[60%]" />
                     <div
-                        className={cn(styles.content, 'flex h-full items-center justify-center bg-cover bg-center bg-no-repeat')}>
+                        className={cn(styles.content, 'relative flex h-full items-center justify-center bg-cover bg-center bg-no-repeat z-20')}>
                         <div>
-                            <div className={'mb-[12rem]'}>
-                                <h2 className={'mb-[--p-content-xl] font-oxygen text-[4rem]'}>Mission</h2>
-                                <p className={'text-[2.5rem]'}>
+                            <div className={'mb-[12rem]   md:mb-[13.1875rem]  sm:mb-[15.625rem]'}>
+                                <h2 className={'mb-[--p-content-xl] font-oxygen text-[4rem]  md:text-[3rem]  sm:x-[mb-[--p-content-xs],text-[1.6875rem]]'}>
+                                    Mission
+                                </h2>
+                                <p className={'leading-tight text-[2.5rem]  md:text-[2.25rem]  sm:text-[1.1875rem]'}>
                                     Revolutionize computing by harnessing the power of ternary microprocessors.
                                 </p>
                             </div>
                             <div>
-                                <h2 className={'mb-[--p-content-xl] font-oxygen text-[4rem]'}>Vision</h2>
-                                <p className={'text-[2.5rem]'}>
+                                <h2 className={'mb-[--p-content-xl] font-oxygen text-[4rem]  md:text-[3rem]  sm:x-[mb-[--p-content-xs],text-[1.6875rem]]'}>
+                                    Vision
+                                </h2>
+
+
+                                <p className={'leading-tight text-[2.5rem]  md:text-[2.25rem]  sm:text-[1.1875rem]'}>
                                     Ushering in the era of efficient computing, equipping all legacy devices with
                                     advanced microprocessors.
                                 </p>
@@ -102,15 +118,15 @@ const AboutPage: FC = () => {
                 <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
                     <div className={cn(styles.content, 'flex flex-col py-[7rem] w-full justify-between')}>
                         <div
-                            style={{backgroundImage: `url("${SVG_NATURE.src}")`}}
+                            style={{ backgroundImage: `url("${SVG_NATURE.src}")` }}
                             className={cn(styles.fullHeightSection, 'absolute -z-10 top-0 left-0 w-dvw max-w-dwv bg-cover bg-center bg-no-repeat')}
                         />
                         <h1
                             className={cn(styles.textGlow,
                                 `ml-auto w-min font-oxygen font-bold text-right leading-[1.2] text-black`,
                                 `mb-[--p-content] text-[6rem]`,
-                                `md:text-[3.4375rem]`,
-                                `sm:x-[mb-[--p-content-xs],text-[2.9375rem]]`,
+                                `md:text-[4rem]`,
+                                `sm:x-[mb-[--p-content-xs],text-[3rem]]`,
                             )}
                         >
                             Understand Our Why
@@ -118,15 +134,33 @@ const AboutPage: FC = () => {
                         <div>
                             <PageLink
                                 href={Route.About}
-                                className={'px-[--p-content-s] h-[2.375rem] rounded-full bg-white text-black'}
+                                className={'flex justify-center w-full max-w-[10.5rem] h-[2.375rem] bg-white text-section-s text-black'}
                             >
                                 Read Our Credo
                             </PageLink>
                         </div>
                     </div>
                 </section>
-                <Info data={INFO} className={'pt-[12rem] bg-gradient-to-b from-[--bg-control-blue] to-transparent'}/>
-                <InsideTern data={COMPANY}/>
+                <div className="relative h-full">
+                    <div className="absolute inset-x-0 top-0 h-[65%] bg-gradient-to-b from-[--bg-control-blue] to-transparent z-0" />
+                    <div className="relative z-10">
+                        <Info
+                            data={INFO}
+                            className={'pt-[12rem]'}
+                            titleClassName={'md:text-heading-l  sm:x-[text-[1.75rem],mb-[--p-content-xl]]'}
+                            subTitleClassName={'mb-[--p-content-4xs] text-documentation  lg:text-[2.5rem]  sm:text-documentation'}
+                            descriptionClassName={'text-basic  lg:text-section'}
+                            pageLinkClassName={cn(
+                                'flex items-center justify-center rounded-none',
+                                'w-full max-w-[8.4375rem] h-[2.375rem] mt-[--p-content-xxl] [&]:p-0 ',
+                                '[&]:text-section-s  [&]:sm:text-basic',
+                                'md:mt-[--p-content-xl]',
+                                'sm:x-[mt-[--p-content],h-[1.875rem],max-w-[7.3125rem],text-basic] ',
+                            )}
+                        />
+                        <InsideTern data={COMPANY} />
+                    </div>
+                </div>
             </div>
         </>
     );

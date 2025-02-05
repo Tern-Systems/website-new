@@ -131,7 +131,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
 
         return (
             <li key={section.title + idx}>
-                <ul className={'flex flex-col gap-y-[--p-content-xs]'}>
+                <ul className={'flex flex-col gap-y-[--p-content-s]'}>
                     <li className={'font-bold text-section-s capitalize'}>{section.title}</li>
                     {LinksLi}
                 </ul>
@@ -140,7 +140,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     });
 
     const ContactLinks: ReactElement[] = Object.entries({...CONTACT_LINKS, ...MEDIA_LINKS}).map(([title, link], idx) => (
-        <li key={title + idx} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
+        <li key={title + idx} className={`size-[2.5rem] sm:size-[--p-content-xl] ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
                 <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
@@ -182,13 +182,14 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                         {FooterLinksLi}
                     </ul>
                     <div className={'col-span-2 flex mt-[7rem] w-full justify-between items-center  sm:contents'}>
-                        <p className={'sm:x-[row-start-3,col-span-2,pb-[--p-content],text-center]'}>
+                        <p className={'sm:x-[row-start-3,col-span-2,pb-[--p-content],text-center]  md:self-end'}>
                             Copyright © 2025 Tern Systems LLC
                         </p>
                         <ul
                             className={cn(
                                 'col-span-3 flex gap-[--p-content-3xs]',
                                 'sm:x-[col-start-1,row-start-2,col-span-1,flex-col,h-full,justify-between]',
+                                'md:x-[grid,grid-cols-5,gap-x-4,gap-y-2]'
                             )}
                         >
                             {ContactLinks}
