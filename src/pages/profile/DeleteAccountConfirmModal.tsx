@@ -13,7 +13,7 @@ import {Button, Input} from "@/app/ui/form";
 
 const LIST: string[] = [
     'Account deletion is permanent and cannot be reversed.',
-    'Once deleted, access to all Tern products and services, including TernKey, ARCH, TernKit, and any future offerings, will be permanently revoked.',
+    'Once deleted, access to all Tern products and services, including TernKey, TernKit, and any future offerings, will be permanently revoked.',
     'You will not be able to register a new account using the same email address associated with the deleted account.',
     'Your data will be erased within 30 days, except for a limited subset that may be retained as required or permitted by law.',
 ]

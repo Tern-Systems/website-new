@@ -24,9 +24,9 @@ type SubscribeData = FormCardData & {
 interface IBillingService {
     getCards(email: string): Promise<Res<SavedCard[], false>>;
 
-    postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res>;
+    postProcessPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
 
-    postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res>;
+    postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res>;
 
     getPlanDetails(email: string): Promise<Res<SubscriptionPreview, false>>;
 
@@ -262,7 +262,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postProcessPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res> {
+    async postProcessPayment(data: SubscribeData, planType: PlanType, planDuration: number, planPrice: number, email: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postProcessPayment.name);
 
         const cardDetails = {
@@ -289,7 +289,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + (isArch ? 'arch-' : '') + `process-payment`,
+            url: this._API + `process-payment`,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -314,13 +314,13 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         }
     }
 
-    async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string, isArch: boolean): Promise<Res> {
+    async postProcessSavedPayment(data: SubscribeData, planType: string, planDuration: number, planPrice: number, email: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postProcessSavedPayment.name);
 
         try {
             const config: AxiosRequestConfig = {
                 method: 'POST',
-                url: this._API + (isArch ? 'arch-' : '') + `process-payment-saved`,
+                url: this._API + `process-payment-saved`,
                 headers: {'Content-Type': 'application/json'},
                 data: JSON.stringify({
                     user: email,
@@ -346,7 +346,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     };
 
     async getPlanDetails(source: PlanName): Promise<Res<SubscriptionPreview, false>> {
-        const [debug, error] = this.getLoggers(this.postProcessSavedPayment.name);
+        const [debug, error] = this.getLoggers(this.getPlanDetails.name);
 
         const config: AxiosRequestConfig = {
             method: 'GET',
@@ -360,7 +360,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(response);
 
             let previewResult: SubscriptionPreview = {
-                route: source === 'TernKey' ? Route.TernKeySubscribe : Route.ServiceSubscribe,
+                route: Route.TernKeySubscribe,
                 subscription: source,
                 isBasicKind: source === 'TernKey',
                 type: {},

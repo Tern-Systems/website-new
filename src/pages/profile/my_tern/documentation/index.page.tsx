@@ -17,11 +17,6 @@ const LINKS: { title: string; text: string; route: Route }[] = [
         route: Route.TernKeyDoc
     },
     {
-        title: 'ARCH Manual',
-        text: 'Maximize your AR code\'s potential with this comprehensive user manual.',
-        route: Route.ARCHDoc
-    },
-    {
         title: 'TernKit Manual',
         text: 'Research and test ternary code on a machine equipped for ternary logic execution.',
         route: Route.TernKitDoc

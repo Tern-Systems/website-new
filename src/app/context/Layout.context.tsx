@@ -17,7 +17,7 @@ import {LAYOUT, Route} from "@/app/static";
 
 import {checkSubRoute} from "@/app/utils";
 import {useBreakpointCheck} from "@/app/hooks";
-import {useUser} from "@/app/context/User.context";
+
 
 // Main links, sub links, sub sub links
 enum NavLink {Nav, SubNav, Sub2Nav}
@@ -25,8 +25,8 @@ enum NavLink {Nav, SubNav, Sub2Nav}
 type NavLinks = [Route[], Route [] | null, Route[] | null];
 
 
-const NAV_LINKS: Route[] = [Route.About, Route.TernKey, Route.ARCH, Route.Contact];
-const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation, Route.Credo, Route.ARCodeToolEdit];
+const NAV_LINKS: Route[] = [Route.About, Route.TernKey, Route.Contact, Route.AllWays];
+const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation];
 
 
 interface ILayoutContext {
@@ -42,7 +42,6 @@ interface ILayoutContext {
 const LayoutContext = createContext<ILayoutContext | null>(null);
 
 const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-    const userCtx = useUser();
     const route = usePathname();
     const isSmScreen = useBreakpointCheck() === 'sm';
 
@@ -56,32 +55,10 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         let subNavLinks: Route [] | null = [];
         let sub2NavLinks: Route [] | null = [];
 
-        let links: Route[] = [];
         switch (route) {
             case Route.Documentation:
                 subNavLinks = isSmScreen ? [Route.Documentation] : null;
                 break;
-            case Route.Credo:
-                links = [Route.Credo];
-                if (isSmScreen)
-                    subNavLinks = links;
-                break;
-            // case Route.AllWays:
-            //     links = [Route.AllWays, Route.TBD0, Route.TBD1, Route.TBD2];
-            //     if (isSmScreen)
-            //         subNavLinks = links;
-            //     else
-            //         sub2NavLinks = links;
-            //     break;
-            // case Route.TBD0:
-            // case Route.TBD1:
-            // case Route.TBD2:
-            //     links = [Route.AllWays, Route.TBD0, Route.TBD1, Route.TBD2];
-            //     if (isSmScreen)
-            //         subNavLinks = links;
-            //     else
-            //         sub2NavLinks = links;
-            //     break;
             case Route.MyTern:
             case Route.Profile:
             case Route.Billing:
@@ -94,23 +71,22 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             // else
             //     sub2NavLinks = links;
             // break;
-            case Route.TernKeyPricing:
-            case Route.TernKeyProductManual:
-            case Route.TernKey:
-                links = [Route.TernKeyPricing, Route.TernKeyProductManual];
-                if (!userCtx.userData) links.shift();
-                if (isSmScreen)
-                    subNavLinks = links;
-                else
-                    sub2NavLinks = links;
-                break;
+            // case Route.TernKeyPricing:
+            // case Route.TernKeyProductManual:
+            // case Route.TernKey:
+            //     links = [Route.TernKeyPricing, Route.TernKeyProductManual];
+            //     if (!userCtx.userData) links.shift();
+            //     if (isSmScreen)
+            //         subNavLinks = links;
+            //     else
+            //         sub2NavLinks = links;
+            //     break;
             // case Route.Dot:
             // case Route.DotPricing:
             // case Route.DotProductManual:
             //     subNavLinks = [Route.Products, Route.Dot, Route.TernKey];
             //     sub2NavLinks = [Route.Dot, Route.DotPricing, Route.DotProductManual];
             //     break;
-            case Route.ARCHDoc:
             case Route.BTMCDoc:
             case Route.GDoc:
             case Route.TernDoc:
@@ -120,7 +96,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 sub2NavLinks = isSmScreen
                     ? [route as Route]
                     : [
-                        Route.ARCHDoc,
                         Route.BTMCDoc,
                         Route.GDoc,
                         Route.TernDoc,
@@ -128,18 +103,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                         Route.TernKitDoc,
                     ];
                 break;
-            case Route.ARCH:
-            case Route.ServicePricing:
-            case Route.ARCodeToolCreate:
-            case Route.SavedCodes:
-            case Route.ServiceUserManual:
-                links = [Route.ServicePricing, Route.ServiceUserManual];
-                if (!userCtx.userData) links.shift();
-                if (isSmScreen)
-                    subNavLinks = links;
-                else
-                    sub2NavLinks = links;
-                break
         }
 
         return [subNavLinks, sub2NavLinks];
@@ -152,12 +115,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         switch (true) {
             case checkSubRoute(route, Route.Documentation):
                 navLinks[NavLink.Nav] = [Route.MyTern, Route.Documentation];
-                break;
-            case checkSubRoute(route, Route.Credo):
-                navLinks[NavLink.Nav] = [Route.About, Route.Credo];
-                break;
-            case checkSubRoute(route, Route.ARCodeToolEdit):
-                navLinks[NavLink.Nav] = [Route.ARCH, Route.ARCodeToolEdit];
                 break;
             // case checkSubRoute(route, Route.TernKey):
             //     navLinks[NavLink.Nav] = [Route.Products, Route.TernKey];

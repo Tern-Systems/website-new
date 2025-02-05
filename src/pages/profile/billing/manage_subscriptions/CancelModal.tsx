@@ -44,12 +44,12 @@ const CancelModal: FC<Props> = (props: Props) => {
         >
             <div className={'inline-block max-w-[25rem]'}>
                 <p className={'mb-[--1drs] text-nowrap sm:max-w-[70%] sm:whitespace-pre-wrap place-self-center'}>
-                    You&apos;re about to cancel your ARCH Pro Plan subscription.
+                    You&apos;re about to cancel your {props.plan} Pro Plan subscription.
                 </p>
                 <p>
                     If you wish to proceed, please click the red <span
                     className={'font-bold'}>Cancel Subscription</span> button. Otherwise, click the
-                    <span className={'font-bold'}> Return to Billing</span> button to return to managing your ARCH
+                    <span className={'font-bold'}> Return to Billing</span> button to return to managing your {props.plan}
                     subscription billing settings.
                 </p>
                 <span
@@ -62,7 +62,7 @@ const CancelModal: FC<Props> = (props: Props) => {
                         </Button>
                         <PageLink href={Route.Billing}>
                             <Button className={`bg-control-gray-l0 ${BTN_CN}`}>
-                              Return to Billing
+                                Return to Billing
                             </Button>
                         </PageLink>
                     </span>

@@ -5,7 +5,7 @@ import {Route} from "@/app/static";
 
 import {useNavigate} from "@/app/hooks";
 
-import SVG_INSIGNIA from '/public/images/insignia-logo.png'
+import SVG_LOGO from '/public/images/tern-logo.png'
 
 
 const Insignia: FC = () => {
@@ -13,12 +13,12 @@ const Insignia: FC = () => {
     return (
         <div>
             <Image
-                src={SVG_INSIGNIA}
-                width={29}
+                src={SVG_LOGO}
+                width={65}
                 height={29}
                 alt={'insignia'}
                 onClick={() => navigate(Route.Home)}
-                className={'w-[--insignia-moved-size] h-auto  cursor-pointer'}
+                className={'h-[--insignia-h] w-auto  cursor-pointer'}
             />
         </div>
     );

@@ -12,7 +12,15 @@ const config: Config = {
             screens: {
                 sm: {max: '835px'},
                 md: {min: '835px', max: '1440px'},
-                lg: {min: '1440px'}
+                lg: {min: '1440px'},
+            },
+            minHeight: {
+                heading: 'var(--h-heading)',
+                'heading-lg': 'var(--h-heading-lg)',
+            },
+            height: {
+                heading: 'var(--h-heading)',
+                'heading-lg': 'var(--h-heading-lg)',
             },
             colors: {
                 primary: "var(--color-primary)",
@@ -29,9 +37,11 @@ const config: Config = {
                 'control-white-d1': "var(--bg-control-white-d1)",
                 'control-white-d0': "var(--bg-control-white-d0)",
                 'control-white': "var(--bg-control-white)",
+                'control-blue-l0': "var(--bg-control-blue-l0)",
                 'control-blue': "var(--bg-control-blue)",
                 'control-red': "var(--bg-control-red)",
                 'section-navy': "var(--bg-section-navy)",
+                'section-green': "var(--bg-section-green)",
                 'control-navy': "var(--bg-control-navy)",
             },
             borderRadius: {

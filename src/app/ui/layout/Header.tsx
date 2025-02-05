@@ -10,7 +10,7 @@ import {
     MAPPED_NAV_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
     SPECIAL_NAV_ROUTES,
-    Route
+    Route,
 } from "@/app/static";
 
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
@@ -23,13 +23,16 @@ import {Button} from "@/app/ui/form";
 
 import styles from '@/app/common.module.css'
 
-import SVG_PROFILE from "/public/images/icons/profile.svg";
 import {getRouteLeave} from "@/app/utils/router";
 import {Insignia} from "@/app/ui/misc";
 
+import SVG_PROFILE from "/public/images/icons/profile.svg";
 
-const AUTH_BTNS: string[] = ['Login', 'Sign Up'];
 
+const AUTH_BTNS: { title: string, action: string, description: string }[] = [
+    {title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account'},
+    {title: 'Register for an account', action: 'Sign Up', description: 'Create a Tern account for richer experience'},
+];
 
 const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.3rem] after:w-[2.5rem] after:border-b-[2px] after:border-control-blue`;
 
@@ -41,7 +44,7 @@ interface Props {
 const Header: FC<Props> = (props: Props): ReactElement => {
     const {profileMenuState} = props;
 
-    const [isProfileMenuOpened, setProfileMenuOpenState] = profileMenuState;
+    const [isProfileMenuOpened, setProfileMenuOpened] = profileMenuState;
 
     const route = usePathname();
     const userCtx = useUser();
@@ -52,16 +55,10 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
     const isSmScreen = breakpoint === 'sm';
 
-    const toggleProfileMenu = () => {
-        if (!userCtx.isLoggedIn)
-            modalCtx.openModal(isSmScreen ? <PreAuthModal/> : <AuthModal/>, {darkenBg: !isSmScreen});
-        else
-            setProfileMenuOpenState(prevState => !prevState);
-    }
 
     const toggleMenu = () => {
         openMenu();
-        setProfileMenuOpenState(false);
+        setProfileMenuOpened(false);
     }
 
 
@@ -72,7 +69,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 && !document.querySelector('#profile-icon')?.contains(event.target as Node)
                 && !document.querySelector('#profile-menu')?.contains(event.target as Node)
             ) {
-                setProfileMenuOpenState(false);
+                setProfileMenuOpened(false);
             }
         }
         window.addEventListener('mousedown', handleClick);
@@ -133,30 +130,30 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         );
 
 
-    let userBtns: ReactElement | ReactElement[];
-    if (userCtx.isLoggedIn || breakpoint !== 'lg') {
-        const ProfileLinks: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
-            <li key={link + idx}
-                className={cn(
-                    `w-full pb-[--p-content-xs]`,
-                    `sm:x-[border-b-small,pt-[--p-content-xs]]`,
-                    `sm:landscape:text-section-s`,
-                )}
-            >
-                <PageLink
-                    href={link}
-                    className={`relative flex justify-center bg-control`}
-                    onClick={() => setProfileMenuOpenState(false)}
-                />
-            </li>
-        ));
-
+    let ProfileMenu: ReactElement | null = null
+    if (isProfileMenuOpened) {
         if (userCtx.isLoggedIn) {
-            ProfileLinks.push(
+            const ProfileMenuLi: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
+                <li key={link + idx}
+                    className={cn(
+                        `w-full pb-[--p-content-xs]`,
+                        `sm:x-[border-b-small,pt-[--p-content-xs]]`,
+                        `sm:landscape:text-section-s`,
+                    )}
+                >
+                    <PageLink
+                        href={link}
+                        className={`relative flex justify-center bg-control`}
+                        onClick={() => setProfileMenuOpened(false)}
+                    />
+                </li>
+            ));
+
+            ProfileMenuLi.push(
                 <li
                     key={'logout' + LAYOUT.profileLinks.length}
                     onClick={() => {
-                        setProfileMenuOpenState(false);
+                        setProfileMenuOpened(false);
                         userCtx.removeSession();
                     }}
                     className={cn(
@@ -168,86 +165,119 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     Log Out
                 </li>
             );
-        }
-
-        userBtns = (
-            <div className={'relative'}>
-                <Image
-                    id={'profile-icon'}
-                    src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
-                    width={29}
-                    height={29}
-                    alt={'profile icon'}
-                    className={'cursor-pointer rounded-full h-[1.8125rem]'}
-                    onClick={() => toggleProfileMenu()}
-                />
+            ProfileMenu = (
                 <ul id={'profile-menu'}
                     className={cn(
                         `absolute z-10 right-0 flex flex-col items-start`,
                         `mt-[0.6rem] p-[--p-content-xs] min-w-[5.18rem]`,
                         `border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap`,
                         `sm:x-[min-w-[8.75rem],bg-control-white-d0,text-gray,rounded-none,py-0]`,
-                        {['hidden']: !isProfileMenuOpened}
                     )}
                 >
-                    {ProfileLinks}
+                    {ProfileMenuLi}
                 </ul>
-            </div>
-        )
-    } else {
-        userBtns = AUTH_BTNS.map((name, idx) => (
-            <Button
-                key={name + idx}
-                onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1}/>, {darkenBg: true})}
-                className={`px-[0.75rem] py-[0.2rem] rounded-full border-small border-section font-bold capitalize 
-                            text-basic ${idx ? 'bg-black text-primary' : 'bg-control-white text-black'}`}
-            >
-                {name}
-            </Button>
-        ))
+            )
+        } else {
+            const ProfileMenuLi: ReactElement[] = AUTH_BTNS.map((entry, idx) => (
+                <li
+                    key={entry.title + idx}
+                    className={'flex flex-col gap-y-[--p-content-4xs]'}
+                >
+                    <p className={'text-section-s'}>{entry.title}</p>
+                    <p className={'text-gray'}>{entry.description}</p>
+                    <Button
+                        onClick={() => modalCtx.openModal(isSmScreen ? <PreAuthModal/> :
+                            <AuthModal/>, {darkenBg: !isSmScreen})}
+                        className={cn(
+                            `w-full py-[--p-content-5xs] rounded-full border-small border-section font-bold capitalize text-section`,
+                            idx ? 'bg-black text-primary' : 'bg-control-white text-black'
+                        )}
+                    >
+                        {entry.action}
+                    </Button>
+                </li>
+            ));
+            ProfileMenu = (
+                <div
+                    id={'profile-menu'}
+                    className={cn(
+                        'absolute z-10 mt-[--p-content-5xs] right-0 p-[--p-content] rounded-normal border-small',
+                        'border-control-gray-l0 bg-black text-nowrap'
+                    )}
+                >
+                    <h2 className={'text-heading font-bold'}>Tern Account</h2>
+                    <ul className={'flex flex-col mt-[--p-content-xs] gap-y-[--p-content-xs]'}>{ProfileMenuLi}</ul>
+                </div>
+            );
+        }
     }
 
+    const userBtns: ReactElement | ReactElement[] = (
+        <div className={'relative'}>
+            <Image
+                id={'profile-icon'}
+                src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
+                width={29}
+                height={29}
+                alt={'profile icon'}
+                className={'cursor-pointer rounded-full h-[1.8125rem]'}
+                onClick={() => setProfileMenuOpened(prevState => !prevState)}
+            />
+            {ProfileMenu}
+        </div>
+    );
+
+
     return (
-        <header className={'text-basic leading-none'}>
-            <div
-                className={cn(
-                    `relative z-[2] flex items-center`,
-                    `px-[--p-content-l] w-full h-[5.13rem]`,
-                    `border-b-small border-section bg-black`,
-                    `sm:x-[px-[--p-content-xs],h-[4.31rem]]    after:sm:border-control-gray-l0`
-                )}
-            >
-                <Insignia/>
-                <nav
+        <header className={'text-section-xs leading-none bg-black'}>
+            <div className={'border-b-small border-section'}>
+                <div
                     className={cn(
-                        `relative flex items-center`,
-                        `ml-[calc(2*var(--p-content))] h-full`,
-                        `before:x-[absolute,h-[67%],-left-[--p-content],border-r-small,border-section]`,
-                        `sm:x-[order-last,ml-[--p-content]] sm:before:x-[-left-[--p-content-xxs],h-[52%],border-control-gray-l0]`,
+                        `relative z-[2] flex items-center`,
+                        `px-[--p-content-l] w-full h-heading-lg`,
+                        `lg:x-[mx-auto,w-3/4,max-w-[90rem]]`,
+                        `sm:px-[--p-content-xs]    after:sm:border-control-gray-l0`
                     )}
                 >
-                    <Button
-                        onClick={() => toggleMenu()}
-                        icon={'burger'}
-                        className={`lg:hidden md:hidden`}
-                        classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
-                    />
-                    <ul className={`flex cursor-pointer text-section-s sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
-                        {NavLinks}
-                    </ul>
-                </nav>
-                <div className={'flex gap-[0.75rem] ml-auto  sm:ml-auto'}>{userBtns}</div>
+                    <Insignia/>
+                    <nav
+                        className={cn(
+                            `relative flex items-center`,
+                            `ml-[calc(2*var(--p-content-xs))] h-full`,
+                            `before:x-[absolute,h-[67%],-left-[--p-content-xs],border-r-small,border-section]`,
+                            `sm:x-[order-last,ml-[--p-content]] sm:before:x-[-left-[--p-content-xxs],h-[52%],border-control-gray-l0]`,
+                        )}
+                    >
+                        <Button
+                            onClick={() => toggleMenu()}
+                            icon={'burger'}
+                            className={`lg:hidden md:hidden`}
+                            classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
+                        />
+                        <ul className={`flex cursor-pointer sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
+                            {NavLinks}
+                        </ul>
+                    </nav>
+                    <div className={'flex gap-[0.75rem] ml-auto  sm:ml-auto'}>{userBtns}</div>
+                </div>
             </div>
-            <ul
-                className={cn(
-                    `relative flex gap-[--s-default] px-[--s-default] w-full items-center border-b-small text-section-s`,
-                    `border-section`,
-                    SubNavItemsMdLg?.length ? 'h-[--h-modal-header] ' + styles.slideIn : styles.slideOut,
-                    `sm:hidden`
-                )}
-            >
-                {SubNavItemsMdLg}
-            </ul>
+            {SubNavItemsMdLg?.length
+                ? (
+                    <div className={'border-b-small border-section'}>
+                        <ul
+                            className={cn(
+                                `relative flex gap-[--s-default] px-[--s-default] w-full items-center`,
+                                SubNavItemsMdLg?.length ? 'h-heading-lg ' + styles.slideIn : styles.slideOut,
+                                `lg:x-[mx-auto,w-3/4]`,
+                                `sm:hidden`
+                            )}
+                        >
+                            {SubNavItemsMdLg}
+                        </ul>
+                    </div>
+                )
+                : null
+            }
         </header>
     );
 }

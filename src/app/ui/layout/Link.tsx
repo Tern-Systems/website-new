@@ -40,7 +40,7 @@ const PageLink: FC<Props> = (props: Props) => {
     const [navigate] = useNavigate(preventModalClose, timeout === 0);
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
-        linkProps.onClick?.(event);
+        linkProps.onClick?.(event);console.log(href)
         if (prevent || isExternal)
             return;
 
@@ -52,12 +52,13 @@ const PageLink: FC<Props> = (props: Props) => {
 
     const Icon: ReactElement | null = icon
         ? (
-            <ReactSVG src={ICON[icon].src}
-                      className={cn(
-                          `inline size-[1rem]`,
-                          {['rotate-180']: icon === 'forward'},
-                          iconClassName
-                      )}
+            <ReactSVG
+                src={ICON[icon].src}
+                className={cn(
+                    `inline size-[1rem]`,
+                    {['rotate-180']: icon === 'forward'},
+                    iconClassName
+                )}
             />
         )
         : null;

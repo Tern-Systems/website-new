@@ -48,11 +48,9 @@ type TableSection = {
 const NAV_BTNS_DEFAULT: { title: string; icon: ButtonIcon; href: string, isExternal?: boolean }[] = [
     {title: 'Build Key', icon: 'plus', href: TERN_AC_HREF, isExternal: true},
     {title: 'Explore Keys', icon: 'glass', href: TERN_AC_HREF + '/explore', isExternal: true},
-    {title: 'Create AR Code', icon: 'plus', href: Route.ARCodeToolCreate},
 ];
 
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
-    ARCH: Route.ARCodeToolCreate,
     // dot: Route.Dot,
     TernKey: TERN_AC_HREF,
     trial: '',
@@ -164,7 +162,7 @@ const MyTernPage: FC = () => {
 
     const navBtns = copyObject(NAV_BTNS_DEFAULT);
     if (userCtx.userData?.subscriptions?.find((plan) => plan.subscription === 'trial'))
-        navBtns.splice(1, 0, {title: 'Try TernKey Pro', icon: 'diamond', href: Route.ServicePricing});
+        navBtns.splice(1, 0, {title: 'Try TernKey Pro', icon: 'diamond', href: Route.TernKeyPricing});
 
     const subscriptionTable: TableSection = {
         title: 'Subscription',

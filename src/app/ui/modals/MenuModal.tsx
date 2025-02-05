@@ -168,7 +168,7 @@ const MenuModal: FC<Props> = (props: Props) => {
                        `ml-auto w-full sm:landscape:x-[max-w-[46dvw],text-content-small]`,
                        {['[&_hr]:hidden']: isFirstActive}
                    )}
-                   classNameContent={'h-[calc(100dvh-var(--h-modal-header))] overflow-y-scroll'}
+                   classNameContent={'h-[calc(100dvh-var(--h-heading))] overflow-y-scroll'}
         >
             <ul className={`flex flex-col  gap-x-[--s-default]`}>
                 {NavLinks}

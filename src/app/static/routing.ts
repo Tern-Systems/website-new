@@ -1,25 +1,12 @@
 enum Route {
     Home = '/',
 
-    // AllWays = '/all_ways',
-    // TBD0 = '/all_ways/TBD0',
-    // TBD1 = '/all_ways/TBD1',
-    // TBD2 = '/all_ways/TBD2',
+    AllWays = '/all_ways',
     About = '/about',
-    Credo = '/about/our_credo',
     Contact = '/contact',
     Terms = '/terms',
     Cookies = '/cookies',
     Privacy = '/privacy',
-
-    // /service
-    ARCH = '/arch',
-    ARCodeToolCreate = '/arch/create',
-    ARCodeToolEdit = '/arch/library/edit',
-    ServicePricing = '/arch/plans',
-    SavedCodes = '/arch/library',
-    ServiceUserManual = '/arch/manual',
-    ServiceSubscribe = '/subscribe/arch',
 
     // /product
     // Products = '/products/all',
@@ -47,7 +34,6 @@ enum Route {
     GDoc = '/profile/my_tern/documentation/g',
     TernKitDoc = '/profile/my_tern/documentation/tern_kit',
     TernDoc = '/profile/my_tern/documentation/tern',
-    ARCHDoc = '/profile/my_tern/documentation/arch',
     BTMCDoc = '/profile/my_tern/documentation/btmc',
 }
 

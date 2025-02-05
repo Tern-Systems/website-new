@@ -56,7 +56,7 @@ interface Props {
 }
 
 const PaymentForm: FC<Props> = (props: Props) => {
-    const {type, name, recurrency, priceUSD} = props
+    const {type, recurrency, priceUSD} = props
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -137,9 +137,9 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 formDataMapped.id = selectedCard.id;
                 formDataMapped.cvc = formData.cvc;
                 formDataMapped.state = selectedCard.billingAddress.state;
-                await BillingService.postProcessSavedPayment(formDataMapped, type, recurrencyMapped, priceUSD, userCtx.userData.email, name === 'ARCH');
+                await BillingService.postProcessSavedPayment(formDataMapped, type, recurrencyMapped, priceUSD, userCtx.userData.email);
             } else
-                await BillingService.postProcessPayment(formDataMapped, type, recurrencyMapped, priceUSD, userCtx.userData.email, name === 'ARCH');
+                await BillingService.postProcessPayment(formDataMapped, type, recurrencyMapped, priceUSD, userCtx.userData.email);
             setPaymentStatus(true);
         } catch (error: unknown) {
             setPaymentStatus(false);
