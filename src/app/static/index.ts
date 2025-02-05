@@ -1,4 +1,11 @@
-export {Route} from "./routing";
+export {Route, BLOG_ROUTES} from "./routing";
+
+
+export {TAGS} from './blog';
+
+export type {JobFunctionKey, IndustryKey, SubIndustryKey} from './company';
+export {JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY} from './company';
+
 
 export {
     ALWAYS_MAPPED_ROUTES,
@@ -9,10 +16,7 @@ export {
     CONTACT_LINKS,
     MEDIA_LINKS,
     MISC_LINKS,
-} from './misc';
+} from './layout';
 
 export type {StateKey, CountryKey, SalutationKey, LanguageKey} from './profile';
 export {STATE_PROVINCE, COUNTRY, LANGUAGE, SALUTATION, REGEX} from './profile';
-
-export type {JobFunctionKey, IndustryKey, SubIndustryKey} from './company';
-export {JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY} from './company';

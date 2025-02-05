@@ -228,8 +228,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                             openMenu();
                         else
                             modalCtx.openModal(<PreAuthModal/>);
-                    }
-                    else
+                    } else
                         setProfileMenuOpened(prevState => !prevState);
                 }}
             />
@@ -273,8 +272,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     <div className={'border-b-small border-section'}>
                         <ul
                             className={cn(styles.content,
-                                `relative flex gap-[--s-default] items-center`,
-                                SubNavItemsMdLg?.length ? 'h-heading ' + styles.slideIn : styles.slideOut,
+                                `relative flex gap-[--s-default] items-center text-section-xxs`,
+                                SubNavItemsMdLg?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
                                 `sm:hidden`
                             )}
                         >

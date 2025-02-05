@@ -21,6 +21,7 @@ const config: Config = {
             height: {
                 heading: 'var(--h-heading)',
                 'heading-modal': 'var(--h-heading-modal)',
+                'sub-heading': 'var(--h-sub-heading)',
             },
             colors: {
                 primary: "var(--color-primary)",

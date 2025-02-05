@@ -81,7 +81,7 @@ const MenuModal: FC<Props> = (props: Props) => {
             const isActive = checkSubRoute(route, link, singleSubLink || !idx);
             const isNextActive = checkSubRoute(route, array[idx + 1], singleSubLink); // last+1 always undefined
 
-            const subNav = getSubNavs(subNavRoute as Route)[1];
+            const subNav = getSubNavs(subNavRoute as Route, true)[1];
 
             const hasSubRoutes = subNav !== null && subNav?.length > 0;
             const renderSubRoutes = hasSubRoutes

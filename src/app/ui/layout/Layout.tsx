@@ -18,6 +18,8 @@ import {HelpModal} from "@/app/ui/modals";
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
 
+import PNG_NEURONS from "/public/images/neurons.png";
+
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);
 
@@ -46,22 +48,23 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
             Route.AllWays,
             {title: 'Events', action: MISC_LINKS.Events},
             {title: 'Podcast', action: MEDIA_LINKS.YouTube.href},
-        ]
+            {title: 'News', action: Route.AllWays},
+        ],
     },
     {
-        title: 'Resources',
+        title: 'Support',
         links: [
             {
-                title: 'Billing Resolution Center',
+                title: 'Billing',
                 action: (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'brc'}/>),
                 checkLogin: true,
             },
             {
-                title: 'Support Hub',
+                title: 'Resources',
                 action: (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'support'}/>)
             },
             Route.MyDocumentation,
-            {title: 'Learning Material', action: MEDIA_LINKS.YouTube.href}
+            {title: 'Training', action: MEDIA_LINKS.YouTube.href}
         ]
     },
     {
@@ -152,10 +155,10 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
             <Header profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]}/>
             <div
                 id={'content'}
+                style={{backgroundImage: `url("${PNG_NEURONS.src}")`}}
                 className={cn(
                     `relative flex flex-col flex-grow w-full items-center`,
-                    `w-screen bg-[url("/images/neurons.png")] bg-cover bg-no-repeat bg-fixed`,
-                    `overflow-y-scroll`,
+                    `w-screen bg-cover bg-no-repeat bg-fixed`,
                     `sm:overflow-hidden`,
                     `sm:landscape:overflow-y-scroll`,
                 )}

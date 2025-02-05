@@ -13,7 +13,7 @@ import React, {
 } from 'react';
 import {usePathname} from "next/navigation";
 
-import {LAYOUT, Route} from "@/app/static";
+import {BLOG_ROUTES, LAYOUT, Route} from "@/app/static";
 
 import {checkSubRoute} from "@/app/utils";
 import {useBreakpointCheck} from "@/app/hooks";
@@ -30,6 +30,72 @@ const NAV_LINKS: Route[] = [Route.About, Route.TernKey, Route.Contact, Route.All
 const BREADCRUMBS_NAV_ROUTES: string[] = [Route.Documentation];
 
 
+const getSubNavs = (route: Route | null, isSm: boolean): [Route [] | null, Route[] | null] => {
+    let subNavLinks: Route [] | null = [];
+    let sub2NavLinks: Route [] | null = [];
+
+    switch (route) {
+        case Route.MyDocumentation:
+            subNavLinks = isSm ? [Route.MyDocumentation] : null;
+            break;
+        case Route.MyTern:
+        case Route.Profile:
+        case Route.Billing:
+            sub2NavLinks = isSm ? null : LAYOUT.profileLinks;
+            break;
+        // case Route.Products:
+        // links = [Route.Products, Route.Dot, Route.TernKey];
+        // if (isSmScreen)
+        //     subNavLinks = links;
+        // else
+        //     sub2NavLinks = links;
+        // break;
+        // case Route.TernKeyPricing:
+        // case Route.TernKeyProductManual:
+        // case Route.TernKey:
+        //     links = [Route.TernKeyPricing, Route.TernKeyProductManual];
+        //     if (!userCtx.userData) links.shift();
+        //     if (isSmScreen)
+        //         subNavLinks = links;
+        //     else
+        //         sub2NavLinks = links;
+        //     break;
+        // case Route.Dot:
+        // case Route.DotPricing:
+        // case Route.DotProductManual:
+        //     subNavLinks = [Route.Products, Route.Dot, Route.TernKey];
+        //     sub2NavLinks = [Route.Dot, Route.DotPricing, Route.DotProductManual];
+        //     break;
+        case Route.BTMCDoc:
+        case Route.GDoc:
+        case Route.TernDoc:
+        case Route.TernKeyDoc:
+        case Route.TernKitDoc:
+            subNavLinks = [Route.MyDocumentation];
+            sub2NavLinks = isSm
+                ? [route as Route]
+                : [
+                    Route.BTMCDoc,
+                    Route.GDoc,
+                    Route.TernDoc,
+                    Route.TernKeyDoc,
+                    Route.TernKitDoc,
+                ];
+            break;
+    }
+
+
+    if (checkSubRoute(route, Route.AllWays)) {
+        sub2NavLinks = [
+            Route.AllWays,
+            ...BLOG_ROUTES,
+        ];
+    }
+
+    return [subNavLinks, sub2NavLinks];
+}
+
+
 interface ILayoutContext {
     toggleFullscreen: () => void;
     isNoLayout: boolean;
@@ -37,14 +103,14 @@ interface ILayoutContext {
     isFade: boolean;
     navLinks: NavLinks;
     isBreadCrumbsNav: boolean;
-    getSubNavs: (route: Route) => [Route [] | null, Route[] | null];
+    getSubNavs: (route: Route, isSm: boolean) => [Route [] | null, Route[] | null];
 }
 
 const LayoutContext = createContext<ILayoutContext | null>(null);
 
 const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const route = usePathname();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSm = useBreakpointCheck() === 'sm';
     const userCtx = useUser();
 
     const [isNoLayout, setNoLayoutState] = useState(false);
@@ -53,67 +119,9 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const fullscreenRef = useRef<HTMLDivElement | null>(null);
 
 
-    const getSubNavs = (route: Route | null): [Route [] | null, Route[] | null] => {
-        let subNavLinks: Route [] | null = [];
-        let sub2NavLinks: Route [] | null = [];
-
-        switch (route) {
-            case Route.MyDocumentation:
-                subNavLinks = isSmScreen ? [Route.MyDocumentation] : null;
-                break;
-            case Route.MyTern:
-            case Route.Profile:
-            case Route.Billing:
-                sub2NavLinks = isSmScreen ? null : LAYOUT.profileLinks;
-                break;
-            // case Route.Products:
-            // links = [Route.Products, Route.Dot, Route.TernKey];
-            // if (isSmScreen)
-            //     subNavLinks = links;
-            // else
-            //     sub2NavLinks = links;
-            // break;
-            // case Route.TernKeyPricing:
-            // case Route.TernKeyProductManual:
-            // case Route.TernKey:
-            //     links = [Route.TernKeyPricing, Route.TernKeyProductManual];
-            //     if (!userCtx.userData) links.shift();
-            //     if (isSmScreen)
-            //         subNavLinks = links;
-            //     else
-            //         sub2NavLinks = links;
-            //     break;
-            // case Route.Dot:
-            // case Route.DotPricing:
-            // case Route.DotProductManual:
-            //     subNavLinks = [Route.Products, Route.Dot, Route.TernKey];
-            //     sub2NavLinks = [Route.Dot, Route.DotPricing, Route.DotProductManual];
-            //     break;
-            case Route.BTMCDoc:
-            case Route.GDoc:
-            case Route.TernDoc:
-            case Route.TernKeyDoc:
-            case Route.TernKitDoc:
-                subNavLinks = [Route.MyDocumentation];
-                sub2NavLinks = isSmScreen
-                    ? [route as Route]
-                    : [
-                        Route.BTMCDoc,
-                        Route.GDoc,
-                        Route.TernDoc,
-                        Route.TernKeyDoc,
-                        Route.TernKitDoc,
-                    ];
-                break;
-        }
-
-        return [subNavLinks, sub2NavLinks];
-    }
-
-
     const navLinks: NavLinks = [NAV_LINKS, null, null];
     const isBreadCrumbsNav: boolean = BREADCRUMBS_NAV_ROUTES.some((subRoute) => checkSubRoute(route, subRoute));
-    if (!isSmScreen && isBreadCrumbsNav) {
+    if (!isSm && isBreadCrumbsNav) {
         switch (true) {
             case checkSubRoute(route, Route.Documentation):
                 navLinks[NavLink.Nav] = [
@@ -127,10 +135,11 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             default:
                 break;
         }
-    } else if (route?.includes(Route.Profile) && isSmScreen)
+    } else if (route?.includes(Route.Profile) && isSm)
         navLinks[NavLink.Nav] = LAYOUT.profileLinks;
 
-    const subNavs = getSubNavs(route as Route);
+
+    const subNavs = getSubNavs(route as Route, isSm);
     navLinks[NavLink.SubNav] = subNavs[0];
     navLinks[NavLink.Sub2Nav] = subNavs[1];
 

@@ -1,7 +1,6 @@
 enum Route {
     Home = '/',
 
-    AllWays = '/all_ways',
     Credo = '/about/credo',
     About = '/about',
     Contact = '/contact',
@@ -29,6 +28,7 @@ enum Route {
     EditPaymentMethod = '/profile/billing/purchasing_information/edit',
     AddPaymentMethod = '/profile/billing/purchasing_information/add',
 
+    // Docs / help
     Help = '/profile/my_tern/faqs',
     MyDocumentation = '/profile/my_tern/documentation',
     Documentation = '/documentation',
@@ -37,7 +37,39 @@ enum Route {
     TernKitDoc = '/documentation/tern_kit',
     TernDoc = '/documentation/tern',
     BTMCDoc = '/documentation/btmc',
+
+    // /all_ways
+    AllWays = '/all_ways',
+    AllWaysArticle = '/all_ways/article',
+    Artificial = '/all_ways/artificial',
+    Intelligence = '/all_ways/intelligence',
+    Batteries = '/all_ways/batteries',
+    Cloud = '/all_ways/cloud',
+    Cybersecurity = '/all_ways/cybersecurity',
+    Data = '/all_ways/data',
+    Centers = '/all_ways/centers',
+    Robotics = '/all_ways/robotics',
+    Semiconductors = '/all_ways/semiconductors',
+    Videos = '/all_ways/videos',
+    Podcasts = '/all_ways/podcasts',
+    Events = '/all_ways/events',
 }
 
 
-export {Route};
+const BLOG_ROUTES = [
+    Route.Artificial,
+    Route.Intelligence,
+    Route.Batteries,
+    Route.Cloud,
+    Route.Cybersecurity,
+    Route.Data,
+    Route.Centers,
+    Route.Robotics,
+    Route.Semiconductors,
+    Route.Videos,
+    Route.Podcasts,
+    Route.Events
+];
+
+
+export {Route, BLOG_ROUTES};
