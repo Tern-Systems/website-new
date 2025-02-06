@@ -12,14 +12,14 @@ import styles from "@/app/common.module.css";
 interface Props {
     data: InfoSection;
     className?: string;
-    titleClassName?: string;
-    subTitleClassName?: string;
-    descriptionClassName?: string;
-    pageLinkClassName?: string;
+    classNameTitle?: string;
+    classNameSubTitle?: string;
+    classNameDescription?: string;
+    classNamePageLink?: string;
 }
 
 const Info: FC<Props> = (props: Props) => {
-    const {data, className, titleClassName, subTitleClassName, descriptionClassName, pageLinkClassName} = props;
+    const {data, className, classNameTitle, classNameSubTitle, classNameDescription, classNamePageLink} = props;
     const {title, image, subTitle, link, linkTitle, description} = data;
 
     return (
@@ -30,7 +30,7 @@ const Info: FC<Props> = (props: Props) => {
                         'mb-[4.62rem] text-center font-bold font-oxygen',
                         'text-[1.75rem]',
                         'lg:text-[2.5rem]',
-                        titleClassName
+                        classNameTitle
                     )}
                 >
                     {title}
@@ -39,10 +39,10 @@ const Info: FC<Props> = (props: Props) => {
                     className={'flex justify-between items-center  sm:x-[gap-y-[--p-content-xxl],flex-col-reverse]'}>
                             <span className={'w-[40%] text-left   sm:x-[w-full,text-center]'}>
                                 <span
-                                    className={cn('block mb-[--p-content-5xs]  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs', subTitleClassName)}>
+                                    className={cn('block mb-[--p-content-5xs]  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs', classNameSubTitle)}>
                                     {subTitle}
                                 </span>
-                                <span className={cn('block leading-[1.2]  text-[0.9375rem]  lg:text-section', descriptionClassName)}>
+                                <span className={cn('block leading-[1.2]  text-[0.9375rem]  lg:text-section', classNameDescription)}>
                                    {description}
                                 </span>
                                 <PageLink
@@ -51,7 +51,8 @@ const Info: FC<Props> = (props: Props) => {
                                         'px-[--p-content] rounded-full bg-blue',
                                         'mt-[--p-content-xl] h-[1.875rem] text-basic',
                                         'lg:x-[h-[2.375rem],text-heading-s]',
-                                        'sm:mt-[--p-content-s]',pageLinkClassName
+                                        'sm:mt-[--p-content-s]',
+                                        classNamePageLink
                                     )}
                                 >
                                     {linkTitle}

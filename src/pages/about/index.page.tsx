@@ -55,7 +55,7 @@ const AboutPage: FC = () => {
                 }}
                 className={cn(
                     'absolute top-0 left-0',
-                    'bg-black bg-center bg-no-repeat bg-[size:auto_100%]',
+                    'bg-black bg-center bg-repeat-x bg-[size:auto_100%]',
                     'w-full h-screen',
                     'sm:bg-[25%_center]',
                     'md:bg-[35%_center]',
@@ -147,10 +147,10 @@ const AboutPage: FC = () => {
                         <Info
                             data={INFO}
                             className={'pt-[12rem]'}
-                            titleClassName={'md:text-heading-l  sm:x-[text-[1.75rem],mb-[--p-content-xl]]'}
-                            subTitleClassName={'mb-[--p-content-4xs] text-documentation  lg:text-[2.5rem]  sm:text-documentation'}
-                            descriptionClassName={'text-basic  lg:text-section'}
-                            pageLinkClassName={cn(
+                            classNameTitle={'md:text-heading-l  sm:x-[text-[1.75rem],mb-[--p-content-xl]]'}
+                            classNameSubTitle={'mb-[--p-content-4xs] text-documentation  lg:text-[2.5rem]  sm:text-documentation'}
+                            classNameDescription={'text-basic  lg:text-section'}
+                            classNamePageLink={cn(
                                 'flex items-center justify-center rounded-none',
                                 'w-full max-w-[8.4375rem] h-[2.375rem] mt-[--p-content-xxl] [&]:p-0 ',
                                 '[&]:text-section-s  [&]:sm:text-basic',
