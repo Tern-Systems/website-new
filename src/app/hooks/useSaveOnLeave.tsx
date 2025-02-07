@@ -8,10 +8,17 @@ import {SaveChangesModal} from "@/app/ui/modals";
 import {useNavigate} from "@/app/hooks/useNavigate";
 
 
-const useSaveOnLeave = (
+type Args = {
+    editId?: string,
+    parentEditId?: string | null,
     onSave?: () => Promise<boolean>,
-    onDontSave?: () => void | Promise<void>
-): ((prevent: boolean) => void) => {
+    onDontSave?: () => void | Promise<void>,
+    checkSave?: () => boolean
+}
+
+const useSaveOnLeave = (args: Args): ((prevent: boolean) => void) => {
+    const {editId, parentEditId, onSave, onDontSave, checkSave} = args;
+
     const modalCtx = useModal();
     const [navigate] = useNavigate();
 
@@ -19,46 +26,44 @@ const useSaveOnLeave = (
     //eslint-disable-next-line
     const [navigationState, setNavigationState, blockedRoute, setBlockedRoute] = layoutCtx.navigateState;
 
-
-    const setPreventState = (prevent: boolean) => {
+    const setPreventState = (prevent: boolean) =>
         setNavigationState(prevent ? NavigationState.BLOCKED : NavigationState.FREE);
-    }
 
     useEffect(() => {
-        if (navigationState !== NavigationState.TRY_NAVIGATE)
+        if (navigationState !== NavigationState.TRY_NAVIGATE || editId !== parentEditId)
             return;
 
-        const handleNavigation = async () => {
-            const navigateBlockedRoute = async () => {
-                if (blockedRoute) {
-                    await navigate(blockedRoute);
-                    setBlockedRoute(null);
-                }
+        const navigateBlockedRoute = async () => {
+            if (blockedRoute) {
+                await navigate(blockedRoute);
+                setBlockedRoute(null);
             }
-
-            modalCtx.openModal(
-                <SaveChangesModal
-                    onSave={async () => {
-                        const success = await onSave?.();
-                        if (success) {
-                            setNavigationState(NavigationState.FREE);
-                            await navigateBlockedRoute();
-                        } else
-                            setNavigationState(NavigationState.BLOCKED);
-                    }}
-                    onDontSave={async () => {
-                        onDontSave?.();
-                        setNavigationState(NavigationState.FREE);
-                        await navigateBlockedRoute();
-                    }}
-                    onCancel={() => setNavigationState(NavigationState.BLOCKED)}
-                />,
-                {darkenBg: true}
-            );
         }
-        handleNavigation();
+
+        modalCtx.openModal(
+            <SaveChangesModal
+                key={editId}
+                onSave={async () => {
+                    if (checkSave?.())
+                        return;
+                    const success = await onSave?.();
+                    if (success) {
+                        setPreventState(false);
+                        await navigateBlockedRoute();
+                    } else
+                        setPreventState(true);
+                }}
+                onDontSave={async () => {
+                    onDontSave?.();
+                    setPreventState(false);
+                    await navigateBlockedRoute();
+                }}
+                onCancel={() => setPreventState(true)}
+            />,
+            {darkenBg: true}
+        );
         //eslint-disable-next-line
-    }, [navigationState]);
+    }, [navigationState, editId, parentEditId]);
 
 
     useEffect(() => {

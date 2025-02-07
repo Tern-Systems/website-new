@@ -1,6 +1,8 @@
 import React, {FC, ReactElement} from "react";
 import cn from "classnames";
 
+import {FormInit, FormType} from "@/app/ui/form/Editable";
+
 import {COUNTRY, STATE_PROVINCE} from "@/app/static";
 
 import {UserData, useUser} from "@/app/context/User.context";
@@ -64,15 +66,17 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             <Editable
                 type={"address"}
                 {...getSimpleToggleProps(setEditId, editId)}
-                data={{
-                    className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
-                    value: userData.address,
-                    onSave: async (formData) => {
-                        if (!("personalAddress" in formData))
-                            throw 'Incorrect request setup';
-                        const newAddress: UserData['address'] = {...userData.address, ...formData}
-                        await update({address: newAddress});
-                    },
+                initialize={function <T extends FormType>() {
+                    return {
+                        className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
+                        value: userData.address as FormInit<T>,
+                        onSave: async (formData) => {
+                            if (!("personalAddress" in formData))
+                                throw 'Incorrect request setup';
+                            const newAddress: UserData['address'] = {...userData.address, ...formData}
+                            await update({address: newAddress});
+                        },
+                    }
                 }}
             >
                 <span>{Addresses}</span>

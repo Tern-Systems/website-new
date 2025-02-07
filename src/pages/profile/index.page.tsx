@@ -47,13 +47,13 @@ const getSimpleToggleProps = (
     EditableProps,
     | "classNameWrapper"
     | "classNameToggle"
-    | "setParentEditID"
-    | "parentEditID"
+    | "setParentEditId"
+    | "parentEditId"
 > => ({
     classNameWrapper: "w-[min(100%,21.625rem)]",
     classNameToggle: "col-start-3",
-    setParentEditID: setEditId,
-    parentEditID: isEditState,
+    setParentEditId: setEditId,
+    parentEditId: isEditState,
 });
 
 

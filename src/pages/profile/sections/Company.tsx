@@ -1,6 +1,8 @@
 import React, {FC} from "react";
 import cn from "classnames";
 
+import {FormInit, FormType} from "@/app/ui/form/Editable";
+
 import {UserData, useUser} from "@/app/context/User.context";
 
 import {INDUSTRY, JOB_FUNCTION, SUB_INDUSTRY} from "@/app/static";
@@ -37,23 +39,25 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                     </span>
             <Editable
                 {...getSimpleToggleProps(setEditId, editId)}
-                data={{
-                    className: cn(styles.singleInput, styles.singleInputBase, styles.common),
-                    value: {value: userData.company?.name ?? ''},
-                    onSave: async (formData) => {
-                        if (!("value" in formData) || !formData.value)
-                            throw 'Incorrect request setup';
-                        const newCompany: UserData['company'] = {
-                            ...(userData.company ?? {
-                                jobTitle: '',
-                                jobFunction: '',
-                                subIndustry: '',
-                                industry: ''
-                            }),
-                            name: formData.value,
-                        }
-                        await update({company: newCompany});
-                    },
+                initialize={function <T extends FormType>() {
+                    return {
+                        className: cn(styles.singleInput, styles.singleInputBase, styles.common),
+                        value: {value: userData.company?.name ?? ''} as FormInit<T>,
+                        onSave: async (form) => {
+                            if (!("value" in form) || !form.value)
+                                throw 'Incorrect request setup';
+                            const newCompany: UserData['company'] = {
+                                ...(userData.company ?? {
+                                    jobTitle: '',
+                                    jobFunction: '',
+                                    subIndustry: '',
+                                    industry: ''
+                                }),
+                                name: form.value,
+                            }
+                            await update({company: newCompany});
+                        },
+                    }
                 }}
             >
                 <span>{userData.company?.name ?? "--"}</span>
@@ -65,18 +69,20 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
             <Editable
                 type={"company"}
                 {...getSimpleToggleProps(setEditId, editId)}
-                data={{
-                    className: cn(styles.singleInput, styles.singleInputBase, `px-[0.76rem] border-small`, styles.roundedWFull),
-                    value: userData.company,
-                    onSave: async (formData) => {
-                        if (!("industry" in formData))
-                            throw 'Incorrect request setup';
-                        const newCompany: UserData['company'] = {
-                            ...formData,
-                            name: userData.company?.name ?? ''
-                        }
-                        await update({company: newCompany});
-                    },
+                initialize={function <T extends FormType>() {
+                    return {
+                        className: cn(styles.singleInput, styles.singleInputBase, `px-[0.76rem] border-small`, styles.roundedWFull),
+                        value: userData.company as FormInit<T>,
+                        onSave: async (form) => {
+                            if (!("industry" in form))
+                                throw 'Incorrect request setup';
+                            const newCompany: UserData['company'] = {
+                                ...form,
+                                name: userData.company?.name ?? ''
+                            }
+                            await update({company: newCompany});
+                        },
+                    }
                 }}
             >
                 {userData.company

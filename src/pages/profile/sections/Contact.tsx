@@ -1,8 +1,9 @@
 import React, {FC} from "react";
 import cn from "classnames";
 
+import {DEFAULT_ADDRESS, FormData, FormInit, FormType} from "@/app/ui/form/Editable";
+
 import {COUNTRY, CountryKey, LANGUAGE, LanguageKey, REGEX, SALUTATION} from "@/app/static";
-import {DEFAULT_ADDRESS} from "@/app/ui/form/Editable";
 
 import {UserService} from "@/app/services";
 
@@ -27,20 +28,22 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
     if (!userData)
         return null;
 
+    const salutation = SALUTATION[userData.name.salutation ?? ''] ?? '';
+    const fullName = (salutation ? salutation + ' ' : '') + userData.name.firstName + ' ' + userData.name.initial + ' ' + userData.name.lastName;
+    const country: string = COUNTRY[userData.address.personalAddress?.country ?? userData.address.businessAddress?.country ?? ''];
+    const language: string = LANGUAGE[userData.language];
 
     const Phones = Object.entries(userData.phones)
-        .map(([type, phone], idx) =>
-            phone?.number
-                ? (
-                    <span key={type + idx}>
-                        <span className={"text-section-xs block mb-[0.62rem] mt-[1rem] capitalize"}>{type}</span>
-                        <span>{phone.number + ("ext" in phone ? " - " + phone.ext : "")}</span>
-                        <span>{phone.isPrimary ? <PrimaryLabel/> : null}</span>
-                    </span>
-                )
-                : null
-        )
-
+        .map(([type, phone], idx) => phone?.number
+            ? (
+                <span key={type + idx}>
+                    <span className={"text-section-xs block mb-[0.62rem] mt-[1rem] capitalize"}>{type}</span>
+                    <span>{phone.number + ("ext" in phone ? " - " + phone.ext : "")}</span>
+                    <span>{phone.isPrimary ? <PrimaryLabel/> : null}</span>
+                </span>
+            )
+            : null
+        );
 
     return (
         <Collapsible
@@ -50,130 +53,149 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
         >
             <span className={styles.leftCol + " " + styles.ellipsis}>Name</span>
             <Editable
+                key={'name-' + userData.name.firstName}
                 type={"name"}
                 {...getSimpleToggleProps(setEditId, editId)}
-                data={{
-                    className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
-                    value: {
-                        firstName: userData.name.firstName ?? '',
-                        lastName: userData.name.lastName ?? '',
-                        salutation: userData.name.salutation ?? '',
-                        initial: userData.name.initial ?? '',
-                    },
-                    onSave: async (formData) => {
-                        if ("salutation" in formData)
-                            await update({name: formData});
-                    },
-                }}
+                initialize={function <T extends FormType>() {
+                    return {
+                        className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
+                        value: {
+                            firstName: userData.name.firstName ?? '',
+                            lastName: userData.name.lastName ?? '',
+                            salutation: userData.name.salutation ?? '',
+                            initial: userData.name.initial ?? '',
+                        } as FormInit<T>,
+                        onSave: async (form) => {
+                            if (!("salutation" in form))
+                                throw 'Wrong request setup';
+                            await update({name: form});
+                        },
+                    }
+                }
+                }
             >
-                        <span className={`capitalize ${styles.midCol + " " + styles.ellipsis}`}>
-                            {SALUTATION[userData.name.salutation ?? ''] || "--"}
-                            &nbsp;
-                            {userData.name.firstName} {userData.name.initial} {userData.name.lastName}
-                        </span>
+                <span className={`capitalize ${styles.midCol + " " + styles.ellipsis}`}>
+                    {fullName}
+                </span>
             </Editable>
 
             <span className={styles.leftCol + " " + styles.ellipsis}>Display Name</span>
-            {userData.username ? (
-                <Editable
-                    {...getSimpleToggleProps(setEditId, editId)}
-                    data={{
-                        className: cn(styles.singleInput, styles.singleInputBase, styles.common),
-                        title: "Update your Display Name",
-                        value: {value: userData.username},
-                        onSave: async (formData) => {
-                            if (!('value' in formData) || !formData.value)
-                                throw 'Wrong request setup';
-                            await update(async () =>
-                                await UserService.postUpdateUserName(userData.email, formData.value ?? '')
-                            );
-                        }
-                    }}
-                >
-                    <span>{userData.username}</span>
-                </Editable>
-            ) : (
-                <>
-                    <span>--</span>
-                    <span>--</span>
-                </>
-            )}
+            {userData.username
+                ? (
+                    <Editable
+                        key={'username-' + userData.username}
+                        {...getSimpleToggleProps(setEditId, editId)}
+                        initialize={function <T extends FormType>() {
+                            return {
+                                className: cn(styles.singleInput, styles.singleInputBase, styles.common),
+                                title: "Update your Display Name",
+                                value: {value: userData.username} as FormInit<T>,
+                                onSave: async (form) => {
+                                    if (!('value' in form) || !form.value)
+                                        throw 'Wrong request setup';
+                                    await update(async () =>
+                                        await UserService.postUpdateUserName(userData.email, form.value ?? '')
+                                    );
+                                },
+                            }
+                        }}
+                    >
+                        <span>{userData.username}</span>
+                    </Editable>
+                )
+                : (
+                    <>
+                        <span>--</span>
+                        <span>--</span>
+                    </>
+                )
+            }
 
             <span className={styles.leftCol + " " + styles.ellipsis}>Email Address</span>
             <span>{userData.email}</span>
 
             <span className={styles.leftCol + " " + styles.ellipsis}>Phone Number</span>
             <Editable
+                key={'phone-' + userData.phones}
                 type={"phone"}
                 {...getSimpleToggleProps(setEditId, editId)}
-                data={{
-                    className: cn(styles.singleInput, styles.singleInputBase, styles.common),
-                    value: userData.phones,
-                    onSave: async (formData) => {
-                        if (!("mobile" in formData))
-                            throw 'Incorrect request setup';
+                initialize={function <T extends FormType>() {
+                    return {
+                        className: cn(styles.singleInput, styles.singleInputBase, styles.common),
+                        value: userData.phones as FormInit<T>,
+                        onSave: async (form) => {
+                            if (!("mobile" in form))
+                                throw 'Incorrect request setup';
 
-                        if (Object.values(formData).some(phone => phone.number && !REGEX.phone.test('+' + phone.number)))
-                            throw `Entered phone number(s) should be in the format '+1234567890'`;
+                            const invalid = Object.values(form as NonNullable<FormData<'phone'>>)
+                                .some(phone => phone.number && !REGEX.phone.test('+' + phone.number));
+                            if (invalid)
+                                throw `Entered phone number(s) should be in the format '+1234567890'`;
 
-                        const newPhones: UserData['phones'] = {...(userData?.phones ?? {}), ...formData}
-                        await update({phones: newPhones});
-                    },
+                            const newPhones: UserData['phones'] = {...(userData?.phones ?? {}), ...form}
+                            await update({phones: newPhones});
+                        },
+                    }
                 }}
             >
                 <span>{Phones.length ? Phones : '--'}</span>
             </Editable>
 
             <span className={styles.leftCol + " " + styles.ellipsis}>
-                        Country or Region&nbsp;
-                <span className={'sm:hidden'}>of Residence</span>
-                    </span>
+                Country or Region <span className={'sm:hidden'}>of Residence</span>
+            </span>
             <Editable
+                key={'country-' + country}
                 type={"select"}
                 {...getSimpleToggleProps(setEditId, editId)}
-                data={{
-                    className: `${styles.singleInputBase} ${styles.common}`,
-                    title: "Country / Region",
-                    value: {value: userData.address.personalAddress?.country ?? ''},
-                    options: COUNTRY,
-                    onSave: async (formData) => {
-                        if (!("value" in formData) || !formData.value)
-                            throw 'Incorrect request setup';
-                        const newAddress: UserData['address'] = {
-                            ...userData.address,
-                            personalAddress: {
-                                ...(userData?.address?.personalAddress ?? DEFAULT_ADDRESS),
-                                country: formData.value as CountryKey
+                initialize={function <T extends FormType>() {
+                    return {
+                        className: `${styles.singleInputBase} ${styles.common}`,
+                        title: "Country / Region",
+                        value: {value: userData.address.personalAddress?.country ?? ''} as FormInit<T>,
+                        options: COUNTRY,
+                        onSave: async (form) => {
+                            if (!("value" in form) || !form.value)
+                                throw 'Incorrect request setup';
+                            const newAddress: UserData['address'] = {
+                                ...userData.address,
+                                personalAddress: {
+                                    ...(userData?.address?.personalAddress ?? DEFAULT_ADDRESS),
+                                    country: form.value as CountryKey
+                                }
                             }
-                        }
-                        await update({address: newAddress});
+                            await update({address: newAddress});
+                        },
                     }
                 }}
             >
-                    <span>
-                      {COUNTRY[userData.address.personalAddress?.country ?? userData.address.businessAddress?.country ?? ''] ?? "--"}
-                    </span>
+                <span>
+                    {country ?? "--"}
+                </span>
             </Editable>
 
             <span className={styles.leftCol + " " + styles.ellipsis}>
-                        <span className={'sm:hidden'}>Preferred</span> Language
-                    </span>
+                <span className={'sm:hidden'}>Preferred</span> Language
+            </span>
             <Editable
+                key={'language-' + language}
                 type={"select"}
                 {...getSimpleToggleProps(setEditId, editId)}
-                data={{
-                    className: `${styles.singleInputBase} ${styles.common}`,
-                    title: "Language",
-                    value: {value: userData.language},
-                    options: LANGUAGE,
-                    onSave: async (formData) => {
-                        if (!("value" in formData) || !formData.value)
-                            throw 'Incorrect request setup';
-                        await update({language: formData.value as LanguageKey});
-                    },
+                initialize={function <T extends FormType>() {
+                    return {
+                        className: `${styles.singleInputBase} ${styles.common}`,
+                        title: "Language",
+                        value: {value: userData.language} as FormInit<T>,
+                        options: LANGUAGE,
+                        onSave: async (form) => {
+                            if (!("value" in form) || !form.value)
+                                throw 'Incorrect request setup';
+                            await update({language: form.value as LanguageKey});
+                        },
+                    }
                 }}
             >
-                <span>{LANGUAGE[userData.language] ?? "--"}</span>
+                <span>{language ?? "--"}</span>
             </Editable>
         </Collapsible>
     );

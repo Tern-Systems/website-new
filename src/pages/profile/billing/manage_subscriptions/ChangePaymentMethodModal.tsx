@@ -64,7 +64,7 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             return false;
         }
     }
-    const setPreventLeaveState = useSaveOnLeave(updateCard);
+    const setPreventLeaveState = useSaveOnLeave({onSave: updateCard});
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {

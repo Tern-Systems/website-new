@@ -39,6 +39,7 @@ const useNavigate = (preventModalClosing?: boolean, closeModalImmediately?: bool
         layoutCtx.setFadeState(true);
         setTimeout(() => {
             router.push(route);
+            setNavigationState(NavigationState.FREE);
         }, LAYOUT.fadeDuration);
 
         if (closeModalImmediately)
