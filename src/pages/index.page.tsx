@@ -2,8 +2,7 @@
 
 import React, { FC, ReactElement, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Image, { StaticImageData } from 'next/image';
-import { Button } from '@/app/ui/form/Button';
+import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
 import { InfoSection, SectionCard } from '@/app/types/layout';
@@ -149,27 +148,6 @@ const HomePage: FC = () => {
                     {card.link.title}
                 </PageLink>
             </div>
-        </li>
-    ));
-
-    const CompanyLi: ReactElement[] = COMPANY.map((entry, idx) => (
-        <li
-            key={entry.title + idx}
-            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
-        >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
-                {entry.title}
-            </h4>
-            <p>{entry.description}</p>
-            <Image src={entry.icon} alt={'office girl 2'} className={'w-full'}/>
-            <Button
-                icon={entry.btnIcon}
-                onClick={() => window.open(entry.href, '_blank')}
-                className={'self-start text-blue flex-row-reverse'}
-                classNameIcon={cn('[&_path]:fill-blue-l0', entry.btnIconCN)}
-            >
-                {entry.action}
-            </Button>
         </li>
     ));
 
