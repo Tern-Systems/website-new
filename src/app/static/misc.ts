@@ -36,6 +36,7 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
 const SPECIAL_NAV_ROUTES: Record<string, string> = {
     [Route.TernKey]: 'TernKey',
     [Route.TernKeyDoc]: 'TernKey',
+    [Route.BTMCDoc]: 'BTMC',
 };
 
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
