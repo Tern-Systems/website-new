@@ -10,7 +10,7 @@ import SVG_BLOCKS from "/public/images/icons/blocks.svg";
 
 import SVG_PLUS from "/public/images/icons/plus.svg";
 import SVG_MINUS from "/public/images/icons/minus.svg";
-import SVG_CHEVRON from "/public/images/icons/chewron.svg";
+import SVG_CHEVRON from "/public/images/icons/chevron.svg";
 
 
 type Icon = 'key' | 'book' | 'building' | 'geo' | 'blocks';
@@ -25,9 +25,9 @@ const ICON: Record<Icon, string> = {
 
 
 const WRAPPER_CN = cn(
-    `p-[--p-content-l] rounded-small bg-control-gray w-full max-w-[62rem] text-nowrap place-self-center`,
-    `md:p-[--p-content-s]`,
-    `sm:p-[--p-content-xxs]`,
+    `p-l rounded-s bg-gray w-full max-w-[62rem] text-nowrap place-self-center`,
+    `md:p-s`,
+    `sm:p-xxs`,
 );
 
 
@@ -109,7 +109,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                     alt={'plus-minus'}
                     onClick={() => handleToggle()}
                     className={cn(collapseCN,
-                        `absolute w-[1.8rem] h-auto top-[--p-content-l] right-[--p-content-l] cursor-pointer`,
+                        `absolute w-[1.8rem] h-auto top-l right-l cursor-pointer`,
                         `lg:hidden`,
                         `sm:landscape:size-[2dvw]`,
                         classNameIcon
@@ -146,7 +146,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                                 sm:landscape:scale-[102%]`)}/>
             <div className={cn(`
                 grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] gap-[min(4dvw,0.56rem)] text-left
-                items-start text-[--1drl] whitespace-pre-wrap ${className}`,
+                items-start text-basic whitespace-pre-wrap ${className}`,
                 {['hidden']: !isExpandedFinal}
             )}
             >

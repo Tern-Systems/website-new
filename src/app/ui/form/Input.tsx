@@ -33,7 +33,7 @@ const Input: FC<Props> = (props: Props) => {
                 >
                     <ReactSVG
                         src={SVG_UPLOAD.src}
-                        className={`[&_*]:size-[2rem] mr-[--p-content-5xs] ${classNameIcon}`}
+                        className={`[&_*]:size-[2rem] mr-5xs ${classNameIcon}`}
                     />
                     <span
                         hidden={!children}
@@ -78,8 +78,8 @@ const Input: FC<Props> = (props: Props) => {
                     .map((char, idx) => (
                         <span
                             key={char + idx}
-                            className={`inline-block w-[min(8.3dvw,1.95rem)] border-b-small cursor-pointer -mb-[min(16dvw,0.375rem)]
-                                        ${code.length === idx ? 'border-control-blue' : 'border-control-white-d0'}`}>
+                            className={`inline-block w-[min(8.3dvw,1.95rem)] border-b-s cursor-pointer -mb-[min(16dvw,0.375rem)]
+                                        ${code.length === idx ? 'border-blue' : 'border-white-d0'}`}>
                             {char}
                         </span>
                     ));

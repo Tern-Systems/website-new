@@ -17,9 +17,9 @@ const InsideTern: FC<Props> = (props: Props) => {
     const CompanyLi: ReactElement[] = props.data.map((entry, idx) => (
         <li
             key={entry.title + idx}
-            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
+            className={'flex flex-col gap-y-3xs text-left'}
         >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
+            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-section-3xs'}>
                 {entry.title}
             </h4>
             <p>{entry.description}</p>
@@ -38,8 +38,8 @@ const InsideTern: FC<Props> = (props: Props) => {
     return (
         <section
             className={cn(styles.section,
-                'from-black via-black to-[--bg-section-green]',
-                'lg:x-[bg-gradient-to-t,from-black,via-[#0a313a],to-[--bg-section-green]]',
+                'from-black via-black to-[--bg-green]',
+                'lg:x-[bg-gradient-to-t,from-black,via-[#0a313a],to-[--bg-green]]',
             )}
         >
             <div
@@ -47,7 +47,7 @@ const InsideTern: FC<Props> = (props: Props) => {
                 <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
                     Inside Tern
                 </h2>
-                <ul className={'grid  grid-cols-1 gap-[--p-content-xxl]  lg:x-[grid-cols-2,gap-[3.63rem]]'}>
+                <ul className={'grid  grid-cols-1 gap-xxl  lg:x-[grid-cols-2,gap-[3.63rem]]'}>
                     {CompanyLi}
                 </ul>
             </div>

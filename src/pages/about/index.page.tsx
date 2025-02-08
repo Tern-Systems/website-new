@@ -60,9 +60,9 @@ const AboutPage: FC = () => {
                             <h1
                                 className={cn(styles.textGlow,
                                     `w-min font-oxygen font-bold text-right leading-[1.2]`,
-                                    `mb-[--p-content] text-[8rem]`,
+                                    `mb-n text-[8rem]`,
                                     `md:text-[3.4375rem]`,
-                                    `sm:x-[mb-[--p-content-xs],text-[2.9375rem]]`,
+                                    `sm:x-[mb-xs,text-[2.9375rem]]`,
                                 )}
                             >
                                 Reaching New Heights
@@ -73,7 +73,7 @@ const AboutPage: FC = () => {
 
                 <section
                     className={cn(styles.textGlow, styles.section, styles.fullHeightSection,
-                        'relative bg-gradient-to-t from-[--bg-control-blue] via-transparent to-[--bg-control-blue]',
+                        'relative bg-gradient-to-t from-[--bg-blue] via-transparent to-[--bg-blue]',
                     )}
                 >
                     <div
@@ -84,13 +84,13 @@ const AboutPage: FC = () => {
                         className={cn(styles.content, 'flex h-full items-center justify-center bg-cover bg-center bg-no-repeat')}>
                         <div>
                             <div className={'mb-[12rem]'}>
-                                <h2 className={'mb-[--p-content-xl] font-oxygen text-[4rem]'}>Mission</h2>
+                                <h2 className={'mb-xl font-oxygen text-[4rem]'}>Mission</h2>
                                 <p className={'text-[2.5rem]'}>
                                     Revolutionize computing by harnessing the power of ternary microprocessors.
                                 </p>
                             </div>
                             <div>
-                                <h2 className={'mb-[--p-content-xl] font-oxygen text-[4rem]'}>Vision</h2>
+                                <h2 className={'mb-xl font-oxygen text-[4rem]'}>Vision</h2>
                                 <p className={'text-[2.5rem]'}>
                                     Ushering in the era of efficient computing, equipping all legacy devices with
                                     advanced microprocessors.
@@ -108,9 +108,9 @@ const AboutPage: FC = () => {
                         <h1
                             className={cn(styles.textGlow,
                                 `ml-auto w-min font-oxygen font-bold text-right leading-[1.2] text-black`,
-                                `mb-[--p-content] text-[6rem]`,
+                                `mb-n text-[6rem]`,
                                 `md:text-[3.4375rem]`,
-                                `sm:x-[mb-[--p-content-xs],text-[2.9375rem]]`,
+                                `sm:x-[mb-xs,text-[2.9375rem]]`,
                             )}
                         >
                             Understand Our Why
@@ -118,14 +118,14 @@ const AboutPage: FC = () => {
                         <div>
                             <PageLink
                                 href={Route.About}
-                                className={'px-[--p-content-s] h-[2.375rem] rounded-full bg-white text-black'}
+                                className={'px-s h-[2.375rem] rounded-full bg-white text-black'}
                             >
                                 Read Our Credo
                             </PageLink>
                         </div>
                     </div>
                 </section>
-                <Info data={INFO} className={'pt-[12rem] bg-gradient-to-b from-[--bg-control-blue] to-transparent'}/>
+                <Info data={INFO} className={'pt-[12rem] bg-gradient-to-b from-[--bg-blue] to-transparent'}/>
                 <InsideTern data={COMPANY}/>
             </div>
         </>

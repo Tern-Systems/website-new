@@ -4,6 +4,7 @@ import Image from "next/image";
 import cn from "classnames";
 
 import {ArticleCard, ArticlePage} from "@/app/types/blog";
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
 
 import {BlogService} from "@/app/services/blog.service";
 
@@ -47,7 +48,7 @@ const RELATED_CARDS_COUNT = 4;
 
 function Article() {
     const modalCtx = useModal();
-    const isLg = useBreakpointCheck() === 'lg';
+    const isLg = useBreakpointCheck() === Breakpoint.lg;
 
     const [article, setArticle] = useState<ArticlePage | null>(null);
     const [cards, setCards] = useState<ArticleCard[]>([]);
@@ -101,18 +102,18 @@ function Article() {
                 <div className={'mt-[4.4rem] w-full'}>
                     <Image src={article?.image ?? PNG_NATURE} alt={'article-image'} className={'size-full'}/>
                 </div>
-                <div className={'mt-[--p-content-xl] py-[--p-content-s] border-y-small border-control-gray-l0'}>
+                <div className={'mt-xl py-s border-y-s border-gray-l0'}>
                     <span className={cn({['text-section-xxs']: !article?.date})}>
                         {article?.date ? formatDate(new Date(article?.date)) : '-- date is not provided --'}
                     </span>
                 </div>
-                <div className={'py-[--p-content-s] border-b-small border-control-gray-l0'}>
+                <div className={'py-s border-b-s border-gray-l0'}>
                     <p>Share</p>
-                    <ul className={'flex gap-x-[--p-content-3xs] mt-[--p-content-xxs]'}>{ShareBtnsLi}</ul>
+                    <ul className={'flex gap-x-3xs mt-xxs'}>{ShareBtnsLi}</ul>
                 </div>
                 <div className={'mt-[6.91rem]'}>
-                    <span className={'block mb-[--p-content-xxs] font-bold'}>Author</span>
-                    <span className={'grid grid-rows-2 grid-cols-[min-content,1fr] gap-x-[--p-content-l]'}>
+                    <span className={'block mb-xxs font-bold'}>Author</span>
+                    <span className={'grid grid-rows-2 grid-cols-[min-content,1fr] gap-x-l'}>
                         <span className={'row-span-2 size-[3.125rem]'}>
                             <Image src={article?.author?.image ?? SVG_PROFILE} alt={'author-image'}
                                    className={'size-full'}/>

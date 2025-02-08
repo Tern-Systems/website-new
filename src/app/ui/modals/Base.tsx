@@ -1,6 +1,7 @@
 import React, {Dispatch, FC, PropsWithChildren, SetStateAction} from "react"
 import cn from "classnames";
 
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
 
 import {useModal} from "@/app/context"
 
@@ -31,7 +32,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     } = props;
 
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const isSmRulesApplied = isSmScreen && adaptSmScreen || smScreenOnly;
 
@@ -50,7 +51,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 onClick={() => modalCtx.closeModal()}
                 className={cn(
                     `absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem] pointer-events-auto`,
-                    isSmRulesApplied ? 'bg-control-white-d0 text-gray w-dvw h-dvh' : 'bg-control-gray-l0 rounded-smallest',
+                    isSmRulesApplied ? 'bg-white-d0 text-gray w-dvw h-dvh' : 'bg-gray-l0 rounded-xs',
                     className,
                 )}
             >
@@ -74,7 +75,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     `sm:portrait:text-heading-s`,
                     `sm:landscape:text-section-s`,
                     classNameTitle,
-                    {['mb-[--p-content]']: isSmRulesApplied})}
+                    {['mb-n']: isSmRulesApplied})}
                 >
                     {title}
                 </h2>
@@ -89,18 +90,18 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 className={cn(
                     `pointer-events-auto`,
                     isSmRulesApplied
-                        ? 'bg-control-white-d0 text-gray w-dvw h-dvh z-50'
+                        ? 'bg-white-d0 text-gray w-dvw h-dvh z-50'
                         : cn(
-                            'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0',
-                            'lg:p-[--p-content-l]',
-                            'md:p-[--p-content-s]',
-                            'sm:max-w-[calc(100%-2*var(--p-content-xs))] sm:p-[--p-content-xxs]'
+                            'place-self-center mx-auto bg-gray rounded-s border-s border-white-d0',
+                            'lg:p-l',
+                            'md:p-s',
+                            'sm:max-w-[calc(100%-2*var(--p-xs))] sm:p-xxs'
                         ),
                     className
                 )}
             >
                 <div
-                    className={cn(`relative flex items-center justify-between font-oxygen`, {['h-heading-modal p-[--p-content-xs]']: isSmRulesApplied})}>
+                    className={cn(`relative flex items-center justify-between font-oxygen`, {['h-heading-modal p-xs']: isSmRulesApplied})}>
                     {isSmRulesApplied ? <Insignia className={'[&_path]:fill-black'}/> : Heading}
                     <Button
                         icon={'close'}
@@ -114,10 +115,10 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 <hr className={cn(classNameHr, {
                     [cn(
                         'relative',
-                        'mb-[--p-content-xs]',
-                        'lg:x-[-left-[0.72rem],mt-[--p-content-xs]] lg:w-[calc(100%+1.44rem)]',
-                        'md:x-[-left-[--p-content-4xs],mt-[--p-content-xxs]] md:w-[calc(100%+2*var(--p-content-4xs))]',
-                        'sm:x-[-left-[--p-content-5xs],mt-[--p-content-xxs]] sm:w-[calc(100%+2*var(--p-content-5xs))]',
+                        'mb-xs',
+                        'lg:x-[-left-[0.72rem],mt-xs] lg:w-[calc(100%+1.44rem)]',
+                        'md:x-[-left-4xs,mt-xxs] md:w-[calc(100%+2*var(--p-4xs))]',
+                        'sm:x-[-left-5xs,mt-xxs] sm:w-[calc(100%+2*var(--p-5xs))]',
                     )]: !isSmRulesApplied
                 })
                 }/>

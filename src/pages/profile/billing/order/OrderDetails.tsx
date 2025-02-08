@@ -28,16 +28,16 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
 
     const state = invoice?.country && invoice?.state ? STATE_PROVINCE?.[invoice.country]?.[invoice.state] : '';
 
-    const Hr = <hr className={'border-control-white-d0 mt-[--1qdrs] mb-[--1qdr]'}/>
+    const Hr = <hr className={'border-white-d0 mt-xs mb-xs'}/>
 
     return (
-        <div className={`${className} bg-control-white`}>
+        <div className={`${className} bg-white`}>
             <div ref={ref} className={'w-[min(100%,29rem)] place-self-center'}>
-                <h2 className={'font-bold text-header'}>
+                <h2 className={'font-bold text-heading'}>
                     Paid on {invoiceDate}
                 </h2>
 
-                <h3 className={'mt-[--2hdr] text-content-small font-bold text-secondary'}>Summary</h3>
+                <h3 className={'mt-xl text-section-s font-bold text-secondary'}>Summary</h3>
                 {Hr}
                 <div className={`grid gap-y-[min(4dvw,2rem)] grid-cols-2`}>
                     <span>To</span>
@@ -48,9 +48,9 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                     <span>#{invoice?.id ?? '--'}</span>
                 </div>
 
-                <h3 className={'mt-[--2hdr] text-content-small font-bold text-secondary'}>Items</h3>
+                <h3 className={'mt-xl text-section-s font-bold text-secondary'}>Items</h3>
                 {Hr}
-                <div className={`flex flex-col gap-y-[--1dr] mb-[min(8dvw,1.5rem)]`}>
+                <div className={`flex flex-col gap-y-xxs mb-[min(8dvw,1.5rem)]`}>
                     <span className={'col-span-2 text-secondary font-bold'}>{invoiceDate} - {renewDate}</span>
                     <span className={'font-bold'}>
                         <span className={'flex justify-between'}>
@@ -58,18 +58,18 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                             <span>${invoice?.item.priceUSD.toFixed(2) ?? '--'}</span>
                         </span>
                     </span>
-                    <span className={'text-secondary text-small'}>Qty {invoice?.item ? 1 : '--'}</span>
+                    <span className={'text-secondary text-section'}>Qty {invoice?.item ? 1 : '--'}</span>
                 </div>
 
                 {Hr}
-                <div className={'text-content-small font-bold text-secondary flex justify-between'}>
+                <div className={'text-section-s font-bold text-secondary flex justify-between'}>
                     <span>Subtotal</span>
                     <span>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
                 </div>
 
                 {Hr}
                 <div
-                    className={`text-content-small font-bold text-secondary grid grid-cols-[1fr,max-content] gap-y-[--1dr]`}>
+                    className={`text-section-s font-bold text-secondary grid grid-cols-[1fr,max-content] gap-y-xxs`}>
                     <span>Total excluding tax</span>
                     <span className={'text-right'}>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
                     <span className={'text-secondary'}>
@@ -87,7 +87,7 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                 </div>
 
                 {Hr}
-                <div className={'font-bold grid grid-cols-[1fr,max-content] gap-y-[--1dr]'}>
+                <div className={'font-bold grid grid-cols-[1fr,max-content] gap-y-xxs'}>
                     <span>Amount paid</span>
                     <span>${invoice?.paidUSD?.toFixed(2) ?? '--'}</span>
                     <span>Amount remaining</span>
@@ -95,16 +95,16 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                 </div>
 
                 {Hr}
-                <h3 className={'mt-[2.5rem] text-content-small font-bold text-secondary mb-[0.94rem] sm:mt-0'}>
+                <h3 className={'mt-[2.5rem] text-section-s font-bold text-secondary mb-[0.94rem] sm:mt-0'}>
                     Payment history
                 </h3>
-                <div className={'text-small grid grid-rows-2 gap-y-[--1dr]'}>
+                <div className={'text-section grid grid-rows-2 gap-y-xxs'}>
                     <span className={'font-bold col-span-2'}>${invoice?.paidUSD?.toFixed(2) ?? '--'}</span>
                     <span className={'capitalize'}>{card}</span>
                     <span className={'text-right'}>{invoiceDate}</span>
                 </div>
 
-                <div className={'mt-[--2hdr] text-small text-secondary'}>
+                <div className={'mt-xl text-section text-secondary'}>
                     <span>
                         Questions?&nbsp;
                         <PageLink href={Route.Contact} className={'text-blue cursor-pointer'}>

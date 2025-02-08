@@ -4,6 +4,7 @@ enum Route {
     Credo = '/about/credo',
     About = '/about',
     Contact = '/contact',
+    Support = '/support',
     Terms = '/terms',
     Cookies = '/cookies',
     Privacy = '/privacy',
@@ -41,8 +42,7 @@ enum Route {
     // /all_ways
     AllWays = '/all_ways',
     AllWaysArticle = '/all_ways/article',
-    Artificial = '/all_ways/artificial',
-    Intelligence = '/all_ways/intelligence',
+    Artificial = '/all_ways/artificial_intelligence',
     Batteries = '/all_ways/batteries',
     Cloud = '/all_ways/cloud',
     Cybersecurity = '/all_ways/cybersecurity',
@@ -53,12 +53,12 @@ enum Route {
     Videos = '/all_ways/videos',
     Podcasts = '/all_ways/podcasts',
     Events = '/all_ways/events',
+    More = '/all_ways/more',
 }
 
 
 const BLOG_ROUTES = [
     Route.Artificial,
-    Route.Intelligence,
     Route.Batteries,
     Route.Cloud,
     Route.Cybersecurity,
@@ -68,7 +68,8 @@ const BLOG_ROUTES = [
     Route.Semiconductors,
     Route.Videos,
     Route.Podcasts,
-    Route.Events
+    Route.Events,
+    Route.More,
 ];
 
 

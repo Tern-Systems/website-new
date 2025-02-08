@@ -35,7 +35,7 @@ const Carousel: FC<Props> = (props: Props) => {
             {renderCarouselBtn()}
             <ul
                 ref={carouselRef}
-                className={cn('flex-grow grid grid-rows-1 mx-auto w-fit gap-[--p-content-xl] h-full max-w-full overflow-x-scroll', classNameUl)}
+                className={cn('flex-grow grid grid-rows-1 mx-auto w-fit gap-xl h-full max-w-full overflow-x-scroll', classNameUl)}
             >
                 {children}
             </ul>

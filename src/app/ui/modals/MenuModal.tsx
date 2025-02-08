@@ -3,8 +3,8 @@ import {usePathname} from "next/navigation";
 import Image from "next/image";
 import cn from "classnames";
 
-import {NavLink} from "@/app/context/Layout.context";
-import {ALWAYS_MAPPED_ROUTES, LANGUAGE, MAPPED_SUB_NAV_ROUTES, Route, SPECIAL_NAV_ROUTES} from "@/app/static";
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
+import {ALWAYS_MAPPED_ROUTES, LANGUAGE, MAPPED_SUB_NAV_ROUTES, NavLink, Route, SPECIAL_NAV_ROUTES} from "@/app/static";
 
 import {checkSubRoute, getRouteLeave, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
 import {useLayout, useModal, useUser} from "@/app/context";
@@ -15,8 +15,9 @@ import {PageLink} from "@/app/ui/layout";
 import SVG_GLOBE from "/public/images/icons/globe.svg";
 
 
-const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-control-blue]';
-const ACTIVE_ROUTE_CN = `border-small border-control-blue mx-0 px-[1.125rem] border-l-[0.2rem]`;
+const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-blue]';
+const ACTIVE_ROUTE_CN = `border-s border-blue mx-0 px-[1.125rem] border-l-[0.2rem]`;
+
 
 interface Props {
     singleSubLink?: boolean;
@@ -62,7 +63,7 @@ const MenuModal: FC<Props> = (props: Props) => {
                         style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 2 : 2) * 0.6 : 2.6) + 'rem'}}
                         className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
                             [ACTIVE_ROUTE_CN]: isActive || isProfilePath,
-                            ['border-b-small']: !isNextActive,
+                            ['border-b-s']: !isNextActive,
                             ['[&]:border-t-0']: !idx,
                         })}
                     >
@@ -81,7 +82,7 @@ const MenuModal: FC<Props> = (props: Props) => {
             const isActive = checkSubRoute(route, link, singleSubLink || !idx);
             const isNextActive = checkSubRoute(route, array[idx + 1], singleSubLink); // last+1 always undefined
 
-            const subNav = getSubNavs(subNavRoute as Route, true)[1];
+            const subNav = getSubNavs(subNavRoute as Route, Breakpoint.xs)[NavLink.Sub2Nav];
 
             const hasSubRoutes = subNav !== null && subNav?.length > 0;
             const renderSubRoutes = hasSubRoutes
@@ -107,7 +108,7 @@ const MenuModal: FC<Props> = (props: Props) => {
                         style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 1.6) + 'rem'}}
                         className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
                             [ACTIVE_ROUTE_CN]: isActive || isProfilePath,
-                            ['border-b-small']: !isNextActive,
+                            ['border-b-s']: !isNextActive,
                             ['[&]:border-t-0']: !idx,
                         })}
                     >
@@ -150,7 +151,7 @@ const MenuModal: FC<Props> = (props: Props) => {
                     className={cn(`justify-center`, NAV_CN, {
                         [ACTIVE_ROUTE_CN]: isActive,
                         ['mx-[1.25rem]']: !isActive,
-                        ['border-b-small']: !isNextActive
+                        ['border-b-s']: !isNextActive
                     })}
                 >
                     <span>
@@ -165,12 +166,12 @@ const MenuModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal adaptSmScreen smScreenOnly
                    className={cn(
-                       `ml-auto w-full sm:landscape:x-[!max-w-[46dvw],!w-[46dvw],text-content-small]`,
+                       `ml-auto w-full sm:landscape:x-[!max-w-[46dvw],!w-[46dvw],text-section-s]`,
                        {['[&_hr]:hidden']: isFirstActive}
                    )}
                    classNameContent={'h-[calc(100dvh-var(--h-heading-modal))] overflow-y-scroll'}
         >
-            <ul className={`flex flex-col  gap-x-[--s-default]`}>
+            <ul className={`flex flex-col  gap-x-l`}>
                 {NavLinks}
             </ul>
             {/*TODO add language support*/}

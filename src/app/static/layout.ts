@@ -11,10 +11,19 @@ import SVG_YOUTUBE from "/public/images/icons/youtube.svg";
 import SVG_INSTAGRAM from "/public/images/icons/instagram.svg";
 import SVG_TWITCH from "/public/images/icons/twitch.svg";
 
+enum NavLink {Nav, SubNav, Sub2Nav}
 
-const LAYOUT: { fadeDuration: number; profileLinks: Route[] } = {
+
+const LAYOUT: {
+    fadeDuration: number;
+    profileLinks: Route[];
+    navLinks: Route[];
+    breadcrumbsRoutes: Route[]
+} = {
     fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
+    navLinks: [Route.About, Route.TernKey, Route.Contact, Route.Support, Route.AllWays],
+    breadcrumbsRoutes: [Route.Documentation],
 }
 
 const MAPPED_NAV_ROUTES: Record<string, string> = {
@@ -27,7 +36,7 @@ const MAPPED_NAV_ROUTES: Record<string, string> = {
 
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     // [Route.Products]: 'All',
-    // [Route.TernKey]: 'Application',
+    [Route.TernKey]: 'Home',
     // [Route.Dot]: 'Download',
     // [Route.TBD0]: 'TBD',
     // [Route.TBD1]: 'TBD',
@@ -42,6 +51,39 @@ const SPECIAL_NAV_ROUTES: Record<string, string> = {
 
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
+const DROPDOWN_ROUTES: Record<string, Record<string, string>> = {
+    [Route.Support]: {
+        [Route.Support]: 'Support',
+        'Todo': 'Support 1',
+        'Todo0': 'Miscellaneous 2',
+    },
+    [Route.Videos]: {
+        [Route.Videos]: 'Videos',
+        'Todo': 'Development',
+        'Todo0': 'Miscellaneous',
+        'Todo1': 'Promotional',
+        'Todo2': 'Tutorial',
+    },
+    [Route.Podcasts]: {
+        [Route.Podcasts]: 'Podcasts',
+        'Todo': 'Your tern',
+        'Todo0': 'Bleeding Edge',
+    },
+    [Route.Events]: {
+        [Route.Events]: 'Events',
+        'Todo': 'Chicago',
+        'Todo0': 'New York',
+        'Todo1': 'San Jose',
+        'Todo2': 'Request your city',
+    },
+    [Route.More]: {
+        [Route.More]: 'More',
+        'Todo': 'Masterclass',
+        'Todo0': 'Insights',
+        'Todo1': 'News',
+        'Todo2': 'Newsletter'
+    },
+};
 
 const CONTACT_LINKS = {
     Discord: {svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f'},
@@ -68,10 +110,12 @@ const MISC_LINKS = {
 
 
 export {
+    NavLink,
     MAPPED_NAV_ROUTES,
     SPECIAL_NAV_ROUTES,
     ALWAYS_MAPPED_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
+    DROPDOWN_ROUTES,
     LAYOUT,
     CONTACT_LINKS,
     MEDIA_LINKS,

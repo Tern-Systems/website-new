@@ -4,6 +4,7 @@ import cn from "classnames";
 
 import {PlanName} from "@/app/types/subscription";
 import {ButtonIcon} from "@/app/ui/form/Button";
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
 import {MISC_LINKS, Route} from "@/app/static";
 
 import {capitalize, copyObject} from "@/app/utils";
@@ -60,8 +61,8 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     const renderTd = (title: ReactElement | string, href: string, type?: 'first' | 'last') => {
         return (
             <td className={cn({
-                ['pr-[--p-content-3xs] w-[1.3rem] rounded-r-normal   sm:x-[pr-[--p-content-5xs],rounded-r-small]']: type === 'last',
-                ['pl-[--p-content-3xs] max-w-[15rem] rounded-l-normal   sm:x-[pl-[--p-content-5xs],min-w-[40%],w-[50%],rounded-l-small]     sm:landscape:w-[60%]']: type === 'first'
+                ['pr-3xs w-[1.3rem] rounded-r-n   sm:x-[pr-5xs,rounded-r-s]']: type === 'last',
+                ['pl-3xs max-w-[15rem] rounded-l-n   sm:x-[pl-5xs,min-w-[40%],w-[50%],rounded-l-s]     sm:landscape:w-[60%]']: type === 'first'
             })}
             >
                 <PageLink href={href} isExternal={isExternal}
@@ -71,7 +72,7 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
                               `md:py-[0.875rem]`,
                               `sm:x-[py-[0.22rem],table-cell]`,
                               `sm:portrait:max-w-[8rem]`,
-                              `sm:landscape:py-[calc(0.5*var(--p-content-3xs))] sm:landscape:max-w-[15rem]`,
+                              `sm:landscape:py-[calc(0.5*var(--p-3xs))] sm:landscape:max-w-[15rem]`,
                           )}
                 >
                     {title}
@@ -81,7 +82,7 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     }
 
     const TableItems: ReactElement[] = table.data.map((row, idx) => (
-        <tr key={row.name.slice(5) + idx} className={'hover:bg-control-gray-l0'}>
+        <tr key={row.name.slice(5) + idx} className={'hover:bg-gray-l0'}>
             {renderTd(row.name, row.href, 'first')}
             {renderTd(typeof row.data === 'string' ? row.data : new Date(row.data).toLocaleDateString(), row.href)}
             {renderTd(
@@ -98,45 +99,45 @@ const renderTable = (table: TableSection, isExternal?: boolean) => {
     return (
         <div
             className={cn(
-                `bg-control-gray rounded-smallest`,
-                `p-[--p-content-xs] max-h-[20rem]`,
-                `md:p-[--p-content-xxs]`,
-                `sm:x-[p-[--p-content-4xs],max-h-[10rem]]`,
-                `sm:landscape:x-[p-[--p-content-xxs]]`
+                `bg-gray rounded-xs`,
+                `p-xs max-h-[20rem]`,
+                `md:p-xxs`,
+                `sm:x-[p-4xs,max-h-[10rem]]`,
+                `sm:landscape:x-[p-xxs]`
             )}
         >
             <h3 className={cn(
-                `font-bold px-[--p-content-3xs]`,
+                `font-bold px-3xs`,
                 `text-heading`,
-                `md:px-[--p-content-4xs]`,
-                `sm:x-[px-[--p-content-5xs],text-section-s]`
+                `md:px-4xs`,
+                `sm:x-[px-5xs,text-section-s]`
             )}
             >
                 {table.title}
             </h3>
             <hr className={cn(
-                `relative border-control-white-d0`,
-                `my-[--p-content-xs]`,
-                `sm:x-[mt-[--p-content-4xs],mb-[--p-content-5xs]]`,
-                `sm:landscape:x-[mt-[--p-content-4xs],mb-[--p-content-5xs]]`,
+                `relative border-white-d0`,
+                `my-xs`,
+                `sm:x-[mt-4xs,mb-5xs]`,
+                `sm:landscape:x-[mt-4xs,mb-5xs]`,
             )}
             />
             <div className={cn(
                 `overflow-y-scroll`,
-                `max-h-[calc(100%-var(--fz-heading)-2.5*var(--p-content-xs))]`,
-                `sm:max-h-[calc(100%-var(--fz-section)-2*var(--p-content-4xs))]`,
+                `max-h-[calc(100%-var(--fz-heading)-2.5*var(--p-xs))]`,
+                `sm:max-h-[calc(100%-var(--fz-section)-2*var(--p-4xs))]`,
             )}
             >
                 <table className={`w-full text-heading-s    sm:text-section-xs`}>
                     <thead className={cn(
-                        `sticky top-0 z-10 bg-control-gray`,
+                        `sticky top-0 z-10 bg-gray`,
                         `text-section-xs`,
                         `sm:text-section-xxxs`,
                         `sm:landscape:text-section-xxxs`,
                     )}
                     >
                     <tr className={'[&_td]:pb-[0.75rem]     sm:[&_td]:pb-[0.25rem]     sm:landscape:py-0'}>
-                        <td className={'pl-[--p-content-3xs]     sm:pl-[--p-content-5xs]'}>{table.columnNames[0]}</td>
+                        <td className={'pl-3xs     sm:pl-5xs'}>{table.columnNames[0]}</td>
                         <td>{table.columnNames[1]}</td>
                         <td/>
                     </tr>
@@ -156,7 +157,7 @@ const MyTernPage: FC = () => {
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
     const [navigate] = useNavigate();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
@@ -193,8 +194,8 @@ const MyTernPage: FC = () => {
             <Button
                 icon={btn.icon}
                 className={cn(
-                    `bg-control-gray rounded-smallest`,
-                    `px-[0.73rem] py-[--p-content-4xs] text-heading-s`,
+                    `bg-gray rounded-xs`,
+                    `px-[0.73rem] py-4xs text-heading-s`,
                     `sm:x-[py-[0.47rem],px-[0.56rem],text-section-xs]`,
                     `sm:landscape:text-section-xs`,
                 )}
@@ -223,20 +224,20 @@ const MyTernPage: FC = () => {
     return (
         <div className={cn(
             `grid max-w-[90.63rem] w-full h-full text-left`,
-            `lg:x-[auto-rows-min,w-3/4,mt-[--p-content-xxl],mx-auto]`,
-            `md:x-[mt-[--p-content-xl],px-[--p-content-xl]]`,
+            `lg:x-[auto-rows-min,w-3/4,mt-xxl,mx-auto]`,
+            `md:x-[mt-xl,px-xl]`,
             `sm:grid-rows-[min-content,1fr]`,
-            `sm:x-[mt-0,px-[--p-content-xs]]`,
-            `sm:landscape:max-h-[calc(100%-2*var(--p-content-xs))]`,
+            `sm:x-[mt-0,px-xs]`,
+            `sm:landscape:max-h-[calc(100%-2*var(--p-xs))]`,
             `sm:landscape:grid-cols-[1fr,2fr]`,
-            `sm:landscape:x-[auto-rows-auto,gap-x-[--p-content-xl],mx-0,mt-[--p-content-xs]]`
+            `sm:landscape:x-[auto-rows-auto,gap-x-xl,mx-0,mt-xs]`
         )}
         >
             <h1 className={cn(
                 `flex font-bold`,
-                `pb-[--p-content-xs] text-heading-l`,
-                `md:x-[pb-[--p-content-xxs]]`,
-                `sm:x-[pb-[--p-content-4xs],text-heading-s]`,
+                `pb-xs text-heading-l`,
+                `md:x-[pb-xxs]`,
+                `sm:x-[pb-4xs,text-heading-s]`,
                 `sm:portrait:x-[h-[5rem],items-end]`,
                 `sm:landscape:text-heading-s`,
             )}
@@ -244,7 +245,7 @@ const MyTernPage: FC = () => {
                 Dashboard
             </h1>
             <div className={cn(
-                `sm:portrait:h-[calc(100%-var(--p-content-xl))] sm:portrait:overflow-y-scroll`,
+                `sm:portrait:h-[calc(100%-var(--p-xl))] sm:portrait:overflow-y-scroll`,
                 `sm:landscape:contents`
             )}
             >
@@ -260,18 +261,18 @@ const MyTernPage: FC = () => {
                 </div>
                 <div className={cn(
                     `flex flex-wrap`,
-                    `gap-[--p-content-xs] my-[--p-content]`,
-                    `md:my-[--p-content-s]`,
-                    `sm:x-[my-[--p-content-xs],gap-[--p-content-4xs]]`,
-                    `sm:landscape:x-[col-start-1,gap-[--p-content-4xs],my-[0.94rem]]`,
+                    `gap-xs my-n`,
+                    `md:my-s`,
+                    `sm:x-[my-xs,gap-4xs]`,
+                    `sm:landscape:x-[col-start-1,gap-4xs,my-[0.94rem]]`,
                 )}
                 >
                     {NavBtns}
                 </div>
                 <div className={cn(
                     `grid`,
-                    `grid-cols-2 gap-[--p-content-4xs]`,
-                    `md:x-[grid-cols-1,gap-[--p-content-s]]`,
+                    `grid-cols-2 gap-4xs`,
+                    `md:x-[grid-cols-1,gap-s]`,
                     `sm:grid-cols-1`,
                     `sm:landscape:x-[row-start-1,col-start-2,row-span-4,overflow-y-scroll]`,
                 )}
@@ -285,14 +286,14 @@ const MyTernPage: FC = () => {
                 </div>
                 <div className={cn(
                     `flex-col inline-flex`,
-                    `gap-y-[--p-content-s] mt-[--p-content-xl] text-section-xs`,
-                    `md:x-[mt-[--p-content-xl],text-basic]`,
-                    `sm:x-[gap-y-[--p-content-4xs],mt-[3.88rem],text-section-xxs]`,
-                    `sm:landscape:x-[col-start-1,gap-y-[--p-content-4xs],mt-[1dvw],w-fit]`,
+                    `gap-y-s mt-xl text-section-xs`,
+                    `md:x-[mt-xl,text-basic]`,
+                    `sm:x-[gap-y-4xs,mt-[3.88rem],text-section-xxs]`,
+                    `sm:landscape:x-[col-start-1,gap-y-4xs,mt-[1dvw],w-fit]`,
                 )}
                 >
                     <span className={`font-bold
-                                    mb-[--p-content-5xs] text-heading
+                                    mb-5xs text-heading
                                     sm:text-basic
                                     sm:landscape:mb-0`}
                     >

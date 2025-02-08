@@ -4,13 +4,16 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../../tailwind.config";
 
 
-type Breakpoint = 'sm' | 'md' | 'lg';
+enum Breakpoint { 'xxs', 'xs', 'sm', 'md', 'lg'}
 
 const TailwindConfig = resolveConfig(tailwindConfig);
-const {sm, md, lg} = TailwindConfig.theme.screens ?? {};
+// @ts-expect-error min is not defined in tailwind.config.tsx
+const {xxs, xs, sm, md, lg} = TailwindConfig.theme.screens ?? {};
 const BREAKPOINT = {
+    xxs: {max: parseFloat(xxs?.max)},
+    xs: {min: parseFloat(xs?.min), max: parseFloat(xs?.max)},
     // @ts-expect-error min is not defined in tailwind.config.tsx
-    sm: {max: parseFloat(sm?.max)},
+    sm: {min: parseFloat(sm?.min), max: parseFloat(sm?.max)},
     // @ts-expect-error min is not defined in tailwind.config.tsx
     md: {min: parseFloat(md?.min), max: parseFloat(md?.max)},
     // @ts-expect-error min is not defined in tailwind.config.tsx
@@ -19,18 +22,22 @@ const BREAKPOINT = {
 
 
 const useBreakpointCheck = () => {
-    const [isSmScreen, setSmScreenState] = useState<Breakpoint | null>(null);
+    const [isSmScreen, setSmScreenState] = useState<Breakpoint>(Breakpoint.sm);
 
     useEffect(() => {
         const handleResize = () => {
             const {innerWidth} = window;
 
-            if (innerWidth < BREAKPOINT.sm.max)
-                setSmScreenState('sm');
+            if (innerWidth < BREAKPOINT.xxs.max)
+                setSmScreenState(Breakpoint.xxs);
+            else if (BREAKPOINT.xs.min <= innerWidth && innerWidth < BREAKPOINT.xs.max)
+                setSmScreenState(Breakpoint.xs);
+            else if (BREAKPOINT.sm.min <= innerWidth && innerWidth < BREAKPOINT.sm.max)
+                setSmScreenState(Breakpoint.sm);
             else if (BREAKPOINT.md.min <= innerWidth && innerWidth < BREAKPOINT.md.max)
-                setSmScreenState('md');
+                setSmScreenState(Breakpoint.md);
             else if (innerWidth >= BREAKPOINT.lg.min)
-                setSmScreenState('lg');
+                setSmScreenState(Breakpoint.lg);
         }
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -41,4 +48,4 @@ const useBreakpointCheck = () => {
 }
 
 
-export {useBreakpointCheck};
+export {useBreakpointCheck, Breakpoint};

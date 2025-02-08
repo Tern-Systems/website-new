@@ -2,6 +2,7 @@ import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
 import cn from "classnames";
 
 import {CardData, SavedCardFull} from "@/app/types/billing";
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
 import {COUNTRY, STATE_PROVINCE} from "@/app/static";
 
 import {BillingService} from "@/app/services";
@@ -27,7 +28,7 @@ import styles from './Form.module.css'
 const SM_ROW_START = 'sm:row-start-auto';
 const FIELDSET_CN = '[&&>*]:sm:col-start-1';
 const LEGEND_CN = `sm:mt-[2.7dvw] sm:[&&]:mb-0 ${SM_ROW_START}`;
-const SELECT_CN = 'px-[--s-d2l-smallest] py-[min(--s-d-small) h-[min(5.6dvw,3.25rem)] bg-white';
+const SELECT_CN = 'px-4xs py-[min(--p-3xs) h-[min(5.6dvw,3.25rem)] bg-white';
 const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
 
 
@@ -60,7 +61,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const {userData} = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
@@ -127,7 +128,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const SubmitBtn = (
         <Button
             type={'submit'}
-            className={`px-[1.12rem] h-[min(13dvw,3.25rem)] bg-control-gray font-neo text-header font-bold
+            className={`px-[1.12rem] h-[min(13dvw,3.25rem)] bg-gray font-neo text-heading font-bold
                         w-full rounded-full text-primary col-span-2 sm:mt-[2.7dvw]`}
         >
             {isPaymentCreation ? 'Add' : 'Update'}
@@ -136,7 +137,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     return (
         <div className={'mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)]'}>
-            <h1 className={'text-header-l font-bold mb-[min(5.3dvw,4.15rem)]'}>
+            <h1 className={'text-heading-l font-bold mb-[min(5.3dvw,4.15rem)]'}>
                 {isPaymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
             </h1>
             <form className={`${styles.form} sm:[&&]:grid-cols-2`} onSubmit={handleFormSubmit}>
@@ -148,7 +149,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         placeholder={'Select'}
                         onChangeCustom={(value) => setEditCardIdx(+value)}
                         classNameWrapper={`${FIELD_CN} mb-[min(5.3dvw,3.25rem)] row-start-1 sm:mb-0`}
-                        classNameOption={'bg-white [&]:border-control-gray-l0'}
+                        classNameOption={'bg-white [&]:border-gray-l0'}
                         className={SELECT_CN}
                     >
                         Choose Payment Method
@@ -203,8 +204,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             checked={formData.isPreferred}
                             onChange={setFormData('isPreferred')}
                             classNameWrapper={`flex-row-reverse place-self-start [&&]:mb-[1rem] sm:[&&]:mb-0 sm:[&&]:mt-[1.3dvw]`}
-                            classNameLabel={'text-small [&&]:mb-0'}
-                            className={'max-w-[--1drl] max-h-[--1drl]'}
+                            classNameLabel={'text-section [&&]:mb-0'}
+                            className={'max-w-xxs max-h-xxs'}
                         >
                             Set as preferred payment method
                         </Input>
@@ -283,7 +284,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             </form>
             <div className={'mt-[min(5dvw,6.6rem)]'} hidden={isPaymentCreation}>
                 <span
-                    className={'text-red text-small cursor-pointer'}
+                    className={'text-red text-section cursor-pointer'}
                     onClick={() => {
                         if (savedCards[+editCardIdx]) {
                             modalCtx.openModal(

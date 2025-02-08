@@ -65,11 +65,11 @@ const BillingPage: FC = () => {
                 }}
                 className={cn(styles.clickable,
                     `[&_td]:odd:bg-[#b3b3b326] cursor-pointer align-middle text-nowrap`,
-                    `text-heading-s hover:bg-control-gray-l0`,
+                    `text-heading-s hover:bg-gray-l0`,
                     `lg:h-[3.125rem]`,
                     `md:h-[3.57rem]`,
-                    `sm:x-[h-[--p-content-xs],text-section-xs]`,
-                    `sm:landscape:x-[h-[--p-content-xs],text-section-xs]`
+                    `sm:x-[h-xs,text-section-xs]`,
+                    `sm:landscape:x-[h-xs,text-section-xs]`
                 )}
             >
                 {renderTd(order?.id, '', 'first')}
@@ -84,43 +84,43 @@ const BillingPage: FC = () => {
     return (
         <div className={cn(
             `grid auto-rows-min place-self-center h-full max-w-[90rem] w-full text-left`,
-            `lg:mt-[--p-content-3xl]`,
-            `md:x-[mt-[--p-content-l],px-[--p-content-l]]`,
+            `lg:mt-3xl`,
+            `md:x-[mt-l,px-l]`,
             `sm:grid-rows-[min-content,1fr]`,
-            `sm:px-[--p-content-xs]`,
+            `sm:px-xs`,
             `sm:landscape:grid-cols-[1fr,3fr]`,
-            `sm:landscape:x-[auto-rows-auto,pt-[--p-content-xs]]`,
+            `sm:landscape:x-[auto-rows-auto,pt-xs]`,
         )}
         >
             <h1 className={cn(
                 `flex text-heading-l font-bold`,
                 `lg:pb-[1.87rem]`,
-                `md:x-[pb-[--p-content-xxs]]`,
+                `md:x-[pb-xxs]`,
                 `sm:x-[mb-0,text-section-s]`,
-                `sm:portrait:x-[pb-[--p-content-4xs],h-[4.69rem],items-end]`,
+                `sm:portrait:x-[pb-4xs,h-[4.69rem],items-end]`,
                 `sm:landscape:text-heading-s`,
             )}
             >
                 Order Information
             </h1>
             <div className={cn(
-                `sm:portrait:overflow-y-scroll sm:portrait:max-h-[calc(100%-var(--p-content-xl))]`,
+                `sm:portrait:overflow-y-scroll sm:portrait:max-h-[calc(100%-var(--p-xl))]`,
                 `sm:landscape:contents`
             )}
             >
                 <div className={cn(
-                    `h-[27rem] bg-control-gray overflow-hidden rounded-small`,
-                    `lg:p-[--p-content]`,
-                    `md:x-[p-[--p-content-s],h-[42rem]]`,
-                    `sm:p-[--p-content-xxs]`,
-                    `sm:landscape:x-[p-[--p-content-xxs],h-full,row-span-2]`,
+                    `h-[27rem] bg-gray overflow-hidden rounded-s`,
+                    `lg:--p-n`,
+                    `md:x-[p-s,h-[42rem]]`,
+                    `sm:p-xxs`,
+                    `sm:landscape:x-[p-xxs,h-full,row-span-2]`,
                 )}
                 >
                     <div className={`h-full overflow-y-scroll capitalize`}>
                         <table className={'w-full table-fixed'}>
                             <thead className={cn(
-                                `sticky z-10 top-0 text-heading bg-control-gray  [&_td]:pb-[--p-content-xxs]`,
-                                `sm:text-section-3xs  sm:[&_td]:pb-[--p-content-5xs]`
+                                `sticky z-10 top-0 text-heading bg-gray  [&_td]:pb-xxs`,
+                                `sm:text-section-3xs  sm:[&_td]:pb-5xs`
                             )}
                             >
                             <tr>
@@ -139,14 +139,14 @@ const BillingPage: FC = () => {
                 </div>
                 <div className={cn(
                     `flex-col inline-flex`,
-                    `gap-y-[--p-content-s] mt-[--p-content-l] text-section-xs`,
-                    `md:x-[gap-y-[--p-content-xs],mt-[1.88rem],text-basic]`,
-                    `sm:x-[gap-y-[--p-content-4xs],mt-[--p-content-xs],text-section-xxs]`,
-                    `sm:landscape:x-[col-start-1,gap-y-[--p-content-4xs],w-fit,place-content-end,text-section-3xs]`,
+                    `gap-y-s mt-l text-section-xs`,
+                    `md:x-[gap-y-xs,mt-[1.88rem],text-basic]`,
+                    `sm:x-[gap-y-4xs,mt-xs,text-section-xxs]`,
+                    `sm:landscape:x-[col-start-1,gap-y-4xs,w-fit,place-content-end,text-section-3xs]`,
                 )}
                 >
                     <span className={`font-bold
-                                    mb-[--p-content-5xs] text-heading
+                                    mb-5xs text-heading
                                     sm:text-basic
                                     sm:landscape:mb-0`}
                     >

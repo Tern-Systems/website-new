@@ -134,7 +134,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
 
         return (
             <li key={section.title + idx}>
-                <ul className={'flex flex-col gap-y-[--p-content-xs]'}>
+                <ul className={'flex flex-col gap-y-xs'}>
                     <li className={'font-bold text-section-s capitalize'}>{section.title}</li>
                     {LinksLi}
                 </ul>
@@ -143,7 +143,7 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
     });
 
     const ContactLinks: ReactElement[] = Object.entries({...CONTACT_LINKS, ...MEDIA_LINKS}).map(([title, link], idx) => (
-        <li key={title + idx} className={`size-[2.5rem] sm:size-[--p-content] ${styles.clickable}`}>
+        <li key={title + idx} className={`size-[2.5rem] sm:size-n ${styles.clickable}`}>
             <a href={link.href} target={'_blank'}>
                 <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
             </a>
@@ -173,24 +173,24 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                     {children}
                 </div>
             </div>
-            <footer className={'border-t-small border-section'}>
+            <footer className={'border-t-s border-gray'}>
                 <div
                     className={cn(styles.content,
-                        `grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] h-[--h-footer-lg] py-[--p-content-l] leading-none`,
-                        `sm:gap-y-[--p-content-xxl]`,
+                        `grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] h-footer-lg py-l leading-none`,
+                        `sm:gap-y-xxl`,
                     )}
                 >
                     <Insignia className={'[&_*]:h-[2.5rem]'}/>
-                    <ul className={'flex w-full justify-between  sm:x-[row-start-2,flex-col,mx-auto,gap-y-[--p-content-xxl],w-fit]'}>
+                    <ul className={'flex w-full justify-between  sm:x-[row-start-2,flex-col,mx-auto,gap-y-xxl,w-fit]'}>
                         {FooterLinksLi}
                     </ul>
                     <div className={'col-span-2 flex mt-[7rem] w-full justify-between items-center  sm:contents'}>
-                        <p className={'sm:x-[row-start-3,col-span-2,pb-[--p-content],text-center]'}>
+                        <p className={'sm:x-[row-start-3,col-span-2,pb-n,text-center]'}>
                             Copyright © 2025 Tern Systems LLC
                         </p>
                         <ul
                             className={cn(
-                                'col-span-3 flex gap-[--p-content-3xs]',
+                                'col-span-3 flex gap-3xs',
                                 'sm:x-[col-start-1,row-start-2,col-span-1,flex-col,h-full,justify-between]',
                             )}
                         >

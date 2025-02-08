@@ -10,7 +10,7 @@ import {Button} from "@/app/ui/form";
 import {DeleteAccountConfirmModal} from "./DeleteAccountConfirmModal";
 
 
-const BTN_CN = 'h-[--h-control] px-[--1drs] rounded-full';
+const BTN_CN = 'h-[--h-control] px-xxs rounded-full';
 
 
 interface Props {
@@ -32,16 +32,16 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
                 <span className={'font-bold'}>{userData.email}</span>.
                 Are you sure you want to proceed with this action?
             </span>
-            <span className={'flex gap-[--s-dl-smallest] mt-[--1qdrs] justify-center'}>
+            <span className={'flex gap-4xs mt-xs justify-center'}>
                 <Button
-                    className={`text-red border-control-red border-small ${BTN_CN}`}
+                    className={`text-red border-red border-s ${BTN_CN}`}
                     onClick={() =>
                         modalCtx.openModal(<DeleteAccountConfirmModal userData={userData}/>, {darkenBg: true})}
                 >
                     Continue
                 </Button>
                 <Button
-                    className={`bg-control-gray-l0 ${BTN_CN}`}
+                    className={`bg-gray-l0 ${BTN_CN}`}
                     onClick={() => modalCtx.closeModal()}
                 >
                     Cancel

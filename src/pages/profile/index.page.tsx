@@ -17,6 +17,7 @@ import {
     SUB_INDUSTRY
 } from "@/app/static";
 import {UpdateUserData} from "@/app/services/user.service";
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
 import {DEFAULT_ADDRESS, EditableProps} from "@/app/ui/form/Editable";
 
 import {AuthService, UserService} from "@/app/services";
@@ -78,7 +79,7 @@ const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const {userData, token, fetchUserData} = useUser();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const sectionsRef = useRef<HTMLDivElement>(null);
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
@@ -127,7 +128,7 @@ const ProfilePage: FC = () => {
     const Primary = (
         <span
             className={cn(
-                `col-start-2 bg-control-white-d0 rounded-smallest1 w-[4.15rem] py-[0.1rem] block`,
+                `col-start-2 bg-white-d0 rounded-xxs w-[4.15rem] py-[0.1rem] block`,
                 `text-gray text-center text-section-xxs font-oxygen mt-[0.62rem]`
             )}
         >
@@ -139,9 +140,9 @@ const ProfilePage: FC = () => {
         <li
             key={link + idx}
             className={cn(
-                `pl-[--2dr] leading-[200%] cursor-pointer
-                sm:landscape:pl-[--1dr]`,
-                {[`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx}
+                `pl-l leading-[200%] cursor-pointer
+                sm:landscape:pl-xxs`,
+                {[`before:bg-blue ${styles.line}`]: idx === activeSectionIdx}
             )}
         >
             <span
@@ -256,10 +257,10 @@ const ProfilePage: FC = () => {
         <div className={cn(
             "flex",
             'lg:mt-[3.88rem]',
-            `md:portrait:h-[calc(100%-2*var(--p-content-xs))] md:x-[mt-[--p-content-xs],px-[--p-content-xs],overflow-y-scroll]`,
+            `md:portrait:h-[calc(100%-2*var(--p-xs))] md:x-[mt-xs,px-xs,overflow-y-scroll]`,
             `sm:mt-0`,
-            `sm:portrait:h-[calc(100%-2*var(--p-content-xxl))] sm:portrait:x-[mt-[--p-content-xxl],px-[--p-content-xs],overflow-y-scroll]`,
-            `sm:landscape:h-[calc(100%-2*var(--p-content-xs))] sm:landscape:x-[mt-[--p-content-xs],px-[--p-content-xs],overflow-y-scroll]`,
+            `sm:portrait:h-[calc(100%-2*var(--p-xxl))] sm:portrait:x-[mt-xxl,px-xs,overflow-y-scroll]`,
+            `sm:landscape:h-[calc(100%-2*var(--p-xs))] sm:landscape:x-[mt-xs,px-xs,overflow-y-scroll]`,
         )}
         >
             <aside
@@ -272,7 +273,7 @@ const ProfilePage: FC = () => {
                 <div
                     className={cn(
                         `font-bold`,
-                        `mb-[--1hdrs] text-heading`,
+                        `mb-s text-heading`,
                         `sm:landscape:text-heading-s`,
                     )}
                 >
@@ -280,7 +281,7 @@ const ProfilePage: FC = () => {
                 </div>
                 <ul
                     className={cn(styles.line,
-                        `flex flex-col before:bg-control-white`,
+                        `flex flex-col before:bg-white`,
                         `text-section`,
                         `sm:landscape:text-section-xs`,
                     )}
@@ -291,9 +292,9 @@ const ProfilePage: FC = () => {
             <div
                 ref={sectionsRef}
                 className={cn(
-                    `flex-grow flex flex-col gap-y-[--p-content-4xs]`,
+                    `flex-grow flex flex-col gap-y-4xs`,
                     `lg:ml-[10rem]`,
-                    `sm:landscape:x-[grid,auto-rows-min,grid-cols-2,gap-[--p-content-5xs]] sm:landscape:[&>div]:place-self-start`,
+                    `sm:landscape:x-[grid,auto-rows-min,grid-cols-2,gap-5xs] sm:landscape:[&>div]:place-self-start`,
                 )}
             >
                 <Collapsible
@@ -324,7 +325,7 @@ const ProfilePage: FC = () => {
                             disabled
                             icon={'upload'}
                             className={styles.photoInput}
-                            classNameIcon={`[&&_*]:size-[--p-content-3xs]  sm:[&_*]:size-[--p-content-4xs]`}
+                            classNameIcon={`[&&_*]:size-3xs  sm:[&_*]:size-4xs`}
                         >
                             {userPhoto || 'Upload media'}
                         </Button>
@@ -353,7 +354,7 @@ const ProfilePage: FC = () => {
                     <Editable
                         type={"password"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
-                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + " gap-y-[--p-content-xxs]"}
+                        classNameWrapper={getSimpleToggleProps(setEditState, isEditState).classNameWrapper + " gap-y-xxs"}
                         data={{
                             className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                             title: "Update password",
@@ -395,7 +396,7 @@ const ProfilePage: FC = () => {
                     <Editable
                         type={"2FA"}
                         {...getSimpleToggleProps()}
-                        classNameWrapper={getSimpleToggleProps().classNameWrapper + " gap-y-[--p-content-xxs]"}
+                        classNameWrapper={getSimpleToggleProps().classNameWrapper + " gap-y-xxs"}
                         data={{
                             value: {
                                 isEmailAdded: !!userData.state2FA.email,
@@ -620,7 +621,7 @@ const ProfilePage: FC = () => {
                         type={"company"}
                         {...getSimpleToggleProps(setEditState, isEditState)}
                         data={{
-                            className: cn(styles.singleInput, styles.singleInputBase, `px-[0.76rem] border-small`, styles.roundedWFull),
+                            className: cn(styles.singleInput, styles.singleInputBase, `px-[0.76rem] border-s`, styles.roundedWFull),
                             value: userData.company,
                             onSave: async (formData) => {
                                 if (!("industry" in formData))
@@ -637,8 +638,8 @@ const ProfilePage: FC = () => {
                             ? (
                                 <div
                                     className={cn(
-                                        'flex flex-col gap-y-[--p-content-xs]',
-                                        '[&>span]:x-[col-start-2,flex,flex-col,gap-y-[--p-content-5xs],text-basic]',
+                                        'flex flex-col gap-y-xs',
+                                        '[&>span]:x-[col-start-2,flex,flex-col,gap-y-5xs,text-basic]',
                                         '[&>span>span]:text-section-xs',
                                     )}
                                 >
@@ -715,7 +716,7 @@ const ProfilePage: FC = () => {
                         <span className={'sm:hidden'}>Verif{userData.personalDomain?.isVerified ? "ied" : "y"}</span>
                     </Button>
 
-                    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>
+                    <span className={`mt-n ${styles.leftCol} ${styles.ellipsis}`}>
                         Data Storage
                     </span>
                     <span className={`col-start-2 text-section-xs self-end ${styles.ellipsis}`}>
@@ -723,7 +724,7 @@ const ProfilePage: FC = () => {
                     </span>
                     {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
-                    <span className={`mt-[--p-content] ${styles.leftCol} ${styles.ellipsis}`}>
+                    <span className={`mt-n ${styles.leftCol} ${styles.ellipsis}`}>
                         Social Media
                     </span>
                     <span className={"col-start-2 text-section-xs self-end"}>

@@ -47,7 +47,7 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             setHoverState={setHoveredState}
             className=
             {`
-                place-self-center mx-auto right-[--s-default] bottom-[min(6dvw,7.2rem)] max-w-[19.3rem] w-fit
+                place-self-center mx-auto right-l bottom-[min(6dvw,7.2rem)] max-w-[19.3rem] w-fit
                 transition-all transform 
                 ${animate
                     ? "duration-500 ease-in opacity-100 translate-y-0"
@@ -58,7 +58,7 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             <span>{props.children}</span>
             <span
                 style={{ width: lineWidth + '%' }}
-                className={'absolute block left-0 bottom-0 mt-[--p-content-5xs] max-w-full h-[0.25rem] bg-white'}
+                className={'absolute block left-0 bottom-0 mt-5xs max-w-full h-[0.25rem] bg-white'}
             />
         </BaseModal>
     );

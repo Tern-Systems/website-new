@@ -157,8 +157,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                         userCtx.removeSession();
                     }}
                     className={cn(
-                        `border-t-small pt-[--p-content-xs] cursor-pointer`,
-                        `sm:x-[border-t-0,border-control-gray-l0,py-[--p-content-xs]]`,
+                        `border-t-s pt-xs cursor-pointer`,
+                        `sm:x-[border-t-0,border-gray-l0,py-xs]`,
                         `sm:landscape:text-section-s`,
                     )}
                 >
@@ -169,9 +169,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 <ul id={'profile-menu'}
                     className={cn(
                         `absolute z-10 right-0 flex flex-col items-start`,
-                        `mt-[0.6rem] p-[--p-content-xs] min-w-[5.18rem]`,
-                        `border-small border-control-gray-l1 rounded-smallest bg-control-gray text-nowrap`,
-                        `sm:x-[min-w-[8.75rem],bg-control-white-d0,text-gray,rounded-none,py-0]`,
+                        `mt-[0.6rem] p-xs min-w-[5.18rem]`,
+                        `border-s border-gray-l1 rounded-xs bg-gray text-nowrap`,
+                        `sm:x-[min-w-[8.75rem],bg-white-d0,text-gray,rounded-none,py-0]`,
                     )}
                 >
                     {ProfileMenuLi}
@@ -181,17 +181,18 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             const ProfileMenuLi: ReactElement[] = AUTH_BTNS.map((entry, idx) => (
                 <li
                     key={entry.title + idx}
-                    className={'flex flex-col gap-y-[--p-content-4xs]'}
+                    className={'flex flex-col gap-y-4xs'}
                 >
                     <p className={'text-section-s'}>{entry.title}</p>
                     <p className={'text-gray'}>{entry.description}</p>
                     <Button
                         onClick={() =>
-                            modalCtx.openModal(<AuthModal registration={idx === 1}/>, {darkenBg: !isSmScreen})
+                            modalCtx.openModal(<AuthModal
+                                registration={idx === 1}/>, {darkenBg: !isSmScreen})
                         }
                         className={cn(
-                            `w-full py-[--p-content-5xs] rounded-full border-small border-section font-bold capitalize text-section`,
-                            idx ? 'bg-black text-primary' : 'bg-control-white text-black'
+                            `w-full py-5xs rounded-full border-s border-gray font-bold capitalize text-section`,
+                            idx ? 'bg-black text-primary' : 'bg-white text-black'
                         )}
                     >
                         {entry.action}
@@ -202,12 +203,12 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 <div
                     id={'profile-menu'}
                     className={cn(
-                        'absolute z-10 mt-[--p-content-5xs] right-0 p-[--p-content] rounded-normal border-small',
-                        'border-control-gray-l0 bg-black text-nowrap'
+                        'absolute z-10 mt-5xs right-0 --p-n rounded-n border-s',
+                        'border-gray-l0 bg-black text-nowrap'
                     )}
                 >
                     <h2 className={'text-heading font-bold'}>Tern Account</h2>
-                    <ul className={'flex flex-col mt-[--p-content-xs] gap-y-[--p-content-xs]'}>{ProfileMenuLi}</ul>
+                    <ul className={'flex flex-col mt-xs gap-y-xs'}>{ProfileMenuLi}</ul>
                 </div>
             );
         }
@@ -238,8 +239,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
 
 
     return (
-        <header className={'text-section-xs leading-none bg-black'}>
-            <div className={'border-b-small border-section'}>
+        <header className={'relative z-10 text-section-xs leading-none bg-black'}>
+            <div className={'border-b-s border-gray'}>
                 <div
                     className={cn(styles.content,
                         `relative z-[2] flex !h-[--h-heading] items-center`,
@@ -260,7 +261,12 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                             className={`lg:hidden md:hidden`}
                             classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
                         />
-                        <ul className={`flex cursor-pointer sm:hidden ${layoutCtx.isBreadCrumbsNav ? 'gap-x-[1rem]' : 'gap-x-[--s-default]'}`}>
+                        <ul
+                            className={cn(
+                                `flex h-full cursor-pointer  sm:hidden`,
+                                {['gap-x-l']: layoutCtx.isBreadCrumbsNav},
+                            )}
+                        >
                             {NavLinks}
                         </ul>
                     </nav>
@@ -269,12 +275,11 @@ const Header: FC<Props> = (props: Props): ReactElement => {
             </div>
             {SubNavItemsMdLg?.length
                 ? (
-                    <div className={'border-b-small border-section'}>
+                    <div className={'border-b-s border-gray'}>
                         <ul
                             className={cn(styles.content,
-                                `relative flex gap-[--s-default] items-center text-section-xxs`,
-                                SubNavItemsMdLg?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
-                                `sm:hidden`
+                                `flex !pl-s items-center text-section-xxs text-nowrap`,
+                                SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
                             )}
                         >
                             {SubNavItemsMdLg}
