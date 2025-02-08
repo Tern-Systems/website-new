@@ -3,28 +3,29 @@ import Image from "next/image";
 import {usePathname} from "next/navigation";
 import cn from "classnames";
 
-import {NavLink} from "@/app/context/Layout.context";
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
 import {
     ALWAYS_MAPPED_ROUTES,
+    DROPDOWN_ROUTES,
     LAYOUT,
     MAPPED_NAV_ROUTES,
     MAPPED_SUB_NAV_ROUTES,
-    SPECIAL_NAV_ROUTES,
+    NavLink,
     Route,
+    SPECIAL_NAV_ROUTES,
 } from "@/app/static";
 
+import {getRouteLeave} from "@/app/utils/router";
 import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
 import {useBreakpointCheck, useMenu} from "@/app/hooks";
 import {useLayout, useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
 import {AuthModal, PreAuthModal} from "@/app/ui/modals";
-import {Button} from "@/app/ui/form";
+import {Button, Select} from "@/app/ui/form";
+import {Insignia} from "@/app/ui/misc";
 
 import styles from '@/app/common.module.css'
-
-import {getRouteLeave} from "@/app/utils/router";
-import {Insignia} from "@/app/ui/misc";
 
 import SVG_PROFILE from "/public/images/icons/profile.svg";
 
@@ -34,7 +35,25 @@ const AUTH_BTNS: { title: string, action: string, description: string }[] = [
     {title: 'Register for an account', action: 'Sign Up', description: 'Create a Tern account for richer experience'},
 ];
 
-const ACTIVE_ROUTE_CN = `after:absolute after:-bottom-[0.3rem] after:w-[2.5rem] after:border-b-[2px] after:border-control-blue`;
+
+const NAV_LI = `group relative h-full cursor-pointer  hover:!bg-black-l0 focus:!bg-black-l0  [&>*]:x-[block,px-xxs,h-full,content-center]`;
+const ACTIVE_NAV_LI = `before:x-[absolute,w-full,h-[1px],-bottom-[0.5px]]`;
+
+
+const renderDropdown = (name: string, links: Record<string, string>) => (
+    <Select
+        value={name}
+        options={links}
+        onChangeCustom={(value) => {
+            // TODO handle links
+        }}
+        classNameWrapper={'!static left-0 size-full'}
+        className={'!bg-transparent !border-0 !w-full'}
+        classNameUl={'top-[calc(100%+2px)] py-4xs !rounded-none bg-black-l0'}
+        classNameOption={cn(styles.clickable, '!bg-black-l0 !border-0 text-section-xxs !py-5xs')}
+        classNameChevron={'[&_*]:w-[0.5625rem]'}
+    />
+)
 
 
 interface Props {
@@ -53,7 +72,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     const layoutCtx = useLayout();
     const [openMenu] = useMenu();
 
-    const isSmScreen = breakpoint === 'sm';
+    const isSmScreen = breakpoint <= Breakpoint.xxs;
 
 
     const toggleMenu = () => {
@@ -78,66 +97,85 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }, [isProfileMenuOpened]);
 
 
+    const headerLinks = layoutCtx.navLinks[NavLink.Nav];
+
     // Elements
-    const NavLinks: ReactElement[] = layoutCtx.navLinks[NavLink.Nav]?.map((link: Route, idx) => {
+    const NavLinks: ReactElement[] = headerLinks?.map((link: Route, idx) => {
         const isActive = route !== Route.Home && link.includes(getRouteRoot(route));
-        const mappedLink = MAPPED_NAV_ROUTES?.[link];
-        const linkFinal = SPECIAL_NAV_ROUTES?.[link] ?? link;
+        const mappedLink = MAPPED_NAV_ROUTES[link];
+        const dropdownLinks = DROPDOWN_ROUTES[link];
+        const linkFinal = SPECIAL_NAV_ROUTES[link] ?? link;
 
         return (
-            <span key={link + idx} className={'contents'}>
-                <PageLink
-                    href={link}
-                    icon={!isActive && isSmScreen ? 'forward' : undefined}
-                    className={`relative justify-center ${isActive && !layoutCtx.isBreadCrumbsNav ? ACTIVE_ROUTE_CN : ''}`}
-                >
-                    <span>{mappedLink ? mappedLink : getRouteName(linkFinal)}</span>
-                </PageLink>
-                {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1
-                    ? <span>/</span>
-                    : null}
-            </span>
+            <li
+                key={link + idx}
+                tabIndex={idx}
+                className={cn(NAV_LI, {
+                    [cn(ACTIVE_NAV_LI, 'before:bg-gray')]: isActive && !layoutCtx.isBreadCrumbsNav,
+                    ['border-s border-black focus:border-blue']: dropdownLinks,
+                })}
+            >
+                {dropdownLinks
+                    ? renderDropdown(link, dropdownLinks)
+                    : (
+                        <>
+                            <PageLink
+                                href={link}
+                                icon={!isActive && isSmScreen ? 'forward' : undefined}
+                            >
+                                <span>{mappedLink ? mappedLink : getRouteName(linkFinal)}</span>
+                            </PageLink>
+                            {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1
+                                ? <span>/</span>
+                                : null
+                            }
+                        </>
+                    )
+                }
+            </li>
         );
     });
 
-    const SubNavItemsMdLg = isSmScreen
+    const SubNavItems = breakpoint === Breakpoint.xxs
         ? null
         : (
             layoutCtx.navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
-                const linkFinal = SPECIAL_NAV_ROUTES?.[link] ?? link;
-                const mappedLink = MAPPED_SUB_NAV_ROUTES?.[link];
+                const mappedLink = MAPPED_SUB_NAV_ROUTES[link];
                 const mapRoute = mappedLink && (
                     checkSubRoute(route, link)
                     || ALWAYS_MAPPED_ROUTES.some(check => getRouteLeave(link).includes(check))
                 );
                 const isActiveCN = checkSubRoute(route, link, true);
+                const dropdownLinks = DROPDOWN_ROUTES[link];
 
                 return (
-                    <PageLink
+                    <li
                         key={link + idx}
-                        href={link}
-                        className={cn(`relative justify-center`,
-                            {
-                                ['[&]:border-t-0']: idx === 0,
-                                [ACTIVE_ROUTE_CN]: isActiveCN
-                            }
-                        )}
+                        tabIndex={(headerLinks?.length ?? 0) + idx}
+                        className={cn(NAV_LI, {[cn(ACTIVE_NAV_LI, 'before:bg-blue')]: isActiveCN})}
                     >
-                        {getRouteName(linkFinal ?? (mapRoute ? mappedLink : link))}
-                    </PageLink>
+                        {dropdownLinks
+                            ? renderDropdown(link, dropdownLinks)
+                            : (
+                                <PageLink href={link}>
+                                    {getRouteName(mapRoute ? mappedLink : link)}
+                                </PageLink>
+                            )
+                        }
+                    </li>
                 );
             })
         );
-
 
     let ProfileMenu: ReactElement | null = null
     if (isProfileMenuOpened) {
         if (userCtx.isLoggedIn) {
             const ProfileMenuLi: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
-                <li key={link + idx}
+                <li
+                    key={link + idx}
                     className={cn(
-                        `w-full pb-[--p-content-xs]`,
-                        `sm:x-[border-b-small,pt-[--p-content-xs]]`,
+                        `w-full pb-xs`,
+                        `sm:x-[border-b-s,pt-xs]`,
                         `sm:landscape:text-section-s`,
                     )}
                 >
@@ -187,8 +225,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     <p className={'text-gray'}>{entry.description}</p>
                     <Button
                         onClick={() =>
-                            modalCtx.openModal(<AuthModal
-                                registration={idx === 1}/>, {darkenBg: !isSmScreen})
+                            modalCtx.openModal(
+                                <AuthModal registration={idx === 1}/>, {darkenBg: !isSmScreen})
                         }
                         className={cn(
                             `w-full py-5xs rounded-full border-s border-gray font-bold capitalize text-section`,
@@ -203,7 +241,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 <div
                     id={'profile-menu'}
                     className={cn(
-                        'absolute z-10 mt-5xs right-0 --p-n rounded-n border-s',
+                        'absolute z-10 mt-5xs right-0 p-n rounded-n border-s',
                         'border-gray-l0 bg-black text-nowrap'
                     )}
                 >
@@ -222,7 +260,7 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 width={29}
                 height={29}
                 alt={'profile icon'}
-                className={'cursor-pointer rounded-full h-[1.8125rem]'}
+                className={'cursor-pointer rounded-full h-heading-icon'}
                 onClick={() => {
                     if (isSmScreen) {
                         if (userCtx.isLoggedIn)
@@ -242,54 +280,65 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         <header className={'relative z-10 text-section-xs leading-none bg-black'}>
             <div className={'border-b-s border-gray'}>
                 <div
-                    className={cn(styles.content,
-                        `relative z-[2] flex !h-[--h-heading] items-center`,
-                    )}
+                    className={cn(styles.content, `relative z-[2] flex !h-heading items-center`)}
                 >
+                    {breakpoint === Breakpoint.xxs
+                        ? (
+                            <Button
+                                onClick={() => toggleMenu()}
+                                icon={'burger'}
+                                className={`hidden pr-xl  xxs:inline`}
+                                classNameIcon={'!size-heading-icon h-auto'}
+                            />
+                        )
+                        : null
+                    }
                     <Insignia/>
-                    <nav
-                        className={cn(
-                            `relative flex items-center`,
-                            `ml-[calc(2*var(--p-content-xs))] h-full`,
-                            `before:x-[absolute,h-[67%],-left-[--p-content-xs],border-r-small,border-section]`,
-                            `sm:x-[order-last,ml-[--p-content]] sm:before:x-[-left-[--p-content-xxs],h-[52%],border-control-gray-l0]`,
-                        )}
-                    >
-                        <Button
-                            onClick={() => toggleMenu()}
-                            icon={'burger'}
-                            className={`lg:hidden md:hidden`}
-                            classNameIcon={'[&&_*]:size-[1.8rem] h-auto'}
-                        />
-                        <ul
-                            className={cn(
-                                `flex h-full cursor-pointer  sm:hidden`,
-                                {['gap-x-l']: layoutCtx.isBreadCrumbsNav},
-                            )}
-                        >
-                            {NavLinks}
-                        </ul>
-                    </nav>
+                    {breakpoint === Breakpoint.xxs
+                        ? null
+                        : (
+                            <nav
+                                className={cn(
+                                    `relative flex items-center`,
+                                    `ml-[calc(2*var(--p-n)-var(--p-xxs))] h-full`,
+                                    `before:x-[absolute,h-[64%],-left-xxs,border-r-s,border-gray]`,
+                                    `sm:x-[order-last,ml-n] sm:before:x-[-left-xxs,h-[52%],border-gray-l0]`,
+                                )}
+                            >
+                                <ul
+                                    className={cn(
+                                        `flex h-full cursor-pointer  sm:hidden`,
+                                        {['gap-x-l']: layoutCtx.isBreadCrumbsNav},
+                                    )}
+                                >
+                                    {NavLinks}
+                                </ul>
+                            </nav>
+                        )
+                    }
                     <div className={'flex gap-[0.75rem] ml-auto  sm:ml-auto'}>{userBtns}</div>
                 </div>
             </div>
-            {SubNavItemsMdLg?.length
-                ? (
-                    <div className={'border-b-s border-gray'}>
-                        <ul
-                            className={cn(styles.content,
-                                `flex !pl-s items-center text-section-xxs text-nowrap`,
-                                SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
-                            )}
-                        >
-                            {SubNavItemsMdLg}
-                        </ul>
-                    </div>
-                )
-                : null
+            {
+                SubNavItems?.length
+                    ? (
+                        <div className={'border-b-s border-gray'}>
+                            <ul
+                                className={cn(styles.content,
+                                    `flex !pl-s text-section-xxs text-nowrap`,
+                                    SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
+                                )}
+                            >
+                                {SubNavItems}
+                            </ul>
+                        </div>
+                    )
+                    : null
             }
         </header>
-    );
+    )
+        ;
 }
+
 
 export {Header};

@@ -84,6 +84,7 @@ const config: Config = {
                 s: 'var(--h-s)',
                 xs: 'var(--h-xs)',
                 xxs: 'var(--h-xxs)',
+                'heading-icon': 'var(--h-heading-icon)',
             },
             maxHeight: {
                 l: 'var(--h-l)',
@@ -113,6 +114,7 @@ const config: Config = {
                 xs: 'var(--h-xs)',
                 xxs: 'var(--h-xxs)',
                 heading: 'var(--h-heading)',
+                'heading-icon': 'var(--h-heading-icon)',
                 'heading-modal': 'var(--h-heading-modal)',
                 'sub-heading': 'var(--h-sub-heading)',
             },
