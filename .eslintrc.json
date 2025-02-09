@@ -1,3 +1,66 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": [
+    "eslint:recommended",
+    "next",
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "ignorePatterns": [
+    "*.*",
+    "!/src/**/*"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "tabWidth": 4,
+        "singleQuote": true,
+        "trailingComma": "all",
+        "semi": true,
+        "bracketSpacing": true,
+        "endOfLine": "crlf",
+        "parser": "typescript",
+        "printWidth": 120,
+        "jsxSingleQuote": true,
+        "singleAttributePerLine": true,
+        "plugins": [
+          "prettier-plugin-tailwindcss"
+        ]
+      }
+    ],
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "off",
+    "react/require-default-props": "off",
+    "react/function-component-definition": "off",
+    "react/destructuring-assignment": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-alert": "warn",
+    "no-console": "warn",
+    "no-case-declarations": "off",
+    "import/order": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^(_)+$",
+        "varsIgnorePattern": "^(_)+$",
+        "caughtErrorsIgnorePattern": "^(_)+$"
+      }
+    ],
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^(_)+$",
+        "varsIgnorePattern": "^(_)+$",
+        "caughtErrorsIgnorePattern": "^(_)+$"
+      }
+    ]
+  }
 }
