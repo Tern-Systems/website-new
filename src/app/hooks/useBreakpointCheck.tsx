@@ -22,29 +22,29 @@ const BREAKPOINT = {
 
 
 const useBreakpointCheck = () => {
-    const [isSmScreen, setSmScreenState] = useState<Breakpoint>(Breakpoint.sm);
+    const [breakpoint, setBreakpoint] = useState<Breakpoint>(Breakpoint.sm);
 
     useEffect(() => {
         const handleResize = () => {
             const {innerWidth} = window;
 
             if (innerWidth < BREAKPOINT.xxs.max)
-                setSmScreenState(Breakpoint.xxs);
+                setBreakpoint(Breakpoint.xxs);
             else if (BREAKPOINT.xs.min <= innerWidth && innerWidth < BREAKPOINT.xs.max)
-                setSmScreenState(Breakpoint.xs);
+                setBreakpoint(Breakpoint.xs);
             else if (BREAKPOINT.sm.min <= innerWidth && innerWidth < BREAKPOINT.sm.max)
-                setSmScreenState(Breakpoint.sm);
+                setBreakpoint(Breakpoint.sm);
             else if (BREAKPOINT.md.min <= innerWidth && innerWidth < BREAKPOINT.md.max)
-                setSmScreenState(Breakpoint.md);
+                setBreakpoint(Breakpoint.md);
             else if (innerWidth >= BREAKPOINT.lg.min)
-                setSmScreenState(Breakpoint.lg);
+                setBreakpoint(Breakpoint.lg);
         }
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [])
 
-    return isSmScreen;
+    return breakpoint;
 }
 
 

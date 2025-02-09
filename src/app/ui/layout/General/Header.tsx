@@ -1,59 +1,34 @@
-import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect} from "react";
-import Image from "next/image";
+import React, {Dispatch, FC, ReactElement, SetStateAction, useEffect, useState} from "react";
+import {ReactSVG} from "react-svg";
 import {usePathname} from "next/navigation";
+import Image from "next/image";
 import cn from "classnames";
 
+import {NavDropdown} from "@/app/types/layout";
 import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
-import {
-    ALWAYS_MAPPED_ROUTES,
-    DROPDOWN_ROUTES,
-    LAYOUT,
-    MAPPED_NAV_ROUTES,
-    MAPPED_SUB_NAV_ROUTES,
-    NavLink,
-    Route,
-    SPECIAL_NAV_ROUTES,
-} from "@/app/static";
+import {DROPDOWN_NAV_ROUTES, LAYOUT, MAPPED_NAV_ROUTES, NavLink, Route, SPECIAL_NAV_ROUTES,} from "@/app/static";
 
-import {getRouteLeave} from "@/app/utils/router";
-import {checkSubRoute, getRouteName, getRouteRoot} from "@/app/utils";
+import {getRouteName, getRouteRoot} from "@/app/utils";
 import {useBreakpointCheck, useMenu} from "@/app/hooks";
 import {useLayout, useModal, useUser} from "@/app/context";
 
 import {PageLink} from "@/app/ui/layout";
 import {AuthModal, PreAuthModal} from "@/app/ui/modals";
-import {Button, Select} from "@/app/ui/form";
+import {Button} from "@/app/ui/form";
 import {Insignia} from "@/app/ui/misc";
+import {SubNav} from "./SubNav";
 
 import styles from '@/app/common.module.css'
+import stylesLayout from './Layout.module.css'
 
 import SVG_PROFILE from "/public/images/icons/profile.svg";
+import SVG_CHEVRON from "/public/images/icons/chevron.svg";
 
 
 const AUTH_BTNS: { title: string, action: string, description: string }[] = [
     {title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account'},
     {title: 'Register for an account', action: 'Sign Up', description: 'Create a Tern account for richer experience'},
 ];
-
-
-const NAV_LI = `group relative h-full cursor-pointer  hover:!bg-black-l0 focus:!bg-black-l0  [&>*]:x-[block,px-xxs,h-full,content-center]`;
-const ACTIVE_NAV_LI = `before:x-[absolute,w-full,h-[1px],-bottom-[0.5px]]`;
-
-
-const renderDropdown = (name: string, links: Record<string, string>) => (
-    <Select
-        value={name}
-        options={links}
-        onChangeCustom={(value) => {
-            // TODO handle links
-        }}
-        classNameWrapper={'!static left-0 size-full'}
-        className={'!bg-transparent !border-0 !w-full'}
-        classNameUl={'top-[calc(100%+2px)] py-4xs !rounded-none bg-black-l0'}
-        classNameOption={cn(styles.clickable, '!bg-black-l0 !border-0 text-section-xxs !py-5xs')}
-        classNameChevron={'[&_*]:w-[0.5625rem]'}
-    />
-)
 
 
 interface Props {
@@ -71,6 +46,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     const breakpoint = useBreakpointCheck();
     const layoutCtx = useLayout();
     const [openMenu] = useMenu();
+
+    const [expandedNavDropdown, setExpandedNavDropdown] = useState<NavDropdown | null>(null);
 
     const isSmScreen = breakpoint <= Breakpoint.xxs;
 
@@ -97,26 +74,40 @@ const Header: FC<Props> = (props: Props): ReactElement => {
     }, [isProfileMenuOpened]);
 
 
-    const headerLinks = layoutCtx.navLinks[NavLink.Nav];
+    const navLinks = layoutCtx.navLinks[NavLink.Nav];
 
     // Elements
-    const NavLinks: ReactElement[] = headerLinks?.map((link: Route, idx) => {
+    const NavLinks: ReactElement[] = navLinks?.map((link: Route, idx) => {
         const isActive = route !== Route.Home && link.includes(getRouteRoot(route));
         const mappedLink = MAPPED_NAV_ROUTES[link];
-        const dropdownLinks = DROPDOWN_ROUTES[link];
+        const navDropdown = DROPDOWN_NAV_ROUTES[link];
         const linkFinal = SPECIAL_NAV_ROUTES[link] ?? link;
 
         return (
             <li
                 key={link + idx}
                 tabIndex={idx}
-                className={cn(NAV_LI, {
-                    [cn(ACTIVE_NAV_LI, 'before:bg-gray')]: isActive && !layoutCtx.isBreadCrumbsNav,
-                    ['border-s border-black focus:border-blue']: dropdownLinks,
+                className={cn('group', stylesLayout.navLink, {
+                    [cn(stylesLayout.activeNavLink, 'before:bg-gray')]: isActive && !layoutCtx.isBreadCrumbsNav,
+                    ['border-s border-black']: navDropdown,
+                    ['!static bg-black-l0 border-blue']: navDropdown && navDropdown?.name === expandedNavDropdown?.name,
                 })}
             >
-                {dropdownLinks
-                    ? renderDropdown(link, dropdownLinks)
+                {navDropdown
+                    ? (
+                        <>
+                            <div
+                                onClick={() => setExpandedNavDropdown(navDropdown)}
+                                className={cn(styles.clickable, 'flex gap-x-5xs h-full items-center')}
+                            >
+                                <p>{navDropdown.name}</p>
+                                <ReactSVG
+                                    src={SVG_CHEVRON.src}
+                                    className={cn('[&_*]:size-[0.5625rem]', {['rotate-180']: expandedNavDropdown})}
+                                />
+                            </div>
+                        </>
+                    )
                     : (
                         <>
                             <PageLink
@@ -136,36 +127,6 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         );
     });
 
-    const SubNavItems = breakpoint === Breakpoint.xxs
-        ? null
-        : (
-            layoutCtx.navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
-                const mappedLink = MAPPED_SUB_NAV_ROUTES[link];
-                const mapRoute = mappedLink && (
-                    checkSubRoute(route, link)
-                    || ALWAYS_MAPPED_ROUTES.some(check => getRouteLeave(link).includes(check))
-                );
-                const isActiveCN = checkSubRoute(route, link, true);
-                const dropdownLinks = DROPDOWN_ROUTES[link];
-
-                return (
-                    <li
-                        key={link + idx}
-                        tabIndex={(headerLinks?.length ?? 0) + idx}
-                        className={cn(NAV_LI, {[cn(ACTIVE_NAV_LI, 'before:bg-blue')]: isActiveCN})}
-                    >
-                        {dropdownLinks
-                            ? renderDropdown(link, dropdownLinks)
-                            : (
-                                <PageLink href={link}>
-                                    {getRouteName(mapRoute ? mappedLink : link)}
-                                </PageLink>
-                            )
-                        }
-                    </li>
-                );
-            })
-        );
 
     let ProfileMenu: ReactElement | null = null
     if (isProfileMenuOpened) {
@@ -275,19 +236,16 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         </div>
     );
 
-
     return (
         <header className={'relative z-10 text-section-xs leading-none bg-black'}>
             <div className={'border-b-s border-gray'}>
-                <div
-                    className={cn(styles.content, `relative z-[2] flex !h-heading items-center`)}
-                >
-                    {breakpoint === Breakpoint.xxs
+                <div className={cn(styles.content, `relative z-[2] flex !h-heading items-center`)}>
+                    {breakpoint <= Breakpoint.xxs
                         ? (
                             <Button
                                 onClick={() => toggleMenu()}
                                 icon={'burger'}
-                                className={`hidden pr-xl  xxs:inline`}
+                                className={`pr-xl`}
                                 classNameIcon={'!size-heading-icon h-auto'}
                             />
                         )
@@ -302,12 +260,11 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                                     `relative flex items-center`,
                                     `ml-[calc(2*var(--p-n)-var(--p-xxs))] h-full`,
                                     `before:x-[absolute,h-[64%],-left-xxs,border-r-s,border-gray]`,
-                                    `sm:x-[order-last,ml-n] sm:before:x-[-left-xxs,h-[52%],border-gray-l0]`,
                                 )}
                             >
                                 <ul
                                     className={cn(
-                                        `flex h-full cursor-pointer  sm:hidden`,
+                                        `flex h-full cursor-pointer`,
                                         {['gap-x-l']: layoutCtx.isBreadCrumbsNav},
                                     )}
                                 >
@@ -320,24 +277,17 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 </div>
             </div>
             {
-                SubNavItems?.length
-                    ? (
-                        <div className={'border-b-s border-gray'}>
-                            <ul
-                                className={cn(styles.content,
-                                    `flex !pl-s text-section-xxs text-nowrap`,
-                                    SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
-                                )}
-                            >
-                                {SubNavItems}
-                            </ul>
-                        </div>
+                breakpoint === Breakpoint.xxs
+                    ? null
+                    : (
+                        <SubNav
+                            headerLinkCount={navLinks?.length ?? null}
+                            dropdownState={[expandedNavDropdown, setExpandedNavDropdown]}
+                        />
                     )
-                    : null
             }
         </header>
-    )
-        ;
+    );
 }
 
 

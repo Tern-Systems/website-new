@@ -55,7 +55,7 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
             break;
         case checkSubRoute(route, Route.AllWays):
             let routes = BLOG_ROUTES;
-            if (breakpoint === Breakpoint.xs)
+            if (breakpoint <= Breakpoint.sm)
                 routes = [routes[0], routes[4], routes[2], routes[3]];
             sub2NavLinks = [
                 Route.AllWays,

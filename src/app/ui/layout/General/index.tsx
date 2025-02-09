@@ -11,9 +11,10 @@ import {CONTACT_LINKS, LAYOUT, MEDIA_LINKS, MISC_LINKS, Route} from "@/app/stati
 import {getRouteName} from "@/app/utils";
 import {useLayout, useModal, useUser} from "@/app/context";
 
-import {Header, PageLink} from "@/app/ui/layout";
+import {PageLink} from "@/app/ui/layout";
 import {Insignia} from "@/app/ui/misc";
 import {HelpModal} from "@/app/ui/modals";
+import {Header} from "./Header";
 
 import "@/app/globals.css";
 import styles from "@/app/common.module.css";
