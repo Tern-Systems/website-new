@@ -1,25 +1,27 @@
-'use client'
+'use client';
 
-import React, {FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useState} from "react";
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import Image from "next/image";
-import cn from "classnames";
+import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import {IModalContext} from "@/app/context/Modal.context";
-import {CONTACT_LINKS, LAYOUT, MEDIA_LINKS, MISC_LINKS, Route} from "@/app/static";
+import { IModalContext } from '@/app/context/Modal.context';
+import { CONTACT_LINKS, LAYOUT, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
-import {getRouteName} from "@/app/utils";
-import {useLayout, useModal, useUser} from "@/app/context";
+import { getRouteName } from '@/app/utils';
+import { useLayout, useModal, useUser } from '@/app/context';
 
-import {PageLink} from "@/app/ui/layout";
-import {Insignia} from "@/app/ui/misc";
-import {HelpModal} from "@/app/ui/modals";
-import {Header} from "./Header";
+import { PageLink } from '@/app/ui/layout';
+import { Insignia } from '@/app/ui/misc';
+import { HelpModal } from '@/app/ui/modals';
+import { Header } from './Header';
 
-import "@/app/globals.css";
-import styles from "@/app/common.module.css";
+import '@/app/globals.css';
+import styles from '@/app/common.module.css';
 
-import PNG_NEURONS from "/public/images/neurons.png";
+import PNG_NEURONS from '/public/images/neurons.png';
+import { useBreakpointCheck } from '@/app/hooks';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);
@@ -40,33 +42,18 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
             Route.Contact,
             // {title: 'TernKit', action: 'https://'},
             // {title: 'Cyrus', action: 'https://'},
-            {title: 'Careers', action: MISC_LINKS.Careers}
-        ]
+            { title: 'Careers', action: MISC_LINKS.Careers },
+        ],
     },
     {
         title: 'Engage',
         links: [
             Route.AllWays,
-            {title: 'Events', action: MISC_LINKS.Events},
-            {title: 'Podcast', action: MEDIA_LINKS.YouTube.href},
-            {title: 'News', action: Route.AllWays},
+            { title: 'Events', action: MISC_LINKS.Events },
+            { title: 'Newsletter', action: Route.AllWays },
+            { title: 'Podcast', action: MEDIA_LINKS.YouTube.href },
+            { title: 'Videos', action: MEDIA_LINKS.YouTube.href },
         ],
-    },
-    {
-        title: 'Support',
-        links: [
-            {
-                title: 'Billing',
-                action: (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'brc'}/>),
-                checkLogin: true,
-            },
-            {
-                title: 'Resources',
-                action: (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'support'}/>)
-            },
-            Route.MyDocumentation,
-            {title: 'Training', action: MEDIA_LINKS.YouTube.href}
-        ]
     },
     {
         title: 'Policies',
@@ -74,18 +61,34 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
             Route.Cookies,
             Route.Privacy,
             Route.Terms,
-        ]
-    }
+        ],
+    },
+    {
+        title: 'Support',
+        links: [
+            {
+                title: 'Billing',
+                action: (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'brc'} />),
+            },
+            Route.MyDocumentation,
+            {
+                title: 'Resources',
+                action: (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'support'} />),
+            },
+            { title: 'Training', action: MEDIA_LINKS.YouTube.href },
+        ],
+    },
 ];
 
 
-const Layout: FC<PropsWithChildren> = ({children}) => {
+const Layout: FC<PropsWithChildren> = ({ children }) => {
     const route = usePathname();
     const modalCtx = useModal();
     const params = useSearchParams();
     const router = useRouter();
     const layoutCtx = useLayout();
     const userCtx = useUser();
+    const breakpoint = useBreakpointCheck();
 
     const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
 
@@ -130,11 +133,11 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                         {title}
                     </PageLink>
                 )
-                : null
+                : null;
         });
 
         return (
-            <li key={section.title + idx}>
+            <li key={section.title + idx} className={cn({ ['flex-1']: breakpoint <= Breakpoint.xxs })}>
                 <ul className={'flex flex-col gap-y-xs'}>
                     <li className={'font-bold text-section-s capitalize'}>{section.title}</li>
                     {LinksLi}
@@ -143,20 +146,21 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         );
     });
 
-    const ContactLinks: ReactElement[] = Object.entries({...CONTACT_LINKS, ...MEDIA_LINKS}).map(([title, link], idx) => (
-        <li key={title + idx} className={`size-[2.5rem] sm:size-n ${styles.clickable}`}>
-            <a href={link.href} target={'_blank'}>
-                <Image src={link.svg} alt={link.href} className={'h-full w-auto'}/>
-            </a>
-        </li>
-    ));
+    const ContactLinks: ReactElement[] = [CONTACT_LINKS.X, CONTACT_LINKS.LinkedIn, MEDIA_LINKS.YouTube, MEDIA_LINKS.Instagram]
+        .map((link, idx) => (
+            <li key={link.href + idx} className={`size-[2.5rem] sm:size-n ${styles.clickable}`}>
+                <a href={link.href} target={'_blank'}>
+                    <Image src={link.svg} alt={link.href} className={'h-full w-auto'} />
+                </a>
+            </li>
+        ));
 
     const Layout = (
         <>
-            <Header profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]}/>
+            <Header profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]} />
             <div
                 id={'content'}
-                style={{backgroundImage: `url("${PNG_NEURONS.src}")`}}
+                style={{ backgroundImage: `url("${PNG_NEURONS.src}")` }}
                 className={cn(
                     `relative flex flex-col flex-grow w-full items-center`,
                     `w-screen bg-cover bg-no-repeat bg-fixed`,
@@ -178,23 +182,27 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                 <div
                     className={cn(styles.content,
                         `grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] h-footer-lg py-l leading-none`,
-                        `sm:gap-y-xxl`,
+                        { [`!flex flex-col gap-y-xxl`]: breakpoint <= Breakpoint.xs },
                     )}
                 >
-                    <Insignia className={'[&_*]:h-[2.5rem]'}/>
-                    <ul className={'flex w-full justify-between  sm:x-[row-start-2,flex-col,mx-auto,gap-y-xxl,w-fit]'}>
+                    <Insignia className={'[&_*]:x-[!w-[5.875rem],h-auto]'} />
+                    <ul
+                        className={cn(
+                            'flex w-full justify-between',
+                            { [`!justify-start gap-x-xxl`]: breakpoint <= Breakpoint.xs },
+                            { [`gap-y-n flex-wrap `]: breakpoint <= Breakpoint.xxs },
+                        )}
+                    >
                         {FooterLinksLi}
                     </ul>
-                    <div className={'col-span-2 flex mt-[7rem] w-full justify-between items-center  sm:contents'}>
-                        <p className={'sm:x-[row-start-3,col-span-2,pb-n,text-center]'}>
-                            Copyright © 2025 Tern Systems LLC
-                        </p>
-                        <ul
-                            className={cn(
-                                'col-span-3 flex gap-3xs',
-                                'sm:x-[col-start-1,row-start-2,col-span-1,flex-col,h-full,justify-between]',
-                            )}
-                        >
+                    <div
+                        className={cn(
+                            'col-span-2 flex mt-[7rem] w-full justify-between items-center',
+                            { [`flex flex-col-reverse gap-y-n mt-0 !items-start`]: breakpoint <= Breakpoint.xs },
+                        )}
+                    >
+                        <p className={'leading-[1.2]'}>Copyright © 2025 Tern Systems LLC </p>
+                        <ul className={cn('col-span-3 flex gap-3xs flex-wrap')}>
                             {ContactLinks}
                         </ul>
                     </div>
@@ -212,10 +220,10 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
         );
 
     return (
-        <div className={"h-dvh max-h-dvh relative overflow-y-scroll font-neo text-primary"}>
+        <div className={'h-dvh max-h-dvh relative overflow-y-scroll font-neo text-primary'}>
             {LayoutFinal}
         </div>
     );
-}
+};
 
-export {Layout};
+export { Layout };

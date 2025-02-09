@@ -1,21 +1,22 @@
-import type {Config} from "tailwindcss";
-import Tailwind from "tailwindcss/plugin";
+import type { Config } from 'tailwindcss';
+import Tailwind from 'tailwindcss/plugin';
 
 
 const config: Config = {
     content: [
-        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/ui/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
         extend: {
             screens: {
-                xxs: {max: '616px'},
-                xs: {min: '616px', max: '774px'},
-                sm: {min: '774px', max: '835px'},
-                md: {min: '835px', max: '1440px'},
-                lg: {min: '1440px'},
+                x3s: { max: '375px' },
+                xxs: { min: '375px', max: '616px' },
+                xs: { min: '616px', max: '774px' },
+                sm: { min: '774px', max: '835px' },
+                md: { min: '835px', max: '1440px' },
+                lg: { min: '1440px' },
             },
             spacing: {
                 '3xl': 'var(--p-3xl)',
@@ -127,41 +128,41 @@ const config: Config = {
                 l: 'var(--br-l)',
             },
             backgroundColor: {
-                'black-l0': "var(--bg-black-l0)",
-                'gray': "var(--bg-gray)",
-                'gray-l0': "var(--bg-gray-l0)",
-                'white-d1': "var(--bg-white-d1)",
-                'white-d0': "var(--bg-white-d0)",
-                'white': "var(--bg-white)",
-                'blue-l0': "var(--bg-blue-l0)",
-                'blue': "var(--bg-blue)",
-                'red': "var(--bg-red)",
-                'navy-d0': "var(--bg-navy-d0)",
-                'green': "var(--bg-green)",
-                'navy': "var(--bg-navy)",
+                'black-l0': 'var(--bg-black-l0)',
+                'gray': 'var(--bg-gray)',
+                'gray-l0': 'var(--bg-gray-l0)',
+                'white-d1': 'var(--bg-white-d1)',
+                'white-d0': 'var(--bg-white-d0)',
+                'white': 'var(--bg-white)',
+                'blue-l0': 'var(--bg-blue-l0)',
+                'blue': 'var(--bg-blue)',
+                'red': 'var(--bg-red)',
+                'navy-d0': 'var(--bg-navy-d0)',
+                'green': 'var(--bg-green)',
+                'navy': 'var(--bg-navy)',
             },
             borderColor: {
-                'gray': "var(--b-gray)",
-                'gray-l0': "var(--b-gray-l0)",
-                'gray-l1': "var(--b-gray-l1)",
-                'white': "var(--b-white)",
-                'white-d0': "var(--b-white-d0)",
-                'blue': "var(--b-blue)",
-                'blue-d0': "var(--b-blue-d0)",
-                'red': "var(--b-red)",
+                'gray': 'var(--b-gray)',
+                'gray-l0': 'var(--b-gray-l0)',
+                'gray-l1': 'var(--b-gray-l1)',
+                'white': 'var(--b-white)',
+                'white-d0': 'var(--b-white-d0)',
+                'blue': 'var(--b-blue)',
+                'blue-d0': 'var(--b-blue-d0)',
+                'red': 'var(--b-red)',
             },
             borderWidth: {
                 s: 'var(--b-s)',
                 n: 'var(--b-n)',
             },
             colors: {
-                primary: "var(--color-primary)",
-                secondary: "var(--color-secondary)",
-                gray: "var(--color-gray)",
-                placeholder: "var(--color-placeholder)",
-                blue: "var(--color-blue)",
-                'blue-l0': "var(--color-blue-l0)",
-                red: "var(--color-red)",
+                primary: 'var(--color-primary)',
+                secondary: 'var(--color-secondary)',
+                gray: 'var(--color-gray)',
+                placeholder: 'var(--color-placeholder)',
+                blue: 'var(--color-blue)',
+                'blue-l0': 'var(--color-blue-l0)',
+                red: 'var(--color-red)',
             },
             fontFamily: {
                 caslon: ['"Adobe Caslon Pro"', 'serif'],
@@ -181,17 +182,17 @@ const config: Config = {
                 'section-xs': 'var(--fz-section-xs)',
                 'section-xxs': 'var(--fz-section-xxs)',
                 'section-3xs': 'var(--fz-section-3xs)',
-            }
+            },
         },
     },
     plugins: [
-        Tailwind(({matchUtilities}) => {
+        Tailwind(({ matchUtilities }) => {
             matchUtilities({
                 'x': (value) => ({
-                    [`@apply ${value.replaceAll(',', ' ')}`]: {}
-                })
-            })
-        })
+                    [`@apply ${value.replaceAll(',', ' ')}`]: {},
+                }),
+            });
+        }),
     ],
 };
 export default config;
