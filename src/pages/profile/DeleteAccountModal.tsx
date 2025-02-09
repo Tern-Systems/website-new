@@ -10,7 +10,7 @@ import {Button} from "@/app/ui/form";
 import {DeleteAccountConfirmModal} from "./DeleteAccountConfirmModal";
 
 
-const BTN_CN = 'h-[--h-control] px-xxs rounded-full';
+const BTN_CN = 'h-h-button-n px-xxs rounded-full';
 
 
 interface Props {

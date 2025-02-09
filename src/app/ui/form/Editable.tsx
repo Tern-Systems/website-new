@@ -209,7 +209,7 @@ const Editable: FC<Props> = (props: Props) => {
     );
     const ControlBtns = (
         <span
-            className={`flex gap-x-[min(1dvw,0.75rem)] h-[--h-control] mt-[min(1.3dvw,0.95rem)] text-section font-bold`}>
+            className={`flex gap-x-[min(1dvw,0.75rem)] h-h-button-n mt-[min(1.3dvw,0.95rem)] text-section font-bold`}>
             {CancelBtn}
             <Button
                 type={'submit'}
@@ -336,7 +336,7 @@ const Editable: FC<Props> = (props: Props) => {
                     </Input>
                     <span className={`block mt-xxs text-section-xs ${waring ? '' : 'hidden'}`}>{waring}</span>
                     <span
-                        className={`flex gap-x-[min(1dvw,0.75rem)] h-[--h-control] mt-[min(1.3dvw,0.95rem)] text-section font-bold`}>
+                        className={`flex gap-x-[min(1dvw,0.75rem)] h-h-button-n mt-[min(1.3dvw,0.95rem)] text-section font-bold`}>
                         {CancelBtn}
                         <Button
                             type={'button'}

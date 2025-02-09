@@ -22,7 +22,7 @@ const Switch: FC<Props> = (props: Props) => {
         >
             <div
                 className={`flex border-[0.1rem] rounded-full text-section border-gray-l0
-                            w-[--h-control] h-[min(2.4dvw,0.8rem)]`}
+                            w-h-button-n h-[min(2.4dvw,0.8rem)]`}
             >
                 <div
                     className={`w-1/2 h-full rounded-full cursor-pointer font-bold capitalize bg-white border-s border-gray-l0 

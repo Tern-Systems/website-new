@@ -19,7 +19,7 @@ import SVG_CARD from "/public/images/icons/card.svg";
 import SVG_MARK from "/public/images/icons/mark.svg";
 
 
-const BTN_CN = 'px-xxs h-[--h-control-dl] rounded-full';
+const BTN_CN = 'px-xxs h-h-button-n rounded-full';
 
 
 interface Props {

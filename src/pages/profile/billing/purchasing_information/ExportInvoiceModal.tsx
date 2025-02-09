@@ -68,7 +68,7 @@ const ExportInvoiceModal: FC = () => {
                     Choose timeframe to export invoices
                 </Select>
                 <Button
-                    className={'border-s border-white-d0 px-[1rem] text-section h-[--h-control] rounded-full font-bold mt-[min(6.5dvw,2.5rem)]'}>
+                    className={'border-s border-white-d0 px-[1rem] text-section h-h-button-n rounded-full font-bold mt-[min(6.5dvw,2.5rem)]'}>
                     Export
                 </Button>
             </form>

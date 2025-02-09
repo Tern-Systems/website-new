@@ -115,6 +115,7 @@ const SubNav: FC<Props> = (props: Props) => {
                                 <Select
                                     value={link}
                                     options={dropdownLinks}
+                                    //eslint-disable-next-line
                                     onChangeCustom={(value) => {
                                         // TODO handle links
                                     }}

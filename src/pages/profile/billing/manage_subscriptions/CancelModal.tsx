@@ -12,7 +12,7 @@ import {Button} from "@/app/ui/form";
 import {PageLink} from "@/app/ui/layout";
 
 
-const BTN_CN = 'px-[min(2.7dvw,1rem)] h-[--h-control-dl] rounded-full';
+const BTN_CN = 'px-[min(2.7dvw,1rem)] h-h-button-n rounded-full';
 
 
 interface Props {

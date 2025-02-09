@@ -117,6 +117,7 @@ const config: Config = {
                 'heading-icon': 'var(--h-heading-icon)',
                 'heading-modal': 'var(--h-heading-modal)',
                 'sub-heading': 'var(--h-sub-heading)',
+                'button-n': 'var(--h-button-n)',
             },
             borderRadius: {
                 xxs: 'var(--br-xxs)',

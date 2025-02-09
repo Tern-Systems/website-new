@@ -122,7 +122,7 @@ function ManageSubscriptionsPage() {
                             Current Plan
                         </h2>
                         <Button
-                            className={'border-s border-white-d0 px-xxs text-section h-[--h-control] rounded-full font-bold'}
+                            className={'border-s border-white-d0 px-xxs text-section h-h-button-n rounded-full font-bold'}
                             onClick={() => modalCtx.openModal(
                                 <CancelModal plan={selectedPlan?.subscription}/>,
                                 {darkenBg: true}

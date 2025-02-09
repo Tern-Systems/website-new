@@ -116,7 +116,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                         </span>
                         <Button
                             className={`bg-white mt-xs px-[min(3dvw,1rem)] text-section
-                                        h-[--h-control] rounded-full font-bold text-gray`}
+                                        h-h-button-n rounded-full font-bold text-gray`}
                             onClick={() => userCtx.removeSession()}
                         >
                             Restore Login

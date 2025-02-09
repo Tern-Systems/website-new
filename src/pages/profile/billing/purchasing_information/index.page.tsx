@@ -161,7 +161,7 @@ function PurchasingInformationPage() {
                 <div className={`flex justify-between items-center`}>
                     <h2 className={'text-heading font-bold text-left   sm:landscape:text-heading-s'}>Invoice History</h2>
                     <Button
-                        className={'border-s border-white-d0 px-[min(2.1dvw,1rem)] text-section h-[--h-control] rounded-full font-bold'}
+                        className={'border-s border-white-d0 px-[min(2.1dvw,1rem)] text-section h-h-button-n rounded-full font-bold'}
                         onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
                     >
                         Export

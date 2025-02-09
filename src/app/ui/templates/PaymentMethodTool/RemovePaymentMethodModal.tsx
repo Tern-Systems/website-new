@@ -13,7 +13,7 @@ import {Button} from "@/app/ui/form";
 import SVG_CARD from '/public/images/card.svg';
 
 
-const BTN_CN = 'px-xxs h-[--h-control] rounded-full';
+const BTN_CN = 'px-xxs h-h-button-n rounded-full';
 
 
 interface Props {
