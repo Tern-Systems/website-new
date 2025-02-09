@@ -129,6 +129,7 @@ const config: Config = {
             },
             backgroundColor: {
                 'black-l0': 'var(--bg-black-l0)',
+                'gray-d0': 'var(--bg-gray-d0)',
                 'gray': 'var(--bg-gray)',
                 'gray-l0': 'var(--bg-gray-l0)',
                 'white-d1': 'var(--bg-white-d1)',

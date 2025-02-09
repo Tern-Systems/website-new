@@ -13,7 +13,7 @@ const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildr
     const {children} = props;
 
     const route = usePathname();
-    const [openMenu] = useMenu(checkSubRoute(route, Route.MyDocumentation));
+    const [setMenuOpened] = useMenu(checkSubRoute(route, Route.MyDocumentation));
     const bgSrc = useBackground();
 
 
@@ -24,7 +24,7 @@ const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildr
         >
             <div className={`h-[3.05rem] flex items-center justify-end`}>
                 <Button
-                    onClick={() => openMenu()}
+                    onClick={() => setMenuOpened(true)}
                     icon={'burger'}
                     className={`[&&_*]:size-[1.8rem] absolute z-40 pl-[0.9rem] border-l-s border-gray-l0 before:h-[2.25rem]`}
                 />

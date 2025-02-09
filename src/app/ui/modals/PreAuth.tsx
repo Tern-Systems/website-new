@@ -16,7 +16,7 @@ const PreAuthModal: FC = () => {
     const breakpoint = useBreakpointCheck();
 
     useEffect(() => {
-        if (breakpoint !== null && breakpoint !== Breakpoint.sm)
+        if (breakpoint > Breakpoint.sm)
             modalCtx.closeModal();
         // eslint-disable-next-line
     }, [breakpoint]);
@@ -24,7 +24,7 @@ const PreAuthModal: FC = () => {
 
     return (
         <BaseModal
-            smScreenOnly
+            adaptedDefault
             title={'Tern Account'}
             classNameTitle={'justify-self-start text-heading   sm:landscape:ml-0'}
             classNameContent={cn(

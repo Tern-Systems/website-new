@@ -19,7 +19,7 @@
   /* Heights */
   --h-button-n: 1.45rem;
   --h-heading-modal: 4.3rem;
-  --h-heading: 3rem;
+  --h-heading: 4.06rem;
   --h-heading-icon: 1.3125rem;
   --h-sub-heading: 1.67rem;
   --insignia-h: 1.25rem;
@@ -48,6 +48,7 @@
   /* Backgrounds */
   --bg-main: #000000;
   --bg-black-l0: #111111;
+  --bg-gray-d0: #0b0b0b;
   --bg-gray: #4d4d4d;
   --bg-gray-l0: #808080;
   --bg-white-d1: #d3d3d3;

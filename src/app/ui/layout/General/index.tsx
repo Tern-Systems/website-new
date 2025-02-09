@@ -1,14 +1,16 @@
 'use client';
 
-import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { IModalContext } from '@/app/context/Modal.context';
-import { CONTACT_LINKS, LAYOUT, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
+import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
 import { getRouteName } from '@/app/utils';
+import { useBreakpointCheck } from '@/app/hooks';
 import { useLayout, useModal, useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
@@ -20,8 +22,6 @@ import '@/app/globals.css';
 import styles from '@/app/common.module.css';
 
 import PNG_NEURONS from '/public/images/neurons.png';
-import { useBreakpointCheck } from '@/app/hooks';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);
@@ -82,7 +82,6 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
 
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
-    const route = usePathname();
     const modalCtx = useModal();
     const params = useSearchParams();
     const router = useRouter();
@@ -90,7 +89,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     const userCtx = useUser();
     const breakpoint = useBreakpointCheck();
 
-    const [isProfileLinksVisible, setProfileLinksVisibility] = useState(false);
 
     useEffect(() => {
         const token = params?.get('resetToken');
@@ -98,13 +96,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             router.push(Route.Home + '?resetToken=' + token);
         //eslint-disable-next-line
     }, [params?.size]);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setProfileLinksVisibility(false);
-        }, LAYOUT.fadeDuration);
-        //eslint-disable-next-line
-    }, [route]);
 
 
     const FooterLinksLi: ReactElement[] = FOOTER_LINKS.map((section, idx: number) => {
@@ -157,7 +148,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 
     const Layout = (
         <>
-            <Header profileMenuState={[isProfileLinksVisible, setProfileLinksVisibility]} />
+            <Header />
             <div
                 id={'content'}
                 style={{ backgroundImage: `url("${PNG_NEURONS.src}")` }}

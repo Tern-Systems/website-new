@@ -2,7 +2,6 @@ export {AuthModal} from './Auth'
 export {AuthenticationCode} from './AuthenticationCode'
 export {BaseModal} from './Base'
 export {HelpModal} from "./Help";
-export {MenuModal} from './MenuModal'
 export {MessageModal} from './Message'
 export {PreAuthModal} from './PreAuth'
 export {ResetPasswordModal} from './ResetPassword'

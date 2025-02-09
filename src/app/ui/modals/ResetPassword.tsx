@@ -38,7 +38,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
 
         const EmailSentModal: FC = () => (
             <BaseModal
-                adaptSmScreen
+                adaptBreakpoint={Breakpoint.sm}
                 title={'Email Sent'}
                 className={'w-[30rem] border-white border-s text-center'}
                 classNameContent={`sm:px-[1.25rem] sm:mt-[1.9rem] sm:max-w-[21rem] sm:place-self-center sm:text-left
@@ -112,7 +112,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <BaseModal
-            adaptSmScreen
+            adaptBreakpoint={Breakpoint.sm}
             title={isSmScreen ? 'Tern' : ''}
             isSimple={!isSmScreen}
             className={`place-self-center mx-auto relative border-s border-control w-[30rem] lg:bg-gray

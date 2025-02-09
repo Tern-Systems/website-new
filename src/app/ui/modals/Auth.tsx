@@ -1,21 +1,21 @@
-import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
-import axios from "axios";
-import Image from "next/image";
-import cn from "classnames";
+import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
+import axios from 'axios';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import {SignUpData} from "@/app/services/auth.service";
-import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
-import {REGEX} from "@/app/static";
+import { SignUpData } from '@/app/services/auth.service';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { REGEX } from '@/app/static';
 
-import {AuthService} from "@/app/services";
+import { AuthService } from '@/app/services';
 
-import {useBreakpointCheck, useForm} from "@/app/hooks";
-import {useFlow, useModal, useUser} from "@/app/context";
+import { useBreakpointCheck, useForm } from '@/app/hooks';
+import { useFlow, useModal, useUser } from '@/app/context';
 
-import {BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
-import {Button, Input} from "@/app/ui/form";
+import { BaseModal, MessageModal, ResetPasswordModal } from '@/app/ui/modals';
+import { Button, Input } from '@/app/ui/form';
 
-import SVG_INSIGNIA from '/public/images/insignia-logo.png'
+import SVG_INSIGNIA from '/public/images/insignia-logo.png';
 
 
 const INPUT_CN = `h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
@@ -79,7 +79,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <BaseModal
-            adaptSmScreen
+            adaptBreakpoint={Breakpoint.sm}
             preventClose={preventClose}
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
             onClose={() => onClose?.()}

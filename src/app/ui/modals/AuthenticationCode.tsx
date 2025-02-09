@@ -10,6 +10,7 @@ import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_SAFE from '/public/images/safe.svg'
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 
 type FormData = { code: string };
@@ -84,7 +85,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <BaseModal
-            adaptSmScreen
+            adaptBreakpoint={Breakpoint.sm}
             title={isDisabling ? 'Disable Authentication' : 'Account Authentication'}
             className={`place-self-center mx-auto relative bg-gray border-s border-control`}
             classNameContent={'max-w-[26rem] sm:px-[1.25rem] sm:max-w-[21rem] sm:place-self-center mt-[1.9rem]  sm:landscape:max-w-full  sm:landscape:w-full'}
