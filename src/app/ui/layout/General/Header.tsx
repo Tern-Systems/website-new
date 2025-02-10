@@ -5,9 +5,16 @@ import cn from 'classnames';
 
 import { NavDropdown } from '@/app/types/layout';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
-import { DROPDOWN_NAV_ROUTES, MAPPED_NAV_ROUTES, NavLink, Route, SPECIAL_NAV_ROUTES } from '@/app/static';
+import {
+    DROPDOWN_NAV_ROUTES,
+    MAPPED_NAV_ROUTES,
+    NavLink,
+    Route,
+    ROUTES_WITH_INDEX,
+    SPECIAL_NAV_ROUTES,
+} from '@/app/static';
 
-import { getRouteName, getRouteRoot } from '@/app/utils';
+import { checkSubRoute, getRouteName, getRouteRoot } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
 import { useLayout } from '@/app/context';
 
@@ -49,7 +56,7 @@ const Header: FC = (): ReactElement => {
 
     // Elements
     const NavLinks: ReactElement[] = navLinks?.map((link: Route, idx) => {
-        const isActive = route !== Route.Home && link.includes(getRouteRoot(route));
+        const isActive = route !== Route.Home && checkSubRoute(route, link, ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
         const mappedLink = MAPPED_NAV_ROUTES[link];
         const navDropdown = DROPDOWN_NAV_ROUTES[link];
         const linkFinal = SPECIAL_NAV_ROUTES[link] ?? link;
@@ -104,7 +111,6 @@ const Header: FC = (): ReactElement => {
             </li>
         );
     });
-
 
     return (
         <header className={cn('z-10 text-section-xs leading-none bg-black', navExpanded ? 'sticky top-0' : 'relative')}>

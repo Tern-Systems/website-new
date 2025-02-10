@@ -4,15 +4,16 @@ export {
     CONTACT_LINKS,
     MEDIA_LINKS,
     MISC_LINKS,
-} from "./routing";
+} from './routing';
 
-export {TAGS} from './blog';
+export { TAGS } from './blog';
 
-export type {JobFunctionKey, IndustryKey, SubIndustryKey} from './company';
-export {JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY} from './company';
+export type { JobFunctionKey, IndustryKey, SubIndustryKey } from './company';
+export { JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY } from './company';
 
 export {
     NavLink,
+    ROUTES_WITH_INDEX,
     ALWAYS_MAPPED_ROUTES,
     MAPPED_NAV_ROUTES,
     DROPDOWN_NAV_ROUTES,
@@ -22,5 +23,5 @@ export {
     LAYOUT,
 } from './layout';
 
-export type {StateKey, CountryKey, SalutationKey, LanguageKey} from './profile';
-export {STATE_PROVINCE, COUNTRY, LANGUAGE, SALUTATION, REGEX} from './profile';
+export type { StateKey, CountryKey, SalutationKey, LanguageKey } from './profile';
+export { STATE_PROVINCE, COUNTRY, LANGUAGE, SALUTATION, REGEX } from './profile';

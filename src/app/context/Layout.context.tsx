@@ -9,17 +9,16 @@ import React, {
     useContext,
     useEffect,
     useRef,
-    useState
+    useState,
 } from 'react';
-import {usePathname} from "next/navigation";
+import { usePathname } from 'next/navigation';
 
-import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
-import {BLOG_ROUTES, LAYOUT, NavLink, Route} from "@/app/static";
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { BLOG_ROUTES, LAYOUT, NavLink, Route } from '@/app/static';
 
-import {checkSubRoute} from "@/app/utils";
-import {useBreakpointCheck} from "@/app/hooks";
-import {useUser} from "@/app/context/User.context";
-
+import { checkSubRoute } from '@/app/utils';
+import { useBreakpointCheck } from '@/app/hooks';
+import { useUser } from '@/app/context/User.context';
 
 
 type SetState<T> = Dispatch<SetStateAction<T>>
@@ -43,8 +42,8 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
             subNavLinks = isSm ? [Route.MyDocumentation] : null;
             break;
         case checkSubRoute(route, Route.Profile):
-            navLinks = isSm ? LAYOUT.profileLinks : [];
-            sub2NavLinks = isSm ? null : LAYOUT.profileLinks;
+            navLinks = LAYOUT.profileLinks;
+            subNavLinks = isSm ? null : LAYOUT.profileLinks;
             break;
         case checkSubRoute(route, Route.Documentation):
             subNavLinks = [Route.MyDocumentation];
@@ -78,7 +77,7 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
             break;
     }
     return [navLinks, subNavLinks, sub2NavLinks];
-}
+};
 
 
 interface ILayoutContext {
@@ -134,7 +133,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape')
                 setNoLayoutState(false);
-        }
+        };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
@@ -148,7 +147,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             document.exitFullscreen();
         else
             fullscreenRef.current?.requestFullscreen();
-    }
+    };
 
     return (
         <LayoutContext.Provider
@@ -160,7 +159,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 navLinks,
                 isBreadCrumbsNav,
                 getSubNavs,
-                navigateState: [navigationState, setNavigationState, blockedRoute, setBlockedRoute]
+                navigateState: [navigationState, setNavigationState, blockedRoute, setBlockedRoute],
             }}>
             <span ref={fullscreenRef}>
                 {props.children}
@@ -178,5 +177,5 @@ const useLayout = (): ILayoutContext => {
 };
 
 
-export type {NavLinks};
-export {NavigationState, LayoutProvider, useLayout}
+export type { NavLinks };
+export { NavigationState, LayoutProvider, useLayout };
