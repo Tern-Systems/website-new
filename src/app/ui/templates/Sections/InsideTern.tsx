@@ -26,22 +26,23 @@ const InsideTern: FC<Props> = (props: Props) => {
     const CompanyLi: ReactElement[] = data.map((entry, idx) => (
         <li
             key={entry.title + idx}
-            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
+            className={cn('flex flex-col', 'gap-y-[--p-content-3xs]','w-full', 'text-left')}
         >
             <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
                 {entry.title}
             </h4>
             <p>{entry.description}</p>
-
-            {isMdScreen ?
-                <div className="w-full flex justify-end relative">
-                    <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-w-[33.75rem] max-h-[22.5rem]'} />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[--bg-control-blue] from-[min(20dvw*2,40%)] to-transparent to-70% pointer-events-none "></div>
+            <div className={'flex bg-control-blue'}>
+            <div className={'md:w-[14.325rem]'}></div>
+                <div className={cn('relative', 'w-full', 'max-h-[22.5rem]')}>
+                    <Image
+                    src={entry.icon}
+                    alt="office girl 2"
+                    className={cn('w-full', 'h-full', 'object-cover')}
+                    />
+                    <div className="absolute inset-0 md:bg-gradient-to-r from-blue via-[#178AB7]/20 to-transparent"></div>
                 </div>
-                :
-                <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-h-[22.5rem]'} />
-            }
-
+            </div>
 
             <Button
                 icon={entry.btnIcon}
@@ -62,7 +63,7 @@ const InsideTern: FC<Props> = (props: Props) => {
             )}
         >
             <div
-                className={cn(styles.content, 'pt-[8.19rem] text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]', classNameContent)}>
+                className={cn(styles.content, 'pt-[8.19rem] text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]', 'md:x-[bg-gradient-to-b,from-blue,via-[#0a313a]/10,to-transparent,pt-[11.75rem]]')}>
                 <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
                     Inside Tern
                 </h2>

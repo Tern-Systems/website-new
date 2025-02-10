@@ -261,7 +261,7 @@ const HomePage: FC = () => {
                 </section>
                 <section
                     className={cn(styles.textGlow, styles.section,
-                        'bg-gradient-to-t from-[--bg-section-green] via-[#0a313a] to-transparent',
+                        'bg-gradient-to-t from-blue via-[#178AB7]/30 to-transparent',
                         'pb-[28rem]',
                         'md:pb-[23rem]',
                     )}

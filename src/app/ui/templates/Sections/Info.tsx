@@ -24,8 +24,8 @@ const Info: FC<Props> = (props: Props) => {
     const {title, image, subTitle, link, linkTitle, description} = data;
 
     return (
-        <section className={cn(styles.section, className)}>
-            <div className={cn(styles.content, 'pt-[3.5rem] pb-[12.25rem] font-oxygen', classNameContent)}>
+        <section className={cn(styles.section, 'bg-blue', className)}>
+            <div className={cn(styles.content, 'pt-[3.5rem] pb-[12.25rem] font-oxygen')}>
                 <h2
                     className={cn(
                         'mb-[4.62rem] text-center font-bold font-oxygen',
