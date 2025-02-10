@@ -9,7 +9,7 @@ import SVG_COLOR_PICKER_BORDER from "/public/images/color-picker-border.svg";
 import SVG_EYE from "/public/images/icons/eye.svg";
 
 
-interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren {
+interface Props extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>, PropsWithChildren {
     classNameWrapper?: string;
     classNameLabel?: string;
     classNameIcon?: string;
@@ -22,7 +22,7 @@ const Input: FC<Props> = (props: Props) => {
         icons, ...inputProps
     } = props;
 
-    const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
+    const inputRef: MutableRefObject<HTMLInputElement | HTMLTextAreaElement | null> = useRef(null);
 
     switch (props.type) {
         case 'file' :
@@ -104,6 +104,19 @@ const Input: FC<Props> = (props: Props) => {
                     />
                 </label>
             );
+        case 'textarea':
+            return (
+                <label
+                    className={`relative flex flex-col items-start last-of-type:mb-0 cursor-pointer text-left gap-x-[min(1.7dvw,0.4rem)]
+                                ${classNameWrapper} ${props.hidden ? 'hidden' : ''}`}>
+                    <span hidden={!children} className={classNameLabel}>{children}</span>
+                    <textarea
+                        {...inputProps}
+                            className={`p-[--s-dl-small] min-h-[18.75rem] ${className}`}
+                            ref={inputRef as React.RefObject<HTMLTextAreaElement>}
+                        />
+                    </label>
+                );
         default:
             const isPassword = props.type === 'password';
 
@@ -131,7 +144,7 @@ const Input: FC<Props> = (props: Props) => {
                            className={'absolute flex gap-[min(0.6dvw,0.135rem)] right-0 pr-[min(3.5dvw,0.81rem)]'}
                            onClick={() => {
                                if (inputRef.current)
-                                   inputRef.current.type = ['text', 'password'][+(isPassword && inputRef.current?.type !== 'password')];
+                                    inputRef.current.setAttribute('type', ['text', 'password'][+(isPassword && inputRef.current?.type !== 'password')]);
                            }}
                        >
                             {IconsSVGs}
@@ -139,7 +152,7 @@ const Input: FC<Props> = (props: Props) => {
                         <input
                             {...inputProps}
                             className={className}
-                            ref={inputRef}
+                            ref={inputRef as React.RefObject<HTMLInputElement>}
                             onInput={(event) => {
                                 inputProps.onInput?.(event);
                                 const {value} = event.currentTarget;

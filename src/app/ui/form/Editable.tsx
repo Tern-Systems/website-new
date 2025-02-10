@@ -377,7 +377,7 @@ const Editable: FC<Props> = (props: Props) => {
                             if (event.currentTarget)
                                 event.currentTarget.value = ''
                         }}
-                        onChange={async (event) => {
+                        onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
                             if (!('target' in event) || !event.target.files)
                                 return;
                             const file = Array.from(event.target?.files)?.[0];
@@ -735,12 +735,12 @@ const Editable: FC<Props> = (props: Props) => {
                 break;
 
             const requireOnChangeAddress = (key: keyof UserAddress, subKey: keyof Address, isCheckBox?: boolean) => {
-                return (value: ChangeEvent<HTMLInputElement> | string) => {
+                return (value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement > | string) => {
                     setWarning(null);
                     const formValue = typeof value === 'string'
                         ? value
                         : isCheckBox
-                            ? value.currentTarget.checked
+                            ? (value.target as HTMLInputElement).checked
                             : value.currentTarget.value;
                     setForm((prevState) => prevState && 'businessAddress' in prevState
                         ? ({...prevState, [key]: {...prevState[key], [subKey]: formValue}})
