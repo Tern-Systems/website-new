@@ -28,6 +28,7 @@ type FooterLink = Route | {
 };
 
 
+
 const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
     {
         title: 'Company',

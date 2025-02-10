@@ -1,30 +1,30 @@
-'use client'
+'use client';
 
-import React, {FC, ReactElement, useEffect} from "react";
-import {useSearchParams} from "next/navigation";
-import {StaticImageData} from "next/image";
-import cn from "classnames";
+import React, { FC, ReactElement, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { StaticImageData } from 'next/image';
+import cn from 'classnames';
 
-import {InfoSection, SectionCard} from "@/app/types/layout";
+import { InfoSection, SectionCard } from '@/app/types/layout';
 
-import {CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route} from "@/app/static";
+import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
-import {useBackground, useLoginCheck} from "@/app/hooks";
-import {useFlow, useModal} from "@/app/context";
+import { useBackground, useLoginCheck } from '@/app/hooks';
+import { useFlow, useModal } from '@/app/context';
 
-import {ResetPasswordModal} from "@/app/ui/modals";
-import {Carousel} from "@/app/ui/misc";
-import {PageLink} from "@/app/ui/layout";
-import {Info, InsideTern} from "@/app/ui/templates";
+import { ResetPasswordModal } from '@/app/ui/modals';
+import { Carousel } from '@/app/ui/misc';
+import { PageLink } from '@/app/ui/layout';
+import { Info, InsideTern } from '@/app/ui/templates';
 
-import styles from "@/app/common.module.css";
+import styles from '@/app/common.module.css';
 
-import SVG_CITY from "/public/images/city-glowing-way.jpg";
-import SVG_MICROPROCESSOR from "/public/images/microprocessor.png";
-import SVG_NATURE from "/public/images/nature.png";
-import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png'
-import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png'
-import SVG_CIRCUIT from '/public/images/microchip.png'
+import SVG_CITY from '/public/images/city-glowing-way.jpg';
+import SVG_MICROPROCESSOR from '/public/images/microprocessor.png';
+import SVG_NATURE from '/public/images/nature.png';
+import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png';
+import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png';
+import SVG_CIRCUIT from '/public/images/microchip.png';
 
 
 const CARDS: {

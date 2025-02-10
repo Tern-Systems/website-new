@@ -186,13 +186,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                     <p className={'text-section-s'}>{entry.title}</p>
                     <p className={'text-gray'}>{entry.description}</p>
                     <Button
-                        onClick={() => {
-                            modalCtx.openModal(
-                                isSmScreen ? <PreAuthModal/> : <AuthModal/>,
-                                {darkenBg: !isSmScreen},
-                            );
-                            setProfileMenuOpened(false);
-                        }}
+                        onClick={() =>
+                            modalCtx.openModal(<AuthModal registration={idx === 1}/>, {darkenBg: !isSmScreen})
+                        }
                         className={cn(
                             `w-full py-[--p-content-5xs] rounded-full border-small border-section font-bold capitalize text-section`,
                             idx ? 'bg-black text-primary' : 'bg-control-white text-black'
