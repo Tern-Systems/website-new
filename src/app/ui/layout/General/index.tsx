@@ -9,7 +9,7 @@ import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { IModalContext } from '@/app/context/Modal.context';
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
-import { getRouteName } from '@/app/utils';
+import { getIdName } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
 import { useLayout, useModal, useUser } from '@/app/context';
 
@@ -103,7 +103,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             const isString = typeof link === 'string';
 
             const action: LinkAction = isString ? link : link.action;
-            const title: string = isString ? getRouteName(link) ?? '' : link.title;
+            const title: string = isString ? getIdName(link) ?? '' : link.title;
             const checkLogin = !isString && link?.checkLogin === true;
 
             const isHref = typeof action === 'string';

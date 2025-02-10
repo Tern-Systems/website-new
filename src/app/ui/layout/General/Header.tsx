@@ -14,7 +14,7 @@ import {
     SPECIAL_NAV_ROUTES,
 } from '@/app/static';
 
-import { checkSubRoute, getRouteName, getRouteRoot } from '@/app/utils';
+import { checkSubRoute, getIdName, getRouteRoot } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
 import { useLayout } from '@/app/context';
 
@@ -99,7 +99,7 @@ const Header: FC = (): ReactElement => {
                     : (
                         <>
                             <PageLink href={link}>
-                                <span>{mappedLink ? mappedLink : getRouteName(linkFinal)}</span>
+                                <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
                             </PageLink>
                             {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1
                                 ? <span>/</span>
@@ -113,7 +113,10 @@ const Header: FC = (): ReactElement => {
     });
 
     return (
-        <header className={cn('z-10 text-section-xs leading-none bg-black', navExpanded ? 'sticky top-0' : 'relative')}>
+        <header
+            id={'header'}
+            className={cn('z-10 text-section-xs leading-none bg-black', navExpanded ? 'sticky top-0' : 'relative')}
+        >
             <div className={'flex border-b-s border-gray'}>
                 {breakpoint <= Breakpoint.xxs
                     ? (

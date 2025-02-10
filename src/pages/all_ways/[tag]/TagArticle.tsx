@@ -1,19 +1,22 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
-import cn from "classnames";
+import React, { FC, ReactElement, useEffect, useState } from 'react';
+import cn from 'classnames';
 
-import {ArticleCard, ArticleTag} from "@/app/types/blog";
+import { Article, ArticleTag } from '@/app/types/blog';
 
-import {BlogService} from "@/app/services/blog.service";
+import { BlogService } from '@/app/services/blog.service';
 
-import {useModal} from "@/app/context";
+import { useModal } from '@/app/context';
 
-import {MessageModal} from "@/app/ui/modals";
-import {ArticleCardLi} from "@/app/ui/templates";
+import { MessageModal } from '@/app/ui/modals';
+import { ArticleCardLi } from '@/app/ui/templates';
 
-import styles from "@/app/common.module.css";
+import styles from '@/app/common.module.css';
 
 import PNG_ELECTRONS from '/public/images/electrons.png';
+import { getIdName } from '@/app/utils';
 
+
+const STORED_ARTICLE_COUNT = 5;
 
 const GRADIENT_CN = 'from-blue to-[8rem] to-transparent';
 
@@ -23,41 +26,42 @@ interface Props {
 }
 
 const TagArticle: FC<Props> = (props: Props) => {
-    const {tag} = props;
+    const { tag } = props;
 
     const modalCtx = useModal();
 
-    const [articles, setArticles] = useState<ArticleCard[]>([]);
+    const [articles, setArticles] = useState<Article[]>([]);
 
 
     useEffect(() => {
         const fetchArticles = async () => {
             try {
-                const {payload} = await BlogService.getArticles();
-                setArticles(payload.articles);
+                const { payload } = await BlogService.getArticles();
+                setArticles(payload.blogs);
+                localStorage.setItem('article-cards', JSON.stringify(payload.blogs.slice(0, STORED_ARTICLE_COUNT)));
             } catch (error: unknown) {
                 if (typeof error === 'string')
                     modalCtx.openModal(<MessageModal>{error}</MessageModal>);
             }
-        }
+        };
         fetchArticles();
         //eslint-disable-next-line
-    }, [])
+    }, []);
 
 
-    let articlesFinal: ArticleCard[] = articles;
+    let articlesFinal: Article[] = articles;
     if (tag)
         articlesFinal = articles.filter((article) => article.tag === tag);
 
     // Elements
     const CardsLi: ReactElement[] = articlesFinal.map((article, idx) =>
-        <ArticleCardLi key={article.id + idx} article={article}/>
+        <ArticleCardLi key={article.id + idx} article={article} />,
     );
 
     return (
         <>
             <div
-                style={{backgroundImage: `url("${PNG_ELECTRONS.src}")`}}
+                style={{ backgroundImage: `url("${PNG_ELECTRONS.src}")` }}
                 className={'absolute top-0 left-0 w-dvw max-w-dwv h-screen max-h-[100rem] bg-cover bg-center bg-no-repeat'}
             />
             <div className={'relative z-10  font-oxygen'}>
@@ -70,7 +74,7 @@ const TagArticle: FC<Props> = (props: Props) => {
                 </section>
                 <section className={cn(styles.section, 'bg-blue')}>
                     <div className={styles.content}>
-                        <h2 className={cn(styles.textGlow, `font-bold  text-[3rem]  md:text-[2.25rem]`)}>
+                        <h2 className={cn(styles.textGlow, `font-bold  text-[3rem]  md:text-heading-l`)}>
                             Tech, news, education, events and more
                         </h2>
                     </div>
@@ -78,25 +82,34 @@ const TagArticle: FC<Props> = (props: Props) => {
                 <section
                     className={cn(
                         styles.section, styles.fullHeightSection,
-                        'pb-[20rem] !h-fit bg-black bg-gradient-to-b', GRADIENT_CN
+                        'pb-[20rem] !h-fit bg-black bg-gradient-to-b', GRADIENT_CN,
                     )}
                 >
                     <div className={cn(styles.content, 'pt-[7.87rem]')}>
-                        <ul
-                            className={cn(
-                                `grid auto-rows-max justify-items-center`,
-                                `lg:gap-x-[min(2.7dvw,2.44rem)] lg:gap-y-[min(5.7dvw,5.19rem)]`,
-                                `lg:grid-cols-[repeat(3,minmax(22.0625rem,1fr))]`,
-                            )}
-                        >
-                            {CardsLi}
-                        </ul>
+                        {CardsLi.length
+                            ? (
+                                <ul
+                                    className={cn(
+                                        `grid auto-rows-max justify-items-center`,
+                                        `lg:gap-x-[min(2.7dvw,2.44rem)] lg:gap-y-[min(5.7dvw,5.19rem)]`,
+                                        `lg:grid-cols-[repeat(3,minmax(22.0625rem,1fr))]`,
+                                    )}
+                                >
+                                    {CardsLi}
+                                </ul>
+                            )
+                            : (
+                                <span className={'block mt-[5rem] text-section-xxs'}>
+                                    No articles found with tag &apos;{getIdName(tag ?? '--')}&apos;
+                                </span>
+                            )
+                        }
                     </div>
                 </section>
             </div>
         </>
     );
-}
+};
 
 
-export {TagArticle};
+export { TagArticle };

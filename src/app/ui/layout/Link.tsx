@@ -6,7 +6,7 @@ import cn from "classnames";
 
 import {Route, SPECIAL_NAV_ROUTES} from "@/app/static";
 
-import {getRouteName} from "@/app/utils";
+import {getIdName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
 
 import SVG_ARROW from "/public/images/icons/arrow.svg";
@@ -68,7 +68,7 @@ const PageLink: FC<Props> = (props: Props) => {
     const linkFinal: string = SPECIAL_NAV_ROUTES?.[href ?? ''] ?? href ?? '';
     const splitHref = children
         ? children
-        : <span>{getRouteName(linkFinal)}</span>;
+        : <span>{getIdName(linkFinal)}</span>;
 
     return (
         <Link

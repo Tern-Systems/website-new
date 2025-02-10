@@ -15,7 +15,7 @@ import { NavDropdown } from '@/app/types/layout';
 import { ALWAYS_MAPPED_ROUTES, DROPDOWN_SUB_NAV_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route } from '@/app/static';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
-import { checkSubRoute, getRouteLeave, getRouteName } from '@/app/utils';
+import { checkSubRoute, getRouteLeave, getIdName } from '@/app/utils';
 import { useBreakpointCheck, useNavigate } from '@/app/hooks';
 import { useLayout, useModal } from '@/app/context';
 
@@ -171,7 +171,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                 )
                                 : (
                                     <PageLink href={link}>
-                                        {getRouteName(mapRoute ? mappedLink : link)}
+                                        {getIdName(mapRoute ? mappedLink : link)}
                                     </PageLink>
                                 )
                             }

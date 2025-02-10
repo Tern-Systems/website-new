@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { ALWAYS_MAPPED_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route, SPECIAL_NAV_ROUTES } from '@/app/static';
 
-import { checkSubRoute, getRouteLeave, getRouteName, getRouteRoot, sliceRoute } from '@/app/utils';
+import { checkSubRoute, getRouteLeave, getIdName, getRouteRoot, sliceRoute } from '@/app/utils';
 import { useLayout } from '@/app/context';
 import { PageLink } from '@/app/ui/layout';
 import { BaseModal } from '@/app/ui/modals';
@@ -49,7 +49,7 @@ const Menu: FC<Props> = (props: Props) => {
 
             const isActive = checkSubRoute(route, link, true);
 
-            const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link] ?? link);
+            const routeName = getIdName(MAPPED_SUB_NAV_ROUTES?.[link] ?? link);
 
             return (
                 <span key={link + idx} className={'contents'}>
@@ -91,7 +91,7 @@ const Menu: FC<Props> = (props: Props) => {
                 || !isActive && checkSubRoute(route, link) && !renderSubRoutes,
             );
 
-            const routeName = getRouteName(SPECIAL_NAV_ROUTES?.[link] ?? (mapRoute ? mappedLink : link));
+            const routeName = getIdName(SPECIAL_NAV_ROUTES?.[link] ?? (mapRoute ? mappedLink : link));
 
             return (
                 <span key={link + idx} className={'contents'}>
@@ -145,7 +145,7 @@ const Menu: FC<Props> = (props: Props) => {
                         { ['border-b-s']: !isNextActive },
                     )}
                 >
-                    <span>{mappedLink ? mappedLink : getRouteName(SPECIAL_NAV_ROUTES?.[link] ?? link)}</span>
+                    <span>{mappedLink ? mappedLink : getIdName(SPECIAL_NAV_ROUTES?.[link] ?? link)}</span>
                 </PageLink>
                 {isActive ? renderSubNav() : null}
             </span>

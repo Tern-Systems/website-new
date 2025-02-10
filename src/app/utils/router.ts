@@ -1,4 +1,4 @@
-const getRouteName = (route: string | undefined, joinWords = false): string | undefined => route
+const getIdName = (route: string | undefined, joinWords = false): string | undefined => route
     ?.split('/')
     .pop()
     ?.split('_')
@@ -21,4 +21,4 @@ const checkSubRoute = (route: string | null, subRoute: string, checkLeaves = fal
 const sliceRoute = (route: string | null, partsCount: number): string => '/' + route?.split('/').slice(2 * partsCount).join('/');
 
 
-export {getRouteRoot, getRouteName, getRouteLeave, checkSubRoute, sliceRoute};
+export {getRouteRoot, getIdName, getRouteLeave, checkSubRoute, sliceRoute};
