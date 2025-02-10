@@ -1,29 +1,49 @@
-import React, {FC, ReactElement} from "react";
-import Image from "next/image";
-import cn from "classnames";
+import React, { FC, ReactElement } from 'react';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import {SectionCard} from "@/app/types/layout";
+import { useBreakpointCheck } from '@/app/hooks';
 
-import {Button} from "@/app/ui/form";
+import { SectionCard } from '@/app/types/layout';
 
-import styles from "@/app/common.module.css";
+import { Button } from '@/app/ui/form';
+
+import styles from '@/app/common.module.css';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 
 interface Props {
     data: SectionCard[]
+    className?: string
+    classNameContent?: string
+    classNameCompanyLi?: string
 }
 
 const InsideTern: FC<Props> = (props: Props) => {
-    const CompanyLi: ReactElement[] = props.data.map((entry, idx) => (
+    const { data, className, classNameContent, classNameCompanyLi } = props;
+
+    const isMdScreen = useBreakpointCheck() === Breakpoint.md;
+
+    const CompanyLi: ReactElement[] = data.map((entry, idx) => (
         <li
             key={entry.title + idx}
-            className={'flex flex-col gap-y-3xs text-left'}
+            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
         >
             <h4 className={'mb-[0.1rem] text-[0.9375rem] text-section-3xs'}>
                 {entry.title}
             </h4>
             <p>{entry.description}</p>
-            <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-h-[22.5rem]'}/>
+
+            {isMdScreen ?
+                <div className="w-full flex justify-end relative">
+                    <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-w-[33.75rem] max-h-[22.5rem]'} />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[--bg-control-blue] from-[min(20dvw*2,40%)] to-transparent to-70% pointer-events-none "></div>
+                </div>
+                :
+                <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-h-[22.5rem]'} />
+            }
+
+
             <Button
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
@@ -38,16 +58,16 @@ const InsideTern: FC<Props> = (props: Props) => {
     return (
         <section
             className={cn(styles.section,
-                'from-black via-black to-[--bg-green]',
-                'lg:x-[bg-gradient-to-t,from-black,via-[#0a313a],to-[--bg-green]]',
+                'from-black via-black',
+                className
             )}
         >
             <div
-                className={cn(styles.content, 'pt-[8.19rem] text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]')}>
+                className={cn(styles.content, 'pt-[8.19rem] text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]', classNameContent)}>
                 <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
                     Inside Tern
                 </h2>
-                <ul className={'grid  grid-cols-1 gap-xxl  lg:x-[grid-cols-2,gap-[3.63rem]]'}>
+                <ul className={cn('grid  grid-cols-1 gap-xxl  lg:x-[grid-cols-2,gap-[3.63rem]]', classNameCompanyLi)}>
                     {CompanyLi}
                 </ul>
             </div>
@@ -56,4 +76,4 @@ const InsideTern: FC<Props> = (props: Props) => {
 }
 
 
-export {InsideTern};
+export { InsideTern };

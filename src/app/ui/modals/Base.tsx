@@ -87,9 +87,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         return (
             <div
                 id={'modal'}
-                onClick={(event) => {
-                    event.stopPropagation();
-                }}
+                onClick={(event) => event.stopPropagation()}
                 className={cn(
                     `pointer-events-auto`,
                     adaptApplied
@@ -124,7 +122,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                         'sm:x-[-left-5xs,mt-xxs] sm:w-[calc(100%+2*var(--p-5xs))]',
                     )]: !adaptApplied,
                 })
-                } />
+                }/>
                 <div className={cn(classNameContent, 'overflow-y-scroll h-[calc(100%-var(--h-heading))]')}>
                     {adaptApplied ? Heading : null}
                     {children}

@@ -9,7 +9,7 @@ import { useModal, useUser } from '@/app/context';
 
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout/Link';
-import { AuthModal, PreAuthModal } from '@/app/ui/modals';
+import { AuthModal } from '@/app/ui/modals';
 
 import SVG_PROFILE from '/public/images/icons/profile.svg';
 

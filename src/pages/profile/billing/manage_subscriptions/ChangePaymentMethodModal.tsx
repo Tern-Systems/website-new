@@ -34,20 +34,22 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
     const {userData} = useUser();
 
     const formRef = useRef<HTMLFormElement | null>(null);
+    const submitRef = useRef<HTMLButtonElement | null>(null);
 
-    const setPreventLeaveState = useSaveOnLeave(async () => {
-        if (formRef.current !== null)
-            await updateCard();
-    });
     const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
 
-
-    useEffect(() => setPreventLeaveState(true), [setPreventLeaveState]);
+    //eslint-disable-next-line
+    useEffect(() => setPreventLeaveState(true), []);
 
     const updateCard = async () => {
-        if (!userData || selectedCardIdx === null)
-            return;
+        if (!userData || selectedCardIdx === null || !formRef.current || !submitRef.current)
+            return false;
         try {
+            if (!formRef.current.checkValidity()) {
+                submitRef.current.click();
+                return false;
+            }
+
             const updatedCard: CardData = {
                 ...mapSavedCard(savedCards[selectedCardIdx]),
                 isPreferred: true,
@@ -55,11 +57,14 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             const {message} = await BillingService.postUpdateCard(updatedCard, userData.email);
             modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             setUpdateCards(true);
+            return true;
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            return false;
         }
     }
+    const setPreventLeaveState = useSaveOnLeave({onSave: updateCard});
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -111,6 +116,7 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
                 <span
                     className={'flex gap-4xs font-bold mt-s text-section justify-center'}>
                     <Button
+                        ref={submitRef}
                         type={'submit'}
                         className={`border-s border-white-d0 text-gray ${BTN_CN}`}
                     >

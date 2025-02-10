@@ -4,7 +4,7 @@ import cn from "classnames";
 
 import {PlanName} from "@/app/types/subscription";
 import {ButtonIcon} from "@/app/ui/form/Button";
-import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import {MISC_LINKS, Route} from "@/app/static";
 
 import {capitalize, copyObject} from "@/app/utils";

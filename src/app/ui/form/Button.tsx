@@ -1,4 +1,11 @@
-import {ButtonHTMLAttributes, FC, ReactElement} from "react";
+import {
+    ButtonHTMLAttributes,
+    ForwardedRef,
+    forwardRef,
+    ForwardRefRenderFunction,
+    PropsWithoutRef,
+    ReactElement
+} from "react";
 import {ReactSVG} from "react-svg";
 import cn from "classnames";
 
@@ -101,7 +108,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     classNameIcon?: string;
 }
 
-const Button: FC<Props> = (props: Props) => {
+const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, PropsWithoutRef<Props>> = (props: Props, ref: ForwardedRef<HTMLButtonElement>) => {
     const {children, icon, isIconFlippedY, className, classNameIcon, hovered, ...btnProps} = props;
 
     const iconClassName = cn(`inline [&_*]:size-[1rem]`, {['rotate-180']: isIconFlippedY}, classNameIcon);
@@ -131,6 +138,7 @@ const Button: FC<Props> = (props: Props) => {
     return (
         <button
             {...btnProps}
+            ref={ref}
             className={cn(
                 `text-nowrap cursor-pointer  disabled:cursor-default group`,
                 className, styles.clickable,
@@ -146,6 +154,8 @@ const Button: FC<Props> = (props: Props) => {
         </button>
     );
 }
+
+const Button = forwardRef(ButtonComponent);
 
 export {Button}
 export type{ButtonIcon}

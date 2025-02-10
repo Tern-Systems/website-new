@@ -8,6 +8,7 @@ import { ALWAYS_MAPPED_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route, SPECIAL_NA
 import { checkSubRoute, getRouteLeave, getRouteName, getRouteRoot, sliceRoute } from '@/app/utils';
 import { useLayout } from '@/app/context';
 import { PageLink } from '@/app/ui/layout';
+import { BaseModal } from '@/app/ui/modals';
 
 
 const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-blue]';
@@ -152,16 +153,17 @@ const Menu: FC<Props> = (props: Props) => {
     });
 
     return (
-        <aside
-            ref={ref}
-            className={cn(
-                `absolute z-[1000] left-0 top-[calc(1px+var(--h-heading))] gap-x-l h-dvh w-full max-w-[14.5625rem] bg-gray-d0`,
-            )}
+        <BaseModal adaptBreakpoint={Breakpoint.sm} adaptedDefault
+                   className={cn(
+                       `ml-auto w-full sm:landscape:x-[!max-w-[46dvw],!w-[46dvw],text-section-s]`,
+                       { ['[&_hr]:hidden']: isFirstActive },
+                   )}
+                   classNameContent={'h-[calc(100dvh-var(--h-heading-modal))] overflow-y-scroll'}
         >
             <ul>
                 {NavLinks}
             </ul>
-        </aside>
+        </BaseModal>
     );
 };
 
