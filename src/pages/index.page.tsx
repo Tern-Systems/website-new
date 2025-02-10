@@ -2,45 +2,86 @@
 
 import React, {FC, ReactElement, useEffect} from "react";
 import {useSearchParams} from "next/navigation";
-import Image, {StaticImageData} from "next/image";
+import {StaticImageData} from "next/image";
 import cn from "classnames";
 
-import {useBackground, useBreakpointCheck, useLoginCheck} from "@/app/hooks";
+import {InfoSection, SectionCard} from "@/app/types/layout";
+
+import {CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route} from "@/app/static";
+
+import {useBackground, useLoginCheck} from "@/app/hooks";
 import {useFlow, useModal} from "@/app/context";
 
 import {ResetPasswordModal} from "@/app/ui/modals";
-import {Button} from "@/app/ui/form";
+import {Carousel} from "@/app/ui/misc";
+import {PageLink} from "@/app/ui/layout";
+import {Info, InsideTern} from "@/app/ui/templates";
 
 import styles from "@/app/common.module.css";
 
 import SVG_CITY from "/public/images/city-glowing-way.jpg";
 import SVG_MICROPROCESSOR from "/public/images/microprocessor.png";
 import SVG_NATURE from "/public/images/nature.png";
-import SVG_CIRCUIT from '/public/images/circuit.svg'
 import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png'
 import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png'
+import SVG_CIRCUIT from '/public/images/microchip.png'
 
 
-const CARDS: { title: string; info: string; image: StaticImageData; link: { title: string; href: string } }[] = [
+const CARDS: {
+    title: string;
+    info: string;
+    image: StaticImageData;
+    link: { title: string; href: Route.AllWays | string }
+}[] = [
     {
-        title: 'Exec Tech',
+        title: 'Your Tern',
         info: 'Join team Tern as they discuss how the current state of chip technology with team members and other guests.',
-        link: {title: 'Listen to Podcast', href: 'https://'},
+        link: {title: 'Listen to Podcast', href: MEDIA_LINKS.YouTube.href},
         image: SVG_CITY,
     },
     {
         title: 'All Ways',
         info: 'Keep up with us by reading our daily blog where we highlight the hottest topics in computer technology.',
-        link: {title: 'Read Blog', href: 'https://'},
+        link: {title: 'Read Blog', href: Route.AllWays},
         image: SVG_MICROPROCESSOR,
     },
     {
-        title: 'Company Server',
+        title: 'One Team',
         info: 'We focus on fostering community around our mission and vision. Join our online community to be apart of the next technological revolution!',
-        link: {title: 'Join Community', href: 'https://'},
+        link: {title: 'Join Community', href: CONTACT_LINKS.Discord.href},
         image: SVG_NATURE,
     },
-]
+];
+
+const INFO: InfoSection = {
+    title: 'Building the Ternary Microprocessor',
+    image: SVG_CIRCUIT,
+    subTitle: 'Imperative Paradigm Shift',
+    link: Route.Documentation,
+    linkTitle: 'Review Documentation',
+    description: 'AI is here to stay, and it’s crucial to ensure we meet the growing demand for energy consumption. Our advanced microprocessor designs serve as the catalyst for the next technological revolution in computing.',
+}
+
+const COMPANY: SectionCard[] = [
+    {
+        title: 'Tern Careers',
+        description: 'Become a ternster',
+        action: 'Explore Jobs',
+        href: MISC_LINKS.Careers,
+        icon: SVG_OFFICE_GIRL_1,
+        btnIcon: 'arrow',
+        btnIconCN: 'rotate-180',
+    },
+    {
+        title: 'Tern Academy',
+        description: 'Explore Learning Opportunities',
+        action: 'Start Learning',
+        href: MEDIA_LINKS.YouTube.href,
+        icon: SVG_OFFICE_GIRL_2,
+        btnIcon: 'arrow-square',
+    },
+];
+
 
 // const PARAGRAPHS: string[] = [
 //     "We abide by the following doctrine, which outlines our core ideology's six core values and exclusive purpose. We look for consistency, earnestness, acumen, flexibility, obsession, and ingenuity in each constituent we interact with. These six values, defined as follows, outline our organization's expectations and illustrate the characteristics we respect and adhere to.",
@@ -54,8 +95,8 @@ const HomePage: FC = () => {
     const modalCtx = useModal();
     const flowCtx = useFlow();
     const bgSrc = useBackground();
-    const isLg = useBreakpointCheck() === 'lg';
     useLoginCheck();
+
 
     useEffect(() => {
         const token = params?.get('resetToken');
@@ -65,18 +106,19 @@ const HomePage: FC = () => {
         //eslint-disable-next-line
     }, [params?.size])
 
+
     // const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx}>{p}</p>)
 
-    const Cards: ReactElement[] = CARDS.map((card, idx) => (
+    const CardsLi: ReactElement[] = CARDS.map((card, idx) => (
         <li
             key={card.title + idx}
-            className={'flex flex-col h-full overflow-hidden rounded-normal border-small border-control-gray-l1'}
+            className={'flex flex-col h-full overflow-hidden rounded-normal border-normal border-control-white-d0 text-center'}
         >
             <div
                 style={{backgroundImage: `url("${card.image.src}")`}}
                 className={cn(
-                    'flex h-[14.125rem] justify-center items-end',
-                    'bg-cover bg-no-repeat',
+                    'flex h-[14.125rem] w-[calc(100%-2px)] justify-center items-end',
+                    'bg-cover bg-center bg-no-repeat',
                 )}
             >
                 <div className={'pb-[--p-content-4xs] w-full bg-gradient-to-b from-transparent to-black'}>
@@ -86,14 +128,25 @@ const HomePage: FC = () => {
                 </div>
             </div>
             <div
-                className={'flex-grow flex flex-col p-[--p-content-xs] pb-[--p-content-xl] justify-between items-center leading-[1.2]'}>
+                className={cn(
+                    'flex-grow flex flex-col p-[--p-content-xs] justify-between items-center leading-[1.2]',
+                    'pb-[--p-content-xl]',
+                    'sm:pb-[--p-content]',
+                )}
+            >
                 <p>{card.info}</p>
-                <Button
-                    onClick={() => window.open(card.link.href, '_blank')}
-                    className={'mt-auto px-[--p-content-xs] w-fit h-[2.375rem] rounded-full border-small border-control-gray-l0 text-blue text-section-s'}
+                <PageLink
+                    href={card.link.href}
+                    isExternal={card.link.href.startsWith('https://')}
+                    className={cn(
+                        'px-[--p-content-xs] w-fit h-[2.375rem] rounded-full border-small border-control-gray-l0 text-blue',
+                        'text-section-s',
+                        'md:text-basic',
+                        'sm:mt-[--p-content-xl]',
+                    )}
                 >
                     {card.link.title}
-                </Button>
+                </PageLink>
             </div>
         </li>
     ));
@@ -104,153 +157,114 @@ const HomePage: FC = () => {
                 style={{backgroundImage: `url("${bgSrc}")`}}
                 className={'absolute top-0 left-0 w-dvw max-w-dwv h-screen max-h-[100rem] bg-cover bg-center bg-no-repeat'}
             />
-            <div className={'w-screen bg-[url("/images/neurons.png")] bg-cover bg-no-repeat bg-fixed'}>
-                <div
-                    className={cn(
-                        'relative z-10 grid auto-rows-min mx-auto justify-items-center max-h-fit',
-                        '[&>*]:x-[px-[--p-content-l],w-3/4,max-w-[90rem],min-h-fit]',
-                    )}
-                >
-                    <section
-                        className={cn(
-                            {[styles.highlight]: !isLg},
-                            `h-[100dvh] max-h-[100rem] place-content-center`,
-                            `sm:landscape:w-[41dvw]`,
-                        )}
-                    >
-                        <h1
-                            className={cn(styles.textGlow,
-                                `font-oxygen text-[5.0625rem] text-nowrap`,
-                                `mb-[--p-content] text-[6.25rem]`,
-                                `sm:x-[mb-[0.94rem]]`,
-                                `sm:portrait:text-[3.125rem]`,
-                                `sm:landscape:text-[6.2dvw]`
-                            )}
-                        >
-                            <span>The Future of <span className={cn(styles.textBlueGlow, 'text-blue')}>AI</span></span>
-                            <span>&nbsp;is Built on <span className={'font-bold'}>tern</span></span>
-                        </h1>
-                        <p>
-                            <Button
-                                className={'mr-[--p-content-xs] px-[--p-content] h-[3.125rem] rounded-full bg-blue text-heading-s text-black'}
-                            >
-                                Discover Tern
-                            </Button>
-                            <Button
-                                className={cn(
-                                    'px-[--p-content] h-[3.125rem] rounded-full border-small border-control-gray-l0',
-                                    'bg-black text-heading-s text-blue'
+            <div className={'relative z-10'}>
+                <section className={cn(styles.section, styles.fullHeightSection)}>
+                    <div className={cn(styles.content, 'flex justify-center items-center')}>
+                        <div>
+                            <h1
+                                className={cn(styles.textGlow,
+                                    `font-oxygen text-center leading-[1.2]`,
+                                    `mb-[--p-content] text-[5.0625rem]`,
+                                    `md:text-[3.4375rem]`,
+                                    `sm:x-[mb-[--p-content-xs],text-[2.9375rem]]`,
                                 )}
                             >
-                                Watch Demo
-                            </Button>
-                        </p>
-                    </section>
-                    {/*<Highlighted*/}
-                    {/*    heading={'Our Credo'}*/}
-                    {/*    classNameWrapper={'lg:x-[ml-auto,max-h-fit,max-w-full] sm:landscape:max-h-[21.4rem]'}*/}
-                    {/*    classNameContentWrapper={'overflow-y-visible'}*/}
-                    {/*    className={`sm:text-section-sm*/}
-                    {/*        sm:landscape:x-[gap-y-[0.5rem],tracking-[0.05rem]]`}*/}
-                    {/*>*/}
-                    {/*    {Paragraphs}*/}
-                    {/*</Highlighted>*/}
-                    <section className={'flex flex-col gap-y-[3.75rem] pt-[5.44rem] justify-between'}>
+                                <span>
+                                <span>The Future of&nbsp;</span>
+                                <span className={cn(styles.textBlueGlow, 'text-blue')}>AI</span></span>
+                                <span>&nbsp;is Built on <span className={'font-bold'}>tern</span>
+                                </span>
+                            </h1>
+                            <p className={'flex gap-x-[--p-content-xs] justify-center  text-heading-s  sm:text-basic'}>
+                                <PageLink
+                                    isExternal
+                                    href={MISC_LINKS.TernKey}
+                                    className={cn(
+                                        'px-[--p-content] h-[3.125rem] rounded-full bg-blue text-black',
+                                        'sm:x-[px-[--p-content-xs],h-[1.875rem]]',
+                                    )}
+                                >
+                                    Discover Tern
+                                </PageLink>
+                                <PageLink
+                                    isExternal
+                                    href={MISC_LINKS.TernKeyDemo}
+                                    className={cn(
+                                        'px-[--p-content] h-[3.125rem] rounded-full border-normal border-control-gray-l0',
+                                        'bg-black text-blue',
+                                        'sm:x-[px-[--p-content-xs],h-[1.875rem]]',
+                                    )}
+                                >
+                                    Watch Demo
+                                </PageLink>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                <section className={cn(styles.section, styles.fullHeightSection, 'sm:!h-fit')}>
+                    <div className={cn(styles.content,
+                        'flex flex-col pt-[5rem] gap-y-[3.75rem]',
+                        'sm:x-[gap-y-[--p-content-xl],pt-[--p-content-xl]]',
+                    )}
+                    >
                         <h2
                             className={cn(styles.textGlow,
-                                'font-bold font-oxygen text-nowrap text-[2.5rem] leading-[3rem] tracking-[0.1rem]',
+                                'font-bold font-oxygen text-center text-[2.5rem] leading-[1.2] tracking-[0.1rem]',
+                                'md:text-[1.75rem]',
+                                'sm:text-[1.1875rem]',
                             )}
                         >
                             <p>Redesigning the Computer from the Inside Out with Tern.</p>
                             <p>All Ways.</p>
                         </h2>
-                        <ul className={'grid grid-cols-3 gap-[--p-content-xl] h-[35.3125rem] flex-grow'}>
-                            {Cards}
-                        </ul>
+                        <Carousel
+                            className={'lg:contents  sm:'}
+                            classNameUl={'grid-cols-[repeat(3,22rem)] !h-[30.3125rem]  lg:max-h-[30.3125rem]  sm:grid-cols-[minmax(0,21rem)] sm:!h-fit'}
+                            classNameArrow={'hidden  md:block'}
+                        >
+                            {CardsLi}
+                        </Carousel>
                         <p
                             className={cn(styles.textGlow,
-                                'mt-[13rem] w-[82%] text-left text-[2rem] font-bold leading-[1.2]'
+                                'mt-auto w-[82%] text-left font-bold leading-[1.2]',
+                                'text-[2rem]',
+                                'md:text-[1.5rem]',
+                                'sm:x-[mt-[10.5rem],text-section]',
                             )}
                         >
                             Amidst the most demanding era of computational energy in history, we are reminded,
                         </p>
-                    </section>
-                    <section
-                        className={cn(styles.textGlow, '!w-dvw !max-w-[100dvw] p-0 pb-[35rem] bg-gradient-to-t from-[--bg-section-green] via-[#0a313a] to-transparent')}>
-                        <div className={'mx-auto px-[--p-content-xl] w-3/4 max-w-[90rem]'}>
-                            <h2 className={'my-[3.75rem] font-arial italic text-[5rem] font-bold'}>
-                                the world is not binary
-                            </h2>
-                            <p className={'text-right text-[2rem] font-bold'}>and neither is the future.</p>
-                        </div>
-                    </section>
-                    <section className={'pt-[3.5rem] pb-[12.25rem] !w-dvw !max-w-[100dvw] bg-[--bg-section-green] font-oxygen'}>
-                        <div className={'mx-auto px-[--p-content-xl] w-3/4 max-w-[90rem]'}>
-                            <h2 className={'mb-[4.62rem] font-bold font-oxygen text-[2.5rem]'}>
-                                Building the Ternary Microprocessor
-                            </h2>
-                            <div className={'flex justify-between'}>
-                                <span className={'w-[40%] text-left'}>
-                                    <span className={'block mb-[--p-content-5xs] text-[2rem]'}>
-                                        Imperative Paradigm Shift
-                                    </span>
-                                    <span className={'block text-section leading-[1.2]'}>
-                                        AI is here to stay, and it’s crucial to ensure we meet the
-                                        growing demand for energy consumption. Our advanced microprocessor designs serve as
-                                        the catalyst for the next technological revolution in computing.
-                                    </span>
-                                    <Button
-                                        className={'mt-[--p-content-xl] px-[--p-content] h-[2.375rem] rounded-full bg-blue text-heading-s'}
-                                    >
-                                        Review Documentation
-                                    </Button>
-                                </span>
-                                <Image src={SVG_CIRCUIT} alt={'circuit'} className={'min-h-full w-auto'}/>
-                            </div>
-                        </div>
-                    </section>
-                    <section
-                        className={'pt-[8.19rem] pb-[9.44rem] !w-dvw !max-w-[100dvw] bg-gradient-to-t  from-black via-[#0a313a] to-[--bg-section-green] oxygen'}>
-                        <div className={'mx-auto px-[--p-content-xl] w-3/4 max-w-[90rem] text-[1.25rem]'}>
-                            <h2 className={'mb-[5rem] font-bold text-[2.5rem] text-left'}>Inside Tern</h2>
-                            <ul className={'grid grid-cols-2 gap-x-[3.63rem]'}>
-                                <li className={'flex flex-col gap-y-[--p-content-3xs] text-left'}>
-                                    <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
-                                        Tern Careers
-                                    </h4>
-                                    <p>Become a Ternster</p>
-                                    <Image src={SVG_OFFICE_GIRL_1} alt={'office girl 1'} className={'w-full'}/>
-                                    <Button
-                                        icon={'arrow'}
-                                        onClick={() => window.open('https://', '_blank')}
-                                        className={'self-start text-blue flex-row-reverse'}
-                                        classNameIcon={'[&_path]:fill-blue rotate-180'}
-                                    >
-                                        Explore Jobs
-                                    </Button>
-                                </li>
-                                <li className={'flex flex-col gap-y-[--p-content-3xs] text-left'}>
-                                    <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
-                                        Tern Academy
-                                    </h4>
-                                    <p>Explore Learning Opportunities</p>
-                                    <Image src={SVG_OFFICE_GIRL_2} alt={'office girl 2'} className={'w-full'}/>
-                                    <Button
-                                        icon={'arrow'}
-                                        onClick={() => window.open('https://', '_blank')}
-                                        className={'self-start text-blue flex-row-reverse'}
-                                        classNameIcon={'[&_path]:fill-blue rotate-180'}
-                                    >
-                                        Start Learning
-                                    </Button>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
-                </div>
+                    </div>
+                </section>
+                <section
+                    className={cn(styles.textGlow, styles.section,
+                        'bg-gradient-to-t from-[--bg-section-green] via-[#0a313a] to-transparent',
+                        'pb-[28rem]',
+                        'md:pb-[23rem]',
+                    )}
+                >
+                    <div className={styles.content}>
+                        <h2
+                            className={cn(
+                                'my-[3.75rem] font-arial text-center italic font-bold',
+                                'text-[5rem]',
+                                'md:text-[4.5rem]',
+                                'sm:text-[1.9375rem]',
+                            )}
+                        >
+                            the world is not binary
+                        </h2>
+                        <p className={'text-right font-bold  text-[2rem]  md:text-[1.5rem]  sm:text-[1.25rem]'}>
+                            and neither is the future.
+                        </p>
+                    </div>
+                </section>
+                <Info data={INFO} className={'bg-[--bg-section-green]'}/>
+                <InsideTern data={COMPANY} className={cn('to-[--bg-section-green]','lg:x-[bg-gradient-to-t,from-black,via-[#0a313a],to-[--bg-section-green]]')}/>
             </div>
         </>
     );
 }
+
 
 export default HomePage;

@@ -18,6 +18,7 @@
     --bg-section-green: #0C545C;
 
     --b-small: 0.0625rem;
+    --b-normal: 0.125rem;
 
     --b-section: var(--bg-control-gray);
     --b-control-gray: #192131;
@@ -58,8 +59,8 @@
     /* Heights */
     --h-control: min(4.3dvw, 1.45rem);
     --h-control-dl: min(6.1dvw, 1.45rem);
-    --h-heading: 4.3rem;
-    --h-heading-lg: 3rem;
+    --h-heading-modal: 4.3rem;
+    --h-heading: 3rem;
     --h-footer-lg: 28.5rem;
 
     /* Spacings */

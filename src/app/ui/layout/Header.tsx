@@ -226,7 +226,16 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 height={29}
                 alt={'profile icon'}
                 className={'cursor-pointer rounded-full h-[1.8125rem]'}
-                onClick={() => setProfileMenuOpened(prevState => !prevState)}
+                onClick={() => {
+                    if (isSmScreen) {
+                        if (userCtx.isLoggedIn)
+                            openMenu();
+                        else
+                            modalCtx.openModal(<PreAuthModal/>);
+                    }
+                    else
+                        setProfileMenuOpened(prevState => !prevState);
+                }}
             />
             {ProfileMenu}
         </div>
@@ -237,11 +246,8 @@ const Header: FC<Props> = (props: Props): ReactElement => {
         <header className={'text-section-xs leading-none bg-black'}>
             <div className={'border-b-small border-section'}>
                 <div
-                    className={cn(
-                        `relative z-[2] flex items-center`,
-                        `px-[--p-content-l] w-full h-heading-lg`,
-                        `lg:x-[mx-auto,w-3/4,max-w-[90rem]]`,
-                        `sm:px-[--p-content-xs]    after:sm:border-control-gray-l0`
+                    className={cn(styles.content,
+                        `relative z-[2] flex !h-[--h-heading] items-center`,
                     )}
                 >
                     <Insignia/>
@@ -270,10 +276,9 @@ const Header: FC<Props> = (props: Props): ReactElement => {
                 ? (
                     <div className={'border-b-small border-section'}>
                         <ul
-                            className={cn(
-                                `relative flex gap-[--s-default] px-[--s-default] w-full items-center`,
-                                SubNavItemsMdLg?.length ? 'h-heading-lg ' + styles.slideIn : styles.slideOut,
-                                `lg:x-[mx-auto,w-3/4]`,
+                            className={cn(styles.content,
+                                `relative flex gap-[--s-default] items-center`,
+                                SubNavItemsMdLg?.length ? 'h-heading ' + styles.slideIn : styles.slideOut,
                                 `sm:hidden`
                             )}
                         >

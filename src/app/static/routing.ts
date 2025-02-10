@@ -2,6 +2,7 @@ enum Route {
     Home = '/',
 
     AllWays = '/all_ways',
+    Credo = '/about/credo',
     About = '/about',
     Contact = '/contact',
     Terms = '/terms',
@@ -29,15 +30,14 @@ enum Route {
     AddPaymentMethod = '/profile/billing/purchasing_information/add',
 
     Help = '/profile/my_tern/faqs',
-    Documentation = '/profile/my_tern/documentation',
-    TernKeyDoc = '/profile/my_tern/documentation/ternkey',
-    GDoc = '/profile/my_tern/documentation/g',
-    TernKitDoc = '/profile/my_tern/documentation/tern_kit',
-    TernDoc = '/profile/my_tern/documentation/tern',
-    BTMCDoc = '/profile/my_tern/documentation/btmc',
+    MyDocumentation = '/profile/my_tern/documentation',
+    Documentation = '/documentation',
+    TernKeyDoc = '/documentation/ternkey',
+    GDoc = '/documentation/g',
+    TernKitDoc = '/documentation/tern_kit',
+    TernDoc = '/documentation/tern',
+    BTMCDoc = '/documentation/btmc',
 }
 
-const TERN_AC_HREF = 'https://tern.ac/ternkey';
 
-
-export {Route, TERN_AC_HREF};
+export {Route};

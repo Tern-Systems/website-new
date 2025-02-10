@@ -40,7 +40,7 @@ const PageLink: FC<Props> = (props: Props) => {
     const [navigate] = useNavigate(preventModalClose, timeout === 0);
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
-        linkProps.onClick?.(event);console.log(href)
+        linkProps.onClick?.(event);
         if (prevent || isExternal)
             return;
 
