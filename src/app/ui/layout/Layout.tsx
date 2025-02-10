@@ -38,14 +38,14 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
             Route.Contact,
             // {title: 'TernKit', action: 'https://'},
             // {title: 'Cyrus', action: 'https://'},
-            {title: 'Careers', action: MISC_LINKS.Careers.href}
+            {title: 'Careers', action: MISC_LINKS.Careers}
         ]
     },
     {
         title: 'Engage',
         links: [
             Route.AllWays,
-            {title: 'Events', action: MISC_LINKS.Events.href},
+            {title: 'Events', action: MISC_LINKS.Events},
             {title: 'Podcast', action: MEDIA_LINKS.YouTube.href},
         ]
     },
@@ -183,14 +183,13 @@ const Layout: FC<PropsWithChildren> = ({children}) => {
                         {FooterLinksLi}
                     </ul>
                     <div className={'col-span-2 flex mt-[7rem] w-full justify-between items-center  sm:contents'}>
-                        <p className={'sm:x-[row-start-3,col-span-2,pb-[--p-content],text-center]  md:self-end'}>
+                        <p className={'sm:x-[row-start-3,col-span-2,pb-[--p-content],text-center]'}>
                             Copyright © 2025 Tern Systems LLC
                         </p>
                         <ul
                             className={cn(
                                 'col-span-3 flex gap-[--p-content-3xs]',
                                 'sm:x-[col-start-1,row-start-2,col-span-1,flex-col,h-full,justify-between]',
-                                'md:x-[grid,grid-cols-5,gap-x-4,gap-y-2]'
                             )}
                         >
                             {ContactLinks}
