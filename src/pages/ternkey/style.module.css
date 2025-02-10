@@ -1,0 +1,83 @@
+.abstractBackground {
+  background-image: url("/public/images/abstract-bg.png");
+}
+
+.pageSection, .fullSizeMedia {
+  max-width: 71.125rem;
+  width: max-content;
+
+  @media screen and (min-width: 1440px) {
+    max-width: 71.125rem;
+  }
+  
+  @media screen and (min-width: 835px) and (max-width: 1440px) {
+    max-width: 48.375rem;
+  }
+
+  @media screen and (max-width: 834px) {
+    max-width: 20.9375rem;  
+  }
+}
+
+.iframe {
+  width: 100%;
+  height: 42.9rem;
+  border-radius: 0.5625rem;
+
+  @media screen and (min-width: 1440px) {
+    width: 71.125rem;
+    height: 42.9rem;
+  }
+  
+  @media screen and (min-width: 835px) and (max-width: 1440px) {
+    width: 48.375rem;
+    height: 29.2rem;
+  }
+
+  @media screen and (max-width: 834px) {
+    width: 20.3759rem;
+    height: 12.6rem;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 3.8rem;
+
+  @media screen and (min-width: 1440px) {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 3.8rem;
+  }
+
+  @media screen and (min-width: 835px) and (max-width: 1440px) {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 3.8rem;
+  }
+
+  @media screen and (max-width: 834px) {
+    display: grid;
+    grid-template-columns: auto;
+    /* gap: 3.8rem; */
+  }
+}
+
+.hideWhenSmall {
+  display: block;
+
+  @media screen and (max-width: 834px) {
+    display: none;
+    /* gap: 3.8rem; */
+  }
+}
+
+.showWhenSmall {
+  display: none;
+
+  @media screen and (max-width: 834px) {
+    display: block;
+    /* gap: 3.8rem; */
+  }
+}

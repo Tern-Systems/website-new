@@ -107,6 +107,7 @@ const MISC_LINKS = {
     TernKey,
     TernKeyExploreKeys: TernKey + '/explore',
     TernKeyDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
+    TernKeyDemoEmbed: 'https://www.youtube.com/embed/uMb2KI6PHPQ?si=gktgx0tR4UuY2VPW',
 };
 
 
