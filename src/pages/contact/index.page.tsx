@@ -1,10 +1,10 @@
-import React, {FC} from "react";
+import React, { FC } from "react";
 import cn from "classnames";
 
 import MapEmbed from "./Map";
-import {useForm} from "@/app/hooks";
+import { useForm } from "@/app/hooks";
 
-import {Button,Input} from "@/app/ui/form";
+import { Button, Input } from "@/app/ui/form";
 
 import styles from '@/app/common.module.css';
 
@@ -62,28 +62,28 @@ const ContactsPage: FC = () => {
                     'w-full h-screen',
                 )}
             />
-            <div className={'relative z-10'}>
-                <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <div className={cn(styles.content, 'flex justify-start items-start')}>
-                        <div>
-                            <h1
-                                className={cn(styles.textGlow,
-                                    `w-min font-oxygen font-bold text-left leading-[1.2]`,
-                                    `mb-[--p-content] text-[6rem]`,
-                                    `lg:x-[w-full,mt-[6.25rem]]`,
-                                    `md:x-[mt-[--p-content-xl],text-[6rem]]`,
-                                    `sm:x-[flex,mt-[--p-content-xs],text-[3.9375rem]]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
-                    </div>
-                </section>
 
+            <section className={cn(styles.section, styles.fullHeightSection)}>
+                <div className={cn(styles.content, 'relative flex justify-start items-start')}>
+                    <div>
+                        <h1
+                            className={cn(styles.textGlow,
+                                `w-min font-oxygen font-bold text-left leading-[1.2]`,
+                                `mb-[--p-content] text-[6rem]`,
+                                `lg:x-[w-full,mt-[6.25rem]]`,
+                                `md:x-[mt-[--p-content-xl],text-[6rem]]`,
+                                `sm:x-[flex,mt-[--p-content-xs],text-[3.9375rem]]`,
+                            )}
+                        >
+                            Contact Tern
+                        </h1>
+                    </div>
+                </div>
+            </section>
+            <div className={'relative'}>
                 <section
-                    className={cn(styles.textGlow, styles.section, 'relative',
-                        'bg-gradient-to-b from-[--bg-control-blue] from-5% via-black via-30%',
+                    className={cn(styles.textGlow, styles.section, 'relative z-10',
+                        'bg-black bg-gradient-to-b from-[--bg-control-blue] from-5% via-black via-30%',
                         'pt-[8.75rem] pb-[12.5rem]',
                         'sm:x-[pt-[4.375rem],pb-48]',
                         'md:x-[pt-[7.5rem],pb-[16.25rem]]',
@@ -162,13 +162,14 @@ const ContactsPage: FC = () => {
                             </div>
                         </form>
                     </div>
-                    <div className="absolute inset-x-0 bottom-0 z-0 h-[25%] bg-gradient-to-t from-[--bg-control-blue] from-5% to-transparent to-95%  md:h-[60%]  sm:h-[60%]" />
+                    <div className="absolute inset-x-0 bottom-0 z-0 h-[23%] bg-gradient-to-t from-[--bg-control-blue] from-5% to-transparent to-95%  md:h-[30%]"/>
                 </section>
 
                 <section className={cn(styles.section,
                     'pb-64  md:pb-60  sm:pb-28',
                     'lg:x-[h-dvh,max-h-[65rem]]',
-                    'bg-gradient-to-b from-[--bg-control-blue] from-5% to-black to-95%',
+                    'relative z-10',
+                    'bg-gradient-to-b from-[--bg-control-blue]  via-[--bg-control-blue]  to-black ',
                 )}
                 >
                     <div className={cn(styles.content, 'justify-center flex flex-col  lg:flex-row gap-12')}>
@@ -179,9 +180,9 @@ const ContactsPage: FC = () => {
                             <div className="grid gap-3  sm:gap-2">
                                 <h3 className="text-[3rem] font-[400]  sm:text-[2.25rem]">Office</h3>
                                 <address className="text-[2.25rem]  sm:text-[1.5rem] not-italic leading-tight">
-                                    1120 Avenue of the Americas<br/>
-                                    New York, New York<br/>
-                                    10036-6700<br/>
+                                    1120 Avenue of the Americas<br />
+                                    New York, New York<br />
+                                    10036-6700<br />
                                     United States
                                 </address>
                             </div>
