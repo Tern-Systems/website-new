@@ -53,6 +53,7 @@ const Header: FC = (): ReactElement => {
     }, [navExpanded]);
 
     const navLinks = layoutCtx.navLinks[NavLink.Nav];
+    const subNavLinks = layoutCtx.navLinks[NavLink.Sub2Nav];
 
     // Elements
     const NavLinks: ReactElement[] = navLinks?.map((link: Route, idx) => {
@@ -66,7 +67,8 @@ const Header: FC = (): ReactElement => {
                 key={link + idx}
                 tabIndex={idx}
                 className={cn('group', stylesLayout.navLink, {
-                    [cn(stylesLayout.activeNavLink, 'before:bg-gray')]: isActive && !layoutCtx.isBreadCrumbsNav && breakpoint > Breakpoint.xxs,
+                    [stylesLayout.activeNavLink]: isActive && !layoutCtx.isBreadCrumbsNav && breakpoint > Breakpoint.xxs,
+                    ['before:bg-gray']: !subNavLinks?.length,
                     ['border-s border-black']: navDropdown && breakpoint > Breakpoint.xxs,
                     ['!static bg-black-l0 border-blue']: navDropdown && navDropdown?.name === navDropdownExpanded?.name,
                     ['!h-fit border-b-s [&>*]:x-[pl-s,py-xxs]']: breakpoint <= Breakpoint.xxs,

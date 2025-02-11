@@ -67,7 +67,7 @@ const TagArticle: FC<Props> = (props: Props) => {
             <div className={'relative z-10  font-oxygen'}>
                 <section className={cn(styles.section, styles.fullHeightSection, 'bg-gradient-to-t', GRADIENT_CN)}>
                     <div className={cn(styles.content, 'pt-[7rem]')}>
-                        <h1 className={cn(styles.textGlow, `font-bold text-[6rem]`)}>
+                        <h1 className={cn(styles.textGlow, `font-bold text-heading-4xl`)}>
                             All Ways
                         </h1>
                     </div>

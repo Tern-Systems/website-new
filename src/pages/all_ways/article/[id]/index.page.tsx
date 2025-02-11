@@ -106,7 +106,7 @@ function ArticlePage() {
     return (
         <div className={cn(styles.section, 'pb-[10rem] min-h-dvh bg-black font-oxygen')}>
             <div className={cn(styles.content, 'pt-[3.75rem]')}>
-                <h1 className={'text-[4rem] leading-[1.2]'}>{content?.title}</h1>
+                <h1 className={'text-heading-3xl leading-n'}>{content?.title}</h1>
                 <div className={'mt-[4.4rem] w-full'}>
                     <Image
                         src={content?.poster ?? PNG_NATURE}

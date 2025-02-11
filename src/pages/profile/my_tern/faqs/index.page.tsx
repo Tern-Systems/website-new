@@ -106,7 +106,7 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 classNameIcon={'w-[0.9rem]  sm:w-[0.8rem]   sm:landscape:hidden'}
                 className={'sm:landscape:hidden'}
             >
-                <span className={'col-span-3 leading-[1.2] text-basic   sm:text-section-xxs'}>{faq.answer}</span>
+                <span className={'col-span-3 leading-n text-basic   sm:text-section-xxs'}>{faq.answer}</span>
             </Collapsible>
         </li>
     ));
@@ -150,7 +150,7 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 <div
                     className={cn(
                         `hidden p-xs w-1/2 bg-gray rounded-s`,
-                        `text-left text-section-xs leading-[1.2]`,
+                        `text-left text-section-xs leading-n`,
                         {['sm:landscape:[&]:block ']: expandedItemIdx !== -1}
                     )}
                 >

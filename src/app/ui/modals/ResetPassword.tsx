@@ -80,7 +80,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     placeholder={'Password'}
                     value={formValue.password}
                     onChange={setFormValue('password')}
-                    className={`h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs 
+                    className={`h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs 
                                 text-primary placeholder:sm:text-primary`}
                     required
                 />
@@ -90,7 +90,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     placeholder={'Confirm Password'}
                     value={formValue.passwordConfirm}
                     onChange={setFormValue('passwordConfirm')}
-                    className={`h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs 
+                    className={`h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs 
                                 text-primary placeholder:sm:text-primary`}
                     icons={[SVG_EYE]}
                     required={!!token}
@@ -104,7 +104,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 value={formValue.email}
                 onChange={setFormValue('email')}
                 classNameWrapper={'flex-col [&]:items-start'}
-                className={`h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs 
+                className={`h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs 
                             text-primary placeholder:sm:text-primary`}
                 required
             />

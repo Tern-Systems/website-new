@@ -18,7 +18,6 @@ import { FAQsModal } from './faqs/index.page';
 import { Table, TableEntry, TableSection } from './Table';
 
 import styles from '@/app/common.module.css';
-import myTernStyles from './MyTern.module.css';
 
 import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
 
@@ -39,7 +38,7 @@ const NAV_BTNS_DEFAULT: { title: string; href: string, external?: true }[] = [
     { title: 'Try TernKey Pro', href: MISC_LINKS.TernKey, external: true },
     { title: 'Build Key', href: MISC_LINKS.TernKey, external: true },
     { title: 'View All Ways', href: Route.AllWays, external: true },
-    { title: 'Explore Keys', href: MISC_LINKS.TernKey + '/explore', external: true },
+    { title: 'Explore Keys', href: MISC_LINKS.TernKeyExploreKeys, external: true },
     { title: 'Get Certified', href: MISC_LINKS.Careers, external: true },
     { title: 'Join Newsletter', href: MISC_LINKS.Events, external: true },
 ];
@@ -154,7 +153,7 @@ function MyTernPage() {
     ));
 
     return (
-        <div className={cn(styles.section, myTernStyles.background, `pt-[6.25rem] min-h-dvh bg-black`)}>
+        <div className={cn(styles.section, `pt-[6.25rem] min-h-dvh bg-black`)}>
             <section className={cn(styles.content)}>
                 <h1 className={`flex font-bold font-oxygen text-[2rem]`}
                 >
@@ -168,7 +167,7 @@ function MyTernPage() {
                 className={cn(styles.content, 'mt-n flex flex-wrap  gap-xs', { [`gap-x-xxs`]: breakpoint <= Breakpoint.sm })}>
                 {LinksLi}
             </section>
-            <section className={cn(styles.content, 'flex flex-col gap-y-xl mt-xxl')}>
+            <section className={cn(styles.content, styles.contentHighlight, 'relative flex flex-col gap-y-xl mt-xxl')}>
                 <Table table={subscriptionTable} />
                 <Table
                     external={true}

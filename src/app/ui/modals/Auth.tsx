@@ -18,7 +18,7 @@ import { Button, Input } from '@/app/ui/form';
 import SVG_INSIGNIA from '/public/images/insignia-logo.png';
 
 
-const INPUT_CN = `h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
+const INPUT_CN = `h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
                     sm:text-primary placeholder:sm:text-primary`;
 
 
@@ -101,7 +101,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     </div>
                 </div>
                 <form onSubmit={handleFormSubmit}
-                      className={'flex flex-col  sm:landscape:x-[flex-row,gap-x-3xl]'}>
+                      className={'flex flex-col  sm:landscape:x-[flex-row,gap-x-4xl]'}>
                     <fieldset
                         className={'flex flex-col gap-xxs w-full  sm:landscape:x-[max-w-fit,min-w-[21rem]]'}>
                         <Input

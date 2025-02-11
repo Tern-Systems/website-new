@@ -67,9 +67,9 @@ const AboutPage: FC = () => {
                         <div>
                             <h1
                                 className={cn(styles.textGlow,
-                                    `w-min font-oxygen font-bold text-right leading-[1.2]`,
+                                    `w-min font-oxygen font-bold text-right leading-n`,
                                     `mb-n text-[8rem]`,
-                                    `md:text-[6rem]  md:landscape:text-[2.5rem]`,
+                                    `md:text-heading-4xl  md:landscape:text-[2.5rem]`,
                                     `sm:x-[flex,w-[20rem],mt-n,text-[2.5rem]]`,
                                 )}
                             >
@@ -100,7 +100,7 @@ const AboutPage: FC = () => {
                         )}>
                             <div>
                                 <h2 className={cn(
-                                    'mb-xl font-oxygen text-[4rem]  sm:x-[mb-xs,text-heading]',
+                                    'mb-xl font-oxygen text-heading-3xl  sm:x-[mb-xs,text-heading]',
                                     'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]'
                                 )}>
                                     Mission
@@ -114,7 +114,7 @@ const AboutPage: FC = () => {
                             </div>
                             <div>
                                 <h2 className={cn(
-                                    'mb-xl font-oxygen text-[4rem]  sm:x-[mb-xs,text-heading]',
+                                    'mb-xl font-oxygen text-heading-3xl  sm:x-[mb-xs,text-heading]',
                                     'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]'
                                 )}>
                                     Vision
@@ -138,9 +138,9 @@ const AboutPage: FC = () => {
                         />
                         <h1
                             className={cn(styles.textGlow,
-                                `ml-auto w-min font-oxygen font-bold text-right leading-[1.2] text-black`,
-                                `mb-n text-[6rem]`,
-                                `md:text-[4rem]  md:landscape:text-[3rem]`,
+                                `ml-auto w-min font-oxygen font-bold text-right leading-n text-black`,
+                                `mb-n text-heading-4xl`,
+                                `md:text-heading-3xl  md:landscape:text-[3rem]`,
                                 `sm:x-[mb-xs,text-[3rem]]`,
                             )}
                         >
@@ -149,7 +149,7 @@ const AboutPage: FC = () => {
                         <div>
                             <PageLink
                                 href={Route.About}
-                                className={'flex justify-center w-full max-w-[10.5rem] h-[2.375rem] bg-white text-section-s text-black'}
+                                className={'flex justify-center w-full max-w-[10.5rem] h-button-xl bg-white text-section-s text-black'}
                             >
                                 Read Our Credo
                             </PageLink>
@@ -168,10 +168,10 @@ const AboutPage: FC = () => {
                             classNameDescription={'text-basic  lg:text-section'}
                             classNamePageLink={cn(
                                 'flex items-center justify-center rounded-none',
-                                'w-full max-w-[8.4375rem] h-[2.375rem] mt-n [&]:p-0 ',
+                                'w-full max-w-[8.4375rem] h-button-xl mt-n [&]:p-0 ',
                                 '[&]:text-section-s  [&]:sm:text-basic',
                                 'md:mt-n',
-                                'sm:x-[mt-n,h-[1.875rem],max-w-[7.3125rem],text-basic] ',
+                                'sm:x-[mt-n,h-button-l,max-w-[7.3125rem],text-basic] ',
                             )}
                         />
                         <InsideTern

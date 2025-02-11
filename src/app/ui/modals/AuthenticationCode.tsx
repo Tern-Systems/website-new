@@ -119,7 +119,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                                 setWarningMsg(null);
                             }}
                             classNameWrapper={'flex-col [&]:items-start'}
-                            className={'h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs'}
+                            className={'h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs'}
                             required
                         />
                         {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}

@@ -129,7 +129,7 @@ const HomePage: FC = () => {
             </div>
             <div
                 className={cn(
-                    'flex-grow flex flex-col p-xs justify-between items-center leading-[1.2]',
+                    'flex-grow flex flex-col p-xs justify-between items-center leading-n',
                     'pb-xl',
                     'sm:pb-n',
                 )}
@@ -139,7 +139,7 @@ const HomePage: FC = () => {
                     href={card.link.href}
                     isExternal={card.link.href.startsWith('https://')}
                     className={cn(
-                        'px-xs w-fit h-[2.375rem] rounded-full border-s border-gray-l0 text-blue',
+                        'px-xs w-fit h-button-xl rounded-full border-s border-gray-l0 text-blue',
                         'text-section-s',
                         'md:text-basic',
                         'sm:mt-xl',
@@ -163,7 +163,7 @@ const HomePage: FC = () => {
                         <div>
                             <h1
                                 className={cn(styles.textGlow,
-                                    `font-oxygen text-center leading-[1.2]`,
+                                    `font-oxygen text-center leading-n`,
                                     `mb-n text-[5.0625rem]`,
                                     `md:text-[3.4375rem]`,
                                     `sm:x-[mb-xs,text-[2.9375rem]]`,
@@ -181,7 +181,7 @@ const HomePage: FC = () => {
                                     href={MISC_LINKS.TernKey}
                                     className={cn(
                                         'px-n h-[3.125rem] rounded-full bg-blue text-black',
-                                        'sm:x-[px-xs,h-[1.875rem]]',
+                                        'sm:x-[px-xs,h-button-l]',
                                     )}
                                 >
                                     Discover Tern
@@ -192,7 +192,7 @@ const HomePage: FC = () => {
                                     className={cn(
                                         'px-n h-[3.125rem] rounded-full border-n border-gray-l0',
                                         'bg-black text-blue',
-                                        'sm:x-[px-xs,h-[1.875rem]]',
+                                        'sm:x-[px-xs,h-button-l]',
                                     )}
                                 >
                                     Watch Demo
@@ -209,7 +209,7 @@ const HomePage: FC = () => {
                     >
                         <h2
                             className={cn(styles.textGlow,
-                                'font-bold font-oxygen text-center text-[2.5rem] leading-[1.2] tracking-[0.1rem]',
+                                'font-bold font-oxygen text-center text-[2.5rem] leading-n tracking-[0.1rem]',
                                 'md:text-[1.75rem]',
                                 'sm:text-[1.1875rem]',
                             )}
@@ -226,7 +226,7 @@ const HomePage: FC = () => {
                         </Carousel>
                         <p
                             className={cn(styles.textGlow,
-                                'mt-auto w-[82%] text-left font-bold leading-[1.2]',
+                                'mt-auto w-[82%] text-left font-bold leading-n',
                                 'text-[2rem]',
                                 'md:text-[1.5rem]',
                                 'sm:x-[mt-[10.5rem],text-section]',

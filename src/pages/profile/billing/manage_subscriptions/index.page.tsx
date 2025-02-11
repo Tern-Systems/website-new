@@ -192,7 +192,7 @@ function ManageSubscriptionsPage() {
             <h1 className={`font-bold text-heading-l sm:landscape:text-heading-s`}>
                 Manage Subscriptions
             </h1>
-            <div className={`mt-[5.4rem] px-[min(2.7dvw,0.625rem)] text-nowrap
+            <div className={`mt-5xl px-[min(2.7dvw,0.625rem)] text-nowrap
                             sm:mt-l
                             sm:portrait:px-0`}>
                 <Select

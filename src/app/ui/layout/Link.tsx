@@ -11,7 +11,7 @@ import {useNavigate} from "@/app/hooks";
 
 import SVG_ARROW from "/public/images/icons/arrow.svg";
 import SVG_ARROW_LONG from "/public/images/icons/arrow-right-long.svg";
-import SVG_INSIGNIA from "/public/images/insignia.svg";
+import SVG_INSIGNIA from "/public/images/ternkey-logo.svg";
 
 import styles from '@/app/common.module.css'
 

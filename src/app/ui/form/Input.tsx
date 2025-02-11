@@ -37,7 +37,7 @@ const Input: FC<Props> = (props: Props) => {
                     />
                     <span
                         hidden={!children}
-                        className={classNameLabel + ' overflow-hidden text-nowrap overflow-ellipsis leading-[1.2]'}
+                        className={classNameLabel + ' overflow-hidden text-nowrap overflow-ellipsis leading-n'}
                     >
                         {children}
                     </span>

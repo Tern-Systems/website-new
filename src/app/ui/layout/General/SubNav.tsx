@@ -195,7 +195,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                         `top-[calc(1px+var(--h-heading))] gap-x-l h-[calc(100dvh-var(--h-heading))] max-w-[14.5625rem]`,
                                         `overflow-y-scroll bg-gray-d0`,
                                     )
-                                    : 'py-3xl h-fit',
+                                    : 'py-4xl h-fit',
                             )}
                         >
                             <ul

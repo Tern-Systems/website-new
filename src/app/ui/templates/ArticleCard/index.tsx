@@ -32,7 +32,7 @@ const ArticleCardLi: FC<Props> = (props: Props) => {
         <li
             onClick={() => openArticle(article)}
             key={article.title}
-            className={cn(styles.clickable, 'flex flex-col min-h-fit h-full max-w-[22.0625rem] w-full overflow-hidden border-s')}
+            className={cn(styles.clickable, 'flex flex-1 flex-col min-h-fit h-full max-w-[22.0625rem] w-full overflow-hidden border-s')}
         >
             <div className={'relative h-[45%]'}>
                 <div className={'absolute h-full w-full bg-gradient-to-t from-black to-25%'} />
@@ -46,8 +46,8 @@ const ArticleCardLi: FC<Props> = (props: Props) => {
             </div>
             <div className={'relative z-10 flex-grow flex flex-col p-xs pt-[2.2rem] items-start'}>
                 <span className={'block mb-n text-section-3xs text-secondary'}>{article.tag}</span>
-                <span className={'block mb-[1.13rem] leading-[1.2]'}>{article.title}</span>
-                <span className={'block mb-n text-section-xxs leading-[1.2]'}>{article.description}</span>
+                <span className={'block mb-[1.13rem] leading-n'}>{article.title}</span>
+                <span className={'block mb-n text-section-xxs leading-n'}>{article.description}</span>
                 <Button
                     icon={'book'}
                     className={'mt-auto text-blue'}

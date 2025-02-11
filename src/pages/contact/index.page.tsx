@@ -68,10 +68,10 @@ const ContactsPage: FC = () => {
                         <div>
                             <h1
                                 className={cn(styles.textGlow,
-                                    `w-min font-oxygen font-bold text-left leading-[1.2]`,
-                                    `mb-n text-[6rem]`,
+                                    `w-min font-oxygen font-bold text-left leading-n`,
+                                    `mb-n text-heading-4xl`,
                                     `lg:x-[w-full,mt-[6.25rem]]`,
-                                    `md:x-[mt-xl,text-[6rem]]`,
+                                    `md:x-[mt-xl,text-heading-4xl]`,
                                     `sm:x-[flex,mt-xs,text-[3.9375rem]]`,
                                 )}
                             >
@@ -84,14 +84,14 @@ const ContactsPage: FC = () => {
                 <section
                     className={cn(styles.textGlow, styles.section, 'relative z-10',
                         'bg-black bg-gradient-to-b from-[--bg-control-blue] from-5% via-black via-30%',
-                        'pt-[8.75rem] pb-[12.5rem]',
+                        'pt-6xl pb-[12.5rem]',
                         'sm:x-[pt-[4.375rem],pb-48]',
                         'md:x-[pt-[7.5rem],pb-[16.25rem]]',
                     )}
                 >
 
                     <div className={cn(styles.content)}>
-                        <h2 className={'font-oxygen font-bold text-[4rem] text-left mb-[6.25rem]  md:text-[3rem]  sm:text-[2.5rem]'}>
+                        <h2 className={'font-oxygen font-bold text-heading-3xl text-left mb-[6.25rem]  md:text-[3rem]  sm:text-[2.5rem]'}>
                             Get in Touch
                         </h2>
                         <form onSubmit={handleSubmit} className="relative z-10">

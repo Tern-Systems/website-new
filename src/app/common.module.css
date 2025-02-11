@@ -1,5 +1,8 @@
 .section {
   min-width: 100dvw;
+
+  --section-shadow-shift: 10rem;
+  --section-shadow-blur-radius: 10rem;
 }
 
 .fullHeightSection {
@@ -8,6 +11,7 @@
   max-height: 100rem;
 }
 
+
 .content {
   margin-right: auto;
   margin-left: auto;
@@ -15,7 +19,6 @@
   max-width: 90rem;
   width: 100%;
   height: 100%;
-
 
   padding-left: var(--p-xl);
   padding-right: var(--p-xl);
@@ -28,6 +31,26 @@
     padding-left: var(--p-xs);
     padding-right: var(--p-xs);
   }
+}
+
+
+.sectionShadowBlack {
+  box-shadow: 0 calc(-1 * var(--section-shadow-shift)) var(--section-shadow-blur-radius) #000000;
+}
+
+.sectionShadowBlue {
+  position: relative;
+  z-index: -10;
+  box-shadow: 0 var(--section-shadow-shift) calc(2 * var(--section-shadow-blur-radius)) var(--bg-blue);
+}
+
+.contentHighlight {
+  @apply relative;
+}
+
+.contentHighlight:after {
+  @apply absolute -z-10 top-0 w-full h-full bg-blue blur-[15rem];
+  content: "";
 }
 
 

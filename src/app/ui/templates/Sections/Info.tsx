@@ -43,15 +43,15 @@ const Info: FC<Props> = (props: Props) => {
                                     className={cn('block mb-5xs  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs', classNameSubTitle)}>
                                     {subTitle}
                                 </span>
-                                <span className={cn('block leading-[1.2]  text-[0.9375rem]  lg:text-section', classNameDescription)}>
+                                <span className={cn('block leading-n  text-[0.9375rem]  lg:text-section', classNameDescription)}>
                                    {description}
                                 </span>
                                 <PageLink
                                     href={link}
                                     className={cn(
                                         'px-n rounded-full bg-blue',
-                                        'mt-xl h-[1.875rem] text-basic',
-                                        'lg:x-[h-[2.375rem],text-heading-s]',
+                                        'mt-xl h-button-l text-basic',
+                                        'lg:x-[h-button-xl,text-heading-s]',
                                         'sm:mt-s',
                                         classNamePageLink
                                     )}
