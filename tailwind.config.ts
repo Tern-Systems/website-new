@@ -167,9 +167,9 @@ const config: Config = {
             },
             fontFamily: {
                 gothic: ['"Abode Gothic Standard"', 'sans-serif'],
-                english: ['"Old English Five"', 'sans-serif'],
+                english: ['"Old English Five"', 'serif'],
                 oxygen: ['"Oxygen"', 'sans-serif'],
-                arial: ['"Arial"', 'sans-serif'],
+                arial: ['"Arial"', 'serif'],
             },
             fontSize: {
                 'heading-l': 'var(--fz-heading-l)',
