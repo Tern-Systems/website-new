@@ -10,6 +10,7 @@ import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button, Input} from "@/app/ui/form";
 
 import SVG_SAFE from '/public/images/safe.svg'
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 
 type FormData = { code: string };
@@ -84,9 +85,9 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <BaseModal
-            adaptSmScreen
+            adaptBreakpoint={Breakpoint.sm}
             title={isDisabling ? 'Disable Authentication' : 'Account Authentication'}
-            className={`place-self-center mx-auto relative bg-control-gray border-small border-control`}
+            className={`place-self-center mx-auto relative bg-gray border-s border-control`}
             classNameContent={'max-w-[26rem] sm:px-[1.25rem] sm:max-w-[21rem] sm:place-self-center mt-[1.9rem]  sm:landscape:max-w-full  sm:landscape:w-full'}
         >
             <div className={'sm:landscape:flex sm:landscape:justify-between'}>
@@ -118,18 +119,18 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                                 setWarningMsg(null);
                             }}
                             classNameWrapper={'flex-col [&]:items-start'}
-                            className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
+                            className={'h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs'}
                             required
                         />
                         {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
-                        <Button className={`py-[0.37rem] mt-[--p-content] text-small font-bold rounded-full
-                                    w-[9.38563rem] place-self-center border-small border-control-blue
-                                    ${isDisabling ? 'border-control-red text-red' : 'border-control-blue'}`}
+                        <Button className={`py-[0.37rem] mt-n text-section font-bold rounded-full
+                                    w-[9.38563rem] place-self-center border-s border-blue
+                                    ${isDisabling ? 'border-red text-red' : 'border-blue'}`}
                         >
                             {isDisabling ? 'Disable' : 'Submit and Login'}
                         </Button>
                     </form>
-                    <div className={'text-small mt-[2.51rem] sm:portrait:w-[14.75rem]'}>
+                    <div className={'text-section mt-[2.51rem] sm:portrait:w-[14.75rem]'}>
                         <span>
                             It may take a minute to receive your code. Haven’t received it?&nbsp;
                             <span className={'font-bold cursor-pointer text-blue'} onClick={() => handleSendNewCode()}>Resend a new code.</span>

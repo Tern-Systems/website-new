@@ -25,7 +25,7 @@ import SVG_CARD from "/public/images/icons/card.svg";
 import SVG_PENCIL from "/public/images/icons/edit.svg";
 
 
-const SELECT_H_CN = 'h-[min(5.9dvw,3.25rem)] sm:landscape:h-[--2dr]';
+const SELECT_H_CN = 'h-[min(5.9dvw,3.25rem)] sm:landscape:h-l';
 
 
 function ManageSubscriptionsPage() {
@@ -80,15 +80,15 @@ function ManageSubscriptionsPage() {
                     <Image src={SVG_CARD} alt={'card'} className={'w-[1.35rem] h-auto'}/>
                     <span
                         className={cn(
-                            'block mx-[--p-content-5xs] overflow-x-hidden leading-[1.3] overflow-ellipsis text-nowrap text-content',
-                            'sm:max-w-[70%] sm:landscape:text-content-small'
+                            'block mx-5xs overflow-x-hidden leading-[1.3] overflow-ellipsis text-nowrap text-heading-s',
+                            'sm:max-w-[70%] sm:landscape:text-section-s'
                         )}
                     >
                         {method.nickName ?? (method.cardType + ' **** ' + method.last4)}
                     </span>
                     <span className={cn(
-                        `flex items-center px-[--s-d-small] h-[min(3.5dvw,1.3rem)] rounded-smallest1`,
-                        `bg-control-white-d0 text-gray text-center text-note font-oxygen`,
+                        `flex items-center px-3xs h-[min(3.5dvw,1.3rem)] rounded-xxs`,
+                        `bg-white-d0 text-gray text-center text-basic font-oxygen`,
                         {['hidden']: !method.preferred}
                     )}
                     >
@@ -109,20 +109,20 @@ function ManageSubscriptionsPage() {
         if (!SavedCards.length)
             SavedCards = [<li key={0} className={'text-gray'}>No saved cards</li>];
 
-        const Hr = <hr className={'border-control-white-d0 mt-[--s-small] mb-[min(5.3dvw,1.2rem)]'}/>;
+        const Hr = <hr className={'border-white-d0 mt-3xs mb-[min(5.3dvw,1.2rem)]'}/>;
 
         return (
-            <div className={`grid grid-cols-2 text-default
+            <div className={`grid grid-cols-2 text-basic
                             gap-[min(13.3dvw,10rem)] mt-[min(13.3dvw,5.4rem)]
-                            sm:x-[grid-cols-1,gap-y-[--2dr],mt-[--2dr]]`}
+                            sm:x-[grid-cols-1,gap-y-l,mt-l]`}
             >
                 <div>
                     <div className={'flex justify-between items-center'}>
-                        <h2 className={`text-header font-bold  sm:landscape:text-content`}>
+                        <h2 className={`text-heading font-bold  sm:landscape:text-heading-s`}>
                             Current Plan
                         </h2>
                         <Button
-                            className={'border-small border-control-white-d0 px-[--1drs] text-small h-[--h-control] rounded-full font-bold'}
+                            className={'border-s border-white-d0 px-xxs text-section h-h-button-n rounded-full font-bold'}
                             onClick={() => modalCtx.openModal(
                                 <CancelModal plan={selectedPlan?.subscription}/>,
                                 {darkenBg: true}
@@ -134,12 +134,12 @@ function ManageSubscriptionsPage() {
                     {Hr}
                     <div
                         className={`grid grid-rows-2 grid-cols-[max-content,1fr]
-                                    gap-y-[--1dr] mb-[--1dr]
-                                    sm:landscape:x-[gap-y-[--s-d-small],mb-[--s-d-small]]`}>
+                                    gap-y-xxs mb-xxs
+                                    sm:landscape:x-[gap-y-3xs,mb-3xs]`}>
                         <span className={'capitalize'}>
                             {selectedPlan.subscription} {selectedPlan.type} Plan
                         </span>
-                        <span className={'text-small text-right sm:landscape:text-small whitespace-pre-line'}>
+                        <span className={'text-section text-right sm:landscape:text-section whitespace-pre-line'}>
                             Your plan renews on {formatDate(new Date(selectedPlan.renewDate))}
                         </span>
                         <span className={'font-bold'}>
@@ -149,17 +149,17 @@ function ManageSubscriptionsPage() {
                     <Button
                         icon={'chevron'}
                         isIconFlippedY={isDetailsExpanded}
-                        className={'flex-row-reverse font-bold [&_svg]:w-[0.625rem] [&_path]:fill-gray justify-end text-small'}
+                        className={'flex-row-reverse font-bold [&_svg]:w-[0.625rem] [&_path]:fill-gray justify-end text-section'}
                         onClick={() => setDetailsExpandedState(prevState => !prevState)}
                     >
                         {isDetailsExpanded ? 'Hide' : 'Show'} Details
                     </Button>
                     <div
                         className={cn(
-                            `grid grid-rows-5 grid-cols-[1fr,min-content] gap-y-[--1dr] mt-[--1dr]
-                             px-[--s-normal] py-[--1qdrs] w-[66%] max-w-[26rem]
-                             rounded-[--s-normal] bg-control-white-d0
-                             sm:landscape:mt-[--s-d-small]`,
+                            `grid grid-rows-5 grid-cols-[1fr,min-content] gap-y-xxs mt-xxs
+                             px-s py-xs w-[66%] max-w-[26rem]
+                             rounded-l bg-white-d0
+                             sm:landscape:mt-3xs`,
                             {['hidden']: !isDetailsExpanded})}
                     >
                         <span className={'capitalize'}>
@@ -168,7 +168,7 @@ function ManageSubscriptionsPage() {
                         <span className={'text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
                         <span className={'font-bold'}>Subtotal</span>
                         <span className={'font-bold text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
-                        <hr className={'border-small border-control-white-d0 col-span-2 self-center'}/>
+                        <hr className={'border-s border-white-d0 col-span-2 self-center'}/>
                         <span>Tax</span>
                         <span className={'text-right'}>${selectedPlan.tax.toFixed(2)}</span>
                         <span className={'font-bold'}>Total</span>
@@ -177,8 +177,8 @@ function ManageSubscriptionsPage() {
                     </div>
                 </div>
                 <div>
-                    <h2 className={'text-header font-bold   sm:landscape:text-content'}>Payment Method</h2>
-                    <hr className={'border-control-white-d0 mt-[0.81rem] mb-[1.17rem]'}/>
+                    <h2 className={'text-heading font-bold   sm:landscape:text-heading-s'}>Payment Method</h2>
+                    <hr className={'border-white-d0 mt-[0.81rem] mb-[1.17rem]'}/>
                     <ul className={'flex flex-col gap-[0.93rem]'}>
                         {SavedCards}
                     </ul>
@@ -189,23 +189,23 @@ function ManageSubscriptionsPage() {
 
     return (
         <div className={`pt-[9.1rem] px-[1.8rem]  sm:pt-[1.8rem]`}>
-            <h1 className={`font-bold text-header-l sm:landscape:text-content`}>
+            <h1 className={`font-bold text-heading-l sm:landscape:text-heading-s`}>
                 Manage Subscriptions
             </h1>
             <div className={`mt-[5.4rem] px-[min(2.7dvw,0.625rem)] text-nowrap
-                            sm:mt-[--2dr]
+                            sm:mt-l
                             sm:portrait:px-0`}>
                 <Select
                     options={subscriptionOptions}
                     value={selectedSubscriptionIdx.toString()}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setSelectedSubscriptionsIdx(+value)}
-                    classNameWrapper={`flex-col gap-y-[--1dr] w-[min(50dvw,29rem)]
-                                        sm:landscape:x-[gap-y-[0.75dvw],w-[30dvw],text-content-small]`}
-                    classNameLabel={'font-bold place-self-start sm:landscape:text-content-small'}
+                    classNameWrapper={`flex-col gap-y-xxs w-[min(50dvw,29rem)]
+                                        sm:landscape:x-[gap-y-[0.75dvw],w-[30dvw],text-section-s]`}
+                    classNameLabel={'font-bold place-self-start sm:landscape:text-section-s'}
                     classNameOption={SELECT_H_CN}
-                    className={`px-[--s-d2l-smallest] w-full py-[min(2dvw,0.8rem)] border-small rounded-smallest
-                                    border-control-white-d0 ${SELECT_H_CN}`}
+                    className={`px-4xs w-full py-[min(2dvw,0.8rem)] border-s rounded-xs
+                                    border-white-d0 ${SELECT_H_CN}`}
                 >
                     Choose Subscription to Manage
                 </Select>

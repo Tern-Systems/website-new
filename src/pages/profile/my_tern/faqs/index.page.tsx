@@ -2,6 +2,7 @@ import React, {FC, useEffect, useState} from "react";
 import cn from "classnames";
 
 import {Route} from "@/app/static";
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
 
 import {useBreakpointCheck, useNavigate} from "@/app/hooks";
 import {useModal} from "@/app/context";
@@ -73,7 +74,7 @@ interface Props {
 }
 
 const FAQsPage: FC<Props> = (props: Props) => {
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
     const [navigate] = useNavigate();
 
     const [expandedItemIdx, setExpandedItemIdx] = useState(-1);
@@ -91,15 +92,15 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 expandedState={[expandedItemIdx === idx, () => setExpandedItemIdx(prevState => prevState === idx ? -1 : idx)]}
                 classNameWrapper={cn(
                     `[&]:p-0 rounded-none`,
-                    `sm:[&]:portrait:px-[--p-content-xs]`,
+                    `sm:[&]:portrait:px-xs`,
                     `sm:landscape:flex sm:landscape:hover:brightness-125`,
                 )}
                 classNameTitle={cn(styles.clickable,
                     `[&]:mb-0 text-section-s whitespace-pre-wrap text-left`,
-                    `py-[--p-content]`,
-                    `md:py-[calc(0.5*var(--p-content-s))] md:text-section-xs`,
-                    `sm:py-[calc(0.5*var(--p-content-s))] sm:text-section-xs`,
-                    `sm:landscape:p-[--p-content-4xs]`,
+                    `py-n`,
+                    `md:py-[calc(0.5*var(--p-s))] md:text-section-xs`,
+                    `sm:py-[calc(0.5*var(--p-s))] sm:text-section-xs`,
+                    `sm:landscape:p-4xs`,
                     {['pb-[0.5rem]    sm:[&]:pb-[0.35rem]']: expandedItemIdx === idx}
                 )}
                 classNameIcon={'w-[0.9rem]  sm:w-[0.8rem]   sm:landscape:hidden'}
@@ -113,15 +114,15 @@ const FAQsPage: FC<Props> = (props: Props) => {
     return (
         <div className={cn(
             `h-full`,
-            `sm:x-[px-[--p-content-s],pb-[--p-content-xl]]`,
-            `sm:landscape:pb-[--p-content-s]`,
+            `sm:x-[px-s,pb-xl]`,
+            `sm:landscape:pb-s`,
         )}
         >
             <h1 className={cn(
                 `block h-[5rem] font-bold text-left content-end`,
                 `text-heading`,
-                `sm:x-[pb-[--p-content-s],text-heading-s]`,
-                `sm:landscape:x-[h-[3.19rem],pb-[--p-content-xs]]`,
+                `sm:x-[pb-s,text-heading-s]`,
+                `sm:landscape:x-[h-[3.19rem],pb-xs]`,
                 {['hidden']: props.hideTitle}
             )}
             >
@@ -134,12 +135,12 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 )}
             >
                 <ul className={cn(
-                    `bg-control-gray rounded-small overflow-y-scroll`,
-                    `lg:[&_li:first-of-type_div]:pt-[--p-content-3xs]`,
-                    `lg:[&_li:last-of-type_div]:pb-[--p-content-3xs]`,
+                    `bg-gray rounded-s overflow-y-scroll`,
+                    `lg:[&_li:first-of-type_div]:pt-3xs`,
+                    `lg:[&_li:last-of-type_div]:pb-3xs`,
                     `md:[&_li:last-of-type_div]:pb-0`,
                     `sm:portrait:py-[0.2rem]`,
-                    `sm:landscape:x-[p-[--p-content-xs],w-1/2]`,
+                    `sm:landscape:x-[p-xs,w-1/2]`,
                     `sm:landscape:[&_li:first-of-type_div]:pt-0`,
                     `sm:landscape:[&_li:last-of-type_div]:pb-0`,
                 )}
@@ -148,16 +149,16 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 </ul>
                 <div
                     className={cn(
-                        `hidden p-[--p-content-xs] w-1/2 bg-control-gray rounded-small`,
+                        `hidden p-xs w-1/2 bg-gray rounded-s`,
                         `text-left text-section-xs leading-[1.2]`,
                         {['sm:landscape:[&]:block ']: expandedItemIdx !== -1}
                     )}
                 >
-                    <span className={'block mb-[--p-content-xxs] h-[--section-xs] font-bold '}>
+                    <span className={'block mb-xxs h-[--section-xs] font-bold '}>
                         {expandedItemIdx !== -1 ? FAQs[expandedItemIdx]?.question : null}
                     </span>
                     <span
-                        className={'block overflow-y-scroll h-[calc(100%-var(--fz-section-xs)-var(--p-content-xxs))]'}>
+                        className={'block overflow-y-scroll h-[calc(100%-var(--fz-section-xs)-var(--p-xxs))]'}>
                         {expandedItemIdx !== -1 ? FAQs[expandedItemIdx]?.answer : null}
                     </span>
                 </div>
@@ -167,7 +168,7 @@ const FAQsPage: FC<Props> = (props: Props) => {
 }
 
 const FAQsModal: FC = () => {
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
     const modalCtx = useModal();
 
     useEffect(() => {
@@ -178,9 +179,9 @@ const FAQsModal: FC = () => {
 
     return (
         <BaseModal title={'Help & FAQs'}
-                   className={'md:p-[--p-content-s]'}
+                   className={'md:p-s'}
                    classNameTitle={'leading-none'}
-                   classNameHr={'md:mb-[calc(0.5*var(--p-content-s))]'}
+                   classNameHr={'md:mb-[calc(0.5*var(--p-s))]'}
                    classNameContent={cn(
                        `overflow-y-scroll font-oxygen`,
                        'lg:x-[w-[56rem],max-h-[23rem]]',

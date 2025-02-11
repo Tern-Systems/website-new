@@ -18,14 +18,14 @@ const HelpModal: FC<Props> = (props: Props) => {
     const {type} = props;
     return (
         <BaseModal title={Contacts[type].title}
-                   classNameTitle={'sm:landscape:text-content'}
+                   classNameTitle={'sm:landscape:text-heading-s'}
                    classNameContent={'w-[min(80dvw,26rem)] sm:landscape:w-[min(40dvw,20rem)]'}
-                   className={'sm:landscape:p-[--1dr]'}
+                   className={'sm:landscape:p-xxs'}
         >
             <div className={`flex flex-col items-center
-                            text-content-small
-                            sm:landscape:text-small`}>
-                <span className={'mb-[--1qdr] sm:landscape:mb-[--1drs]'}>
+                            text-section-s
+                            sm:landscape:text-section`}>
+                <span className={'mb-xs sm:landscape:mb-xxs'}>
                     Email: <a href={`mailto:${Contacts[type].email}`} target={'_blank'}>{Contacts[type].email}</a>
                 </span>
                 <span>

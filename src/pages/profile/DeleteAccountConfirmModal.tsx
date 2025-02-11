@@ -13,7 +13,7 @@ import {Button, Input} from "@/app/ui/form";
 
 const LIST: string[] = [
     'Account deletion is permanent and cannot be reversed.',
-    'Once deleted, access to all Tern products and services, including TernKey, ARCH, TernKit, and any future offerings, will be permanently revoked.',
+    'Once deleted, access to all Tern products and services, including TernKey, TernKit, and any future offerings, will be permanently revoked.',
     'You will not be able to register a new account using the same email address associated with the deleted account.',
     'Your data will be erased within 30 days, except for a limited subset that may be retained as required or permitted by law.',
 ]
@@ -32,8 +32,8 @@ const FORM_DEFAULT: FormData = {
 
 
 const INPUT_PROPS = {
-    classNameWrapper: 'flex-col [&]:items-start gap-[--s-dl-smallest] mt-[0.96rem]',
-    className: 'h-[min(5.9dvw,1.875rem)] w-full px-[--s-dl-small] bg-control-gray-l0 border-small b-control4 rounded-smallest',
+    classNameWrapper: 'flex-col [&]:items-start gap-4xs mt-[0.96rem]',
+    className: 'h-[min(5.9dvw,1.875rem)] w-full px-3xs bg-gray-l0 border-s b-control4 rounded-xs',
     classNameLabel: 'font-bold',
     required: true,
 }
@@ -78,7 +78,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     value={formData.password}
                     onChange={setFormValue('password')}
                     classNameWrapper={'flex-col [&]:items-start gap-[0.63rem] mt-[1.9rem]'}
-                    className={'h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest'}
+                    className={'h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs'}
                     classNameLabel={'font-bold'}
                     required
                 >
@@ -95,8 +95,8 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     type={'submit'}
                     disabled={!isAllowedToDelete}
                     icon={isAllowedToDelete ? 'warn' : 'lock'}
-                    className={`mt-[--1qdrs] text-small h-[min(5.9dvw,2.1rem)] rounded-full font-bold place-self-center w-full
-                                ${isAllowedToDelete ? 'bg-control-red' : 'text-secondary'}`}
+                    className={`mt-xs text-section h-[min(5.9dvw,2.1rem)] rounded-full font-bold place-self-center w-full
+                                ${isAllowedToDelete ? 'bg-red' : 'text-secondary'}`}
                 >
                     {isAllowedToDelete ? 'Permanently Delete My Account' : 'Locked'}
                 </Button>
@@ -110,13 +110,13 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
         return (!isAllowedToDelete
                 ? (
                     <div className={'flex flex-col place-items-center'}>
-                        <span className={'inline-block w-[80%] text-note text-center mt-[min(4dvw,--p-content)]'}>
+                        <span className={'inline-block w-[80%] text-basic text-center mt-[min(4dvw,--p-n)]'}>
                             You may only delete your account if you have logged in within the last 5 minutes. Please login again,
                             then return here to continue.
                         </span>
                         <Button
-                            className={`bg-control-white mt-[--1qdrs] px-[min(3dvw,1rem)] text-small
-                                        h-[--h-control] rounded-full font-bold text-gray`}
+                            className={`bg-white mt-xs px-[min(3dvw,1rem)] text-section
+                                        h-h-button-n rounded-full font-bold text-gray`}
                             onClick={() => userCtx.removeSession()}
                         >
                             Restore Login
@@ -135,7 +135,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
 
     return (
         <BaseModal title={'Delete Account Confirmation'} className={'w-[min(90dvw,34rem)] leading-[120%]'}>
-            <ul className={'list-disc pl-[min(3dvw,1rem)] flex flex-col gap-y-[min(2.7dvw,--p-content)]'}>{ListItems}</ul>
+            <ul className={'list-disc pl-[min(3dvw,1rem)] flex flex-col gap-y-[min(2.7dvw,--p-n)]'}>{ListItems}</ul>
             {renderDeleteBlock()}
         </BaseModal>
     );

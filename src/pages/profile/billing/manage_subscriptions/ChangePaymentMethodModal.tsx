@@ -19,7 +19,7 @@ import SVG_CARD from "/public/images/icons/card.svg";
 import SVG_MARK from "/public/images/icons/mark.svg";
 
 
-const BTN_CN = 'px-[--1drs] h-[--h-control-dl] rounded-full';
+const BTN_CN = 'px-xxs h-h-button-n rounded-full';
 
 
 interface Props {
@@ -34,20 +34,22 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
     const {userData} = useUser();
 
     const formRef = useRef<HTMLFormElement | null>(null);
+    const submitRef = useRef<HTMLButtonElement | null>(null);
 
-    const setPreventLeaveState = useSaveOnLeave(async () => {
-        if (formRef.current !== null)
-            await updateCard();
-    });
     const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
 
-
-    useEffect(() => setPreventLeaveState(true), [setPreventLeaveState]);
+    //eslint-disable-next-line
+    useEffect(() => setPreventLeaveState(true), []);
 
     const updateCard = async () => {
-        if (!userData || selectedCardIdx === null)
-            return;
+        if (!userData || selectedCardIdx === null || !formRef.current || !submitRef.current)
+            return false;
         try {
+            if (!formRef.current.checkValidity()) {
+                submitRef.current.click();
+                return false;
+            }
+
             const updatedCard: CardData = {
                 ...mapSavedCard(savedCards[selectedCardIdx]),
                 isPreferred: true,
@@ -55,11 +57,14 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             const {message} = await BillingService.postUpdateCard(updatedCard, userData.email);
             modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             setUpdateCards(true);
+            return true;
         } catch (error: unknown) {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            return false;
         }
     }
+    const setPreventLeaveState = useSaveOnLeave({onSave: updateCard});
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -75,14 +80,14 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
             <li
                 key={card.nickName + idx}
                 onClick={() => setSelectedCardIdx(idx)}
-                className={`flex justify-between text-content items-center px-[--s-small] py-[0.7rem] rounded-small
-                            sm:py-0 ${!preferred && selectedCardIdx === idx ? 'bg-control-white-d1' : ''}`}
+                className={`flex justify-between text-heading-s items-center px-3xs py-[0.7rem] rounded-s
+                            sm:py-0 ${!preferred && selectedCardIdx === idx ? 'bg-white-d1' : ''}`}
             >
                 <span className={`flex items-center ${preferred ? 'brightness-[2.4]' : ''}`}>
                     <ReactSVG src={SVG_CARD.src}
                               className={`[&_svg]:w-[min(3.9dvw,1.35rem)] mr-[min(2dvw,0.65rem)] [&_path]:fill-gray`}/>
                     <span
-                        className={'text-content'}>{card.nickName ?? (card.cardType + ' **** ' + card.cardNumber.slice(-4))}</span>
+                        className={'text-heading-s'}>{card.nickName ?? (card.cardType + ' **** ' + card.cardNumber.slice(-4))}</span>
                 </span>
                 {preferred ?
                     <Image src={SVG_MARK} alt={'mark'} className={'w-[min(2.4dvw,0.8125rem)] h-auto'}/> : null}
@@ -93,31 +98,32 @@ const ChangePaymentMethodModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal
             title={'Change Payment method'}
-            className={'bg-control-white [&_hr]:border-control-gray-l0 [&_h2]:text-gray [&_path]:fill-gray w-[min(90dvw,30rem)]'}
+            className={'bg-white [&_hr]:border-gray-l0 [&_h2]:text-gray [&_path]:fill-gray w-[min(90dvw,30rem)]'}
             classNameContent={'text-gray text-center'}
         >
             <form ref={formRef} onSubmit={handleFormSubmit} className={'contents'}>
-                <ul className={'list-none flex flex-col gap-y-[--s-small]'}>{SavedCards}</ul>
+                <ul className={'list-none flex flex-col gap-y-3xs'}>{SavedCards}</ul>
                 <PageLink href={Route.EditPaymentMethod}
-                          className={'w-full justify-center sm:justify-start sm:px-[--s-small]'}>
+                          className={'w-full justify-center sm:justify-start sm:px-3xs'}>
                     <Button
                         icon={'plus'}
-                        className={'font-bold text-content mt-[min(2.7dvw,1.5rem)]'}
-                        classNameIcon={'sm:[&_*]:w-[--p-content-4xs]'}
+                        className={'font-bold text-heading-s mt-[min(2.7dvw,1.5rem)]'}
+                        classNameIcon={'sm:[&_*]:w-4xs'}
                     >
                         Add alternative payment method
                     </Button>
                 </PageLink>
                 <span
-                    className={'flex gap-[--s-d2l-smallest] font-bold mt-[--1hdr] text-small justify-center'}>
+                    className={'flex gap-4xs font-bold mt-s text-section justify-center'}>
                     <Button
+                        ref={submitRef}
                         type={'submit'}
-                        className={`border-small border-control-white-d0 text-gray ${BTN_CN}`}
+                        className={`border-s border-white-d0 text-gray ${BTN_CN}`}
                     >
                         Done
                     </Button>
                     <Button
-                        className={`bg-control-gray-l0 ${BTN_CN}`}
+                        className={`bg-gray-l0 ${BTN_CN}`}
                         onClick={() => modalCtx.closeModal()}
                     >
                       Cancel

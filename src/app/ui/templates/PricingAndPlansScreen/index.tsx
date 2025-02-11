@@ -9,6 +9,7 @@ import {
     SubscriptionPreviewData,
     SubscriptionRecurrency,
 } from "@/app/types/subscription";
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
 import {Route} from "@/app/static";
 
 import {generateFallbackEntries} from "@/app/utils";
@@ -105,7 +106,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             : (type === 'Pro' ? SVG_STAR : SVG_BULLET);
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
             <li key={type + subIndex}
-                className={'flex items-start gap-x-[--p-content-4xs] whitespace-pre-wrap leading-[120%]'}
+                className={'flex items-start gap-x-4xs whitespace-pre-wrap leading-[120%]'}
             >
                 <Image src={benefitsIcon} alt={'list-icon'} className={'inline [&]:size-[1rem]'}/>
                 <span>{benefit}</span>
@@ -202,15 +203,15 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             <>
                 <h2 className={cn(
                     `flex items-center font-oxygen font-bold capitalize`,
-                    `mb-[--p-content-4xs] text-heading-s`,
-                    `lg:x-[mb-[--p-content-xxs],text-heading]`,
+                    `mb-4xs text-heading-s`,
+                    `lg:x-[mb-xxs,text-heading]`,
                     `md:text-heading`,
                 )}
                 >
                     <Image
                         src={idx ? SVG_DIAMOND : SVG_DIAMOND_ACE}
                         alt={type + ' icon'}
-                        className={`mr-[--p-content-5xs] h-auto  w-[1.375rem]  sm:w-[0.9375rem]`}
+                        className={`mr-5xs h-auto  w-[1.375rem]  sm:w-[0.9375rem]`}
                     />
                     <span>{type}</span>
                 </h2>
@@ -218,8 +219,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     'text-secondary',
                     'text-section',
                     'lg:mb-[2.2rem]',
-                    'md:mb-[--p-content]',
-                    'sm:mb-[--p-content-4xs]',
+                    'md:mb-n',
+                    'sm:mb-4xs',
                     'sm:landscape:text-section-s'
                 )}
                 >
@@ -228,10 +229,10 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <Button
                     onClick={() => handleSubscribeClick(type)}
                     className={cn(
-                        `w-full rounded-full bg-control-blue font-bold text-section-s`,
+                        `w-full rounded-full bg-blue font-bold text-section-s`,
                         `py-[1.12rem]`,
-                        `sm:x-[py-[--p-content-xxs],text-basic]`,
-                        `disabled:x-[bg-inherit,border-small,border-control-gray,text-secondary]`
+                        `sm:x-[py-xxs,text-basic]`,
+                        `disabled:x-[bg-inherit,border-s,border-gray,text-secondary]`
                     )}
                     disabled={isBtnDisabled}
                 >
@@ -245,23 +246,23 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 key={type + idx}
                 title={type + idx}
                 isChevron
-                expandedState={[breakpoint === 'lg']}
+                expandedState={[breakpoint === Breakpoint.lg]}
                 collapsedContent={CollapsedContentSm}
                 classNameWrapper={cn(
-                    `[&]:self-start [&]:max-w-[25rem] w-full h-full border-small border-control-white-d0 text-left`,
+                    `[&]:self-start [&]:max-w-[25rem] w-full h-full border-s border-white-d0 text-left`,
                     'lg:h-[35.5rem]',
-                    `md:x-[p-[--p-content-s],h-[35.5rem]]`,
+                    `md:x-[p-s,h-[35.5rem]]`,
                     `md:landscape:h-[35.5rem]`,
-                    `sm:x-[p-[--p-content-xxs],border-none]`,
+                    `sm:x-[p-xxs,border-none]`,
                 )}
-                classNameIcon={'[&]:w-[0.8125rem]  md:right-[--p-content-s] md:top-[calc(var(--p-content-s)+0.5*var(--fz-heading))]'}
+                classNameIcon={'[&]:w-[0.8125rem]  md:right-s md:top-[calc(var(--p-s)+0.5*var(--fz-heading))]'}
                 className={'flex flex-col h-full'}
             >
                 {CollapsedContentSm}
                 <ul className={cn(
                     `flex flex-col gap-y-[1.57rem] mt-[1.57rem] items-start`,
                     `text-basic`,
-                    `sm:x-[gap-[--p-content-xxs],text-section-xs]`,
+                    `sm:x-[gap-xxs,text-section-xs]`,
                 )}
                 >
                     {Benefits}
@@ -271,7 +272,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     `sm:landscape:text-section-3xs`
                 )}
                 >
-                    <span className={'flex flex-col gap-y-[--p-content-5xs] mt-auto'}>{Links}</span>
+                    <span className={'flex flex-col gap-y-5xs mt-auto'}>{Links}</span>
                 </div>
             </Collapsible>
         )
@@ -308,7 +309,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 onClick={() => setSelectedRecurrency(entry)}
                 className={cn(
                     `px-[1.3rem] py-[0.7rem] rounded-full cursor-pointer font-bold capitalize`,
-                    selectedRecurrency === entry ? 'bg-control-gray-l0' : 'text-secondary'
+                    selectedRecurrency === entry ? 'bg-gray-l0' : 'text-secondary'
                 )}
             >
                 {entry}
@@ -319,22 +320,22 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     return (
         <div className={cn(
             `flex flex-col h-full`,
-            `md:pb-[--p-content-l]`,
-            `sm:px-[--p-content-xs]`,
-            `sm:portrait:pb-[--p-content-xxl]`,
+            `md:pb-l`,
+            `sm:px-xs`,
+            `sm:portrait:pb-xxl`,
             `sm:landscape:mt-[1.81rem]`,
         )}
         >
             <div className={cn(
                 'flex items-end justify-center',
-                `lg:x-[mb-[--p-content],h-[11rem]]`,
-                `md:pb-[--p-content-xxs]`,
+                `lg:x-[mb-n,h-[11rem]]`,
+                `md:pb-xxs`,
                 `md:min-h-[6.75rem]`,
-                `sm:pb-[--p-content-xxs]`,
+                `sm:pb-xxs`,
                 `sm:portrait:h-[6.75rem]`,
             )}>
                 <div className={cn(
-                    `flex p-[0.2rem] w-fit h-fit border-small rounded-full text-section-xs`,
+                    `flex p-[0.2rem] w-fit h-fit border-s rounded-full text-section-xs`,
                 )}
                 >
                     {Switch}
@@ -345,9 +346,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 'lg:gap-x-[4.13rem]',
                 'lg:grid-cols-[repeat(2,minmax(0,25rem))] lg:h-[calc(100%-2.5rem)]',
                 'md:portrait:h-[calc(100%-6.75rem)] md:portrait:grid-cols-[minmax(0,24rem)] md:landscape:grid-cols-[repeat(2,minmax(0,24rem))]',
-                'md:gap-[--p-content-xxs]',
-                'sm:portrait:gap-y-[--p-content-4xs] sm:portrait:h-[calc(100%-6.75rem)] sm:portrait:grid-cols-[minmax(0,20rem)]',
-                'sm:landscape:x-[gap-x-[--p-content-3xs],overflow-visible] sm:landscape:grid-cols-[repeat(2,minmax(0,20rem))]',
+                'md:gap-xxs',
+                'sm:portrait:gap-y-4xs sm:portrait:h-[calc(100%-6.75rem)] sm:portrait:grid-cols-[minmax(0,20rem)]',
+                'sm:landscape:x-[gap-x-3xs,overflow-visible] sm:landscape:grid-cols-[repeat(2,minmax(0,20rem))]',
             )}
             >
                 {renderColumns()}

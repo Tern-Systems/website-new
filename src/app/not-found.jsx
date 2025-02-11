@@ -16,7 +16,7 @@ const NotFound = () => {
             className={`flex flex-col justify-center items-center h-screen text-primary bg-cover bg-no-repeat`}
         >
             <div>
-                <p className={`text-header font-english ${styles.typewriter}`}>Page not found</p>
+                <p className={`text-heading font-english ${styles.typewriter}`}>Page not found</p>
             </div>
             <div className={'flex flex-col gap-y-[min(2.6dvw,1rem)] italic text-center mt-[min(4dvw,2rem)]'}>
                 <p>A fork in the road, three ways to go</p>
@@ -24,7 +24,7 @@ const NotFound = () => {
                 <p>This path you tread, is but a mirage</p>
                 <p>An empty husk; A hollow facade...</p>
             </div>
-            <div className={'absolute underline bottom-[--2dr] text-note'}>
+            <div className={'absolute underline bottom-l text-basic'}>
                 <a href={Route.Home}>Return to Home page</a>
             </div>
         </div>

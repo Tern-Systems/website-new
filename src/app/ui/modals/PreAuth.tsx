@@ -1,6 +1,8 @@
 import {FC, useEffect} from "react";
 import cn from "classnames";
 
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
+
 import {useModal} from "@/app/context";
 
 import {BaseModal} from "@/app/ui/modals/Base";
@@ -14,7 +16,7 @@ const PreAuthModal: FC = () => {
     const breakpoint = useBreakpointCheck();
 
     useEffect(() => {
-        if (breakpoint !== null && breakpoint !== 'sm')
+        if (breakpoint > Breakpoint.sm)
             modalCtx.closeModal();
         // eslint-disable-next-line
     }, [breakpoint]);
@@ -22,19 +24,19 @@ const PreAuthModal: FC = () => {
 
     return (
         <BaseModal
-            smScreenOnly
+            adaptedDefault
             title={'Tern Account'}
             classNameTitle={'justify-self-start text-heading   sm:landscape:ml-0'}
             classNameContent={cn(
-                'w-full items-start mx-auto px-[--p-content-xs] py-[--p-content] place-items-center text-basic',
+                'w-full items-start mx-auto px-xs py-n place-items-center text-basic',
                 'max-w-[23rem]',
-                'sm:landscape:x-[max-w-[73rem],px-[--p-content-3xl]]'
+                'sm:landscape:x-[max-w-[73rem],px-3xl]'
             )}
         >
             <div className={'flex flex-col w-full  sm:landscape:flex-row sm:landscape:justify-between'}>
                 <div>
                     <p>Your Tern account provides you with:</p>
-                    <ul className={'flex flex-col   gap-y-[--p-content-xs] mt-[--p-content-xs] mb-[--p-content]   list-disc list-inside'}>
+                    <ul className={'flex flex-col   gap-y-xs mt-xs mb-n   list-disc list-inside'}>
                         <li>Single sign-on to the Tern ecosystem</li>
                         <li>Personalized recommendations</li>
                         <li>Test drives and other trials</li>
@@ -44,13 +46,13 @@ const PreAuthModal: FC = () => {
                 <div className={'place-self-center max-w-[19rem] w-full sm:portrait:w-[85%] font-bold text-section-s'}>
                     <Button
                         onClick={() => modalCtx.openModal(<AuthModal/>)}
-                        className={'mb-[--p-content-xxs] w-full h-[2.7rem]      rounded-full bg-control-blue  text-primary'}
+                        className={'mb-xxs w-full h-[2.7rem]      rounded-full bg-blue  text-primary'}
                     >
                         Login
                     </Button>
                     <Button
                         onClick={() => modalCtx.openModal(<AuthModal registration/>)}
-                        className={'w-full h-[2.7rem] border-small rounded-full border-control-blue'}
+                        className={'w-full h-[2.7rem] border-s rounded-full border-blue'}
                     >
                         Sign Up
                     </Button>

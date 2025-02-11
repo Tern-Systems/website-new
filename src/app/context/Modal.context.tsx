@@ -1,9 +1,9 @@
 'use client';
 
-import React, {createContext, FC, PropsWithChildren, ReactElement, useContext, useEffect, useState} from 'react';
+import React, { createContext, FC, PropsWithChildren, ReactElement, useContext, useEffect, useState } from 'react';
 import cn from "classnames";
 
-import {useLayout} from "@/app/context/Layout.context";
+import { useLayout } from "@/app/context/Layout.context";
 
 import styles from "@/app/common.module.css";
 
@@ -41,7 +41,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     const handleModalChange = (Component: ReactElement | null, config: ModalConfig) => {
         setModal(Component);
-        setConfig({...config, doFading: config.doFading ?? true});
+        setConfig({ ...config, doFading: config.doFading ?? true });
     }
 
     const closeModal = () => {
@@ -61,14 +61,20 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 closeModal,
             }}
         >
-            <div
-                className={cn(
-                    `absolute z-50 w-full h-full flex overflow-hidden pointer-events-none font-neo text-primary select-none`,
-                    {['hidden']: !Modal}, layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn
-                )}
-            >
-                {Modal}
-            </div>
+            {Modal
+                ? (
+                    <div
+                        onClick={() => closeModal()}
+                        className={cn(
+                            `absolute z-50 flex w-full h-full overflow-hidden font-neo text-primary select-none`,
+                            layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn
+                        )}
+                    >
+                        {Modal}
+                    </div>
+                )
+                : null
+            }
             {props.children}
         </ModalContext.Provider>
     );
@@ -81,5 +87,5 @@ const useModal = (): IModalContext => {
     return context;
 };
 
-export {ModalProvider, useModal}
-export type {IModalContext, OpenModal}
+export { ModalProvider, useModal }
+export type { IModalContext, OpenModal }

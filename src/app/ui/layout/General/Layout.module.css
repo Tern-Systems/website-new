@@ -1,0 +1,12 @@
+.navLink {
+  @apply relative h-full cursor-pointer hover:bg-black-l0;
+}
+
+.navLink > * {
+  @apply block px-xxs h-full content-center;
+}
+
+.activeNavLink::before {
+  @apply absolute left-5xs h-[1px] -bottom-[0.5px];
+  width: calc(100% - 2 * var(--p-5xs));
+}

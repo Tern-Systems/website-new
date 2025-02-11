@@ -6,44 +6,53 @@ import {BaseModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
 
-const BTN_CN = 'h-[--h-control] px-[--1drs] rounded-full';
+const BTN_CN = 'h-h-button-n px-xxs rounded-full';
 
 
 interface Props {
     onSave: () => Promise<void>;
-    onDontSave?: () => Promise<void>;
+    onDontSave: () => void;
+    onCancel: () => void;
 }
 
 const SaveChangesModal: FC<Props> = (props: Props) => {
-    const {onSave, onDontSave} = props;
+    const {onSave, onDontSave, onCancel} = props;
 
     const modalCtx = useModal();
 
     return (
         <BaseModal
             title={'Save Changes?'}
-            className={`w-[min(90dvw,30rem)] border-control-white border-small text-center sm:landscape:w-[50dvw]`}
+            onClose={() => onCancel()}
+            className={`w-[min(90dvw,30rem)] border-white border-s text-center sm:landscape:w-[50dvw]`}
         >
             <span>Do you want to save your changes before returning to the previous page?</span>
-            <span className={'flex mt-[--1qdrs] gap-[min(1.1dvw,0.625rem)] text-small font-bold justify-center'}>
+            <span className={'flex mt-xs gap-[min(1.1dvw,0.625rem)] text-section font-bold justify-center'}>
                 <Button
-                    className={`bg-control-white text-gray ${BTN_CN}`}
-                    onClick={() => onSave()}
+                    className={`bg-white text-gray ${BTN_CN}`}
+                    onClick={async () => {
+                        await onSave();
+                        modalCtx.closeModal();
+                    }}
                 >
                     Save
                 </Button>
                 <Button
-                    className={`border-small border-control-gray-l1 text-primary ${BTN_CN}`}
+                    className={`border-s border-gray-l1 text-primary ${BTN_CN}`}
                     onClick={() => {
-                        onDontSave?.();
+                        onDontSave();
                         modalCtx.closeModal();
                     }}
                 >
                     Don&apos;t Save
                 </Button>
                 <Button
-                    className={`bg-control-gray-l0 ${BTN_CN}`}
-                    onClick={() => modalCtx.closeModal()}>
+                    className={`bg-gray-l0 ${BTN_CN}`}
+                    onClick={() => {
+                        onCancel();
+                        modalCtx.closeModal()
+                    }}
+                >
                     Cancel
                 </Button>
             </span>

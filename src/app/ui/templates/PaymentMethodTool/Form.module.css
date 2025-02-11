@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: 1fr min-content;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: min(2.6dvw, var(--p-content));
+  gap: min(2.6dvw, var(--p-n));
   max-width: min(90vw, 99rem);
   padding: 0 min(2.7dvw, 8.5rem);
   place-items: end;
@@ -37,5 +37,5 @@
   border-radius: 0.375rem;
   width: 100%;
   height: min(5.9dvw, 1.875rem);
-  border: var(--b-small) solid var(--b-control-gray-l0);
+  border: var(--b-s) solid var(--b-gray-l0);
 }
