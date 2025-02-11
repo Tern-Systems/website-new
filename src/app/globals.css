@@ -115,18 +115,17 @@ body ::-webkit-scrollbar {
 }
 
 @font-face {
-  font-family: "Adobe Caslon Pro";
-  src: url("../../public/fonts/ACaslonPro-Regular.otf") format("opentype");
-  font-weight: 400;
+  font-family: "Abode Gothic Standard";
+  src: url("../../public/fonts/AdobeGothicStdL.otf") format("opentype");
+  font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Neo Sans W1G";
-  src: url("../../public/fonts/NeoSansW1G-Regular.otf") format("opentype");
-  font-weight: 400;
+  font-family: "Adobe Gothic Standard";
+  src: url("../../public/fonts/AdobeGothicStdL.otf") format("opentype");
+  font-weight: bold;
   font-style: normal;
-  ascent-override: 110%;
 }
 
 @font-face {
