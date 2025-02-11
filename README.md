@@ -114,7 +114,7 @@ Visit the [Next.js GitHub repository](https://github.com/vercel/next.js) to cont
 
 ---
 
-## Deploy on Vercel
+## Deploy on Vercel:
 
 The easiest way to deploy Minimalistic-Website is using [Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme). As the creators of Next.js, Vercel offers seamless deployment with automatic optimizations for performance.
 
