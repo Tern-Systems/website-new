@@ -100,10 +100,12 @@ const MEDIA_LINKS = {
     Twitch: {svg: SVG_TWITCH, href: 'https://www.twitch.tv/tern_systems'},
 };
 
+const TernKey = 'https://tern.ac/ternkey';
 const MISC_LINKS = {
     Careers: 'https://www.linkedin.com/company/tern-sys/jobs/',
     Events: 'https://www.eventbrite.com/o/tern-103937850401',
-    TernKey: 'https://tern.ac/ternkey',
+    TernKey,
+    TernKeyExploreKeys: TernKey + '/explore',
     TernKeyDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
 };
 

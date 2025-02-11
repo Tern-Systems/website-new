@@ -151,6 +151,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             <Header />
             <div
                 id={'content'}
+                style={{ backgroundImage: `url("${PNG_NEURONS.src}")` }}
                 className={cn(
                     `relative flex flex-col flex-grow w-full items-center`,
                     `w-screen bg-cover bg-no-repeat bg-fixed`,
@@ -175,7 +176,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                         { [`!flex flex-col gap-y-xxl`]: breakpoint <= Breakpoint.xs },
                     )}
                 >
-                    <Insignia />
+                    <Insignia className={'[&_*]:x-[!w-[5.875rem],h-auto]'} />
                     <ul
                         className={cn(
                             'flex w-full justify-between',
@@ -191,7 +192,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                             { [`flex flex-col-reverse gap-y-n mt-0 !items-start`]: breakpoint <= Breakpoint.xs },
                         )}
                     >
-                        <p className={'leading-n'}>Copyright © 2025 Tern Systems LLC </p>
+                        <p className={'leading-[1.2]'}>Copyright © 2025 Tern Systems LLC </p>
                         <ul className={cn('col-span-3 flex gap-3xs flex-wrap')}>
                             {ContactLinks}
                         </ul>
