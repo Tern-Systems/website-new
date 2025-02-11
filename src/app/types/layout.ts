@@ -1,8 +1,9 @@
-import {StaticImageData} from "next/image";
+import { StaticImageData } from 'next/image';
 
-import {ButtonIcon} from "@/app/ui/form/Button";
-import {Route} from "@/app/static";
-import {IModalContext} from "@/app/context/Modal.context";
+import { ButtonIcon } from '@/app/ui/form/Button';
+import { Route } from '@/app/static';
+import { IModalContext } from '@/app/context/Modal.context';
+import { ReactNode } from 'react';
 
 
 type InfoSection = {
@@ -26,6 +27,12 @@ type SectionCard = {
 }
 
 
+type ResourceSection = {
+    Node: ReactNode,
+    action?: (props: { isSm: boolean, navigate: (link: Route) => void, modalCtx: IModalContext }) => void
+}
+
+
 type NavDropdown = {
     name: string;
     columns: Record<string, string | ((action: IModalContext) => void)>[];
@@ -34,4 +41,4 @@ type NavDropdown = {
 type NavDropdownDict = Record<string, NavDropdown>
 
 
-export type {SectionCard, InfoSection, NavDropdownDict, NavDropdown};
+export type { SectionCard, InfoSection, ResourceSection, NavDropdownDict, NavDropdown };

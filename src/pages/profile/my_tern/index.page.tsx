@@ -1,31 +1,23 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { ReactSVG } from 'react-svg';
+import React, { ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { IModalContext } from '@/app/context/Modal.context';
 import { PlanName, Subscription } from '@/app/types/subscription';
+import { ResourceSection } from '@/app/types/layout';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { MISC_LINKS, Route } from '@/app/static';
 
 import { capitalize, copyObject } from '@/app/utils';
-import { useModal, useUser } from '@/app/context';
-import { useBreakpointCheck, useLoginCheck, useNavigate } from '@/app/hooks';
+import { useUser } from '@/app/context';
+import { useBreakpointCheck, useLoginCheck } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
-import { HelpModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
-import { FAQsModal } from './faqs/index.page';
+import { HelpModal } from '@/app/ui/modals';
+import { FAQsModal } from '@/pages/support/faqs/index.page';
+import { ResourcesSection } from '@/app/ui/templates/Resources';
 import { Table, TableEntry, TableSection } from './Table';
 
 import styles from '@/app/common.module.css';
-
-import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
-
-
-type Resource = {
-    Node: ReactNode,
-    action?: string | ((props: { isSm: boolean, navigate: (link: Route) => void, modalCtx: IModalContext }) => void)
-}
 
 
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
@@ -51,7 +43,7 @@ const EVENTS_TEMPLATE: TableEntry[] = [
     { name: 'TernKey version 1.0.0-beta', type: 'Version Release', data: Date.now(), href: 'https://youtube.com' },
 ];
 
-const RESOURCES: Resource[] = [
+const RESOURCES: ResourceSection[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
     {
         Node: 'Help & FAQs',
@@ -59,7 +51,7 @@ const RESOURCES: Resource[] = [
             ? navigate(Route.Help)
             : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
     },
-    {
+    { // TODO change to link to Support Hub page
         Node: 'Support Hub',
         action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'support'} />, { darkenBg: true }),
     },
@@ -76,9 +68,7 @@ const renderSinceDate = (dateNumber: number | undefined) => {
 
 function MyTernPage() {
     const userCtx = useUser();
-    const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
-    const [navigate] = useNavigate();
     const breakpoint = useBreakpointCheck();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
@@ -138,20 +128,6 @@ function MyTernPage() {
     ));
 
 
-    const ResourcesLi: ReactElement[] = RESOURCES.map((entry, idx) => (
-        <li
-            key={'node-' + idx}
-            onClick={() => {
-                if (typeof entry.action === 'function')
-                    entry.action({ isSm: breakpoint <= Breakpoint.sm, navigate, modalCtx });
-            }}
-            className={cn(styles.clickable, `flex items-center justify-between border-b-s border-white-d0 cursor-pointer`)}
-        >
-            {entry.Node}
-            <ReactSVG src={SVG_ARROW_LONG.src} className={'[&_*]:w-[1.41rem] [&_path]:fill-blue'} />
-        </li>
-    ));
-
     return (
         <div className={cn(styles.section, `pt-[6.25rem] min-h-dvh bg-black`)}>
             <section className={cn(styles.content)}>
@@ -179,12 +155,7 @@ function MyTernPage() {
                     }}
                 />
             </section>
-            <section className={cn(styles.content, 'mt-[6.25rem] mb-[9.41rem] text-section-xs')}>
-                <p className={'pl-n font-bold'}>Additional resources</p>
-                <ul className={'mt-xxs border-t-s border-white-d0  [&>li]:x-[px-n,py-xs,text-blue]'}>
-                    {ResourcesLi}
-                </ul>
-            </section>
+            <ResourcesSection data={RESOURCES} className={'mt-[6.25rem] mb-[9.41rem]'} />
         </div>
     );
 }

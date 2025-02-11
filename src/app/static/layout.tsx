@@ -16,7 +16,7 @@ const LAYOUT: {
 } = {
     fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
-    navLinks: [Route.About, Route.TernKey, Route.Contact, Route.Support, Route.AllWays],
+    navLinks: [Route.About, Route.TernKey, Route.Contact, Route.SupportHub, Route.AllWays],
     breadcrumbsRoutes: [Route.Documentation],
 };
 
@@ -48,7 +48,7 @@ const SPECIAL_NAV_ROUTES: Record<string, string> = {
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
 const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
-    [Route.Support]: {
+    [Route.SupportHub]: {
         name: 'Support',
         columns: [
             {
