@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import cn from "classnames";
 
@@ -23,6 +24,7 @@ import SVG_STAR from "/public/images/icons/star-alt.svg";
 
 const TernKeyPage: FC = () => {
   const userCtx = useUser();
+  const router = useRouter();
   const env: string | undefined =
     process.env.NEXT_PUBLIC_NODE_ENV ?? process.env.NODE_ENV ?? "development";
   const website: string | undefined =
@@ -75,14 +77,15 @@ const TernKeyPage: FC = () => {
             <div className="flex flex-row gap-[2.19rem]">
               <Button
                 className={
-                  "text-center bg-[#178AB7] w-[11rem] h-[2.375rem] text-[1.125rem] p-auto sm:w-[9.375rem]"
+                  "text-center bg-[#178AB7] w-[11rem] h-[2.375rem] text-[1.125rem] p-auto sm:w-[9.375rem] cursor-pointer"
                 }
+                onClick={() => router.push(MISC_LINKS.TernKey)}
               >
                 Try it Free
               </Button>
               <Button
                 className={
-                  "text-center text-[#178AB7] bg-[#000] w-[11rem] h-[2.375rem] text-[1.125rem] p-auto sm:w-[9.375rem]"
+                  "text-center text-[#178AB7] bg-[#000] w-[11rem] h-[2.375rem] text-[1.125rem] p-auto sm:w-[9.375rem] cursor-pointer"
                 }
               >
                 Watch Demo
@@ -125,7 +128,7 @@ const TernKeyPage: FC = () => {
           enabling a seamless adaptation for developers familiar with
           conventional programming.
         </p>
-        <Button className="mt-[2.69rem] text-center text-[#178AB7] bg-[#000] w-[11rem] h-[2.375rem] text-[1.125rem] p-auto sm:text-[1rem] sm:w-[7.25rem] sm:h-[1.875rem]">
+        <Button className="mt-[2.69rem] text-center text-[#178AB7] bg-[#000] w-[11rem] h-[2.375rem] text-[1.125rem] p-auto sm:text-[1rem] sm:w-[7.25rem] sm:h-[1.875rem] cursor-pointer">
           <span className="text-center">G Handbook</span>
         </Button>
       </section>
@@ -146,7 +149,7 @@ const TernKeyPage: FC = () => {
         className={cn(
           styles.pageSection,
           styles.hideWhenSmall,
-          "mx-auto py-[8rem] flex flex-row gap-[5rem] md:gap-[2.13rem]"
+          "mx-auto py-[8rem] flex gap-[5rem] md:gap-[2.13rem]"
         )}
       >
         <Image
@@ -206,7 +209,7 @@ const TernKeyPage: FC = () => {
               fostering an open and dynamic environment for learning, sharing,
               and growth.
             </span>
-            <Button className="mt-[2.69rem] text-center bg-[#178AB7] w-[11rem] h-[2.375rem] text-[1.125rem] p-auto">
+            <Button className="mt-[2.69rem] text-center bg-[#178AB7] w-[11rem] h-[2.375rem] text-[1.125rem] p-auto cursor-pointer">
               <span className="text-center">Explore Keys</span>
             </Button>
           </div>
@@ -242,7 +245,7 @@ const TernKeyPage: FC = () => {
             platform connects users with software developers globally, fostering
             an open and dynamic environment for learning, sharing, and growth.
           </span>
-          <Button className="mt-[2.69rem] text-center bg-[#178AB7] w-[7.625rem] h-[1.875rem] text-[1.125rem] p-auto place-self-center">
+          <Button className="mt-[2.69rem] text-center bg-[#178AB7] w-[7.625rem] h-[1.875rem] text-[1.125rem] p-auto place-self-center cursor-pointer">
             <span className="text-center">Explore Keys</span>
           </Button>
         </div>
@@ -261,7 +264,7 @@ const TernKeyPage: FC = () => {
               src={SVG_PROFILE}
               alt={"Profile"}
               className={
-                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center "
+                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center"
               }
             />
             <span className="font-bold">Universal Login</span>
@@ -280,7 +283,7 @@ const TernKeyPage: FC = () => {
               src={SVG_STAR}
               alt={"Star"}
               className={
-                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center "
+                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center"
               }
             />
             <span className="font-bold">Earn Stars from Other Users</span>
@@ -298,7 +301,7 @@ const TernKeyPage: FC = () => {
               src={SVG_SEARCH}
               alt={"Search"}
               className={
-                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center "
+                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center"
               }
             />
             <span className="font-bold">Experiment with Other Keys</span>
@@ -317,7 +320,7 @@ const TernKeyPage: FC = () => {
               src={SVG_SHARE}
               alt={"Share"}
               className={
-                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center  "
+                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center"
               }
             />
             <span className="font-bold">Share Beyond the Scope of TernKey</span>
@@ -336,7 +339,7 @@ const TernKeyPage: FC = () => {
               src={SVG_SAVE}
               alt={"Save"}
               className={
-                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center "
+                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center"
               }
             />
             <span className="font-bold">Save Your Keys for Later Use</span>
@@ -354,7 +357,7 @@ const TernKeyPage: FC = () => {
               src={SVG_HEART}
               alt={"Heart"}
               className={
-                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center "
+                "w-[6.25rem] h-[6.25rem] my-[1.56rem] md:w-[4.375rem] md:h-[4.375rem] md:my-[1.56rem] sm:w-[2.5rem] sm:h-[2.5rem] sm:my-[1.25rem] sm:place-self-center"
               }
             />
             <span className="font-bold">Keeping Track of Explore Keys</span>
