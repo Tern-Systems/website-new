@@ -90,7 +90,7 @@ This Policy ensures transparency and demonstrates our commitment to safeguarding
 
 const PrivacyPage = () => (
     <Highlighted heading={'Privacy Policy'}>
-        <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'font-gothic whitespace-pre-line'}/>
+        <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'whitespace-pre-line'}/>
     </Highlighted>
 );
 

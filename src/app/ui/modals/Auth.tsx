@@ -97,7 +97,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     <div className={isSmScreen ? 'hidden' : 'mb-n'}>
                         <Image src={SVG_INSIGNIA} alt={'insignia'}
                                className={`my-xs w-[10rem] h-[9rem]`}/>
-                        {isLoginForm ? null : <span className={'font-gothic text-heading'}>Tern</span>}
+                        {isLoginForm ? null : <span className={'text-heading'}>Tern</span>}
                     </div>
                 </div>
                 <form onSubmit={handleFormSubmit}

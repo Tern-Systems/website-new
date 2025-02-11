@@ -66,7 +66,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                     <div
                         onClick={() => closeModal()}
                         className={cn(
-                            `absolute z-50 flex w-full h-full overflow-hidden font-gothic text-primary select-none`,
+                            `absolute z-50 flex w-full h-full overflow-hidden text-primary select-none`,
                             layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn
                         )}
                     >

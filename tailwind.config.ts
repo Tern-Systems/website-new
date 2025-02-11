@@ -166,10 +166,10 @@ const config: Config = {
                 red: 'var(--color-red)',
             },
             fontFamily: {
-                gothic: ['"Abode Gothic Standard"', 'serif'],
-                english: ['"Old English Five"', 'serif'],
+                gothic: ['"Abode Gothic Standard"', 'sans-serif'],
+                english: ['"Old English Five"', 'sans-serif'],
                 oxygen: ['"Oxygen"', 'sans-serif'],
-                arial: ['"Arial"', 'serif'],
+                arial: ['"Arial"', 'sans-serif'],
             },
             fontSize: {
                 'heading-l': 'var(--fz-heading-l)',

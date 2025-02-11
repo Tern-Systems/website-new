@@ -90,7 +90,7 @@ const Input: FC<Props> = (props: Props) => {
                     className={`relative`}
                 >
                     <span
-                        className={'flex gap-x-[min(4dvw,0.95rem)] font-gothic text-[min(6.4dvw,1.5rem)] text-center justify-center h-[min(6.4dvw,1.5rem)]'}>
+                        className={'flex gap-x-[min(4dvw,0.95rem)] text-[min(6.4dvw,1.5rem)] text-center justify-center h-[min(6.4dvw,1.5rem)]'}>
                         {Code}
                     </span>
                     <input

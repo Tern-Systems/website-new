@@ -122,7 +122,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
         >
             <div className={`flex flex-col items-center max-w-[26rem] ${isSmScreen ? 'hidden' : ''}`}>
                 <Image src={SVG_INSIGNIA} alt={'insignia'} className={'my-[1.25rem] w-[10.42rem] h-[9rem]'}/>
-                <span className={'mb-n font-gothic text-heading'}>Tern</span>
+                <span className={'mb-n text-heading'}>Tern</span>
             </div>
             <form
                 className={'flex flex-col'}

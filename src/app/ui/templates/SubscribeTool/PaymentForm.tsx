@@ -344,7 +344,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     <Button
                         type={'submit'}
                         className={`mt-[min(4dvw,--p-n)] w-full rounded-full bg-gray
-                                    font-gothic text-section-s font-bold text-primary
+                                    text-section-s font-bold text-primary
                                     h-[4.4rem]
                                     sm:h-[3.125rem]`}
                     >

@@ -42,7 +42,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
         <BaseModal
             title={'Remove Payment Method'}
             className={`bg-white [&_hr]:border-gray-l0 [&_h2]:text-gray [&_h2+button]:brightness-50 w-[min(90dvw,33rem)]
-                        font-gothic text-basic`}
+                        text-basic`}
             classNameContent={'text-gray text-center'}
         >
                 <span className={'inline-block'}>

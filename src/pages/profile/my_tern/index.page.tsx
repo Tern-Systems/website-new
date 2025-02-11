@@ -156,7 +156,7 @@ function MyTernPage() {
     return (
         <div className={cn(styles.section, myTernStyles.background, `pt-[6.25rem] min-h-dvh bg-black`)}>
             <section className={cn(styles.content)}>
-                <h1 className={`flex font-bold font-gothic text-[2rem]`}
+                <h1 className={`flex font-bold text-[2rem]`}
                 >
                     Dashboard
                 </h1>
