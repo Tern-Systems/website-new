@@ -1,53 +1,56 @@
-import React, {FC} from "react";
-import Image from "next/image";
-import cn from "classnames";
+import React, { FC } from 'react';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import {ArticleCard} from "@/app/types/blog";
-import {Route} from "@/app/static";
+import { Article } from '@/app/types/blog';
+import { Route } from '@/app/static';
 
-import {useNavigate} from "@/app/hooks";
+import { useNavigate } from '@/app/hooks';
 
-import {Button} from "@/app/ui/form";
+import { Button } from '@/app/ui/form';
 
-import styles from "@/app/common.module.css";
+import styles from '@/app/common.module.css';
 
 import PNG_NATURE from '/public/images/nature.png';
 
 
 interface Props {
-    article: ArticleCard;
+    article: Article;
 }
 
 const ArticleCardLi: FC<Props> = (props: Props) => {
-    const {article} = props;
+    const { article } = props;
 
-    const [navigate] = useNavigate();
+    const [navigate] = useNavigate(true);
 
-    const openArticle = (articleId: string) => {
-        sessionStorage.setItem('article-id', JSON.stringify(articleId));
-        navigate(Route.AllWaysArticle + '/' + articleId as Route);
-    }
+    const openArticle = (article: Article) => {
+        localStorage.setItem('article', JSON.stringify(article));
+        navigate(Route.AllWaysArticle + '/' + article.id as Route);
+    };
 
     return (
         <li
-            onClick={() => openArticle(article.id)}
+            onClick={() => openArticle(article)}
             key={article.title}
-            className={cn(styles.clickable, 'flex flex-col h-full max-w-[22.0625rem] w-full overflow-hidden border-s')}
+            className={cn(styles.clickable, 'flex flex-col min-h-fit h-full max-w-[22.0625rem] w-full overflow-hidden border-s')}
         >
-            <div className={'relative z-10 flex-grow'}>
+            <div className={'relative h-[45%]'}>
+                <div className={'absolute h-full w-full bg-gradient-to-t from-black to-25%'} />
                 <Image
-                    src={article.image ?? PNG_NATURE}
+                    src={article.poster ?? PNG_NATURE}
+                    width={100}
+                    height={100}
                     alt={`article-img`}
                     className={'size-full'}
                 />
             </div>
-            <div className={'relative z-10 items-start p-xs pt-[2.2rem] shadow-[0_-1rem_1rem_#000]'}>
+            <div className={'relative z-10 flex-grow flex flex-col p-xs pt-[2.2rem] items-start'}>
                 <span className={'block mb-n text-section-3xs text-secondary'}>{article.tag}</span>
                 <span className={'block mb-[1.13rem] leading-[1.2]'}>{article.title}</span>
                 <span className={'block mb-n text-section-xxs leading-[1.2]'}>{article.description}</span>
                 <Button
                     icon={'book'}
-                    className={'text-blue'}
+                    className={'mt-auto text-blue'}
                     classNameIcon={'[&_*]:w-[0.67rem]'}
                 >
                     Read
@@ -55,7 +58,7 @@ const ArticleCardLi: FC<Props> = (props: Props) => {
             </div>
         </li>
     );
-}
+};
 
 
-export {ArticleCardLi};
+export { ArticleCardLi };

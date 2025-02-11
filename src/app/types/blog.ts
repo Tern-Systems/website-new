@@ -15,7 +15,7 @@ type Article = {
     tag: ArticleTag;
     title: string;
     description: string;
-    image: string | null;
+    poster: string | null;
     date: number;
     author: {
         name: string;
@@ -26,8 +26,5 @@ type Article = {
     html: string;
 }
 
-type ArticleCard = Pick<Article, 'id' | 'tag' | 'title' | 'description' | 'image'>;
-type ArticlePage = Pick<Article, 'id' | 'title' | 'image' | 'date' | 'author' | 'html'>;
 
-
-export type {ArticleCard, ArticleTag, ArticlePage};
+export type { ArticleTag, Article };

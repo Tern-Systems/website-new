@@ -7,7 +7,7 @@ import {Route} from "@/app/static";
 
 import {ContentAnchors, DocumentationContent} from "@/app/types/documentation";
 
-import {getRouteName} from "@/app/utils";
+import {getIdName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
 import {useLayout} from "@/app/context";
 
@@ -153,7 +153,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         );
 
     const options: Record<string, string> = Object.fromEntries(
-        Object.keys(contents).map((key) => [key, getRouteName(key) ?? ''])
+        Object.keys(contents).map((key) => [key, getIdName(key) ?? ''])
     );
 
     const selectCn = 'h-[2.5rem] ' + (isSelectOpened ? '[&]:bg-gray' : '[&]:bg-transparent border-none');

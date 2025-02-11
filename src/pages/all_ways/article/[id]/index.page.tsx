@@ -1,30 +1,30 @@
-import React, {PropsWithChildren, ReactElement, useEffect, useState} from "react";
-import {EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton} from "react-share";
-import Image from "next/image";
-import cn from "classnames";
+import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
+import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import {ArticleCard, ArticlePage} from "@/app/types/blog";
-import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
+import { Article } from '@/app/types/blog';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
-import {BlogService} from "@/app/services/blog.service";
+import { formatDate } from '@/app/utils';
+import { useBreakpointCheck } from '@/app/hooks';
+import { useModal } from '@/app/context';
 
-import {formatDate} from "@/app/utils";
-import {useBreakpointCheck} from "@/app/hooks";
-import {useModal} from "@/app/context";
+import { Button } from '@/app/ui/form';
+import { MessageModal } from '@/app/ui/modals';
+import { ArticleCardLi } from '@/app/ui/templates';
 
-import {Button} from "@/app/ui/form";
-import {MessageModal} from "@/app/ui/modals";
-import {ArticleCardLi} from "@/app/ui/templates";
-
-import styles from "@/app/common.module.css";
+import styles from '@/app/common.module.css';
 
 import PNG_NATURE from '/public/images/nature-section.png';
-import SVG_PROFILE from "/public/images/icons/profile.svg";
-import SVG_LINK from "/public/images/icons/link.svg";
-import SVG_EMAIL from "/public/images/icons/email.svg";
-import SVG_X from "/public/images/icons/x-twitter.svg";
-import SVG_LINKEDIN from "/public/images/icons/linkedin.svg";
-import SVG_FACEBOOK from "/public/images/icons/facebook.svg";
+import SVG_PROFILE from '/public/images/icons/profile.svg';
+import SVG_LINK from '/public/images/icons/link.svg';
+import SVG_EMAIL from '/public/images/icons/email.svg';
+import SVG_X from '/public/images/icons/x-twitter.svg';
+import SVG_LINKEDIN from '/public/images/icons/linkedin.svg';
+import SVG_FACEBOOK from '/public/images/icons/facebook.svg';
+import { BlogService } from '@/app/services/blog.service';
+import { useParams } from 'next/navigation';
 
 
 // eslint-disable-next-line
@@ -37,74 +37,88 @@ const SHARE_BTNS = [
             </Button>
         ),
     },
-    {icon: SVG_EMAIL, Element: EmailShareButton},
-    {icon: SVG_X, Element: TwitterShareButton},
-    {icon: SVG_LINKEDIN, Element: LinkedinShareButton},
-    {icon: SVG_FACEBOOK, Element: FacebookShareButton},
-]
+    { icon: SVG_EMAIL, Element: EmailShareButton },
+    { icon: SVG_X, Element: TwitterShareButton },
+    { icon: SVG_LINKEDIN, Element: LinkedinShareButton },
+    { icon: SVG_FACEBOOK, Element: FacebookShareButton },
+];
 
 const RELATED_CARDS_COUNT = 4;
 
 
-function Article() {
+function ArticlePage() {
+    const { id } = useParams() ?? {} as { id: string };
     const modalCtx = useModal();
     const isLg = useBreakpointCheck() === Breakpoint.lg;
 
-    const [article, setArticle] = useState<ArticlePage | null>(null);
-    const [cards, setCards] = useState<ArticleCard[]>([]);
+    const [content, setContent] = useState<Article | null>(null);
+    const [cards, setCards] = useState<Article[]>([]);
 
 
     useEffect(() => {
-        const fetchArticle = async () => {
-            try {
-                const articleId = sessionStorage.getItem('article-id');
-                if (!articleId)
-                    throw 'Wrong article id';
-                const {payload} = await BlogService.getArticle(articleId);
-                setArticle(payload.article);
-            } catch (error: unknown) {
-                if (typeof error === 'string')
-                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
-            }
-        }
-        const fetchArticles = async () => {
-            try {
-                const {payload} = await BlogService.getArticles(RELATED_CARDS_COUNT);
-                setCards(payload.articles);
-            } catch (error: unknown) {
-                if (typeof error === 'string')
-                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
-            }
-        }
-        fetchArticle();
-        fetchArticles();
+        const fetchContent = async () => {
+            const articleStr: string | null = localStorage.getItem('article');
+            if (articleStr) {
+                const article: Article = JSON.parse(articleStr);
+
+                const url = article.html;
+                article.html = '';
+                setContent(article);
+
+                try {
+                    const response = await BlogService.getArticleContent(url);
+                    article.html = response.payload;
+                } catch (error: unknown) {
+                    const msg = `Error fetching article's content`;
+                    article.html = msg;
+                    if (typeof error === 'string')
+                        modalCtx.openModal(<MessageModal>{msg}</MessageModal>);
+                }
+
+                setContent(article);
+            } else
+                modalCtx.openModal(<MessageModal>Encountered an error while preparing the article</MessageModal>);
+        };
+
+        fetchContent();
+
+        const cards: string | null = localStorage.getItem('article-cards');
+        if (cards)
+            setCards(JSON.parse(cards));
         //eslint-disable-next-line
-    }, [])
+    }, [id]);
 
 
     // Elements
     const ShareBtnsLi: ReactElement[] = SHARE_BTNS.map((btn, idx) => (
         <li key={btn.icon.src + idx} className={styles.clickable}>
             <btn.Element url={window.location.href} window={window}>
-                <Image src={btn.icon} alt={'social-link'} className={'size-[2.5rem]'}/>
+                <Image src={btn.icon} alt={'social-link'} className={'size-[2.5rem]'} />
             </btn.Element>
         </li>
-    ))
+    ));
 
     const CardsLi: ReactElement[] = cards
+        .filter((article) => article.id !== content?.id)
         .slice(0, RELATED_CARDS_COUNT - +isLg)
-        .map((article, idx) => <ArticleCardLi key={article.id + idx} article={article}/>);
+        .map((article, idx) => <ArticleCardLi key={article.id + idx} article={article} />);
 
     return (
         <div className={cn(styles.section, 'pb-[10rem] min-h-dvh bg-black font-oxygen')}>
             <div className={cn(styles.content, 'pt-[3.75rem]')}>
-                <h1 className={'text-[4rem]'}>{article?.title}</h1>
+                <h1 className={'text-[4rem] leading-[1.2]'}>{content?.title}</h1>
                 <div className={'mt-[4.4rem] w-full'}>
-                    <Image src={article?.image ?? PNG_NATURE} alt={'article-image'} className={'size-full'}/>
+                    <Image
+                        src={content?.poster ?? PNG_NATURE}
+                        alt={'article-image'}
+                        width={200}
+                        height={200}
+                        className={'size-full'}
+                    />
                 </div>
                 <div className={'mt-xl py-s border-y-s border-gray-l0'}>
-                    <span className={cn({['text-section-xxs']: !article?.date})}>
-                        {article?.date ? formatDate(new Date(article?.date)) : '-- date is not provided --'}
+                    <span className={cn({ ['text-section-xxs']: !content?.date })}>
+                        {content?.date ? formatDate(new Date(content?.date)) : '-- date is not provided --'}
                     </span>
                 </div>
                 <div className={'py-s border-b-s border-gray-l0'}>
@@ -113,17 +127,22 @@ function Article() {
                 </div>
                 <div className={'mt-[6.91rem]'}>
                     <span className={'block mb-xxs font-bold'}>Author</span>
-                    <span className={'grid grid-rows-2 grid-cols-[min-content,1fr] gap-x-l'}>
+                    <span className={'grid grid-rows-2 grid-cols-[min-content,1fr] gap-x-l items-center'}>
                         <span className={'row-span-2 size-[3.125rem]'}>
-                            <Image src={article?.author?.image ?? SVG_PROFILE} alt={'author-image'}
-                                   className={'size-full'}/>
+                            <Image
+                                src={content?.author?.image ?? SVG_PROFILE}
+                                alt={'author-image'}
+                                width={50}
+                                height={50}
+                                className={'size-full'}
+                            />
                         </span>
-                        <span className={'font-bold'}>{article?.author.name}</span>
-                        <span>{article?.author.position}, {article?.author.company}</span>
+                        <span className={'font-bold'}>{content?.author.name}</span>
+                        <span>{content?.author.position}, {content?.author.company}</span>
                     </span>
                 </div>
 
-                <div className={'mt-[3.5rem]'} dangerouslySetInnerHTML={{__html: article?.html ?? ''}}/>
+                <div className={'mt-[3.5rem]'} dangerouslySetInnerHTML={{ __html: content?.html ?? '' }} />
 
                 <div className={'mt-[10.3rem]'}>
                     <ul
@@ -142,4 +161,4 @@ function Article() {
 }
 
 
-export default Article;
+export default ArticlePage;
