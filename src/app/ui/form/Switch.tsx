@@ -1,4 +1,7 @@
 import {FC} from "react";
+
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
+
 import {useBreakpointCheck} from "@/app/hooks";
 
 
@@ -10,7 +13,7 @@ interface Props {
 
 const Switch: FC<Props> = (props: Props) => {
     const {handleSwitch, state, className} = props;
-    const isSmScreen = useBreakpointCheck()=== 'sm';
+    const isSmScreen = useBreakpointCheck()<= Breakpoint.sm;
 
     return (
         <div
@@ -18,11 +21,11 @@ const Switch: FC<Props> = (props: Props) => {
             onClick={() => handleSwitch()}
         >
             <div
-                className={`flex border-[0.1rem] rounded-full text-small border-control-gray-l0
-                            w-[--h-control] h-[min(2.4dvw,0.8rem)]`}
+                className={`flex border-[0.1rem] rounded-full text-section border-gray-l0
+                            w-h-button-n h-[min(2.4dvw,0.8rem)]`}
             >
                 <div
-                    className={`w-1/2 h-full rounded-full cursor-pointer font-bold capitalize bg-control-white border-small border-control-gray-l0 
+                    className={`w-1/2 h-full rounded-full cursor-pointer font-bold capitalize bg-white border-s border-gray-l0 
                             ${state ? 'ml-auto [&]:bg-[#23af7a]' : ''}`}
                 />
             </div>
@@ -31,4 +34,5 @@ const Switch: FC<Props> = (props: Props) => {
     );
 };
 
-export {Switch}
+
+export {Switch};

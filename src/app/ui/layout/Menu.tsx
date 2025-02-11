@@ -1,55 +1,53 @@
-import {FC, ReactElement, useEffect, useState} from "react";
-import {usePathname} from "next/navigation";
-import Image from "next/image";
-import cn from "classnames";
+import { Dispatch, FC, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import cn from 'classnames';
 
-import {NavLink} from "@/app/context/Layout.context";
-import {ALWAYS_MAPPED_ROUTES, LANGUAGE, MAPPED_SUB_NAV_ROUTES, Route, SPECIAL_NAV_ROUTES} from "@/app/static";
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { ALWAYS_MAPPED_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route, SPECIAL_NAV_ROUTES } from '@/app/static';
 
-import {checkSubRoute, getRouteLeave, getRouteName, getRouteRoot, sliceRoute} from "@/app/utils";
-import {useLayout, useModal, useUser} from "@/app/context";
-
-import {BaseModal} from "@/app/ui/modals";
-import {PageLink} from "@/app/ui/layout";
-
-import SVG_GLOBE from "/public/images/icons/globe.svg";
+import { checkSubRoute, getRouteLeave, getRouteName, getRouteRoot, sliceRoute } from '@/app/utils';
+import { useLayout } from '@/app/context';
+import { PageLink } from '@/app/ui/layout';
+import { BaseModal } from '@/app/ui/modals';
 
 
-const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-control-blue]';
-const ACTIVE_ROUTE_CN = `border-small border-control-blue mx-0 px-[1.125rem] border-l-[0.2rem]`;
+const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-blue]';
+const ACTIVE_ROUTE_CN = `border-s border-blue mx-0 px-[1.125rem] border-l-[0.2rem]`;
+
 
 interface Props {
     singleSubLink?: boolean;
+    openedState: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
-const MenuModal: FC<Props> = (props: Props) => {
-    const {singleSubLink} = props;
+const Menu: FC<Props> = (props: Props) => {
+    const { singleSubLink, openedState } = props;
+
+    const [opened, setOpened] = openedState;
 
     const route = usePathname();
-    const userCtx = useUser();
-    const {navLinks, getSubNavs} = useLayout();
+    const { navLinks, getSubNavs } = useLayout();
     //eslint-disable-next-line
-    const modalCtx = useModal();
 
     const [isFirstActive, setFirstActiveState] = useState(false);
 
+    const ref = useRef<HTMLDivElement | null>(null);
+
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
-            if (!document.querySelector('#modal')?.contains(event.target as Node))
-                modalCtx.closeModal();
-        }
+            if (opened && !ref.current?.contains(event.target as Node))
+                setOpened(false);
+        };
         window.addEventListener('mousedown', handleClick);
         return () => window.removeEventListener('mousedown', handleClick);
-        // eslint-disable-next-line
-    }, [])
+    }, [setOpened, opened]);
 
 
     const renderSub2Nav = (): ReactElement[] | undefined =>
-        navLinks[NavLink.Sub2Nav]?.map((link, idx, array) => {
+        navLinks[NavLink.Sub2Nav]?.map((link, idx) => {
             const isProfilePath = route?.includes(Route.Profile);
 
             const isActive = checkSubRoute(route, link, true);
-            const isNextActive = checkSubRoute(route, array[idx + 1], true); // last+1 always undefined
 
             const routeName = getRouteName(MAPPED_SUB_NAV_ROUTES?.[link] ?? link);
 
@@ -59,11 +57,9 @@ const MenuModal: FC<Props> = (props: Props) => {
                         href={link}
                         timeout={0}
                         icon={!isActive ? 'forward' : undefined}
-                        style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 2 : 2) * 0.6 : 2.6) + 'rem'}}
+                        style={{ marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 2 : 2) * 0.6 : 2.6) + 'rem' }}
                         className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
                             [ACTIVE_ROUTE_CN]: isActive || isProfilePath,
-                            ['border-b-small']: !isNextActive,
-                            ['[&]:border-t-0']: !idx,
                         })}
                     >
                         {routeName ? <span>{routeName}</span> : null}
@@ -73,15 +69,14 @@ const MenuModal: FC<Props> = (props: Props) => {
         });
 
     const renderSubNav = (): ReactElement[] | undefined =>
-        navLinks[NavLink.SubNav]?.map((link, idx, array) => {
+        navLinks[NavLink.SubNav]?.map((link, idx) => {
             const isProfilePath = route?.includes(Route.Profile);
 
             const subNavRoute = singleSubLink ? route : link;
 
             const isActive = checkSubRoute(route, link, singleSubLink || !idx);
-            const isNextActive = checkSubRoute(route, array[idx + 1], singleSubLink); // last+1 always undefined
 
-            const subNav = getSubNavs(subNavRoute as Route)[1];
+            const subNav = getSubNavs(subNavRoute as Route, Breakpoint.xs)[NavLink.Sub2Nav];
 
             const hasSubRoutes = subNav !== null && subNav?.length > 0;
             const renderSubRoutes = hasSubRoutes
@@ -93,7 +88,7 @@ const MenuModal: FC<Props> = (props: Props) => {
             const mapRoute = mappedLink && ALWAYS_MAPPED_ROUTES.some(check => (
                     getRouteLeave(link).includes(check))
                 || isActive && !renderSubRoutes
-                || !isActive && checkSubRoute(route, link) && !renderSubRoutes
+                || !isActive && checkSubRoute(route, link) && !renderSubRoutes,
             );
 
             const routeName = getRouteName(SPECIAL_NAV_ROUTES?.[link] ?? (mapRoute ? mappedLink : link));
@@ -104,11 +99,9 @@ const MenuModal: FC<Props> = (props: Props) => {
                         href={link}
                         timeout={0}
                         icon={!isActive ? 'forward' : undefined}
-                        style={{marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 1.6) + 'rem'}}
+                        style={{ marginLeft: (isActive || isProfilePath ? (isProfilePath ? idx + 1 : 1) * 0.6 : 1.6) + 'rem' }}
                         className={cn(`relative`, `justify-center place-content-start`, `pr-[1.125rem]`, NAV_CN, {
                             [ACTIVE_ROUTE_CN]: isActive || isProfilePath,
-                            ['border-b-small']: !isNextActive,
-                            ['[&]:border-t-0']: !idx,
                         })}
                     >
                         {routeName ? <span>{routeName}</span> : null}
@@ -146,16 +139,13 @@ const MenuModal: FC<Props> = (props: Props) => {
                 <PageLink
                     href={link}
                     timeout={0}
-                    icon={!isActive ? 'forward' : undefined}
-                    className={cn(`justify-center`, NAV_CN, {
-                        [ACTIVE_ROUTE_CN]: isActive,
-                        ['mx-[1.25rem]']: !isActive,
-                        ['border-b-small']: !isNextActive
-                    })}
+                    className={cn(
+                        `justify-center`, NAV_CN,
+                        isActive ? ACTIVE_ROUTE_CN : 'px-xs',
+                        { ['border-b-s']: !isNextActive },
+                    )}
                 >
-                    <span>
-                          {mappedLink ? mappedLink : getRouteName(SPECIAL_NAV_ROUTES?.[link] ?? link)}
-                    </span>
+                    <span>{mappedLink ? mappedLink : getRouteName(SPECIAL_NAV_ROUTES?.[link] ?? link)}</span>
                 </PageLink>
                 {isActive ? renderSubNav() : null}
             </span>
@@ -163,23 +153,19 @@ const MenuModal: FC<Props> = (props: Props) => {
     });
 
     return (
-        <BaseModal adaptSmScreen smScreenOnly
+        <BaseModal adaptBreakpoint={Breakpoint.sm} adaptedDefault
                    className={cn(
-                       `ml-auto w-full sm:landscape:x-[!max-w-[46dvw],!w-[46dvw],text-content-small]`,
-                       {['[&_hr]:hidden']: isFirstActive}
+                       `ml-auto w-full sm:landscape:x-[!max-w-[46dvw],!w-[46dvw],text-section-s]`,
+                       { ['[&_hr]:hidden']: isFirstActive },
                    )}
                    classNameContent={'h-[calc(100dvh-var(--h-heading-modal))] overflow-y-scroll'}
         >
-            <ul className={`flex flex-col  gap-x-[--s-default]`}>
+            <ul>
                 {NavLinks}
             </ul>
-            {/*TODO add language support*/}
-            <div className={`lg:hidden md:hidden    flex items-center self-start    gap-x-[0.63rem] p-[1.25rem]`}>
-                <Image src={SVG_GLOBE} alt={'globe'} className={'w-[1.125rem] h-auto'}/>
-                <span>{userCtx.userData ? LANGUAGE[userCtx.userData.language] : '--'}</span>
-            </div>
         </BaseModal>
-    )
-}
+    );
+};
 
-export {MenuModal};
+
+export { Menu };

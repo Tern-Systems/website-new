@@ -1,24 +1,25 @@
-import React, {FC} from "react";
-import cn from "classnames";
+import React, { FC } from 'react';
+import cn from 'classnames';
 
-import {FormInit, FormType} from "@/app/ui/form/Editable";
-import {UpdateUserData} from "@/app/services/user.service";
+import { FormInit, FormType } from '@/app/ui/form/Editable';
+import { UpdateUserData } from '@/app/services/user.service';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
-import {REGEX} from "@/app/static";
+import { REGEX } from '@/app/static';
 
-import {AuthService, UserService} from "@/app/services";
+import { AuthService, UserService } from '@/app/services';
 
-import {formatDate} from "@/app/utils";
-import {useBreakpointCheck} from "@/app/hooks";
-import {useUser} from "@/app/context/User.context";
-import {useModal} from "@/app/context";
+import { formatDate } from '@/app/utils';
+import { useBreakpointCheck } from '@/app/hooks';
+import { useUser } from '@/app/context/User.context';
+import { useModal } from '@/app/context';
 
-import {Collapsible} from "@/app/ui/misc";
-import {Button, Editable} from "@/app/ui/form";
-import {AuthenticationCode} from "@/app/ui/modals";
-import {getSimpleToggleProps, SectionProps} from "../index.page";
+import { Collapsible } from '@/app/ui/misc';
+import { Button, Editable } from '@/app/ui/form';
+import { AuthenticationCode } from '@/app/ui/modals';
+import { getSimpleToggleProps, SectionProps } from '../index.page';
 
-import styles from "@/pages/profile/Profile.module.css";
+import styles from '@/pages/profile/Profile.module.css';
 
 
 const ACCOUNT = 'Account Credentials';
@@ -29,7 +30,7 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
 
     const {userData, token} = useUser();
     const modalCtx = useModal();
-    const isSm = useBreakpointCheck() === 'sm';
+    const isSm = useBreakpointCheck() === Breakpoint.sm;
 
     if (!userData || !token)
         return null;

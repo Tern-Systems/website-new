@@ -1,22 +1,28 @@
-import {useBreakpointCheck} from "./useBreakpointCheck";
-import {useModal} from "@/app/context";
+import { FC, useState } from 'react';
+import cn from 'classnames';
 
-import {MenuModal} from "@/app/ui/modals";
-
-
-const useMenu = (isSingleSubLink?: boolean): [() => void, () => void] => {
-    const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck() === 'sm';
-
-    const openMenu = () => {
-        if (isSmScreen)
-            modalCtx.openModal(<MenuModal singleSubLink={isSingleSubLink}/>, {doFading: false});
-    }
-
-    const closeMenu = () => modalCtx.closeModal();
-
-    return [openMenu, closeMenu];
-}
+import { Button } from '@/app/ui/form';
+import { Menu } from '@/app/ui/layout/Menu';
 
 
-export {useMenu};
+const useMenu = (singleSubLink?: boolean): [FC, boolean, FC] => {
+    const [opened, setOpened] = useState(false);
+
+    const MenuControlled: FC = () => opened
+        ? <Menu singleSubLink={singleSubLink} openedState={[opened, setOpened]} />
+        : null;
+
+    const MenuToggle: FC = () => (
+        <Button
+            onClick={() => setOpened(prevState => !prevState)}
+            icon={opened ? 'close' : 'burger'}
+            className={cn(`px-s`, { ['bg-gray-d0']: opened })}
+            classNameIcon={'!size-heading-icon h-auto'}
+        />
+    );
+
+    return [MenuToggle, opened, MenuControlled];
+};
+
+
+export { useMenu };

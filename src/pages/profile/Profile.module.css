@@ -15,11 +15,11 @@
 
 
 .collapsible {
-    row-gap: var(--p-content-l);
+    row-gap: var(--p-l);
 }
 
 .common {
-    border: var(--b-small) solid var(--b-control-white);
+    border: var(--b-s) solid var(--b-white);
 
     --px: 0.76rem;
     padding-left: var(--px);
@@ -52,9 +52,9 @@
 
 
 .singleInputBase {
-    background-color: var(--bg-control-gray-l0);
+    background-color: var(--bg-gray-l0);
 
-    --py: var(--p-content-5xs);
+    --py: var(--p-5xs);
     padding-top: var(--py);
     padding-bottom: var(--py);
 }
@@ -70,7 +70,7 @@
     display: flex;
     align-items: center;
 
-    padding: 0 var(--p-content-xxs);
+    padding: 0 var(--p-xxs);
     max-width: 10rem;
     width: fit-content;
     height: 1.43rem;

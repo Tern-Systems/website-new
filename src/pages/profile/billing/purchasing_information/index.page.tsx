@@ -65,12 +65,12 @@ function PurchasingInformationPage() {
             setDefaultCardIdx(idx);
 
         return (
-            <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-content items-center'}>
+            <li key={card.last4 + idx} className={'flex gap-[0.65rem] text-heading-s items-center'}>
                 <Image src={SVG_CARD} alt={'card'} className={'w-[1.35419rem] h-auto'}/>
                 <span>{card.nickName ?? (card.cardType + ' **** ' + card.last4)}</span>
                 <span
                     hidden={!card.preferred}
-                    className={'text-note py-[0.28rem] px-[0.76rem] bg-control-white-d0 rounded-smallest1'}
+                    className={'text-basic py-[0.28rem] px-[0.76rem] bg-white-d0 rounded-xxs'}
                 >
                     Preferred
                 </span>
@@ -97,45 +97,45 @@ function PurchasingInformationPage() {
         )
     });
 
-    const Hr = <hr className={'border-control-white-d0 mt-[--s-small] mb-[--s-normal]'}/>;
+    const Hr = <hr className={'border-white-d0 mt-3xs mb-s'}/>;
 
     return (
-        <div className={`mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)] sm:x-[mt-[--2dr]]`}>
-            <h1 className={`text-header-l font-bold mb-[min(8dvw,5.76rem)]
-                            sm:landscape:x-[mb-[--2dr],text-content]`}
+        <div className={`mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)] sm:x-[mt-l]`}>
+            <h1 className={`text-heading-l font-bold mb-[min(8dvw,5.76rem)]
+                            sm:landscape:x-[mb-l,text-heading-s]`}
             >
                 Purchasing Information
             </h1>
-            <div className={'px-[min(2.7dvw,0.625rem)] sm:portrait:px-0 text-default'}>
+            <div className={'px-[min(2.7dvw,0.625rem)] sm:portrait:px-0 text-basic'}>
                 <div className={`grid grid-cols-2 gap-[min(8dvw,10rem)] mb-[min(8dvw,7rem)]
                             sm:grid-cols-1
-                            sm:landscape:x-[gap-y-[--2dr],mb-[--2dr]]`}>
+                            sm:landscape:x-[gap-y-l,mb-l]`}>
                     <div>
                         <div className={`flex justify-between`}>
-                            <h2 className={'text-header font-bold   sm:landscape:text-content'}>Payment Method</h2>
+                            <h2 className={'text-heading font-bold   sm:landscape:text-heading-s'}>Payment Method</h2>
                             <PageLink href={Route.EditPaymentMethod} prevent={!savedCards.length}>
-                                <Button icon={'edit'} className={'text-small flex-row-reverse'}
+                                <Button icon={'edit'} className={'text-section flex-row-reverse'}
                                         onClick={() => router.push(Route.EditPaymentMethod)}>
                                     <span className={'sm:hidden'}>Edit</span>
                                 </Button>
                             </PageLink>
                         </div>
                         {Hr}
-                        <ul className={`flex flex-col gap-[--1dr]`}>
+                        <ul className={`flex flex-col gap-xxs`}>
                             {Cards}
                         </ul>
                         <PageLink href={Route.AddPaymentMethod}
-                                  className={'font-bold mt-[min(2.7dvw,1.5rem)]    sm:landscape:mt-[--s-d-small]'}>
+                                  className={'font-bold mt-[min(2.7dvw,1.5rem)]    sm:landscape:mt-3xs'}>
                             <Button icon={'plus'}>Add alternative payment method</Button>
                         </PageLink>
                     </div>
                     <div>
-                        <h2 className={`text-header font-bold   sm:landscape:text-content`}>Billing Details</h2>
+                        <h2 className={`text-heading font-bold   sm:landscape:text-heading-s`}>Billing Details</h2>
                         {Hr}
                         <div
                             className={`grid grid-rows-2 grid-cols-[max-content,1fr]
-                                        gap-y-[--1qdrs] gap-x-[min(10dvw,3rem)]
-                                        sm:landscape:gap-y-[--s-d-small]`}
+                                        gap-y-xs gap-x-[min(10dvw,3rem)]
+                                        sm:landscape:gap-y-3xs`}
                         >
                             <span>Name</span>
                             <span>
@@ -159,16 +159,16 @@ function PurchasingInformationPage() {
                     </div>
                 </div>
                 <div className={`flex justify-between items-center`}>
-                    <h2 className={'text-header font-bold text-left   sm:landscape:text-content'}>Invoice History</h2>
+                    <h2 className={'text-heading font-bold text-left   sm:landscape:text-heading-s'}>Invoice History</h2>
                     <Button
-                        className={'border-small border-control-white-d0 px-[min(2.1dvw,1rem)] text-small h-[--h-control] rounded-full font-bold'}
+                        className={'border-s border-white-d0 px-[min(2.1dvw,1rem)] text-section h-h-button-n rounded-full font-bold'}
                         onClick={() => modalCtx.openModal(<ExportInvoiceModal/>, {darkenBg: true})}
                     >
                         Export
                     </Button>
                 </div>
                 {Hr}
-                <div className={'overflow-hidden rounded-small max-h-[27rem]'}>
+                <div className={'overflow-hidden rounded-s max-h-[27rem]'}>
                     <div className={`overflow-y-scroll h-full capitalize`}>
                         <table className={'w-full'} cellPadding={'1.25'}>
                             <tbody>{InvoiceRows}</tbody>

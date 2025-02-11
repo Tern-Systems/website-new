@@ -68,9 +68,9 @@ const AboutPage: FC = () => {
                             <h1
                                 className={cn(styles.textGlow,
                                     `w-min font-oxygen font-bold text-right leading-[1.2]`,
-                                    `mb-[--p-content] text-[8rem]`,
+                                    `mb-n text-[8rem]`,
                                     `md:text-[6rem]  md:landscape:text-[2.5rem]`,
-                                    `sm:x-[flex,w-[20rem],mt-[--p-content-xl],text-[2.5rem]]`,
+                                    `sm:x-[flex,w-[20rem],mt-n,text-[2.5rem]]`,
                                 )}
                             >
                                 Reaching New Heights
@@ -100,28 +100,28 @@ const AboutPage: FC = () => {
                         )}>
                             <div>
                                 <h2 className={cn(
-                                    'mb-[--p-content-xl] font-oxygen text-[4rem]  sm:x-[mb-[--p-content-xs],text-[1.6875rem]]',
-                                    'md:text-[3rem] md:landscape:x-[text-[1.6875rem],mb-[--p-content-xs]]'
+                                    'mb-xl font-oxygen text-[4rem]  sm:x-[mb-xs,text-heading]',
+                                    'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]'
                                 )}>
                                     Mission
                                 </h2>
                                 <p className={cn(
                                     'leading-tight text-[2.5rem]   sm:text-[1.1875rem]',
-                                    'md:text-[2.25rem] md:landscape:text-[1.1875rem]'
+                                    'md:text-heading-l md:landscape:text-[1.1875rem]'
                                 )}>
                                     Revolutionize computing by harnessing the power of ternary microprocessors.
                                 </p>
                             </div>
                             <div>
                                 <h2 className={cn(
-                                    'mb-[--p-content-xl] font-oxygen text-[4rem]  sm:x-[mb-[--p-content-xs],text-[1.6875rem]]',
-                                    'md:text-[3rem] md:landscape:x-[text-[1.6875rem],mb-[--p-content-xs]]'
+                                    'mb-xl font-oxygen text-[4rem]  sm:x-[mb-xs,text-heading]',
+                                    'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]'
                                 )}>
                                     Vision
                                 </h2>
                                 <p className={cn(
                                     'leading-tight text-[2.5rem]   sm:text-[1.1875rem]',
-                                    'md:text-[2.25rem] md:landscape:text-[1.1875rem]'
+                                    'md:text-heading-l md:landscape:text-[1.1875rem]'
                                 )}>
                                     Ushering in the era of efficient computing, equipping all legacy devices with
                                     advanced microprocessors.
@@ -139,9 +139,9 @@ const AboutPage: FC = () => {
                         <h1
                             className={cn(styles.textGlow,
                                 `ml-auto w-min font-oxygen font-bold text-right leading-[1.2] text-black`,
-                                `mb-[--p-content] text-[6rem]`,
+                                `mb-n text-[6rem]`,
                                 `md:text-[4rem]  md:landscape:text-[3rem]`,
-                                `sm:x-[mb-[--p-content-xs],text-[3rem]]`,
+                                `sm:x-[mb-xs,text-[3rem]]`,
                             )}
                         >
                             Understand Our Why
@@ -162,16 +162,16 @@ const AboutPage: FC = () => {
                         <Info
                             data={INFO}
                             className={'pt-[12rem]'}
-                            classNameTitle={'md:text-heading-l  sm:x-[text-[1.75rem],mb-[--p-content-xl]]'}
-                            classNameSubTitle={'mb-[--p-content-4xs] text-documentation  lg:text-[2.5rem]  sm:text-documentation'}
+                            classNameTitle={'md:text-heading-l  sm:x-[text-[1.75rem],mb-xl]'}
+                            classNameSubTitle={'mb-4xs text-documentation  lg:text-[2.5rem]  sm:text-documentation'}
                             classNameContent={'md:x-[max-w-[62rem],mx-auto]'}
                             classNameDescription={'text-basic  lg:text-section'}
                             classNamePageLink={cn(
                                 'flex items-center justify-center rounded-none',
-                                'w-full max-w-[8.4375rem] h-[2.375rem] mt-[--p-content-xxl] [&]:p-0 ',
+                                'w-full max-w-[8.4375rem] h-[2.375rem] mt-n [&]:p-0 ',
                                 '[&]:text-section-s  [&]:sm:text-basic',
-                                'md:mt-[--p-content-xl]',
-                                'sm:x-[mt-[--p-content],h-[1.875rem],max-w-[7.3125rem],text-basic] ',
+                                'md:mt-n',
+                                'sm:x-[mt-n,h-[1.875rem],max-w-[7.3125rem],text-basic] ',
                             )}
                         />
                         <InsideTern

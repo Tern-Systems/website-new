@@ -15,9 +15,10 @@ import styles from '@/app/common.module.css'
 import SVG_ARROW from '/public/images/icons/arrow.svg';
 import SVG_ARROW_SQUARE from '/public/images/icons/arrow-square.svg';
 import SVG_BURGER_MENU from "/public/images/icons/burger-menu.svg";
+import SVG_BOOK from "/public/images/icons/book-opened.svg";
 import SVG_CHECK_FLOWER from '/public/images/icons/checkmark-flower.svg';
 import SVG_CHECK_SQUARE from '/public/images/icons/checkmark-square.svg';
-import SVG_CHEVRON from "/public/images/icons/chewron.svg";
+import SVG_CHEVRON from "/public/images/icons/chevron.svg";
 import SVG_CLOSE from '/public/images/icons/close.svg';
 import SVG_CLOSE_SQUARE from '/public/images/icons/close-square.svg';
 import SVG_DELETE from "/public/images/icons/delete.svg";
@@ -43,6 +44,7 @@ import SVG_WARN from "/public/images/icons/warn.svg";
 type ButtonIcon =
     | 'arrow'
     | 'arrow-square'
+    | 'book'
     | 'burger'
     | 'chevron'
     | 'close'
@@ -71,6 +73,7 @@ type ButtonIcon =
 const ICON: Record<ButtonIcon, { src: string }> = {
     arrow: SVG_ARROW,
     'arrow-square': SVG_ARROW_SQUARE,
+    book: SVG_BOOK,
     burger: SVG_BURGER_MENU,
     chevron: SVG_CHEVRON,
     close: SVG_CLOSE,
@@ -139,7 +142,7 @@ const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, PropsWithoutR
             className={cn(
                 `text-nowrap cursor-pointer  disabled:cursor-default group`,
                 className, styles.clickable,
-                {['flex items-center justify-center gap-x-[--p-content-5xs]']: icon ?? hovered?.icon}
+                {['flex items-center justify-center gap-x-5xs']: icon ?? hovered?.icon}
             )}
         >
             {Icon}

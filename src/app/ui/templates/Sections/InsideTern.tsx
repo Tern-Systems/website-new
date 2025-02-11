@@ -1,14 +1,15 @@
-import React, { FC, ReactElement } from "react";
-import Image from "next/image";
-import cn from "classnames";
+import React, { FC, ReactElement } from 'react';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import { useBreakpointCheck } from "@/app/hooks";
+import { useBreakpointCheck } from '@/app/hooks';
 
-import { SectionCard } from "@/app/types/layout";
+import { SectionCard } from '@/app/types/layout';
 
-import { Button } from "@/app/ui/form";
+import { Button } from '@/app/ui/form';
 
-import styles from "@/app/common.module.css";
+import styles from '@/app/common.module.css';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 
 interface Props {
@@ -21,14 +22,14 @@ interface Props {
 const InsideTern: FC<Props> = (props: Props) => {
     const { data, className, classNameContent, classNameCompanyLi } = props;
 
-    const isMdScreen = useBreakpointCheck() === 'md';
+    const isMdScreen = useBreakpointCheck() === Breakpoint.md;
 
     const CompanyLi: ReactElement[] = data.map((entry, idx) => (
         <li
             key={entry.title + idx}
             className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
         >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
+            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-section-3xs'}>
                 {entry.title}
             </h4>
             <p>{entry.description}</p>
@@ -66,7 +67,7 @@ const InsideTern: FC<Props> = (props: Props) => {
                 <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
                     Inside Tern
                 </h2>
-                <ul className={cn('grid  grid-cols-1 gap-[--p-content-xxl]  lg:x-[grid-cols-2,gap-[3.63rem]]', classNameCompanyLi)}>
+                <ul className={cn('grid  grid-cols-1 gap-xxl  lg:x-[grid-cols-2,gap-[3.63rem]]', classNameCompanyLi)}>
                     {CompanyLi}
                 </ul>
             </div>

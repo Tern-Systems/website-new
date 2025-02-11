@@ -62,25 +62,25 @@ const ContactsPage: FC = () => {
                     'w-full h-screen',
                 )}
             />
-
-            <section className={cn(styles.section, styles.fullHeightSection)}>
-                <div className={cn(styles.content, 'relative flex justify-start items-start')}>
-                    <div>
-                        <h1
-                            className={cn(styles.textGlow,
-                                `w-min font-oxygen font-bold text-left leading-[1.2]`,
-                                `mb-[--p-content] text-[6rem]`,
-                                `lg:x-[w-full,mt-[6.25rem]]`,
-                                `md:x-[mt-[--p-content-xl],text-[6rem]]`,
-                                `sm:x-[flex,mt-[--p-content-xs],text-[3.9375rem]]`,
-                            )}
-                        >
-                            Contact Tern
-                        </h1>
+            <div className={'relative z-10'}>
+                <section className={cn(styles.section, styles.fullHeightSection)}>
+                    <div className={cn(styles.content, 'flex justify-start items-start')}>
+                        <div>
+                            <h1
+                                className={cn(styles.textGlow,
+                                    `w-min font-oxygen font-bold text-left leading-[1.2]`,
+                                    `mb-n text-[6rem]`,
+                                    `lg:x-[w-full,mt-[6.25rem]]`,
+                                    `md:x-[mt-xl,text-[6rem]]`,
+                                    `sm:x-[flex,mt-xs,text-[3.9375rem]]`,
+                                )}
+                            >
+                                Contact Tern
+                            </h1>
+                        </div>
                     </div>
-                </div>
-            </section>
-            <div className={'relative'}>
+                </section>
+
                 <section
                     className={cn(styles.textGlow, styles.section, 'relative z-10',
                         'bg-black bg-gradient-to-b from-[--bg-control-blue] from-5% via-black via-30%',
@@ -155,7 +155,7 @@ const ContactsPage: FC = () => {
                                 </div>
                                 <Button
                                     type={'submit'}
-                                    className="bg-black max-w-[7.9375rem] border border-control-gray-l0 px-6 py-3 text-[1.3125rem]"
+                                    className="bg-black max-w-[7.9375rem] border border-control-gray-l0 px-6 py-3 text-heading-s"
                                 >
                                     Submit
                                 </Button>
@@ -178,8 +178,8 @@ const ContactsPage: FC = () => {
                         </div>
                         <div className="flex flex-col gap-24  lg:justify-center  md:gap-16  sm:gap-12">
                             <div className="grid gap-3  sm:gap-2">
-                                <h3 className="text-[3rem] font-[400]  sm:text-[2.25rem]">Office</h3>
-                                <address className="text-[2.25rem]  sm:text-[1.5rem] not-italic leading-tight">
+                                <h3 className="text-[3rem] font-thin sm:text-heading-l">Office</h3>
+                                <address className="text-heading-l  sm:text-documentation not-italic leading-tight">
                                     1120 Avenue of the Americas<br />
                                     New York, New York<br />
                                     10036-6700<br />
@@ -190,12 +190,12 @@ const ContactsPage: FC = () => {
                                 <MapEmbed />
                             </div>
                             <div className="grid gap-3   sm:gap-2">
-                                <h3 className="text-[3rem] font-[400]  sm:text-[2.25rem]">Email</h3>
-                                <p className="text-[2.25rem]  sm:text-[1.5rem]">info@tern.ac</p>
+                                <h3 className="text-[3rem] font-thin sm:text-heading-l">Email</h3>
+                                <p className="text-heading-l  sm:text-documentation">info@tern.ac</p>
                             </div>
-                            <div className="grid gap-3  sm:gap-2">
-                                <h3 className="text-[3rem] font-[400]  sm:text-[2.25rem]">Phone</h3>
-                                <p className="text-[2.25rem]  sm:text-[1.5rem]">(973) 590-8753</p>
+                            <div className="grid gap-3   sm:gap-2">
+                                <h3 className="text-[3rem] font-thin sm:text-heading-l">Phone</h3>
+                                <p className="text-heading-l  sm:text-documentation">(973) 590-8753</p>
                             </div>
                         </div>
                     </div>

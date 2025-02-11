@@ -18,21 +18,21 @@ const PaymentInfo: FC<Props> = (props: Props) => {
         ? (subscription?.priceUSD * (subscription?.recurrency === 'annual' ? 12 : 1)).toFixed(2)
         : undefined;
 
-    const Hr = <hr className={'border-control-gray-l0   my-[--p-content]    sm:my-[0.94rem]'}/>;
+    const Hr = <hr className={'border-gray-l0   my-n    sm:my-[0.94rem]'}/>;
 
     return (
         <div className={`relative flex-1 w-1/2 h-full overflow-y-scroll bg-white shadow-2xl
                         pt-[7.44rem] 
-                        sm:x-[overflow-y-visible,p-[--p-content-xs],w-full,shadow-none,border-small,border-control-gray-l0]`}
+                        sm:x-[overflow-y-visible,p-xs,w-full,shadow-none,border-s,border-gray-l0]`}
         >
             <div className={`mx-auto max-w-[28rem] w-full font-bold`}>
-                <h2 className={`mb-[--p-content-xs]`}>
+                <h2 className={`mb-xs`}>
                     Subscribe to {subscription?.subscription ?? '--'} Subscription
                 </h2>
                 <div
                     className={`grid grid-rows-2 grid-cols-[max-content,1fr] items-center 
                                 gap-x-[0.4rem] mb-[3.75rem]
-                                sm:mb-[--p-content-xs]`}
+                                sm:mb-xs`}
                 >
                     <span className={`row-span-2  text-[3rem]  sm:text-heading-l`}>${price ?? '--'}</span>
                     <span className={'contents font-normal  text-section-s  sm:text-section-xxs'}>

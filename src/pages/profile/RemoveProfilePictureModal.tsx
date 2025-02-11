@@ -8,7 +8,7 @@ import {BaseModal, MessageModal} from "@/app/ui/modals";
 import {Button} from "@/app/ui/form";
 
 
-const BTN_CN = 'px-[min(2.7dvw,1rem)] h-[--h-control-dl] rounded-full';
+const BTN_CN = 'px-[min(2.7dvw,1rem)] h-h-button-n rounded-full';
 
 
 interface Props {
@@ -40,16 +40,16 @@ const RemoveProfilePictureModal: FC<Props> = (props: Props) => {
             <span>
                 This will remove File Name as your profile picture. To proceed with this action please click the red remove button below.
             </span>
-            <span className={'flex gap-[--s-dl-smallest] mt-[--1qdrs] justify-center'}>
+            <span className={'flex gap-4xs mt-xs justify-center'}>
                 <Button
                     onClick={() => handleRemove()}
-                    className={`text-red border-control-red border-small ${BTN_CN}`}
+                    className={`text-red border-red border-s ${BTN_CN}`}
                 >
                     Remove
                 </Button>
                 <Button
                     onClick={() => modalCtx.closeModal()}
-                    className={`bg-control-gray-l0 ${BTN_CN}`}
+                    className={`bg-gray-l0 ${BTN_CN}`}
                 >
                     Cancel
                 </Button>

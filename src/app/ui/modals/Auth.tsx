@@ -1,23 +1,24 @@
-import {FC, FormEvent, ReactElement, useEffect, useState} from "react";
-import axios from "axios";
-import Image from "next/image";
-import cn from "classnames";
+import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
+import axios from 'axios';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import {SignUpData} from "@/app/services/auth.service";
-import {REGEX} from "@/app/static";
+import { SignUpData } from '@/app/services/auth.service';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { REGEX } from '@/app/static';
 
-import {AuthService} from "@/app/services";
+import { AuthService } from '@/app/services';
 
-import {useBreakpointCheck, useForm} from "@/app/hooks";
-import {useFlow, useModal, useUser} from "@/app/context";
+import { useBreakpointCheck, useForm } from '@/app/hooks';
+import { useFlow, useModal, useUser } from '@/app/context';
 
-import {BaseModal, MessageModal, ResetPasswordModal} from "@/app/ui/modals";
-import {Button, Input} from "@/app/ui/form";
+import { BaseModal, MessageModal, ResetPasswordModal } from '@/app/ui/modals';
+import { Button, Input } from '@/app/ui/form';
 
-import SVG_INSIGNIA from '/public/images/insignia-logo.png'
+import SVG_INSIGNIA from '/public/images/insignia-logo.png';
 
 
-const INPUT_CN = `h-[1.875rem] w-full px-[0.73rem] bg-control-gray-l0 border-small b-control4 rounded-smallest
+const INPUT_CN = `h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
                     sm:text-primary placeholder:sm:text-primary`;
 
 
@@ -38,7 +39,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const [isLoginForm, setLoginFormState] = useState(!registration);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
@@ -78,36 +79,36 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <BaseModal
-            adaptSmScreen
+            adaptBreakpoint={Breakpoint.sm}
             preventClose={preventClose}
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
             onClose={() => onClose?.()}
-            classNameTitle={'justify-self-start text-heading   sm:[&]:mb-[--p-content-xs]   sm:landscape:ml-0 '}
+            classNameTitle={'justify-self-start text-heading   sm:[&]:mb-xs   sm:landscape:ml-0 '}
             classNameContent={cn(
                 'w-[30rem] items-start mx-auto place-items-center text-basic',
                 '[&]:overflow-y-visible',
-                'sm:[&]:x-[px-[--p-content-xs],py-[--p-content],w-full,overflow-y-scroll]',
-                'sm:landscape:x-[max-w-[73rem],px-[--p-content-xxl]]'
+                'sm:[&]:x-[px-xs,py-n,w-full,overflow-y-scroll]',
+                'sm:landscape:x-[max-w-[73rem],px-xxl]'
             )}
         >
             <div className={'w-full'}>
                 <div className={'flex flex-col items-center text-center'}>
                     <span>{info}</span>
-                    <div className={isSmScreen ? 'hidden' : 'mb-[--p-content]'}>
+                    <div className={isSmScreen ? 'hidden' : 'mb-n'}>
                         <Image src={SVG_INSIGNIA} alt={'insignia'}
-                               className={`my-[--p-content-xs] w-[10rem] h-[9rem]`}/>
-                        {isLoginForm ? null : <span className={'font-oxygen text-header'}>Tern</span>}
+                               className={`my-xs w-[10rem] h-[9rem]`}/>
+                        {isLoginForm ? null : <span className={'font-oxygen text-heading'}>Tern</span>}
                     </div>
                 </div>
                 <form onSubmit={handleFormSubmit}
-                      className={'flex flex-col  sm:landscape:x-[flex-row,gap-x-[--p-content-3xl]]'}>
+                      className={'flex flex-col  sm:landscape:x-[flex-row,gap-x-3xl]'}>
                     <fieldset
-                        className={'flex flex-col gap-[--p-content-xxs] w-full  sm:landscape:x-[max-w-fit,min-w-[21rem]]'}>
+                        className={'flex flex-col gap-xxs w-full  sm:landscape:x-[max-w-fit,min-w-[21rem]]'}>
                         <Input
                             placeholder={'Email'}
                             value={formValue.email}
                             onChange={setFormValue('email')}
-                            classNameWrapper={'flex-col [&]:items-start gap-[--p-content-4xs]'}
+                            classNameWrapper={'flex-col [&]:items-start gap-4xs'}
                             className={INPUT_CN}
                             required
                         >
@@ -146,17 +147,17 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         <Button
                             type={'submit'}
                             className={cn(
-                                `place-self-center py-[--p-content-xxs] mt-[--p-content-s] w-[60%] rounded-full border-small border-control`,
+                                `place-self-center py-xxs mt-s w-[60%] rounded-full border-s border-control`,
                                 `font-bold text-section-s`,
                                 `sm:w-[90%]`,
                                 isLoginForm
-                                    ? (isSmScreen ? 'bg-control-blue text-primary  sm:landscape:mt-auto' : 'text-gray bg-control-white')
-                                    : (isSmScreen ? 'border-b-small border-blue  sm:landscape:mt-[--p-content-xl]' : '')
+                                    ? (isSmScreen ? 'bg-blue text-primary  sm:landscape:mt-auto' : 'text-gray bg-white')
+                                    : (isSmScreen ? 'border-b-s border-blue  sm:landscape:mt-xl' : '')
                             )}
                         >
                             {!isLoginForm ? 'Sign Up' : 'Login'}
                         </Button>
-                        <div className={'mt-[--p-content-s] text-center'}>
+                        <div className={'mt-s text-center'}>
                             <span>
                                 {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
                                 <Button

@@ -37,10 +37,10 @@ const Info: FC<Props> = (props: Props) => {
                     {title}
                 </h2>
                 <div
-                    className={'flex justify-between items-center  sm:x-[gap-y-[--p-content-xxl],flex-col-reverse]'}>
+                    className={'flex justify-between items-center  sm:x-[gap-y-xxl,flex-col-reverse]'}>
                             <span className={'w-[40%] text-left   sm:x-[w-full,text-center]'}>
                                 <span
-                                    className={cn('block mb-[--p-content-5xs]  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs', classNameSubTitle)}>
+                                    className={cn('block mb-5xs  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs', classNameSubTitle)}>
                                     {subTitle}
                                 </span>
                                 <span className={cn('block leading-[1.2]  text-[0.9375rem]  lg:text-section', classNameDescription)}>
@@ -49,10 +49,10 @@ const Info: FC<Props> = (props: Props) => {
                                 <PageLink
                                     href={link}
                                     className={cn(
-                                        'px-[--p-content] rounded-full bg-blue',
-                                        'mt-[--p-content-xl] h-[1.875rem] text-basic',
+                                        'px-n rounded-full bg-blue',
+                                        'mt-xl h-[1.875rem] text-basic',
                                         'lg:x-[h-[2.375rem],text-heading-s]',
-                                        'sm:mt-[--p-content-s]',
+                                        'sm:mt-s',
                                         classNamePageLink
                                     )}
                                 >

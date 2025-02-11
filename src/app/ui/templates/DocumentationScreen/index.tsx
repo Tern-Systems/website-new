@@ -132,10 +132,10 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         : (
             <Button
                 onClick={() => toggleMenuOpen()}
-                className={`p-[0.2rem] h-[1.8rem] min-w-[1.8125rem] rounded-smallest border-2 border-white`}
+                className={`p-[0.2rem] h-[1.8rem] min-w-[1.8125rem] rounded-xs border-2 border-white`}
             >
                 <div
-                    className={`bg-control-white box-border h-full rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
+                    className={`bg-white box-border h-full rounded-s-[0.125rem] ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}/>
             </Button>
         );
 
@@ -156,32 +156,32 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         Object.keys(contents).map((key) => [key, getRouteName(key) ?? ''])
     );
 
-    const selectCn = 'h-[2.5rem] ' + (isSelectOpened ? '[&]:bg-control-gray' : '[&]:bg-transparent border-none');
+    const selectCn = 'h-[2.5rem] ' + (isSelectOpened ? '[&]:bg-gray' : '[&]:bg-transparent border-none');
 
     return (
         <div
             className={cn(
-                `self-center flex-grow h-full min-w-[min(calc(100%-2*var(--p-content-l)),70rem)] text-default`,
+                `self-center flex-grow h-full min-w-[min(calc(100%-2*var(--p-l)),70rem)] text-basic`,
                 `sm:min-w-full`,
                 {
                     [cn(
-                        `my-[--p-content-l] max-h-fit min-h-[calc(100%-2*var(--p-content))] max-w-[90%]`,
-                        `sm:x-[max-w-full,my-0,mt-[--p-content-xs],min-w-0]`,
-                        `sm:h-[calc(100%-var(--p-content-xs))]`,
+                        `my-l max-h-fit min-h-[calc(100%-2*var(--p-n))] max-w-[90%]`,
+                        `sm:x-[max-w-full,my-0,mt-xs,min-w-0]`,
+                        `sm:h-[calc(100%-var(--p-xs))]`,
                     )]: !layoutCtx.isNoLayout,
                 }
             )}
         >
             <div
-                className={`flex h-full rounded-small border-small border-control-gray bg-section-navy
+                className={`flex h-full rounded-s border-s border-gray bg-navy-d0
                             leading-[130%] box-content`}>
                 <aside
                     id={'documentation-menu'}
                     className={cn(
-                        `p-[--p-content-xs] rounded-l-small text-left`,
-                        `sm:x-[absolute,top-0,left-0,p-[--p-content-xs],h-full]`,
+                        `p-xs rounded-l-s text-left`,
+                        `sm:x-[absolute,top-0,left-0,p-xs,h-full]`,
                         isMenuOpened
-                            ? `bg-control-gray min-w-[19rem]    sm:portrait:w-full`
+                            ? `bg-gray min-w-[19rem]    sm:portrait:w-full`
                             : `pr-0 ${isSelectOpened ? 'h-full' : 'sm:[&]:h-fit bg-none'}`
                     )}
                 >
@@ -194,9 +194,9 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                                 value={route ?? ''}
                                 onOpen={(isExpanded) => setSelectOpenState(isExpanded)}
                                 classNameWrapper={'md:hidden lg:hidden'}
-                                className={`text-[1.3rem] font-bold font-oxygen rounded-smallest 
+                                className={`text-[1.3rem] font-bold font-oxygen rounded-xs 
                                             pl-[0.62rem] pr-[1rem] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.5rem] ${selectCn}`}
-                                classNameOption={`w-full ${selectCn} border-small border-control-white`}
+                                classNameOption={`w-full ${selectCn} border-s border-white`}
                             />
                         </span>
                         <span hidden={!isMenuOpened}
@@ -228,7 +228,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                 </aside>
                 <div
                     className={cn(
-                        `p-[--p-content-xs] pr-0 w-full h-full text-left content-center
+                        `p-xs pr-0 w-full h-full text-left content-center
                         sm:p-[0.63rem]`,
                         {['w-[58dvw] max-w-[70rem]']: !layoutCtx.isNoLayout}
                     )}
@@ -243,7 +243,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                             : documentationContent?.children}
                     </div>
                 </div>
-                <aside className={`p-[--p-content-xs] flex flex-col justify-between    sm:hidden`}>
+                <aside className={`p-xs flex flex-col justify-between    sm:hidden`}>
                     {ControlBtns}
                 </aside>
             </div>

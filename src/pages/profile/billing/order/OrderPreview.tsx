@@ -47,7 +47,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
       >
         <div ref={targetRef}>
           <h2
-            className={`mb-[min(10.7dvw,5.25rem)] font-bold text-header-l flex gap-[0.92rem] text-nowrap items-center`}
+            className={`mb-[min(10.7dvw,5.25rem)] font-bold text-heading-l flex gap-[0.92rem] text-nowrap items-center`}
           >
             <Image
               src={SVG_TERN_LOGO}
@@ -62,7 +62,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
               alt={"document"}
               className={"w-[min(24.7dvw,5.4rem)] h-auto place-self-center"}
             />
-            <span className={"block text-content my-[--1hdr]"}>
+            <span className={"block text-heading-s my-s"}>
               Invoice {invoice?.status ?? "--"}
             </span>
             <span className={"block text-[3rem]"}>
@@ -87,19 +87,19 @@ const OrderPreview: FC<Props> = (props: Props) => {
         </div>
 
         <div
-          className={`text-content font-bold mt-[--2hdr] flex gap-x-[0.75rem] justify-center items-center
+          className={`text-heading-s font-bold mt-xl flex gap-x-[0.75rem] justify-center items-center
                                     sm:flex-col sm:gap-y-[4dvw]`}
         >
           <Button
             icon={"download"}
-            className={`[&_path]:fill-gray border-small border-control-gray ${BTN_CN}`}
+            className={`[&_path]:fill-gray border-s border-gray ${BTN_CN}`}
             onClick={() => toPDF({})}
           >
             Download Invoice
           </Button>
           <Button
             icon={"download"}
-            className={`[&_path]:fill-primary bg-control-gray text-primary ${BTN_CN}`}
+            className={`[&_path]:fill-primary bg-gray text-primary ${BTN_CN}`}
             onClick={() => toPDFReceipt()}
           >
             Download Receipt

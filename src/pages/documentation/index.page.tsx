@@ -63,15 +63,15 @@ function DocumentationPage(props: Props) {
         <li key={link.text + idx}>
             <PageLink
                 href={link.route}
-                className={`flex-col justify-between [&]:items-start bg-control-gray min-h-[9rem] w-full  
-                           px-[--1qdr] py-[--2dr] h-[min(38dvw,16rem)] rounded-[--1drs]
-                           sm:landscape:x-[p-[--sy-sl],h-[13dvw],text-small]`}
+                className={`flex-col justify-between [&]:items-start bg-gray min-h-[9rem] w-full  
+                           px-xs py-l h-[min(38dvw,16rem)] rounded-n
+                           sm:landscape:x-[p-n,h-[13dvw],text-section]`}
             >
-                <span className={'font-bold block   text-header sm:landscape:text-small'}>{link.title}</span>
+                <span className={'font-bold block   text-heading sm:landscape:text-section'}>{link.title}</span>
                 <span>{link.text}</span>
                 <ReactSVG
                     src={SVG_ARROW.src}
-                    className={`[&_path]:fill-[--bg-control-blue] rotate-180
+                    className={`[&_path]:fill-[--bg-blue] rotate-180
                                     [&_*]:size-[min(3.7dvw,1.3rem)]
                                     sm:landscape:[&_*]:size-[1.75dvw]`}
                 />
@@ -83,15 +83,15 @@ function DocumentationPage(props: Props) {
         <div className={'text-left m-auto place-items-center'}>
             <div className={'sm:x-[overflow-y-hidden,max-h-full]'}>
                 <h1 className={`font-bold block
-                                pb-[min(4dvw,1.9rem)] text-section-header 
-                                sm:landscape:x-[pb-[2.4dvw],text-content]`}>
+                                pb-[min(4dvw,1.9rem)] text-heading-l 
+                                sm:landscape:x-[pb-[2.4dvw],text-heading-s]`}>
                     Documentation
                 </h1>
                 <ul className={`grid gap-[0.12rem]
                                 grid-cols-[repeat(3,minmax(0,30rem))] text-[min(3.7dvw,1rem)]
                                 sm:x-[overflow-y-scroll]
                                 sm:portrait:x-[grid-cols-1,max-h-[65dvh]]
-                                sm:landscape:x-[grid-cols-2,text-small]`}
+                                sm:landscape:x-[grid-cols-2,text-section]`}
                 >
                     {Links}
                 </ul>

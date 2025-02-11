@@ -1,13 +1,11 @@
-import {FC} from "react";
+import React from "react";
 
-import styles from "@/app/common.module.css";
+import {TagArticle} from "@/pages/all_ways/[tag]/TagArticle";
 
 
-const AllWaysPage: FC = () => (
-    <div className={`${styles.highlight} w-[min(90dvw,33rem)] place-items-center [&&]:mx-auto [&&]:text-center`}>
-        <span className={'text-[min(9.6dvw,3.75rem)] font-oxygen font-bold'}>No content</span>
-    </div>
-);
+function AllWaysPage() {
+    return <TagArticle tag={null}/>
+}
 
 
 export default AllWaysPage;

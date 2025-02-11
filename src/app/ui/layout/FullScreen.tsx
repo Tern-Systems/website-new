@@ -23,7 +23,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
     const [navigate] = useNavigate();
 
     return (
-        <div className={`h-dvh max-h-dvh relative font-oxygen text-gray bg-control-white text-content
+        <div className={`h-dvh max-h-dvh relative font-oxygen text-gray bg-white text-heading-s
                          ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}>
             <div
                 className={`flex items-center justify-between font-oxygen h-heading p-[1.25rem] lg:hidden md:hidden`}>

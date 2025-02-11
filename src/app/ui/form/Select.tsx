@@ -8,11 +8,12 @@ import React, {
     useRef,
     useState
 } from 'react';
-import Image from "next/image";
+import {ReactSVG} from "react-svg";
 import cn from "classnames";
 
-import SVG_CHEVRON from "/public/images/icons/chewron.svg";
 import {copyObject} from "@/app/utils";
+
+import SVG_CHEVRON from "/public/images/icons/chevron.svg";
 
 
 const EMPTY_KEY = '';
@@ -24,7 +25,9 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
     onChangeCustom: (value: string) => void;
     classNameWrapper?: string;
     classNameLabel?: string;
+    classNameUl?: string;
     classNameOption?: string;
+    classNameChevron?: string;
     onClick?: () => void;
     onOpen?: (isExpanded: boolean) => void;
 }
@@ -32,7 +35,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
 const Select: FC<Props> = (props: Props) => {
     const {
         children, options, value, onOpen,
-        classNameWrapper, classNameOption, className, classNameLabel, hidden,
+        classNameWrapper, classNameUl, classNameOption, className, classNameLabel, classNameChevron, hidden,
         onChangeCustom, placeholder, ...selectPropsRest
     } = props;
 
@@ -41,27 +44,29 @@ const Select: FC<Props> = (props: Props) => {
 
     const hasEmptyOption = optionsEntries.find(([key]) => key === EMPTY_KEY) !== undefined;
     const isValueNullish = [EMPTY_KEY, -1].includes(value);
-    if (optionsEntries.length === (1 + +hasEmptyOption) && !isValueNullish || optionsEntries.length === 0)
+
+    if (optionsEntries.length === (1 + +hasEmptyOption) && !isValueNullish && options[value] || optionsEntries.length === 0)
         optionsFinal[EMPTY_KEY] = 'Empty list';
-    else
-        delete optionsFinal?.[EMPTY_KEY];
+    else if (!optionsFinal[EMPTY_KEY])
+        delete optionsFinal[EMPTY_KEY];
+
     optionsEntries = Object.entries(optionsFinal);
 
-    const ref: MutableRefObject<HTMLLabelElement | null> = useRef(null);
-    const [isSelectExpanded, setSelectExpanded] = useState(false);
+    const ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
+    const [expanded, setSelectExpanded] = useState(false);
 
     const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
 
 
     useEffect(() => {
-        onOpen?.(isSelectExpanded);
+        onOpen?.(expanded);
         const handleClick = (event: MouseEvent) => {
-            if (isSelectExpanded && !ref.current?.contains(event.target as Node))
+            if (expanded && !ref.current?.contains(event.target as Node))
                 setSelectExpanded(false);
         }
         window.addEventListener('mousedown', handleClick);
         return () => window.removeEventListener('mousedown', handleClick);
-    }, [isSelectExpanded, setSelectExpanded, onOpen])
+    }, [expanded, setSelectExpanded, onOpen])
 
     // Options list
     const selectedOptionIdx: number = value === EMPTY_KEY ? -1 : Object.values(optionsFinal).indexOf(optionsFinal[value]);
@@ -72,11 +77,10 @@ const Select: FC<Props> = (props: Props) => {
             value={value}
             onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
             className={cn(
-                `flex px-[min(2dvw,0.75rem)] py-[--s-d-small] items-center overflow-x-hidden`,
-                `bg-white border-small border-control-white-d0 [&:not(:last-of-type)]:border-b-0`,
-                `[&:first-of-type]:border-t-0 last-of-type:rounded-b-small`,
+                `flex px-[min(2dvw,0.75rem)] py-3xs items-center overflow-x-hidden`,
+                `bg-white border-s border-white-d0 [&:not(:last-of-type)]:border-b-0`,
                 `overflow-ellipsis text-nowrap`, classNameOption,
-                {['text-placeholder text-small']: EMPTY_KEY === key}
+                {['!text-section-3xs']: EMPTY_KEY === key}
             )}
         >
             {value}
@@ -92,7 +96,13 @@ const Select: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`relative flex items-center ${classNameWrapper} ${hidden ? 'hidden' : ''}`}>
+            ref={ref}
+            onClick={() => {
+                selectPropsRest.onClick?.();
+                toggleSelectExpand();
+            }}
+            className={cn(`relative flex items-center`, classNameWrapper, {['hidden']: hidden})}
+        >
             <input
                 {...selectPropsRest}
                 value={value}
@@ -101,36 +111,49 @@ const Select: FC<Props> = (props: Props) => {
                 placeholder={placeholder}
                 className={'absolute -z-10 bottom-0 left-[34%] [&&]:w-1 [&&]:h-0 [&&]:p-0'}
             />
-            <span hidden={!children} className={classNameLabel}>{children}</span>
+            {children ? <span className={classNameLabel}>{children}</span> : null}
             <label
-                ref={ref}
-                onClick={() => {
-                    selectPropsRest.onClick?.();
-                    toggleSelectExpand();
-                }}
                 onBlur={() => setSelectExpanded(false)}
                 className={cn(
-                    `flex items-center cursor-pointer select-none capitalize w-full`,
-                    `border-small border-control-white-d0 bg-white [&]:rounded-small`,
-                    className, {[`[&&]:rounded-b-none`]: isSelectExpanded}
+                    `group flex items-center cursor-pointer select-none capitalize w-full`,
+                    `border-s border-white-d0 bg-white [&]:rounded-s`,
+                    className,
+                    {[`[&&]:rounded-b-none`]: expanded},
                 )}
             >
-                <div className={`w-[90%] text-nowrap overflow-ellipsis overflow-x-hidden leading-[1.3]`}>
-                    <span className={selectedOptionIdx < 0 ? 'text-placeholder' : ''}>
-                        {selectedOptionIdx < 0 || !optionsFinal[value] ? (placeholder ?? 'Select') : optionsFinal[value]}
+                <div className={`relative flex w-fit items-center`}>
+                    <span
+                        className={cn(
+                            `w-fit text-nowrap overflow-ellipsis overflow-x-hidden leading-[1.3]`,
+                            {['text-section-3xs']: selectedOptionIdx < 0 && !hasEmptyOption},
+                        )}
+                    >
+                      {selectedOptionIdx < 0 || !optionsFinal[value]
+                          ? (hasEmptyOption && optionsFinal[EMPTY_KEY] ? optionsFinal[EMPTY_KEY] : (placeholder ?? 'Select'))
+                          : optionsFinal[value]
+                      }
                     </span>
+                    <ReactSVG
+                        src={SVG_CHEVRON.src}
+                        className={cn(
+                            `ml-5xs w-xxs h-auto brightness-[85%] group`, classNameChevron,
+                            {['rotate-180']: expanded}
+                        )}
+                    />
                 </div>
-                <ul
-                    hidden={!isSelectExpanded}
-                    className={`absolute z-30 left-0 top-full w-full max-h-[20rem] overflow-y-scroll rounded-b-[0.375rem] pointer-events-auto`}
-                >
-                    {OptionsJSX}
-                </ul>
-                <Image
-                    src={SVG_CHEVRON}
-                    alt={'select chevron'}
-                    className={`absolute right-[0.8rem] w-[--1drs] h-auto brightness-[85%] ${isSelectExpanded ? 'rotate-180' : ''}`}
-                />
+                {expanded
+                    ? (
+                        <ul
+                            className={cn(
+                                `absolute z-30 left-0 top-full w-fit max-h-[20rem] overflow-y-scroll`,
+                                `rounded-b-xs pointer-events-auto`, classNameUl,
+                            )}
+                        >
+                            {OptionsJSX}
+                        </ul>
+                    )
+                    : null
+                }
             </label>
         </div>
     );

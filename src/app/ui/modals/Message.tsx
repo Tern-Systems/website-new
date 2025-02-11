@@ -48,7 +48,7 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             isSimple
             setHoverState={setHoveredState}
             className={cn(
-                `place-self-center mx-auto right-[--s-default] bottom-[min(6dvw,7.2rem)] max-w-[19.3rem] w-fit cursor-pointer`,
+                `place-self-center mx-auto right-l bottom-[min(6dvw,7.2rem)] max-w-[19.3rem] w-fit cursor-pointer`,
                 `transition-all transform`,
                 animate
                     ? "duration-500 ease-in opacity-100 translate-y-0"

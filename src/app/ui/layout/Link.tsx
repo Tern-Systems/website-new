@@ -1,6 +1,6 @@
 import {AnchorHTMLAttributes, FC, MouseEvent, ReactElement} from "react";
-import {ReactSVG} from "react-svg";
 import {usePathname} from "next/navigation";
+import {ReactSVG} from "react-svg";
 import Link from "next/link";
 import cn from "classnames";
 
@@ -10,16 +10,18 @@ import {getRouteName} from "@/app/utils";
 import {useNavigate} from "@/app/hooks";
 
 import SVG_ARROW from "/public/images/icons/arrow.svg";
+import SVG_ARROW_LONG from "/public/images/icons/arrow-right-long.svg";
 import SVG_INSIGNIA from "/public/images/insignia.svg";
 
 import styles from '@/app/common.module.css'
 
 
-type Icon = 'back' | 'forward' | 'insignia';
+type Icon = 'back' | 'forward' | 'arrow-right-long' | 'insignia';
 
 const ICON: Record<Icon, { src: string }> = {
     back: SVG_ARROW,
     forward: SVG_ARROW,
+    'arrow-right-long': SVG_ARROW_LONG,
     insignia: SVG_INSIGNIA,
 }
 
@@ -52,8 +54,14 @@ const PageLink: FC<Props> = (props: Props) => {
 
     const Icon: ReactElement | null = icon
         ? (
-            <ReactSVG src={ICON[icon].src}
-                      className={cn(`inline size-[1rem]`, {['rotate-180']: icon === 'forward'}, iconClassName)}/>
+            <ReactSVG
+                src={ICON[icon].src}
+                className={cn(
+                    `inline-block size-[1rem]`,
+                    {['rotate-180']: icon === 'forward'},
+                    iconClassName
+                )}
+            />
         )
         : null;
 
@@ -65,7 +73,7 @@ const PageLink: FC<Props> = (props: Props) => {
     return (
         <Link
             {...linkProps}
-            className={`items-center inline-flex ${styles.clickable} ${linkProps.className}`}
+            className={cn(`items-center inline-flex`, styles.clickable, linkProps.className)}
             href={(isExternal ? href : route) ?? '/'}
             onClick={handleLinkClick}
             {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}

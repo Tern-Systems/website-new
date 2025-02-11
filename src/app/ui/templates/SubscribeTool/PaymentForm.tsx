@@ -45,7 +45,7 @@ const FORM_DEFAULT: SubscribeData = {
 }
 
 const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0'
-const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-smallest border-small ${CONTROL_H_CN}`;
+const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 
 interface Props {
@@ -160,7 +160,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
                     onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
-                    classNameWrapper={'mb-[--1dr]'}
+                    classNameWrapper={'mb-xxs'}
                     className={SELECT_CN}
                     classNameOption={CONTROL_H_CN}
                     required
@@ -235,7 +235,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         value={formData.country}
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('country')(value)}
-                        className={`${SELECT_CN} bg-control-white [&&]:rounded-b-none`}
+                        className={`${SELECT_CN} bg-white [&&]:rounded-b-none`}
                         classNameOption={CONTROL_H_CN}
                         required
                     />
@@ -310,13 +310,13 @@ const PaymentForm: FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className={`flex-1 w-1/2 bg-control-white h-full overflow-y-scroll
+        <div className={`flex-1 w-1/2 bg-white h-full overflow-y-scroll
                         pt-[7.44rem] 
-                        sm:x-[overflow-y-visible,p-[--p-content-xs],w-full,max-h-fit,shadow-none]`}
+                        sm:x-[overflow-y-visible,p-xs,w-full,max-h-fit,shadow-none]`}
         >
             <div className={'mx-auto max-w-[29rem] w-full'}>
                 <form className={styles.form} onSubmit={handleFormSubmit}>
-                    <h2 className={`mb-[--p-content-xs] font-bold`}>
+                    <h2 className={`mb-xs font-bold`}>
                         {savedCards.length ? 'Choose' : ''} Payment Method
                     </h2>
                     {FormInputs}
@@ -326,7 +326,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         onChange={setFormData('acceptTerms')}
                         classNameWrapper={'flex-row-reverse mt-[min(4dvw,1.46rem)] [&&]:items-start gap-[0.47rem]'}
                         classNameLabel={'flex'}
-                        className={'max-w-[--1drl] max-h-[--1drl]'}
+                        className={'max-w-xxs max-h-xxs'}
                         required
                     >
                         <span className={'text-section-xs leading-normal'}>
@@ -343,7 +343,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        className={`mt-[min(4dvw,--p-content)] w-full rounded-full bg-control-gray
+                        className={`mt-[min(4dvw,--p-n)] w-full rounded-full bg-gray
                                     font-neo text-section-s font-bold text-primary
                                     h-[4.4rem]
                                     sm:h-[3.125rem]`}

@@ -1,180 +1,111 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
-import {ReactSVG} from "react-svg";
-import cn from "classnames";
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { ReactSVG } from 'react-svg';
+import cn from 'classnames';
 
-import {PlanName} from "@/app/types/subscription";
-import {ButtonIcon} from "@/app/ui/form/Button";
-import {MISC_LINKS, Route} from "@/app/static";
+import { IModalContext } from '@/app/context/Modal.context';
+import { PlanName, Subscription } from '@/app/types/subscription';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { MISC_LINKS, Route } from '@/app/static';
 
-import {capitalize, copyObject} from "@/app/utils";
-import {useModal, useUser} from "@/app/context";
-import {useBreakpointCheck, useLoginCheck, useNavigate} from "@/app/hooks";
+import { capitalize, copyObject } from '@/app/utils';
+import { useModal, useUser } from '@/app/context';
+import { useBreakpointCheck, useLoginCheck, useNavigate } from '@/app/hooks';
 
-import {ScrollEnd} from "@/app/ui/misc";
-import {PageLink} from "@/app/ui/layout";
-import {HelpModal} from "@/app/ui/modals";
-import {Button} from "@/app/ui/form";
-import {FAQsModal} from "./faqs/index.page";
+import { PageLink } from '@/app/ui/layout';
+import { HelpModal } from '@/app/ui/modals';
+import { Button } from '@/app/ui/form';
+import { FAQsModal } from './faqs/index.page';
+import { Table, TableEntry, TableSection } from './Table';
 
+import styles from '@/app/common.module.css';
+import myTernStyles from './MyTern.module.css';
 
-import SVG_ARROW from '/public/images/icons/arrow.svg';
-
-import styles from "@/app/common.module.css";
-
-
-const EVENTS_TEMPLATE: TableEntry[] = [
-    {name: 'Streaming on X: ihhffffffffffffffffvipcow[esssssofaaaaaa', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on youtube: sdjla ', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: ads', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: ', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: ', data: Date.now(), href: 'https://youtube.com'},
-    {name: 'Streaming on X: ', data: Date.now(), href: 'https://youtube.com'},
-];
+import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
 
 
-type TableEntry = {
-    name: string;
-    data: number | string;
-    href: string | Route;
+type Resource = {
+    Node: ReactNode,
+    action?: string | ((props: { isSm: boolean, navigate: (link: Route) => void, modalCtx: IModalContext }) => void)
 }
 
-type TableSection = {
-    title: string;
-    columnNames: [string, string];
-    data: TableEntry[];
-}
-
-
-const NAV_BTNS_DEFAULT: { title: string; icon: ButtonIcon; href: string, isExternal?: boolean }[] = [
-    {title: 'Build Key', icon: 'plus', href: MISC_LINKS.TernKey, isExternal: true},
-    {title: 'Explore Keys', icon: 'glass', href: MISC_LINKS.TernKey + '/explore', isExternal: true},
-];
 
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
     // dot: Route.Dot,
     TernKey: MISC_LINKS.TernKey,
     trial: '',
-}
+};
 
-const renderTable = (table: TableSection, isExternal?: boolean) => {
-    const renderTd = (title: ReactElement | string, href: string, type?: 'first' | 'last') => {
-        return (
-            <td className={cn({
-                ['pr-[--p-content-3xs] w-[1.3rem] rounded-r-normal   sm:x-[pr-[--p-content-5xs],rounded-r-small]']: type === 'last',
-                ['pl-[--p-content-3xs] max-w-[15rem] rounded-l-normal   sm:x-[pl-[--p-content-5xs],min-w-[40%],w-[50%],rounded-l-small]     sm:landscape:w-[60%]']: type === 'first'
-            })}
-            >
-                <PageLink href={href} isExternal={isExternal}
-                          className={cn(
-                              'w-full overflow-hidden overflow-ellipsis text-nowrap max-w-[20rem]',
-                              `py-[0.75rem]`,
-                              `md:py-[0.875rem]`,
-                              `sm:x-[py-[0.22rem],table-cell]`,
-                              `sm:portrait:max-w-[8rem]`,
-                              `sm:landscape:py-[calc(0.5*var(--p-content-3xs))] sm:landscape:max-w-[15rem]`,
-                          )}
-                >
-                    {title}
-                </PageLink>
-            </td>
-        );
-    }
+const NAV_BTNS_DEFAULT: { title: string; href: string, external?: true }[] = [
+    { title: 'Try TernKey Pro', href: MISC_LINKS.TernKey, external: true },
+    { title: 'Build Key', href: MISC_LINKS.TernKey, external: true },
+    { title: 'View All Ways', href: Route.AllWays, external: true },
+    { title: 'Explore Keys', href: MISC_LINKS.TernKey + '/explore', external: true },
+    { title: 'Get Certified', href: MISC_LINKS.Careers, external: true },
+    { title: 'Join Newsletter', href: MISC_LINKS.Events, external: true },
+];
 
-    const TableItems: ReactElement[] = table.data.map((row, idx) => (
-        <tr key={row.name.slice(5) + idx} className={'hover:bg-control-gray-l0'}>
-            {renderTd(row.name, row.href, 'first')}
-            {renderTd(typeof row.data === 'string' ? row.data : new Date(row.data).toLocaleDateString(), row.href)}
-            {renderTd(
-                <ReactSVG
-                    src={SVG_ARROW.src}
-                    className={`[&_path]:fill-blue [&_*]:w-[1.3rem] rotate-180    sm:[&_*]:w-[0.875rem]`}
-                />,
-                row.href,
-                'last'
-            )}
-        </tr>
-    ));
+const EVENTS_TEMPLATE: TableEntry[] = [
+    { name: 'Bleeding Edge on X', type: 'Online Event', data: Date.now(), href: 'https://youtube.com' },
+    { name: 'TernKey Scrum', type: 'BTS Video', data: Date.now(), href: 'https://youtube.com' },
+    { name: 'SWEs of New York', type: 'In-Person Event', data: Date.now(), href: 'https://youtube.com' },
+    { name: 'Your tern Podcast', type: 'Show', data: Date.now(), href: 'https://youtube.com' },
+    { name: 'TernKey version 1.0.0-beta', type: 'Version Release', data: Date.now(), href: 'https://youtube.com' },
+];
 
-    return (
-        <div
-            className={cn(
-                `bg-control-gray rounded-smallest`,
-                `p-[--p-content-xs] max-h-[20rem]`,
-                `md:p-[--p-content-xxs]`,
-                `sm:x-[p-[--p-content-4xs],max-h-[10rem]]`,
-                `sm:landscape:x-[p-[--p-content-xxs]]`
-            )}
-        >
-            <h3 className={cn(
-                `font-bold px-[--p-content-3xs]`,
-                `text-heading`,
-                `md:px-[--p-content-4xs]`,
-                `sm:x-[px-[--p-content-5xs],text-section-s]`
-            )}
-            >
-                {table.title}
-            </h3>
-            <hr className={cn(
-                `relative border-control-white-d0`,
-                `my-[--p-content-xs]`,
-                `sm:x-[mt-[--p-content-4xs],mb-[--p-content-5xs]]`,
-                `sm:landscape:x-[mt-[--p-content-4xs],mb-[--p-content-5xs]]`,
-            )}
-            />
-            <div className={cn(
-                `overflow-y-scroll`,
-                `max-h-[calc(100%-var(--fz-heading)-2.5*var(--p-content-xs))]`,
-                `sm:max-h-[calc(100%-var(--fz-section)-2*var(--p-content-4xs))]`,
-            )}
-            >
-                <table className={`w-full text-heading-s    sm:text-section-xs`}>
-                    <thead className={cn(
-                        `sticky top-0 z-10 bg-control-gray`,
-                        `text-section-xs`,
-                        `sm:text-section-xxxs`,
-                        `sm:landscape:text-section-xxxs`,
-                    )}
-                    >
-                    <tr className={'[&_td]:pb-[0.75rem]     sm:[&_td]:pb-[0.25rem]     sm:landscape:py-0'}>
-                        <td className={'pl-[--p-content-3xs]     sm:pl-[--p-content-5xs]'}>{table.columnNames[0]}</td>
-                        <td>{table.columnNames[1]}</td>
-                        <td/>
-                    </tr>
-                    </thead>
-                    <tbody className={'text-heading-s sm:text-section-xs'}>
-                    {TableItems}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-}
+const RESOURCES: Resource[] = [
+    { Node: <PageLink href={Route.MyDocumentation} /> },
+    {
+        Node: 'Help & FAQs',
+        action: ({ isSm, navigate, modalCtx }) => isSm
+            ? navigate(Route.Help)
+            : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
+    },
+    {
+        Node: 'Support Hub',
+        action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'support'} />, { darkenBg: true }),
+    },
+];
 
 
-const MyTernPage: FC = () => {
+const renderSinceDate = (dateNumber: number | undefined) => {
+    if (!dateNumber)
+        return `Date of registration is unknown`;
+    const date = new Date(dateNumber ?? 0);
+    return `Member since ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
+};
+
+
+function MyTernPage() {
     const userCtx = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
     const [navigate] = useNavigate();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const breakpoint = useBreakpointCheck();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
     const navBtns = copyObject(NAV_BTNS_DEFAULT);
     if (userCtx.userData?.subscriptions?.find((plan) => plan.subscription === 'trial'))
-        navBtns.splice(1, 0, {title: 'Try TernKey Pro', icon: 'diamond', href: Route.TernKeyPricing});
+        navBtns.splice(1, 0, { title: 'Try TernKey Pro', href: Route.TernKeyPricing });
 
     const subscriptionTable: TableSection = {
-        title: 'Subscription',
-        columnNames: ['Item', 'Plan Type'],
+        title: 'My Product',
+        columnNames: ['Item', 'Plan Type', 'Upcoming payment'],
         data: userCtx.userData?.subscriptions
-            ?.filter((plan) => plan.subscription !== 'trial')
-            ?.map((plan) => ({
+            ?.filter((plan: Subscription) => plan.subscription !== 'trial')
+            ?.map((plan: Subscription): TableEntry => ({
                 name: plan.subscription,
-                data: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
-                href: SUBSCRIPTION_LINK_DICT[plan.subscription]
-            })) ?? []
-    }
+                type: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
+                data: new Date(plan.renewDate).toLocaleDateString(),
+                href: SUBSCRIPTION_LINK_DICT[plan.subscription],
+            })) ?? [],
+        fallback: (
+            <span>
+                You don&apos;t have any products purchased. You could explore the plans on&nbsp;
+                <PageLink href={Route.TernKeyPricing} className={'underline'}>Pricing page</PageLink>.
+            </span>
+        ),
+    };
 
     useEffect(() => {
         try {
@@ -188,136 +119,76 @@ const MyTernPage: FC = () => {
         return null;
 
     // Elements
-    const NavBtns: ReactElement[] = navBtns.map((btn, idx) => {
-        const Btn = (
+    const LinksLi: ReactElement[] = navBtns.map((btn, idx) => (
+        <PageLink key={btn.title + idx} isExternal={btn.external} href={btn.href}>
             <Button
-                icon={btn.icon}
+                icon={'chevron'}
                 className={cn(
-                    `bg-control-gray rounded-smallest`,
-                    `px-[0.73rem] py-[--p-content-4xs] text-heading-s`,
-                    `sm:x-[py-[0.47rem],px-[0.56rem],text-section-xs]`,
-                    `sm:landscape:text-section-xs`,
+                    `flex-row-reverse bg-blue`,
+                    `p-4xs text-basic`,
+                    { [`p-[0.56rem] text-section-xs`]: breakpoint <= Breakpoint.sm },
                 )}
-                classNameIcon={cn(`[&_path]:fill-primary`, `sm:[&_svg]:w-[0.875rem]`)}
+                classNameIcon={cn(
+                    `[&_path]:fill-primary -rotate-90 ml-n [&_*]:w-[0.6rem]`,
+                    { [`[&_*]:w-[0.525rem]`]: breakpoint <= Breakpoint.sm },
+                )}
             >
                 {btn.title}
             </Button>
-        );
+        </PageLink>
+    ));
 
-        return btn.isExternal
-            ? <a key={btn.title + idx} href={btn.href} target={'_blank'} rel={'noopener noreferrer'}>{Btn}</a>
-            : <PageLink key={btn.title + idx} href={btn.href}>{Btn}</PageLink>;
-    });
 
-    const renderSinceDate = (dateNumber: number | undefined) => {
-        if (!dateNumber)
-            return null;
-        const date = new Date(dateNumber ?? 0)
-        return (
-            <span>
-                Member since {date.toLocaleString('default', {month: 'long'}) + ' ' + date.getFullYear()}
-            </span>
-        );
-    }
+    const ResourcesLi: ReactElement[] = RESOURCES.map((entry, idx) => (
+        <li
+            key={'node-' + idx}
+            onClick={() => {
+                if (typeof entry.action === 'function')
+                    entry.action({ isSm: breakpoint <= Breakpoint.sm, navigate, modalCtx });
+            }}
+            className={cn(styles.clickable, `flex items-center justify-between border-b-s border-white-d0 cursor-pointer`)}
+        >
+            {entry.Node}
+            <ReactSVG src={SVG_ARROW_LONG.src} className={'[&_*]:w-[1.41rem] [&_path]:fill-blue'} />
+        </li>
+    ));
 
     return (
-        <div className={cn(
-            `grid max-w-[90.63rem] w-full h-full text-left`,
-            `lg:x-[auto-rows-min,w-3/4,mt-[--p-content-xxl],mx-auto]`,
-            `md:x-[mt-[--p-content-xl],px-[--p-content-xl]]`,
-            `sm:grid-rows-[min-content,1fr]`,
-            `sm:x-[mt-0,px-[--p-content-xs]]`,
-            `sm:landscape:max-h-[calc(100%-2*var(--p-content-xs))]`,
-            `sm:landscape:grid-cols-[1fr,2fr]`,
-            `sm:landscape:x-[auto-rows-auto,gap-x-[--p-content-xl],mx-0,mt-[--p-content-xs]]`
-        )}
-        >
-            <h1 className={cn(
-                `flex font-bold`,
-                `pb-[--p-content-xs] text-heading-l`,
-                `md:x-[pb-[--p-content-xxs]]`,
-                `sm:x-[pb-[--p-content-4xs],text-heading-s]`,
-                `sm:portrait:x-[h-[5rem],items-end]`,
-                `sm:landscape:text-heading-s`,
-            )}
-            >
-                Dashboard
-            </h1>
-            <div className={cn(
-                `sm:portrait:h-[calc(100%-var(--p-content-xl))] sm:portrait:overflow-y-scroll`,
-                `sm:landscape:contents`
-            )}
-            >
-                <div
-                    className={cn(
-                        `text-section-xs`,
-                        `sm:text-section-xxxs`,
-                        `sm:landscape:col-start-1`,
-                        {['hidden']: !userCtx.userData}
-                    )}
+        <div className={cn(styles.section, myTernStyles.background, `pt-[6.25rem] min-h-dvh bg-black`)}>
+            <section className={cn(styles.content)}>
+                <h1 className={`flex font-bold font-oxygen text-[2rem]`}
                 >
+                    Dashboard
+                </h1>
+                <p className={'mt-xxs text-xxs'}>
                     {renderSinceDate(userCtx.userData?.registrationDate)}
-                </div>
-                <div className={cn(
-                    `flex flex-wrap`,
-                    `gap-[--p-content-xs] my-[--p-content]`,
-                    `md:my-[--p-content-s]`,
-                    `sm:x-[my-[--p-content-xs],gap-[--p-content-4xs]]`,
-                    `sm:landscape:x-[col-start-1,gap-[--p-content-4xs],my-[0.94rem]]`,
-                )}
-                >
-                    {NavBtns}
-                </div>
-                <div className={cn(
-                    `grid`,
-                    `grid-cols-2 gap-[--p-content-4xs]`,
-                    `md:x-[grid-cols-1,gap-[--p-content-s]]`,
-                    `sm:grid-cols-1`,
-                    `sm:landscape:x-[row-start-1,col-start-2,row-span-4,overflow-y-scroll]`,
-                )}
-                >
-                    {renderTable(subscriptionTable)}
-                    {renderTable({
+                </p>
+            </section>
+            <section
+                className={cn(styles.content, 'mt-n flex flex-wrap  gap-xs', { [`gap-x-xxs`]: breakpoint <= Breakpoint.sm })}>
+                {LinksLi}
+            </section>
+            <section className={cn(styles.content, 'flex flex-col gap-y-xl mt-xxl')}>
+                <Table table={subscriptionTable} />
+                <Table
+                    external={true}
+                    table={{
                         title: 'Community Events',
-                        columnNames: ['Event', 'Date'],
-                        data: communityEvents
-                    }, true)}
-                </div>
-                <div className={cn(
-                    `flex-col inline-flex`,
-                    `gap-y-[--p-content-s] mt-[--p-content-xl] text-section-xs`,
-                    `md:x-[mt-[--p-content-xl],text-basic]`,
-                    `sm:x-[gap-y-[--p-content-4xs],mt-[3.88rem],text-section-xxs]`,
-                    `sm:landscape:x-[col-start-1,gap-y-[--p-content-4xs],mt-[1dvw],w-fit]`,
-                )}
-                >
-                    <span className={`font-bold
-                                    mb-[--p-content-5xs] text-heading
-                                    sm:text-basic
-                                    sm:landscape:mb-0`}
-                    >
-                        Additional Resources
-                    </span>
-                    <PageLink href={Route.MyDocumentation}/>
-                    <span
-                        className={`cursor-pointer ${styles.clickable}`}
-                        onClick={() => isSmScreen
-                            ? navigate(Route.Help)
-                            : modalCtx.openModal(<FAQsModal/>, {darkenBg: true})}
-                    >
-                        Help & FAQs
-                    </span>
-                    <span
-                        className={`cursor-pointer ${styles.clickable}`}
-                        onClick={() => modalCtx.openModal(<HelpModal type={'support'}/>, {darkenBg: true})}
-                    >
-                        Support Hub
-                    </span>
-                </div>
-            </div>
-            <ScrollEnd/>
+                        columnNames: ['Event', 'Type', 'Date'],
+                        data: communityEvents,
+                        fallback: 'No upcoming news or events.',
+                    }}
+                />
+            </section>
+            <section className={cn(styles.content, 'mt-[6.25rem] mb-[9.41rem] text-section-xs')}>
+                <p className={'pl-n font-bold'}>Additional resources</p>
+                <ul className={'mt-xxs border-t-s border-white-d0  [&>li]:x-[px-n,py-xs,text-blue]'}>
+                    {ResourcesLi}
+                </ul>
+            </section>
         </div>
     );
 }
+
 
 export default MyTernPage;

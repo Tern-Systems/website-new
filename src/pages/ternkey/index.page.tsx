@@ -20,17 +20,17 @@ const TernKeyPage: FC = () => {
     const website: string | undefined = env === 'development' ? 'http://localhost:3001' : MISC_LINKS.TernKey;
     return (
         <>
-            <span className={cn(styles.highlight, 'flex-row gap-x-[--p-content-l]')}>
+            <span className={cn(styles.highlight, 'flex-row gap-x-l')}>
                 <span className={'flex flex-col justify-between'}>
                     <span className={'mr-auto text-[min(9.6dvw,3.75rem)] font-oxygen font-bold'}>TernKey</span>
                     <span>
                         <span className={'text-basic'}>Unlocking the Potential of Ternary Programming</span>
-                        <Button className={'bg-white text-black py-[--p-content-5xs] px-[--p-content-xl] text-basic rounded-full'}>Try it free</Button>
+                        <Button className={'bg-white text-black py-5xs px-xl text-basic rounded-full'}>Try it free</Button>
                     </span>
                 </span>
                 <a href={userCtx.token ? `${website}/?website_login=${encodeURIComponent(userCtx.token || '')}` : website}
                    target={'_blank'}
-                   className={'bg-[#EEE] p-[--p-content] rounded-small sm:landscape:x-[row-span-2,my-0]'}
+                   className={'bg-[#EEE] p-n rounded-s sm:landscape:x-[row-span-2,my-0]'}
                 >
                     <Image
                         src={SVG_TERNKEY}
@@ -41,7 +41,7 @@ const TernKeyPage: FC = () => {
             </span>
             <Highlighted
                 heading={'Placeholder title'}
-                classNameWrapper={'lg:x-[mt-[--p-content-xl],ml-auto,max-h-fit,max-w-full] sm:landscape:max-h-[21.4rem]'}
+                classNameWrapper={'lg:x-[mt-xl,ml-auto,max-h-fit,max-w-full] sm:landscape:max-h-[21.4rem]'}
                 classNameContentWrapper={'overflow-y-visible'}
                 className={`sm:text-section-sm
                         sm:landscape:x-[gap-y-[0.5rem],tracking-[0.05rem]]`}

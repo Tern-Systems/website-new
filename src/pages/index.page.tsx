@@ -112,7 +112,7 @@ const HomePage: FC = () => {
     const CardsLi: ReactElement[] = CARDS.map((card, idx) => (
         <li
             key={card.title + idx}
-            className={'flex flex-col h-full overflow-hidden rounded-normal border-normal border-control-white-d0 text-center'}
+            className={'flex flex-col h-full overflow-hidden rounded-n border-n border-white-d0 text-center'}
         >
             <div
                 style={{backgroundImage: `url("${card.image.src}")`}}
@@ -121,7 +121,7 @@ const HomePage: FC = () => {
                     'bg-cover bg-center bg-no-repeat',
                 )}
             >
-                <div className={'pb-[--p-content-4xs] w-full bg-gradient-to-b from-transparent to-black'}>
+                <div className={'pb-4xs w-full bg-gradient-to-b from-transparent to-black'}>
                     <h4 className={cn(styles.textGlow, 'text-heading font-oxygen font-bold')}>
                         {card.title}
                     </h4>
@@ -129,9 +129,9 @@ const HomePage: FC = () => {
             </div>
             <div
                 className={cn(
-                    'flex-grow flex flex-col p-[--p-content-xs] justify-between items-center leading-[1.2]',
-                    'pb-[--p-content-xl]',
-                    'sm:pb-[--p-content]',
+                    'flex-grow flex flex-col p-xs justify-between items-center leading-[1.2]',
+                    'pb-xl',
+                    'sm:pb-n',
                 )}
             >
                 <p>{card.info}</p>
@@ -139,10 +139,10 @@ const HomePage: FC = () => {
                     href={card.link.href}
                     isExternal={card.link.href.startsWith('https://')}
                     className={cn(
-                        'px-[--p-content-xs] w-fit h-[2.375rem] rounded-full border-small border-control-gray-l0 text-blue',
+                        'px-xs w-fit h-[2.375rem] rounded-full border-s border-gray-l0 text-blue',
                         'text-section-s',
                         'md:text-basic',
-                        'sm:mt-[--p-content-xl]',
+                        'sm:mt-xl',
                     )}
                 >
                     {card.link.title}
@@ -164,9 +164,9 @@ const HomePage: FC = () => {
                             <h1
                                 className={cn(styles.textGlow,
                                     `font-oxygen text-center leading-[1.2]`,
-                                    `mb-[--p-content] text-[5.0625rem]`,
+                                    `mb-n text-[5.0625rem]`,
                                     `md:text-[3.4375rem]`,
-                                    `sm:x-[mb-[--p-content-xs],text-[2.9375rem]]`,
+                                    `sm:x-[mb-xs,text-[2.9375rem]]`,
                                 )}
                             >
                                 <span>
@@ -175,13 +175,13 @@ const HomePage: FC = () => {
                                 <span>&nbsp;is Built on <span className={'font-bold'}>tern</span>
                                 </span>
                             </h1>
-                            <p className={'flex gap-x-[--p-content-xs] justify-center  text-heading-s  sm:text-basic'}>
+                            <p className={'flex gap-x-xs justify-center  text-heading-s  sm:text-basic'}>
                                 <PageLink
                                     isExternal
                                     href={MISC_LINKS.TernKey}
                                     className={cn(
-                                        'px-[--p-content] h-[3.125rem] rounded-full bg-blue text-black',
-                                        'sm:x-[px-[--p-content-xs],h-[1.875rem]]',
+                                        'px-n h-[3.125rem] rounded-full bg-blue text-black',
+                                        'sm:x-[px-xs,h-[1.875rem]]',
                                     )}
                                 >
                                     Discover Tern
@@ -190,9 +190,9 @@ const HomePage: FC = () => {
                                     isExternal
                                     href={MISC_LINKS.TernKeyDemo}
                                     className={cn(
-                                        'px-[--p-content] h-[3.125rem] rounded-full border-normal border-control-gray-l0',
+                                        'px-n h-[3.125rem] rounded-full border-n border-gray-l0',
                                         'bg-black text-blue',
-                                        'sm:x-[px-[--p-content-xs],h-[1.875rem]]',
+                                        'sm:x-[px-xs,h-[1.875rem]]',
                                     )}
                                 >
                                     Watch Demo
@@ -204,7 +204,7 @@ const HomePage: FC = () => {
                 <section className={cn(styles.section, styles.fullHeightSection, 'sm:!h-fit')}>
                     <div className={cn(styles.content,
                         'flex flex-col pt-[5rem] gap-y-[3.75rem]',
-                        'sm:x-[gap-y-[--p-content-xl],pt-[--p-content-xl]]',
+                        'sm:x-[gap-y-xl,pt-xl]',
                     )}
                     >
                         <h2
@@ -238,7 +238,7 @@ const HomePage: FC = () => {
                 </section>
                 <section
                     className={cn(styles.textGlow, styles.section,
-                        'bg-gradient-to-t from-[--bg-section-green] via-[#0a313a] to-transparent',
+                        'bg-gradient-to-t from-[--bg-green] via-[#0a313a] to-transparent',
                         'pb-[28rem]',
                         'md:pb-[23rem]',
                     )}
@@ -259,8 +259,8 @@ const HomePage: FC = () => {
                         </p>
                     </div>
                 </section>
-                <Info data={INFO} className={'bg-[--bg-section-green]'}/>
-                <InsideTern data={COMPANY} className={cn('to-[--bg-section-green]','lg:x-[bg-gradient-to-t,from-black,via-[#0a313a],to-[--bg-section-green]]')}/>
+                <Info data={INFO}/>
+                <InsideTern data={COMPANY}/>
             </div>
         </>
     );

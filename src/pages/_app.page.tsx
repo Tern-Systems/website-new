@@ -1,6 +1,8 @@
 import {ReactElement, Suspense, useEffect, useState} from "react";
 import {AppProps} from "next/app";
 
+import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
+
 import {useBreakpointCheck} from "@/app/hooks";
 import {FlowProvider, LayoutProvider, ModalProvider, UserProvider} from "@/app/context";
 
@@ -9,7 +11,7 @@ import Head from "next/head";
 
 
 export default function MyApp({Component, pageProps}: AppProps) {
-    const isSmScreen = useBreakpointCheck()=== 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
 
     // Click checking

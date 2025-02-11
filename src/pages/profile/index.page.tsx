@@ -4,6 +4,7 @@ import cn from "classnames";
 import {Res} from "@/app/types/service";
 import {UpdateUserData} from "@/app/services/user.service";
 import {EditableProps} from "@/app/ui/form/Editable";
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import {UserService} from "@/app/services";
 
@@ -61,7 +62,7 @@ const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const {userData, token, fetchUserData} = useUser();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const sectionsRef = useRef<HTMLDivElement>(null);
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
@@ -113,9 +114,9 @@ const ProfilePage: FC = () => {
         <li
             key={link + idx}
             className={cn(
-                `pl-[--2dr] leading-[200%] cursor-pointer
-                sm:landscape:pl-[--1dr]`,
-                {[`before:bg-control-blue ${styles.line}`]: idx === activeSectionIdx}
+                `pl-l leading-[200%] cursor-pointer
+                sm:landscape:pl-xxs`,
+                {[`before:bg-blue ${styles.line}`]: idx === activeSectionIdx}
             )}
         >
             <span
@@ -136,10 +137,10 @@ const ProfilePage: FC = () => {
         <div className={cn(
             "flex",
             'lg:mt-[3.88rem]',
-            `md:portrait:h-[calc(100%-2*var(--p-content-xs))] md:x-[mt-[--p-content-xs],px-[--p-content-xs],overflow-y-scroll]`,
+            `md:portrait:h-[calc(100%-2*var(--p-xs))] md:x-[mt-xs,px-xs,overflow-y-scroll]`,
             `sm:mt-0`,
-            `sm:portrait:h-[calc(100%-2*var(--p-content-xxl))] sm:portrait:x-[mt-[--p-content-xxl],px-[--p-content-xs],overflow-y-scroll]`,
-            `sm:landscape:h-[calc(100%-2*var(--p-content-xs))] sm:landscape:x-[mt-[--p-content-xs],px-[--p-content-xs],overflow-y-scroll]`,
+            `sm:portrait:h-[calc(100%-2*var(--p-xxl))] sm:portrait:x-[mt-xxl,px-xs,overflow-y-scroll]`,
+            `sm:landscape:h-[calc(100%-2*var(--p-xs))] sm:landscape:x-[mt-xs,px-xs,overflow-y-scroll]`,
         )}
         >
             <aside
@@ -152,7 +153,7 @@ const ProfilePage: FC = () => {
                 <div
                     className={cn(
                         `font-bold`,
-                        `mb-[--1hdrs] text-heading`,
+                        `mb-s text-heading`,
                         `sm:landscape:text-heading-s`,
                     )}
                 >
@@ -160,7 +161,7 @@ const ProfilePage: FC = () => {
                 </div>
                 <ul
                     className={cn(styles.line,
-                        `flex flex-col before:bg-control-white`,
+                        `flex flex-col before:bg-white`,
                         `text-section`,
                         `sm:landscape:text-section-xs`,
                     )}
@@ -171,9 +172,9 @@ const ProfilePage: FC = () => {
             <div
                 ref={sectionsRef}
                 className={cn(
-                    `flex-grow flex flex-col gap-y-[--p-content-4xs]`,
+                    `flex-grow flex flex-col gap-y-4xs`,
                     `lg:ml-[10rem]`,
-                    `sm:landscape:x-[grid,auto-rows-min,grid-cols-2,gap-[--p-content-5xs]] sm:landscape:[&>div]:place-self-start`,
+                    `sm:landscape:x-[grid,auto-rows-min,grid-cols-2,gap-5xs] sm:landscape:[&>div]:place-self-start`,
                 )}
             >
                 <AccountSection setEditId={setEditId} editId={editId} update={handleUpdate}/>
