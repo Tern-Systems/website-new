@@ -24,6 +24,12 @@ type SectionCard = {
     btnIconCN?: string;
 };
 
+type ResourceSection = {
+    Node: ReactNode,
+    action?: (props: { isSm: boolean, navigate: (link: Route) => void, modalCtx: IModalContext }) => void
+}
+
+
 type NavDropdown = {
     name: string;
     columns: Record<string, string | ((action: IModalContext) => void)>[];
@@ -37,4 +43,4 @@ type TableSection<T extends object> = {
     fallback: ReactNode;
 };
 
-export type { SectionCard, InfoSection, NavDropdownDict, NavDropdown, TableSection };
+export type { SectionCard, InfoSection, NavDropdownDict, ResourceSection, NavDropdown, TableSection };

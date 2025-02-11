@@ -99,7 +99,7 @@ const Header: FC = (): ReactElement => {
                             <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
                         </PageLink>
                         {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1 ? (
-                            <span>/</span>
+                            <span className={'px-0'}>/</span>
                         ) : null}
                     </>
                 )}
