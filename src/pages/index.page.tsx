@@ -114,7 +114,7 @@ const HomePage: FC = () => {
     const CardsLi: ReactElement[] = CARDS.map((card, idx) => (
         <li
             key={card.title + idx}
-            className={'flex flex-col h-full overflow-hidden rounded-normal border-normal border-control-white-d0 text-center'}
+            className={'flex flex-col h-full overflow-hidden  border-normal border-control-white-d0 text-center md:max-w-[22.0625rem]'}
         >
             <div
                 style={{backgroundImage: `url("${card.image.src}")`}}
@@ -188,14 +188,12 @@ const HomePage: FC = () => {
                                 className={cn(styles.textGlow,
                                     `font-oxygen text-center leading-[1.2]`,
                                     `mb-[--p-content] text-[5.0625rem]`,
-                                    `md:text-[3.4375rem]`,
+                                    `md:text-[2.8125rem]`,
                                     `sm:x-[mb-[--p-content-xs],text-[2.9375rem]]`,
                                 )}
                             >
                                 <span>
-                                <span>The Future of&nbsp;</span>
-                                <span className={cn(styles.textBlueGlow, 'text-blue')}>AI</span></span>
-                                <span>&nbsp;is Built on <span className={'font-bold'}>tern</span>
+                                We Design Advanced Semiconductors
                                 </span>
                             </h1>
                             <p className={'flex gap-x-[--p-content-xs] justify-center  text-heading-s  sm:text-basic'}>
@@ -203,7 +201,7 @@ const HomePage: FC = () => {
                                     isExternal
                                     href={MISC_LINKS.TernKey}
                                     className={cn(
-                                        'px-[--p-content] h-[3.125rem] rounded-full bg-blue text-black',
+                                        'px-[--p-content] h-[3.125rem] bg-blue text-black',
                                         'sm:x-[px-[--p-content-xs],h-[1.875rem]]',
                                     )}
                                 >
@@ -213,7 +211,7 @@ const HomePage: FC = () => {
                                     isExternal
                                     href={MISC_LINKS.TernKeyDemo}
                                     className={cn(
-                                        'px-[--p-content] h-[3.125rem] rounded-full border-normal border-control-gray-l0',
+                                        'px-[--p-content] h-[3.125rem] border-normal border-control-gray-l0',
                                         'bg-black text-blue',
                                         'sm:x-[px-[--p-content-xs],h-[1.875rem]]',
                                     )}
@@ -232,18 +230,21 @@ const HomePage: FC = () => {
                     >
                         <h2
                             className={cn(styles.textGlow,
-                                'font-bold font-oxygen text-center text-[2.5rem] leading-[1.2] tracking-[0.1rem]',
-                                'md:text-[1.75rem]',
+                                'font-oxygen text-center text-[2.5rem] leading-[1.2] tracking-[0.1rem]',
+                                'md:text-[3.1875rem]',
                                 'sm:text-[1.1875rem]',
                             )}
                         >
-                            <p>Redesigning the Computer from the Inside Out with Tern.</p>
-                            <p>All Ways.</p>
+                            <span>
+                            <span>The Future of&nbsp;</span>
+                            <span className={cn(styles.textBlueGlow, 'text-blue')}>AI</span></span>
+                            <span>&nbsp;is Built on <span className={'font-bold'}>tern</span>
+                            </span>
                         </h2>
                         <Carousel
                             className={'lg:contents  sm:'}
                             classNameUl={'grid-cols-[repeat(3,22rem)] !h-[30.3125rem]  lg:max-h-[30.3125rem]  sm:grid-cols-[minmax(0,21rem)] sm:!h-fit'}
-                            classNameArrow={'hidden  md:block'}
+                            classNameArrow={'hidden  md:hidden'}
                         >
                             {CardsLi}
                         </Carousel>
@@ -261,7 +262,7 @@ const HomePage: FC = () => {
                 </section>
                 <section
                     className={cn(styles.textGlow, styles.section,
-                        'bg-gradient-to-t from-[--bg-section-green] via-[#0a313a] to-transparent',
+                        'bg-gradient-to-t from-blue via-[#0a313a] to-transparent',
                         'pb-[28rem]',
                         'md:pb-[23rem]',
                     )}
@@ -282,7 +283,7 @@ const HomePage: FC = () => {
                         </p>
                     </div>
                 </section>
-                <Info data={INFO}/>
+                <Info data={INFO} className={cn('md:h-[401px]', 'bg-[radial-gradient(circle,_transparent_0%,_rgba(10,49,58,0.8)_100%)]')} classNameTitle={'font-oxygen text-center text-[1.75rem] leading-[2.21] tracking-[0.1rem] mt-[-2rem]'} classNameSubTitle={'md:x-[font-oxygen,text-left,text-[1.5rem],leading-[1.8],mt-[-2rem]]'} classNameDescription={'md:x-[font-oxygen,text-left,text-[0.9375rem],leading-[1.40625]]'} classNamePageLink={'!rounded-none'}/>
                 <InsideTern data={COMPANY}/>
             </div>
         </>

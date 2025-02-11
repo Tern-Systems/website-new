@@ -38,7 +38,7 @@ const Info: FC<Props> = (props: Props) => {
                 </h2>
                 <div
                     className={'flex justify-between items-center  sm:x-[gap-y-[--p-content-xxl],flex-col-reverse]'}>
-                            <span className={'w-[40%] text-left   sm:x-[w-full,text-center]'}>
+                            <span className={'w-[40%] text-left   sm:x-[w-full,text-center] md:w-[25rem]'}>
                                 <span
                                     className={cn('block mb-[--p-content-5xs]  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs', classNameSubTitle)}>
                                     {subTitle}
