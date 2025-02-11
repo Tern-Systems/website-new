@@ -64,7 +64,7 @@ const TagArticle: FC<Props> = (props: Props) => {
                 style={{ backgroundImage: `url("${PNG_ELECTRONS.src}")` }}
                 className={'absolute top-0 left-0 w-dvw max-w-dwv h-screen max-h-[100rem] bg-cover bg-center bg-no-repeat'}
             />
-            <div className={'relative z-10  font-oxygen'}>
+            <div className={'relative z-10  font-gothic'}>
                 <section className={cn(styles.section, styles.fullHeightSection, 'bg-gradient-to-t', GRADIENT_CN)}>
                     <div className={cn(styles.content, 'pt-[7rem]')}>
                         <h1 className={cn(styles.textGlow, `font-bold text-[6rem]`)}>

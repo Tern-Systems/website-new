@@ -25,10 +25,10 @@ const Info: FC<Props> = (props: Props) => {
 
     return (
         <section className={cn(styles.section, className)}>
-            <div className={cn(styles.content, 'pt-[3.5rem] pb-[12.25rem] font-oxygen', classNameContent)}>
+            <div className={cn(styles.content, 'pt-[3.5rem] pb-[12.25rem] font-gothic', classNameContent)}>
                 <h2
                     className={cn(
-                        'mb-[4.62rem] text-center font-bold font-oxygen',
+                        'mb-[4.62rem] text-center font-bold font-gothic',
                         'text-[1.75rem]',
                         'lg:text-[2.5rem]',
                         classNameTitle

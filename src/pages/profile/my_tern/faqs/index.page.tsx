@@ -183,7 +183,7 @@ const FAQsModal: FC = () => {
                    classNameTitle={'leading-none'}
                    classNameHr={'md:mb-[calc(0.5*var(--p-s))]'}
                    classNameContent={cn(
-                       `overflow-y-scroll font-oxygen`,
+                       `overflow-y-scroll font-gothic`,
                        'lg:x-[w-[56rem],max-h-[23rem]]',
                        'md:x-[w-[33rem],h-[32rem]]',
                    )}

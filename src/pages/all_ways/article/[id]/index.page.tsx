@@ -104,7 +104,7 @@ function ArticlePage() {
         .map((article, idx) => <ArticleCardLi key={article.id + idx} article={article} />);
 
     return (
-        <div className={cn(styles.section, 'pb-[10rem] min-h-dvh bg-black font-oxygen')}>
+        <div className={cn(styles.section, 'pb-[10rem] min-h-dvh bg-black font-gothic')}>
             <div className={cn(styles.content, 'pt-[3.75rem]')}>
                 <h1 className={'text-[4rem] leading-[1.2]'}>{content?.title}</h1>
                 <div className={'mt-[4.4rem] w-full'}>

@@ -68,7 +68,7 @@ const ContactsPage: FC = () => {
                         <div>
                             <h1
                                 className={cn(styles.textGlow,
-                                    `w-min font-oxygen font-bold text-left leading-[1.2]`,
+                                    `w-min font-gothic font-bold text-left leading-[1.2]`,
                                     `mb-n text-[6rem]`,
                                     `lg:x-[w-full,mt-[6.25rem]]`,
                                     `md:x-[mt-xl,text-[6rem]]`,
@@ -91,7 +91,7 @@ const ContactsPage: FC = () => {
                 >
 
                     <div className={cn(styles.content)}>
-                        <h2 className={'font-oxygen font-bold text-[4rem] text-left mb-[6.25rem]  md:text-[3rem]  sm:text-[2.5rem]'}>
+                        <h2 className={'font-gothic font-bold text-[4rem] text-left mb-[6.25rem]  md:text-[3rem]  sm:text-[2.5rem]'}>
                             Get in Touch
                         </h2>
                         <form onSubmit={handleSubmit} className="relative z-10">

@@ -128,7 +128,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const SubmitBtn = (
         <Button
             type={'submit'}
-            className={`px-[1.12rem] h-[min(13dvw,3.25rem)] bg-gray font-neo text-heading font-bold
+            className={`px-[1.12rem] h-[min(13dvw,3.25rem)] bg-gray font-gothic text-heading font-bold
                         w-full rounded-full text-primary col-span-2 sm:mt-[2.7dvw]`}
         >
             {isPaymentCreation ? 'Add' : 'Update'}
