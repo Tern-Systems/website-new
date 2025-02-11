@@ -116,14 +116,14 @@ body ::-webkit-scrollbar {
 
 @font-face {
   font-family: "Abode Gothic Standard";
-  src: url("../../public/fonts/AdobeGothicStdL.otf") format("opentype");
+  src: url("../../public/fonts/AdobeGothic-Light.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Adobe Gothic Standard";
-  src: url("../../public/fonts/AdobeGothicStdL.otf") format("opentype");
+  src: url("../../public/fonts/AdobeGothic-Bold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
 }
