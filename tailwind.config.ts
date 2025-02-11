@@ -1,50 +1,199 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
+import Tailwind from 'tailwindcss/plugin';
+
 
 const config: Config = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      screens: {
-        sm: { min: '375px', max: '833.9px'},
-        md: { min: '834px', max: '1439.9px'},
-        lg: { min: '1440px' }
-      },
-      colors: {
-        bgBackground: "var(--bg-background)",
-        bgForeground: "var(--bg-foreground)",
-        primary: "var(--color-primary)",
-        title: "var(--color-title)",
-      },
-      fontFamily: {
-        caslon: ['"Adobe Caslon Pro"', 'serif'],
-        neo: ['"Neo Sans W1G"', 'sans-serif'],
-        oxygen: ['"Oxygen"', 'sans-serif'],
-      },
-      fontSize: {
-        primary: '1.3125rem'
-      },
-      keyframes: {
-          insignia: {
-              '0%': {
-                  top: '45%',
-                  right: '50%',
-                  transform: 'translate(50%, -50%) scale(var(--insignia-scale-init))',
-                  transformOrigin: 'center center'
-              },
-              '100%': {
-                  top: '0',
-                  right: '0',
-                  transform: 'translate(calc(-1 * var(--px)), var(--py)) scale(var(--insignia-scale-moved))',
-                  transformOrigin: 'top right'
-              }
-          }
-      }
+    content: [
+        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/ui/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    ],
+    theme: {
+        extend: {
+            screens: {
+                x3s: { max: '375px' },
+                xxs: { min: '375px', max: '616px' },
+                xs: { min: '616px', max: '774px' },
+                sm: { min: '774px', max: '835px' },
+                md: { min: '835px', max: '1440px' },
+                lg: { min: '1440px' },
+            },
+            spacing: {
+                '3xl': 'var(--p-3xl)',
+                xxl: 'var(--p-xxl)',
+                xl: 'var(--p-xl)',
+                l: 'var(--p-l)',
+                n: 'var(--p-n)',
+                s: 'var(--p-s)',
+                xs: 'var(--p-xs)',
+                xxs: 'var(--p-xxs)',
+                '3xs': 'var(--p-3xs)',
+                '4xs': 'var(--p-4xs)',
+                '5xs': 'var(--p-5xs)',
+            },
+            gap: {
+                '3xl': 'var(--p-3xl)',
+                xxl: 'var(--p-xxl)',
+                xl: 'var(--p-xl)',
+                l: 'var(--p-l)',
+                n: 'var(--p-n)',
+                s: 'var(--p-s)',
+                xs: 'var(--p-xs)',
+                xxs: 'var(--p-xxs)',
+                '3xs': 'var(--p-3xs)',
+                '4xs': 'var(--p-4xs)',
+                '5xs': 'var(--p-5xs)',
+            },
+            margin: {
+                '3xl': 'var(--p-3xl)',
+                xxl: 'var(--p-xxl)',
+                xl: 'var(--p-xl)',
+                l: 'var(--p-l)',
+                n: 'var(--p-n)',
+                s: 'var(--p-s)',
+                xs: 'var(--p-xs)',
+                xxs: 'var(--p-xxs)',
+                '3xs': 'var(--p-3xs)',
+                '4xs': 'var(--p-4xs)',
+                '5xs': 'var(--p-5xs)',
+            },
+            padding: {
+                '3xl': 'var(--p-3xl)',
+                xxl: 'var(--p-xxl)',
+                xl: 'var(--p-xl)',
+                l: 'var(--p-l)',
+                n: 'var(--p-n)',
+                s: 'var(--p-s)',
+                xs: 'var(--p-xs)',
+                xxs: 'var(--p-xxs)',
+                '3xs': 'var(--p-3xs)',
+                '4xs': 'var(--p-4xs)',
+                '5xs': 'var(--p-5xs)',
+            },
+            maxWidth: {
+                l: 'var(--h-l)',
+                m: 'var(--h-m)',
+                n: 'var(--h-n)',
+                s: 'var(--h-s)',
+                xs: 'var(--h-xs)',
+                xxs: 'var(--h-xxs)',
+            },
+            width: {
+                l: 'var(--h-l)',
+                m: 'var(--h-m)',
+                n: 'var(--h-n)',
+                s: 'var(--h-s)',
+                xs: 'var(--h-xs)',
+                xxs: 'var(--h-xxs)',
+                'heading-icon': 'var(--h-heading-icon)',
+            },
+            maxHeight: {
+                l: 'var(--h-l)',
+                m: 'var(--h-m)',
+                n: 'var(--h-n)',
+                s: 'var(--h-s)',
+                xs: 'var(--h-xs)',
+                xxs: 'var(--h-xxs)',
+                heading: 'var(--h-heading)',
+                'modal-heading': 'var(--h-modal-heading)',
+            },
+            minHeight: {
+                l: 'var(--h-l)',
+                m: 'var(--h-m)',
+                n: 'var(--h-n)',
+                s: 'var(--h-s)',
+                xs: 'var(--h-xs)',
+                xxs: 'var(--h-xxs)',
+                heading: 'var(--h-heading)',
+                'heading-modal': 'var(--h-heading-modal)',
+            },
+            height: {
+                l: 'var(--h-l)',
+                m: 'var(--h-m)',
+                n: 'var(--h-n)',
+                s: 'var(--h-s)',
+                xs: 'var(--h-xs)',
+                xxs: 'var(--h-xxs)',
+                heading: 'var(--h-heading)',
+                'heading-icon': 'var(--h-heading-icon)',
+                'heading-modal': 'var(--h-heading-modal)',
+                'sub-heading': 'var(--h-sub-heading)',
+                'button-n': 'var(--h-button-n)',
+            },
+            borderRadius: {
+                xxs: 'var(--br-xxs)',
+                xs: 'var(--br-xs)',
+                s: 'var(--br-s)',
+                n: 'var(--br-n)',
+                l: 'var(--br-l)',
+            },
+            backgroundColor: {
+                'black-l0': 'var(--bg-black-l0)',
+                'gray-d0': 'var(--bg-gray-d0)',
+                'gray': 'var(--bg-gray)',
+                'gray-l0': 'var(--bg-gray-l0)',
+                'white-d1': 'var(--bg-white-d1)',
+                'white-d0': 'var(--bg-white-d0)',
+                'white': 'var(--bg-white)',
+                'blue-l0': 'var(--bg-blue-l0)',
+                'blue': 'var(--bg-blue)',
+                'red': 'var(--bg-red)',
+                'navy-d0': 'var(--bg-navy-d0)',
+                'green': 'var(--bg-green)',
+                'navy': 'var(--bg-navy)',
+            },
+            borderColor: {
+                'gray': 'var(--b-gray)',
+                'gray-l0': 'var(--b-gray-l0)',
+                'gray-l1': 'var(--b-gray-l1)',
+                'white': 'var(--b-white)',
+                'white-d0': 'var(--b-white-d0)',
+                'blue': 'var(--b-blue)',
+                'blue-d0': 'var(--b-blue-d0)',
+                'red': 'var(--b-red)',
+            },
+            borderWidth: {
+                s: 'var(--b-s)',
+                n: 'var(--b-n)',
+            },
+            colors: {
+                primary: 'var(--color-primary)',
+                secondary: 'var(--color-secondary)',
+                gray: 'var(--color-gray)',
+                placeholder: 'var(--color-placeholder)',
+                blue: 'var(--color-blue)',
+                'blue-l0': 'var(--color-blue-l0)',
+                red: 'var(--color-red)',
+            },
+            fontFamily: {
+                caslon: ['"Adobe Caslon Pro"', 'serif'],
+                neo: ['"Neo Sans W1G"', 'sans-serif'],
+                english: ['"Old English Five"', 'serif'],
+                oxygen: ['"Oxygen"', 'sans-serif'],
+                arial: ['"Arial"', 'serif'],
+            },
+            fontSize: {
+                'heading-l': 'var(--fz-heading-l)',
+                heading: 'var(--fz-heading)',
+                'heading-s': 'var(--fz-heading-s)',
+                documentation: 'var(--fz-documentation)',
+                section: 'var(--fz-section)',
+                'section-s': 'var(--fz-section-s)',
+                basic: 'var(--fz-basic)',
+                'section-xs': 'var(--fz-section-xs)',
+                'section-xxs': 'var(--fz-section-xxs)',
+                'section-3xs': 'var(--fz-section-3xs)',
+            },
+        },
     },
-  },
-  plugins: [],
+    plugins: [
+        Tailwind(({ matchUtilities }) => {
+            matchUtilities({
+                'x': (value) => ({
+                    [`@apply ${value.replaceAll(',', ' ')}`]: {},
+                }),
+            });
+        }),
+    ],
 };
 export default config;

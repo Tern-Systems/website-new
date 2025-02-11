@@ -3,40 +3,142 @@
 @tailwind utilities;
 
 :root {
-  --bg-background: #000000;
-  --bg-foreground: #171717;
-  --color-title: #178AB7;
-  --color-primary: #ECF0F3;
-  --fz-content: 1.3125rem;
-  --px: 2rem;
-  --py: 2.06rem;
-  --insignia-scale-init: 0.8;
-  --insignia-scale-moved: 0.2;
+  /* Paddings */
+  --p-3xl: 4.13rem;
+  --p-xxl: 3.06rem;
+  --p-xl: 2.5rem;
+  --p-l: 2.06rem;
+  --p-n: 1.88rem;
+  --p-s: 1.56rem;
+  --p-xs: 1.25rem;
+  --p-xxs: 0.94rem;
+  --p-3xs: 0.81rem;
+  --p-4xs: 0.62rem;
+  --p-5xs: 0.31rem;
+
+  /* Heights */
+  --h-button-n: 1.45rem;
+  --h-heading-modal: 4.3rem;
+  --h-heading: 4.06rem;
+  --h-heading-icon: 1.3125rem;
+  --h-sub-heading: 1.67rem;
+  --insignia-h: 1.25rem;
+  --h-footer-lg: 28.5rem;
+  --h-button: 1.45rem;
+
+  /* Borders */
+  --b-s: 0.0625rem;
+  --b-n: 0.125rem;
+
+  --br-xxs-1: 0.25rem;
+  --br-xs: 0.375rem;
+  --br-s: 0.55rem;
+  --br-n: 1rem;
+  --br-l: 1.55rem;
+
+  --b-gray: var(--bg-gray);
+  --b-gray-l0: var(--bg-gray-l0);
+  --b-gray-l1: #999999;
+  --b-white-d0: #b3b3b3;
+  --b-white: var(--bg-white);
+  --b-blue: var(--bg-blue);
+  --b-blue-d0: #192131;
+  --b-red: var(--bg-red);
+
+  /* Backgrounds */
+  --bg-main: #000000;
+  --bg-black-l0: #111111;
+  --bg-gray-d0: #0b0b0b;
+  --bg-gray: #4d4d4d;
+  --bg-gray-l0: #808080;
+  --bg-white-d1: #d3d3d3;
+  --bg-white-d0: #d9d9d9;
+  --bg-white: #f2f2f2;
+  --bg-red: #f42200;
+  --bg-blue-l0: #1ea8de;
+  --bg-blue: #178ab7;
+  --bg-navy: #00397f;
+  --bg-navy-d0: #001125;
+  --bg-green: #0c545c;
+
+  /* Text */
+  --fz-heading-l: 2.25rem;
+  --fz-heading: 1.6875rem;
+  --fz-heading-s: 1.3125rem;
+  --fz-documentation: 1.5rem;
+  --fz-section: 1.25rem;
+  --fz-section-s: 1.125rem;
+  --fz-basic: 1rem;
+  --fz-section-xs: 0.875rem;
+  --fz-section-xxs: 0.75rem;
+  --fz-section-3xs: 0.625rem;
+
+  --color-primary: #ecf0f3;
+  --color-secondary: var(--bg-gray-l0);
+  --color-gray: var(--bg-gray);
+  --color-placeholder: var(--b-white-d0);
+  --color-blue: var(--bg-blue);
+  --color-blue-l0: #21a1d3;
+  --color-red: var(--bg-red);
 }
 
 body {
-  color: var(--bg-foreground);
-  background: var(--bg-background);
+  background: var(--bg-main);
   font-family: Arial, Helvetica, sans-serif;
   overflow: hidden;
 
   -ms-overflow-style: none;
   scrollbar-width: none;
+  line-height: 1;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: normal;
+}
+
+h1 {
+  line-height: 0.75;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 body ::-webkit-scrollbar {
   display: none;
 }
 
 @font-face {
   font-family: "Adobe Caslon Pro";
-  src: url("/public/fonts/ACaslonPro-Regular.otf") format("truetype");
+  src: url("../../public/fonts/ACaslonPro-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Neo Sans W1G";
-  src: url("/public/fonts/NeoSansW1G-Regular.otf") format("opentype");
+  src: url("../../public/fonts/NeoSansW1G-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  ascent-override: 110%;
+}
+
+@font-face {
+  font-family: 'Oxygen';
+  src: url('../../public/fonts/Oxygen-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Old English Five';
+  src: url('../../public/fonts/OldEnglishFive.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }

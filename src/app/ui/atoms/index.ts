@@ -1,0 +1,1 @@
+export {PrimaryLabel} from './PrimaryLabel';

@@ -1,0 +1,41 @@
+.form {
+  display: grid;
+  grid-template-rows: 1fr min-content;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: min(2.6dvw, var(--p-n));
+  max-width: min(90vw, 99rem);
+  padding: 0 min(2.7dvw, 8.5rem);
+  place-items: end;
+}
+
+.form fieldset {
+  display: contents;
+  flex-direction: column;
+  gap: min(2.7dvw, 1.15rem);
+  width: min(100%, 29rem);
+}
+
+.form fieldset > * {
+  grid-column: span 2 / span 2;
+  width: 100%;
+}
+
+.form legend {
+  font-size: min(4.8dvw, 2.25rem);
+  margin-bottom: min(2.7dvw, 1.17rem);
+}
+
+.form input + span,
+.form label > span {
+  margin-bottom: min(1.3dvw, 0.94rem);
+}
+
+.form input,
+.form input + span + label {
+  padding: min(1.6dvw, 1.5rem) 0;
+  padding-left: min(1.1dvw, 0.74rem);
+  border-radius: 0.375rem;
+  width: 100%;
+  height: min(5.9dvw, 1.875rem);
+  border: var(--b-s) solid var(--b-gray-l0);
+}

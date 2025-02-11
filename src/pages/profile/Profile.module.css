@@ -1,0 +1,105 @@
+.line {
+    position: relative;
+}
+
+.line::before {
+    content: '';
+    position: absolute;
+    left: 0;
+
+    width: 0.18rem;
+    height: 100%;
+
+    border-radius: 0.1rem;
+}
+
+
+.collapsible {
+    row-gap: var(--p-l);
+}
+
+.common {
+    border: var(--b-s) solid var(--b-white);
+
+    --px: 0.76rem;
+    padding-left: var(--px);
+    padding-right: var(--px);
+}
+
+.roundedWFull {
+    border-radius: var(--br-smallest);
+    width: 100%;
+}
+
+.ellipsis {
+    @media screen and (max-width: 835px) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 120%;
+    }
+}
+
+
+.leftCol {
+    grid-column-start: 1;
+    font-size: var(--fz-heading-s);
+}
+
+.midCol {
+    grid-column-start: 2;
+    font-size: var(--fz-basic);
+}
+
+
+.singleInputBase {
+    background-color: var(--bg-gray-l0);
+
+    --py: var(--p-5xs);
+    padding-top: var(--py);
+    padding-bottom: var(--py);
+}
+
+.singleInput {
+    height: min(5.8dvw, 2rem);
+    width: 100%;
+    border-radius: var(--br-smallest);
+    font-size: var(--fz-section-s);
+}
+
+.photoInput {
+    display: flex;
+    align-items: center;
+
+    padding: 0 var(--p-xxs);
+    max-width: 10rem;
+    width: fit-content;
+    height: 1.43rem;
+
+
+    overflow-x: hidden;
+
+    border-radius: 9999px;
+    background-color: white;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--color-gray);
+    font-size: var(--fz-section-xs);
+    font-weight: 700;
+
+    @media screen and (max-width: 835px) {
+        height: 1.125rem;
+        font-size: var(--fz-section-xxs);
+    }
+}
+
+
+@media screen and (max-width: 835px) and (orientation: landscape) {
+    .leftCol {
+        font-size: var(--fz-section-s);
+    }
+
+    .midCol {
+        font-size: var(--fz-section-xs);
+    }
+}

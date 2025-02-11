@@ -1,4 +1,4 @@
-# Pull Request for Minimalistic-Website
+# Pull Request for Website
 
 ## Description
 Provide a brief description of the changes made. Highlight the purpose of the update and any relevant context. If this PR addresses a specific issue, please link it here.

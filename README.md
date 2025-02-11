@@ -1,26 +1,26 @@
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/f9954bd9-0495-4026-9f92-d8ba18c94c10" alt="Minimalistic Website Logo" width="300"/>
-  
-  # Minimalistic-Website
+  <img src="https://github.com/user-attachments/assets/f829e555-2c3b-4b48-b5f3-a969410949d8" alt="Minimalistic Website Logo" width="1200"/>
+
+  # Website
   
   **Simplicity Meets Performance**
   
-  **_Version 1.0.0 is Out!_**
+  **_Version 2.0.0 is Out!_**
 </div>
 
 ---
 
-## About Minimalistic-Website
+## About Website
 
-Minimalistic-Website is a sleek, performance-driven web application built with [Next.js](https://nextjs.org/). It offers a minimalist design with optimized performance, making it a perfect starting point for creating responsive and scalable websites. Built using the powerful Next.js framework, this project ensures fast load times, optimized assets, and an enhanced developer experience.
+Website is a sleek, performance-driven web application built with [Next.js](https://nextjs.org/). It offers a minimalist design with optimized performance, making it a perfect starting point for creating responsive and scalable websites..Built using the powerful Next.js framework, this project ensures fast load times, optimized assets, and an enhanced developer experience.
 
-### **What's New in Version 1.0.0?**
+### **What's New in Version 2.0.0?**
 
-We’re thrilled to introduce Minimalistic-Website Version 1.0.0! Here’s what’s new:
+We’re thrilled to introduce Website Version 2.0.0! Here’s what’s new:
 
 - **Enhanced Speed**: Thanks to Next.js's SSR and built-in optimizations.
-- **Minimalist UI**: Clean and responsive design for a smooth user experience.
+- **Increased UI**: Clean and responsive design for a smooth user experience.
 - **Font Optimization**: Leveraging `next/font` to improve font loading with [Geist](https://vercel.com/font).
 - **Automatic Image Optimization**: Images are optimized automatically for faster page load.
 
@@ -40,7 +40,7 @@ We’re thrilled to introduce Minimalistic-Website Version 1.0.0! Here’s what�
 
 ## Getting Started
 
-To start developing on Minimalistic-Website, follow these steps:
+To start developing on Website, follow these steps:
 
 ```bash
 # Using npm
@@ -68,7 +68,7 @@ You can modify the main page by editing `app/page.tsx`. All changes will reflect
 
 ## Contribution Guidelines
 
-We welcome your contributions to Minimalistic-Website! Please follow these guidelines for a smooth collaboration:
+We welcome your contributions to Website! Please follow these guidelines for a smooth collaboration:
 
 - Always create feature branches from the `develop` branch.
 - Submit a pull request (PR) for code reviews before merging into protected branches.
@@ -78,11 +78,11 @@ We welcome your contributions to Minimalistic-Website! Please follow these guide
 
 ## Project Structure
 
-Minimalistic-Website follows a modular structure for ease of scalability and maintenance:
+Website follows a modular structure for ease of scalability and maintenance:
 
 - **`pages/`** - Contains the main route-based components.
 - **`public/`** - Hosts static assets like images and fonts.
-- **`components/`** - Holds reusable UI components.
+- **`ui/`** - Holds reusable UI components.
 - **`styles/`** - Manages global and component-specific styles.
 
 This structure ensures a clear separation of concerns, making it easier to maintain and expand the project.
@@ -91,7 +91,7 @@ This structure ensures a clear separation of concerns, making it easier to maint
 
 ## Release Notes
 
-**Version 1.0.0 Highlights:**
+**Version 2.0.0 Highlights:**
 
 - **Next.js Version**: Built using Next.js 14.2.5, providing the latest SSR and performance improvements.
 - **Production Ready**: Optimized for server-side rendering (SSR), static site generation (SSG), and client-side navigation.
@@ -114,7 +114,7 @@ Visit the [Next.js GitHub repository](https://github.com/vercel/next.js) to cont
 
 ---
 
-## Deploy on Vercel
+## Deploy on Vercel:
 
 The easiest way to deploy Minimalistic-Website is using [Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme). As the creators of Next.js, Vercel offers seamless deployment with automatic optimizations for performance.
 

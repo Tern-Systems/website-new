@@ -1,0 +1,142 @@
+import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import cn from 'classnames';
+
+import { LAYOUT } from '@/app/static';
+
+import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
+import { useModal, useUser } from '@/app/context';
+
+import { Button } from '@/app/ui/form';
+import { PageLink } from '@/app/ui/layout/Link';
+import { AuthModal } from '@/app/ui/modals';
+
+import SVG_PROFILE from '/public/images/icons/profile.svg';
+
+
+const AUTH_BTNS: { title: string, action: string, description: string }[] = [
+    { title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account' },
+    { title: 'Register for an account', action: 'Sign Up', description: 'Create a Tern account for richer experience' },
+];
+
+
+const ProfileMenu: FC = () => {
+    const modalCtx = useModal();
+    const userCtx = useUser();
+    const isSm = useBreakpointCheck() <= Breakpoint.xxs;
+
+    const [opened, setOpened] = useState(false);
+
+    const ref = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const handleClick = (event: MouseEvent) => {
+            if (opened && !ref.current?.contains(event.target as Node))
+                setOpened(false);
+        };
+        window.addEventListener('mousedown', handleClick);
+        return () => window.removeEventListener('mousedown', handleClick);
+        // eslint-disable-next-line
+    }, [opened]);
+
+
+    let ProfileMenu: ReactElement | null = null;
+    if (opened) {
+        if (userCtx.isLoggedIn) {
+            const ProfileMenuLi: ReactElement[] = LAYOUT.profileLinks.map((link, idx) => (
+                <li
+                    key={link + idx}
+                    className={cn(`w-full pb-xs`, `[&:not(:last-of-type)]:x-[border-b-s,pt-xs]`)}
+                >
+                    <PageLink
+                        href={link}
+                        className={`relative flex justify-center bg-control`}
+                        onClick={() => setOpened(false)}
+                    />
+                </li>
+            ));
+
+            ProfileMenuLi.push(
+                <li
+                    key={'logout' + LAYOUT.profileLinks.length}
+                    onClick={() => {
+                        setOpened(false);
+                        userCtx.removeSession();
+                    }}
+                    className={`pt-xs cursor-pointer`}
+                >
+                    Log Out
+                </li>,
+            );
+            ProfileMenu = (
+                <ul
+                    className={cn(
+                        `absolute z-10 right-0 top-[calc(1px+var(--h-heading))] w-[9.1875rem] bg-gray-d0 text-nowrap text-basic`,
+                        `[&>li]:x-[px-xs,py-xxs]`,
+                    )}
+                >
+                    {ProfileMenuLi}
+                </ul>
+            );
+        } else {
+            const ProfileMenuLi: ReactElement[] = AUTH_BTNS.map((entry, idx) => (
+                <li
+                    key={entry.title + idx}
+                    className={'flex flex-col gap-y-4xs'}
+                >
+                    <p className={'text-section-s'}>{entry.title}</p>
+                    <p className={'text-gray'}>{entry.description}</p>
+                    <Button
+                        onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1} />, { darkenBg: !isSm })}
+                        className={cn(
+                            `w-full py-5xs rounded-full border-s border-gray font-bold capitalize text-section`,
+                            idx ? 'bg-black text-primary' : 'bg-white text-black',
+                        )}
+                    >
+                        {entry.action}
+                    </Button>
+                </li>
+            ));
+            ProfileMenu = (
+                <div
+                    className={cn(
+                        'absolute z-10 mt-5xs right-0 p-n rounded-n border-s',
+                        'border-gray-l0 bg-black text-nowrap',
+                    )}
+                >
+                    <h2 className={'text-heading font-bold'}>Tern Account</h2>
+                    <ul className={'flex flex-col mt-xs gap-y-xs'}>{ProfileMenuLi}</ul>
+                </div>
+            );
+        }
+    }
+
+    const userBtns: ReactElement | ReactElement[] = (
+        <div
+            ref={ref}
+            onClick={() => setOpened(prevState => !prevState)}
+            className={'relative'}
+        >
+            <div className={cn('px-s h-full content-center', { ['bg-gray-d0']: opened })}>
+                <Image
+                    src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
+                    width={29}
+                    height={29}
+                    alt={'profile icon'}
+                    className={'!w-heading-icon rounded-full cursor-pointer'}
+                />
+            </div>
+            {ProfileMenu}
+        </div>
+    );
+
+    return (
+        <div className={'flex gap-[0.75rem] ml-auto h-full'}>
+            {userBtns}
+        </div>
+    );
+
+};
+
+
+export { ProfileMenu };
