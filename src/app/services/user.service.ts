@@ -1,11 +1,10 @@
-import axios, {AxiosRequestConfig} from "axios";
+import axios, { AxiosRequestConfig } from 'axios';
 
-import {Res} from "@/app/types/service";
-import {PlanName, PlanType, Subscription} from "@/app/types/subscription";
-import {UserData} from "@/app/context/User.context";
+import { Res } from '@/app/types/service';
+import { PlanName, PlanType, Subscription } from '@/app/types/subscription';
+import { UserData } from '@/app/context/User.context';
 
-import {BaseService} from "./base.service";
-
+import { BaseService } from './base.service';
 
 type UpdateUserData = Omit<UserData, 'email' | 'photo'> & { photo?: File | null };
 
@@ -16,8 +15,7 @@ type SubscriptionData = {
     endDate: string;
     duration: number;
     source: PlanName;
-}
-
+};
 
 interface IUserService {
     getUser(token: string, fetchPlanDetails: boolean): Promise<Res<UserData, false>>;
@@ -33,18 +31,17 @@ interface IUserService {
 
 class UserServiceImpl extends BaseService implements IUserService {
     constructor() {
-        super(UserServiceImpl.name)
+        super(UserServiceImpl.name);
     }
-
 
     async postRemoveProfilePicture(email: string): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postRemoveProfilePicture.name);
 
         const config: AxiosRequestConfig = {
-            method: "POST",
+            method: 'POST',
             url: this._API + `remove-photo`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail: email}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ userEmail: email }),
             withCredentials: true,
         };
 
@@ -52,10 +49,10 @@ class UserServiceImpl extends BaseService implements IUserService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -63,10 +60,10 @@ class UserServiceImpl extends BaseService implements IUserService {
         const [debug, error] = this.getLoggers(this.postUpdateUser.name);
 
         const config: AxiosRequestConfig = {
-            method: "POST",
+            method: 'POST',
             url: this._API + `add-or-update-username`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail: email, username}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ userEmail: email, username }),
             withCredentials: true,
         };
 
@@ -74,10 +71,10 @@ class UserServiceImpl extends BaseService implements IUserService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -88,45 +85,47 @@ class UserServiceImpl extends BaseService implements IUserService {
 
         userFormData.set('userEmail', email);
 
-        if (data.photo)
-            userFormData.set('photo', data.photo);
+        if (data.photo) userFormData.set('photo', data.photo);
 
         userFormData.set('salutation', data.name.salutation);
         userFormData.set('firstName', data.name.firstName);
         userFormData.set('initial', data.name.initial ?? '');
         userFormData.set('lastName', data.name.lastName);
         userFormData.set('language', data.language ?? 'en-US');
-        userFormData.set('businessLine1', data.address.businessAddress?.line1 ?? '')
-        userFormData.set('businessLine2', data.address.businessAddress?.line2 ?? '')
-        userFormData.set('businessState', data.address.businessAddress?.state ?? '')
-        userFormData.set('businessZip', data.address.businessAddress?.zip ?? '')
-        userFormData.set('businessCity', data.address.businessAddress?.city ?? '')
-        userFormData.set('businessCountry', data.address.businessAddress?.country ?? '')
-        userFormData.set('businessAddressIsPrimary', data.address.businessAddress?.isPrimary?.toString() ?? 'false')
-        userFormData.set('personalLine1', data.address.personalAddress?.line1 ?? '')
-        userFormData.set('personalLine2', data.address.personalAddress?.line2 ?? '')
-        userFormData.set('personalState', data.address.personalAddress?.state ?? '')
-        userFormData.set('personalZip', data.address.personalAddress?.zip ?? '')
-        userFormData.set('personalCity', data.address.personalAddress?.city ?? '')
-        userFormData.set('personalCountry', data.address.personalAddress?.country ?? '')
-        userFormData.set('personalAddressIsPrimary', data.address.personalAddress?.isPrimary.toString() ?? 'false')
-        userFormData.set('companyName', data.company?.name ?? '')
-        userFormData.set('jobTitle', data.company?.jobTitle ?? '')
-        userFormData.set('jobFunction', data.company?.jobFunction ?? '')
-        userFormData.set('industry', data.company?.industry ?? '')
-        userFormData.set('subIndustry', data.company?.subIndustry ?? '')
-        userFormData.set('mobilePhone', data.phones.mobile?.number ?? '')
-        userFormData.set('mobileIsPrimary', data.phones.mobile?.isPrimary.toString() ?? 'false')
-        userFormData.set('businessPhone', data.phones.business?.number ?? '')
-        userFormData.set('businessExtension', data.phones.business && 'ext' in data.phones.business ? data.phones.business?.ext : '')
-        userFormData.set('businessIsPrimary', data.phones.business?.isPrimary.toString() ?? 'false')
-        userFormData.set('personalPhone', data.phones.personal?.number ?? '')
-        userFormData.set('personalIsPrimary', data.phones.personal?.isPrimary.toString() ?? 'false')
+        userFormData.set('businessLine1', data.address.businessAddress?.line1 ?? '');
+        userFormData.set('businessLine2', data.address.businessAddress?.line2 ?? '');
+        userFormData.set('businessState', data.address.businessAddress?.state ?? '');
+        userFormData.set('businessZip', data.address.businessAddress?.zip ?? '');
+        userFormData.set('businessCity', data.address.businessAddress?.city ?? '');
+        userFormData.set('businessCountry', data.address.businessAddress?.country ?? '');
+        userFormData.set('businessAddressIsPrimary', data.address.businessAddress?.isPrimary?.toString() ?? 'false');
+        userFormData.set('personalLine1', data.address.personalAddress?.line1 ?? '');
+        userFormData.set('personalLine2', data.address.personalAddress?.line2 ?? '');
+        userFormData.set('personalState', data.address.personalAddress?.state ?? '');
+        userFormData.set('personalZip', data.address.personalAddress?.zip ?? '');
+        userFormData.set('personalCity', data.address.personalAddress?.city ?? '');
+        userFormData.set('personalCountry', data.address.personalAddress?.country ?? '');
+        userFormData.set('personalAddressIsPrimary', data.address.personalAddress?.isPrimary.toString() ?? 'false');
+        userFormData.set('companyName', data.company?.name ?? '');
+        userFormData.set('jobTitle', data.company?.jobTitle ?? '');
+        userFormData.set('jobFunction', data.company?.jobFunction ?? '');
+        userFormData.set('industry', data.company?.industry ?? '');
+        userFormData.set('subIndustry', data.company?.subIndustry ?? '');
+        userFormData.set('mobilePhone', data.phones.mobile?.number ?? '');
+        userFormData.set('mobileIsPrimary', data.phones.mobile?.isPrimary.toString() ?? 'false');
+        userFormData.set('businessPhone', data.phones.business?.number ?? '');
+        userFormData.set(
+            'businessExtension',
+            data.phones.business && 'ext' in data.phones.business ? data.phones.business?.ext : '',
+        );
+        userFormData.set('businessIsPrimary', data.phones.business?.isPrimary.toString() ?? 'false');
+        userFormData.set('personalPhone', data.phones.personal?.number ?? '');
+        userFormData.set('personalIsPrimary', data.phones.personal?.isPrimary.toString() ?? 'false');
 
         const config: AxiosRequestConfig = {
-            method: "POST",
+            method: 'POST',
             url: this._API + `update-user-data`,
-            headers: {'Content-Type': 'multipart/form-data'},
+            headers: { 'Content-Type': 'multipart/form-data' },
             data: userFormData,
             withCredentials: true,
         };
@@ -136,10 +135,10 @@ class UserServiceImpl extends BaseService implements IUserService {
             debug(Object.fromEntries(Array.from(userFormData)));
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -149,7 +148,7 @@ class UserServiceImpl extends BaseService implements IUserService {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `get-plan-details`,
-            params: {email},
+            params: { email },
             withCredentials: true,
         };
 
@@ -159,8 +158,7 @@ class UserServiceImpl extends BaseService implements IUserService {
             debug(response);
 
             const userSubscriptions: Subscription[] = response.data.map((entry: SubscriptionData): Subscription => {
-                if (!('tax_amount' in entry))
-                    throw 'Received wrong response schema from the server'
+                if (!('tax_amount' in entry)) throw 'Received wrong response schema from the server';
                 return {
                     subscription: entry.source ?? '--',
                     type: entry.name ?? '--',
@@ -169,13 +167,13 @@ class UserServiceImpl extends BaseService implements IUserService {
                     renewDate: new Date(entry.endDate ?? 0).getTime(),
                     tax: entry.tax_amount ?? NaN,
                     priceUSD: entry.price ?? NaN,
-                }
-            })
+                };
+            });
 
-            return {payload: userSubscriptions};
+            return { payload: userSubscriptions };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -185,7 +183,7 @@ class UserServiceImpl extends BaseService implements IUserService {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `get-user-data`,
-            headers: {Authorization: 'Bearer ' + token},
+            headers: { Authorization: 'Bearer ' + token },
             withCredentials: true,
         };
 
@@ -196,12 +194,11 @@ class UserServiceImpl extends BaseService implements IUserService {
 
             const userData: UserData = response.data;
 
-            if (!userData.email)
-                throw "Incorrect response from server";
+            if (!userData.email) throw 'Incorrect response from server';
 
             let subscriptions: Subscription[] = [];
             if (fetchPlanDetails) {
-                const {payload: activeSubscriptions} = await this.getUserActivePlans(userData.email);
+                const { payload: activeSubscriptions } = await this.getUserActivePlans(userData.email);
                 subscriptions = activeSubscriptions;
             }
 
@@ -217,19 +214,18 @@ class UserServiceImpl extends BaseService implements IUserService {
                     mobile: {
                         number: userData.phones.mobile?.number ?? userData.state2FA.phone ?? '',
                         isPrimary: userData.phones.mobile?.isPrimary ?? Boolean(userData.state2FA.phone) ?? false,
-                    }
-                }
-            }
+                    },
+                },
+            };
 
-            return {payload: userDataMapped};
+            return { payload: userDataMapped };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
-
 }
 
 const UserService = new UserServiceImpl();
-export type {UpdateUserData};
-export {UserService}
+export type { UpdateUserData };
+export { UserService };

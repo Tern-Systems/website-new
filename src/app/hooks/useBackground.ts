@@ -1,5 +1,4 @@
-import {useEffect, useState} from "react";
-
+import { useEffect, useState } from 'react';
 
 const useBackground = (): string => {
     const [bgSrc, setBgSrc] = useState('');
@@ -12,7 +11,6 @@ const useBackground = (): string => {
     }, []);
 
     return bgSrc;
-}
+};
 
-
-export {useBackground}
+export { useBackground };

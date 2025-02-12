@@ -1,5 +1,5 @@
-import {CardData, SavedCardFull} from "@/app/types/billing";
-import {CountryKey, StateKey} from "@/app/static";
+import { CardData, SavedCardFull } from '@/app/types/billing';
+import { CountryKey, StateKey } from '@/app/static';
 
 const mapSavedCard = (card: SavedCardFull | undefined): CardData => {
     const billingInfo = card?.billingAddress;
@@ -21,7 +21,7 @@ const mapSavedCard = (card: SavedCardFull | undefined): CardData => {
         zip: billingInfo?.zip ?? '',
         country: billingInfo?.country as CountryKey,
         isPreferred: card?.preferred ?? false,
-    }
-}
+    };
+};
 
-export {mapSavedCard}
+export { mapSavedCard };

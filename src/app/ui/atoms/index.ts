@@ -1,1 +1,1 @@
-export {PrimaryLabel} from './PrimaryLabel';
+export { PrimaryLabel } from './PrimaryLabel';

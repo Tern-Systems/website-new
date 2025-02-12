@@ -1,10 +1,4 @@
-export {
-    Route,
-    BLOG_ROUTES,
-    CONTACT_LINKS,
-    MEDIA_LINKS,
-    MISC_LINKS,
-} from './routing';
+export { Route, BLOG_ROUTES, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS } from './routing';
 
 export { TAGS } from './blog';
 

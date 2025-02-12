@@ -23,15 +23,15 @@ import styles from '@/app/common.module.css';
 
 import PNG_NEURONS from '/public/images/neurons.png';
 
-
 type LinkAction = string | ((modalCtx: IModalContext) => void);
 
-type FooterLink = Route | {
-    title: string;
-    action: LinkAction;
-    checkLogin?: true;
-};
-
+type FooterLink =
+    | Route
+    | {
+          title: string;
+          action: LinkAction;
+          checkLogin?: true;
+      };
 
 const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
     {
@@ -57,11 +57,7 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
     },
     {
         title: 'Policies',
-        links: [
-            Route.Cookies,
-            Route.Privacy,
-            Route.Terms,
-        ],
+        links: [Route.Cookies, Route.Privacy, Route.Terms],
     },
     {
         title: 'Support',
@@ -80,7 +76,6 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
     },
 ];
 
-
 const Layout: FC<PropsWithChildren> = ({ children }) => {
     const modalCtx = useModal();
     const params = useSearchParams();
@@ -89,62 +84,73 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     const userCtx = useUser();
     const breakpoint = useBreakpointCheck();
 
-
     useEffect(() => {
         const token = params?.get('resetToken');
-        if (token)
-            router.push(Route.Home + '?resetToken=' + token);
+        if (token) router.push(Route.Home + '?resetToken=' + token);
         //eslint-disable-next-line
     }, [params?.size]);
-
 
     const FooterLinksLi: ReactElement[] = FOOTER_LINKS.map((section, idx: number) => {
         const LinksLi: ReactNode[] = section.links.map((link, linkIdx) => {
             const isString = typeof link === 'string';
 
             const action: LinkAction = isString ? link : link.action;
-            const title: string = isString ? getIdName(link) ?? '' : link.title;
+            const title: string = isString ? (getIdName(link) ?? '') : link.title;
             const checkLogin = !isString && link?.checkLogin === true;
 
             const isHref = typeof action === 'string';
 
-            return !checkLogin || userCtx.isLoggedIn
-                ? (
-                    <PageLink
-                        key={title + linkIdx}
-                        onClick={() => {
-                            if (!isHref)
-                                action(modalCtx);
-                        }}
-                        prevent={!isHref}
-                        isExternal={isHref && action.includes('https://')}
-                        href={isHref ? action : ''}
-                        className={`relative capitalize`}
-                    >
-                        {title}
-                    </PageLink>
-                )
-                : null;
+            return !checkLogin || userCtx.isLoggedIn ? (
+                <PageLink
+                    key={title + linkIdx}
+                    onClick={() => {
+                        if (!isHref) action(modalCtx);
+                    }}
+                    prevent={!isHref}
+                    isExternal={isHref && action.includes('https://')}
+                    href={isHref ? action : ''}
+                    className={`relative capitalize`}
+                >
+                    {title}
+                </PageLink>
+            ) : null;
         });
 
         return (
-            <li key={section.title + idx} className={cn({ ['flex-1']: breakpoint <= Breakpoint.xxs })}>
+            <li
+                key={section.title + idx}
+                className={cn({ ['flex-1']: breakpoint <= Breakpoint.xxs })}
+            >
                 <ul className={'flex flex-col gap-y-xs'}>
-                    <li className={'font-bold text-section-s capitalize'}>{section.title}</li>
+                    <li className={'text-section-s font-bold capitalize'}>{section.title}</li>
                     {LinksLi}
                 </ul>
             </li>
         );
     });
 
-    const ContactLinks: ReactElement[] = [CONTACT_LINKS.X, CONTACT_LINKS.LinkedIn, MEDIA_LINKS.YouTube, MEDIA_LINKS.Instagram]
-        .map((link, idx) => (
-            <li key={link.href + idx} className={`size-[2.5rem] sm:size-n ${styles.clickable}`}>
-                <a href={link.href} target={'_blank'}>
-                    <Image src={link.svg} alt={link.href} className={'h-full w-auto'} />
-                </a>
-            </li>
-        ));
+    const ContactLinks: ReactElement[] = [
+        CONTACT_LINKS.X,
+        CONTACT_LINKS.LinkedIn,
+        MEDIA_LINKS.YouTube,
+        MEDIA_LINKS.Instagram,
+    ].map((link, idx) => (
+        <li
+            key={link.href + idx}
+            className={`size-[2.5rem] sm:size-n ${styles.clickable}`}
+        >
+            <a
+                href={link.href}
+                target={'_blank'}
+            >
+                <Image
+                    src={link.svg}
+                    alt={link.href}
+                    className={'h-full w-auto'}
+                />
+            </a>
+        </li>
+    ));
 
     const Layout = (
         <>
@@ -153,17 +159,17 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                 id={'content'}
                 style={{ backgroundImage: `url("${PNG_NEURONS.src}")` }}
                 className={cn(
-                    `relative flex flex-col flex-grow w-full items-center`,
-                    `w-screen bg-cover bg-no-repeat bg-fixed`,
+                    `relative flex w-full flex-grow flex-col items-center`,
+                    `w-screen bg-cover bg-fixed bg-no-repeat`,
                     `sm:overflow-hidden`,
                     `sm:landscape:overflow-y-scroll`,
                 )}
             >
                 <div
                     className={cn(
-                        `h-full min-h-dvh w-full flex flex-col`,
+                        `flex h-full min-h-dvh w-full flex-col`,
                         layoutCtx.isFade ? styles.fadeOut : styles.fadeIn,
-                        modalCtx.hideContent ? 'hidden' : (modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'),
+                        modalCtx.hideContent ? 'hidden' : modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100',
                     )}
                 >
                     {children}
@@ -171,8 +177,9 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             </div>
             <footer className={'border-t-s border-gray'}>
                 <div
-                    className={cn(styles.content,
-                        `grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] h-footer-lg py-l leading-none`,
+                    className={cn(
+                        styles.content,
+                        `h-footer-lg grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] py-l leading-none`,
                         { [`!flex flex-col gap-y-xxl`]: breakpoint <= Breakpoint.xs },
                     )}
                 >
@@ -181,40 +188,31 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                         className={cn(
                             'flex w-full justify-between',
                             { [`!justify-start gap-x-xxl`]: breakpoint <= Breakpoint.xs },
-                            { [`gap-y-n flex-wrap `]: breakpoint <= Breakpoint.xxs },
+                            { [`flex-wrap gap-y-n`]: breakpoint <= Breakpoint.xxs },
                         )}
                     >
                         {FooterLinksLi}
                     </ul>
                     <div
-                        className={cn(
-                            'col-span-2 flex mt-[7rem] w-full justify-between items-center',
-                            { [`flex flex-col-reverse gap-y-n mt-0 !items-start`]: breakpoint <= Breakpoint.xs },
-                        )}
+                        className={cn('col-span-2 mt-[7rem] flex w-full items-center justify-between', {
+                            [`mt-0 flex flex-col-reverse !items-start gap-y-n`]: breakpoint <= Breakpoint.xs,
+                        })}
                     >
                         <p className={'leading-[1.2]'}>Copyright © 2025 Tern Systems LLC </p>
-                        <ul className={cn('col-span-3 flex gap-3xs flex-wrap')}>
-                            {ContactLinks}
-                        </ul>
+                        <ul className={cn('col-span-3 flex flex-wrap gap-3xs')}>{ContactLinks}</ul>
                     </div>
                 </div>
             </footer>
         </>
     );
 
-    const LayoutFinal = layoutCtx.isNoLayout
-        ? children
-        : (
-            <div className={`flex flex-col flex-grow justify-between min-h-full select-none`}>
-                {Layout}
-            </div>
-        );
-
-    return (
-        <div className={'h-dvh max-h-dvh relative overflow-y-scroll font-neo text-primary'}>
-            {LayoutFinal}
-        </div>
+    const LayoutFinal = layoutCtx.isNoLayout ? (
+        children
+    ) : (
+        <div className={`flex min-h-full flex-grow select-none flex-col justify-between`}>{Layout}</div>
     );
+
+    return <div className={'relative h-dvh max-h-dvh overflow-y-scroll font-neo text-primary'}>{LayoutFinal}</div>;
 };
 
 export { Layout };

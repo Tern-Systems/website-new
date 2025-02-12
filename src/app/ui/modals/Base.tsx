@@ -10,7 +10,6 @@ import { useBreakpointCheck } from '@/app/hooks';
 
 import { Insignia } from '@/app/ui/misc';
 
-
 interface ModalConfig extends PropsWithChildren {
     isSimple?: boolean | Breakpoint;
     title?: string;
@@ -27,8 +26,18 @@ interface ModalConfig extends PropsWithChildren {
 
 const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const {
-        children, isSimple, title, onClose, setHoverState, preventClose,
-        className, classNameContent, classNameTitle, classNameHr, adaptBreakpoint, adaptedDefault,
+        children,
+        isSimple,
+        title,
+        onClose,
+        setHoverState,
+        preventClose,
+        className,
+        classNameContent,
+        classNameTitle,
+        classNameHr,
+        adaptBreakpoint,
+        adaptedDefault,
     } = props;
 
     const modalCtx = useModal();
@@ -39,8 +48,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
 
     const handleClose = () => {
         onClose?.();
-        if (!preventClose)
-            modalCtx.closeModal();
+        if (!preventClose) modalCtx.closeModal();
     };
 
     const simple = isSimple !== undefined && (typeof isSimple === 'boolean' ? isSimple : isSimple > breakpoint);
@@ -53,8 +61,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 onMouseLeave={() => setHoverState?.(false)}
                 onClick={() => modalCtx.closeModal()}
                 className={cn(
-                    `absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem] pointer-events-auto`,
-                    adaptApplied ? 'bg-white-d0 text-gray w-dvw h-dvh' : 'bg-gray-l0 rounded-xs',
+                    `pointer-events-auto absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem]`,
+                    adaptApplied ? 'h-dvh w-dvw bg-white-d0 text-gray' : 'rounded-xs bg-gray-l0',
                     className,
                 )}
             >
@@ -63,27 +71,27 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     icon={'close'}
                     onClick={() => handleClose()}
                     className={cn(
-                        `place-self-start min-w-[0.55rem] inline-block`,
-                        { ['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: adaptApplied },
+                        `inline-block min-w-[0.55rem] place-self-start`,
+                        { ['ml-auto [&_*]:size-[1.125rem] [&_path]:fill-blue']: adaptApplied },
                         classNameTitle,
                     )}
                 />
             </div>
         );
     } else {
-        const Heading = title
-            ? (
-                <h2 className={cn(
-                    `text-inherit font-oxygen text-heading font-bold`,
+        const Heading = title ? (
+            <h2
+                className={cn(
+                    `font-oxygen text-heading font-bold text-inherit`,
                     `sm:portrait:text-heading-s`,
                     `sm:landscape:text-section-s`,
                     classNameTitle,
-                    { ['mb-n']: adaptApplied })}
-                >
-                    {title}
-                </h2>
-            )
-            : null;
+                    { ['mb-n']: adaptApplied },
+                )}
+            >
+                {title}
+            </h2>
+        ) : null;
         return (
             <div
                 id={'modal'}
@@ -91,39 +99,42 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 className={cn(
                     `pointer-events-auto`,
                     adaptApplied
-                        ? 'bg-white-d0 text-gray w-dvw h-dvh z-50'
+                        ? 'z-50 h-dvh w-dvw bg-white-d0 text-gray'
                         : cn(
-                            'place-self-center mx-auto bg-gray rounded-s border-s border-white-d0',
-                            'lg:p-l',
-                            'md:p-s',
-                            'sm:max-w-[calc(100%-2*var(--p-xs))] sm:p-xxs',
-                        ),
+                              'mx-auto place-self-center rounded-s border-s border-white-d0 bg-gray',
+                              'lg:p-l',
+                              'md:p-s',
+                              'sm:max-w-[calc(100%-2*var(--p-xs))] sm:p-xxs',
+                          ),
                     className,
                 )}
             >
                 <div
-                    className={cn(`relative flex items-center justify-between font-oxygen`, { ['h-heading-modal p-xs']: adaptApplied })}>
+                    className={cn(`relative flex items-center justify-between font-oxygen`, {
+                        ['h-heading-modal p-xs']: adaptApplied,
+                    })}
+                >
                     {adaptApplied ? <Insignia className={'[&_path]:fill-black'} /> : Heading}
                     <Button
                         icon={'close'}
                         onClick={() => handleClose()}
-                        classNameIcon={cn(
-                            'sm:[&_*]:w-[0.75rem]',
-                            { ['[&_path]:fill-blue [&_*]:w-[1.125rem]']: adaptApplied },
-                        )}
+                        classNameIcon={cn('sm:[&_*]:w-[0.75rem]', {
+                            ['[&_path]:fill-blue [&_*]:w-[1.125rem]']: adaptApplied,
+                        })}
                     />
                 </div>
-                <hr className={cn(classNameHr, {
-                    [cn(
-                        'relative',
-                        'mb-xs',
-                        'lg:x-[-left-[0.72rem],mt-xs] lg:w-[calc(100%+1.44rem)]',
-                        'md:x-[-left-4xs,mt-xxs] md:w-[calc(100%+2*var(--p-4xs))]',
-                        'sm:x-[-left-5xs,mt-xxs] sm:w-[calc(100%+2*var(--p-5xs))]',
-                    )]: !adaptApplied,
-                })
-                }/>
-                <div className={cn(classNameContent, 'overflow-y-scroll h-[calc(100%-var(--h-heading))]')}>
+                <hr
+                    className={cn(classNameHr, {
+                        [cn(
+                            'relative',
+                            'mb-xs',
+                            'lg:w-[calc(100%+1.44rem)] lg:x-[-left-[0.72rem],mt-xs]',
+                            'md:w-[calc(100%+2*var(--p-4xs))] md:x-[-left-4xs,mt-xxs]',
+                            'sm:w-[calc(100%+2*var(--p-5xs))] sm:x-[-left-5xs,mt-xxs]',
+                        )]: !adaptApplied,
+                    })}
+                />
+                <div className={cn(classNameContent, 'h-[calc(100%-var(--h-heading))] overflow-y-scroll')}>
                     {adaptApplied ? Heading : null}
                     {children}
                 </div>
