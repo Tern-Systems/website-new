@@ -26,7 +26,6 @@ import SVG_FACEBOOK from '/public/images/icons/facebook.svg';
 import { BlogService } from '@/app/services/blog.service';
 import { useParams } from 'next/navigation';
 
-
 // eslint-disable-next-line
 const SHARE_BTNS = [
     {
@@ -45,15 +44,13 @@ const SHARE_BTNS = [
 
 const RELATED_CARDS_COUNT = 4;
 
-
 function ArticlePage() {
-    const { id } = useParams() ?? {} as { id: string };
+    const { id } = useParams() ?? ({} as { id: string });
     const modalCtx = useModal();
     const isLg = useBreakpointCheck() === Breakpoint.lg;
 
     const [content, setContent] = useState<Article | null>(null);
     const [cards, setCards] = useState<Article[]>([]);
-
 
     useEffect(() => {
         const fetchContent = async () => {
@@ -71,29 +68,35 @@ function ArticlePage() {
                 } catch (error: unknown) {
                     const msg = `Error fetching article's content`;
                     article.html = msg;
-                    if (typeof error === 'string')
-                        modalCtx.openModal(<MessageModal>{msg}</MessageModal>);
+                    if (typeof error === 'string') modalCtx.openModal(<MessageModal>{msg}</MessageModal>);
                 }
 
                 setContent(article);
-            } else
-                modalCtx.openModal(<MessageModal>Encountered an error while preparing the article</MessageModal>);
+            } else modalCtx.openModal(<MessageModal>Encountered an error while preparing the article</MessageModal>);
         };
 
         fetchContent();
 
         const cards: string | null = localStorage.getItem('article-cards');
-        if (cards)
-            setCards(JSON.parse(cards));
+        if (cards) setCards(JSON.parse(cards));
         //eslint-disable-next-line
     }, [id]);
 
-
     // Elements
     const ShareBtnsLi: ReactElement[] = SHARE_BTNS.map((btn, idx) => (
-        <li key={btn.icon.src + idx} className={styles.clickable}>
-            <btn.Element url={window.location.href} window={window}>
-                <Image src={btn.icon} alt={'social-link'} className={'size-[2.5rem]'} />
+        <li
+            key={btn.icon.src + idx}
+            className={styles.clickable}
+        >
+            <btn.Element
+                url={window.location.href}
+                window={window}
+            >
+                <Image
+                    src={btn.icon}
+                    alt={'social-link'}
+                    className={'size-[2.5rem]'}
+                />
             </btn.Element>
         </li>
     ));
@@ -101,10 +104,15 @@ function ArticlePage() {
     const CardsLi: ReactElement[] = cards
         .filter((article) => article.id !== content?.id)
         .slice(0, RELATED_CARDS_COUNT - +isLg)
-        .map((article, idx) => <ArticleCardLi key={article.id + idx} article={article} />);
+        .map((article, idx) => (
+            <ArticleCardLi
+                key={article.id + idx}
+                article={article}
+            />
+        ));
 
     return (
-        <div className={cn(styles.section, 'pb-[10rem] min-h-dvh bg-black font-oxygen')}>
+        <div className={cn(styles.section, 'min-h-dvh bg-black pb-[10rem] font-oxygen')}>
             <div className={cn(styles.content, 'pt-[3.75rem]')}>
                 <h1 className={'text-[4rem] leading-[1.2]'}>{content?.title}</h1>
                 <div className={'mt-[4.4rem] w-full'}>
@@ -116,18 +124,18 @@ function ArticlePage() {
                         className={'size-full'}
                     />
                 </div>
-                <div className={'mt-xl py-s border-y-s border-gray-l0'}>
+                <div className={'mt-xl border-y-s border-gray-l0 py-s'}>
                     <span className={cn({ ['text-section-xxs']: !content?.date })}>
                         {content?.date ? formatDate(new Date(content?.date)) : '-- date is not provided --'}
                     </span>
                 </div>
-                <div className={'py-s border-b-s border-gray-l0'}>
+                <div className={'border-b-s border-gray-l0 py-s'}>
                     <p>Share</p>
-                    <ul className={'flex gap-x-3xs mt-xxs'}>{ShareBtnsLi}</ul>
+                    <ul className={'mt-xxs flex gap-x-3xs'}>{ShareBtnsLi}</ul>
                 </div>
                 <div className={'mt-[6.91rem]'}>
-                    <span className={'block mb-xxs font-bold'}>Author</span>
-                    <span className={'grid grid-rows-2 grid-cols-[min-content,1fr] gap-x-l items-center'}>
+                    <span className={'mb-xxs block font-bold'}>Author</span>
+                    <span className={'grid grid-cols-[min-content,1fr] grid-rows-2 items-center gap-x-l'}>
                         <span className={'row-span-2 size-[3.125rem]'}>
                             <Image
                                 src={content?.author?.image ?? SVG_PROFILE}
@@ -138,11 +146,16 @@ function ArticlePage() {
                             />
                         </span>
                         <span className={'font-bold'}>{content?.author.name}</span>
-                        <span>{content?.author.position}, {content?.author.company}</span>
+                        <span>
+                            {content?.author.position}, {content?.author.company}
+                        </span>
                     </span>
                 </div>
 
-                <div className={'mt-[3.5rem]'} dangerouslySetInnerHTML={{ __html: content?.html ?? '' }} />
+                <div
+                    className={'mt-[3.5rem]'}
+                    dangerouslySetInnerHTML={{ __html: content?.html ?? '' }}
+                />
 
                 <div className={'mt-[10.3rem]'}>
                     <ul
@@ -159,6 +172,5 @@ function ArticlePage() {
         </div>
     );
 }
-
 
 export default ArticlePage;

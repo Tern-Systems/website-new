@@ -1,5 +1,4 @@
-import {Route} from "@/app/static";
-
+import { Route } from '@/app/static';
 
 type SubscriptionRecurrency = 'annual' | 'monthly';
 type PlanName = 'TernKey' | 'trial';
@@ -11,23 +10,22 @@ type SubscriptionBase = {
     priceUSD: number;
     type: PlanType;
     isBasicKind: boolean;
-}
+};
 
 type Subscription = SubscriptionBase & {
     tax: number;
     renewDate: number;
-}
+};
 
 type SubscriptionPreviewData = {
     priceUSD: Record<SubscriptionRecurrency, number>;
     benefits: string[];
-}
+};
 
 type SubscriptionPreview = Pick<SubscriptionBase, 'subscription' | 'isBasicKind'> & {
     type: Record<string, SubscriptionPreviewData>;
     route: Route;
-}
-
+};
 
 export type {
     PlanName,
@@ -36,5 +34,5 @@ export type {
     SubscriptionPreviewData,
     SubscriptionRecurrency,
     SubscriptionBase,
-    Subscription
+    Subscription,
 };

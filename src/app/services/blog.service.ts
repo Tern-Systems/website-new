@@ -5,9 +5,7 @@ import { Article } from '@/app/types/blog';
 
 import { BaseService } from './base.service';
 
-
 type ArticlesDTO = { blogs: Article[] };
-
 
 interface IBlogService {
     getArticles(): Promise<Res<ArticlesDTO, false>>;
@@ -36,7 +34,7 @@ class BlogServiceImpl extends BaseService implements IBlogService {
             return { payload: response.data };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -56,11 +54,10 @@ class BlogServiceImpl extends BaseService implements IBlogService {
             return { payload: response.data };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 }
-
 
 const BlogService = new BlogServiceImpl();
 export { BlogService };

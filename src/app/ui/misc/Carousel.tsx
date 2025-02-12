@@ -1,8 +1,7 @@
-import React, {FC, PropsWithChildren, useRef} from "react";
-import cn from "classnames";
+import React, { FC, PropsWithChildren, useRef } from 'react';
+import cn from 'classnames';
 
-import {Button} from "@/app/ui/form";
-
+import { Button } from '@/app/ui/form';
 
 interface Props extends PropsWithChildren {
     className?: string;
@@ -11,7 +10,7 @@ interface Props extends PropsWithChildren {
 }
 
 const Carousel: FC<Props> = (props: Props) => {
-    const {className, classNameUl, classNameArrow, children} = props;
+    const { className, classNameUl, classNameArrow, children } = props;
 
     const carouselRef = useRef<HTMLUListElement | null>(null);
 
@@ -19,13 +18,14 @@ const Carousel: FC<Props> = (props: Props) => {
         <Button
             onClick={() => {
                 if (carouselRef.current)
-                    carouselRef.current.scrollLeft = carouselRef.current.scrollLeft + (right ? 0.5 : -0.5) * window.outerWidth
+                    carouselRef.current.scrollLeft =
+                        carouselRef.current.scrollLeft + (right ? 0.5 : -0.5) * window.outerWidth;
             }}
             icon={'chevron'}
             className={cn(
-                'absolute z-50 top-1/2 !-translate-y-1/2 [&_*]:size-[2.875rem]',
+                'absolute top-1/2 z-50 !-translate-y-1/2 [&_*]:size-[2.875rem]',
                 right ? 'right-0 -rotate-90' : 'left-0 rotate-90',
-                classNameArrow
+                classNameArrow,
             )}
         />
     );
@@ -35,14 +35,16 @@ const Carousel: FC<Props> = (props: Props) => {
             {renderCarouselBtn()}
             <ul
                 ref={carouselRef}
-                className={cn('flex-grow grid grid-rows-1 mx-auto w-fit gap-xl h-full max-w-full overflow-x-scroll', classNameUl)}
+                className={cn(
+                    'mx-auto grid h-full w-fit max-w-full flex-grow grid-rows-1 gap-xl overflow-x-scroll',
+                    classNameUl,
+                )}
             >
                 {children}
             </ul>
             {renderCarouselBtn(true)}
         </div>
-    )
-}
+    );
+};
 
-
-export {Carousel};
+export { Carousel };

@@ -1,26 +1,23 @@
-import {FC, useEffect} from "react";
-import cn from "classnames";
+import { FC, useEffect } from 'react';
+import cn from 'classnames';
 
-import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
-import {useModal} from "@/app/context";
+import { useModal } from '@/app/context';
 
-import {BaseModal} from "@/app/ui/modals/Base";
-import {AuthModal} from "@/app/ui/modals/Auth";
-import {Button} from "@/app/ui/form";
-import {useBreakpointCheck} from "@/app/hooks";
-
+import { BaseModal } from '@/app/ui/modals/Base';
+import { AuthModal } from '@/app/ui/modals/Auth';
+import { Button } from '@/app/ui/form';
+import { useBreakpointCheck } from '@/app/hooks';
 
 const PreAuthModal: FC = () => {
     const modalCtx = useModal();
     const breakpoint = useBreakpointCheck();
 
     useEffect(() => {
-        if (breakpoint > Breakpoint.sm)
-            modalCtx.closeModal();
+        if (breakpoint > Breakpoint.sm) modalCtx.closeModal();
         // eslint-disable-next-line
     }, [breakpoint]);
-
 
     return (
         <BaseModal
@@ -30,29 +27,29 @@ const PreAuthModal: FC = () => {
             classNameContent={cn(
                 'w-full items-start mx-auto px-xs py-n place-items-center text-basic',
                 'max-w-[23rem]',
-                'sm:landscape:x-[max-w-[73rem],px-3xl]'
+                'sm:landscape:x-[max-w-[73rem],px-3xl]',
             )}
         >
-            <div className={'flex flex-col w-full  sm:landscape:flex-row sm:landscape:justify-between'}>
+            <div className={'flex w-full flex-col sm:landscape:flex-row sm:landscape:justify-between'}>
                 <div>
                     <p>Your Tern account provides you with:</p>
-                    <ul className={'flex flex-col   gap-y-xs mt-xs mb-n   list-disc list-inside'}>
+                    <ul className={'mb-n mt-xs flex list-inside list-disc flex-col gap-y-xs'}>
                         <li>Single sign-on to the Tern ecosystem</li>
                         <li>Personalized recommendations</li>
                         <li>Test drives and other trials</li>
                         <li>And many more exclusive benefits</li>
                     </ul>
                 </div>
-                <div className={'place-self-center max-w-[19rem] w-full sm:portrait:w-[85%] font-bold text-section-s'}>
+                <div className={'w-full max-w-[19rem] place-self-center text-section-s font-bold sm:portrait:w-[85%]'}>
                     <Button
-                        onClick={() => modalCtx.openModal(<AuthModal/>)}
-                        className={'mb-xxs w-full h-[2.7rem]      rounded-full bg-blue  text-primary'}
+                        onClick={() => modalCtx.openModal(<AuthModal />)}
+                        className={'mb-xxs h-[2.7rem] w-full rounded-full bg-blue text-primary'}
                     >
                         Login
                     </Button>
                     <Button
-                        onClick={() => modalCtx.openModal(<AuthModal registration/>)}
-                        className={'w-full h-[2.7rem] border-s rounded-full border-blue'}
+                        onClick={() => modalCtx.openModal(<AuthModal registration />)}
+                        className={'h-[2.7rem] w-full rounded-full border-s border-blue'}
                     >
                         Sign Up
                     </Button>
@@ -60,7 +57,6 @@ const PreAuthModal: FC = () => {
             </div>
         </BaseModal>
     );
-}
+};
 
-
-export {PreAuthModal};
+export { PreAuthModal };
