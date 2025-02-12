@@ -1,16 +1,14 @@
-import React, {ReactElement} from "react";
-import {ReactSVG} from "react-svg";
-import {PlanName} from "@/app/types/subscription";
-import {Route} from "@/app/static";
-import {useUser} from "@/app/context";
+import React, { ReactElement } from 'react';
+import { ReactSVG } from 'react-svg';
+import { PlanName } from '@/app/types/subscription';
+import { Route } from '@/app/static';
+import { useUser } from '@/app/context';
 
-import {PageLink} from "@/app/ui/layout";
+import { PageLink } from '@/app/ui/layout';
 
-import SVG_ARROW from "/public/images/icons/arrow.svg";
+import SVG_ARROW from '/public/images/icons/arrow.svg';
 
-
-type Link = { title: string; text: string; route: Route, subscription: PlanName };
-
+type Link = { title: string; text: string; route: Route; subscription: PlanName };
 
 const LINKS: Link[] = [
     {
@@ -45,53 +43,47 @@ const LINKS: Link[] = [
     },
 ];
 
-
 interface Props {
     filterBySubscription: boolean;
 }
 
 function DocumentationPage(props: Props) {
-    const {filterBySubscription = false} = props;
+    const { filterBySubscription = false } = props;
 
-    const {userData} = useUser();
+    const { userData } = useUser();
 
     let links: Link[] = LINKS;
     if (filterBySubscription)
-        links = LINKS.filter((link) => userData?.subscriptions.some(plan => plan.subscription.includes(link.subscription)))
+        links = LINKS.filter((link) =>
+            userData?.subscriptions.some((plan) => plan.subscription.includes(link.subscription)),
+        );
 
     const Links: ReactElement[] = links.map((link, idx) => (
         <li key={link.text + idx}>
             <PageLink
                 href={link.route}
-                className={`flex-col justify-between [&]:items-start bg-gray min-h-[9rem] w-full  
-                           px-xs py-l h-[min(38dvw,16rem)] rounded-n
-                           sm:landscape:x-[p-n,h-[13dvw],text-section]`}
+                className={`h-[min(38dvw,16rem)] min-h-[9rem] w-full flex-col justify-between rounded-n bg-gray px-xs py-l sm:landscape:x-[p-n,h-[13dvw],text-section] [&]:items-start`}
             >
-                <span className={'font-bold block   text-heading sm:landscape:text-section'}>{link.title}</span>
+                <span className={'block text-heading font-bold sm:landscape:text-section'}>{link.title}</span>
                 <span>{link.text}</span>
                 <ReactSVG
                     src={SVG_ARROW.src}
-                    className={`[&_path]:fill-[--bg-blue] rotate-180
-                                    [&_*]:size-[min(3.7dvw,1.3rem)]
-                                    sm:landscape:[&_*]:size-[1.75dvw]`}
+                    className={`rotate-180 [&_*]:size-[min(3.7dvw,1.3rem)] sm:landscape:[&_*]:size-[1.75dvw] [&_path]:fill-[--bg-blue]`}
                 />
             </PageLink>
         </li>
     ));
 
     return (
-        <div className={'text-left m-auto place-items-center'}>
+        <div className={'m-auto place-items-center text-left'}>
             <div className={'sm:x-[overflow-y-hidden,max-h-full]'}>
-                <h1 className={`font-bold block
-                                pb-[min(4dvw,1.9rem)] text-heading-l 
-                                sm:landscape:x-[pb-[2.4dvw],text-heading-s]`}>
+                <h1
+                    className={`block pb-[min(4dvw,1.9rem)] text-heading-l font-bold sm:landscape:x-[pb-[2.4dvw],text-heading-s]`}
+                >
                     Documentation
                 </h1>
-                <ul className={`grid gap-[0.12rem]
-                                grid-cols-[repeat(3,minmax(0,30rem))] text-[min(3.7dvw,1rem)]
-                                sm:x-[overflow-y-scroll]
-                                sm:portrait:x-[grid-cols-1,max-h-[65dvh]]
-                                sm:landscape:x-[grid-cols-2,text-section]`}
+                <ul
+                    className={`grid grid-cols-[repeat(3,minmax(0,30rem))] gap-[0.12rem] text-[min(3.7dvw,1rem)] sm:x-[overflow-y-scroll] sm:portrait:x-[grid-cols-1,max-h-[65dvh]] sm:landscape:x-[grid-cols-2,text-section]`}
                 >
                     {Links}
                 </ul>
@@ -99,6 +91,5 @@ function DocumentationPage(props: Props) {
         </div>
     );
 }
-
 
 export default DocumentationPage;

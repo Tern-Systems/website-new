@@ -1,53 +1,52 @@
-import React, {FC, PropsWithChildren} from "react";
+import React, { FC, PropsWithChildren } from 'react';
 
-import {Route} from "@/app/static";
+import { Route } from '@/app/static';
 
-import {PageLink} from "@/app/ui/layout/Link";
-import {useNavigate} from "@/app/hooks";
-import {useLayout, useModal} from "@/app/context";
+import { PageLink } from '@/app/ui/layout/Link';
+import { useNavigate } from '@/app/hooks';
+import { useLayout, useModal } from '@/app/context';
 
-import {Insignia} from "@/app/ui/misc";
-import {Button} from "@/app/ui/form";
+import { Insignia } from '@/app/ui/misc';
+import { Button } from '@/app/ui/form';
 
-import styles from "@/app/common.module.css";
-
+import styles from '@/app/common.module.css';
 
 interface Props extends PropsWithChildren {
     backButtonSection: Route;
 }
 
 const FullScreenLayout: FC<Props> = (props: Props) => {
-    const {children, backButtonSection} = props;
+    const { children, backButtonSection } = props;
     const layoutCtx = useLayout();
     const modalCtx = useModal();
     const [navigate] = useNavigate();
 
     return (
-        <div className={`h-dvh max-h-dvh relative font-oxygen text-gray bg-white text-heading-s
-                         ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}>
-            <div
-                className={`flex items-center justify-between font-oxygen h-heading p-[1.25rem] lg:hidden md:hidden`}>
-                <Insignia/>
+        <div
+            className={`relative h-dvh max-h-dvh bg-white font-oxygen text-heading-s text-gray ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}
+        >
+            <div className={`flex h-heading items-center justify-between p-[1.25rem] font-oxygen md:hidden lg:hidden`}>
+                <Insignia />
                 <Button
                     icon={'close'}
                     onClick={() => navigate(backButtonSection)}
                     classNameIcon={'[&_path]:fill-blue [&&_*]:w-[1.125rem] h-auto'}
                 />
             </div>
-            <hr className={`lg:hidden md:hidden`}/>
-            <div className={`relative h-full overflow-y-scroll  sm:h-[calc(100dvh-var(--h-heading-modal))] sm:landscape:h-[76dvh]
-                            ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
+            <hr className={`md:hidden lg:hidden`} />
+            <div
+                className={`relative h-full overflow-y-scroll sm:h-[calc(100dvh-var(--h-heading-modal))] sm:landscape:h-[76dvh] ${layoutCtx.isFade ? styles.fadeOut : styles.fadeIn}`}
             >
                 <PageLink
                     href={backButtonSection}
                     icon={'back'}
-                    className={'absolute z-50 top-[1.7rem] left-[1.8rem] font-oxygen font-bold sm:hidden'}
+                    className={'absolute left-[1.8rem] top-[1.7rem] z-50 font-oxygen font-bold sm:hidden'}
                     iconClassName={'mr-[0.5rem]'}
                 />
                 {children}
             </div>
         </div>
     );
-}
+};
 
-export {FullScreenLayout}
+export { FullScreenLayout };

@@ -13,12 +13,10 @@ import { AuthModal } from '@/app/ui/modals';
 
 import SVG_PROFILE from '/public/images/icons/profile.svg';
 
-
-const AUTH_BTNS: { title: string, action: string, description: string }[] = [
+const AUTH_BTNS: { title: string; action: string; description: string }[] = [
     { title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account' },
     { title: 'Register for an account', action: 'Sign Up', description: 'Create a Tern account for richer experience' },
 ];
-
 
 const ProfileMenu: FC = () => {
     const modalCtx = useModal();
@@ -31,14 +29,12 @@ const ProfileMenu: FC = () => {
 
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
-            if (opened && !ref.current?.contains(event.target as Node))
-                setOpened(false);
+            if (opened && !ref.current?.contains(event.target as Node)) setOpened(false);
         };
         window.addEventListener('mousedown', handleClick);
         return () => window.removeEventListener('mousedown', handleClick);
         // eslint-disable-next-line
     }, [opened]);
-
 
     let ProfileMenu: ReactElement | null = null;
     if (opened) {
@@ -50,7 +46,7 @@ const ProfileMenu: FC = () => {
                 >
                     <PageLink
                         href={link}
-                        className={`relative flex justify-center bg-control`}
+                        className={`bg-control relative flex justify-center`}
                         onClick={() => setOpened(false)}
                     />
                 </li>
@@ -63,7 +59,7 @@ const ProfileMenu: FC = () => {
                         setOpened(false);
                         userCtx.removeSession();
                     }}
-                    className={`pt-xs cursor-pointer`}
+                    className={`cursor-pointer pt-xs`}
                 >
                     Log Out
                 </li>,
@@ -71,7 +67,7 @@ const ProfileMenu: FC = () => {
             ProfileMenu = (
                 <ul
                     className={cn(
-                        `absolute z-10 right-0 top-[calc(1px+var(--h-heading))] w-[9.1875rem] bg-gray-d0 text-nowrap text-basic`,
+                        `absolute right-0 top-[calc(1px+var(--h-heading))] z-10 w-[9.1875rem] text-nowrap bg-gray-d0 text-basic`,
                         `[&>li]:x-[px-xs,py-xxs]`,
                     )}
                 >
@@ -89,7 +85,7 @@ const ProfileMenu: FC = () => {
                     <Button
                         onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1} />, { darkenBg: !isSm })}
                         className={cn(
-                            `w-full py-5xs rounded-full border-s border-gray font-bold capitalize text-section`,
+                            `w-full rounded-full border-s border-gray py-5xs text-section font-bold capitalize`,
                             idx ? 'bg-black text-primary' : 'bg-white text-black',
                         )}
                     >
@@ -100,12 +96,12 @@ const ProfileMenu: FC = () => {
             ProfileMenu = (
                 <div
                     className={cn(
-                        'absolute z-10 mt-5xs right-0 p-n rounded-n border-s',
-                        'border-gray-l0 bg-black text-nowrap',
+                        'absolute right-0 z-10 mt-5xs rounded-n border-s p-n',
+                        'text-nowrap border-gray-l0 bg-black',
                     )}
                 >
                     <h2 className={'text-heading font-bold'}>Tern Account</h2>
-                    <ul className={'flex flex-col mt-xs gap-y-xs'}>{ProfileMenuLi}</ul>
+                    <ul className={'mt-xs flex flex-col gap-y-xs'}>{ProfileMenuLi}</ul>
                 </div>
             );
         }
@@ -114,29 +110,23 @@ const ProfileMenu: FC = () => {
     const userBtns: ReactElement | ReactElement[] = (
         <div
             ref={ref}
-            onClick={() => setOpened(prevState => !prevState)}
+            onClick={() => setOpened((prevState) => !prevState)}
             className={'relative'}
         >
-            <div className={cn('px-s h-full content-center', { ['bg-gray-d0']: opened })}>
+            <div className={cn('h-full content-center px-s', { ['bg-gray-d0']: opened })}>
                 <Image
                     src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
                     width={29}
                     height={29}
                     alt={'profile icon'}
-                    className={'!w-heading-icon rounded-full cursor-pointer'}
+                    className={'!w-heading-icon cursor-pointer rounded-full'}
                 />
             </div>
             {ProfileMenu}
         </div>
     );
 
-    return (
-        <div className={'flex gap-[0.75rem] ml-auto h-full'}>
-            {userBtns}
-        </div>
-    );
-
+    return <div className={'ml-auto flex h-full gap-[0.75rem]'}>{userBtns}</div>;
 };
-
 
 export { ProfileMenu };

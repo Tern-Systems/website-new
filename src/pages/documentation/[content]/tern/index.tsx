@@ -1,7 +1,5 @@
-import {FC} from "react";
-
+import { FC } from 'react';
 
 const TERNManualContent: FC = () => <></>;
 
-
-export {TERNManualContent};
+export { TERNManualContent };

@@ -7,8 +7,7 @@ type ArticleTag =
     | 'Data'
     | 'Centers'
     | 'Robotics'
-    | 'Semiconductors'
-
+    | 'Semiconductors';
 
 type Article = {
     id: string;
@@ -24,7 +23,6 @@ type Article = {
         company: string;
     };
     html: string;
-}
-
+};
 
 export type { ArticleTag, Article };

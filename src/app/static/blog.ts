@@ -1,9 +1,7 @@
-import {BLOG_ROUTES} from "@/app/static/routing";
+import { BLOG_ROUTES } from '@/app/static/routing';
 
-import {getIdName} from "@/app/utils";
+import { getIdName } from '@/app/utils';
 
+const TAGS = BLOG_ROUTES.map((route) => getIdName(route));
 
-const TAGS = BLOG_ROUTES.map(route => getIdName(route));
-
-
-export {TAGS};
+export { TAGS };

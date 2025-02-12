@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {Highlighted} from "@/app/ui/misc";
-
+import { Highlighted } from '@/app/ui/misc';
 
 const PARAGRAPHS: string = `Tern Systems LLC Privacy Policy
 
@@ -87,12 +86,13 @@ Phone:  <a href='tel:19735908753' target="_blank" class="underline">+1 (973) 590
 This Policy ensures transparency and demonstrates our commitment to safeguarding your data.
  `;
 
-
 const PrivacyPage = () => (
     <Highlighted heading={'Privacy Policy'}>
-        <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'font-neo whitespace-pre-line'}/>
+        <pre
+            dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
+            className={'whitespace-pre-line font-neo'}
+        />
     </Highlighted>
 );
-
 
 export default PrivacyPage;
