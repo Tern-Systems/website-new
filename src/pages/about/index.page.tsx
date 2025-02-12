@@ -67,7 +67,7 @@ const AboutPage: FC = () => {
                         <div>
                             <h1
                                 className={cn(styles.textGlow,
-                                    `w-min font-oxygen font-bold text-right leading-[1.2]`,
+                                    `w-min font-bold text-right leading-[1.2]`,
                                     `mb-n text-[8rem]`,
                                     `md:text-[6rem]  md:landscape:text-[2.5rem]`,
                                     `sm:x-[flex,w-[20rem],mt-n,text-[2.5rem]]`,
@@ -100,7 +100,7 @@ const AboutPage: FC = () => {
                         )}>
                             <div>
                                 <h2 className={cn(
-                                    'mb-xl font-oxygen text-[4rem]  sm:x-[mb-xs,text-heading]',
+                                    'mb-xl text-[4rem]  sm:x-[mb-xs,text-heading]',
                                     'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]'
                                 )}>
                                     Mission
@@ -114,7 +114,7 @@ const AboutPage: FC = () => {
                             </div>
                             <div>
                                 <h2 className={cn(
-                                    'mb-xl font-oxygen text-[4rem]  sm:x-[mb-xs,text-heading]',
+                                    'mb-xl text-[4rem]  sm:x-[mb-xs,text-heading]',
                                     'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]'
                                 )}>
                                     Vision
@@ -138,7 +138,7 @@ const AboutPage: FC = () => {
                         />
                         <h1
                             className={cn(styles.textGlow,
-                                `ml-auto w-min font-oxygen font-bold text-right leading-[1.2] text-black`,
+                                `ml-auto w-min font-bold text-right leading-[1.2] text-black`,
                                 `mb-n text-[6rem]`,
                                 `md:text-[4rem]  md:landscape:text-[3rem]`,
                                 `sm:x-[mb-xs,text-[3rem]]`,

@@ -288,7 +288,7 @@ const Editable: FC<Props> = (props: Props) => {
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
-                className={`text-basic font-oxygen py-[0.3rem] px-3xs rounded-xxs box-content
+                className={`text-basic py-[0.3rem] px-3xs rounded-xxs box-content
                     ${parentEditId ? '!bg-[#0C545C] !text-[#ECF0F3] ' : ''}
                     ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''}
                     ${classNameToggle} ${editState ? '[&]:bg-blue' : '[&]:bg-white-d0 text-gray'}`}

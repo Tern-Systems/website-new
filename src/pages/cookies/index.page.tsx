@@ -63,7 +63,7 @@ If you have questions about this policy or believe we have not adhered to its te
 
 const CookiesPage = () => (
     <Highlighted heading={'Cookies Policy'}>
-        <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'font-neo whitespace-pre-line '}/>
+        <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'whitespace-pre-line '}/>
         <span>For additional information, please refer to our&nbsp;
             <PageLink href={Route.Privacy} className={'inline-flex underline'}>Privacy Policy</PageLink>
             &nbsp;.

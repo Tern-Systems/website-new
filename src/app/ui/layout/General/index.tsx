@@ -211,7 +211,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         );
 
     return (
-        <div className={'h-dvh max-h-dvh relative overflow-y-scroll font-neo text-primary'}>
+        <div className={'h-dvh max-h-dvh relative overflow-y-scroll text-primary'}>
             {LayoutFinal}
         </div>
     );

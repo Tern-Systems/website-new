@@ -63,7 +63,7 @@ const InsideTern: FC<Props> = (props: Props) => {
             )}
         >
             <div
-                className={cn(styles.content, 'pt-[8.19rem] text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]', classNameContent)}>
+                className={cn(styles.content, 'pt-[8.19rem] text-section pb-[3.25rem]  lg:pb-[9.44rem]', classNameContent)}>
                 <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
                     Inside Tern
                 </h2>

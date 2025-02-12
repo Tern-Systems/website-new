@@ -194,7 +194,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                                 value={route ?? ''}
                                 onOpen={(isExpanded) => setSelectOpenState(isExpanded)}
                                 classNameWrapper={'md:hidden lg:hidden'}
-                                className={`text-[1.3rem] font-bold font-oxygen rounded-xs 
+                                className={`text-[1.3rem] font-bold rounded-xs 
                                             pl-[0.62rem] pr-[1rem] [&_img]:relative [&_img]:w-[1rem] [&_img]:-right-[0.5rem] ${selectCn}`}
                                 classNameOption={`w-full ${selectCn} border-s border-white`}
                             />

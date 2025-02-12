@@ -82,7 +82,7 @@ By using the Site, you acknowledge your agreement to these Terms and Conditions.
 
 const TermsPage = () => (
     <Highlighted heading={'Terms & Conditions'}>
-        <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'font-neo whitespace-pre-line'}/>
+        <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'whitespace-pre-line'}/>
     </Highlighted>
 );
 

@@ -122,7 +122,7 @@ const HomePage: FC = () => {
                 )}
             >
                 <div className={'pb-4xs w-full bg-gradient-to-b from-transparent to-black'}>
-                    <h4 className={cn(styles.textGlow, 'text-heading font-oxygen font-bold')}>
+                    <h4 className={cn(styles.textGlow, 'text-heading font-bold')}>
                         {card.title}
                     </h4>
                 </div>
@@ -163,7 +163,7 @@ const HomePage: FC = () => {
                         <div>
                             <h1
                                 className={cn(styles.textGlow,
-                                    `font-oxygen text-center leading-[1.2]`,
+                                    `text-center leading-[1.2]`,
                                     `mb-n text-[5.0625rem]`,
                                     `md:text-[3.4375rem]`,
                                     `sm:x-[mb-xs,text-[2.9375rem]]`,
@@ -209,7 +209,7 @@ const HomePage: FC = () => {
                     >
                         <h2
                             className={cn(styles.textGlow,
-                                'font-bold font-oxygen text-center text-[2.5rem] leading-[1.2] tracking-[0.1rem]',
+                                'font-bold text-center text-[2.5rem] leading-[1.2] tracking-[0.1rem]',
                                 'md:text-[1.75rem]',
                                 'sm:text-[1.1875rem]',
                             )}

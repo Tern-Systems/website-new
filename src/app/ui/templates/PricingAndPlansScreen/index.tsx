@@ -202,7 +202,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const CollapsedContentSm = (
             <>
                 <h2 className={cn(
-                    `flex items-center font-oxygen font-bold capitalize`,
+                    `flex items-center font-bold capitalize`,
                     `mb-4xs text-heading-s`,
                     `lg:x-[mb-xxs,text-heading]`,
                     `md:text-heading`,
@@ -268,7 +268,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     {Benefits}
                 </ul>
                 <div className={cn(
-                    `flex flex-col flex-grow mt-[2.1rem] font-oxygen text-secondary text-section-xxs`,
+                    `flex flex-col flex-grow mt-[2.1rem] text-secondary text-section-xxs`,
                     `sm:landscape:text-section-3xs`
                 )}
                 >

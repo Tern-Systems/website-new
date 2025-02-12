@@ -22,7 +22,7 @@ const SubscribeTool: FC = () => {
         return null;
 
     return (
-        <div className={`flex h-full font-oxygen text-gray
+        <div className={`flex h-full text-gray
                             text-heading-s
                             sm:x-[text-basic,flex-col]`}>
             <PaymentInfo subscription={subscription}/>
