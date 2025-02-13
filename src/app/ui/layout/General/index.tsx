@@ -4,13 +4,11 @@ import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect } from
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { IModalContext } from '@/app/context/Modal.context';
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
 import { getIdName } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks';
 import { useLayout, useModal, useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
@@ -87,7 +85,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     const router = useRouter();
     const layoutCtx = useLayout();
     const userCtx = useUser();
-    const breakpoint = useBreakpointCheck();
 
 
     useEffect(() => {
@@ -128,7 +125,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         });
 
         return (
-            <li key={section.title + idx} className={cn({ ['flex-1']: breakpoint <= Breakpoint.xxs })}>
+            <li key={section.title + idx} className={'xxs:flex-1'}>
                 <ul className={'flex flex-col gap-y-xs'}>
                     <li className={'font-bold text-section-s capitalize'}>{section.title}</li>
                     {LinksLi}
@@ -173,15 +170,15 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                 <div
                     className={cn(styles.content,
                         `grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] h-footer-lg py-l leading-none`,
-                        { [`!flex flex-col gap-y-xxl`]: breakpoint <= Breakpoint.xs },
+                        `xs:x-[flex,flex-col,gap-y-xxl]`,
                     )}
                 >
                     <Insignia className={'[&_*]:x-[!w-[5.875rem],h-auto]'} />
                     <ul
                         className={cn(
                             'flex w-full justify-between',
-                            { [`!justify-start gap-x-xxl`]: breakpoint <= Breakpoint.xs },
-                            { [`gap-y-n flex-wrap `]: breakpoint <= Breakpoint.xxs },
+                            `xs:x-[justify-start,gap-x-xxl]`,
+                            `xxs:x-[gap-y-n,flex-wrap]`,
                         )}
                     >
                         {FooterLinksLi}
@@ -189,10 +186,10 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                     <div
                         className={cn(
                             'col-span-2 flex mt-[7rem] w-full justify-between items-center',
-                            { [`flex flex-col-reverse gap-y-n mt-0 !items-start`]: breakpoint <= Breakpoint.xs },
+                            `xs:x-[flex,flex-col-reverse,gap-y-n,mt-0,items-start]`,
                         )}
                     >
-                        <p className={'leading-[1.2]'}>Copyright © 2025 Tern Systems LLC </p>
+                        <p className={'leading-n'}>Copyright © 2025 Tern Systems LLC </p>
                         <ul className={cn('col-span-3 flex gap-3xs flex-wrap')}>
                             {ContactLinks}
                         </ul>

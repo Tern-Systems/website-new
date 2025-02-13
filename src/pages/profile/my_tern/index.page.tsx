@@ -79,7 +79,7 @@ function MyTernPage() {
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
     const [navigate] = useNavigate();
-    const breakpoint = useBreakpointCheck();
+    const isSm = useBreakpointCheck() <= Breakpoint.sm;
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
@@ -125,11 +125,11 @@ function MyTernPage() {
                 className={cn(
                     `flex-row-reverse bg-blue`,
                     `p-4xs text-basic`,
-                    { [`p-[0.56rem] text-section-xs`]: breakpoint <= Breakpoint.sm },
+                    `xxs:x-[p-[0.56rem],text-section-xs]`,
                 )}
                 classNameIcon={cn(
                     `[&_path]:fill-primary -rotate-90 ml-n [&_*]:w-[0.6rem]`,
-                    { [`[&_*]:w-[0.525rem]`]: breakpoint <= Breakpoint.sm },
+                    `sm:[&_*]:w-[0.525rem]`,
                 )}
             >
                 {btn.title}
@@ -143,7 +143,7 @@ function MyTernPage() {
             key={'node-' + idx}
             onClick={() => {
                 if (typeof entry.action === 'function')
-                    entry.action({ isSm: breakpoint <= Breakpoint.sm, navigate, modalCtx });
+                    entry.action({ isSm, navigate, modalCtx });
             }}
             className={cn(styles.clickable, `flex items-center justify-between border-b-s border-white-d0 cursor-pointer`)}
         >
@@ -155,7 +155,7 @@ function MyTernPage() {
     return (
         <div className={cn(styles.section, `pt-[6.25rem] min-h-dvh bg-black`)}>
             <section className={cn(styles.content)}>
-                <h1 className={`flex font-bold font-oxygen text-[2rem]`}
+                <h1 className={`flex font-bold font-oxygen text-section-xl`}
                 >
                     Dashboard
                 </h1>
@@ -164,7 +164,7 @@ function MyTernPage() {
                 </p>
             </section>
             <section
-                className={cn(styles.content, 'mt-n flex flex-wrap  gap-xs', { [`gap-x-xxs`]: breakpoint <= Breakpoint.sm })}>
+                className={cn(styles.content, 'mt-n flex flex-wrap  gap-xs xxs:gap-x-xxs')}>
                 {LinksLi}
             </section>
             <section className={cn(styles.content, styles.contentHighlight, 'relative flex flex-col gap-y-xl mt-xxl')}>

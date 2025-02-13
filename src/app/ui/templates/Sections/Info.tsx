@@ -40,7 +40,7 @@ const Info: FC<Props> = (props: Props) => {
                     className={'flex justify-between items-center  sm:x-[gap-y-xxl,flex-col-reverse]'}>
                             <span className={'w-[40%] text-left   sm:x-[w-full,text-center]'}>
                                 <span
-                                    className={cn('block mb-5xs  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs', classNameSubTitle)}>
+                                    className={cn('block mb-5xs  text-section-xl  md:text-[1.5rem]  sm:text-section-xs', classNameSubTitle)}>
                                     {subTitle}
                                 </span>
                                 <span className={cn('block leading-n  text-[0.9375rem]  lg:text-section', classNameDescription)}>

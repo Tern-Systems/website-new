@@ -74,15 +74,15 @@ interface Props {
 }
 
 const FAQsPage: FC<Props> = (props: Props) => {
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
+    const isSm = useBreakpointCheck() <= Breakpoint.sm;
     const [navigate] = useNavigate();
 
     const [expandedItemIdx, setExpandedItemIdx] = useState(-1);
 
     useEffect(() => {
-        if (!isSmScreen)
+        if (!isSm)
             navigate(Route.MyTern);
-    }, [isSmScreen, navigate])
+    }, [isSm, navigate])
 
     const FAQsList = FAQs.map((faq, idx) => (
         <li key={faq.question + idx}>
@@ -168,14 +168,14 @@ const FAQsPage: FC<Props> = (props: Props) => {
 }
 
 const FAQsModal: FC = () => {
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
+    const isSm = useBreakpointCheck() <= Breakpoint.sm;
     const modalCtx = useModal();
 
     useEffect(() => {
-        if (isSmScreen)
+        if (isSm)
             modalCtx.closeModal();
         //eslint-disable-next-line
-    }, [isSmScreen]);
+    }, [isSm]);
 
     return (
         <BaseModal title={'Help & FAQs'}

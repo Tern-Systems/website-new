@@ -2,48 +2,39 @@ import React, { FC, ReactElement } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { useBreakpointCheck } from '@/app/hooks';
-
 import { SectionCard } from '@/app/types/layout';
 
 import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 
 interface Props {
-    data: SectionCard[]
-    className?: string
-    classNameContent?: string
-    classNameCompanyLi?: string
+    data: SectionCard[];
+    className?: string;
+    classNameContent?: string;
+    classNameCompanyLi?: string;
 }
 
 const InsideTern: FC<Props> = (props: Props) => {
     const { data, className, classNameContent, classNameCompanyLi } = props;
-
-    const isMdScreen = useBreakpointCheck() === Breakpoint.md;
 
     const CompanyLi: ReactElement[] = data.map((entry, idx) => (
         <li
             key={entry.title + idx}
             className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
         >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-section-3xs'}>
+            <h4 className={'mb-[0.1rem]  text-[0.9375rem]  sm:text-section-3xs'}>
                 {entry.title}
             </h4>
             <p>{entry.description}</p>
-
-            {isMdScreen ?
-                <div className="w-full flex justify-end relative">
-                    <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-w-[33.75rem] max-h-[22.5rem]'} />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[--bg-control-blue] from-[min(20dvw*2,40%)] to-transparent to-70% pointer-events-none "></div>
-                </div>
-                :
-                <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-h-[22.5rem]'} />
-            }
-
-
+            <div className={'hidden w-full justify-end relative  md:flex '}>
+                <Image src={entry.icon} alt={'office girl 2'}
+                       className={'w-full max-w-[33.75rem] max-h-[22.5rem]'} />
+                <div
+                    className={'absolute inset-0 bg-gradient-to-r from-[--bg-control-blue] from-[min(20dvw*2,40%)] to-transparent to-70% pointer-events-none'} />
+            </div>
+            <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-h-[22.5rem]  md:hidden'} />
             <Button
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
@@ -59,7 +50,7 @@ const InsideTern: FC<Props> = (props: Props) => {
         <section
             className={cn(styles.section,
                 'from-black via-black',
-                className
+                className,
             )}
         >
             <div
@@ -73,7 +64,7 @@ const InsideTern: FC<Props> = (props: Props) => {
             </div>
         </section>
     );
-}
+};
 
 
 export { InsideTern };

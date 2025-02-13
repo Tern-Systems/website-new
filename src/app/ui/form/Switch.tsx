@@ -1,8 +1,5 @@
-import {FC} from "react";
-
-import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
-
-import {useBreakpointCheck} from "@/app/hooks";
+import { FC } from 'react';
+import cn from 'classnames';
 
 
 interface Props {
@@ -12,9 +9,7 @@ interface Props {
 }
 
 const Switch: FC<Props> = (props: Props) => {
-    const {handleSwitch, state, className} = props;
-    const isSmScreen = useBreakpointCheck()<= Breakpoint.sm;
-
+    const { handleSwitch, state, className } = props;
     return (
         <div
             className={`flex gap-x-[0.4rem] items-center cursor-pointer ${className}`}
@@ -25,14 +20,16 @@ const Switch: FC<Props> = (props: Props) => {
                             w-h-button-n h-[min(2.4dvw,0.8rem)]`}
             >
                 <div
-                    className={`w-1/2 h-full rounded-full cursor-pointer font-bold capitalize bg-white border-s border-gray-l0 
-                            ${state ? 'ml-auto [&]:bg-[#23af7a]' : ''}`}
+                    className={cn(
+                        `w-1/2 h-full rounded-full cursor-pointer font-bold capitalize bg-white border-s border-gray-l0`,
+                        { ['ml-auto [&]:bg-[#23af7a]']: state },
+                    )}
                 />
             </div>
-            <span className={isSmScreen ? 'hidden' : ''}>{state ? 'On' : 'Off'}</span>
+            <span className={'sm:hidden'}>{state ? 'On' : 'Off'}</span>
         </div>
     );
 };
 
 
-export {Switch};
+export { Switch };

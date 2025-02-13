@@ -11,7 +11,7 @@ import Head from "next/head";
 
 
 export default function MyApp({Component, pageProps}: AppProps) {
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
+    const isSm = useBreakpointCheck() <= Breakpoint.sm;
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
 
     // Click checking
@@ -21,7 +21,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
 
 
     // @ts-expect-error no errors
-    const getLayout = isSmScreen && !isPiPModeChild ? Component.getMobileLayout : Component.getLayout;
+    const getLayout = isSm && !isPiPModeChild ? Component.getMobileLayout : Component.getLayout;
 
 
     const FinalElement: ReactElement = getLayout

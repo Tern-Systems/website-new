@@ -1,28 +1,27 @@
-import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
-import cn from "classnames";
+import React, { FC, FormEvent, useCallback, useEffect, useState } from 'react';
+import cn from 'classnames';
 
-import {CardData, SavedCardFull} from "@/app/types/billing";
-import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
-import {COUNTRY, STATE_PROVINCE} from "@/app/static";
+import { CardData, SavedCardFull } from '@/app/types/billing';
+import { COUNTRY, STATE_PROVINCE } from '@/app/static';
 
-import {BillingService} from "@/app/services";
+import { BillingService } from '@/app/services';
 
-import {mapSavedCard} from "@/app/utils";
-import {useBreakpointCheck, useForm} from "@/app/hooks";
-import {useModal, useUser} from "@/app/context";
+import { mapSavedCard } from '@/app/utils';
+import { useForm } from '@/app/hooks';
+import { useModal, useUser } from '@/app/context';
 
-import {ScrollEnd} from "@/app/ui/misc";
-import {Button, Input, Select} from "@/app/ui/form";
-import {MessageModal} from "@/app/ui/modals";
-import {RemovePaymentMethodModal} from "./RemovePaymentMethodModal";
+import { ScrollEnd } from '@/app/ui/misc';
+import { Button, Input, Select } from '@/app/ui/form';
+import { MessageModal } from '@/app/ui/modals';
+import { RemovePaymentMethodModal } from './RemovePaymentMethodModal';
 
-import SVG_VISA from "/public/images/icons/card-visa.svg";
-import SVG_MASTER from "/public/images/icons/card-master-card.svg";
-import SVG_AMEX from "/public/images/icons/card-amex.svg";
-import SVG_DISCOVER from "/public/images/icons/card-discover.svg";
-import SVG_CARD_NUM from "/public/images/icons/card-num.svg";
+import SVG_VISA from '/public/images/icons/card-visa.svg';
+import SVG_MASTER from '/public/images/icons/card-master-card.svg';
+import SVG_AMEX from '/public/images/icons/card-amex.svg';
+import SVG_DISCOVER from '/public/images/icons/card-discover.svg';
+import SVG_CARD_NUM from '/public/images/icons/card-num.svg';
 
-import styles from './Form.module.css'
+import styles from './Form.module.css';
 
 
 const SM_ROW_START = 'sm:row-start-auto';
@@ -49,19 +48,32 @@ const FORM_DATA_DEFAULT: CardData = {
     state: '',
     nickName: '',
     isPreferred: false,
-}
+};
+
+
+const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string) => (
+    <Button
+        type={'submit'}
+        className={cn(
+            `px-[1.12rem] h-[min(13dvw,3.25rem)] bg-gray font-neo text-heading font-bold`,
+            `w-full rounded-full text-primary col-span-2 sm:mt-[2.7dvw]`,
+            className,
+        )}
+    >
+        {paymentCreation ? 'Add' : 'Update'}
+    </Button>
+);
 
 
 interface Props {
-    isPaymentCreation?: boolean;
+    paymentCreation?: boolean;
 }
 
 const PaymentMethodTool: FC<Props> = (props: Props) => {
-    const {isPaymentCreation} = props;
+    const { paymentCreation } = props;
 
-    const {userData} = useUser();
+    const { userData } = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
@@ -72,7 +84,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         if (!userData)
             return;
         try {
-            const {payload: cards} = await BillingService.getEditCards(userData.email);
+            const { payload: cards } = await BillingService.getEditCards(userData.email);
             setSavedCards(cards);
         } catch (error: unknown) {
             if (typeof error === 'string')
@@ -82,11 +94,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     }, [userData]);
 
     useEffect(() => {
-        if (isPaymentCreation)
+        if (paymentCreation)
             return;
         fetchEditCards();
         // eslint-disable-next-line
-    }, [fetchEditCards, isPaymentCreation]);
+    }, [fetchEditCards, paymentCreation]);
 
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -95,11 +107,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             return;
         try {
             let responseMsg: string;
-            if (isPaymentCreation) {
-                const {message} = await BillingService.postSaveCard(formData, userData?.email);
+            if (paymentCreation) {
+                const { message } = await BillingService.postSaveCard(formData, userData?.email);
                 responseMsg = message;
             } else {
-                const {message} = await BillingService.postUpdateCard(formData, userData?.email);
+                const { message } = await BillingService.postUpdateCard(formData, userData?.email);
                 responseMsg = message;
             }
             modalCtx.openModal(<MessageModal>{responseMsg}</MessageModal>);
@@ -108,7 +120,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             if (typeof error === 'string')
                 modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
-    }
+    };
 
 
     useEffect(() => {
@@ -116,34 +128,24 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             return;
         const formData: CardData = mapSavedCard(savedCards[editCardIdx]);
         setFormDataState(formData);
-    }, [savedCards, editCardIdx, setFormDataState])
+    }, [savedCards, editCardIdx, setFormDataState]);
 
     // Elements
     const SavedCardOptions: Record<string, string> = Object.fromEntries(
         savedCards?.map((card: SavedCardFull | undefined, idx) =>
             [idx, card ? (card.nickName ?? (card.cardType + ' **** ' + card.last4)) : ''])
-        ?? []
-    );
-
-    const SubmitBtn = (
-        <Button
-            type={'submit'}
-            className={`px-[1.12rem] h-[min(13dvw,3.25rem)] bg-gray font-neo text-heading font-bold
-                        w-full rounded-full text-primary col-span-2 sm:mt-[2.7dvw]`}
-        >
-            {isPaymentCreation ? 'Add' : 'Update'}
-        </Button>
+        ?? [],
     );
 
     return (
         <div className={'mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)]'}>
             <h1 className={'text-heading-l font-bold mb-[min(5.3dvw,4.15rem)]'}>
-                {isPaymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
+                {paymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
             </h1>
             <form className={`${styles.form} sm:[&&]:grid-cols-2`} onSubmit={handleFormSubmit}>
                 <fieldset className={`[&>*]:col-start-1 ${FIELDSET_CN}`}>
                     <Select
-                        hidden={isPaymentCreation}
+                        hidden={paymentCreation}
                         options={SavedCardOptions}
                         value={editCardIdx.toString()}
                         placeholder={'Select'}
@@ -157,13 +159,13 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
                         type={'text'}
-                        value={editCardIdx >= 0 && !isPaymentCreation ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
+                        value={editCardIdx >= 0 && !paymentCreation ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
                         icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
-                        classNameWrapper={cn(FIELD_CN, `row-start-3`, {['brightness-[0.9]']: !isPaymentCreation})}
-                        disabled={!isPaymentCreation}
+                        classNameWrapper={cn(FIELD_CN, `row-start-3`, { ['brightness-[0.9]']: !paymentCreation })}
+                        disabled={!paymentCreation}
                     >
                         Credit or Debit Card
                     </Input>
@@ -209,7 +211,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         >
                             Set as preferred payment method
                         </Input>
-                        {isSmScreen ? null : SubmitBtn}
+                        {renderSubmitBtn(paymentCreation, 'sm:hidden')}
                     </span>
                 </fieldset>
                 <fieldset className={`[&>*]:col-start-3 ${FIELDSET_CN}`}>
@@ -280,16 +282,16 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         Country / Region
                     </Select>
                 </fieldset>
-                {isSmScreen ? SubmitBtn : null}
+                {renderSubmitBtn(paymentCreation, 'hidden sm:inline')}
             </form>
-            <div className={'mt-[min(5dvw,6.6rem)]'} hidden={isPaymentCreation}>
+            <div className={'mt-[min(5dvw,6.6rem)]'} hidden={paymentCreation}>
                 <span
                     className={'text-red text-section cursor-pointer'}
                     onClick={() => {
                         if (savedCards[+editCardIdx]) {
                             modalCtx.openModal(
-                                <RemovePaymentMethodModal card={mapSavedCard(savedCards[+editCardIdx])}/>,
-                                {darkenBg: true}
+                                <RemovePaymentMethodModal card={mapSavedCard(savedCards[+editCardIdx])} />,
+                                { darkenBg: true },
                             );
                         }
                     }}
@@ -297,9 +299,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     Remove Payment Method
                 </span>
             </div>
-            <ScrollEnd/>
+            <ScrollEnd />
         </div>
-    )
-}
+    );
+};
 
-export {PaymentMethodTool};
+export { PaymentMethodTool };

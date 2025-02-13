@@ -48,8 +48,8 @@ const config: Config = {
         extend: {
             screens: {
                 x3s: { max: '375px' },
-                xxs: { min: '375px', max: '616px' },
-                xs: { min: '616px', max: '774px' },
+                xxs: { max: '616px' },
+                xs: { max: '774px' },
                 sm: { max: '835px' },
                 md: { min: '835px', max: '1440px' },
                 lg: { min: '1440px' },

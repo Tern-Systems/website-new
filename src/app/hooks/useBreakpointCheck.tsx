@@ -14,7 +14,7 @@ const BREAKPOINT = {
     xxs: { min: parseFloat(xxs?.min), max: parseFloat(xxs?.max) },
     xs: { min: parseFloat(xs?.min), max: parseFloat(xs?.max) },
     // @ts-expect-error min is not defined in tailwind.config.tsx
-    sm: { min: parseFloat(sm?.min), max: parseFloat(sm?.max) },
+    sm: { max: parseFloat(sm?.max) },
     // @ts-expect-error min is not defined in tailwind.config.tsx
     md: { min: parseFloat(md?.min), max: parseFloat(md?.max) },
     // @ts-expect-error min is not defined in tailwind.config.tsx
@@ -31,11 +31,11 @@ const useBreakpointCheck = () => {
 
             if (innerWidth < BREAKPOINT.x3s.max)
                 setBreakpoint(Breakpoint.x3s);
-            else if (BREAKPOINT.xxs.min <= innerWidth && innerWidth < BREAKPOINT.xxs.max)
+            else if (innerWidth < BREAKPOINT.xxs.max)
                 setBreakpoint(Breakpoint.xxs);
-            else if (BREAKPOINT.xs.min <= innerWidth && innerWidth < BREAKPOINT.xs.max)
+            else if (innerWidth < BREAKPOINT.xs.max)
                 setBreakpoint(Breakpoint.xs);
-            else if (BREAKPOINT.sm.min <= innerWidth && innerWidth < BREAKPOINT.sm.max)
+            else if (innerWidth < BREAKPOINT.sm.max)
                 setBreakpoint(Breakpoint.sm);
             else if (BREAKPOINT.md.min <= innerWidth && innerWidth < BREAKPOINT.md.max)
                 setBreakpoint(Breakpoint.md);

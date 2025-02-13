@@ -9,7 +9,7 @@ import {PaymentMethodTool} from "@/app/ui/templates";
 
 function PurchasingMethodPage() {
     const {action} = useParams() as { action: string } ?? {};
-    return <PaymentMethodTool isPaymentCreation={action === 'add'}/>;
+    return <PaymentMethodTool paymentCreation={action === 'add'}/>;
 }
 
 PurchasingMethodPage.getLayout = (page: ReactElement) => (

@@ -227,7 +227,7 @@ const HomePage: FC = () => {
                         <p
                             className={cn(styles.textGlow,
                                 'mt-auto w-[82%] text-left font-bold leading-n',
-                                'text-[2rem]',
+                                'text-section-xl',
                                 'md:text-[1.5rem]',
                                 'sm:x-[mt-[10.5rem],text-section]',
                             )}
@@ -254,7 +254,7 @@ const HomePage: FC = () => {
                         >
                             the world is not binary
                         </h2>
-                        <p className={'text-right font-bold  text-[2rem]  md:text-[1.5rem]  sm:text-[1.25rem]'}>
+                        <p className={'text-right font-bold  text-section-xl  md:text-[1.5rem]  sm:text-[1.25rem]'}>
                             and neither is the future.
                         </p>
                     </div>

@@ -7,6 +7,6 @@
 }
 
 .activeNavLink::before {
-  @apply absolute left-5xs h-[1px] -bottom-[0.5px];
+  @apply absolute left-5xs h-[2px] -bottom-[1px] bg-blue;
   width: calc(100% - 2 * var(--p-5xs));
 }
