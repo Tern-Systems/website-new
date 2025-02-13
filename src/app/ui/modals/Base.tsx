@@ -1,17 +1,17 @@
-import React, {Dispatch, FC, PropsWithChildren, SetStateAction} from "react"
-import cn from "classnames";
+import React, { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
+import cn from 'classnames';
 
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
-import {useModal} from "@/app/context"
+import { useModal } from '@/app/context';
 
-import {Button} from "@/app/ui/form";
-import {useBreakpointCheck} from "@/app/hooks";
+import { Button } from '@/app/ui/form';
+import { useBreakpointCheck } from '@/app/hooks';
 
-import {Insignia} from "@/app/ui/misc";
-
+import { Insignia } from '@/app/ui/misc';
 
 interface ModalConfig extends PropsWithChildren {
-    isSimple?: boolean;
+    isSimple?: boolean | Breakpoint;
     title?: string;
     onClose?: () => void;
     setHoverState?: Dispatch<SetStateAction<boolean>>;
@@ -20,28 +20,40 @@ interface ModalConfig extends PropsWithChildren {
     classNameContent?: string;
     classNameTitle?: string;
     classNameHr?: string;
-    adaptSmScreen?: boolean;
-    smScreenOnly?: boolean;
+    adaptBreakpoint?: Breakpoint;
+    adaptedDefault?: boolean;
 }
 
 const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const {
-        children, isSimple, title, onClose, setHoverState, preventClose,
-        className, classNameContent, classNameTitle, classNameHr, adaptSmScreen, smScreenOnly
+        children,
+        isSimple,
+        title,
+        onClose,
+        setHoverState,
+        preventClose,
+        className,
+        classNameContent,
+        classNameTitle,
+        classNameHr,
+        adaptBreakpoint,
+        adaptedDefault,
     } = props;
 
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck() === 'sm';
+    const breakpoint = useBreakpointCheck();
+    const adapt: boolean = adaptBreakpoint !== undefined ? breakpoint <= adaptBreakpoint : false;
 
-    const isSmRulesApplied = isSmScreen && adaptSmScreen || smScreenOnly;
+    const adaptApplied = adapt || adaptedDefault;
 
     const handleClose = () => {
         onClose?.();
-        if (!preventClose)
-            modalCtx.closeModal();
-    }
+        if (!preventClose) modalCtx.closeModal();
+    };
 
-    if (isSimple) {
+    const simple = isSimple !== undefined && (typeof isSimple === 'boolean' ? isSimple : isSimple > breakpoint);
+
+    if (simple) {
         return (
             <div
                 id={'modal'}
@@ -49,8 +61,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 onMouseLeave={() => setHoverState?.(false)}
                 onClick={() => modalCtx.closeModal()}
                 className={cn(
-                    `absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem] pointer-events-auto`,
-                    isSmRulesApplied ? 'bg-control-white-d0 text-gray w-dvw h-dvh' : 'bg-control-gray-l0 rounded-smallest',
+                    `pointer-events-auto absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem]`,
+                    adaptApplied ? 'h-dvh w-dvw bg-white-d0 text-gray' : 'rounded-xs bg-gray-l0',
                     className,
                 )}
             >
@@ -59,75 +71,76 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     icon={'close'}
                     onClick={() => handleClose()}
                     className={cn(
-                        `place-self-start min-w-[0.55rem] inline-block`,
-                        {['[&_path]:fill-blue ml-auto [&_*]:size-[1.125rem]']: isSmRulesApplied},
-                        classNameTitle
+                        `inline-block min-w-[0.55rem] place-self-start`,
+                        { ['ml-auto [&_*]:size-[1.125rem] [&_path]:fill-blue']: adaptApplied },
+                        classNameTitle,
                     )}
                 />
             </div>
         );
     } else {
-        const Heading = title
-            ? (
-                <h2 className={cn(
-                    `text-inherit font-oxygen text-heading font-bold`,
+        const Heading = title ? (
+            <h2
+                className={cn(
+                    `font-oxygen text-heading font-bold text-inherit`,
                     `sm:portrait:text-heading-s`,
                     `sm:landscape:text-section-s`,
                     classNameTitle,
-                    {['mb-[--p-content]']: isSmRulesApplied})}
-                >
-                    {title}
-                </h2>
-            )
-            : null;
+                    { ['mb-n']: adaptApplied },
+                )}
+            >
+                {title}
+            </h2>
+        ) : null;
         return (
             <div
                 id={'modal'}
-                onClick={(event) => {
-                    event.stopPropagation()
-                }}
+                onClick={(event) => event.stopPropagation()}
                 className={cn(
                     `pointer-events-auto`,
-                    isSmRulesApplied
-                        ? 'bg-control-white-d0 text-gray w-dvw h-dvh z-50'
+                    adaptApplied
+                        ? 'z-50 h-dvh w-dvw bg-white-d0 text-gray'
                         : cn(
-                            'place-self-center mx-auto bg-control-gray rounded-small border-small border-control-white-d0',
-                            'lg:p-[--p-content-l]',
-                            'md:p-[--p-content-s]',
-                            'sm:max-w-[calc(100%-2*var(--p-content-xs))] sm:p-[--p-content-xxs]'
-                        ),
-                    className
+                              'mx-auto place-self-center rounded-s border-s border-white-d0 bg-gray',
+                              'lg:p-l',
+                              'md:p-s',
+                              'sm:max-w-[calc(100%-2*var(--p-xs))] sm:p-xxs',
+                          ),
+                    className,
                 )}
             >
                 <div
-                    className={cn(`relative flex items-center justify-between font-oxygen`, {['h-heading-modal p-[--p-content-xs]']: isSmRulesApplied})}>
-                    {isSmRulesApplied ? <Insignia className={'[&_path]:fill-black'}/> : Heading}
+                    className={cn(`relative flex items-center justify-between font-oxygen`, {
+                        ['h-heading-modal p-xs']: adaptApplied,
+                    })}
+                >
+                    {adaptApplied ? <Insignia className={'[&_path]:fill-black'} /> : Heading}
                     <Button
                         icon={'close'}
                         onClick={() => handleClose()}
-                        classNameIcon={cn(
-                            'sm:[&_*]:w-[0.75rem]',
-                            {['[&_path]:fill-blue [&_*]:w-[1.125rem]']: isSmRulesApplied}
-                        )}
+                        classNameIcon={cn('sm:[&_*]:w-[0.75rem]', {
+                            ['[&_path]:fill-blue [&_*]:w-[1.125rem]']: adaptApplied,
+                        })}
                     />
                 </div>
-                <hr className={cn(classNameHr, {
-                    [cn(
-                        'relative',
-                        'mb-[--p-content-xs]',
-                        'lg:x-[-left-[0.72rem],mt-[--p-content-xs]] lg:w-[calc(100%+1.44rem)]',
-                        'md:x-[-left-[--p-content-4xs],mt-[--p-content-xxs]] md:w-[calc(100%+2*var(--p-content-4xs))]',
-                        'sm:x-[-left-[--p-content-5xs],mt-[--p-content-xxs]] sm:w-[calc(100%+2*var(--p-content-5xs))]',
-                    )]: !isSmRulesApplied
-                })
-                }/>
-                <div className={cn(classNameContent, 'overflow-y-scroll h-[calc(100%-var(--h-heading))]')}>
-                    {isSmRulesApplied ? Heading : null}
+                <hr
+                    className={cn(classNameHr, {
+                        [cn(
+                            'relative',
+                            'mb-xs',
+                            'lg:w-[calc(100%+1.44rem)] lg:x-[-left-[0.72rem],mt-xs]',
+                            'md:w-[calc(100%+2*var(--p-4xs))] md:x-[-left-4xs,mt-xxs]',
+                            'sm:w-[calc(100%+2*var(--p-5xs))] sm:x-[-left-5xs,mt-xxs]',
+                        )]: !adaptApplied,
+                    })}
+                />
+                <div className={cn(classNameContent, 'h-[calc(100%-var(--h-heading))] overflow-y-scroll')}>
+                    {adaptApplied ? Heading : null}
                     {children}
                 </div>
             </div>
         );
     }
-}
+};
 
-export {BaseModal}
+export { BaseModal };

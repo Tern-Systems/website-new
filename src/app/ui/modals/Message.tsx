@@ -1,13 +1,11 @@
-import {FC, PropsWithChildren, useEffect, useState} from "react";
+import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
-import {BaseModal} from "@/app/ui/modals/Base";
-import {useModal} from "@/app/context";
-import cn from "classnames";
-
+import { BaseModal } from '@/app/ui/modals/Base';
+import { useModal } from '@/app/context';
+import cn from 'classnames';
 
 const TIMER_INTERVAL = 50;
 const ANIMATION_DURATION = 500;
-
 
 const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const modalCtx = useModal();
@@ -18,7 +16,6 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [animate, setAnimate] = useState<boolean>(false);
 
     useEffect(() => {
-
         const animationTimeout = setTimeout(() => setAnimate(true), TIMER_INTERVAL);
 
         const id = setInterval(() => {
@@ -26,7 +23,7 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 setTimer((prevState) => {
                     if (prevState <= 0) {
                         clearInterval(id);
-                        setAnimate(false)
+                        setAnimate(false);
                         setTimeout(() => {
                             modalCtx.closeModal();
                         }, ANIMATION_DURATION);
@@ -48,16 +45,16 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             isSimple
             setHoverState={setHoveredState}
             className={cn(
-                `place-self-center mx-auto right-[--s-default] bottom-[min(6dvw,7.2rem)] max-w-[19.3rem] w-fit cursor-pointer`,
-                `transition-all transform`,
+                `bottom-[min(6dvw,7.2rem)] right-l mx-auto w-fit max-w-[19.3rem] cursor-pointer place-self-center`,
+                `transform transition-all`,
                 animate
-                    ? "duration-500 ease-in opacity-100 translate-y-0"
-                    : "duration-500 ease-out opacity-0 translate-y-full"
+                    ? 'translate-y-0 opacity-100 duration-500 ease-in'
+                    : 'translate-y-full opacity-0 duration-500 ease-out',
             )}
         >
             {props.children}
         </BaseModal>
     );
-}
+};
 
-export {MessageModal};
+export { MessageModal };

@@ -1,53 +1,46 @@
-import React, { FC, ReactElement } from "react";
-import Image from "next/image";
-import cn from "classnames";
+import React, { FC, ReactElement } from 'react';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import { useBreakpointCheck } from "@/app/hooks";
+import { SectionCard } from '@/app/types/layout';
 
-import { SectionCard } from "@/app/types/layout";
+import { Button } from '@/app/ui/form';
 
-import { Button } from "@/app/ui/form";
-
-import styles from "@/app/common.module.css";
-
+import styles from '@/app/common.module.css';
 
 interface Props {
-    data: SectionCard[]
-    className?: string
-    classNameContent?: string
-    classNameCompanyLi?: string
+    data: SectionCard[];
+    className?: string;
+    classNameContent?: string;
+    classNameCompanyLi?: string;
 }
 
 const InsideTern: FC<Props> = (props: Props) => {
     const { data, className, classNameContent, classNameCompanyLi } = props;
 
-    const isMdScreen = useBreakpointCheck() === 'md';
-
     const CompanyLi: ReactElement[] = data.map((entry, idx) => (
         <li
             key={entry.title + idx}
-            className={cn('flex flex-col', 'gap-y-[--p-content-3xs]','w-full', 'text-left')}
+            className={cn('flex flex-col', 'gap-y-[--p-content-3xs]', 'w-full', 'text-left')}
         >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>
-                {entry.title}
-            </h4>
+            <h4 className={'mb-[0.1rem] text-[0.9375rem] sm:text-section-3xs'}>{entry.title}</h4>
             <p>{entry.description}</p>
-            <div className={'flex bg-control-blue'}>
-            <div className={'md:w-[14.325rem]'}></div>
-                <div className={cn('relative', 'w-full', 'max-h-[22.5rem]')}>
-                    <Image
+            <div className={'relative hidden w-full justify-end md:flex'}>
+                <Image
                     src={entry.icon}
-                    alt="office girl 2"
-                    className={cn('w-full', 'h-full', 'object-cover')}
-                    />
-                    <div className="absolute inset-0 md:bg-gradient-to-r from-blue via-[#178AB7]/20 to-transparent"></div>
-                </div>
+                    alt={entry.icon.src}
+                    className={'max-h-[22.5rem] w-full max-w-[33.75rem]'}
+                />
+                <div
+                    className={
+                        'pointer-events-none absolute inset-0 bg-gradient-to-r from-[--bg-control-blue] from-[min(20dvw*2,40%)] to-transparent to-70%'
+                    }
+                />
             </div>
-
             <Button
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
-                className={'self-start text-blue flex-row-reverse'}
+                className={'flex-row-reverse self-start text-blue'}
                 classNameIcon={cn('[&_path]:fill-blue-l0', entry.btnIconCN)}
             >
                 {entry.action}
@@ -56,24 +49,21 @@ const InsideTern: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <section
-            className={cn(styles.section,
-                'from-black via-black',
-                className
-            )}
-        >
+        <section className={cn(styles.section, 'from-black via-black', className)}>
             <div
-                className={cn(styles.content, 'pt-[8.19rem] text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]', 'md:x-[bg-gradient-to-b,from-blue,via-[#0a313a]/10,to-transparent,pt-[11.75rem]]')}>
-                <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
-                    Inside Tern
-                </h2>
-                <ul className={cn('grid  grid-cols-1 gap-[--p-content-xxl]  lg:x-[grid-cols-2,gap-[3.63rem]]', classNameCompanyLi)}>
+                className={cn(
+                    styles.content,
+                    'pb-[3.25rem] pt-6xl font-oxygen text-section lg:pb-[9.44rem]',
+                    classNameContent,
+                )}
+            >
+                <h2 className={'mb-[3.75rem] text-left text-[2.5rem] font-bold lg:mb-[5rem]'}>Inside Tern</h2>
+                <ul className={cn('grid grid-cols-1 gap-xxl lg:x-[grid-cols-2,gap-[3.63rem]]', classNameCompanyLi)}>
                     {CompanyLi}
                 </ul>
             </div>
         </section>
     );
-}
-
+};
 
 export { InsideTern };

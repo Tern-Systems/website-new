@@ -1,1 +1,2 @@
-export {PrimaryLabel} from './PrimaryLabel';
+export { MainBackground } from './MainBackground';
+export { PrimaryLabel } from './PrimaryLabel';

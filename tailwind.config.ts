@@ -1,68 +1,113 @@
-import type {Config} from "tailwindcss";
-import Tailwind from "tailwindcss/plugin";
+import type { Config } from 'tailwindcss';
+import Tailwind from 'tailwindcss/plugin';
+
+
+const spacing = {
+    '7xl': 'var(--p-7xl)',
+    '6xl': 'var(--p-6xl)',
+    '5xl': 'var(--p-5xl)',
+    '4xl': 'var(--p-4xl)',
+    '3xl': 'var(--p-3xl)',
+    xxl: 'var(--p-xxl)',
+    xl: 'var(--p-xl)',
+    l: 'var(--p-l)',
+    n: 'var(--p-n)',
+    s: 'var(--p-s)',
+    xs: 'var(--p-xs)',
+    xxs: 'var(--p-xxs)',
+    '3xs': 'var(--p-3xs)',
+    '4xs': 'var(--p-4xs)',
+    '5xs': 'var(--p-5xs)',
+};
+
+const size = {
+    l: 'var(--h-l)',
+    m: 'var(--h-m)',
+    n: 'var(--h-n)',
+    s: 'var(--h-s)',
+    xs: 'var(--h-xs)',
+    xxs: 'var(--h-xxs)',
+    heading: 'var(--h-heading)',
+    'insignia': 'var(--insignia-h)',
+    'heading-icon': 'var(--h-heading-icon)',
+    'heading-modal': 'var(--h-heading-modal)',
+    'sub-heading': 'var(--h-sub-heading)',
+    'button-xxl': 'var(--h-button-xxl)',
+    'button-xl': 'var(--h-button-xl)',
+    'button-l': 'var(--h-button-l)',
+    'button-n': 'var(--h-button-n)',
+};
+
 
 const config: Config = {
     content: [
-        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/ui/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
         extend: {
             screens: {
-                sm: {max: '835px'},
-                md: {min: '835px', max: '1440px'},
-                lg: {min: '1440px'},
+                x3s: { max: '375px' },
+                xxs: { max: '616px' },
+                xs: { max: '774px' },
+                sm: { max: '835px' },
+                md: { min: '835px', max: '1440px' },
+                lg: { min: '1440px' },
             },
-            minHeight: {
-                heading: 'var(--h-heading)',
-                'heading-modal': 'var(--h-heading-modal)',
-            },
-            height: {
-                heading: 'var(--h-heading)',
-                'heading-modal': 'var(--h-heading-modal)',
-            },
-            colors: {
-                primary: "var(--color-primary)",
-                secondary: "var(--color-secondary)",
-                gray: "var(--color-gray)",
-                placeholder: "var(--color-placeholder)",
-                blue: "var(--color-blue)",
-                'blue-l0': "var(--color-blue-l0)",
-                red: "var(--color-red)",
+            spacing: spacing,
+            gap: spacing,
+            margin: spacing,
+            padding: spacing,
+            maxWidth: size,
+            width: size,
+            maxHeight: size,
+            minHeight: size,
+            height: size,
+            borderRadius: {
+                xxs: 'var(--br-xxs)',
+                xs: 'var(--br-xs)',
+                s: 'var(--br-s)',
+                n: 'var(--br-n)',
+                l: 'var(--br-l)',
             },
             backgroundColor: {
-                'control-gray': "var(--bg-control-gray)",
-                'control-gray-l0': "var(--bg-control-gray-l0)",
-                'control-white-d1': "var(--bg-control-white-d1)",
-                'control-white-d0': "var(--bg-control-white-d0)",
-                'control-white': "var(--bg-control-white)",
-                'control-blue-l0': "var(--bg-control-blue-l0)",
-                'control-blue': "var(--bg-control-blue)",
-                'control-red': "var(--bg-control-red)",
-                'section-navy': "var(--bg-section-navy)",
-                'section-green': "var(--bg-section-green)",
-                'control-navy': "var(--bg-control-navy)",
-            },
-            borderRadius: {
-                smallest1: 'var(--br-smallest-1)',
-                smallest: 'var(--br-smallest)',
-                small: 'var(--br-small)',
-                normal: 'var(--br-normal)',
+                'black-l0': 'var(--bg-black-l0)',
+                'gray-d0': 'var(--bg-gray-d0)',
+                'gray': 'var(--bg-gray)',
+                'gray-l0': 'var(--bg-gray-l0)',
+                'white-d1': 'var(--bg-white-d1)',
+                'white-d0': 'var(--bg-white-d0)',
+                'white': 'var(--bg-white)',
+                'blue-l0': 'var(--bg-blue-l0)',
+                'blue': 'var(--bg-blue)',
+                'red': 'var(--bg-red)',
+                'navy-d0': 'var(--bg-navy-d0)',
+                'green': 'var(--bg-green)',
+                'navy': 'var(--bg-navy)',
             },
             borderColor: {
-                section: "var(--b-section)",
-                'control-gray': "var(--b-control-gray)",
-                'control-gray-l0': "var(--b-control-gray-l0)",
-                'control-gray-l1': "var(--b-control-gray-l1)",
-                'control-white-d0': "var(--b-control-white-d0)",
-                'control-white': "var(--b-control-white)",
-                'control-blue': "var(--b-control-blue)",
-                'control-red': "var(--b-control-red)",
+                'gray': 'var(--b-gray)',
+                'gray-l0': 'var(--b-gray-l0)',
+                'gray-l1': 'var(--b-gray-l1)',
+                'white': 'var(--b-white)',
+                'white-d0': 'var(--b-white-d0)',
+                'blue': 'var(--b-blue)',
+                'blue-d0': 'var(--b-blue-d0)',
+                'red': 'var(--b-red)',
             },
             borderWidth: {
-                small: 'var(--b-small)',
-                normal: 'var(--b-normal)',
+                s: 'var(--b-s)',
+                n: 'var(--b-n)',
+            },
+            colors: {
+                primary: 'var(--color-primary)',
+                secondary: 'var(--color-secondary)',
+                gray: 'var(--color-gray)',
+                placeholder: 'var(--color-placeholder)',
+                blue: 'var(--color-blue)',
+                'blue-l0': 'var(--color-blue-l0)',
+                red: 'var(--color-red)',
             },
             fontFamily: {
                 caslon: ['"Adobe Caslon Pro"', 'serif'],
@@ -72,16 +117,13 @@ const config: Config = {
                 arial: ['"Arial"', 'serif'],
             },
             fontSize: {
-                note: 'var(--fz-note)',
-                small: 'var(--fz-small)',
-                content: 'var(--fz-content)',
-                'content-small': 'var(--fz-content-small)',
-                default: 'var(--fz-default)',
-                header: 'var(--fz-header)',
-                'section-header': 'var(--fz-section-header)',
-                'header-l': 'var(--fz-header-l)',
-
+                'heading-4xl': 'var(--fz-heading-4xl)',
+                'heading-3xl': 'var(--fz-heading-3xl)',
+                'heading-xxl': 'var(--fz-heading-xxl)',
+                'heading-xl': 'var(--fz-heading-xl)',
                 'heading-l': 'var(--fz-heading-l)',
+                'section-xl': 'var(--fz-section-xl)',
+                'section-l': 'var(--fz-section-l)',
                 heading: 'var(--fz-heading)',
                 'heading-s': 'var(--fz-heading-s)',
                 documentation: 'var(--fz-documentation)',
@@ -91,17 +133,21 @@ const config: Config = {
                 'section-xs': 'var(--fz-section-xs)',
                 'section-xxs': 'var(--fz-section-xxs)',
                 'section-3xs': 'var(--fz-section-3xs)',
-            }
+            },
+            lineHeight: {
+                'l': 'var(--lh-l)',
+                'n': 'var(--lh-n)',
+            },
         },
     },
     plugins: [
-        Tailwind(({matchUtilities}) => {
+        Tailwind(({ matchUtilities }) => {
             matchUtilities({
                 'x': (value) => ({
-                    [`@apply ${value.replaceAll(',', ' ')}`]: {}
-                })
-            })
-        })
+                    [`@apply ${value.replaceAll(',', ' ')}`]: {},
+                }),
+            });
+        }),
     ],
 };
 export default config;

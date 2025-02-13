@@ -1,31 +1,30 @@
-import React, {FC} from "react";
-import {ReactSVG} from "react-svg";
-import cn from "classnames";
+import React, { FC } from 'react';
+import { ReactSVG } from 'react-svg';
+import cn from 'classnames';
 
-import {Route} from "@/app/static";
+import { Route } from '@/app/static';
 
-import {useNavigate} from "@/app/hooks";
+import { useNavigate } from '@/app/hooks';
 
-import SVG_LOGO from '/public/images/tern-logo.svg'
-
+import SVG_LOGO from '/public/images/tern-logo.svg';
 
 interface Props {
-    className?: string,
+    className?: string;
 }
 
 const Insignia: FC<Props> = (props: Props) => {
     const [navigate] = useNavigate();
     return (
-        <div>
+        <div className={'contents'}>
             <ReactSVG
                 src={SVG_LOGO.src}
                 width={65}
                 height={29}
                 onClick={() => navigate(Route.Home)}
-                className={cn('[&_*]:x-[w-fit,h-[--insignia-h]]  cursor-pointer', props.className)}
+                className={cn('cursor-pointer [&_*]:x-[w-fit,!h-insignia]', props.className)}
             />
         </div>
     );
-}
+};
 
-export {Insignia};
+export { Insignia };

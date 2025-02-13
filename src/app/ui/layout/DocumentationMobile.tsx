@@ -1,39 +1,37 @@
-import React, {FC, PropsWithChildren} from "react";
+import React, { FC, PropsWithChildren } from 'react';
 
-import {Route} from "@/app/static";
+import { Route } from '@/app/static';
 
-import {useBackground, useMenu} from "@/app/hooks";
+import { useBackground, useMenu } from '@/app/hooks';
 
-import {Button} from "@/app/ui/form";
-import {usePathname} from "next/navigation";
-import {checkSubRoute} from "@/app/utils";
-
+import { Button } from '@/app/ui/form';
+import { usePathname } from 'next/navigation';
+import { checkSubRoute } from '@/app/utils';
 
 const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildren) => {
-    const {children} = props;
+    const { children } = props;
 
     const route = usePathname();
-    const [openMenu] = useMenu(checkSubRoute(route, Route.MyDocumentation));
+    const [setMenuOpened] = useMenu(checkSubRoute(route, Route.MyDocumentation));
     const bgSrc = useBackground();
-
 
     return (
         <div
-            style={{backgroundImage: `url("${bgSrc}")`}}
-            className={'h-dvh max-h-dvh p-[--p-content-xs] font-neo text-primary select-none bg-content bg-cover bg-no-repeat bg-fixed bg-bottom'}
+            style={{ backgroundImage: `url("${bgSrc}")` }}
+            className={
+                'bg-content h-dvh max-h-dvh select-none bg-cover bg-fixed bg-bottom bg-no-repeat p-xs font-neo text-primary'
+            }
         >
-            <div className={`h-[3.05rem] flex items-center justify-end`}>
+            <div className={`flex h-[3.05rem] items-center justify-end`}>
                 <Button
-                    onClick={() => openMenu()}
+                    onClick={() => setMenuOpened(true)}
                     icon={'burger'}
-                    className={`[&&_*]:size-[1.8rem] absolute z-40 pl-[0.9rem] border-l-small border-control-gray-l0 before:h-[2.25rem]`}
+                    className={`absolute z-40 border-l-s border-gray-l0 pl-[0.9rem] before:h-[2.25rem] [&&_*]:size-[1.8rem]`}
                 />
             </div>
-            <div className={`flex-col flex-grow h-[calc(100%-3.05rem)]`}>
-                {children}
-            </div>
+            <div className={`h-[calc(100%-3.05rem)] flex-grow flex-col`}>{children}</div>
         </div>
     );
-}
+};
 
-export {DocumentationMobileLayout}
+export { DocumentationMobileLayout };

@@ -1,47 +1,48 @@
-import React, {FC} from "react";
+import React, { FC } from 'react';
 
-import {UserData} from "@/app/context/User.context";
+import { UserData } from '@/app/context/User.context';
 
-import {useModal} from "@/app/context";
+import { useModal } from '@/app/context';
 
-import {BaseModal} from "@/app/ui/modals";
-import {Button} from "@/app/ui/form";
+import { BaseModal } from '@/app/ui/modals';
+import { Button } from '@/app/ui/form';
 
-import {DeleteAccountConfirmModal} from "./DeleteAccountConfirmModal";
+import { DeleteAccountConfirmModal } from './DeleteAccountConfirmModal';
 
-
-const BTN_CN = 'h-[--h-control] px-[--1drs] rounded-full';
-
+const BTN_CN = 'h-h-button-n px-xxs rounded-full';
 
 interface Props {
     userData: UserData | null;
 }
 
 const DeleteAccountModal: FC<Props> = (props: Props) => {
-    const {userData} = props;
+    const { userData } = props;
 
     const modalCtx = useModal();
 
-    if (!userData)
-        return null;
+    if (!userData) return null;
 
     return (
-        <BaseModal title={'Account Offboarding'} className={'w-[min(90dvw,34rem)] text-center leading-[120%]'}>
+        <BaseModal
+            title={'Account Offboarding'}
+            className={'w-[min(90dvw,34rem)] text-center leading-[120%]'}
+        >
             <span>
                 You are about to delete your Tern account associated with&nbsp;
-                <span className={'font-bold'}>{userData.email}</span>.
-                Are you sure you want to proceed with this action?
+                <span className={'font-bold'}>{userData.email}</span>. Are you sure you want to proceed with this
+                action?
             </span>
-            <span className={'flex gap-[--s-dl-smallest] mt-[--1qdrs] justify-center'}>
+            <span className={'mt-xs flex justify-center gap-4xs'}>
                 <Button
-                    className={`text-red border-control-red border-small ${BTN_CN}`}
+                    className={`border-s border-red text-red ${BTN_CN}`}
                     onClick={() =>
-                        modalCtx.openModal(<DeleteAccountConfirmModal userData={userData}/>, {darkenBg: true})}
+                        modalCtx.openModal(<DeleteAccountConfirmModal userData={userData} />, { darkenBg: true })
+                    }
                 >
                     Continue
                 </Button>
                 <Button
-                    className={`bg-control-gray-l0 ${BTN_CN}`}
+                    className={`bg-gray-l0 ${BTN_CN}`}
                     onClick={() => modalCtx.closeModal()}
                 >
                     Cancel
@@ -49,6 +50,6 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
             </span>
         </BaseModal>
     );
-}
+};
 
-export {DeleteAccountModal}
+export { DeleteAccountModal };

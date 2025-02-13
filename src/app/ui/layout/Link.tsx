@@ -1,28 +1,28 @@
-import {AnchorHTMLAttributes, FC, MouseEvent, ReactElement} from "react";
-import {ReactSVG} from "react-svg";
-import {usePathname} from "next/navigation";
-import Link from "next/link";
-import cn from "classnames";
+import { AnchorHTMLAttributes, FC, MouseEvent, ReactElement } from 'react';
+import { usePathname } from 'next/navigation';
+import { ReactSVG } from 'react-svg';
+import Link from 'next/link';
+import cn from 'classnames';
 
-import {Route, SPECIAL_NAV_ROUTES} from "@/app/static";
+import { Route, SPECIAL_NAV_ROUTES } from '@/app/static';
 
-import {getRouteName} from "@/app/utils";
-import {useNavigate} from "@/app/hooks";
+import { getIdName } from '@/app/utils';
+import { useNavigate } from '@/app/hooks';
 
-import SVG_ARROW from "/public/images/icons/arrow.svg";
-import SVG_INSIGNIA from "/public/images/insignia.svg";
+import SVG_ARROW from '/public/images/icons/arrow.svg';
+import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
+import SVG_INSIGNIA from '/public/images/ternkey-logo.svg';
 
-import styles from '@/app/common.module.css'
+import styles from '@/app/common.module.css';
 
-
-type Icon = 'back' | 'forward' | 'insignia';
+type Icon = 'back' | 'forward' | 'arrow-right-long' | 'insignia';
 
 const ICON: Record<Icon, { src: string }> = {
     back: SVG_ARROW,
     forward: SVG_ARROW,
+    'arrow-right-long': SVG_ARROW_LONG,
     insignia: SVG_INSIGNIA,
-}
-
+};
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
     icon?: Icon;
@@ -34,44 +34,41 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 const PageLink: FC<Props> = (props: Props) => {
-    const {icon, iconClassName, children, href, isExternal, prevent, preventModalClose, timeout, ...linkProps} = props;
+    const { icon, iconClassName, children, href, isExternal, prevent, preventModalClose, timeout, ...linkProps } =
+        props;
 
     const route = usePathname();
     const [navigate] = useNavigate(preventModalClose, timeout === 0);
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
         linkProps.onClick?.(event);
-        if (prevent || isExternal)
-            return;
+        if (prevent || isExternal) return;
 
-        const handleNavigation = () => navigate(href as Route ?? Route.Home);
-        if (timeout)
-            return setTimeout(() => handleNavigation(), timeout);
+        const handleNavigation = () => navigate((href as Route) ?? Route.Home);
+        if (timeout) return setTimeout(() => handleNavigation(), timeout);
         handleNavigation();
-    }
+    };
 
-    const Icon: ReactElement | null = icon
-        ? (
-            <ReactSVG src={ICON[icon].src}
-                      className={cn(`inline size-[1rem]`, {['rotate-180']: icon === 'forward'}, iconClassName)}/>
-        )
-        : null;
+    const Icon: ReactElement | null = icon ? (
+        <ReactSVG
+            src={ICON[icon].src}
+            className={cn(`inline-block size-[1rem]`, { ['rotate-180']: icon === 'forward' }, iconClassName)}
+        />
+    ) : null;
 
     const linkFinal: string = SPECIAL_NAV_ROUTES?.[href ?? ''] ?? href ?? '';
-    const splitHref = children
-        ? children
-        : <span>{getRouteName(linkFinal)}</span>;
+    const splitHref = children ? children : <span>{getIdName(linkFinal)}</span>;
 
     return (
         <Link
             {...linkProps}
-            className={`items-center inline-flex ${styles.clickable} ${linkProps.className}`}
+            className={cn(`inline-flex items-center`, styles.clickable, linkProps.className)}
             href={(isExternal ? href : route) ?? '/'}
             onClick={handleLinkClick}
-            {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
+            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >
             {Icon} {splitHref}
         </Link>
     );
-}
-export {PageLink};
+};
+export { PageLink };
