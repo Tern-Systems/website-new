@@ -69,6 +69,7 @@ const config: Config = {
             },
             backgroundColor: {
                 'black-l0': 'var(--bg-black-l0)',
+                'gray-d2': 'var(--bg-gray-d2)',
                 'gray-d1': 'var(--bg-gray-d1)',
                 'gray-d0': 'var(--bg-gray-d0)',
                 'gray': 'var(--bg-gray)',
@@ -84,6 +85,7 @@ const config: Config = {
                 'navy': 'var(--bg-navy)',
             },
             borderColor: {
+                'black-l0': 'var(--b-black-l0)',
                 'gray': 'var(--b-gray)',
                 'gray-l0': 'var(--b-gray-l0)',
                 'gray-l1': 'var(--b-gray-l1)',
