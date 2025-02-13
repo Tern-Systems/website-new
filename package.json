@@ -9,7 +9,7 @@
     "lint": "eslint",
     "prepare": "husky install",
     "lint:fix": "eslint --fix",
-    "pre-commit": "lint-staged",
+    "pre-commit": "lint-staged --allow-empty",
     "pre-push": "npm run lint && npm run build"
   },
   "dependencies": {
