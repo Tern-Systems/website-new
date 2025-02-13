@@ -124,7 +124,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     alt={'insignia'}
                     className={'my-[1.25rem] h-[9rem] w-[10.42rem]'}
                 />
-                <span className={'mb-n font-oxygen text-heading'}>Tern</span>
+                <span className={'mb-n text-heading'}>Tern</span>
             </div>
             <form
                 className={'flex flex-col'}

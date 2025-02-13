@@ -19,7 +19,7 @@ const Highlighted: FC<Props> = (props: Props) => {
             <h1 className={`flex-none text-heading-l sm:text-heading sm:landscape:text-section`}>{heading}</h1>
             <div className={`mt-[3rem] flex-1 overflow-y-auto sm:mt-xs ${classNameContentWrapper}`}>
                 <div
-                    className={`flex h-full flex-col gap-y-[2rem] whitespace-pre-line font-neo text-heading font-bold leading-[120%] sm:text-section-s sm:landscape:gap-y-[1.2rem] ${className}`}
+                    className={`flex h-full flex-col gap-y-[2rem] whitespace-pre-line text-heading font-bold leading-[120%] sm:text-section-s sm:landscape:gap-y-[1.2rem] ${className}`}
                 >
                     {children}
                 </div>

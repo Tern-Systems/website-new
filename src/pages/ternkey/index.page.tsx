@@ -21,7 +21,7 @@ const TernKeyPage: FC = () => {
         <>
             <span className={cn(styles.highlight, 'flex-row gap-x-l')}>
                 <span className={'flex flex-col justify-between'}>
-                    <span className={'mr-auto font-oxygen text-[min(9.6dvw,3.75rem)] font-bold'}>TernKey</span>
+                    <span className={'mr-auto text-[min(9.6dvw,3.75rem)] font-bold'}>TernKey</span>
                     <span>
                         <span className={'text-basic'}>Unlocking the Potential of Ternary Programming</span>
                         <Button className={'rounded-full bg-white px-xl py-5xs text-basic text-black'}>

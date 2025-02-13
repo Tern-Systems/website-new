@@ -19,8 +19,6 @@ import { Header } from './Header';
 import '@/app/globals.css';
 import styles from '@/app/common.module.css';
 
-import PNG_NEURONS from '/public/images/neurons.png';
-
 type LinkAction = string | ((modalCtx: IModalContext) => void);
 
 type FooterLink =
@@ -154,7 +152,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             <Header />
             <div
                 id={'content'}
-                style={{ backgroundImage: `url("${PNG_NEURONS.src}")` }}
                 className={cn(
                     `relative flex w-full flex-grow flex-col items-center`,
                     `w-screen bg-cover bg-fixed bg-no-repeat`,
@@ -210,7 +207,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         <div className={`flex min-h-full flex-grow select-none flex-col justify-between`}>{Layout}</div>
     );
 
-    return <div className={'relative h-dvh max-h-dvh overflow-y-scroll font-neo text-primary'}>{LayoutFinal}</div>;
+    return <div className={'relative h-dvh max-h-dvh overflow-y-scroll text-primary'}>{LayoutFinal}</div>;
 };
 
 export { Layout };

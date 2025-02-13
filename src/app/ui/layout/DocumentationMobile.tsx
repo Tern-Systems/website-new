@@ -19,7 +19,7 @@ const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildr
         <div
             style={{ backgroundImage: `url("${bgSrc}")` }}
             className={
-                'bg-content h-dvh max-h-dvh select-none bg-cover bg-fixed bg-bottom bg-no-repeat p-xs font-neo text-primary'
+                'bg-content h-dvh max-h-dvh select-none bg-cover bg-fixed bg-bottom bg-no-repeat p-xs text-primary'
             }
         >
             <div className={`flex h-[3.05rem] items-center justify-end`}>

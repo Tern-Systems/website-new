@@ -85,8 +85,9 @@
   --fz-section-xxs: 0.75rem;
   --fz-section-3xs: 0.625rem;
 
-  --lh-n: 1.2;
+  --lh-xl: 5rem;
   --lh-l: 1.3;
+  --lh-n: 1.2;
 
   --color-primary: #ecf0f3;
   --color-secondary: var(--bg-gray-l0);
@@ -95,6 +96,10 @@
   --color-blue: var(--bg-blue);
   --color-blue-l0: #21a1d3;
   --color-red: var(--bg-red);
+
+  /* Misc */
+  --section-shadow-shift: 10rem;
+  --section-shadow-blur-radius: 10rem;
 }
 
 body {

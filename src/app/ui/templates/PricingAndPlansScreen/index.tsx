@@ -201,7 +201,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             <>
                 <h2
                     className={cn(
-                        `flex items-center font-oxygen font-bold capitalize`,
+                        `flex items-center font-bold capitalize`,
                         `mb-4xs text-heading-s`,
                         `lg:x-[mb-xxs,text-heading]`,
                         `md:text-heading`,
@@ -270,7 +270,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 </ul>
                 <div
                     className={cn(
-                        `mt-[2.1rem] flex flex-grow flex-col font-oxygen text-section-xxs text-secondary`,
+                        `mt-[2.1rem] flex flex-grow flex-col text-section-xxs text-secondary`,
                         `sm:landscape:text-section-3xs`,
                     )}
                 >

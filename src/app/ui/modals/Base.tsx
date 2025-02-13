@@ -82,7 +82,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         const Heading = title ? (
             <h2
                 className={cn(
-                    `font-oxygen text-heading font-bold text-inherit`,
+                    ` text-heading font-bold text-inherit`,
                     `sm:portrait:text-heading-s`,
                     `sm:landscape:text-section-s`,
                     classNameTitle,
@@ -110,7 +110,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 )}
             >
                 <div
-                    className={cn(`relative flex items-center justify-between font-oxygen`, {
+                    className={cn(`relative flex items-center justify-between `, {
                         ['h-heading-modal p-xs']: adaptApplied,
                     })}
                 >

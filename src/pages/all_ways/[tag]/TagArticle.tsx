@@ -56,15 +56,15 @@ const TagArticle: FC<Props> = (props: Props) => {
     return (
         <>
             <MainBackground url={PNG_ELECTRONS} />
-            <div className={'relative z-10 font-oxygen'}>
+            <div className={'relative z-10 '}>
                 <section className={cn(styles.section, styles.fullHeightSection, 'bg-gradient-to-t', GRADIENT_CN)}>
                     <div className={cn(styles.content, 'pt-[7rem]')}>
-                        <h1 className={cn(styles.textGlow, `text-heading-4xl font-bold`)}>All Ways</h1>
+                        <h1 className={cn(`text-heading-4xl font-bold`)}>All Ways</h1>
                     </div>
                 </section>
                 <section className={cn(styles.section, 'bg-blue')}>
                     <div className={styles.content}>
-                        <h2 className={cn(styles.textGlow, `text-[3rem] font-bold md:text-heading-l`)}>
+                        <h2 className={cn(`text-[3rem] font-bold md:text-heading-l`)}>
                             Tech, news, education, events and more
                         </h2>
                     </div>

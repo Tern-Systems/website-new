@@ -18,7 +18,7 @@ const SubscribeTool: FC = () => {
     if (!isLoggedIn) return null;
 
     return (
-        <div className={`flex h-full font-oxygen text-heading-s text-gray sm:x-[text-basic,flex-col]`}>
+        <div className={`flex h-full text-heading-s text-gray sm:x-[text-basic,flex-col]`}>
             <PaymentInfo subscription={subscription} />
             <PaymentForm
                 name={subscription?.subscription}

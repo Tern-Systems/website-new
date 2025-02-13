@@ -10,6 +10,7 @@ import styles from '@/app/common.module.css';
 
 interface Props {
     data: InfoSection;
+    blur?: true;
     className?: string;
     classNameTitle?: string;
     classNameContent?: string;
@@ -21,6 +22,7 @@ interface Props {
 const Info: FC<Props> = (props: Props) => {
     const {
         data,
+        blur,
         className,
         classNameTitle,
         classNameContent,
@@ -31,11 +33,12 @@ const Info: FC<Props> = (props: Props) => {
     const { title, image, subTitle, link, linkTitle, description } = data;
 
     return (
-        <section className={cn(styles.section, 'bg-blue', className)}>
-            <div className={cn(styles.content, 'pb-[12.25rem] pt-[3.5rem] font-oxygen', classNameContent)}>
+        <section className={cn(styles.section, className)}>
+            <div className={cn(styles.content, 'relative mb-[12.25rem] pt-[3.5rem] ', classNameContent)}>
+                {blur ? <div className={styles.contentGradientBlue} /> : null}
                 <h2
                     className={cn(
-                        'mb-[4.62rem] text-center font-oxygen font-bold',
+                        'mb-[4.62rem] text-center font-bold',
                         'text-[1.75rem]',
                         'lg:text-[2.5rem]',
                         classNameTitle,
@@ -47,7 +50,7 @@ const Info: FC<Props> = (props: Props) => {
                     <span className={'w-[40%] text-left sm:x-[w-full,text-center]'}>
                         <span
                             className={cn(
-                                'mb-5xs block text-section-xl sm:text-section-xs md:text-[1.5rem]',
+                                'mb-4xs block text-section-xl sm:text-section-xs md:text-[1.5rem]',
                                 classNameSubTitle,
                             )}
                         >
@@ -59,7 +62,7 @@ const Info: FC<Props> = (props: Props) => {
                         <PageLink
                             href={link}
                             className={cn(
-                                'rounded-full bg-blue px-n',
+                                'bg-blue px-n',
                                 'mt-xl h-button-l text-basic',
                                 'lg:x-[h-button-xl,text-heading-s]',
                                 'sm:mt-s',

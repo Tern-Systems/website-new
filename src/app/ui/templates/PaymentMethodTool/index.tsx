@@ -52,7 +52,7 @@ const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string
     <Button
         type={'submit'}
         className={cn(
-            `h-[min(13dvw,3.25rem)] bg-gray px-[1.12rem] font-neo text-heading font-bold`,
+            `h-[min(13dvw,3.25rem)] bg-gray px-[1.12rem] text-heading font-bold`,
             `col-span-2 w-full rounded-full text-primary sm:mt-[2.7dvw]`,
             className,
         )}

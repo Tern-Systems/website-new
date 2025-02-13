@@ -91,7 +91,7 @@ function ManageSubscriptionsPage() {
                     <span
                         className={cn(
                             `flex h-[min(3.5dvw,1.3rem)] items-center rounded-xxs px-3xs`,
-                            `bg-white-d0 text-center font-oxygen text-basic text-gray`,
+                            `bg-white-d0 text-center text-basic text-gray`,
                             { ['hidden']: !method.preferred },
                         )}
                     >

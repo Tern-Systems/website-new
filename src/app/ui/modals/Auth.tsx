@@ -93,7 +93,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             alt={'insignia'}
                             className={`my-xs h-[9rem] w-[10rem]`}
                         />
-                        {isLoginForm ? null : <span className={'font-oxygen text-heading'}>Tern</span>}
+                        {isLoginForm ? null : <span className={' text-heading'}>Tern</span>}
                     </div>
                 </div>
                 <form

@@ -65,7 +65,7 @@ function OrderPage() {
     const card = (invoice?.card.cardType ?? '--') + ' •••• ' + (invoice?.card.last4 ?? '--');
 
     return (
-        <div className={'flex h-full font-oxygen sm:flex-col'}>
+        <div className={'flex h-full sm:flex-col'}>
             <OrderPreview
                 toPDFReceipt={toPDF}
                 invoice={invoice}
