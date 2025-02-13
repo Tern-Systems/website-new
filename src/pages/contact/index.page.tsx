@@ -60,8 +60,7 @@ const ContactsPage: FC = () => {
                         <div>
                             <h1
                                 className={cn(
-                                    styles.textGlow,
-                                    `w-min text-left font-oxygen font-bold leading-n`,
+                                    `w-min text-left font-bold leading-n`,
                                     `mb-n text-heading-4xl`,
                                     `lg:x-[w-full,mt-[6.25rem]]`,
                                     `md:x-[mt-xl,text-heading-4xl]`,
@@ -76,7 +75,6 @@ const ContactsPage: FC = () => {
 
                 <section
                     className={cn(
-                        styles.textGlow,
                         styles.section,
                         'relative z-10',
                         'bg-black bg-gradient-to-b from-[--bg-control-blue] from-5% via-black via-30%',
@@ -88,7 +86,7 @@ const ContactsPage: FC = () => {
                     <div className={cn(styles.content)}>
                         <h2
                             className={
-                                'mb-[6.25rem] text-left font-oxygen text-heading-3xl font-bold sm:text-[2.5rem] md:text-[3rem]'
+                                'mb-[6.25rem] text-left text-heading-3xl font-bold sm:text-[2.5rem] md:text-[3rem]'
                             }
                         >
                             Get in Touch

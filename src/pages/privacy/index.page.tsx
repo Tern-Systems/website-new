@@ -90,7 +90,7 @@ const PrivacyPage = () => (
     <Highlighted heading={'Privacy Policy'}>
         <pre
             dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
-            className={'whitespace-pre-line font-neo'}
+            className={'whitespace-pre-line '}
         />
     </Highlighted>
 );

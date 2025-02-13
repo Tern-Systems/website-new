@@ -282,7 +282,7 @@ const Editable: FC<Props> = (props: Props) => {
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
-                className={`box-content rounded-xxs px-3xs py-[0.3rem] font-oxygen text-basic ${parentEditId ? '!bg-[#0C545C] !text-[#ECF0F3]' : ''} ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''} ${classNameToggle} ${editState ? '[&]:bg-blue' : 'text-gray [&]:bg-white-d0'}`}
+                className={`box-content rounded-xxs px-3xs py-[0.3rem] text-basic ${parentEditId ? '!bg-[#0C545C] !text-[#ECF0F3]' : ''} ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''} ${classNameToggle} ${editState ? '[&]:bg-blue' : 'text-gray [&]:bg-white-d0'}`}
             >
                 {parentEditId ? 'Enabled' : editState ? 'Enable' : 'Disabled'}
             </Button>

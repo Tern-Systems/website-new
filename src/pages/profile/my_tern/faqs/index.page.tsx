@@ -177,11 +177,7 @@ const FAQsModal: FC = () => {
             className={'md:p-s'}
             classNameTitle={'leading-none'}
             classNameHr={'md:mb-[calc(0.5*var(--p-s))]'}
-            classNameContent={cn(
-                `overflow-y-scroll font-oxygen`,
-                'lg:x-[w-[56rem],max-h-[23rem]]',
-                'md:x-[w-[33rem],h-[32rem]]',
-            )}
+            classNameContent={cn(`overflow-y-scroll `, 'lg:x-[w-[56rem],max-h-[23rem]]', 'md:x-[w-[33rem],h-[32rem]]')}
         >
             <FAQsPage hideTitle />
         </BaseModal>

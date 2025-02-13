@@ -23,9 +23,9 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`relative h-dvh max-h-dvh bg-white font-oxygen text-heading-s text-gray ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}
+            className={`relative h-dvh max-h-dvh bg-white text-heading-s text-gray ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}
         >
-            <div className={`flex h-heading items-center justify-between p-[1.25rem] font-oxygen md:hidden lg:hidden`}>
+            <div className={`flex h-heading items-center justify-between p-[1.25rem] md:hidden lg:hidden`}>
                 <Insignia />
                 <Button
                     icon={'close'}
@@ -40,7 +40,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
                 <PageLink
                     href={backButtonSection}
                     icon={'back'}
-                    className={'absolute left-[1.8rem] top-[1.7rem] z-50 font-oxygen font-bold sm:hidden'}
+                    className={'absolute left-[1.8rem] top-[1.7rem] z-50 font-bold sm:hidden'}
                     iconClassName={'mr-[0.5rem]'}
                 />
                 {children}

@@ -21,32 +21,23 @@ const InsideTern: FC<Props> = (props: Props) => {
     const CompanyLi: ReactElement[] = data.map((entry, idx) => (
         <li
             key={entry.title + idx}
-            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
+            className={'flex w-full flex-col gap-y-3xs text-left'}
         >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] sm:text-section-3xs'}>{entry.title}</h4>
-            <p>{entry.description}</p>
-            <div className={'relative hidden w-full justify-end md:flex'}>
+            <h4 className={'text-[0.9375rem] sm:text-section-3xs'}>{entry.title}</h4>
+            <p className={'mt-xxs'}>{entry.description}</p>
+            <div className={'relative mt-3xs h-full w-full justify-end'}>
+                <div className={'absolute inset-0 bg-gradient-to-r from-blue to-transparent to-75%'} />
                 <Image
                     src={entry.icon}
-                    alt={'office girl 2'}
-                    className={'max-h-[22.5rem] w-full max-w-[33.75rem]'}
-                />
-                <div
-                    className={
-                        'pointer-events-none absolute inset-0 bg-gradient-to-r from-[--bg-control-blue] from-[min(20dvw*2,40%)] to-transparent to-70%'
-                    }
+                    alt={entry.icon.src}
+                    className={'h-full w-full object-cover'}
                 />
             </div>
-            <Image
-                src={entry.icon}
-                alt={'office girl 2'}
-                className={'max-h-[22.5rem] w-full md:hidden'}
-            />
             <Button
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
-                className={'flex-row-reverse self-start text-blue'}
-                classNameIcon={cn('[&_path]:fill-blue-l0', entry.btnIconCN)}
+                className={'mt-s flex-row-reverse !gap-x-4xs self-start text-blue'}
+                classNameIcon={cn('[&_*]:size-[1.25rem] [&_path]:fill-blue-l0', entry.btnIconCN)}
             >
                 {entry.action}
             </Button>
@@ -54,16 +45,16 @@ const InsideTern: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <section className={cn(styles.section, 'from-black via-black', className)}>
-            <div
-                className={cn(
-                    styles.content,
-                    'pb-[3.25rem] pt-6xl font-oxygen text-section lg:pb-[9.44rem]',
-                    classNameContent,
-                )}
-            >
-                <h2 className={'mb-[3.75rem] text-left text-[2.5rem] font-bold lg:mb-[5rem]'}>Inside Tern</h2>
-                <ul className={cn('grid grid-cols-1 gap-xxl lg:x-[grid-cols-2,gap-[3.63rem]]', classNameCompanyLi)}>
+        <section className={cn(styles.section, className)}>
+            <div className={cn(styles.content, 'pb-xxl pt-6xl text-section  lg:pb-[9.44rem]', classNameContent)}>
+                <h2 className={'text-left text-heading-xl font-bold '}>Inside Tern</h2>
+                <ul
+                    className={cn(
+                        'mt-[3.75rem] grid grid-cols-1 gap-xxl',
+                        'lg:x-[grid-cols-2,gap-3xl]',
+                        classNameCompanyLi,
+                    )}
+                >
                     {CompanyLi}
                 </ul>
             </div>

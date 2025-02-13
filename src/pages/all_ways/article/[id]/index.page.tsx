@@ -112,7 +112,7 @@ function ArticlePage() {
         ));
 
     return (
-        <div className={cn(styles.section, 'min-h-dvh bg-black pb-[10rem] font-oxygen')}>
+        <div className={cn(styles.section, 'min-h-dvh bg-black pb-[10rem] ')}>
             <div className={cn(styles.content, 'pt-[3.75rem]')}>
                 <h1 className={'text-heading-3xl leading-n'}>{content?.title}</h1>
                 <div className={'mt-[4.4rem] w-full'}>

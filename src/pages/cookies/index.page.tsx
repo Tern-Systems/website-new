@@ -63,7 +63,7 @@ const CookiesPage = () => (
     <Highlighted heading={'Cookies Policy'}>
         <pre
             dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
-            className={'whitespace-pre-line font-neo'}
+            className={'whitespace-pre-line '}
         />
         <span>
             For additional information, please refer to our&nbsp;
