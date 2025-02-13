@@ -1,20 +1,18 @@
-import {genSalt, hashSync} from "bcryptjs";
-import axios, {AxiosRequestConfig} from "axios";
+import { genSalt, hashSync } from 'bcryptjs';
+import axios, { AxiosRequestConfig } from 'axios';
 
-import {Res} from "@/app/types/service";
+import { Res } from '@/app/types/service';
 
-import {BaseService} from "./base.service";
-
+import { BaseService } from './base.service';
 
 type LoginData = {
     email: string;
     password: string;
-}
+};
 
 type SignUpData = LoginData & {
     passwordConfirm: string;
-}
-
+};
 
 interface IAuthService {
     postSignUp(data: SignUpData): Promise<Res>;
@@ -29,7 +27,7 @@ interface IAuthService {
 
     postResetPassword(token: string, newPassword: string): Promise<Res>;
 
-    postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<Res>
+    postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<Res>;
 
     postVerifyOTP(otp: string, userEmail: string): Promise<Res>;
 
@@ -42,7 +40,7 @@ interface IAuthService {
 
 class AuthServiceImpl extends BaseService implements IAuthService {
     constructor() {
-        super(AuthServiceImpl.name)
+        super(AuthServiceImpl.name);
     }
 
     async postSignUp(data: SignUpData): Promise<Res> {
@@ -53,11 +51,11 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             method: 'POST',
             url: this._API + 'signup01',
             headers: {
-                "Content-Type": 'application/json',
+                'Content-Type': 'application/json',
             },
             data: JSON.stringify({
                 email: data.email,
-                password: hashSync(data.password, salt)
+                password: hashSync(data.password, salt),
             }),
             withCredentials: false,
         };
@@ -66,10 +64,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -79,10 +77,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `login`,
-            headers: {'Content-Type': 'application/json',},
+            headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify({
                 email: data.email,
-                password: data.password
+                password: data.password,
             }),
             withCredentials: true,
         };
@@ -97,7 +95,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -107,8 +105,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `forgot-password`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({email}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ email }),
             withCredentials: true,
         };
 
@@ -116,10 +114,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -129,8 +127,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `reset-password/` + token,
-            headers: {'Content-Type': 'application/json',},
-            data: {newPassword},
+            headers: { 'Content-Type': 'application/json' },
+            data: { newPassword },
             withCredentials: true,
         };
 
@@ -138,10 +136,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -151,8 +149,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `send-otp`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail: email}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ userEmail: email }),
             withCredentials: true,
         };
 
@@ -160,7 +158,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? error : 'Unknown error!';
@@ -173,8 +171,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `2FA-login-verify-otp`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail, otp}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ userEmail, otp }),
             withCredentials: true,
         };
 
@@ -182,10 +180,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -195,8 +193,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `2FA-send-otp`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail: email, phone: phone}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ userEmail: email, phone: phone }),
             withCredentials: true,
         };
 
@@ -204,10 +202,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -217,8 +215,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `2FA-verify-otp`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({otp, userEmail}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ otp, userEmail }),
             withCredentials: true,
         };
 
@@ -226,10 +224,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -239,7 +237,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `2FA-turn-off`,
-            data: {userEmail},
+            data: { userEmail },
             withCredentials: true,
         };
 
@@ -247,10 +245,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -260,8 +258,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `2FA-save-phone`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({userEmail, phone}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ userEmail, phone }),
             withCredentials: true,
         };
 
@@ -269,10 +267,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
@@ -282,8 +280,8 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `delete-account`,
-            headers: {'Content-Type': 'application/json',},
-            data: JSON.stringify({email, confirm: confirm.toLowerCase()}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ email, confirm: confirm.toLowerCase() }),
             withCredentials: true,
         };
 
@@ -291,21 +289,26 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 
-    async postChangePassword(oldPassword: string, newPassword: string, confirmPassword: string, email: string): Promise<Res> {
+    async postChangePassword(
+        oldPassword: string,
+        newPassword: string,
+        confirmPassword: string,
+        email: string,
+    ): Promise<Res> {
         const [debug, error] = this.getLoggers(this.postChangePassword.name);
 
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + 'change-password',
-            headers: {'Content-Type': 'application/json'},
-            data: JSON.stringify({oldPassword, newPassword, confirmPassword, email}),
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify({ oldPassword, newPassword, confirmPassword, email }),
             withCredentials: true,
         };
 
@@ -313,14 +316,14 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             debug(config);
             const response = await axios(config);
             debug(response);
-            return {message: response.data.msg}
+            return { message: response.data.msg };
         } catch (err: unknown) {
             error(err);
-            throw axios.isAxiosError(err) ? err.response?.data?.error ?? err.message : 'Unexpected error!';
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
 }
 
 const AuthService = new AuthServiceImpl();
-export {AuthService}
-export type {SignUpData, LoginData}
+export { AuthService };
+export type { SignUpData, LoginData };

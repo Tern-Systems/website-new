@@ -23,13 +23,11 @@ import SVG_CARD_NUM from '/public/images/icons/card-num.svg';
 
 import styles from './Form.module.css';
 
-
 const SM_ROW_START = 'sm:row-start-auto';
 const FIELDSET_CN = '[&&>*]:sm:col-start-1';
 const LEGEND_CN = `sm:mt-[2.7dvw] sm:[&&]:mb-0 ${SM_ROW_START}`;
 const SELECT_CN = 'px-4xs py-[min(--p-3xs) h-[min(5.6dvw,3.25rem)] bg-white';
 const FIELD_CN = `flex-col [&]:items-start ${SM_ROW_START}`;
-
 
 const FORM_DATA_DEFAULT: CardData = {
     profileId: '',
@@ -50,20 +48,18 @@ const FORM_DATA_DEFAULT: CardData = {
     isPreferred: false,
 };
 
-
 const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string) => (
     <Button
         type={'submit'}
         className={cn(
-            `px-[1.12rem] h-[min(13dvw,3.25rem)] bg-gray font-neo text-heading font-bold`,
-            `w-full rounded-full text-primary col-span-2 sm:mt-[2.7dvw]`,
+            `h-[min(13dvw,3.25rem)] bg-gray px-[1.12rem] font-neo text-heading font-bold`,
+            `col-span-2 w-full rounded-full text-primary sm:mt-[2.7dvw]`,
             className,
         )}
     >
         {paymentCreation ? 'Add' : 'Update'}
     </Button>
 );
-
 
 interface Props {
     paymentCreation?: boolean;
@@ -81,30 +77,25 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
 
     const fetchEditCards = useCallback(async () => {
-        if (!userData)
-            return;
+        if (!userData) return;
         try {
             const { payload: cards } = await BillingService.getEditCards(userData.email);
             setSavedCards(cards);
         } catch (error: unknown) {
-            if (typeof error === 'string')
-                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
         // eslint-disable-next-line
     }, [userData]);
 
     useEffect(() => {
-        if (paymentCreation)
-            return;
+        if (paymentCreation) return;
         fetchEditCards();
         // eslint-disable-next-line
     }, [fetchEditCards, paymentCreation]);
 
-
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!userData || editCardIdx <= -1)
-            return;
+        if (!userData || editCardIdx <= -1) return;
         try {
             let responseMsg: string;
             if (paymentCreation) {
@@ -117,32 +108,33 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             modalCtx.openModal(<MessageModal>{responseMsg}</MessageModal>);
             await fetchEditCards();
         } catch (error: unknown) {
-            if (typeof error === 'string')
-                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     };
 
-
     useEffect(() => {
-        if (editCardIdx <= -1)
-            return;
+        if (editCardIdx <= -1) return;
         const formData: CardData = mapSavedCard(savedCards[editCardIdx]);
         setFormDataState(formData);
     }, [savedCards, editCardIdx, setFormDataState]);
 
     // Elements
     const SavedCardOptions: Record<string, string> = Object.fromEntries(
-        savedCards?.map((card: SavedCardFull | undefined, idx) =>
-            [idx, card ? (card.nickName ?? (card.cardType + ' **** ' + card.last4)) : ''])
-        ?? [],
+        savedCards?.map((card: SavedCardFull | undefined, idx) => [
+            idx,
+            card ? (card.nickName ?? card.cardType + ' **** ' + card.last4) : '',
+        ]) ?? [],
     );
 
     return (
         <div className={'mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)]'}>
-            <h1 className={'text-heading-l font-bold mb-[min(5.3dvw,4.15rem)]'}>
+            <h1 className={'mb-[min(5.3dvw,4.15rem)] text-heading-l font-bold'}>
                 {paymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
             </h1>
-            <form className={`${styles.form} sm:[&&]:grid-cols-2`} onSubmit={handleFormSubmit}>
+            <form
+                className={`${styles.form} sm:[&&]:grid-cols-2`}
+                onSubmit={handleFormSubmit}
+            >
                 <fieldset className={`[&>*]:col-start-1 ${FIELDSET_CN}`}>
                     <Select
                         hidden={paymentCreation}
@@ -159,7 +151,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <legend className={`row-start-2 ${LEGEND_CN}`}>Card Information</legend>
                     <Input
                         type={'text'}
-                        value={editCardIdx >= 0 && !paymentCreation ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4 : ''}
+                        value={
+                            editCardIdx >= 0 && !paymentCreation
+                                ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4
+                                : ''
+                        }
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
@@ -182,7 +178,12 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Input>
                     <Input
                         value={formData.cvc}
-                        maxLength={formData.cardNumber && (formData.cardNumber.startsWith('34') || formData.cardNumber.startsWith('37')) ? 4 : 3}
+                        maxLength={
+                            formData.cardNumber &&
+                            (formData.cardNumber.startsWith('34') || formData.cardNumber.startsWith('37'))
+                                ? 4
+                                : 3
+                        }
                         onChange={setFormData('cvc')}
                         placeholder={'CVC'}
                         icons={[SVG_CARD_NUM]}
@@ -207,7 +208,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             onChange={setFormData('isPreferred')}
                             classNameWrapper={`flex-row-reverse place-self-start [&&]:mb-[1rem] sm:[&&]:mb-0 sm:[&&]:mt-[1.3dvw]`}
                             classNameLabel={'text-section [&&]:mb-0'}
-                            className={'max-w-xxs max-h-xxs'}
+                            className={'max-h-xxs max-w-xxs'}
                         >
                             Set as preferred payment method
                         </Input>
@@ -243,8 +244,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={formData.city}
                         onChange={setFormData('city')}
                         onKeyDown={(event) => {
-                            if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
-                                event.preventDefault();
+                            if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace') event.preventDefault();
                         }}
                         classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}
                         required
@@ -252,7 +252,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         City / Locality
                     </Input>
                     <Select
-                        options={(STATE_PROVINCE?.[formData.country] ?? {})}
+                        options={STATE_PROVINCE?.[formData.country] ?? {}}
                         value={formData.state}
                         onChangeCustom={(value) => setFormData('state')(value)}
                         classNameWrapper={`${FIELD_CN} row-start-5 sm:[&&]:col-span-1`}
@@ -284,9 +284,12 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                 </fieldset>
                 {renderSubmitBtn(paymentCreation, 'hidden sm:inline')}
             </form>
-            <div className={'mt-[min(5dvw,6.6rem)]'} hidden={paymentCreation}>
+            <div
+                className={'mt-[min(5dvw,6.6rem)]'}
+                hidden={paymentCreation}
+            >
                 <span
-                    className={'text-red text-section cursor-pointer'}
+                    className={'cursor-pointer text-section text-red'}
                     onClick={() => {
                         if (savedCards[+editCardIdx]) {
                             modalCtx.openModal(

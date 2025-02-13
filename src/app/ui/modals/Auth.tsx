@@ -17,14 +17,11 @@ import { Button, Input } from '@/app/ui/form';
 
 import SVG_INSIGNIA from '/public/images/insignia-logo.png';
 
-
 const INPUT_CN = `h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
                     sm:text-primary placeholder:sm:text-primary`;
 
-
 type FormData = SignUpData;
 const FORM_DEFAULT: FormData = { email: '', password: '', passwordConfirm: '' };
-
 
 interface Props {
     info?: string;
@@ -55,12 +52,11 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 const { payload: token } = await AuthService.postLogIn(formValue);
                 await userCtx.fetchUserData(true, token);
                 modalCtx.closeModal();
-            } else if (!REGEX.password.test(formValue.password))
+            } else if (!REGEX.email.test(formValue.email))
                 setWarningMsg(`Entered email doesn't match the email format`);
             else if (!REGEX.password.test(formValue.password))
                 setWarningMsg(`Entered password doesn't meet the requirements`);
-            else if (formValue.password !== formValue.passwordConfirm)
-                setWarningMsg('Passwords don\'t match');
+            else if (formValue.password !== formValue.passwordConfirm) setWarningMsg("Passwords don't match");
             else {
                 const { message } = await AuthService.postSignUp(formValue);
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
@@ -68,10 +64,8 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             flowCtx.next()?.();
         } catch (error: unknown) {
             let message: string = 'Unknown error';
-            if (axios.isAxiosError(error))
-                message = error.cause?.message ?? message;
-            else if (typeof error === 'string')
-                message = error;
+            if (axios.isAxiosError(error)) message = error.cause?.message ?? message;
+            else if (typeof error === 'string') message = error;
             modalCtx.openModal(<MessageModal>{message}</MessageModal>);
         }
     };
@@ -93,19 +87,20 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             <div className={'w-full'}>
                 <div className={'flex flex-col items-center text-center'}>
                     <span>{info}</span>
-                    <div className={'mb-n  sm:x-[hidden,mb-0]'}>
+                    <div className={'mb-n sm:x-[hidden,mb-0]'}>
                         <Image
                             src={SVG_INSIGNIA}
                             alt={'insignia'}
-                            className={`my-xs w-[10rem] h-[9rem]`}
+                            className={`my-xs h-[9rem] w-[10rem]`}
                         />
                         {isLoginForm ? null : <span className={'font-oxygen text-heading'}>Tern</span>}
                     </div>
                 </div>
-                <form onSubmit={handleFormSubmit}
-                      className={'flex flex-col  sm:landscape:x-[flex-row,gap-x-4xl]'}>
-                    <fieldset
-                        className={'flex flex-col gap-xxs w-full  sm:landscape:x-[max-w-fit,min-w-[21rem]]'}>
+                <form
+                    onSubmit={handleFormSubmit}
+                    className={'flex flex-col sm:landscape:x-[flex-row,gap-x-4xl]'}
+                >
+                    <fieldset className={'flex w-full flex-col gap-xxs sm:landscape:x-[max-w-fit,min-w-[21rem]]'}>
                         <Input
                             placeholder={'Email'}
                             value={formValue.email}
@@ -149,22 +144,22 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         <Button
                             type={'submit'}
                             className={cn(
-                                `place-self-center py-xxs mt-s w-[60%] rounded-full border-s border-control`,
-                                `font-bold text-section-s`,
+                                `border-control mt-s w-[60%] place-self-center rounded-full border-s py-xxs`,
+                                `text-section-s font-bold`,
                                 `sm:w-[90%]`,
                                 isLoginForm
-                                    ? 'text-gray bg-white  sm:x-[bg-blue,text-primary]  sm:landscape:mt-auto'
-                                    : 'sm:x-[border-b-s,border-blue]  sm:landscape:mt-xl',
+                                    ? 'bg-white text-gray sm:x-[bg-blue,text-primary] sm:landscape:mt-auto'
+                                    : 'sm:x-[border-b-s,border-blue] sm:landscape:mt-xl',
                             )}
                         >
                             {!isLoginForm ? 'Sign Up' : 'Login'}
                         </Button>
                         <div className={'mt-s text-center'}>
                             <span>
-                                {isLoginForm ? 'Don\'t' : 'Already'} have an account?&nbsp;
+                                {isLoginForm ? "Don't" : 'Already'} have an account?&nbsp;
                                 <Button
                                     className={`text-blue-l0`}
-                                    onClick={() => setLoginFormState(prevState => !prevState)}
+                                    onClick={() => setLoginFormState((prevState) => !prevState)}
                                 >
                                     {isLoginForm ? 'Sign Up' : 'Login'}
                                 </Button>
@@ -176,6 +171,5 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         </BaseModal>
     );
 };
-
 
 export { AuthModal };

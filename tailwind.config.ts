@@ -28,6 +28,7 @@ const size = {
     xs: 'var(--h-xs)',
     xxs: 'var(--h-xxs)',
     heading: 'var(--h-heading)',
+    'insignia': 'var(--insignia-h)',
     'heading-icon': 'var(--h-heading-icon)',
     'heading-modal': 'var(--h-heading-modal)',
     'sub-heading': 'var(--h-sub-heading)',

@@ -27,7 +27,6 @@ import stylesLayout from './Layout.module.css';
 
 import SVG_CHEVRON from '/public/images/icons/chevron.svg';
 
-
 const Header: FC = (): ReactElement => {
     const route = usePathname();
     const layoutCtx = useLayout();
@@ -38,12 +37,13 @@ const Header: FC = (): ReactElement => {
     const navRef = useRef<HTMLDivElement | null>(null);
     const subNavRef = useRef<HTMLDivElement | null>(null);
 
-
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
-            const close = navExpanded && !navRef.current?.contains(event.target as Node) && !subNavRef.current?.contains(event.target as Node);
-            if (close)
-                setNavExpanded(false);
+            const close =
+                navExpanded &&
+                !navRef.current?.contains(event.target as Node) &&
+                !subNavRef.current?.contains(event.target as Node);
+            if (close) setNavExpanded(false);
         };
         window.addEventListener('mousedown', handleClick);
         return () => window.removeEventListener('mousedown', handleClick);
@@ -54,7 +54,8 @@ const Header: FC = (): ReactElement => {
 
     // Elements
     const NavLinks: ReactElement[] = navLinks?.map((link: Route, idx) => {
-        const isActive = route !== Route.Home && checkSubRoute(route, link, ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
+        const isActive =
+            route !== Route.Home && checkSubRoute(route, link, ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
         const mappedLink = MAPPED_NAV_ROUTES[link];
         const navDropdown = DROPDOWN_NAV_ROUTES[link];
         const linkFinal = SPECIAL_NAV_ROUTES[link] ?? link;
@@ -65,43 +66,43 @@ const Header: FC = (): ReactElement => {
             <li
                 key={link + idx}
                 tabIndex={idx}
-                className={cn('group', stylesLayout.navLink,
+                className={cn(
+                    'group',
+                    stylesLayout.navLink,
                     subNavLinks?.length ? 'before:bg-gray' : 'before:bg-blue',
                     'xxs:!h-fit xxs:[&>*]:x-[pl-s,py-xxs]',
                     {
                         [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: isActive && !layoutCtx.isBreadCrumbsNav,
                         ['!static !border-s border-blue bg-black-l0']: navDropdown && dropdownExpanded,
-                        ['border-s border-b-0  border-black xxs:border-none']: navDropdown,
+                        ['border-s border-b-0 border-black xxs:border-none']: navDropdown,
                     },
                 )}
             >
-                {navDropdown
-                    ? (
-                        <>
-                            <div
-                                onClick={() => setNavDropdownExpanded(navDropdown)}
-                                className={cn(styles.clickable, 'flex gap-x-5xs h-full items-center  xxs:justify-between')}
-                            >
-                                <p>{navDropdown.name}</p>
-                                <ReactSVG
-                                    src={SVG_CHEVRON.src}
-                                    className={cn('[&_*]:size-[0.5625rem]  xxs:-rotate-90', { ['rotate-180']: dropdownExpanded })}
-                                />
-                            </div>
-                        </>
-                    )
-                    : (
-                        <>
-                            <PageLink href={link}>
-                                <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
-                            </PageLink>
-                            {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1
-                                ? <span>/</span>
-                                : null
-                            }
-                        </>
-                    )
-                }
+                {navDropdown ? (
+                    <>
+                        <div
+                            onClick={() => setNavDropdownExpanded(navDropdown)}
+                            className={cn(styles.clickable, 'flex h-full items-center gap-x-5xs xxs:justify-between')}
+                        >
+                            <p>{navDropdown.name}</p>
+                            <ReactSVG
+                                src={SVG_CHEVRON.src}
+                                className={cn('xxs:-rotate-90 [&_*]:size-[0.5625rem]', {
+                                    ['rotate-180']: dropdownExpanded,
+                                })}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <PageLink href={link}>
+                            <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
+                        </PageLink>
+                        {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1 ? (
+                            <span>/</span>
+                        ) : null}
+                    </>
+                )}
             </li>
         );
     });
@@ -109,11 +110,11 @@ const Header: FC = (): ReactElement => {
     return (
         <header
             id={'header'}
-            className={cn('z-10 text-section-xs leading-none bg-black', navExpanded ? 'sticky top-0' : 'relative')}
+            className={cn('z-10 bg-black text-section-xs leading-none', navExpanded ? 'sticky top-0' : 'relative')}
         >
             <div className={'flex border-b-s border-gray'}>
                 <Button
-                    onClick={() => setNavExpanded(prevState => !prevState)}
+                    onClick={() => setNavExpanded((prevState) => !prevState)}
                     icon={navExpanded ? 'close' : 'burger'}
                     className={cn(`px-s`, { ['bg-gray-d0']: navExpanded })}
                     classNameIcon={'hidden !size-heading-icon h-auto  xxs:inline'}
@@ -121,7 +122,7 @@ const Header: FC = (): ReactElement => {
                 <div
                     className={cn(
                         styles.content,
-                        `z-[2] flex pr-0 !h-heading items-center`,
+                        `z-[2] flex !h-heading items-center pr-0`,
                         `relative`,
                         `xxs:x-[static,pl-xxs]`,
                     )}
@@ -161,6 +162,5 @@ const Header: FC = (): ReactElement => {
         </header>
     );
 };
-
 
 export { Header };

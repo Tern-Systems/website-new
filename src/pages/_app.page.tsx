@@ -1,38 +1,35 @@
-import {ReactElement, Suspense, useEffect, useState} from "react";
-import {AppProps} from "next/app";
+import { ReactElement, Suspense, useEffect, useState } from 'react';
+import { AppProps } from 'next/app';
 
-import {Breakpoint} from "@/app/hooks/useBreakpointCheck";
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
-import {useBreakpointCheck} from "@/app/hooks";
-import {FlowProvider, LayoutProvider, ModalProvider, UserProvider} from "@/app/context";
+import { useBreakpointCheck } from '@/app/hooks';
+import { FlowProvider, LayoutProvider, ModalProvider, UserProvider } from '@/app/context';
 
-import {Layout} from "@/app/ui/layout";
-import Head from "next/head";
+import { Layout } from '@/app/ui/layout';
+import Head from 'next/head';
 
-
-export default function MyApp({Component, pageProps}: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
     const isSm = useBreakpointCheck() <= Breakpoint.sm;
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
 
     // Click checking
     useEffect(() => {
-        setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null)
-    }, [])
-
+        setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null);
+    }, []);
 
     // @ts-expect-error no errors
     const getLayout = isSm && !isPiPModeChild ? Component.getMobileLayout : Component.getLayout;
 
-
-    const FinalElement: ReactElement = getLayout
-        ? getLayout(<Component {...pageProps} />)
-        : (
-            <Layout>
-                <Suspense>
-                    <Component {...pageProps} />
-                </Suspense>
-            </Layout>
-        );
+    const FinalElement: ReactElement = getLayout ? (
+        getLayout(<Component {...pageProps} />)
+    ) : (
+        <Layout>
+            <Suspense>
+                <Component {...pageProps} />
+            </Suspense>
+        </Layout>
+    );
 
     return (
         <>
@@ -42,9 +39,7 @@ export default function MyApp({Component, pageProps}: AppProps) {
             <UserProvider>
                 <LayoutProvider>
                     <FlowProvider>
-                        <ModalProvider>
-                            {FinalElement}
-                        </ModalProvider>
+                        <ModalProvider>{FinalElement}</ModalProvider>
                     </FlowProvider>
                 </LayoutProvider>
             </UserProvider>

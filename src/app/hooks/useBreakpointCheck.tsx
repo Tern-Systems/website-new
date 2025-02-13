@@ -3,8 +3,14 @@ import { useEffect, useState } from 'react';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfig from '../../../tailwind.config';
 
-
-enum Breakpoint {'x3s', 'xxs', 'xs', 'sm', 'md', 'lg'}
+enum Breakpoint {
+    'x3s',
+    'xxs',
+    'xs',
+    'sm',
+    'md',
+    'lg',
+}
 
 const TailwindConfig = resolveConfig(tailwindConfig);
 // @ts-expect-error min is not defined in tailwind.config.tsx
@@ -21,7 +27,6 @@ const BREAKPOINT = {
     lg: { min: parseFloat(lg?.min) },
 };
 
-
 const useBreakpointCheck = () => {
     const [breakpoint, setBreakpoint] = useState<Breakpoint>(Breakpoint.sm);
 
@@ -29,18 +34,12 @@ const useBreakpointCheck = () => {
         const handleResize = () => {
             const { innerWidth } = window;
 
-            if (innerWidth < BREAKPOINT.x3s.max)
-                setBreakpoint(Breakpoint.x3s);
-            else if (innerWidth < BREAKPOINT.xxs.max)
-                setBreakpoint(Breakpoint.xxs);
-            else if (innerWidth < BREAKPOINT.xs.max)
-                setBreakpoint(Breakpoint.xs);
-            else if (innerWidth < BREAKPOINT.sm.max)
-                setBreakpoint(Breakpoint.sm);
-            else if (BREAKPOINT.md.min <= innerWidth && innerWidth < BREAKPOINT.md.max)
-                setBreakpoint(Breakpoint.md);
-            else if (BREAKPOINT.lg.min <= innerWidth)
-                setBreakpoint(Breakpoint.lg);
+            if (innerWidth < BREAKPOINT.x3s.max) setBreakpoint(Breakpoint.x3s);
+            else if (innerWidth < BREAKPOINT.xxs.max) setBreakpoint(Breakpoint.xxs);
+            else if (innerWidth < BREAKPOINT.xs.max) setBreakpoint(Breakpoint.xs);
+            else if (innerWidth < BREAKPOINT.sm.max) setBreakpoint(Breakpoint.sm);
+            else if (BREAKPOINT.md.min <= innerWidth && innerWidth < BREAKPOINT.md.max) setBreakpoint(Breakpoint.md);
+            else if (BREAKPOINT.lg.min <= innerWidth) setBreakpoint(Breakpoint.lg);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -49,6 +48,5 @@ const useBreakpointCheck = () => {
 
     return breakpoint;
 };
-
 
 export { useBreakpointCheck, Breakpoint };

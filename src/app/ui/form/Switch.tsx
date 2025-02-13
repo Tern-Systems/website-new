@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
-
 interface Props {
     handleSwitch: () => void;
     state: boolean;
@@ -12,16 +11,15 @@ const Switch: FC<Props> = (props: Props) => {
     const { handleSwitch, state, className } = props;
     return (
         <div
-            className={`flex gap-x-[0.4rem] items-center cursor-pointer ${className}`}
+            className={`flex cursor-pointer items-center gap-x-[0.4rem] ${className}`}
             onClick={() => handleSwitch()}
         >
             <div
-                className={`flex border-[0.1rem] rounded-full text-section border-gray-l0
-                            w-h-button-n h-[min(2.4dvw,0.8rem)]`}
+                className={`w-h-button-n flex h-[min(2.4dvw,0.8rem)] rounded-full border-[0.1rem] border-gray-l0 text-section`}
             >
                 <div
                     className={cn(
-                        `w-1/2 h-full rounded-full cursor-pointer font-bold capitalize bg-white border-s border-gray-l0`,
+                        `h-full w-1/2 cursor-pointer rounded-full border-s border-gray-l0 bg-white font-bold capitalize`,
                         { ['ml-auto [&]:bg-[#23af7a]']: state },
                     )}
                 />
@@ -30,6 +28,5 @@ const Switch: FC<Props> = (props: Props) => {
         </div>
     );
 };
-
 
 export { Switch };
