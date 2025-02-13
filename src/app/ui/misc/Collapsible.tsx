@@ -20,7 +20,7 @@ const ICON: Record<Icon, string> = {
     building: SVG_BUILDING,
     geo: SVG_GEO,
     blocks: SVG_BLOCKS,
-};
+}
 
 const WRAPPER_CN = cn(
     `p-l rounded-s bg-gray w-full max-w-[62rem] text-nowrap place-self-center  lg:rounded-none`,

@@ -14,18 +14,19 @@ import { useModal, useUser } from '@/app/context';
 import { ScrollEnd } from '@/app/ui/misc';
 import { MessageModal } from '@/app/ui/modals';
 
-import { OFFBOARDING, OffboardingSection } from './sections/Offboarding';
-import { APPS, AppsSection } from './sections/Apps';
-import { ADDRESSES, AddressesSection } from './sections/Addresses';
-import { COMPANY, CompanySection } from './sections/Company';
-import { CONTACT, ContactSection } from './sections/Contact';
-import { ACCOUNT, AccountSection } from './sections/Account';
-import { AboutPrivacy } from './sections/AboutPrivacy';
+import {OFFBOARDING, OffboardingSection} from "./sections/Offboarding";
+import {APPS, AppsSection} from "./sections/Apps";
+import {ADDRESSES, AddressesSection} from "./sections/Addresses";
+import {COMPANY, CompanySection} from "./sections/Company";
+import {CONTACT, ContactSection} from "./sections/Contact";
+import {ACCOUNT, AccountSection} from "./sections/Account";
+import {AboutPrivacy} from "./sections/AboutPrivacy";
 
-import styles from './Profile.module.css';
-import { Select } from '@/app/ui/form';
+import styles from "./Profile.module.css";
+import { Select } from "@/app/ui/form";
 
-import SVG_BULLETLIST from '/public/images/icons/bullet-list.svg';
+import SVG_BULLETLIST from "/public/images/icons/bullet-list.svg";
+
 
 interface SectionProps {
     update: (valueOrHandle: Partial<UpdateUserData> | (() => Promise<Res>)) => Promise<void>;
@@ -51,7 +52,6 @@ const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const { userData, token, fetchUserData } = useUser();
     const isLoggedIn = useLoginCheck();
-
     const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
     const isMdScreen = useBreakpointCheck() <= Breakpoint.md;
 
