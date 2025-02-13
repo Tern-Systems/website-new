@@ -1,8 +1,5 @@
 .section {
   min-width: 100dvw;
-
-  --section-shadow-shift: 10rem;
-  --section-shadow-blur-radius: 10rem;
 }
 
 .fullHeightSection {

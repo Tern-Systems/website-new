@@ -135,6 +135,7 @@ const config: Config = {
                 'section-3xs': 'var(--fz-section-3xs)',
             },
             lineHeight: {
+                'xl': 'var(--lh-xl)',
                 'l': 'var(--lh-l)',
                 'n': 'var(--lh-n)',
             },
