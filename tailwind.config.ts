@@ -28,6 +28,7 @@ const size = {
     xs: 'var(--h-xs)',
     xxs: 'var(--h-xxs)',
     heading: 'var(--h-heading)',
+    'insignia': 'var(--insignia-h)',
     'heading-icon': 'var(--h-heading-icon)',
     'heading-modal': 'var(--h-heading-modal)',
     'sub-heading': 'var(--h-sub-heading)',
@@ -48,8 +49,8 @@ const config: Config = {
         extend: {
             screens: {
                 x3s: { max: '375px' },
-                xxs: { min: '375px', max: '616px' },
-                xs: { min: '616px', max: '774px' },
+                xxs: { max: '616px' },
+                xs: { max: '774px' },
                 sm: { max: '835px' },
                 md: { min: '835px', max: '1440px' },
                 lg: { min: '1440px' },
@@ -134,6 +135,8 @@ const config: Config = {
                 'section-3xs': 'var(--fz-section-3xs)',
             },
             lineHeight: {
+                'xl': 'var(--lh-xl)',
+                'l': 'var(--lh-l)',
                 'n': 'var(--lh-n)',
             },
         },

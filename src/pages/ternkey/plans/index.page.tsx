@@ -1,12 +1,11 @@
-import React, {FC, useEffect, useState} from "react";
-import {SubscriptionPreview} from "@/app/types/subscription";
+import React, { FC, useEffect, useState } from 'react';
+import { SubscriptionPreview } from '@/app/types/subscription';
 
-import {BillingService} from "@/app/services";
+import { BillingService } from '@/app/services';
 
-import {PricingAndPlansScreen} from "@/app/ui/templates";
-import {MessageModal} from "@/app/ui/modals";
-import {useModal} from "@/app/context";
-
+import { PricingAndPlansScreen } from '@/app/ui/templates';
+import { MessageModal } from '@/app/ui/modals';
+import { useModal } from '@/app/context';
 
 const PricingAndPlansPage: FC = () => {
     const modalCtx = useModal();
@@ -16,18 +15,17 @@ const PricingAndPlansPage: FC = () => {
     useEffect(() => {
         const fetchPlanDetails = async () => {
             try {
-                const {payload: planPreview} = await BillingService.getPlanDetails('TernKey');
+                const { payload: planPreview } = await BillingService.getPlanDetails('TernKey');
                 setSubscription(planPreview);
             } catch (error: unknown) {
-                if (typeof error === 'string')
-                    modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+                if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
             }
-        }
+        };
         fetchPlanDetails();
         //eslint-disable-next-line
     }, []);
 
-    return <PricingAndPlansScreen subscriptionData={subscription}/>;
+    return <PricingAndPlansScreen subscriptionData={subscription} />;
 };
 
 export default PricingAndPlansPage;

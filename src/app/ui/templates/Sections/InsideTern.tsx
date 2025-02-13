@@ -2,53 +2,42 @@ import React, { FC, ReactElement } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { useBreakpointCheck } from '@/app/hooks';
-
 import { SectionCard } from '@/app/types/layout';
 
 import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
-
 
 interface Props {
-    data: SectionCard[]
-    className?: string
-    classNameContent?: string
-    classNameCompanyLi?: string
+    data: SectionCard[];
+    className?: string;
+    classNameContent?: string;
+    classNameCompanyLi?: string;
 }
 
 const InsideTern: FC<Props> = (props: Props) => {
     const { data, className, classNameContent, classNameCompanyLi } = props;
 
-    const isMdScreen = useBreakpointCheck() === Breakpoint.md;
-
     const CompanyLi: ReactElement[] = data.map((entry, idx) => (
         <li
             key={entry.title + idx}
-            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
+            className={'flex w-full flex-col gap-y-3xs text-left'}
         >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-section-3xs'}>
-                {entry.title}
-            </h4>
-            <p>{entry.description}</p>
-
-            {isMdScreen ?
-                <div className="w-full flex justify-end relative">
-                    <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-w-[33.75rem] max-h-[22.5rem]'} />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[--bg-control-blue] from-[min(20dvw*2,40%)] to-transparent to-70% pointer-events-none "></div>
-                </div>
-                :
-                <Image src={entry.icon} alt={'office girl 2'} className={'w-full max-h-[22.5rem]'} />
-            }
-
-
+            <h4 className={'text-[0.9375rem] sm:text-section-3xs'}>{entry.title}</h4>
+            <p className={'mt-xxs'}>{entry.description}</p>
+            <div className={'relative mt-3xs h-full w-full justify-end'}>
+                <div className={'absolute inset-0 bg-gradient-to-r from-blue to-transparent to-75%'} />
+                <Image
+                    src={entry.icon}
+                    alt={entry.icon.src}
+                    className={'h-full w-full object-cover'}
+                />
+            </div>
             <Button
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
-                className={'self-start text-blue flex-row-reverse'}
-                classNameIcon={cn('[&_path]:fill-blue-l0', entry.btnIconCN)}
+                className={'mt-s flex-row-reverse !gap-x-4xs self-start text-blue'}
+                classNameIcon={cn('[&_*]:size-[1.25rem] [&_path]:fill-blue-l0', entry.btnIconCN)}
             >
                 {entry.action}
             </Button>
@@ -56,24 +45,21 @@ const InsideTern: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <section
-            className={cn(styles.section,
-                'from-black via-black',
-                className
-            )}
-        >
-            <div
-                className={cn(styles.content, 'pt-6xl text-section font-oxygen  pb-[3.25rem]  lg:pb-[9.44rem]', classNameContent)}>
-                <h2 className={'font-bold text-[2.5rem] text-left  mb-[3.75rem]  lg:mb-[5rem]'}>
-                    Inside Tern
-                </h2>
-                <ul className={cn('grid  grid-cols-1 gap-xxl  lg:x-[grid-cols-2,gap-[3.63rem]]', classNameCompanyLi)}>
+        <section className={cn(styles.section, className)}>
+            <div className={cn(styles.content, 'pb-xxl pt-6xl text-section  lg:pb-[9.44rem]', classNameContent)}>
+                <h2 className={'text-left text-heading-xl font-bold '}>Inside Tern</h2>
+                <ul
+                    className={cn(
+                        'mt-[3.75rem] grid grid-cols-1 gap-xxl',
+                        'lg:x-[grid-cols-2,gap-3xl]',
+                        classNameCompanyLi,
+                    )}
+                >
                     {CompanyLi}
                 </ul>
             </div>
         </section>
     );
-}
-
+};
 
 export { InsideTern };

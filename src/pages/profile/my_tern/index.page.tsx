@@ -3,22 +3,20 @@ import cn from 'classnames';
 
 import { PlanName, Subscription } from '@/app/types/subscription';
 import { ResourceSection } from '@/app/types/layout';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { MISC_LINKS, Route } from '@/app/static';
 
 import { capitalize, copyObject } from '@/app/utils';
-import { useUser } from '@/app/context';
-import { useBreakpointCheck, useLoginCheck } from '@/app/hooks';
+import { useModal, useUser } from '@/app/context';
+import { useLoginCheck } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
+import { HelpModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
-import { HelpModal } from '@/app/ui/modals';
 import { FAQsModal } from '@/pages/support/faqs/index.page';
 import { ResourcesSection } from '@/app/ui/templates/Resources';
 import { Table, TableEntry, TableSection } from './Table';
 
 import styles from '@/app/common.module.css';
-
 
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
     // dot: Route.Dot,
@@ -26,7 +24,7 @@ const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
     trial: '',
 };
 
-const NAV_BTNS_DEFAULT: { title: string; href: string, external?: true }[] = [
+const NAV_BTNS_DEFAULT: { title: string; href: string; external?: true }[] = [
     { title: 'Try TernKey Pro', href: MISC_LINKS.TernKey, external: true },
     { title: 'Build Key', href: MISC_LINKS.TernKey, external: true },
     { title: 'View All Ways', href: Route.AllWays, external: true },
@@ -47,29 +45,26 @@ const RESOURCES: ResourceSection[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
     {
         Node: 'Help & FAQs',
-        action: ({ isSm, navigate, modalCtx }) => isSm
-            ? navigate(Route.Help)
-            : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
+        action: ({ isSm, navigate, modalCtx }) =>
+            isSm ? navigate(Route.Help) : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
     },
-    { // TODO change to link to Support Hub page
+    {
+        // TODO change to link to Support Hub page
         Node: 'Support Hub',
         action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'support'} />, { darkenBg: true }),
     },
 ];
 
-
 const renderSinceDate = (dateNumber: number | undefined) => {
-    if (!dateNumber)
-        return `Date of registration is unknown`;
+    if (!dateNumber) return `Date of registration is unknown`;
     const date = new Date(dateNumber ?? 0);
     return `Member since ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
 };
 
-
 function MyTernPage() {
     const userCtx = useUser();
     const isLoggedIn = useLoginCheck();
-    const breakpoint = useBreakpointCheck();
+    const modalCtx = useModal();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
@@ -80,18 +75,27 @@ function MyTernPage() {
     const subscriptionTable: TableSection = {
         title: 'My Product',
         columnNames: ['Item', 'Plan Type', 'Upcoming payment'],
-        data: userCtx.userData?.subscriptions
-            ?.filter((plan: Subscription) => plan.subscription !== 'trial')
-            ?.map((plan: Subscription): TableEntry => ({
-                name: plan.subscription,
-                type: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
-                data: new Date(plan.renewDate).toLocaleDateString(),
-                href: SUBSCRIPTION_LINK_DICT[plan.subscription],
-            })) ?? [],
+        data:
+            userCtx.userData?.subscriptions
+                ?.filter((plan: Subscription) => plan.subscription !== 'trial')
+                ?.map(
+                    (plan: Subscription): TableEntry => ({
+                        name: plan.subscription,
+                        type: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
+                        data: new Date(plan.renewDate).toLocaleDateString(),
+                        href: SUBSCRIPTION_LINK_DICT[plan.subscription],
+                    }),
+                ) ?? [],
         fallback: (
             <span>
                 You don&apos;t have any products purchased. You could explore the plans on&nbsp;
-                <PageLink href={Route.TernKeyPricing} className={'underline'}>Pricing page</PageLink>.
+                <PageLink
+                    href={Route.TernKeyPricing}
+                    className={'underline'}
+                >
+                    Pricing page
+                </PageLink>
+                .
             </span>
         ),
     };
@@ -101,49 +105,37 @@ function MyTernPage() {
             // TODO fetch events
             setCommunityEvents(EVENTS_TEMPLATE);
         } catch (error: unknown) {
+            if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
     }, []);
 
-    if (!isLoggedIn)
-        return null;
+    if (!isLoggedIn) return null;
 
     // Elements
     const LinksLi: ReactElement[] = navBtns.map((btn, idx) => (
-        <PageLink key={btn.title + idx} isExternal={btn.external} href={btn.href}>
+        <PageLink
+            key={btn.title + idx}
+            isExternal={btn.external}
+            href={btn.href}
+        >
             <Button
                 icon={'chevron'}
-                className={cn(
-                    `flex-row-reverse bg-blue`,
-                    `p-4xs text-basic`,
-                    { [`p-[0.56rem] text-section-xs`]: breakpoint <= Breakpoint.sm },
-                )}
-                classNameIcon={cn(
-                    `[&_path]:fill-primary -rotate-90 ml-n [&_*]:w-[0.6rem]`,
-                    { [`[&_*]:w-[0.525rem]`]: breakpoint <= Breakpoint.sm },
-                )}
+                className={cn(`flex-row-reverse bg-blue`, `p-4xs text-basic`, `xxs:x-[p-[0.56rem],text-section-xs]`)}
+                classNameIcon={cn(`[&_path]:fill-primary -rotate-90 ml-n [&_*]:w-[0.6rem]`, `sm:[&_*]:w-[0.525rem]`)}
             >
                 {btn.title}
             </Button>
         </PageLink>
     ));
 
-
     return (
-        <div className={cn(styles.section, `pt-[6.25rem] min-h-dvh bg-black`)}>
+        <div className={cn(styles.section, `min-h-dvh bg-black pt-[6.25rem]`)}>
             <section className={cn(styles.content)}>
-                <h1 className={`flex font-bold font-oxygen text-[2rem]`}
-                >
-                    Dashboard
-                </h1>
-                <p className={'mt-xxs text-xxs'}>
-                    {renderSinceDate(userCtx.userData?.registrationDate)}
-                </p>
+                <h1 className={`flex text-section-xl font-bold`}>Dashboard</h1>
+                <p className={'text-xxs mt-xxs'}>{renderSinceDate(userCtx.userData?.registrationDate)}</p>
             </section>
-            <section
-                className={cn(styles.content, 'mt-n flex flex-wrap  gap-xs', { [`gap-x-xxs`]: breakpoint <= Breakpoint.sm })}>
-                {LinksLi}
-            </section>
-            <section className={cn(styles.content, styles.contentHighlight, 'relative flex flex-col gap-y-xl mt-xxl')}>
+            <section className={cn(styles.content, 'mt-n flex flex-wrap gap-xs xxs:gap-x-xxs')}>{LinksLi}</section>
+            <section className={cn(styles.content, styles.contentHighlight, 'relative mt-xxl flex flex-col gap-y-xl')}>
                 <Table table={subscriptionTable} />
                 <Table
                     external={true}
@@ -155,10 +147,12 @@ function MyTernPage() {
                     }}
                 />
             </section>
-            <ResourcesSection data={RESOURCES} className={'mt-[6.25rem] mb-[9.41rem]'} />
+            <ResourcesSection
+                data={RESOURCES}
+                className={'mb-[9.41rem] mt-[6.25rem]'}
+            />
         </div>
     );
 }
-
 
 export default MyTernPage;

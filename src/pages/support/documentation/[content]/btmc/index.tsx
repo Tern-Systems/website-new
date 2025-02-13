@@ -1,7 +1,5 @@
-import {FC} from "react";
-
+import { FC } from 'react';
 
 const BTMCManual: FC = () => <></>;
 
-
-export {BTMCManual};
+export { BTMCManual };

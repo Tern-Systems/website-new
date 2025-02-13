@@ -1,17 +1,15 @@
-"use client";
+'use client';
 
-import React, {createContext, FC, PropsWithChildren, useCallback, useContext, useEffect, useState,} from "react";
+import React, { createContext, FC, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
 
+import { Subscription } from '@/app/types/subscription';
+import { IndustryKey, JobFunctionKey, SubIndustryKey } from '@/app/static/company';
 
-import {Subscription} from "@/app/types/subscription";
-import {IndustryKey, JobFunctionKey, SubIndustryKey,} from "@/app/static/company";
+import { CountryKey, LanguageKey, SalutationKey, StateKey } from '@/app/static';
 
-import {CountryKey, LanguageKey, SalutationKey, StateKey} from "@/app/static";
+import { UserService } from '@/app/services';
 
-import {UserService} from "@/app/services";
-
-
-type AddressType = "businessAddress" | "personalAddress";
+type AddressType = 'businessAddress' | 'personalAddress';
 type Address = {
     line1: string;
     line2: string;
@@ -23,7 +21,7 @@ type Address = {
 };
 type UserAddress = Record<AddressType, Address | null>;
 
-type PhoneType = "mobile" | "business" | "personal";
+type PhoneType = 'mobile' | 'business' | 'personal';
 type PhoneBase = {
     number: string;
     isPrimary: boolean;
@@ -32,7 +30,7 @@ type Phone = PhoneBase | (PhoneBase & { ext: string });
 type UserPhone = Record<PhoneType, Phone | null>;
 
 type FullName = {
-    salutation: SalutationKey | "";
+    salutation: SalutationKey | '';
     firstName: string;
     lastName: string;
     initial?: string;
@@ -89,7 +87,6 @@ interface IUserContext {
     fetchUserData: (fetchPlanDetails?: boolean, token?: string) => Promise<void>;
 }
 
-
 const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
@@ -98,44 +95,40 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [token, setToken] = useState<string | null>(null);
 
     const setSession = (token: string, userData?: UserData) => {
-        if (userData)
-            setUserDataHelper(userData);
+        if (userData) setUserDataHelper(userData);
         setLoggedState(true);
         setToken(token);
-        localStorage.setItem("token", token);
+        localStorage.setItem('token', token);
     };
     const removeSession = () => {
         setUserDataHelper(null);
         setLoggedState(false);
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
     };
 
-    const fetchUserData = useCallback(async (fetchPlanDetails?: boolean, bearer?: string) => {
-        const tokenFinal = bearer ?? token;
-        if (!tokenFinal)
-            return;
+    const fetchUserData = useCallback(
+        async (fetchPlanDetails?: boolean, bearer?: string) => {
+            const tokenFinal = bearer ?? token;
+            if (!tokenFinal) return;
 
-        try {
-            const {payload: user} = await UserService.getUser(tokenFinal, fetchPlanDetails);
-            if (!fetchPlanDetails && userData)
-                user.subscriptions = userData?.subscriptions;
-            setSession(tokenFinal, user);
-        } catch (error: unknown) {
-            setLoggedState(false);
-        }
-        //eslint-disable-next-line
+            try {
+                const { payload: user } = await UserService.getUser(tokenFinal, fetchPlanDetails);
+                if (!fetchPlanDetails && userData) user.subscriptions = userData?.subscriptions;
+                setSession(tokenFinal, user);
+            } catch (error: unknown) {
+                setLoggedState(false);
+            }
+            //eslint-disable-next-line
     }, [token])
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token');
         if (token) fetchUserData(true, token);
         else setLoggedState(false);
     }, [fetchUserData]);
 
     return (
-        <UserContext.Provider
-            value={{userData, isLoggedIn, setSession, removeSession, fetchUserData, token}}
-        >
+        <UserContext.Provider value={{ userData, isLoggedIn, setSession, removeSession, fetchUserData, token }}>
             {props.children}
         </UserContext.Provider>
     );
@@ -143,17 +136,9 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
 const useUser = (): IUserContext => {
     const context = useContext(UserContext);
-    if (!context) throw new Error("useUser must be used within a UserProvider!");
+    if (!context) throw new Error('useUser must be used within a UserProvider!');
     return context;
 };
 
-export {UserProvider, useUser};
-export type {
-    UserData,
-    Address,
-    Phone,
-    UserPhone,
-    FullName,
-    UserAddress,
-    Company,
-};
+export { UserProvider, useUser };
+export type { UserData, Address, Phone, UserPhone, FullName, UserAddress, Company };

@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
 import { NavDropdown } from '@/app/types/layout';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import {
     DROPDOWN_NAV_ROUTES,
     MAPPED_NAV_ROUTES,
@@ -15,24 +14,21 @@ import {
 } from '@/app/static';
 
 import { checkSubRoute, getIdName, getRouteRoot } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks';
 import { useLayout } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
 import { Button } from '@/app/ui/form';
 import { Insignia } from '@/app/ui/misc';
+import { ProfileMenu } from '../ProfileMenu';
 import { SubNav } from './SubNav';
 
 import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 
 import SVG_CHEVRON from '/public/images/icons/chevron.svg';
-import { ProfileMenu } from '@/app/ui/layout/ProfileMenu';
-
 
 const Header: FC = (): ReactElement => {
     const route = usePathname();
-    const breakpoint = useBreakpointCheck();
     const layoutCtx = useLayout();
 
     const [navExpanded, setNavExpanded] = useState(false);
@@ -41,12 +37,13 @@ const Header: FC = (): ReactElement => {
     const navRef = useRef<HTMLDivElement | null>(null);
     const subNavRef = useRef<HTMLDivElement | null>(null);
 
-
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
-            const close = navExpanded && !navRef.current?.contains(event.target as Node) && !subNavRef.current?.contains(event.target as Node);
-            if (close)
-                setNavExpanded(false);
+            const close =
+                navExpanded &&
+                !navRef.current?.contains(event.target as Node) &&
+                !subNavRef.current?.contains(event.target as Node);
+            if (close) setNavExpanded(false);
         };
         window.addEventListener('mousedown', handleClick);
         return () => window.removeEventListener('mousedown', handleClick);
@@ -57,58 +54,56 @@ const Header: FC = (): ReactElement => {
 
     // Elements
     const NavLinks: ReactElement[] = navLinks?.map((link: Route, idx) => {
-        const isActive = route !== Route.Home && checkSubRoute(route, link, ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
+        const isActive =
+            route !== Route.Home && checkSubRoute(route, link, ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
         const mappedLink = MAPPED_NAV_ROUTES[link];
         const navDropdown = DROPDOWN_NAV_ROUTES[link];
         const linkFinal = SPECIAL_NAV_ROUTES[link] ?? link;
+
+        const dropdownExpanded = navDropdown?.name === navDropdownExpanded?.name;
 
         return (
             <li
                 key={link + idx}
                 tabIndex={idx}
-                className={cn('group', stylesLayout.navLink, {
-                    [stylesLayout.activeNavLink]: isActive && !layoutCtx.isBreadCrumbsNav && breakpoint > Breakpoint.xxs,
-                    ['before:bg-gray']: !subNavLinks?.length,
-                    ['border-s border-black']: navDropdown && breakpoint > Breakpoint.xxs,
-                    ['!static bg-black-l0 border-blue']: navDropdown && navDropdown?.name === navDropdownExpanded?.name,
-                    ['!h-fit border-b-s [&>*]:x-[pl-s,py-xxs]']: breakpoint <= Breakpoint.xxs,
-                    ['contents']: layoutCtx.isBreadCrumbsNav,
-                })}
+                className={cn(
+                    'group',
+                    stylesLayout.navLink,
+                    subNavLinks?.length ? 'before:bg-gray' : 'before:bg-blue',
+                    'xxs:!h-fit xxs:[&>*]:x-[pl-s,py-xxs]',
+                    {
+                        [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: isActive && !layoutCtx.isBreadCrumbsNav,
+                        ['!static !border-s border-blue bg-black-l0']: navDropdown && dropdownExpanded,
+                        ['border-s border-b-0 border-black xxs:border-none']: navDropdown,
+                        ['contents']: layoutCtx.isBreadCrumbsNav,
+                    },
+                )}
             >
-                {navDropdown
-                    ? (
+                {navDropdown ? (
+                    <>
                         <div
                             onClick={() => setNavDropdownExpanded(navDropdown)}
-                            className={cn(
-                                styles.clickable, 'flex gap-x-5xs h-full items-center',
-                                { ['justify-between']: breakpoint <= Breakpoint.xxs },
-                            )}
+                            className={cn(styles.clickable, 'flex h-full items-center gap-x-5xs xxs:justify-between')}
                         >
                             <p>{navDropdown.name}</p>
                             <ReactSVG
                                 src={SVG_CHEVRON.src}
-                                className={cn(
-                                    '[&_*]:size-[0.5625rem]',
-                                    {
-                                        ['rotate-180']: navDropdownExpanded && breakpoint > Breakpoint.xxs,
-                                        ['-rotate-90']: breakpoint <= Breakpoint.xxs,
-                                    },
-                                )}
+                                className={cn('xxs:-rotate-90 [&_*]:size-[0.5625rem]', {
+                                    ['rotate-180']: dropdownExpanded,
+                                })}
                             />
                         </div>
-                    )
-                    : (
-                        <>
-                            <PageLink href={link}>
-                                <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
-                            </PageLink>
-                            {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1
-                                ? <span className={'px-0'}>/</span>
-                                : null
-                            }
-                        </>
-                    )
-                }
+                    </>
+                ) : (
+                    <>
+                        <PageLink href={link}>
+                            <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
+                        </PageLink>
+                        {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1 ? (
+                            <span className={'px-0'}>/</span>
+                        ) : null}
+                    </>
+                )}
             </li>
         );
     });
@@ -116,59 +111,46 @@ const Header: FC = (): ReactElement => {
     return (
         <header
             id={'header'}
-            className={cn('z-10 text-section-xs leading-none bg-black', navExpanded ? 'sticky top-0' : 'relative')}
+            className={cn('z-10 bg-black text-section-xs leading-none', navExpanded ? 'sticky top-0' : 'relative')}
         >
             <div className={'flex border-b-s border-gray'}>
-                {breakpoint <= Breakpoint.xxs
-                    ? (
-                        <Button
-                            onClick={() => setNavExpanded(prevState => !prevState)}
-                            icon={navExpanded ? 'close' : 'burger'}
-                            className={cn(`px-s border-s border-transparent`, { ['bg-gray-d0 !border-blue']: navExpanded })}
-                            classNameIcon={'!size-heading-icon h-auto'}
-                        />
-                    )
-                    : null
-                }
+                <Button
+                    onClick={() => setNavExpanded((prevState) => !prevState)}
+                    icon={navExpanded ? 'close' : 'burger'}
+                    className={cn(`border-s border-transparent px-s`, { ['!border-blue bg-gray-d0']: navExpanded })}
+                    classNameIcon={'hidden !size-heading-icon h-auto  xxs:inline'}
+                />
                 <div
                     className={cn(
                         styles.content,
-                        `z-[2] flex pr-0 !h-heading items-center`,
-                        breakpoint <= Breakpoint.xxs ? 'pl-xxs' : 'relative',
+                        `z-[2] flex !h-heading items-center pr-0`,
+                        `relative`,
+                        `xxs:x-[static,pl-xxs]`,
                     )}
                 >
                     <Insignia />
-                    {breakpoint <= Breakpoint.xxs && !navExpanded
-                        ? null
-                        : (
-                            <nav
-                                ref={navRef}
-                                className={cn(
-                                    `flex items-center`,
-                                    `before:x-[absolute,h-[64%],-left-xxs,border-r-s,border-gray]`,
-                                    breakpoint <= Breakpoint.xxs ?
-                                        cn(
-                                            `absolute z-[1000] left-0 top-[calc(1px+var(--h-heading))] gap-x-l`,
-                                            `h-[calc(100dvh-var(--h-heading))] w-full max-w-[14.5625rem] bg-gray-d0`,
-                                            `before:hidden`,
-                                        )
-                                        : cn(
-                                            `ml-[calc(2*var(--p-n)-var(--p-xxs))] h-full`,
-                                            `relative`,
-                                        ),
-                                )}
-                            >
-                                <ul
-                                    className={cn(
-                                        `flex h-full cursor-pointer`,
-                                        { [`flex flex-col w-full`]: breakpoint <= Breakpoint.xxs },
-                                    )}
-                                >
-                                    {NavLinks}
-                                </ul>
-                            </nav>
-                        )
-                    }
+                    <nav
+                        ref={navRef}
+                        className={cn(
+                            `flex items-center`,
+                            `relative ml-[calc(2*var(--p-n)-var(--p-xxs))] h-full`,
+                            `before:x-[absolute,h-[64%],-left-xxs,border-r-s,border-gray]`,
+                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,w-full,max-w-[14.5625rem],bg-gray-d0]`,
+                            `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))]`,
+                            `xxs:before:hidden`,
+                            { ['xxs:hidden']: !navExpanded },
+                        )}
+                    >
+                        <ul
+                            className={cn(
+                                `flex h-full cursor-pointer`,
+                                { ['gap-x-l']: layoutCtx.isBreadCrumbsNav },
+                                `xxs:x-[flex,flex-col,w-full]`,
+                            )}
+                        >
+                            {NavLinks}
+                        </ul>
+                    </nav>
                     <ProfileMenu />
                 </div>
             </div>
@@ -181,6 +163,5 @@ const Header: FC = (): ReactElement => {
         </header>
     );
 };
-
 
 export { Header };

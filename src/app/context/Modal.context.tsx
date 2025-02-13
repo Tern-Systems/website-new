@@ -1,12 +1,11 @@
 'use client';
 
 import React, { createContext, FC, PropsWithChildren, ReactElement, useContext, useEffect, useState } from 'react';
-import cn from "classnames";
+import cn from 'classnames';
 
-import { useLayout } from "@/app/context/Layout.context";
+import { useLayout } from '@/app/context/Layout.context';
 
-import styles from "@/app/common.module.css";
-
+import styles from '@/app/common.module.css';
 
 type ModalConfig = { hideContent?: boolean; darkenBg?: boolean; doFading?: boolean };
 
@@ -30,9 +29,8 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
-            if (event.key === 'Escape')
-                closeModal();
-        }
+            if (event.key === 'Escape') closeModal();
+        };
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
@@ -42,14 +40,13 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const handleModalChange = (Component: ReactElement | null, config: ModalConfig) => {
         setModal(Component);
         setConfig({ ...config, doFading: config.doFading ?? true });
-    }
+    };
 
     const closeModal = () => {
         handleModalChange(null, {});
-    }
+    };
 
-    const openModal = (ModalElem: ReactElement, config?: ModalConfig) =>
-        handleModalChange(ModalElem, config ?? {});
+    const openModal = (ModalElem: ReactElement, config?: ModalConfig) => handleModalChange(ModalElem, config ?? {});
 
     return (
         <ModalContext.Provider
@@ -61,20 +58,17 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 closeModal,
             }}
         >
-            {Modal
-                ? (
-                    <div
-                        onClick={() => closeModal()}
-                        className={cn(
-                            `absolute z-50 flex w-full h-full overflow-hidden font-neo text-primary select-none`,
-                            layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn
-                        )}
-                    >
-                        {Modal}
-                    </div>
-                )
-                : null
-            }
+            {Modal ? (
+                <div
+                    onClick={() => closeModal()}
+                    className={cn(
+                        `absolute z-50 flex h-full w-full select-none overflow-hidden text-primary`,
+                        layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn,
+                    )}
+                >
+                    {Modal}
+                </div>
+            ) : null}
             {props.children}
         </ModalContext.Provider>
     );
@@ -82,10 +76,9 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
 const useModal = (): IModalContext => {
     const context = useContext(ModalContext);
-    if (!context)
-        throw new Error('useModal must be used within a ModalProvider!');
+    if (!context) throw new Error('useModal must be used within a ModalProvider!');
     return context;
 };
 
-export { ModalProvider, useModal }
-export type { IModalContext, OpenModal }
+export { ModalProvider, useModal };
+export type { IModalContext, OpenModal };

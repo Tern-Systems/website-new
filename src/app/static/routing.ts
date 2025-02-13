@@ -9,7 +9,6 @@ import SVG_YOUTUBE from '/public/images/icons/youtube.svg';
 import SVG_INSTAGRAM from '/public/images/icons/instagram.svg';
 import SVG_TWITCH from '/public/images/icons/twitch.svg';
 
-
 enum Route {
     Home = '/',
 
@@ -73,7 +72,6 @@ enum Route {
     More = '/all_ways/more',
 }
 
-
 const BLOG_ROUTES = [
     Route.Artificial,
     Route.Batteries,
@@ -114,11 +112,4 @@ const MISC_LINKS = {
     TernKeyDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
 };
 
-
-export {
-    Route,
-    BLOG_ROUTES,
-    CONTACT_LINKS,
-    MEDIA_LINKS,
-    MISC_LINKS,
-};
+export { Route, BLOG_ROUTES, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };

@@ -1,16 +1,16 @@
-import React, {FC} from "react";
-import Image from "next/image";
-import cn from "classnames";
+import React, { FC } from 'react';
+import Image from 'next/image';
+import cn from 'classnames';
 
-import {InfoSection as InfoSection} from "@/app/types/layout";
+import { InfoSection as InfoSection } from '@/app/types/layout';
 
-import {PageLink} from "@/app/ui/layout";
+import { PageLink } from '@/app/ui/layout';
 
-import styles from "@/app/common.module.css";
-
+import styles from '@/app/common.module.css';
 
 interface Props {
     data: InfoSection;
+    blur?: true;
     className?: string;
     classNameTitle?: string;
     classNameContent?: string;
@@ -20,55 +20,67 @@ interface Props {
 }
 
 const Info: FC<Props> = (props: Props) => {
-    const {data, className, classNameTitle, classNameContent, classNameSubTitle, classNameDescription, classNamePageLink} = props;
-    const {title, image, subTitle, link, linkTitle, description} = data;
+    const {
+        data,
+        blur,
+        className,
+        classNameTitle,
+        classNameContent,
+        classNameSubTitle,
+        classNameDescription,
+        classNamePageLink,
+    } = props;
+    const { title, image, subTitle, link, linkTitle, description } = data;
 
     return (
         <section className={cn(styles.section, className)}>
-            <div className={cn(styles.content, 'pt-[3.5rem] pb-[12.25rem] font-oxygen', classNameContent)}>
+            <div className={cn(styles.content, 'relative mb-[12.25rem] pt-[3.5rem] ', classNameContent)}>
+                {blur ? <div className={styles.contentGradientBlue} /> : null}
                 <h2
                     className={cn(
-                        'mb-[4.62rem] text-center font-bold font-oxygen',
+                        'mb-[4.62rem] text-center font-bold',
                         'text-[1.75rem]',
                         'lg:text-[2.5rem]',
-                        classNameTitle
+                        classNameTitle,
                     )}
                 >
                     {title}
                 </h2>
-                <div
-                    className={'flex justify-between items-center  sm:x-[gap-y-xxl,flex-col-reverse]'}>
-                            <span className={'w-[40%] text-left   sm:x-[w-full,text-center]'}>
-                                <span
-                                    className={cn('block mb-5xs  text-[2rem]  md:text-[1.5rem]  sm:text-section-xs', classNameSubTitle)}>
-                                    {subTitle}
-                                </span>
-                                <span className={cn('block leading-n  text-[0.9375rem]  lg:text-section', classNameDescription)}>
-                                   {description}
-                                </span>
-                                <PageLink
-                                    href={link}
-                                    className={cn(
-                                        'px-n rounded-full bg-blue',
-                                        'mt-xl h-button-l text-basic',
-                                        'lg:x-[h-button-xl,text-heading-s]',
-                                        'sm:mt-s',
-                                        classNamePageLink
-                                    )}
-                                >
-                                    {linkTitle}
-                                </PageLink>
-                            </span>
+                <div className={'flex items-center justify-between sm:x-[gap-y-xxl,flex-col-reverse]'}>
+                    <span className={'w-[40%] text-left sm:x-[w-full,text-center]'}>
+                        <span
+                            className={cn(
+                                'mb-4xs block text-section-xl sm:text-section-xs md:text-[1.5rem]',
+                                classNameSubTitle,
+                            )}
+                        >
+                            {subTitle}
+                        </span>
+                        <span className={cn('block text-[0.9375rem] leading-n lg:text-section', classNameDescription)}>
+                            {description}
+                        </span>
+                        <PageLink
+                            href={link}
+                            className={cn(
+                                'bg-blue px-n',
+                                'mt-xl h-button-l text-basic',
+                                'lg:x-[h-button-xl,text-heading-s]',
+                                'sm:mt-s',
+                                classNamePageLink,
+                            )}
+                        >
+                            {linkTitle}
+                        </PageLink>
+                    </span>
                     <Image
                         src={image}
                         alt={'circuit'}
-                        className={'max-w-[13.5rem] w-[15%]  md:w-1/5  sm:w-[30%]'}
+                        className={'w-[15%] max-w-[13.5rem] sm:w-[30%] md:w-1/5'}
                     />
                 </div>
             </div>
         </section>
     );
-}
+};
 
-
-export {Info};
+export { Info };

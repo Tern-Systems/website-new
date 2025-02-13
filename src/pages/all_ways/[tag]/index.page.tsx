@@ -1,14 +1,12 @@
-import {useParams} from "next/navigation";
+import { useParams } from 'next/navigation';
 
-import {ArticleTag} from "@/app/types/blog";
+import { ArticleTag } from '@/app/types/blog';
 
-import {TagArticle} from "./TagArticle";
-
+import { TagArticle } from './TagArticle';
 
 function ArticlesByTag() {
-    const {tag = null} = useParams<{ tag: ArticleTag }>() ?? {};
-    return <TagArticle tag={tag}/>;
+    const { tag = null } = useParams<{ tag: ArticleTag }>() ?? {};
+    return <TagArticle tag={tag} />;
 }
-
 
 export default ArticlesByTag;
