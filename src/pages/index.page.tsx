@@ -2,8 +2,7 @@
 
 import React, { FC, ReactElement, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Image, { StaticImageData } from 'next/image';
-import { ButtonIcon } from '@/app/ui/form/Button';
+import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
 import { InfoSection, SectionCard } from '@/app/types/layout';
@@ -14,7 +13,7 @@ import { useBackground, useLoginCheck } from '@/app/hooks';
 import { useFlow, useModal } from '@/app/context';
 
 import { ResetPasswordModal } from '@/app/ui/modals';
-import { Button } from '@/app/ui/form';
+import { MainBackground } from '@/app/ui/atoms';
 import { Carousel } from '@/app/ui/misc';
 import { PageLink } from '@/app/ui/layout';
 import { Info, InsideTern } from '@/app/ui/templates';
@@ -84,6 +83,8 @@ const COMPANY: SectionCard[] = [
     },
 ];
 
+const BTN_CN = 'px-s h-button-l  lg:h-button-xxl';
+
 // const PARAGRAPHS: string[] = [
 //     "We abide by the following doctrine, which outlines our core ideology's six core values and exclusive purpose. We look for consistency, earnestness, acumen, flexibility, obsession, and ingenuity in each constituent we interact with. These six values, defined as follows, outline our organization's expectations and illustrate the characteristics we respect and adhere to.",
 //     "Consistency is conveyed through established dependability and predictability of character, stemming from unwavering commitment to their purpose Earnestness inspires sincere and intense conviction, sustained by a strongly formed belief in one’s principles Acumen produces sound judgments and quick decisions, bolstered by an unwavering confidence in one’s expertise and abilities. Flexibility increases the propensity to bend easily without breaking and is derived from frequently maintaining an open mind Obsession provokes fanatical attention to detail past the point of rationality but stems from a place of deep, unapologetic love. Ingenuity encapsulates cleverness, originality, and inventiveness, originating from resolute passion.",
@@ -102,32 +103,26 @@ const HomePage: FC = () => {
         if (token && !modalCtx.isOpened) return modalCtx.openModal(<ResetPasswordModal token={token} />);
         flowCtx.next()?.();
         //eslint-disable-next-line
-    }, [params?.size])
-
+    }, [params?.size]);
 
     // const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx}>{p}</p>)
 
     const CardsLi: ReactElement[] = CARDS.map((card, idx) => (
         <li
             key={card.title + idx}
-            className={
-                'flex h-full flex-col overflow-hidden rounded-n border-n border-white-d0 text-center  md:max-w-[22.0625rem]'
-            }
+            className={'flex h-full flex-col overflow-hidden border-s border-white-d0 text-center  md:max-w-[22rem]'}
         >
             <div
                 style={{ backgroundImage: `url("${card.image.src}")` }}
-                className={cn(
-                    'flex h-[14.125rem] w-[calc(100%-2px)] items-end justify-center',
-                    'bg-cover bg-center bg-no-repeat',
-                )}
+                className={'flex h-[14.125rem] w-full items-end justify-center bg-cover bg-center bg-no-repeat'}
             >
                 <div className={'w-full bg-gradient-to-b from-transparent to-black pb-4xs'}>
-                    <h4 className={cn(styles.textGlow, 'font-oxygen text-heading font-bold')}>{card.title}</h4>
+                    <h4 className={cn(' text-heading font-bold')}>{card.title}</h4>
                 </div>
             </div>
             <div
                 className={cn(
-                    'flex flex-grow flex-col items-center justify-between p-xs leading-n',
+                    'flex flex-grow flex-col items-center justify-between  p-xs leading-n',
                     'pb-xl',
                     'sm:pb-n',
                 )}
@@ -137,7 +132,7 @@ const HomePage: FC = () => {
                     href={card.link.href}
                     isExternal={card.link.href.startsWith('https://')}
                     className={cn(
-                        'h-button-xl w-fit rounded-full border-s border-gray-l0 px-xs text-blue',
+                        'mt-xs h-button-xl w-fit border-s border-gray-l0 px-xs text-blue',
                         'text-section-s',
                         'md:text-basic',
                         'sm:mt-xl',
@@ -149,36 +144,11 @@ const HomePage: FC = () => {
         </li>
     ));
 
-    const CompanyLi: ReactElement[] = COMPANY.map((entry, idx) => (
-        <li
-            key={entry.title + idx}
-            className={'flex flex-col gap-y-[--p-content-3xs] text-left'}
-        >
-            <h4 className={'mb-[0.1rem] text-[0.9375rem] text-placeholder'}>{entry.title}</h4>
-            <p>{entry.description}</p>
-            <Image
-                src={entry.icon}
-                alt={'office girl 2'}
-                className={'w-full'}
-            />
-            <Button
-                icon={entry.btnIcon}
-                onClick={() => window.open(entry.href, '_blank')}
-                className={'flex-row-reverse self-start text-blue'}
-                classNameIcon={cn('[&_path]:fill-blue-l0', entry.btnIconCN)}
-            >
-                {entry.action}
-            </Button>
-        </li>
-    ));
-
     return (
         <>
-            <div
-                style={{ backgroundImage: `url("${bgSrc}")` }}
-                className={
-                    'max-w-dwv absolute left-0 top-0 h-screen max-h-[100rem] w-dvw bg-cover bg-center bg-no-repeat'
-                }
+            <MainBackground
+                url={bgSrc}
+                className={styles.sectionInsetShadowBlack}
             />
             <div className={'relative z-10'}>
                 <section className={cn(styles.section, styles.fullHeightSection)}>
@@ -186,34 +156,30 @@ const HomePage: FC = () => {
                         <div>
                             <h1
                                 className={cn(
-                                    styles.textGlow,
-                                    `text-center font-oxygen leading-n`,
-                                    `mb-n text-[5.0625rem]`,
-                                    `md:text-[3.4375rem]`,
-                                    `sm:x-[mb-xs,text-[2.9375rem]]`,
+                                    `text-center leading-n`,
+                                    `mb-n text-heading-3xl`,
+                                    `md:text-[2.8125rem]`,
+                                    `sm:x-[mb-xs,text-heading-l]`,
                                 )}
                             >
                                 We Design Advanced Semiconductors
                             </h1>
-                            <p className={'flex justify-center gap-x-xs text-heading-s sm:text-basic'}>
+                            <p
+                                className={
+                                    'flex flex-wrap justify-center gap-s text-nowrap text-basic lg:x-[gap-x-xl,text-heading-s]'
+                                }
+                            >
                                 <PageLink
                                     isExternal
                                     href={MISC_LINKS.TernKey}
-                                    className={cn(
-                                        'h-[3.125rem] rounded-full bg-blue px-n text-black',
-                                        'sm:x-[px-xs,h-button-l]',
-                                    )}
+                                    className={cn(BTN_CN, 'bg-blue text-black')}
                                 >
                                     Discover Tern
                                 </PageLink>
                                 <PageLink
                                     isExternal
                                     href={MISC_LINKS.TernKeyDemo}
-                                    className={cn(
-                                        'h-[3.125rem] rounded-full border-n border-gray-l0 px-n',
-                                        'bg-black text-blue',
-                                        'sm:x-[px-xs,h-button-l]',
-                                    )}
+                                    className={cn(BTN_CN, 'h-button-l border-n border-gray-l0 bg-black text-blue')}
                                 >
                                     Watch Demo
                                 </PageLink>
@@ -221,7 +187,7 @@ const HomePage: FC = () => {
                         </div>
                     </div>
                 </section>
-                <section className={cn(styles.section, styles.fullHeightSection, 'sm:!h-fit')}>
+                <section className={cn(styles.section, styles.fullHeightSection)}>
                     <div
                         className={cn(
                             styles.content,
@@ -231,32 +197,27 @@ const HomePage: FC = () => {
                     >
                         <h2
                             className={cn(
-                                styles.textGlow,
-                                'text-center font-oxygen text-[2.5rem] font-bold leading-n tracking-[0.1rem]',
-                                'md:text-[1.75rem]',
-                                'sm:text-[1.1875rem]',
+                                'text-center text-heading-xl font-bold leading-xl',
+                                'text-[3.1875rem]',
+                                'sm:text-[1.5625rem]',
                             )}
                         >
-                            <span>
-                                <span>The Future of&nbsp;</span>
-                                <span className={cn(styles.textBlueGlow, 'text-blue')}>AI</span>
-                            </span>
-                            <span>
-                                &nbsp;is Built on <span className={'font-bold'}>tern</span>
-                            </span>
+                            <span>There’s Always a Better Way</span>
+                            <span className={'block text-blue'}>All Ways</span>
                         </h2>
                         <Carousel
                             className={'lg:contents'}
-                            classNameUl={
-                                'grid-cols-[repeat(3,22rem)] !h-[30.3125rem]  lg:max-h-[30.3125rem]  sm:grid-cols-[minmax(0,21rem)] sm:!h-fit'
-                            }
+                            classNameUl={cn(
+                                'grid-cols-[repeat(3,22rem)]',
+                                'lg:max-h-[30.3125rem]',
+                                'sm:!h-fit sm:grid-cols-[minmax(0,21rem)]',
+                            )}
                             classNameArrow={'hidden  md:block'}
                         >
                             {CardsLi}
                         </Carousel>
                         <p
                             className={cn(
-                                styles.textGlow,
                                 'mt-auto w-[82%] text-left font-bold leading-n',
                                 'text-section-xl',
                                 'md:text-[1.5rem]',
@@ -269,7 +230,6 @@ const HomePage: FC = () => {
                 </section>
                 <section
                     className={cn(
-                        styles.textGlow,
                         styles.section,
                         'from-green bg-gradient-to-t via-[#0a313a] to-transparent',
                         'pb-[28rem]',
@@ -293,17 +253,8 @@ const HomePage: FC = () => {
                     </div>
                 </section>
                 <Info
+                    blur
                     data={INFO}
-                    className={cn(
-                        'md:h-[401px]',
-                        'bg-[radial-gradient(circle,_transparent_0%,_rgba(10,49,58,0.8)_100%)]',
-                    )}
-                    classNameTitle={
-                        'font-oxygen text-center text-[1.75rem] leading-[2.21] tracking-[0.1rem] mt-[-2rem]'
-                    }
-                    classNameSubTitle={'md:x-[font-oxygen,text-left,text-[1.5rem],leading-[1.8],mt-[-2rem]]'}
-                    classNameDescription={'md:x-[font-oxygen,text-left,text-[0.9375rem],leading-[1.40625]]'}
-                    classNamePageLink={'!rounded-none'}
                 />
                 <InsideTern data={COMPANY} />
             </div>
