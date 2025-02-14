@@ -1,6 +1,8 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import cn from 'classnames';
 
+import { CELL_FALLBACK, MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
+import { ResourceSection, TableSection } from '@/app/types/layout';
 import { Invoice } from '@/app/types/billing';
 import { Route } from '@/app/static';
 
@@ -10,17 +12,52 @@ import { useLoginCheck, useNavigate } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
 
 import { formatDate } from '@/app/utils';
-import { ScrollEnd } from '@/app/ui/misc';
+import { Table } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 import { HelpModal, MessageModal } from '@/app/ui/modals';
+import { ResourcesSection } from '@/app/ui/templates/Resources';
 
 import styles from '@/app/common.module.css';
+
+const RESOURCES: ResourceSection[] = [
+    { Node: <PageLink href={Route.ManageSubscriptions} /> },
+    { Node: <PageLink href={Route.PurchasingInformation} /> },
+    {
+        // TODO change to link to Support Hub page
+        Node: 'Support Hub',
+        action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'brc'} />, { darkenBg: true }),
+    },
+];
+
+const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
+    const { row, className } = props;
+    const [navigate] = useNavigate();
+    return (
+        <tr
+            onClick={() => {
+                sessionStorage.setItem('invoice', JSON.stringify(row));
+                navigate(Route.Invoice);
+            }}
+            className={cn(
+                styles.clickable,
+                `cursor-pointer text-nowrap align-middle odd:bg-gray-d0  hover:!bg-gray-l0`,
+                `text-heading-s  sm:text-section-xxs`,
+                className,
+            )}
+        >
+            <td className={'h-[2.25rem]  sm:h-[1.5625rem]'}>{row?.id ?? CELL_FALLBACK}</td>
+            <td>{row?.startDate ? formatDate(new Date(row?.startDate), 'short') : CELL_FALLBACK}</td>
+            <td className={MD_SM_HIDDEN_CN}>{row?.paidUSD ? row.paidUSD.toFixed(2) : CELL_FALLBACK}</td>
+            <td className={MD_SM_HIDDEN_CN}>{row?.status ?? CELL_FALLBACK}</td>
+            <td className={SM_HIDDEN_CN}>{row?.item?.name ?? CELL_FALLBACK}</td>
+        </tr>
+    );
+};
 
 const BillingPage: FC = () => {
     const userContext = useUser();
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
-    const [navigate] = useNavigate();
 
     const [invoices, setInvoices] = useState<Invoice[]>([]);
 
@@ -36,139 +73,48 @@ const BillingPage: FC = () => {
         };
         fetchInvoices();
         //eslint-disable-next-line
-    }, [userContext.isLoggedIn])
+    }, [userContext.isLoggedIn]);
 
     if (!isLoggedIn) return null;
 
-    // Elements
-    const OrderRows: ReactElement[] = (invoices ?? []).map((order, idx) => {
-        const renderTd = (title: string | number, className: string, type?: 'first' | 'last') => {
-            const cn =
-                type === undefined
-                    ? className
-                    : 'px-[0.75rem] text-nowrap overflow-ellipsis overflow-hidden   sm:px-[0.38rem] ' +
-                      (type === 'first'
-                          ? `rounded-l-[0.56rem] sm:rounded-l-[0.18rem]`
-                          : `rounded-r-[0.56rem] sm:rounded-r-[0.18rem]`);
-            return <td className={cn}>{title}</td>;
-        };
-        return (
-            <tr
-                key={order.id + idx}
-                onClick={() => {
-                    sessionStorage.setItem('invoice', JSON.stringify(order));
-                    navigate(Route.Invoice);
-                }}
-                className={cn(
-                    styles.clickable,
-                    `cursor-pointer text-nowrap align-middle [&_td]:odd:bg-[#b3b3b326]`,
-                    `text-heading-s hover:bg-gray-l0`,
-                    `lg:h-[3.125rem]`,
-                    `md:h-[3.57rem]`,
-                    `sm:x-[h-xs,text-section-xs]`,
-                    `sm:landscape:x-[h-xs,text-section-xs]`,
-                )}
-            >
-                {renderTd(order?.id, '', 'first')}
-                {renderTd(formatDate(new Date(order?.startDate)), 'md:hidden  sm:portrait:hidden')}
-                {renderTd(
-                    order?.paidUSD?.toFixed(2),
-                    'before:content-["$"] before:-mr-[0.1rem]  md:hidden  sm:portrait:hidden',
-                )}
-                {renderTd(order?.status, 'md:hidden  sm:hidden')}
-                {renderTd(order?.item?.name, '', 'last')}
-            </tr>
-        );
-    });
+    const table: TableSection<Invoice> = {
+        title: 'Order Information',
+        data: invoices,
+        fallback: (
+            <span>
+                You don&apos;t have any products purchased. You could explore the plans on&nbsp;
+                <PageLink
+                    href={Route.TernKeyPricing}
+                    className={'underline'}
+                >
+                    Pricing page
+                </PageLink>
+                .
+            </span>
+        ),
+    };
 
     return (
-        <div
-            className={cn(
-                `grid h-full w-full max-w-[90rem] auto-rows-min place-self-center text-left`,
-                `lg:mt-4xl`,
-                `md:x-[mt-l,px-l]`,
-                `sm:grid-rows-[min-content,1fr]`,
-                `sm:px-xs`,
-                `sm:landscape:grid-cols-[1fr,3fr]`,
-                `sm:landscape:x-[auto-rows-auto,pt-xs]`,
-            )}
-        >
-            <h1
-                className={cn(
-                    `flex text-heading-l font-bold`,
-                    `lg:pb-[1.87rem]`,
-                    `md:x-[pb-xxs]`,
-                    `sm:x-[mb-0,text-section-s]`,
-                    `sm:portrait:x-[pb-4xs,h-[4.69rem],items-end]`,
-                    `sm:landscape:text-heading-s`,
-                )}
-            >
-                Order Information
-            </h1>
-            <div
-                className={cn(
-                    `sm:portrait:max-h-[calc(100%-var(--p-xl))] sm:portrait:overflow-y-scroll`,
-                    `sm:landscape:contents`,
-                )}
-            >
-                <div
-                    className={cn(
-                        `h-[27rem] overflow-hidden rounded-s bg-gray`,
-                        `lg:--p-n`,
-                        `md:x-[p-s,h-[42rem]]`,
-                        `sm:p-xxs`,
-                        `sm:landscape:x-[p-xxs,h-full,row-span-2]`,
-                    )}
+        <div className={cn(styles.section, `min-h-dvh pt-[6.25rem]  sm:pt-l  md:pt-xxl`)}>
+            <section className={styles.content}>
+                <h1 className={`flex text-section-xl font-bold`}>Billing</h1>
+            </section>
+            <section className={cn(styles.content, styles.contentHighlight, 'mt-xl  lg:mt-xxl')}>
+                <Table
+                    table={table}
+                    Row={InvoiceRow}
                 >
-                    <div className={`h-full overflow-y-scroll capitalize`}>
-                        <table className={'w-full table-fixed'}>
-                            <thead
-                                className={cn(
-                                    `sticky top-0 z-10 bg-gray text-heading [&_td]:pb-xxs`,
-                                    `sm:text-section-3xs sm:[&_td]:pb-5xs`,
-                                )}
-                            >
-                                <tr>
-                                    <td className={'md:w-[40%] lg:w-[17%] sm:portrait:w-[40%] sm:landscape:w-1/4'}>
-                                        Order No.
-                                    </td>
-                                    <td className={'md:hidden lg:w-[21%] sm:portrait:hidden sm:landscape:w-1/4'}>
-                                        Date
-                                    </td>
-                                    <td className={'md:hidden lg:w-[17%] sm:portrait:hidden sm:landscape:w-[10%]'}>
-                                        Cost
-                                    </td>
-                                    <td className={'sm:hidden md:hidden lg:w-[17%]'}>Status</td>
-                                    <td>Item</td>
-                                </tr>
-                            </thead>
-                            <tbody>{OrderRows}</tbody>
-                        </table>
-                    </div>
-                </div>
-                <div
-                    className={cn(
-                        `inline-flex flex-col`,
-                        `mt-l gap-y-s text-section-xs`,
-                        `md:x-[gap-y-xs,mt-[1.88rem],text-basic]`,
-                        `sm:x-[gap-y-4xs,mt-xs,text-section-xxs]`,
-                        `sm:landscape:x-[col-start-1,gap-y-4xs,w-fit,place-content-end,text-section-3xs]`,
-                    )}
-                >
-                    <span className={`mb-5xs text-heading font-bold sm:text-basic sm:landscape:mb-0`}>
-                        Additional Resources
-                    </span>
-                    <PageLink href={Route.ManageSubscriptions} />
-                    <PageLink href={Route.PurchasingInformation} />
-                    <span
-                        className={'cursor-pointer'}
-                        onClick={() => modalCtx.openModal(<HelpModal type={'brc'} />, { darkenBg: true })}
-                    >
-                        Billing Resolution Center
-                    </span>
-                </div>
-            </div>
-            <ScrollEnd />
+                    <td className={'w-[21.0%] sm:w-1/2 md:w-[31.0%]'}>Order Number</td>
+                    <td className={'w-[21.0%] sm:w-1/2 md:w-[26.0%]'}>Date</td>
+                    <td className={cn('w-[16.4%]', MD_SM_HIDDEN_CN)}>Cost</td>
+                    <td className={cn('w-[11.8%]', MD_SM_HIDDEN_CN)}>Status</td>
+                    <td className={SM_HIDDEN_CN}>Item</td>
+                </Table>
+            </section>
+            <ResourcesSection
+                data={RESOURCES}
+                className={'mb-[9.41rem] mt-[6.25rem]'}
+            />
         </div>
     );
 };
