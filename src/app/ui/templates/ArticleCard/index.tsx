@@ -33,11 +33,11 @@ const ArticleCardLi: FC<Props> = (props: Props) => {
             key={article.title}
             className={cn(
                 styles.clickable,
-                'flex h-full min-h-fit w-full max-w-[22.0625rem] flex-1 flex-col overflow-hidden border-s',
+                'box-content flex h-full min-h-fit w-full max-w-[22.0625rem] flex-1 flex-col overflow-hidden border-s',
             )}
         >
-            <div className={'relative h-[45%]'}>
-                <div className={'absolute h-full w-full bg-gradient-to-t from-black to-25%'} />
+            <div className={'relative -z-10 h-[45%]'}>
+                <div className={'from-0 absolute h-full w-full bg-gradient-to-t from-black to-25%'} />
                 <Image
                     src={article.poster ?? PNG_NATURE}
                     width={100}

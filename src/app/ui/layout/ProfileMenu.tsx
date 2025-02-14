@@ -67,7 +67,7 @@ const ProfileMenu: FC = () => {
             ProfileMenu = (
                 <ul
                     className={cn(
-                        `absolute right-0 top-[calc(1px+var(--h-heading))] z-10 w-[9.1875rem] text-nowrap bg-gray-d0 text-basic`,
+                        `absolute right-0 top-[calc(1px+var(--h-heading))] z-10 w-[9.1875rem] text-nowrap bg-gray-d1 text-basic`,
                         `[&>li]:x-[px-xs,py-xxs]`,
                     )}
                 >
@@ -113,7 +113,7 @@ const ProfileMenu: FC = () => {
             onClick={() => setOpened((prevState) => !prevState)}
             className={'relative'}
         >
-            <div className={cn('h-full content-center px-s', { ['bg-gray-d0']: opened })}>
+            <div className={cn('h-full content-center px-s', { ['bg-gray-d1']: opened })}>
                 <Image
                     src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
                     width={29}

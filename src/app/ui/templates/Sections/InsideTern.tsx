@@ -26,7 +26,7 @@ const InsideTern: FC<Props> = (props: Props) => {
             <h4 className={'text-[0.9375rem] sm:text-section-3xs'}>{entry.title}</h4>
             <p className={'mt-xxs'}>{entry.description}</p>
             <div className={'relative mt-3xs h-full w-full justify-end'}>
-                <div className={'absolute inset-0 bg-gradient-to-r from-blue to-transparent to-75%'} />
+                <div className={'absolute inset-0 hidden bg-gradient-to-r from-blue to-transparent to-75%  md:block'} />
                 <Image
                     src={entry.icon}
                     alt={entry.icon.src}
