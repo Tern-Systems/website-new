@@ -34,8 +34,11 @@ const Info: FC<Props> = (props: Props) => {
 
     return (
         <section className={cn(styles.section, className)}>
-            <div className={cn(styles.content, 'relative mb-[12.25rem] pt-[3.5rem] ', classNameContent)}>
-                {blur ? <div className={styles.contentGradientBlue} /> : null}
+            <div
+                className={cn(styles.content, 'mb-[12.25rem] pt-[3.5rem] ', classNameContent, {
+                    [styles.contentGradientBlue]: blur,
+                })}
+            >
                 <h2
                     className={cn(
                         'mb-[4.62rem] text-center font-bold',

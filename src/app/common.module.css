@@ -36,13 +36,21 @@
 .sectionShadowBlack {
   box-shadow: 0 calc(-1 * var(--section-shadow-shift)) var(--section-shadow-blur-radius) #000000;
 }
+
 .sectionInsetShadowBlack {
   box-shadow: inset 0 calc(-1 * var(--section-shadow-shift)) var(--section-shadow-blur-radius) #000000;
 }
 
 .contentGradientBlue {
+  position: relative;
+}
+
+.contentGradientBlue:before {
+  content: "";
   position: absolute;
   z-index: -10;
+  top: 0;
+  left: 0;
 
   height: 100%;
   width: 100%;
