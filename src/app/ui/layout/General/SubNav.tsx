@@ -197,14 +197,14 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                     </ul>
                 </div>
             )}
-            {!subNavLinks?.length ? null : (
+            {!SubNavItems?.length ? null : (
                 <div className={'border-b-s border-gray'}>
                     <ul
                         className={cn(
                             styles.content,
                             `flex text-nowrap !pl-s text-section-xxs`,
                             'sm:!pl-xs',
-                            subNavLinks?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
+                            SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
                         )}
                     >
                         {SubNavItems}
