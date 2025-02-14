@@ -2,7 +2,7 @@
 
 import React, { FC, ReactElement, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { StaticImageData } from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
 import { InfoSection, SectionCard } from '@/app/types/layout';
@@ -110,29 +110,34 @@ const HomePage: FC = () => {
     const CardsLi: ReactElement[] = CARDS.map((card, idx) => (
         <li
             key={card.title + idx}
-            className={'flex h-full flex-col overflow-hidden border-s border-white-d0 text-center  md:max-w-[22rem]'}
+            className={
+                'relative flex h-full flex-col overflow-hidden border-s border-white-d0 text-center  md:max-w-[22rem]'
+            }
         >
-            <div
-                style={{ backgroundImage: `url("${card.image.src}")` }}
-                className={'flex h-[14.125rem] w-full items-end justify-center bg-cover bg-center bg-no-repeat'}
-            >
-                <div className={'w-full bg-gradient-to-b from-transparent to-black pb-4xs'}>
-                    <h4 className={cn(' text-heading font-bold')}>{card.title}</h4>
-                </div>
+            <div className={'relative -z-10 h-[14.125rem] w-full'}>
+                <div className={'absolute bg-gradient-to-t from-black to-transparent to-30%'} />
+                <Image
+                    width={150}
+                    height={150}
+                    src={card.image.src}
+                    alt={card.image.src}
+                    className={'h-full w-full object-cover'}
+                />
             </div>
             <div
                 className={cn(
-                    'flex flex-grow flex-col items-center justify-between  p-xs leading-n',
+                    'flex flex-grow flex-col items-center justify-between p-s pt-n leading-n',
                     'pb-xl',
                     'sm:pb-n',
                 )}
             >
-                <p>{card.info}</p>
+                <h4 className={cn('text-heading font-bold')}>{card.title}</h4>
+                <p className={'mt-n'}>{card.info}</p>
                 <PageLink
                     href={card.link.href}
                     isExternal={card.link.href.startsWith('https://')}
                     className={cn(
-                        'mt-xs h-button-xl w-fit border-s border-gray-l0 px-xs text-blue',
+                        'mt-xs  h-button-xl w-fit text-nowrap border-s border-gray-l0 px-xs text-blue',
                         'text-section-s',
                         'md:text-basic',
                         'sm:mt-xl',
@@ -197,9 +202,9 @@ const HomePage: FC = () => {
                     >
                         <h2
                             className={cn(
-                                'text-center text-heading-xl font-bold leading-xl',
-                                'text-[3.1875rem]',
-                                'sm:text-[1.5625rem]',
+                                'text-center text-heading-xl font-bold',
+                                'text-[3.1875rem] leading-xl',
+                                'sm:x-[text-[1.5625rem],leading-l]',
                             )}
                         >
                             <span>There’s Always a Better Way</span>
