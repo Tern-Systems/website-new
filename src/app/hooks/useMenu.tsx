@@ -19,7 +19,7 @@ const useMenu = (singleSubLink?: boolean): [FC, boolean, FC] => {
         <Button
             onClick={() => setOpened((prevState) => !prevState)}
             icon={opened ? 'close' : 'burger'}
-            className={cn(`px-s`, { ['bg-gray-d0']: opened })}
+            className={cn(`px-s`, { ['bg-gray-d1']: opened })}
             classNameIcon={'!size-heading-icon h-auto'}
         />
     );

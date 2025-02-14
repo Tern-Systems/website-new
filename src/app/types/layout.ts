@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { StaticImageData } from 'next/image';
 
 import { ButtonIcon } from '@/app/ui/form/Button';
@@ -30,4 +31,10 @@ type NavDropdown = {
 
 type NavDropdownDict = Record<string, NavDropdown>;
 
-export type { SectionCard, InfoSection, NavDropdownDict, NavDropdown };
+type TableSection<T extends object> = {
+    title: string;
+    data: T[];
+    fallback: ReactNode;
+};
+
+export type { SectionCard, InfoSection, NavDropdownDict, NavDropdown, TableSection };

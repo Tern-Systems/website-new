@@ -116,13 +116,15 @@ const Header: FC = (): ReactElement => {
                 <Button
                     onClick={() => setNavExpanded((prevState) => !prevState)}
                     icon={navExpanded ? 'close' : 'burger'}
-                    className={cn(`px-s`, { ['bg-gray-d0']: navExpanded })}
-                    classNameIcon={'hidden !size-heading-icon h-auto  xxs:inline'}
+                    className={cn(`hidden border-s border-transparent px-s  xxs:inline`, {
+                        ['!border-blue bg-gray-d1']: navExpanded,
+                    })}
+                    classNameIcon={'!size-heading-icon h-auto'}
                 />
                 <div
                     className={cn(
                         styles.content,
-                        `z-[2] flex !h-heading items-center pr-0`,
+                        `z-[2] flex !h-heading items-center pr-xs`,
                         `relative`,
                         `xxs:x-[static,pl-xxs]`,
                     )}
@@ -134,7 +136,7 @@ const Header: FC = (): ReactElement => {
                             `flex items-center`,
                             `relative ml-[calc(2*var(--p-n)-var(--p-xxs))] h-full`,
                             `before:x-[absolute,h-[64%],-left-xxs,border-r-s,border-gray]`,
-                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,w-full,max-w-[14.5625rem],bg-gray-d0]`,
+                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,w-full,max-w-[14.5625rem],bg-gray-d1]`,
                             `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))]`,
                             `xxs:before:hidden`,
                             { ['xxs:hidden']: !navExpanded },
