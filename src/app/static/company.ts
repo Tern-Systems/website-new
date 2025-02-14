@@ -1,4 +1,4 @@
-import {KeysOfUnion} from "@/app/types/utils";
+import { KeysOfUnion } from '@/app/types/utils';
 
 const JOB_FUNCTION = {
     '': '',
@@ -131,7 +131,7 @@ const JOB_FUNCTION = {
     ZA: 'Unclassified Job Role',
     L22: 'Urban Planning / Transportation Engineering',
     T27: 'User Experience and Interface Design (UX/UI)',
-}
+};
 
 const INDUSTRY = {
     '': '',
@@ -158,10 +158,10 @@ const INDUSTRY = {
     A: 'Telecommunications',
     T: 'Travel & Transportation',
     W: 'Wholesale Distribution & Services',
-}
+};
 
 const SUB_INDUSTRY = {
-    '': {'': ''},
+    '': { '': '' },
     V: {
         V9: 'HQ Allocation for Aerospace & Defense and Industrial Products',
         VA: 'Aerospace',
@@ -379,15 +379,13 @@ const SUB_INDUSTRY = {
         WQ: 'Wholesale- Services',
         WW: 'Wholesale Distribution & Services NetGen',
     },
-}
-
+};
 
 type JobFunctionKey = keyof typeof JOB_FUNCTION;
 type IndustryKey = keyof typeof INDUSTRY;
 
-type SubIndustry = typeof SUB_INDUSTRY[keyof typeof SUB_INDUSTRY];
+type SubIndustry = (typeof SUB_INDUSTRY)[keyof typeof SUB_INDUSTRY];
 type SubIndustryKey = KeysOfUnion<SubIndustry>;
 
-
-export type {JobFunctionKey, IndustryKey, SubIndustryKey}
-export {JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY};
+export type { JobFunctionKey, IndustryKey, SubIndustryKey };
+export { JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY };

@@ -1,13 +1,11 @@
-import React, {FC} from "react";
+import React, { FC } from 'react';
 
-import {useModal} from "@/app/context";
+import { useModal } from '@/app/context';
 
-import {BaseModal} from "@/app/ui/modals";
-import {Button} from "@/app/ui/form";
-
+import { BaseModal } from '@/app/ui/modals';
+import { Button } from '@/app/ui/form';
 
 const BTN_CN = 'h-h-button-n px-xxs rounded-full';
-
 
 interface Props {
     onSave: () => Promise<void>;
@@ -16,7 +14,7 @@ interface Props {
 }
 
 const SaveChangesModal: FC<Props> = (props: Props) => {
-    const {onSave, onDontSave, onCancel} = props;
+    const { onSave, onDontSave, onCancel } = props;
 
     const modalCtx = useModal();
 
@@ -24,10 +22,10 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
         <BaseModal
             title={'Save Changes?'}
             onClose={() => onCancel()}
-            className={`w-[min(90dvw,30rem)] border-white border-s text-center sm:landscape:w-[50dvw]`}
+            className={`w-[min(90dvw,30rem)] border-s border-white text-center sm:landscape:w-[50dvw]`}
         >
             <span>Do you want to save your changes before returning to the previous page?</span>
-            <span className={'flex mt-xs gap-[min(1.1dvw,0.625rem)] text-section font-bold justify-center'}>
+            <span className={'mt-xs flex justify-center gap-[min(1.1dvw,0.625rem)] text-section font-bold'}>
                 <Button
                     className={`bg-white text-gray ${BTN_CN}`}
                     onClick={async () => {
@@ -50,14 +48,14 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
                     className={`bg-gray-l0 ${BTN_CN}`}
                     onClick={() => {
                         onCancel();
-                        modalCtx.closeModal()
+                        modalCtx.closeModal();
                     }}
                 >
                     Cancel
                 </Button>
             </span>
         </BaseModal>
-    )
-}
+    );
+};
 
-export {SaveChangesModal}
+export { SaveChangesModal };

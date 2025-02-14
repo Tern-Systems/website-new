@@ -1,50 +1,50 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {Margin, Resolution, usePDF} from "react-to-pdf";
-import cn from "classnames";
+import React, { ReactElement, useEffect, useState } from 'react';
+import { Margin, Resolution, usePDF } from 'react-to-pdf';
+import cn from 'classnames';
 
-import {Invoice} from "@/app/types/billing";
-import {Route} from "@/app/static";
+import { Invoice } from '@/app/types/billing';
+import { Route } from '@/app/static';
 
-import {formatDate} from "@/app/utils";
+import { formatDate } from '@/app/utils';
+import { useModal } from '@/app/context';
 
-import {FullScreenLayout} from "@/app/ui/layout";
-import {Button} from "@/app/ui/form";
-import {OrderDetails} from "./OrderDetails";
-import {OrderPreview} from "./OrderPreview";
+import { FullScreenLayout } from '@/app/ui/layout';
+import { Button } from '@/app/ui/form';
+import { MessageModal } from '@/app/ui/modals';
+import { OrderDetails } from './OrderDetails';
+import { OrderPreview } from './OrderPreview';
 
-import styles from './Order.module.css'
-
+import styles from './Order.module.css';
 
 function OrderPage() {
-    const {toPDF, targetRef: receiptRef} = usePDF({
+    const modalCtx = useModal();
+    const { toPDF, targetRef: receiptRef } = usePDF({
         filename: 'receipt.pdf',
         method: 'open',
-        page: {margin: Margin.LARGE},
-        resolution: Resolution.NORMAL
+        page: { margin: Margin.LARGE },
+        resolution: Resolution.NORMAL,
     });
 
     const [invoice, setInvoice] = useState<Invoice | null>(null);
     const [isDetailsToggled, setDetailsToggleState] = useState(false);
 
-
     useEffect(() => {
         try {
             const subscriptionData = sessionStorage.getItem('invoice');
-            if (!subscriptionData)
-                throw 'Error retrieving invoice data';
+            if (!subscriptionData) throw 'Error retrieving invoice data';
             const invoice = JSON.parse(subscriptionData) as Invoice;
-            if (invoice)
-                setInvoice(invoice)
+            if (invoice) setInvoice(invoice);
         } catch (error: unknown) {
+            if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
-    }, [])
+    }, []);
 
     // Elements
     const ToggleDetailsBtn = (
         <div className={'text-center sm:mt-[13dvw]'}>
             <Button
-                onClick={() => setDetailsToggleState(prevState => !prevState)}
-                className={'lg:hidden md:hidden underline justify-self-center'}
+                onClick={() => setDetailsToggleState((prevState) => !prevState)}
+                className={'justify-self-center underline md:hidden lg:hidden'}
             >
                 {isDetailsToggled ? 'Hide' : 'See'} Details
             </Button>
@@ -55,7 +55,9 @@ function OrderPage() {
     let renewDateStr = '--';
     if (invoice?.startDate) {
         const invoiceDate = new Date(invoice.startDate);
-        const renewDate = new Date(new Date(invoiceDate).setMonth(invoiceDate.getMonth() + (invoice?.type === 'monthly' ? 1 : 12)));
+        const renewDate = new Date(
+            new Date(invoiceDate).setMonth(invoiceDate.getMonth() + (invoice?.type === 'monthly' ? 1 : 12)),
+        );
         invoiceDateStr = formatDate(invoiceDate);
         renewDateStr = formatDate(renewDate);
     }
@@ -63,13 +65,13 @@ function OrderPage() {
     const card = (invoice?.card.cardType ?? '--') + ' •••• ' + (invoice?.card.last4 ?? '--');
 
     return (
-        <div className={'flex h-full font-oxygen sm:flex-col'}>
+        <div className={'flex h-full sm:flex-col'}>
             <OrderPreview
                 toPDFReceipt={toPDF}
                 invoice={invoice}
                 card={card}
                 invoiceDate={invoiceDateStr}
-                className={cn(styles.column, isDetailsToggled ? ' sm:hidden' : '')}
+                className={cn(styles.column, isDetailsToggled ? 'sm:hidden' : '')}
                 VisibilityToggle={ToggleDetailsBtn}
             />
             <OrderDetails
@@ -85,11 +87,9 @@ function OrderPage() {
     );
 }
 
-
 OrderPage.getLayout = (page: ReactElement) => (
     <FullScreenLayout backButtonSection={Route.Billing}>{page}</FullScreenLayout>
 );
 OrderPage.getMobileLayout = OrderPage.getLayout;
-
 
 export default OrderPage;

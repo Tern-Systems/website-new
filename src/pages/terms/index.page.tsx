@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {Highlighted} from "@/app/ui/misc";
-
+import { Highlighted } from '@/app/ui/misc';
 
 const PARAGRAPHS: string = `Tern Systems LLC: Terms and Conditions
 
@@ -79,12 +78,13 @@ Phone: <a href='tel:19735908753' target="_blank">+1 (973) 590-8753</a>
 By using the Site, you acknowledge your agreement to these Terms and Conditions.
 `;
 
-
 const TermsPage = () => (
     <Highlighted heading={'Terms & Conditions'}>
-        <pre dangerouslySetInnerHTML={{__html: PARAGRAPHS}} className={'font-neo whitespace-pre-line'}/>
+        <pre
+            dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
+            className={'whitespace-pre-line '}
+        />
     </Highlighted>
 );
-
 
 export default TermsPage;
