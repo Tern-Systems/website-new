@@ -75,6 +75,7 @@ const Header: FC = (): ReactElement => {
                         [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: isActive && !layoutCtx.isBreadCrumbsNav,
                         ['!static !border-s border-blue bg-black-l0']: navDropdown && dropdownExpanded,
                         ['border-s border-b-0 border-black xxs:border-none']: navDropdown,
+                        ['contents']: layoutCtx.isBreadCrumbsNav,
                     },
                 )}
             >
@@ -99,7 +100,7 @@ const Header: FC = (): ReactElement => {
                             <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
                         </PageLink>
                         {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1 ? (
-                            <span>/</span>
+                            <span className={'px-0'}>/</span>
                         ) : null}
                     </>
                 )}

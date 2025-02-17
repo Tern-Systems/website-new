@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { DocumentationContent } from '@/app/types/documentation';
 import { Route } from '@/app/static';
 
-import { CONTENTS } from '@/pages/documentation/[content]/index.page';
+import { CONTENTS } from '@/pages/support/documentation/[content]/index.page';
 
 import { DocumentationScreen } from '@/app/ui/templates';
 import { DocumentationMobileLayout } from '@/app/ui/layout/DocumentationMobile';

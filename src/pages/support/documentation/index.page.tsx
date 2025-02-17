@@ -1,10 +1,17 @@
 import React, { ReactElement } from 'react';
 import { ReactSVG } from 'react-svg';
+import cn from 'classnames';
+
 import { PlanName } from '@/app/types/subscription';
+import { ResourceSection } from '@/app/types/layout';
 import { Route } from '@/app/static';
 import { useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
+import { HelpModal } from '@/app/ui/modals';
+import { ResourcesSection } from '@/app/ui/templates/Resources';
+
+import styles from '@/app/common.module.css';
 
 import SVG_ARROW from '/public/images/icons/arrow.svg';
 
@@ -43,12 +50,22 @@ const LINKS: Link[] = [
     },
 ];
 
+const RESOURCES: ResourceSection[] = [
+    { Node: <PageLink href={Route.Downloads} /> },
+    { Node: <PageLink href={Route.Cases}>View your cases</PageLink> },
+    {
+        // TODO change to link to Support Hub page
+        Node: 'Support Hub',
+        action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'support'} />, { darkenBg: true }),
+    },
+];
+
 interface Props {
     filterBySubscription: boolean;
 }
 
 function DocumentationPage(props: Props) {
-    const { filterBySubscription = false } = props;
+    const { filterBySubscription } = props;
 
     const { userData } = useUser();
 
@@ -58,36 +75,43 @@ function DocumentationPage(props: Props) {
             userData?.subscriptions.some((plan) => plan.subscription.includes(link.subscription)),
         );
 
+    // Elements
     const Links: ReactElement[] = links.map((link, idx) => (
-        <li key={link.text + idx}>
+        <li
+            key={link.text + idx}
+            className={'content'}
+        >
             <PageLink
                 href={link.route}
-                className={`h-[min(38dvw,16rem)] min-h-[9rem] w-full flex-col justify-between rounded-n bg-gray px-xs py-l sm:landscape:x-[p-n,h-[13dvw],text-section] [&]:items-start`}
+                className={`h-fit w-full flex-col !items-start bg-gray px-xs py-l  sm:py-n`}
             >
-                <span className={'block text-heading font-bold sm:landscape:text-section'}>{link.title}</span>
-                <span>{link.text}</span>
+                <span className={'block text-heading  font-bold  sm:text-documentation'}>{link.title}</span>
+                <span className={'mt-3xl leading-n  sm:text-section-xs'}>{link.text}</span>
                 <ReactSVG
                     src={SVG_ARROW.src}
-                    className={`rotate-180 [&_*]:size-[min(3.7dvw,1.3rem)] sm:landscape:[&_*]:size-[1.75dvw] [&_path]:fill-[--bg-blue]`}
+                    className={cn(
+                        `rotate-180 [&_path]:fill-blue`,
+                        `mt-5xl  [&_*]:size-[1.41rem]`,
+                        `sm:mt-3xl sm:[&_*]:size-[1.23rem]`,
+                    )}
                 />
             </PageLink>
         </li>
     ));
 
     return (
-        <div className={'m-auto place-items-center text-left'}>
-            <div className={'sm:x-[overflow-y-hidden,max-h-full]'}>
-                <h1
-                    className={`block pb-[min(4dvw,1.9rem)] text-heading-l font-bold sm:landscape:x-[pb-[2.4dvw],text-heading-s]`}
-                >
-                    Documentation
-                </h1>
-                <ul
-                    className={`grid grid-cols-[repeat(3,minmax(0,30rem))] gap-[0.12rem] text-[min(3.7dvw,1rem)] sm:x-[overflow-y-scroll] sm:portrait:x-[grid-cols-1,max-h-[65dvh]] sm:landscape:x-[grid-cols-2,text-section]`}
-                >
-                    {Links}
-                </ul>
-            </div>
+        <div className={'pb-[8.16rem]'}>
+            <section className={styles.content}>
+                <p className={'mt-n text-section-xxs'}>Support / Documentation</p>
+                <h1 className={`mt-3xl font-oxygen text-section-xl font-bold  sm:text-section-l`}>Documentation</h1>
+            </section>
+            <section className={styles.content}>
+                <ul className={'mt-[2.88rem] grid grid-cols-2 gap-n  sm:grid-cols-1'}>{Links}</ul>
+            </section>
+            <ResourcesSection
+                data={RESOURCES}
+                className={'mt-[6.25rem]'}
+            />
         </div>
     );
 }

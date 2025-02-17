@@ -1,23 +1,21 @@
-import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
-import { ReactSVG } from 'react-svg';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { TableSection } from '@/app/types/layout';
+import { ResourceSection, TableSection } from '@/app/types/layout';
 import { PlanName, Subscription } from '@/app/types/subscription';
-import { RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
-import { IModalContext } from '@/app/context/Modal.context';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
 import { MISC_LINKS, Route } from '@/app/static';
 
 import { capitalize, copyObject } from '@/app/utils';
 import { useModal, useUser } from '@/app/context';
-import { useBreakpointCheck, useLoginCheck, useNavigate } from '@/app/hooks';
+import { useLoginCheck, useNavigate } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { Table } from '@/app/ui/organisms';
 import { HelpModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
-import { FAQsModal } from './faqs/index.page';
+import { FAQsModal } from '@/pages/support/faqs/index.page';
+import { ResourcesSection } from '@/app/ui/templates/Resources';
 
 import styles from '@/app/common.module.css';
 
@@ -26,13 +24,6 @@ type TableEntry = {
     type: string;
     data: number | string;
     href: string | Route;
-};
-
-import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
-
-type Resource = {
-    Node: ReactNode;
-    action?: string | ((props: { isSm: boolean; navigate: (link: Route) => void; modalCtx: IModalContext }) => void);
 };
 
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
@@ -58,7 +49,7 @@ const EVENTS_TEMPLATE: TableEntry[] = [
     { name: 'TernKey version 1.0.0-beta', type: 'Version Release', data: Date.now(), href: 'https://youtube.com' },
 ];
 
-const RESOURCES: Resource[] = [
+const RESOURCES: ResourceSection[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
     {
         Node: 'Help & FAQs',
@@ -66,6 +57,7 @@ const RESOURCES: Resource[] = [
             isSm ? navigate(Route.Help) : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
     },
     {
+        // TODO change to link to Support Hub page
         Node: 'Support Hub',
         action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'support'} />, { darkenBg: true }),
     },
@@ -90,9 +82,9 @@ const SubscriptionRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) 
             }}
             className={cn('cursor-pointer', className)}
         >
-            <td className={'w-[40%] sm:w-full md:w-[50%]'}>{row.name}</td>
-            <td className={cn('w-[29%] md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
-            <td className={cn('w-[29%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
+            <td className={'w-[40%] py-3xs sm:x-[w-full,py-4xs] md:w-[50%]'}>{row.name}</td>
+            <td className={cn('w-[29%]', MD_SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
+            <td className={cn('w-[29%] md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
             <td className={'!max-w-full'}>
                 <PageLink
                     icon={'arrow-right-long'}
@@ -115,9 +107,9 @@ const EventRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
             }}
             className={cn('cursor-pointer', className)}
         >
-            <td className={'w-[40%] sm:w-full md:w-[50%]'}>{row.name}</td>
-            <td className={cn('w-[29%] md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
-            <td className={cn('w-[29%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
+            <td className={'w-[40%] py-3xs sm:x-[w-full,py-4xs] md:w-[50%]'}>{row.name}</td>
+            <td className={cn('w-[29%]', MD_SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
+            <td className={cn('w-[29%]  md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
             <td className={'!max-w-full'}>
                 <PageLink
                     icon={'arrow-right-long'}
@@ -131,10 +123,8 @@ const EventRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
 
 function MyTernPage() {
     const userCtx = useUser();
-    const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
-    const [navigate] = useNavigate();
-    const isSm = useBreakpointCheck() <= Breakpoint.sm;
+    const modalCtx = useModal();
 
     const [communityEvents, setCommunityEvents] = useState<TableEntry[]>([]);
 
@@ -197,25 +187,6 @@ function MyTernPage() {
         </PageLink>
     ));
 
-    const ResourcesLi: ReactElement[] = RESOURCES.map((entry, idx) => (
-        <li
-            key={'node-' + idx}
-            onClick={() => {
-                if (typeof entry.action === 'function') entry.action({ isSm, navigate, modalCtx });
-            }}
-            className={cn(
-                styles.clickable,
-                `flex cursor-pointer items-center justify-between border-b-s border-white-d0`,
-            )}
-        >
-            {entry.Node}
-            <ReactSVG
-                src={SVG_ARROW_LONG.src}
-                className={'[&_*]:w-[1.41rem] [&_path]:fill-blue'}
-            />
-        </li>
-    ));
-
     return (
         <div className={cn(styles.section, `min-h-dvh bg-black pt-[6.25rem]`)}>
             <section className={styles.content}>
@@ -223,20 +194,14 @@ function MyTernPage() {
                 <p className={'text-xxs mt-xxs'}>{renderSinceDate(userCtx.userData?.registrationDate)}</p>
             </section>
             <section className={cn(styles.content, 'mt-n flex flex-wrap gap-xs xxs:gap-x-xxs')}>{LinksLi}</section>
-            <section
-                className={cn(
-                    styles.content,
-                    styles.contentHighlight,
-                    'relative mt-xxl flex max-h-[20rem] flex-col  gap-y-xl',
-                )}
-            >
+            <section className={cn(styles.content, styles.contentHighlight, 'relative mt-xxl flex flex-col  gap-y-xl')}>
                 <Table
                     table={subscriptionTable}
                     Row={SubscriptionRow}
                     cnTable={'!max-h-full'}
                 >
                     <td>Item</td>
-                    <td className={SM_HIDDEN_CN}>Plan Type</td>
+                    <td className={MD_SM_HIDDEN_CN}>Plan Type</td>
                     <td className={SM_HIDDEN_CN}>Upcoming payment</td>
                     <td />
                 </Table>
@@ -250,15 +215,15 @@ function MyTernPage() {
                     cnTable={'!max-h-full'}
                 >
                     <td>Event</td>
-                    <td className={SM_HIDDEN_CN}>Type</td>
+                    <td className={MD_SM_HIDDEN_CN}>Type</td>
                     <td className={SM_HIDDEN_CN}>Date</td>
                     <td />
                 </Table>
             </section>
-            <section className={cn(styles.content, 'mb-[9.41rem] mt-[6.25rem] text-section-xs')}>
-                <p className={'pl-n font-bold'}>Additional resources</p>
-                <ul className={'mt-xxs border-t-s border-white-d0 [&>li]:x-[px-n,py-xs,text-blue]'}>{ResourcesLi}</ul>
-            </section>
+            <ResourcesSection
+                data={RESOURCES}
+                className={'mb-[9.41rem] mt-[6.25rem]'}
+            />
         </div>
     );
 }

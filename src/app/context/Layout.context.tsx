@@ -40,7 +40,8 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
 
     // Much specific routes should be kept at the top (e.g. Route.MyDocumentation is mush specific than Route.Profile as it's nested under Route.Profile)
     switch (true) {
-        case checkSubRoute(route, Route.MyDocumentation):
+        case checkSubRoute(route, Route.MyDocumentation, true):
+            navLinks = [Route.Billing, Route.MyDocumentation, Route.Resources, Route.Training];
             subNavLinks = isSm ? [Route.MyDocumentation] : null;
             break;
         case checkSubRoute(route, Route.Profile):
@@ -48,6 +49,7 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
             subNavLinks = isSm ? null : LAYOUT.profileLinks;
             break;
         case checkSubRoute(route, Route.Documentation):
+            navLinks = [Route.MyDocumentation, route as Route];
             subNavLinks = [Route.MyDocumentation];
             sub2NavLinks = isSm
                 ? [route as Route]
@@ -93,12 +95,14 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [blockedRoute, setBlockedRoute] = useState<Route | null>(null);
     const fullscreenRef = useRef<HTMLDivElement | null>(null);
 
-    let navLinks: NavLinks = [[], null, null];
-    const isBreadCrumbsNav: boolean = LAYOUT.breadcrumbsRoutes.some((subRoute) => checkSubRoute(route, subRoute));
+    const navLinks: NavLinks = getSubNavs(route as Route, breakpoint);
+    const isBreadCrumbsNav: boolean = LAYOUT.breadcrumbsRoutes.some(
+        (subRoute) => checkSubRoute(route, subRoute) && !checkSubRoute(route, subRoute, true),
+    );
     if (!isSm && isBreadCrumbsNav) {
         switch (true) {
             case checkSubRoute(route, Route.Documentation):
-                navLinks[NavLink.Nav] = [
+                navLinks[NavLink.SubNav] = [
                     userCtx.isLoggedIn ? Route.MyTern : Route.Home,
                     userCtx.isLoggedIn ? Route.MyDocumentation : Route.Documentation,
                 ];
@@ -107,8 +111,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 break;
         }
     }
-
-    navLinks = getSubNavs(route as Route, breakpoint);
 
     useEffect(() => {
         if (sessionStorage.getItem('pip-mode-child') !== null) return handleNoLayoutState();
