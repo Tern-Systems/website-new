@@ -36,4 +36,10 @@ type NavDropdown = {
 
 type NavDropdownDict = Record<string, NavDropdown>;
 
-export type { SectionCard, InfoSection, ResourceSection, NavDropdownDict, NavDropdown };
+type TableSection<T extends object> = {
+    title: string;
+    data: T[];
+    fallback: ReactNode;
+};
+
+export type { SectionCard, InfoSection, ResourceSection, NavDropdownDict, NavDropdown, TableSection };

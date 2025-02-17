@@ -21,12 +21,6 @@ const spacing = {
 };
 
 const size = {
-    l: 'var(--h-l)',
-    m: 'var(--h-m)',
-    n: 'var(--h-n)',
-    s: 'var(--h-s)',
-    xs: 'var(--h-xs)',
-    xxs: 'var(--h-xxs)',
     heading: 'var(--h-heading)',
     'insignia': 'var(--insignia-h)',
     'heading-icon': 'var(--h-heading-icon)',
@@ -73,6 +67,7 @@ const config: Config = {
             },
             backgroundColor: {
                 'black-l0': 'var(--bg-black-l0)',
+                'gray-d1': 'var(--bg-gray-d1)',
                 'gray-d0': 'var(--bg-gray-d0)',
                 'gray': 'var(--bg-gray)',
                 'gray-l0': 'var(--bg-gray-l0)',

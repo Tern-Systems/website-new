@@ -182,7 +182,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                         'absolute left-0 z-[1000] h-fit bg-black-l0',
                         'py-4xl',
                         'sm:x-[min-w-0,w-[79%]]',
-                        `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))] xxs:x-[gap-x-l,max-w-[14.5625rem],overflow-y-scroll,bg-gray-d0]`,
+                        `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))] xxs:x-[gap-x-l,max-w-[14.5625rem],overflow-y-scroll,bg-gray-d1]`,
                     )}
                 >
                     <ul
@@ -197,14 +197,14 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                     </ul>
                 </div>
             )}
-            {!subNavLinks?.length ? null : (
+            {!SubNavItems?.length ? null : (
                 <div className={'border-b-s border-gray'}>
                     <ul
                         className={cn(
                             styles.content,
                             `flex text-nowrap !pl-s text-section-xxs`,
                             'sm:!pl-xs',
-                            subNavLinks?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
+                            SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
                         )}
                     >
                         {SubNavItems}
