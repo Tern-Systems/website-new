@@ -14,8 +14,8 @@ import { PageLink } from '@/app/ui/layout';
 import { Table } from '@/app/ui/organisms';
 import { HelpModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
-import { FAQsModal } from '@/pages/support/faqs/index.page';
 import { ResourcesSection } from '@/app/ui/templates/Resources';
+import { FAQsModal } from '@/pages/support/faqs/index.page';
 
 import styles from '@/app/common.module.css';
 
