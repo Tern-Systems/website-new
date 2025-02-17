@@ -158,7 +158,7 @@ const AboutPage: FC = () => {
                         </h1>
                         <div>
                             <PageLink
-                                href={Route.About}
+                                href={Route.Credo}
                                 className={
                                     'flex h-button-xl w-full max-w-[10.5rem] justify-center bg-white text-section-s text-black'
                                 }
