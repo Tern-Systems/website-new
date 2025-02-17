@@ -69,10 +69,8 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                       <li
                           key={title + idx + entryIdx}
                           className={cn(
-                              'first-letter:uppercase',
-                              breakpoint <= Breakpoint.xxs
-                                  ? 'px-s first-of-type:font-bold'
-                                  : 'first-of-type:x-[mb-5xs,text-documentation]',
+                              'first-letter:uppercase first-of-type:x-[mb-5xs,text-documentation]',
+                              'xxs:px-s xxs:first-of-type:font-bold',
                           )}
                       >
                           <PageLink
@@ -86,10 +84,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               }}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
                               className={'flex-row-reverse'}
-                              iconClassName={cn(
-                                  'ml-4xs',
-                                  breakpoint <= Breakpoint.xxs ? '[&_*]:!size-[0.8rem]' : '!size-[1.6rem]',
-                              )}
+                              iconClassName={cn('ml-4xs  !size-[1.6rem]  xxs:[&_*]:!size-[0.8rem]')}
                           >
                               {title}
                           </PageLink>
@@ -104,9 +99,8 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                   >
                       <ul
                           className={cn(
-                              'flex flex-col text-nowrap',
-                              breakpoint <= Breakpoint.xxs ? '[&>li]:x-[gap-y-0,py-s,border-b-s]' : 'gap-y-xxs',
-                              { ['flex-1']: Breakpoint.xxs < breakpoint && breakpoint <= Breakpoint.sm },
+                              'flex flex-col gap-y-xxs text-nowrap',
+                              'xxs:flex-1 xxs:[&>li]:x-[gap-y-0,py-s,border-b-s]',
                           )}
                       >
                           {LinksLi}
@@ -151,8 +145,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                           key={link + idx}
                           tabIndex={(headerLinkCount ?? 0) + idx}
                           className={cn('group', stylesLayout.navLink, {
-                              [cn(stylesLayout.activeNavLink, 'before:bg-blue')]:
-                                  isActiveCN && breakpoint > Breakpoint.xxs,
+                              [cn(stylesLayout.activeNavLink, 'xxs:hidden')]: isActiveCN,
                           })}
                       >
                           {dropdownLinks ? (
@@ -160,7 +153,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                   value={link}
                                   options={dropdownLinks}
                                   //eslint-disable-next-line
-                                        onChangeCustom={(value) => {
+                                    onChangeCustom={(value) => {
                                       // TODO handle links
                                   }}
                                   classNameWrapper={'!static left-0 size-full'}
@@ -186,37 +179,32 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                     ref={subNavRef}
                     className={cn(
                         styles.section,
-                        'absolute left-0 z-[1000] bg-black-l0',
-                        { ['w-[79%] min-w-0']: breakpoint <= Breakpoint.sm },
-                        breakpoint <= Breakpoint.xxs
-                            ? cn(
-                                  `top-[calc(1px+var(--h-heading))] h-[calc(100dvh-var(--h-heading))] max-w-[14.5625rem] gap-x-l`,
-                                  `overflow-y-scroll bg-gray-d0`,
-                              )
-                            : 'h-fit py-3xl',
+                        'absolute left-0 z-[1000] h-fit bg-black-l0',
+                        'py-4xl',
+                        'sm:x-[min-w-0,w-[79%]]',
+                        `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))] xxs:x-[gap-x-l,max-w-[14.5625rem],overflow-y-scroll,bg-gray-d1]`,
                     )}
                 >
                     <ul
                         className={cn(
                             styles.content,
                             'flex',
-                            breakpoint <= Breakpoint.xxs
-                                ? 'flex-col gap-y-s !px-0 text-section-xxs'
-                                : 'flex-wrap justify-between gap-xs',
+                            'flex-wrap justify-between gap-xs',
+                            'xxs:x-[flex-col,gap-y-s,!px-0,text-section-xxs]',
                         )}
                     >
                         {DropdownLi}
                     </ul>
                 </div>
             )}
-            {!subNavLinks?.length || breakpoint <= Breakpoint.xxs ? null : (
+            {!SubNavItems?.length ? null : (
                 <div className={'border-b-s border-gray'}>
                     <ul
                         className={cn(
                             styles.content,
                             `flex text-nowrap !pl-s text-section-xxs`,
-                            subNavLinks?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
-                            { ['!pl-xs']: breakpoint <= Breakpoint.sm },
+                            'sm:!pl-xs',
+                            SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
                         )}
                     >
                         {SubNavItems}
@@ -226,5 +214,6 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
         </>
     );
 };
+
 const SubNav = forwardRef(SubNavElement);
 export { SubNav };

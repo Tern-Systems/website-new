@@ -3,14 +3,12 @@ import cn from 'classnames';
 
 import { FormInit, FormType } from '@/app/ui/form/Editable';
 import { UpdateUserData } from '@/app/services/user.service';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { REGEX } from '@/app/static';
 
 import { AuthService, UserService } from '@/app/services';
 
 import { formatDate } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks';
 import { useUser } from '@/app/context/User.context';
 import { useModal } from '@/app/context';
 
@@ -28,7 +26,6 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
 
     const { userData, token } = useUser();
     const modalCtx = useModal();
-    const isSm = useBreakpointCheck() === Breakpoint.sm;
 
     if (!userData || !token) return null;
 
@@ -76,6 +73,7 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                         className: cn(styles.singleInput, styles.singleInputBase, styles.common),
                         title: 'Update your TernID',
                         value: { value: userData.email } as FormInit<T>,
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
                         onSave: async () => {
                             // TODO ternID
                             // if ("value" in form)
@@ -177,7 +175,8 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                 }}
             >
                 <span className={styles.midCol + ' [&&]:text-basic' + styles.ellipsis}>
-                    Enable / disable your {isSm ? '2FA' : 'two-factor authentication'}
+                    Enable / disable your <span className={'hidden sm:inline'}>2FA</span>
+                    <span className={'sm:hidden'}>two-factor authentication</span>
                 </span>
             </Editable>
         </Collapsible>

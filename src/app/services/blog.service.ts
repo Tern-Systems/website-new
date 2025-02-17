@@ -7,6 +7,8 @@ import { BaseService } from './base.service';
 
 type ArticlesDTO = { blogs: Article[] };
 
+const CACHED_ARTICLE_COUNT = 5;
+
 interface IBlogService {
     getArticles(): Promise<Res<ArticlesDTO, false>>;
 
@@ -51,6 +53,9 @@ class BlogServiceImpl extends BaseService implements IBlogService {
             debug(config);
             const response = await axios(config);
             debug(response);
+
+            localStorage.setItem('article-cards', JSON.stringify(response.data.blogs.slice(0, CACHED_ARTICLE_COUNT)));
+
             return { payload: response.data };
         } catch (err: unknown) {
             error(err);

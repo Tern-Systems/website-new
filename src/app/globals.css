@@ -4,7 +4,11 @@
 
 :root {
   /* Paddings */
-  --p-3xl: 4.13rem;
+  --p-7xl: 10.5rem;
+  --p-6xl: 8.25rem;
+  --p-5xl: 5.15rem;
+  --p-4xl: 4.13rem;
+  --p-3xl: 3.75rem;
   --p-xxl: 3.06rem;
   --p-xl: 2.5rem;
   --p-l: 2.06rem;
@@ -17,6 +21,9 @@
   --p-5xs: 0.31rem;
 
   /* Heights */
+  --h-button-xxl: 2.88rem;
+  --h-button-xl: 2.375rem;
+  --h-button-l: 1.875rem;
   --h-button-n: 1.45rem;
   --h-heading-modal: 4.3rem;
   --h-heading: 4.06rem;
@@ -24,7 +31,6 @@
   --h-sub-heading: 1.67rem;
   --insignia-h: 1.25rem;
   --h-footer-lg: 28.5rem;
-  --h-button: 1.45rem;
 
   /* Borders */
   --b-s: 0.0625rem;
@@ -48,21 +54,28 @@
   /* Backgrounds */
   --bg-main: #000000;
   --bg-black-l0: #111111;
-  --bg-gray-d0: #0b0b0b;
+  --bg-gray-d1: #0b0b0b;
+  --bg-gray-d0:#272727;
   --bg-gray: #4d4d4d;
   --bg-gray-l0: #808080;
   --bg-white-d1: #d3d3d3;
   --bg-white-d0: #d9d9d9;
   --bg-white: #f2f2f2;
   --bg-red: #f42200;
-  --bg-blue-l0: #1ea8de;
+  --bg-blue-l0: #08132d;
   --bg-blue: #178ab7;
   --bg-navy: #00397f;
   --bg-navy-d0: #001125;
   --bg-green: #0c545c;
 
   /* Text */
+  --fz-heading-4xl: 6rem;
+  --fz-heading-3xl: 4rem;
+  --fz-heading-xxl: 3rem;
+  --fz-heading-xl: 2.5rem;
   --fz-heading-l: 2.25rem;
+  --fz-section-xl: 2rem;
+  --fz-section-l: 1.875rem;
   --fz-heading: 1.6875rem;
   --fz-heading-s: 1.3125rem;
   --fz-documentation: 1.5rem;
@@ -73,6 +86,10 @@
   --fz-section-xxs: 0.75rem;
   --fz-section-3xs: 0.625rem;
 
+  --lh-xl: 5rem;
+  --lh-l: 1.3;
+  --lh-n: 1.2;
+
   --color-primary: #ecf0f3;
   --color-secondary: var(--bg-gray-l0);
   --color-gray: var(--bg-gray);
@@ -80,6 +97,10 @@
   --color-blue: var(--bg-blue);
   --color-blue-l0: #21a1d3;
   --color-red: var(--bg-red);
+
+  /* Misc */
+  --section-shadow-shift: 10rem;
+  --section-shadow-blur-radius: 10rem;
 }
 
 body {

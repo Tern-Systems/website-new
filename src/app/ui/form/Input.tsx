@@ -33,7 +33,7 @@ const Input: FC<Props> = (props: Props) => {
                     />
                     <span
                         hidden={!children}
-                        className={classNameLabel + ' overflow-hidden overflow-ellipsis text-nowrap leading-[1.2]'}
+                        className={classNameLabel + ' overflow-hidden overflow-ellipsis text-nowrap leading-n'}
                     >
                         {children}
                     </span>
@@ -94,7 +94,7 @@ const Input: FC<Props> = (props: Props) => {
                 >
                     <span
                         className={
-                            'flex h-[min(6.4dvw,1.5rem)] justify-center gap-x-[min(4dvw,0.95rem)] text-center font-oxygen text-[min(6.4dvw,1.5rem)]'
+                            'flex h-[min(6.4dvw,1.5rem)] justify-center gap-x-[min(4dvw,0.95rem)] text-center text-[min(6.4dvw,1.5rem)]'
                         }
                     >
                         {Code}

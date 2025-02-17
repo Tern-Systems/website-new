@@ -33,11 +33,11 @@ const ArticleCardLi: FC<Props> = (props: Props) => {
             key={article.title}
             className={cn(
                 styles.clickable,
-                'flex h-full min-h-fit w-full max-w-[22.0625rem] flex-col overflow-hidden border-s',
+                'box-content flex h-full min-h-fit w-full max-w-[22.0625rem] flex-1 flex-col overflow-hidden border-s',
             )}
         >
-            <div className={'relative h-[45%]'}>
-                <div className={'absolute h-full w-full bg-gradient-to-t from-black to-25%'} />
+            <div className={'relative -z-10 h-[45%]'}>
+                <div className={'from-0 absolute h-full w-full bg-gradient-to-t from-black to-25%'} />
                 <Image
                     src={article.poster ?? PNG_NATURE}
                     width={100}
@@ -48,8 +48,8 @@ const ArticleCardLi: FC<Props> = (props: Props) => {
             </div>
             <div className={'relative z-10 flex flex-grow flex-col items-start p-xs pt-[2.2rem]'}>
                 <span className={'mb-n block text-section-3xs text-secondary'}>{article.tag}</span>
-                <span className={'mb-[1.13rem] block leading-[1.2]'}>{article.title}</span>
-                <span className={'mb-n block text-section-xxs leading-[1.2]'}>{article.description}</span>
+                <span className={'mb-[1.13rem] block leading-n'}>{article.title}</span>
+                <span className={'mb-n block text-section-xxs leading-n'}>{article.description}</span>
                 <Button
                     icon={'book'}
                     className={'mt-auto text-blue'}

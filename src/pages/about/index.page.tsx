@@ -15,6 +15,7 @@ import SVG_COMPUTER from '/public/images/old-computer.svg';
 import SVG_ROCKET from '/public/images/rocket.png';
 import SVG_NEURONS from '/public/images/neurons-blue.png';
 import SVG_NATURE from '/public/images/nature-section.png';
+import { MainBackground } from '@/app/ui/atoms';
 
 const INFO: InfoSection = {
     title: 'Enabling Efficient Computing',
@@ -49,28 +50,16 @@ const COMPANY: SectionCard[] = [
 const AboutPage: FC = () => {
     return (
         <>
-            <div
-                style={{
-                    backgroundImage: `url("${SVG_ROCKET.src}")`,
-                }}
-                className={cn(
-                    'absolute left-0 top-0',
-                    'bg-black bg-[size:auto_100%] bg-center bg-repeat-x',
-                    'h-screen w-full',
-                    'sm:bg-[25%_center]',
-                    'md:bg-[35%_center]',
-                )}
-            />
+            <MainBackground url={SVG_ROCKET} />
             <div className={'relative z-10'}>
                 <section className={cn(styles.section, styles.fullHeightSection)}>
                     <div className={cn(styles.content, 'flex items-center justify-end sm:items-start')}>
                         <div>
                             <h1
                                 className={cn(
-                                    styles.textGlow,
-                                    `w-min text-right font-oxygen font-bold leading-[1.2]`,
+                                    `w-min text-right font-bold leading-n`,
                                     `mb-n text-[8rem]`,
-                                    `md:text-[6rem] md:landscape:text-[2.5rem]`,
+                                    `md:text-heading-4xl md:landscape:text-[2.5rem]`,
                                     `sm:x-[flex,w-[20rem],mt-n,text-[2.5rem]]`,
                                 )}
                             >
@@ -80,7 +69,7 @@ const AboutPage: FC = () => {
                     </div>
                 </section>
 
-                <section className={cn(styles.textGlow, styles.section, styles.fullHeightSection, 'relative bg-black')}>
+                <section className={cn(styles.section, styles.fullHeightSection, 'relative bg-black')}>
                     <div
                         style={{ backgroundImage: `url("${SVG_NEURONS.src}")` }}
                         className={cn(
@@ -106,7 +95,7 @@ const AboutPage: FC = () => {
                             <div>
                                 <h2
                                     className={cn(
-                                        'mb-xl font-oxygen text-[4rem] sm:x-[mb-xs,text-heading]',
+                                        'mb-xl text-heading-3xl sm:x-[mb-xs,text-heading]',
                                         'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]',
                                     )}
                                 >
@@ -124,7 +113,7 @@ const AboutPage: FC = () => {
                             <div>
                                 <h2
                                     className={cn(
-                                        'mb-xl font-oxygen text-[4rem] sm:x-[mb-xs,text-heading]',
+                                        'mb-xl text-heading-3xl sm:x-[mb-xs,text-heading]',
                                         'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]',
                                     )}
                                 >
@@ -159,10 +148,9 @@ const AboutPage: FC = () => {
                         />
                         <h1
                             className={cn(
-                                styles.textGlow,
-                                `ml-auto w-min text-right font-oxygen font-bold leading-[1.2] text-black`,
-                                `mb-n text-[6rem]`,
-                                `md:text-[4rem] md:landscape:text-[3rem]`,
+                                `ml-auto w-min text-right font-bold leading-n text-black`,
+                                `mb-n text-heading-4xl`,
+                                `md:text-heading-3xl md:landscape:text-[3rem]`,
                                 `sm:x-[mb-xs,text-[3rem]]`,
                             )}
                         >
@@ -172,7 +160,7 @@ const AboutPage: FC = () => {
                             <PageLink
                                 href={Route.About}
                                 className={
-                                    'flex h-[2.375rem] w-full max-w-[10.5rem] justify-center bg-white text-section-s text-black'
+                                    'flex h-button-xl w-full max-w-[10.5rem] justify-center bg-white text-section-s text-black'
                                 }
                             >
                                 Read Our Credo
@@ -192,17 +180,15 @@ const AboutPage: FC = () => {
                             classNameDescription={'text-basic  lg:text-section'}
                             classNamePageLink={cn(
                                 'flex items-center justify-center rounded-none',
-                                'w-full max-w-[8.4375rem] h-[2.375rem] mt-n [&]:p-0 ',
+                                'w-full max-w-[8.4375rem] h-button-xl mt-n [&]:p-0 ',
                                 '[&]:text-section-s  [&]:sm:text-basic',
                                 'md:mt-n',
-                                'sm:x-[mt-n,h-[1.875rem],max-w-[7.3125rem],text-basic] ',
+                                'sm:x-[mt-n,h-button-l,max-w-[7.3125rem],text-basic] ',
                             )}
                         />
                         <InsideTern
                             data={COMPANY}
                             className={'bg-gradient-to-t from-black from-0% to-transparent to-90%'}
-                            classNameContent={'w-full  md:x-[max-w-[62rem],mx-auto]'}
-                            classNameCompanyLi={'sm:x-[max-w-[33.75rem],mx-auto]'}
                         />
                     </div>
                 </div>

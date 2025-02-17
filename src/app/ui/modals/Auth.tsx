@@ -9,7 +9,7 @@ import { REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services';
 
-import { useBreakpointCheck, useForm } from '@/app/hooks';
+import { useForm } from '@/app/hooks';
 import { useFlow, useModal, useUser } from '@/app/context';
 
 import { BaseModal, MessageModal, ResetPasswordModal } from '@/app/ui/modals';
@@ -17,7 +17,7 @@ import { Button, Input } from '@/app/ui/form';
 
 import SVG_INSIGNIA from '/public/images/insignia-logo.png';
 
-const INPUT_CN = `h-[1.875rem] w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
+const INPUT_CN = `h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
                     sm:text-primary placeholder:sm:text-primary`;
 
 type FormData = SignUpData;
@@ -36,7 +36,6 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const [isLoginForm, setLoginFormState] = useState(!registration);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
@@ -88,18 +87,18 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             <div className={'w-full'}>
                 <div className={'flex flex-col items-center text-center'}>
                     <span>{info}</span>
-                    <div className={isSmScreen ? 'hidden' : 'mb-n'}>
+                    <div className={'mb-n sm:x-[hidden,mb-0]'}>
                         <Image
                             src={SVG_INSIGNIA}
                             alt={'insignia'}
                             className={`my-xs h-[9rem] w-[10rem]`}
                         />
-                        {isLoginForm ? null : <span className={'font-oxygen text-heading'}>Tern</span>}
+                        {isLoginForm ? null : <span className={' text-heading'}>Tern</span>}
                     </div>
                 </div>
                 <form
                     onSubmit={handleFormSubmit}
-                    className={'flex flex-col sm:landscape:x-[flex-row,gap-x-3xl]'}
+                    className={'flex flex-col sm:landscape:x-[flex-row,gap-x-4xl]'}
                 >
                     <fieldset className={'flex w-full flex-col gap-xxs sm:landscape:x-[max-w-fit,min-w-[21rem]]'}>
                         <Input
@@ -149,12 +148,8 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                                 `text-section-s font-bold`,
                                 `sm:w-[90%]`,
                                 isLoginForm
-                                    ? isSmScreen
-                                        ? 'bg-blue text-primary sm:landscape:mt-auto'
-                                        : 'bg-white text-gray'
-                                    : isSmScreen
-                                      ? 'border-b-s border-blue sm:landscape:mt-xl'
-                                      : '',
+                                    ? 'bg-white text-gray sm:x-[bg-blue,text-primary] sm:landscape:mt-auto'
+                                    : 'sm:x-[border-b-s,border-blue] sm:landscape:mt-xl',
                             )}
                         >
                             {!isLoginForm ? 'Sign Up' : 'Login'}

@@ -4,13 +4,11 @@ import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect } from
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { IModalContext } from '@/app/context/Modal.context';
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
 import { getIdName } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks';
 import { useLayout, useModal, useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
@@ -20,8 +18,6 @@ import { Header } from './Header';
 
 import '@/app/globals.css';
 import styles from '@/app/common.module.css';
-
-import PNG_NEURONS from '/public/images/neurons.png';
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);
 
@@ -82,7 +78,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     const router = useRouter();
     const layoutCtx = useLayout();
     const userCtx = useUser();
-    const breakpoint = useBreakpointCheck();
 
     useEffect(() => {
         const token = params?.get('resetToken');
@@ -119,7 +114,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         return (
             <li
                 key={section.title + idx}
-                className={cn({ ['flex-1']: breakpoint <= Breakpoint.xxs })}
+                className={'xxs:flex-1'}
             >
                 <ul className={'flex flex-col gap-y-xs'}>
                     <li className={'text-section-s font-bold capitalize'}>{section.title}</li>
@@ -157,7 +152,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             <Header />
             <div
                 id={'content'}
-                style={{ backgroundImage: `url("${PNG_NEURONS.src}")` }}
                 className={cn(
                     `relative flex w-full flex-grow flex-col items-center`,
                     `w-screen bg-cover bg-fixed bg-no-repeat`,
@@ -180,25 +174,26 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                     className={cn(
                         styles.content,
                         `h-footer-lg grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] py-l leading-none`,
-                        { [`!flex flex-col gap-y-xxl`]: breakpoint <= Breakpoint.xs },
+                        `xs:x-[flex,flex-col,gap-y-xxl]`,
                     )}
                 >
                     <Insignia className={'[&_*]:x-[!w-[5.875rem],h-auto]'} />
                     <ul
                         className={cn(
                             'flex w-full justify-between',
-                            { [`!justify-start gap-x-xxl`]: breakpoint <= Breakpoint.xs },
-                            { [`flex-wrap gap-y-n`]: breakpoint <= Breakpoint.xxs },
+                            `xs:x-[justify-start,gap-x-xxl]`,
+                            `xxs:x-[gap-y-n,flex-wrap]`,
                         )}
                     >
                         {FooterLinksLi}
                     </ul>
                     <div
-                        className={cn('col-span-2 mt-[7rem] flex w-full items-center justify-between', {
-                            [`mt-0 flex flex-col-reverse !items-start gap-y-n`]: breakpoint <= Breakpoint.xs,
-                        })}
+                        className={cn(
+                            'col-span-2 mt-[7rem] flex w-full items-center justify-between',
+                            `xs:x-[flex,flex-col-reverse,gap-y-n,mt-0,items-start]`,
+                        )}
                     >
-                        <p className={'leading-[1.2]'}>Copyright © 2025 Tern Systems LLC </p>
+                        <p className={'leading-n'}>Copyright © 2025 Tern Systems LLC </p>
                         <ul className={cn('col-span-3 flex flex-wrap gap-3xs')}>{ContactLinks}</ul>
                     </div>
                 </div>
@@ -212,7 +207,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         <div className={`flex min-h-full flex-grow select-none flex-col justify-between`}>{Layout}</div>
     );
 
-    return <div className={'relative h-dvh max-h-dvh overflow-y-scroll font-neo text-primary'}>{LayoutFinal}</div>;
+    return <div className={'relative h-dvh max-h-dvh overflow-y-scroll text-primary'}>{LayoutFinal}</div>;
 };
 
 export { Layout };

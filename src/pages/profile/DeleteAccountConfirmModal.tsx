@@ -74,7 +74,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     value={formData.password}
                     onChange={setFormValue('password')}
                     classNameWrapper={'flex-col [&]:items-start gap-[0.63rem] mt-[1.9rem]'}
-                    className={'b-control4 h-[1.875rem] w-full rounded-xs border-s bg-gray-l0 px-[0.73rem]'}
+                    className={'h-button-l w-full rounded-xs border-s bg-gray-l0 px-[0.73rem]'}
                     classNameLabel={'font-bold'}
                     required
                 >

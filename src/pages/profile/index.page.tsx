@@ -45,7 +45,7 @@ const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const { userData, token, fetchUserData } = useUser();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
+    const isSm = useBreakpointCheck() <= Breakpoint.sm;
 
     const sectionsRef = useRef<HTMLDivElement>(null);
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
@@ -60,7 +60,7 @@ const ProfilePage: FC = () => {
         };
         window.addEventListener('wheel', handleScroll);
         return () => window.removeEventListener('wheel', handleScroll);
-    }, [isSmScreen]);
+    }, [isSm]);
 
     if (!userData || !isLoggedIn || !token) return null;
 

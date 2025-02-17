@@ -2,13 +2,12 @@ import React, { FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CardData, SavedCardFull } from '@/app/types/billing';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { COUNTRY, STATE_PROVINCE } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
 import { mapSavedCard } from '@/app/utils';
-import { useBreakpointCheck, useForm } from '@/app/hooks';
+import { useForm } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
 
 import { ScrollEnd } from '@/app/ui/misc';
@@ -49,16 +48,28 @@ const FORM_DATA_DEFAULT: CardData = {
     isPreferred: false,
 };
 
+const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string) => (
+    <Button
+        type={'submit'}
+        className={cn(
+            `h-[min(13dvw,3.25rem)] bg-gray px-[1.12rem] text-heading font-bold`,
+            `col-span-2 w-full rounded-full text-primary sm:mt-[2.7dvw]`,
+            className,
+        )}
+    >
+        {paymentCreation ? 'Add' : 'Update'}
+    </Button>
+);
+
 interface Props {
-    isPaymentCreation?: boolean;
+    paymentCreation?: boolean;
 }
 
 const PaymentMethodTool: FC<Props> = (props: Props) => {
-    const { isPaymentCreation } = props;
+    const { paymentCreation } = props;
 
     const { userData } = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
@@ -77,17 +88,17 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     }, [userData]);
 
     useEffect(() => {
-        if (isPaymentCreation) return;
+        if (paymentCreation) return;
         fetchEditCards();
         // eslint-disable-next-line
-    }, [fetchEditCards, isPaymentCreation]);
+    }, [fetchEditCards, paymentCreation]);
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!userData || editCardIdx <= -1) return;
         try {
             let responseMsg: string;
-            if (isPaymentCreation) {
+            if (paymentCreation) {
                 const { message } = await BillingService.postSaveCard(formData, userData?.email);
                 responseMsg = message;
             } else {
@@ -115,19 +126,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         ]) ?? [],
     );
 
-    const SubmitBtn = (
-        <Button
-            type={'submit'}
-            className={`col-span-2 h-[min(13dvw,3.25rem)] w-full rounded-full bg-gray px-[1.12rem] font-neo text-heading font-bold text-primary sm:mt-[2.7dvw]`}
-        >
-            {isPaymentCreation ? 'Add' : 'Update'}
-        </Button>
-    );
-
     return (
         <div className={'mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)]'}>
             <h1 className={'mb-[min(5.3dvw,4.15rem)] text-heading-l font-bold'}>
-                {isPaymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
+                {paymentCreation ? 'Add alternative payment method' : 'Edit payment method details'}
             </h1>
             <form
                 className={`${styles.form} sm:[&&]:grid-cols-2`}
@@ -135,7 +137,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             >
                 <fieldset className={`[&>*]:col-start-1 ${FIELDSET_CN}`}>
                     <Select
-                        hidden={isPaymentCreation}
+                        hidden={paymentCreation}
                         options={SavedCardOptions}
                         value={editCardIdx.toString()}
                         placeholder={'Select'}
@@ -150,7 +152,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <Input
                         type={'text'}
                         value={
-                            editCardIdx >= 0 && !isPaymentCreation
+                            editCardIdx >= 0 && !paymentCreation
                                 ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4
                                 : ''
                         }
@@ -158,8 +160,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
                         icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
-                        classNameWrapper={cn(FIELD_CN, `row-start-3`, { ['brightness-[0.9]']: !isPaymentCreation })}
-                        disabled={!isPaymentCreation}
+                        classNameWrapper={cn(FIELD_CN, `row-start-3`, { ['brightness-[0.9]']: !paymentCreation })}
+                        disabled={!paymentCreation}
                     >
                         Credit or Debit Card
                     </Input>
@@ -210,7 +212,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         >
                             Set as preferred payment method
                         </Input>
-                        {isSmScreen ? null : SubmitBtn}
+                        {renderSubmitBtn(paymentCreation, 'sm:hidden')}
                     </span>
                 </fieldset>
                 <fieldset className={`[&>*]:col-start-3 ${FIELDSET_CN}`}>
@@ -280,11 +282,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         Country / Region
                     </Select>
                 </fieldset>
-                {isSmScreen ? SubmitBtn : null}
+                {renderSubmitBtn(paymentCreation, 'hidden sm:inline')}
             </form>
             <div
                 className={'mt-[min(5dvw,6.6rem)]'}
-                hidden={isPaymentCreation}
+                hidden={paymentCreation}
             >
                 <span
                     className={'cursor-pointer text-section text-red'}

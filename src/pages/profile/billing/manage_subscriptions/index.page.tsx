@@ -91,7 +91,7 @@ function ManageSubscriptionsPage() {
                     <span
                         className={cn(
                             `flex h-[min(3.5dvw,1.3rem)] items-center rounded-xxs px-3xs`,
-                            `bg-white-d0 text-center font-oxygen text-basic text-gray`,
+                            `bg-white-d0 text-center text-basic text-gray`,
                             { ['hidden']: !method.preferred },
                         )}
                     >
@@ -204,7 +204,7 @@ function ManageSubscriptionsPage() {
     return (
         <div className={`px-[1.8rem] pt-[9.1rem] sm:pt-[1.8rem]`}>
             <h1 className={`text-heading-l font-bold sm:landscape:text-heading-s`}>Manage Subscriptions</h1>
-            <div className={`mt-[5.4rem] text-nowrap px-[min(2.7dvw,0.625rem)] sm:mt-l sm:portrait:px-0`}>
+            <div className={`mt-5xl text-nowrap px-[min(2.7dvw,0.625rem)] sm:mt-l sm:portrait:px-0`}>
                 <Select
                     options={subscriptionOptions}
                     value={selectedSubscriptionIdx.toString()}

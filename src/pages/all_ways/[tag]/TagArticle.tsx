@@ -14,8 +14,7 @@ import styles from '@/app/common.module.css';
 
 import PNG_ELECTRONS from '/public/images/electrons.png';
 import { getIdName } from '@/app/utils';
-
-const STORED_ARTICLE_COUNT = 5;
+import { MainBackground } from '@/app/ui/atoms';
 
 const GRADIENT_CN = 'from-blue to-[8rem] to-transparent';
 
@@ -35,7 +34,6 @@ const TagArticle: FC<Props> = (props: Props) => {
             try {
                 const { payload } = await BlogService.getArticles();
                 setArticles(payload.blogs);
-                localStorage.setItem('article-cards', JSON.stringify(payload.blogs.slice(0, STORED_ARTICLE_COUNT)));
             } catch (error: unknown) {
                 if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
             }
@@ -57,21 +55,16 @@ const TagArticle: FC<Props> = (props: Props) => {
 
     return (
         <>
-            <div
-                style={{ backgroundImage: `url("${PNG_ELECTRONS.src}")` }}
-                className={
-                    'max-w-dwv absolute left-0 top-0 h-screen max-h-[100rem] w-dvw bg-cover bg-center bg-no-repeat'
-                }
-            />
-            <div className={'relative z-10 font-oxygen'}>
+            <MainBackground url={PNG_ELECTRONS} />
+            <div className={'relative z-10 '}>
                 <section className={cn(styles.section, styles.fullHeightSection, 'bg-gradient-to-t', GRADIENT_CN)}>
                     <div className={cn(styles.content, 'pt-[7rem]')}>
-                        <h1 className={cn(styles.textGlow, `text-[6rem] font-bold`)}>All Ways</h1>
+                        <h1 className={cn(`text-heading-4xl font-bold`)}>All Ways</h1>
                     </div>
                 </section>
                 <section className={cn(styles.section, 'bg-blue')}>
                     <div className={styles.content}>
-                        <h2 className={cn(styles.textGlow, `text-[3rem] font-bold md:text-heading-l`)}>
+                        <h2 className={cn(`text-[3rem] font-bold md:text-heading-l`)}>
                             Tech, news, education, events and more
                         </h2>
                     </div>

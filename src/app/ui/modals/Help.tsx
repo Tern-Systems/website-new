@@ -24,7 +24,7 @@ const HelpModal: FC<Props> = (props: Props) => {
         >
             <div className={`flex flex-col items-center text-section-s sm:landscape:text-section`}>
                 <span className={'mb-xs sm:landscape:mb-xxs'}>
-                    Email:{' '}
+                    Email:&nbsp;
                     <a
                         href={`mailto:${Contacts[type].email}`}
                         target={'_blank'}
@@ -33,7 +33,7 @@ const HelpModal: FC<Props> = (props: Props) => {
                     </a>
                 </span>
                 <span>
-                    Phone:{' '}
+                    Phone:&nbsp;
                     <a
                         href={`tel:${Contacts[type].phone}`}
                         target={'_blank'}

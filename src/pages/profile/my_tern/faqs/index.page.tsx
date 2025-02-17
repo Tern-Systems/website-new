@@ -72,14 +72,14 @@ interface Props {
 }
 
 const FAQsPage: FC<Props> = (props: Props) => {
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
+    const isSm = useBreakpointCheck() <= Breakpoint.sm;
     const [navigate] = useNavigate();
 
     const [expandedItemIdx, setExpandedItemIdx] = useState(-1);
 
     useEffect(() => {
-        if (!isSmScreen) navigate(Route.MyTern);
-    }, [isSmScreen, navigate]);
+        if (!isSm) navigate(Route.MyTern);
+    }, [isSm, navigate]);
 
     const FAQsList = FAQs.map((faq, idx) => (
         <li key={faq.question + idx}>
@@ -107,7 +107,7 @@ const FAQsPage: FC<Props> = (props: Props) => {
                 classNameIcon={'w-[0.9rem]  sm:w-[0.8rem]   sm:landscape:hidden'}
                 className={'sm:landscape:hidden'}
             >
-                <span className={'col-span-3 text-basic leading-[1.2] sm:text-section-xxs'}>{faq.answer}</span>
+                <span className={'col-span-3 text-basic leading-n sm:text-section-xxs'}>{faq.answer}</span>
             </Collapsible>
         </li>
     ));
@@ -146,7 +146,7 @@ const FAQsPage: FC<Props> = (props: Props) => {
                     {FAQsList}
                 </ul>
                 <div
-                    className={cn(`hidden w-1/2 rounded-s bg-gray p-xs`, `text-left text-section-xs leading-[1.2]`, {
+                    className={cn(`hidden w-1/2 rounded-s bg-gray p-xs`, `text-left text-section-xs leading-n`, {
                         ['sm:landscape:[&]:block']: expandedItemIdx !== -1,
                     })}
                 >
@@ -163,13 +163,13 @@ const FAQsPage: FC<Props> = (props: Props) => {
 };
 
 const FAQsModal: FC = () => {
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
+    const isSm = useBreakpointCheck() <= Breakpoint.sm;
     const modalCtx = useModal();
 
     useEffect(() => {
-        if (isSmScreen) modalCtx.closeModal();
+        if (isSm) modalCtx.closeModal();
         //eslint-disable-next-line
-    }, [isSmScreen]);
+    }, [isSm]);
 
     return (
         <BaseModal
@@ -177,11 +177,7 @@ const FAQsModal: FC = () => {
             className={'md:p-s'}
             classNameTitle={'leading-none'}
             classNameHr={'md:mb-[calc(0.5*var(--p-s))]'}
-            classNameContent={cn(
-                `overflow-y-scroll font-oxygen`,
-                'lg:x-[w-[56rem],max-h-[23rem]]',
-                'md:x-[w-[33rem],h-[32rem]]',
-            )}
+            classNameContent={cn(`overflow-y-scroll `, 'lg:x-[w-[56rem],max-h-[23rem]]', 'md:x-[w-[33rem],h-[32rem]]')}
         >
             <FAQsPage hideTitle />
         </BaseModal>
