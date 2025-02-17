@@ -13,7 +13,6 @@ import styles from '@/app/common.module.css';
 
 import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
 
-
 interface Props {
     className?: string;
     data: ResourceSection[];
@@ -31,22 +30,25 @@ const ResourcesSection: FC<Props> = (props: Props) => {
         <li
             key={'node-' + idx}
             onClick={() => entry.action?.({ isSm: breakpoint <= Breakpoint.sm, navigate, modalCtx })}
-            className={cn(styles.clickable, `flex items-center justify-between border-b-s border-white-d0 cursor-pointer`)}
+            className={cn(
+                styles.clickable,
+                `flex cursor-pointer items-center justify-between border-b-s border-white-d0`,
+            )}
         >
             {entry.Node}
-            <ReactSVG src={SVG_ARROW_LONG.src} className={'[&_*]:w-[1.41rem] [&_path]:fill-blue'} />
+            <ReactSVG
+                src={SVG_ARROW_LONG.src}
+                className={'[&_*]:w-[1.41rem] [&_path]:fill-blue'}
+            />
         </li>
     ));
 
     return (
         <section className={cn(styles.content, className, 'text-section-xs')}>
             <p className={'pl-n font-bold'}>Additional resources</p>
-            <ul className={'mt-xxs border-t-s border-white-d0  [&>li]:x-[px-n,py-xs,text-blue]'}>
-                {ResourcesLi}
-            </ul>
+            <ul className={'mt-xxs border-t-s border-white-d0  [&>li]:x-[px-n,py-xs,text-blue]'}>{ResourcesLi}</ul>
         </section>
     );
 };
-
 
 export { ResourcesSection };

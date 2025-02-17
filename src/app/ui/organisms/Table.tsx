@@ -26,10 +26,7 @@ const Table = <T extends object>(props: Props<T>) => {
         <Row
             key={Date.now().toString() + idx}
             row={row}
-            className={cn(
-                'align-middle [&_td:first-of-type]:pl-3xs [&_td:last-of-type]:pr-3xs',
-                '[&_td]:x-[max-w-0,text-nowrap,overflow-hidden,overflow-ellipsis]',
-            )}
+            className={cn('align-middle', '[&_td]:x-[max-w-0,text-nowrap,overflow-hidden,overflow-ellipsis]')}
         />
     ));
 

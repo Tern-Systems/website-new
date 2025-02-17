@@ -75,6 +75,7 @@ const Header: FC = (): ReactElement => {
                         [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: isActive && !layoutCtx.isBreadCrumbsNav,
                         ['!static !border-s border-blue bg-black-l0']: navDropdown && dropdownExpanded,
                         ['border-s border-b-0 border-black xxs:border-none']: navDropdown,
+                        ['contents']: layoutCtx.isBreadCrumbsNav,
                     },
                 )}
             >

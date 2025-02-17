@@ -25,10 +25,9 @@ type SectionCard = {
 };
 
 type ResourceSection = {
-    Node: ReactNode,
-    action?: (props: { isSm: boolean, navigate: (link: Route) => void, modalCtx: IModalContext }) => void
-}
-
+    Node: ReactNode;
+    action?: (props: { isSm: boolean; navigate: (link: Route) => void; modalCtx: IModalContext }) => void;
+};
 
 type NavDropdown = {
     name: string;
@@ -43,4 +42,4 @@ type TableSection<T extends object> = {
     fallback: ReactNode;
 };
 
-export type { SectionCard, InfoSection, NavDropdownDict, ResourceSection, NavDropdown, TableSection };
+export type { SectionCard, InfoSection, ResourceSection, NavDropdownDict, NavDropdown, TableSection };

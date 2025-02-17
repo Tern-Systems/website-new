@@ -1,10 +1,9 @@
-import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { ResourceSection, TableSection } from '@/app/types/layout';
 import { PlanName, Subscription } from '@/app/types/subscription';
-import { RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
-import { IModalContext } from '@/app/context/Modal.context';
+import { MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
 import { MISC_LINKS, Route } from '@/app/static';
 
 import { capitalize, copyObject } from '@/app/utils';
@@ -57,7 +56,8 @@ const RESOURCES: ResourceSection[] = [
         action: ({ isSm, navigate, modalCtx }) =>
             isSm ? navigate(Route.Help) : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
     },
-    { // TODO change to link to Support Hub page
+    {
+        // TODO change to link to Support Hub page
         Node: 'Support Hub',
         action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'support'} />, { darkenBg: true }),
     },
@@ -82,9 +82,9 @@ const SubscriptionRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) 
             }}
             className={cn('cursor-pointer', className)}
         >
-            <td className={'w-[40%] sm:w-full md:w-[50%]'}>{row.name}</td>
-            <td className={cn('w-[29%] md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
-            <td className={cn('w-[29%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
+            <td className={'w-[40%] py-3xs sm:x-[w-full,py-4xs] md:w-[50%]'}>{row.name}</td>
+            <td className={cn('w-[29%]', MD_SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
+            <td className={cn('w-[29%] md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
             <td className={'!max-w-full'}>
                 <PageLink
                     icon={'arrow-right-long'}
@@ -107,9 +107,9 @@ const EventRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
             }}
             className={cn('cursor-pointer', className)}
         >
-            <td className={'w-[40%] sm:w-full md:w-[50%]'}>{row.name}</td>
-            <td className={cn('w-[29%] md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
-            <td className={cn('w-[29%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
+            <td className={'w-[40%] py-3xs sm:x-[w-full,py-4xs] md:w-[50%]'}>{row.name}</td>
+            <td className={cn('w-[29%]', MD_SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
+            <td className={cn('w-[29%]  md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
             <td className={'!max-w-full'}>
                 <PageLink
                     icon={'arrow-right-long'}
@@ -194,20 +194,14 @@ function MyTernPage() {
                 <p className={'text-xxs mt-xxs'}>{renderSinceDate(userCtx.userData?.registrationDate)}</p>
             </section>
             <section className={cn(styles.content, 'mt-n flex flex-wrap gap-xs xxs:gap-x-xxs')}>{LinksLi}</section>
-            <section
-                className={cn(
-                    styles.content,
-                    styles.contentHighlight,
-                    'relative mt-xxl flex max-h-[20rem] flex-col  gap-y-xl',
-                )}
-            >
+            <section className={cn(styles.content, styles.contentHighlight, 'relative mt-xxl flex flex-col  gap-y-xl')}>
                 <Table
                     table={subscriptionTable}
                     Row={SubscriptionRow}
                     cnTable={'!max-h-full'}
                 >
                     <td>Item</td>
-                    <td className={SM_HIDDEN_CN}>Plan Type</td>
+                    <td className={MD_SM_HIDDEN_CN}>Plan Type</td>
                     <td className={SM_HIDDEN_CN}>Upcoming payment</td>
                     <td />
                 </Table>
@@ -221,12 +215,15 @@ function MyTernPage() {
                     cnTable={'!max-h-full'}
                 >
                     <td>Event</td>
-                    <td className={SM_HIDDEN_CN}>Type</td>
+                    <td className={MD_SM_HIDDEN_CN}>Type</td>
                     <td className={SM_HIDDEN_CN}>Date</td>
                     <td />
                 </Table>
             </section>
-            <ResourcesSection data={RESOURCES} className={'mt-[6.25rem] mb-[9.41rem]'} />
+            <ResourcesSection
+                data={RESOURCES}
+                className={'mb-[9.41rem] mt-[6.25rem]'}
+            />
         </div>
     );
 }

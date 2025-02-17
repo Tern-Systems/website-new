@@ -41,12 +41,7 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
     // Much specific routes should be kept at the top (e.g. Route.MyDocumentation is mush specific than Route.Profile as it's nested under Route.Profile)
     switch (true) {
         case checkSubRoute(route, Route.MyDocumentation, true):
-            navLinks = [
-                Route.Billing,
-                Route.MyDocumentation,
-                Route.Resources,
-                Route.Training,
-            ];
+            navLinks = [Route.Billing, Route.MyDocumentation, Route.Resources, Route.Training];
             subNavLinks = isSm ? [Route.MyDocumentation] : null;
             break;
         case checkSubRoute(route, Route.Profile):
@@ -100,7 +95,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [blockedRoute, setBlockedRoute] = useState<Route | null>(null);
     const fullscreenRef = useRef<HTMLDivElement | null>(null);
 
-
     const navLinks: NavLinks = getSubNavs(route as Route, breakpoint);
     const isBreadCrumbsNav: boolean = LAYOUT.breadcrumbsRoutes.some(
         (subRoute) => checkSubRoute(route, subRoute) && !checkSubRoute(route, subRoute, true),
@@ -117,7 +111,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 break;
         }
     }
-
 
     useEffect(() => {
         if (sessionStorage.getItem('pip-mode-child') !== null) return handleNoLayoutState();
