@@ -8,9 +8,10 @@ import { useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
 import { HelpModal } from '@/app/ui/modals';
-import { DocumentationCards, ResourcesSection } from '@/app/ui/templates';
+import { DocumentationCardsSection, ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
+import { BreadcrumbRoute } from '@/app/ui/atoms';
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Downloads} /> },
@@ -40,11 +41,11 @@ function DocumentationPage(props: Props) {
     return (
         <div className={'pb-[8.16rem]'}>
             <section className={styles.content}>
-                <p className={'mt-n text-section-xxs'}>Support / Documentation</p>
+                <BreadcrumbRoute />
                 <h1 className={`mt-3xl font-oxygen text-section-xl font-bold  sm:text-section-l`}>Documentation</h1>
             </section>
             <section className={styles.content}>
-                <DocumentationCards links={links} />
+                <DocumentationCardsSection links={links} />
             </section>
             <ResourcesSection
                 data={RESOURCES}
