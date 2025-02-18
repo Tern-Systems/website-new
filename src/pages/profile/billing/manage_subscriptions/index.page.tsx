@@ -1,29 +1,29 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
-import Image from 'next/image';
 import cn from 'classnames';
 
 import { SavedCardFull } from '@/app/types/billing';
 import { Subscription } from '@/app/types/subscription';
-import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
 import { formatDate } from '@/app/utils';
 import { useLoginCheck } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
-
-import { ScrollEnd } from '@/app/ui/misc';
 import { MessageModal } from '@/app/ui/modals';
-import { FullScreenLayout } from '@/app/ui/layout';
 import { Button, Select } from '@/app/ui/form';
 import { CancelModal } from './CancelModal';
-import { ChangePaymentMethodModal } from './ChangePaymentMethodModal';
+import { ChangePaymentMethod } from './ChangePaymentMethod';
+
+import styles from '@/app/common.module.css';
 
 import SVG_CARD from '/public/images/icons/card.svg';
 import SVG_PENCIL from '/public/images/icons/edit.svg';
+import { BreadcrumbRoute } from '@/app/ui/atoms';
 
-const SELECT_H_CN = 'h-[min(5.9dvw,3.25rem)] sm:landscape:h-l';
+const SELECT_CN = 'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl';
+
+const Hr = <hr className={'mb-xs mt-3xs border-white-d0'} />;
 
 function ManageSubscriptionsPage() {
     const modalCtx = useModal();
@@ -31,9 +31,9 @@ function ManageSubscriptionsPage() {
     const isLoggedIn = useLoginCheck();
 
     const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
-    const [isDetailsExpanded, setDetailsExpandedState] = useState(false);
+    const [detailsExpanded, setDetailsExpanded] = useState(false);
+    const [editPaymentMethodVisible, setEditPaymentMethodVisible] = useState(false);
     const [updateCards, setUpdateCards] = useState(true);
-    // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ function ManageSubscriptionsPage() {
         };
         fetchCards();
         // eslint-disable-next-line
-    }, [setSavedCards, userData, updateCards])
+    }, [setSavedCards, userData, updateCards]);
 
     if (!isLoggedIn) return null;
 
@@ -69,165 +69,166 @@ function ManageSubscriptionsPage() {
     const RenderPlanInfo = () => {
         if (!selectedPlan) return null;
 
-        let SavedCards = savedCards.map((method, idx) => (
-            <li
-                key={method.nickName + idx}
-                className={'flex items-center [&&_path]:fill-gray'}
-            >
-                <span className={'flex items-center'}>
-                    <Image
-                        src={SVG_CARD}
-                        alt={'card'}
-                        className={'h-auto w-[1.35rem]'}
-                    />
-                    <span
-                        className={cn(
-                            'mx-5xs block overflow-x-hidden overflow-ellipsis text-nowrap text-heading-s leading-[1.3]',
-                            'sm:max-w-[70%] sm:landscape:text-section-s',
-                        )}
-                    >
-                        {method.nickName ?? method.cardType + ' **** ' + method.last4}
-                    </span>
-                    <span
-                        className={cn(
-                            `flex h-[min(3.5dvw,1.3rem)] items-center rounded-xxs px-3xs`,
-                            `bg-white-d0 text-center text-basic text-gray`,
-                            { ['hidden']: !method.preferred },
-                        )}
-                    >
-                        Preferred
-                    </span>
-                </span>
-                <ReactSVG
-                    src={SVG_PENCIL.src}
-                    onClick={() =>
-                        modalCtx.openModal(
-                            <ChangePaymentMethodModal
-                                savedCards={savedCards}
-                                setUpdateCards={setUpdateCards}
-                            />,
-                            { darkenBg: true },
-                        )
-                    }
-                    className={'ml-auto size-[min(2.4dvw,0.8rem)] cursor-pointer [&_path]:fill-primary'}
-                />
-            </li>
-        ));
-
-        if (!SavedCards.length)
-            SavedCards = [
-                <li
-                    key={0}
-                    className={'text-gray'}
-                >
-                    No saved cards
-                </li>,
-            ];
-
-        const Hr = <hr className={'mb-[min(5.3dvw,1.2rem)] mt-3xs border-white-d0'} />;
+        const preferredCardIdx = savedCards.findIndex((card) => card.preferred);
+        const preferredCard: SavedCardFull | undefined = savedCards[preferredCardIdx];
 
         return (
-            <div
-                className={`mt-[min(13.3dvw,5.4rem)] grid grid-cols-2 gap-[min(13.3dvw,10rem)] text-basic sm:x-[grid-cols-1,gap-y-l,mt-l]`}
-            >
+            <div className={`mb-[24.75rem] mt-[6rem] text-basic sm:x-[grid-cols-1,gap-y-l,mt-l]  [&>div>div>*]:px-5xs`}>
                 <div>
                     <div className={'flex items-center justify-between'}>
-                        <h2 className={`text-heading font-bold sm:landscape:text-heading-s`}>Current Plan</h2>
+                        <h2 className={`text-basic md:text-section-s lg:text-section`}>Current Plan</h2>
                         <Button
-                            className={
-                                'h-h-button-n rounded-full border-s border-white-d0 px-xxs text-section font-bold'
-                            }
+                            className={'h-button-s border-s border-white-d0 px-5xs text-section-xxs font-bold'}
                             onClick={() =>
                                 modalCtx.openModal(<CancelModal plan={selectedPlan?.subscription} />, {
                                     darkenBg: true,
                                 })
                             }
                         >
-                            Cancel Plan
+                            Cancel
                         </Button>
                     </div>
                     {Hr}
                     <div
-                        className={`mb-xxs grid grid-cols-[max-content,1fr] grid-rows-2 gap-y-xxs sm:landscape:x-[gap-y-3xs,mb-3xs]`}
+                        className={cn(
+                            `mb-xxs grid auto-rows-min`,
+                            `grid-cols-[1fr,min-content] sm:grid-cols-1`,
+                            `text-basic sm:text-section-xs`,
+                            `gap-y-xxs sm:gap-y-xs`,
+                        )}
                     >
                         <span className={'capitalize'}>
                             {selectedPlan.subscription} {selectedPlan.type} Plan
                         </span>
-                        <span className={'whitespace-pre-line text-right text-section sm:landscape:text-section'}>
+                        <span className={cn('text-nowrap sm:row-start-3', 'text-basic sm:text-section-xs')}>
                             Your plan renews on {formatDate(new Date(selectedPlan.renewDate))}
                         </span>
                         <span className={'font-bold'}>
-                            ${selectedPlan.priceUSD.toFixed(2)} per{' '}
+                            ${selectedPlan.priceUSD.toFixed(2)} per&nbsp;
                             {selectedPlan.recurrency === 'monthly' ? 'month' : 'year'}
                         </span>
+                        <Button
+                            icon={'chevron'}
+                            isIconFlippedY={detailsExpanded}
+                            className={'col-start-1 mr-auto flex-row-reverse  text-section-xxs sm:text-section-xs'}
+                            classNameIcon={'[&_path]:fill-gray [&_*]:w-[0.4rem] [&_path]:fill-primary'}
+                            onClick={() => setDetailsExpanded((prevState) => !prevState)}
+                        >
+                            {detailsExpanded ? 'Hide' : 'Show'} Details
+                        </Button>
                     </div>
-                    <Button
-                        icon={'chevron'}
-                        isIconFlippedY={isDetailsExpanded}
-                        className={
-                            'flex-row-reverse justify-end text-section font-bold [&_path]:fill-gray [&_svg]:w-[0.625rem]'
-                        }
-                        onClick={() => setDetailsExpandedState((prevState) => !prevState)}
-                    >
-                        {isDetailsExpanded ? 'Hide' : 'Show'} Details
-                    </Button>
-                    <div
-                        className={cn(
-                            `mt-xxs grid w-[66%] max-w-[26rem] grid-cols-[1fr,min-content] grid-rows-5 gap-y-xxs rounded-l bg-white-d0 px-s py-xs sm:landscape:mt-3xs`,
-                            { ['hidden']: !isDetailsExpanded },
-                        )}
-                    >
-                        <span className={'capitalize'}>
-                            {selectedPlan.subscription} {selectedPlan.type} Subscription
-                        </span>
-                        <span className={'text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
-                        <span className={'font-bold'}>Subtotal</span>
-                        <span className={'text-right font-bold'}>${selectedPlan.priceUSD.toFixed(2)}</span>
-                        <hr className={'col-span-2 self-center border-s border-white-d0'} />
-                        <span>Tax</span>
-                        <span className={'text-right'}>${selectedPlan.tax.toFixed(2)}</span>
-                        <span className={'font-bold'}>Total</span>
-                        <span className={'text-right font-bold'}>
-                            ${(selectedPlan.priceUSD + selectedPlan.tax).toFixed(2)}
-                        </span>
-                    </div>
+                    {detailsExpanded ? (
+                        <div
+                            className={cn(
+                                `grid grid-cols-[1fr,min-content] grid-rows-5 text-nowrap bg-gray px-4xs py-xxs`,
+                                `gap-y-xxs md:gap-y-[1rem] lg:gap-y-xs`,
+                                `w-[16rem] min-w-fit max-w-[70%]`,
+                                'mt-4xs lg:mt-3xs',
+                                'text-section-xxs sm:text-section-3xs',
+                            )}
+                        >
+                            <span className={'capitalize'}>
+                                {selectedPlan.subscription} {selectedPlan.type} Subscription
+                            </span>
+                            <span className={'text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
+                            <span className={'font-bold'}>Subtotal</span>
+                            <span className={'text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
+                            <hr className={'col-span-2 self-center border-white-d0'} />
+                            <span>Tax</span>
+                            <span className={'text-right'}>${selectedPlan.tax.toFixed(2)}</span>
+                            <span className={'font-bold'}>Total</span>
+                            <span className={'text-right'}>
+                                ${(selectedPlan.priceUSD + selectedPlan.tax).toFixed(2)}
+                            </span>
+                        </div>
+                    ) : null}
                 </div>
-                <div>
-                    <h2 className={'text-heading font-bold sm:landscape:text-heading-s'}>Payment Method</h2>
-                    <hr className={'mb-[1.17rem] mt-[0.81rem] border-white-d0'} />
-                    <ul className={'flex flex-col gap-[0.93rem]'}>{SavedCards}</ul>
+                <div className={'mt-[6rem]'}>
+                    <h2 className={`text-basic md:text-section-s lg:text-section`}>Payment Method</h2>
+                    {Hr}
+                    {!preferredCard ? (
+                        <span className={'text-section-xs'}>Error retrieving payment method</span>
+                    ) : (
+                        <div
+                            className={cn(
+                                'relative grid grid-cols-[1fr,max-content] items-center [&_path]:fill-primary',
+                            )}
+                        >
+                            <span
+                                className={
+                                    'flex max-w-full items-center overflow-x-hidden overflow-ellipsis text-nowrap'
+                                }
+                            >
+                                <ReactSVG
+                                    src={SVG_CARD.src}
+                                    className={'h-auto w-[1.35rem]'}
+                                />
+                                <span className={cn('mx-5xs block text-basic sm:text-section-xs')}>
+                                    {preferredCard.nickName ?? preferredCard.cardType + ' **** ' + preferredCard.last4}
+                                </span>
+                            </span>
+                            <span
+                                onClick={() => setEditPaymentMethodVisible(true)}
+                                className={'flex cursor-pointer items-center'}
+                            >
+                                <span className={'mr-4xs sm:hidden'}>Change</span>
+                                <ReactSVG
+                                    src={SVG_PENCIL.src}
+                                    className={'[&_*]:size-[0.8rem] lg:[&_*]:size-[1.3rem]'}
+                                />
+                                {editPaymentMethodVisible ? (
+                                    <ChangePaymentMethod
+                                        openState={[editPaymentMethodVisible, setEditPaymentMethodVisible]}
+                                        savedCards={savedCards}
+                                        setUpdateCards={setUpdateCards}
+                                    />
+                                ) : null}
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
         );
     };
 
     return (
-        <div className={`px-[1.8rem] pt-[9.1rem] sm:pt-[1.8rem]`}>
-            <h1 className={`text-heading-l font-bold sm:landscape:text-heading-s`}>Manage Subscriptions</h1>
-            <div className={`mt-5xl text-nowrap px-[min(2.7dvw,0.625rem)] sm:mt-l sm:portrait:px-0`}>
-                <Select
-                    options={subscriptionOptions}
-                    value={selectedSubscriptionIdx.toString()}
-                    placeholder={'Select'}
-                    onChangeCustom={(value) => setSelectedSubscriptionsIdx(+value)}
-                    classNameWrapper={`flex-col gap-y-xxs w-[min(50dvw,29rem)]
-                                        sm:landscape:x-[gap-y-[0.75dvw],w-[30dvw],text-section-s]`}
-                    classNameLabel={'font-bold place-self-start sm:landscape:text-section-s'}
-                    classNameOption={SELECT_H_CN}
-                    className={`w-full rounded-xs border-s border-white-d0 px-4xs py-[min(2dvw,0.8rem)] ${SELECT_H_CN}`}
+        <section className={cn(styles.section, styles.fullHeightSection)}>
+            <div className={styles.content}>
+                <BreadcrumbRoute />
+                <h1
+                    className={cn(
+                        `overflow-hidden overflow-ellipsis text-nowrap`,
+                        `text-heading sm:leading-s lg:text-section-xl`,
+                        `mt-4xl md:mt-3xl lg:mt-xxl`,
+                    )}
                 >
-                    Choose Subscription to Manage
-                </Select>
-                {RenderPlanInfo()}
+                    Manage Subscriptions
+                </h1>
+                <div className={`mt-xs md:mt-s lg:mt-n`}>
+                    <Select
+                        altIcon
+                        options={subscriptionOptions}
+                        value={selectedSubscriptionIdx.toString()}
+                        placeholder={'Select'}
+                        onChangeCustom={(value) => setSelectedSubscriptionsIdx(+value ?? -1)}
+                        classNameWrapper={cn(
+                            `flex-col gap-y-xxs`,
+                            `text-section-xs md:text-basic lg:text-section-s`,
+                            `w-full md:w-1/2 lg:w-1/3`,
+                        )}
+                        classNameLabel={'mr-auto'}
+                        classNameSelected={'w-full '}
+                        classNameChevron={'ml-auto'}
+                        className={cn(SELECT_CN, `px-xxs sm:px-3xs`)}
+                        classNameOption={cn(SELECT_CN, '!border-t-s !border-gray-l0')}
+                    >
+                        Choose Subscription
+                    </Select>
+                    {RenderPlanInfo()}
+                </div>
             </div>
-            <ScrollEnd />
-        </div>
+        </section>
     );
 }
-
-ManageSubscriptionsPage.getLayout = (page: ReactElement) => (
-    <FullScreenLayout backButtonSection={Route.Billing}>{page}</FullScreenLayout>
-);
-ManageSubscriptionsPage.getMobileLayout = ManageSubscriptionsPage.getLayout;
 
 export default ManageSubscriptionsPage;
