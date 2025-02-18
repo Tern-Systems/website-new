@@ -4,5 +4,7 @@ export { PaymentMethodTool } from './PaymentMethodTool';
 export { PricingAndPlansScreen } from './PricingAndPlansScreen';
 export { SubscribeTool } from './SubscribeTool';
 
-export { InsideTern } from './Sections/InsideTern';
-export { Info } from './Sections/Info';
+export { DocumentationCards } from './Sections/Documentation';
+export { InsideTernSection } from './Sections/InsideTern';
+export { InfoSection } from './Sections/Info';
+export { ResourcesSection } from './Sections/Resources';

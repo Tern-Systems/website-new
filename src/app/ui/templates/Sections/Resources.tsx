@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
-import { ResourceSection } from '@/app/types/layout';
+import { ResourceSectionData } from '@/app/types/layout';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { useNavigate } from '@/app/hooks';
@@ -15,7 +15,7 @@ import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
 
 interface Props {
     className?: string;
-    data: ResourceSection[];
+    data: ResourceSectionData[];
 }
 
 const ResourcesSection: FC<Props> = (props: Props) => {

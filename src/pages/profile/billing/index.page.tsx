@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CELL_FALLBACK, MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
-import { ResourceSection, TableSection } from '@/app/types/layout';
+import { ResourceSectionData, TableSection } from '@/app/types/layout';
 import { Invoice } from '@/app/types/billing';
 import { Route } from '@/app/static';
 
@@ -15,11 +15,11 @@ import { formatDate } from '@/app/utils';
 import { Table } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 import { HelpModal, MessageModal } from '@/app/ui/modals';
-import { ResourcesSection } from '@/app/ui/templates/Resources';
+import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-const RESOURCES: ResourceSection[] = [
+const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.ManageSubscriptions} /> },
     { Node: <PageLink href={Route.PurchasingInformation} /> },
     {

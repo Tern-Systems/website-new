@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { ResourceSection, TableSection } from '@/app/types/layout';
+import { ResourceSectionData, TableSection } from '@/app/types/layout';
 import { PlanName, Subscription } from '@/app/types/subscription';
 import { MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
 import { MISC_LINKS, Route } from '@/app/static';
@@ -14,7 +14,7 @@ import { PageLink } from '@/app/ui/layout';
 import { Table } from '@/app/ui/organisms';
 import { HelpModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
-import { ResourcesSection } from '@/app/ui/templates/Resources';
+import { ResourcesSection } from '@/app/ui/templates';
 import { FAQsModal } from '@/pages/support/faqs/index.page';
 
 import styles from '@/app/common.module.css';
@@ -49,7 +49,7 @@ const EVENTS_TEMPLATE: TableEntry[] = [
     { name: 'TernKey version 1.0.0-beta', type: 'Version Release', data: Date.now(), href: 'https://youtube.com' },
 ];
 
-const RESOURCES: ResourceSection[] = [
+const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
     {
         Node: 'Help & FAQs',

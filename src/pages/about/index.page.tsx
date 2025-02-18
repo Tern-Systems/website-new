@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
 
-import { InfoSection, SectionCard } from '@/app/types/layout';
+import { InfoSectionData, SectionCard } from '@/app/types/layout';
 import { MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
 import { PageLink } from '@/app/ui/layout';
-import { Info, InsideTern } from '@/app/ui/templates';
+import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
@@ -17,7 +17,7 @@ import SVG_NEURONS from '/public/images/neurons-blue.png';
 import SVG_NATURE from '/public/images/nature-section.png';
 import { MainBackground } from '@/app/ui/atoms';
 
-const INFO: InfoSection = {
+const INFO: InfoSectionData = {
     title: 'Enabling Efficient Computing',
     image: SVG_COMPUTER,
     subTitle: 'Leading the Next Wave',
@@ -171,7 +171,7 @@ const AboutPage: FC = () => {
                 <div className='relative h-full'>
                     <div className='absolute inset-x-0 top-0 z-0 h-[65%] bg-gradient-to-b from-[--bg-control-blue] to-transparent' />
                     <div className='relative z-10'>
-                        <Info
+                        <InfoSection
                             data={INFO}
                             className={'pt-[12rem]'}
                             classNameTitle={'md:text-heading-l  sm:x-[text-[1.75rem],mb-xl]'}
@@ -186,7 +186,7 @@ const AboutPage: FC = () => {
                                 'sm:x-[mt-n,h-button-l,max-w-[7.3125rem],text-basic] ',
                             )}
                         />
-                        <InsideTern
+                        <InsideTernSection
                             data={COMPANY}
                             className={'bg-gradient-to-t from-black from-0% to-transparent to-90%'}
                         />

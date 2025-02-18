@@ -15,7 +15,7 @@ interface Props {
     classNameCompanyLi?: string;
 }
 
-const InsideTern: FC<Props> = (props: Props) => {
+const InsideTernSection: FC<Props> = (props: Props) => {
     const { data, className, classNameContent, classNameCompanyLi } = props;
 
     const CompanyLi: ReactElement[] = data.map((entry, idx) => (
@@ -62,4 +62,4 @@ const InsideTern: FC<Props> = (props: Props) => {
     );
 };
 
-export { InsideTern };
+export { InsideTernSection };
