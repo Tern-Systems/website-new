@@ -102,7 +102,6 @@ const HomePage: FC = () => {
         const token = params?.get('resetToken');
         if (token && !modalCtx.isOpened) return modalCtx.openModal(<ResetPasswordModal token={token} />);
         flowCtx.next()?.();
-        //eslint-disable-next-line
     }, [params?.size]);
 
     // const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx}>{p}</p>)

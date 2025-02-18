@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
@@ -8,7 +8,7 @@ import { Route } from '@/app/static';
 import { ContentAnchors, DocumentationContent } from '@/app/types/documentation';
 
 import { getIdName } from '@/app/utils';
-import { useNavigate } from '@/app/hooks';
+import { useNavigate, useOuterClickClose } from '@/app/hooks';
 import { useLayout } from '@/app/context';
 
 import { Button, Select } from '@/app/ui/form';
@@ -28,10 +28,12 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
 
     const [isPiPMode, setPiPModeState] = useState(false);
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
-    const [isMenuOpened, setMenuOpened] = useState(false);
+    const [menuOpened, setMenuOpened] = useState(false);
     const [isSelectOpened, setSelectOpenState] = useState(false);
 
     const documentationContent: DocumentationContent | null = route ? contents[route] : null;
+
+    const menuRef = useRef<HTMLDivElement | null>(null);
 
     const toggleMenuOpen = () => setMenuOpened((prevState) => !prevState);
 
@@ -54,23 +56,15 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         newWindow?.addEventListener('unload', handleUnload);
     };
 
+    useOuterClickClose(menuRef, menuOpened, setMenuOpened);
+
     // Click checking
     useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            if (isMenuOpened && !document.querySelector('#documentation-menu')?.contains(event.target as Node))
-                setMenuOpened(false);
-        };
-
         setPiPModeState(sessionStorage.getItem('pip-mode-parent') !== null);
         setPiPModeChildState(sessionStorage.getItem('pip-mode-child') !== null);
 
-        window.addEventListener('mousedown', handleClick);
-        return () => {
-            sessionStorage.removeItem('pip-mode-parent');
-            window.removeEventListener('mousedown', handleClick);
-        };
-        //eslint-disable-next-line
-    }, [])
+        return () => sessionStorage.removeItem('pip-mode-parent');
+    }, []);
 
     // Renders an anchor list for the opened document
     const renderAnchorListHelper = (
@@ -139,9 +133,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
             onClick={() => toggleMenuOpen()}
             className={`h-[1.8rem] min-w-[1.8125rem] rounded-xs border-2 border-white p-[0.2rem]`}
         >
-            <div
-                className={`box-border h-full rounded-s-[0.125rem] bg-white ${isMenuOpened ? 'w-[10%]' : 'w-[40%]'}`}
-            />
+            <div className={`box-border h-full rounded-s-[0.125rem] bg-white ${menuOpened ? 'w-[10%]' : 'w-[40%]'}`} />
         </Button>
     );
 
@@ -188,11 +180,11 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
         >
             <div className={`box-content flex h-full rounded-s border-s border-gray bg-navy-d0 leading-[130%]`}>
                 <aside
-                    id={'documentation-menu'}
+                    ref={menuRef}
                     className={cn(
                         `rounded-l-s p-xs text-left`,
                         `sm:x-[absolute,top-0,left-0,p-xs,h-full]`,
-                        isMenuOpened
+                        menuOpened
                             ? `min-w-[19rem] bg-gray sm:portrait:w-full`
                             : `pr-0 ${isSelectOpened ? 'h-full' : 'bg-none sm:[&]:h-fit'}`,
                     )}
@@ -211,7 +203,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                             />
                         </span>
                         <span
-                            hidden={!isMenuOpened}
+                            hidden={!menuOpened}
                             className={cn(
                                 `ml-[0.77rem] text-nowrap text-section-s sm:portrait:x-[my-[2.7rem],text-section-s] sm:landscape:x-[my-[1rem]]`,
                                 { ['brightness-50']: isSelectOpened },
@@ -227,7 +219,7 @@ const DocumentationScreen: FC<Props> = (props: Props) => {
                         )}
                     >
                         <ul
-                            hidden={!isMenuOpened}
+                            hidden={!menuOpened}
                             className={'h-full overflow-y-scroll'}
                         >
                             {renderAnchorList(documentationContent?.anchors, documentationContent?.isChapter)}

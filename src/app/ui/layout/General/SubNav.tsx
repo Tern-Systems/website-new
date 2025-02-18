@@ -24,6 +24,7 @@ import { PageLink } from '@/app/ui/layout';
 
 import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 interface Props {
     setNavExpanded: Dispatch<SetStateAction<boolean>>;
@@ -45,14 +46,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     const subNavRef = useRef<HTMLDivElement | null>(null);
     useImperativeHandle(ref, () => subNavRef.current as HTMLDivElement);
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            if (subNavRef && !subNavRef?.current?.contains(event.target as Node)) setDropdownColumns(null);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-        // eslint-disable-next-line
-        }, []);
+    useOuterClickClose(subNavRef, !!subNavRef, () => setDropdownColumns(null));
 
     const subNavLinks = layoutCtx.navLinks[NavLink.Sub2Nav];
 
@@ -152,8 +146,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               <Select
                                   value={link}
                                   options={dropdownLinks}
-                                  //eslint-disable-next-line
-                                    onChangeCustom={(value) => {
+                                  onChangeCustom={(value) => {
                                       // TODO handle links
                                   }}
                                   classNameWrapper={'!static left-0 size-full'}

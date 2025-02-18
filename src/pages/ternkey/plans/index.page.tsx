@@ -22,7 +22,6 @@ const PricingAndPlansPage: FC = () => {
             }
         };
         fetchPlanDetails();
-        //eslint-disable-next-line
     }, []);
 
     return <PricingAndPlansScreen subscriptionData={subscription} />;

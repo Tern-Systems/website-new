@@ -19,9 +19,7 @@ const useLoginCheck = () => {
         if (userCtx.isLoggedIn === false && route !== Route.Home && !layoutCtx.isFade) {
             modalCtx.openModal(<AuthModal onClose={() => navigate(Route.Home)} />, { hideContent: true });
         }
-        //eslint-disable-next-line
-    }, [userCtx.isLoggedIn, modalCtx.isOpened, layoutCtx.isFade, route])
-
+    }, [userCtx.isLoggedIn, modalCtx.isOpened, layoutCtx.isFade, route]);
 
     return userCtx.isLoggedIn;
 };

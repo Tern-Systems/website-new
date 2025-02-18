@@ -12,6 +12,7 @@ import { PageLink } from '@/app/ui/layout/Link';
 import { AuthModal } from '@/app/ui/modals';
 
 import SVG_PROFILE from '/public/images/icons/profile.svg';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const AUTH_BTNS: { title: string; action: string; description: string }[] = [
     { title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account' },
@@ -27,14 +28,7 @@ const ProfileMenu: FC = () => {
 
     const ref = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            if (opened && !ref.current?.contains(event.target as Node)) setOpened(false);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-        // eslint-disable-next-line
-    }, [opened]);
+    useOuterClickClose(ref, opened, setOpened);
 
     let ProfileMenu: ReactElement | null = null;
     if (opened) {

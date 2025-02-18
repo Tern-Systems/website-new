@@ -39,7 +39,6 @@ const TagArticle: FC<Props> = (props: Props) => {
             }
         };
         fetchArticles();
-        //eslint-disable-next-line
     }, []);
 
     let articlesFinal: Article[] = articles;

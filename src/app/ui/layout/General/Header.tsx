@@ -26,6 +26,7 @@ import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 
 import SVG_CHEVRON from '/public/images/icons/chevron.svg';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const Header: FC = (): ReactElement => {
     const route = usePathname();
@@ -37,17 +38,11 @@ const Header: FC = (): ReactElement => {
     const navRef = useRef<HTMLDivElement | null>(null);
     const subNavRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            const close =
-                navExpanded &&
-                !navRef.current?.contains(event.target as Node) &&
-                !subNavRef.current?.contains(event.target as Node);
-            if (close) setNavExpanded(false);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-    }, [navExpanded]);
+    useOuterClickClose(
+        navRef,
+        (event) => navExpanded && !subNavRef.current?.contains(event.target as Node),
+        setNavExpanded,
+    );
 
     const navLinks = layoutCtx.navLinks[NavLink.Nav];
     const subNavLinks = layoutCtx.navLinks[NavLink.Sub2Nav];

@@ -43,9 +43,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         } catch (error: unknown) {
             if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
-
-        //eslint-disable-next-line
-    }, [])
+    }, []);
 
     useEffect(() => {
         handleSendNewCode();
