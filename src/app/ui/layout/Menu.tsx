@@ -1,11 +1,11 @@
-import { Dispatch, FC, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, FC, ReactElement, SetStateAction, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { ALWAYS_MAPPED_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route, SPECIAL_NAV_ROUTES } from '@/app/static';
 
-import { checkSubRoute, getRouteLeave, getIdName, getRouteRoot, sliceRoute } from '@/app/utils';
+import { checkSubRoute, getIdName, getRouteLeave, getRouteRoot, sliceRoute } from '@/app/utils';
 import { useLayout } from '@/app/context';
 import { PageLink } from '@/app/ui/layout';
 import { BaseModal } from '@/app/ui/modals';

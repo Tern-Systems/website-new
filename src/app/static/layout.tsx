@@ -14,12 +14,10 @@ const LAYOUT: {
     fadeDuration: number;
     profileLinks: Route[];
     navLinks: Route[];
-    breadcrumbsRoutes: Route[];
 } = {
     fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
     navLinks: [Route.About, Route.TernKey, Route.Contact, Route.SupportHub, Route.AllWays],
-    breadcrumbsRoutes: [Route.Documentation],
 };
 
 const ROUTES_WITH_INDEX: Record<string, true> = { [Route.Profile]: true };

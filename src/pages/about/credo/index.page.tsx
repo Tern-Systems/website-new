@@ -1,6 +1,8 @@
 import cn from 'classnames';
 import { ReactSVG } from 'react-svg';
 
+import { BreadcrumbRoute } from '@/app/ui/atoms';
+
 import styles from '@/app/common.module.css';
 import stylesLocal from './Credo.module.css';
 
@@ -10,8 +12,8 @@ function CredoPage() {
     return (
         <>
             <section className={cn(styles.section, stylesLocal.sectionGradient)}>
-                <div className={cn(styles.content, 'pt-l text-section-xxs  sm:text-section-3xs')}>
-                    About / Our Credo
+                <div className={cn(styles.content, 'mt-l')}>
+                    <BreadcrumbRoute />
                 </div>
                 <div className={'mt-xxl flex flex-col  items-center  lg:mt-5xl'}>
                     <h1 className={'text-heading-3xl  sm:text-section-xl  md:text-heading-xxl'}>Our Credo</h1>

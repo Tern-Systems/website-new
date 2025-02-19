@@ -4,7 +4,6 @@ import React, {
     forwardRef,
     ReactElement,
     SetStateAction,
-    useEffect,
     useImperativeHandle,
     useRef,
 } from 'react';
@@ -15,7 +14,7 @@ import { NavDropdown } from '@/app/types/layout';
 import { ALWAYS_MAPPED_ROUTES, DROPDOWN_SUB_NAV_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route } from '@/app/static';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
-import { checkSubRoute, getRouteLeave, getIdName } from '@/app/utils';
+import { checkSubRoute, getIdName, getRouteLeave } from '@/app/utils';
 import { useBreakpointCheck, useNavigate } from '@/app/hooks';
 import { useLayout, useModal } from '@/app/context';
 
@@ -131,7 +130,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                       mappedLink &&
                       (checkSubRoute(route, link) ||
                           ALWAYS_MAPPED_ROUTES.some((check) => getRouteLeave(link).includes(check)));
-                  const isActiveCN = checkSubRoute(route, link, true);
+                  const activeCN = checkSubRoute(route, link, true);
                   const dropdownLinks = DROPDOWN_SUB_NAV_ROUTES[link];
 
                   return (
@@ -139,14 +138,14 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                           key={link + idx}
                           tabIndex={(headerLinkCount ?? 0) + idx}
                           className={cn('group', stylesLayout.navLink, {
-                              [cn(stylesLayout.activeNavLink, 'xxs:hidden')]: isActiveCN,
+                              [cn(stylesLayout.activeNavLink, 'xxs:hidden')]: activeCN,
                           })}
                       >
                           {dropdownLinks ? (
                               <Select
                                   value={link}
                                   options={dropdownLinks}
-                                  onChangeCustom={(value) => {
+                                  onChangeCustom={(_) => {
                                       // TODO handle links
                                   }}
                                   classNameWrapper={'!static left-0 size-full'}
