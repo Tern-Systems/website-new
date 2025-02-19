@@ -130,11 +130,7 @@ const ProfilePage: FC = () => {
             )}
             <div
                 ref={sectionsRef}
-                className={cn(
-                    `relative flex flex-grow flex-col gap-y-4xs`,
-                    `lg:ml-[10rem]`,
-                    `sm:landscape:x-[grid,auto-rows-min,grid-cols-2,gap-5xs] sm:landscape:[&>div]:place-self-start`,
-                )}
+                className={cn(`relative flex flex-grow flex-col gap-y-4xs`, `lg:ml-[10rem]`)}
             >
                 {(isSmScreen || isMdScreen) && (
                     <Select
@@ -162,11 +158,11 @@ const ProfilePage: FC = () => {
                             'active:[&]:x-[border,border-blue]',
                         )}
                         classNameChevron={cn(
-                            `p-xxs size-[1.3125rem]`,
+                            `flex items-center justify-center`,
+                            `h-[2.7938rem] w-[3.1875rem]  md:x-[h-[3.4188rem],w-[3.8125rem]]  lg:x-[h-[3.4188rem],w-[3.8125rem]]`,
                             'ml-auto border border-transparent',
                             'hover:x-[border,border-black-l0,bg-black-l0]',
                             'active:border-blue',
-                            `md:p-xs`,
                         )}
                         iconSrc={SVG_BULLETLIST.src}
                     />
