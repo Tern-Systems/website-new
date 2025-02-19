@@ -16,13 +16,12 @@ const useNavigate = (
     const modalCtx = useModal();
 
     const layoutCtx = useLayout();
-    //eslint-disable-next-line
+
     const [navigationState, setNavigationState, _, setBlockedRoute] = layoutCtx.navigateState;
 
     useEffect(() => {
         layoutCtx.setFadeState(false);
         document.querySelector('#header')?.scrollIntoView();
-        //eslint-disable-next-line
     }, [pageRoute]);
 
     const closeModal = () => {

@@ -22,7 +22,7 @@ const useSaveOnLeave = (args: Args): ((prevent: boolean) => void) => {
     const [navigate] = useNavigate();
 
     const layoutCtx = useLayout();
-    //eslint-disable-next-line
+
     const [navigationState, setNavigationState, blockedRoute, setBlockedRoute] = layoutCtx.navigateState;
 
     const setPreventState = (prevent: boolean) =>
@@ -58,7 +58,6 @@ const useSaveOnLeave = (args: Args): ((prevent: boolean) => void) => {
             />,
             { darkenBg: true },
         );
-        //eslint-disable-next-line
     }, [navigationState, editId, parentEditId]);
 
     useEffect(() => {
@@ -72,8 +71,7 @@ const useSaveOnLeave = (args: Args): ((prevent: boolean) => void) => {
             window.removeEventListener('beforeunload', handle);
             window.removeEventListener('hashchange', handle);
         };
-        //eslint-disable-next-line
-    }, [navigationState])
+    }, [navigationState]);
 
     return setPreventState;
 };

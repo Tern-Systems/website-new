@@ -82,7 +82,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     useEffect(() => {
         const token = params?.get('resetToken');
         if (token) router.push(Route.Home + '?resetToken=' + token);
-        //eslint-disable-next-line
     }, [params?.size]);
 
     const FooterLinksLi: ReactElement[] = FOOTER_LINKS.map((section, idx: number) => {

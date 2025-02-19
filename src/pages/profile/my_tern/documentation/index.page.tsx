@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { useLoginCheck } from '@/app/hooks';
 
-import DocumentationPage from '@/pages/documentation/index.page';
+import DocumentationPage from '@/pages/support/documentation/index.page';
 
 const MyDocumentationPage: FC = () => {
     const isLoggedIn = useLoginCheck();

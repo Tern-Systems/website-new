@@ -12,16 +12,18 @@ import { useNavigate } from '@/app/hooks';
 import SVG_ARROW from '/public/images/icons/arrow.svg';
 import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
 import SVG_INSIGNIA from '/public/images/ternkey-logo.svg';
+import SVG_PLUS from '/public/images/icons/plus.svg';
 
 import styles from '@/app/common.module.css';
 
-type Icon = 'back' | 'forward' | 'arrow-right-long' | 'insignia';
+type Icon = 'back' | 'forward' | 'arrow-right-long' | 'insignia' | 'plus';
 
 const ICON: Record<Icon, { src: string }> = {
     back: SVG_ARROW,
     forward: SVG_ARROW,
     'arrow-right-long': SVG_ARROW_LONG,
     insignia: SVG_INSIGNIA,
+    plus: SVG_PLUS,
 };
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {

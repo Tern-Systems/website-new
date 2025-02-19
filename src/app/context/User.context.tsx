@@ -118,8 +118,9 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             } catch (error: unknown) {
                 setLoggedState(false);
             }
-            //eslint-disable-next-line
-    }, [token])
+        },
+        [token],
+    );
 
     useEffect(() => {
         const token = localStorage.getItem('token');

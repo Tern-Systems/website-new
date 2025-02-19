@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
+import React, { FC, ReactElement, useRef, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
@@ -12,6 +12,7 @@ import { PageLink } from '@/app/ui/layout/Link';
 import { AuthModal } from '@/app/ui/modals';
 
 import SVG_PROFILE from '/public/images/icons/profile.svg';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const AUTH_BTNS: { title: string; action: string; description: string }[] = [
     { title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account' },
@@ -27,14 +28,7 @@ const ProfileMenu: FC = () => {
 
     const ref = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            if (opened && !ref.current?.contains(event.target as Node)) setOpened(false);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-        // eslint-disable-next-line
-    }, [opened]);
+    useOuterClickClose(ref, opened, setOpened);
 
     let ProfileMenu: ReactElement | null = null;
     if (opened) {
@@ -47,7 +41,6 @@ const ProfileMenu: FC = () => {
                     <PageLink
                         href={link}
                         className={`bg-control relative flex justify-center`}
-                        onClick={() => setOpened(false)}
                     />
                 </li>
             ));
@@ -109,7 +102,6 @@ const ProfileMenu: FC = () => {
 
     const userBtns: ReactElement | ReactElement[] = (
         <div
-            ref={ref}
             onClick={() => setOpened((prevState) => !prevState)}
             className={'relative'}
         >
@@ -126,7 +118,14 @@ const ProfileMenu: FC = () => {
         </div>
     );
 
-    return <div className={'ml-auto flex h-full gap-[0.75rem]'}>{userBtns}</div>;
+    return (
+        <div
+            ref={ref}
+            className={'ml-auto flex h-full gap-[0.75rem]'}
+        >
+            {userBtns}
+        </div>
+    );
 };
 
 export { ProfileMenu };

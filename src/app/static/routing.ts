@@ -14,8 +14,7 @@ enum Route {
 
     Credo = '/about/credo',
     About = '/about',
-    Contact = '/contact',
-    Support = '/support',
+    SupportHub = '/support',
     Terms = '/terms',
     Cookies = '/cookies',
     Privacy = '/privacy',
@@ -33,6 +32,8 @@ enum Route {
     // /profile
     Profile = '/profile',
     MyTern = '/profile/my_tern',
+    MyDocumentation = '/profile/my_tern/documentation',
+
     Billing = '/profile/billing',
     Invoice = '/profile/billing/order',
     ManageSubscriptions = '/profile/billing/manage_subscriptions',
@@ -40,15 +41,19 @@ enum Route {
     EditPaymentMethod = '/profile/billing/purchasing_information/edit',
     AddPaymentMethod = '/profile/billing/purchasing_information/add',
 
-    // Docs / help
-    Help = '/profile/my_tern/faqs',
-    MyDocumentation = '/profile/my_tern/documentation',
-    Documentation = '/documentation',
-    TernKeyDoc = '/documentation/ternkey',
-    GDoc = '/documentation/g',
-    TernKitDoc = '/documentation/tern_kit',
-    TernDoc = '/documentation/tern',
-    BTMCDoc = '/documentation/btmc',
+    // /support
+    Resources = '/support/resources',
+    Training = '/support/training',
+    Downloads = '/support/downloads',
+    Cases = '/support/cases',
+    Contact = '/support/contact',
+    Help = '/support/my_tern/faqs',
+    Documentation = '/support/documentation',
+    TernKeyDoc = '/support/documentation/ternkey',
+    GDoc = '/support/documentation/g',
+    TernKitDoc = '/support/documentation/tern_kit',
+    TernDoc = '/support/documentation/tern',
+    BTMCDoc = '/support/documentation/btmc',
 
     // /all_ways
     AllWays = '/all_ways',
@@ -66,21 +71,6 @@ enum Route {
     Events = '/all_ways/events',
     More = '/all_ways/more',
 }
-
-const BLOG_ROUTES = [
-    Route.Artificial,
-    Route.Batteries,
-    Route.Cloud,
-    Route.Cybersecurity,
-    Route.Data,
-    Route.Centers,
-    Route.Robotics,
-    Route.Semiconductors,
-    Route.Videos,
-    Route.Podcasts,
-    Route.Events,
-    Route.More,
-];
 
 const CONTACT_LINKS = {
     Discord: { svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f' },
@@ -108,4 +98,4 @@ const MISC_LINKS = {
     TernKeyDemoEmbed: 'https://www.youtube.com/embed/uMb2KI6PHPQ?si=gktgx0tR4UuY2VPW',
 };
 
-export { Route, BLOG_ROUTES, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };
+export { Route, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };

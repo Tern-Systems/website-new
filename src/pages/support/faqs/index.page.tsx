@@ -168,7 +168,6 @@ const FAQsModal: FC = () => {
 
     useEffect(() => {
         if (isSm) modalCtx.closeModal();
-        //eslint-disable-next-line
     }, [isSm]);
 
     return (

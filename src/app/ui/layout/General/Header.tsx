@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
+import React, { FC, ReactElement, useRef, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
@@ -26,6 +26,7 @@ import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 
 import SVG_CHEVRON from '/public/images/icons/chevron.svg';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const Header: FC = (): ReactElement => {
     const route = usePathname();
@@ -37,25 +38,20 @@ const Header: FC = (): ReactElement => {
     const navRef = useRef<HTMLDivElement | null>(null);
     const subNavRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            const close =
-                navExpanded &&
-                !navRef.current?.contains(event.target as Node) &&
-                !subNavRef.current?.contains(event.target as Node);
-            if (close) setNavExpanded(false);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-    }, [navExpanded]);
+    useOuterClickClose(
+        navRef,
+        (event) => navExpanded && !subNavRef.current?.contains(event.target as Node),
+        setNavExpanded,
+    );
 
     const navLinks = layoutCtx.navLinks[NavLink.Nav];
-    const subNavLinks = layoutCtx.navLinks[NavLink.Sub2Nav];
+    const subNavLinks = layoutCtx.navLinks[NavLink.SubNav];
 
     // Elements
     const NavLinks: ReactElement[] = navLinks?.map((link: Route, idx) => {
-        const isActive =
-            route !== Route.Home && checkSubRoute(route, link, ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
+        const active =
+            route !== Route.Home &&
+            checkSubRoute(route, link, !subNavLinks?.length || ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
         const mappedLink = MAPPED_NAV_ROUTES[link];
         const navDropdown = DROPDOWN_NAV_ROUTES[link];
         const linkFinal = SPECIAL_NAV_ROUTES[link] ?? link;
@@ -69,12 +65,12 @@ const Header: FC = (): ReactElement => {
                 className={cn(
                     'group',
                     stylesLayout.navLink,
-                    subNavLinks?.length ? 'before:bg-gray' : 'before:bg-blue',
-                    'xxs:!h-fit xxs:[&>*]:x-[pl-s,py-xxs]',
+                    'xxs:!h-fit xxs:[&>*]:[&:not(:first-of-type)]:border-t-s xxs:[&>*]:x-[pl-s,py-xxs,w-full]',
                     {
-                        [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: isActive && !layoutCtx.isBreadCrumbsNav,
-                        ['!static !border-s border-blue bg-black-l0']: navDropdown && dropdownExpanded,
-                        ['border-s border-b-0 border-black xxs:border-none']: navDropdown,
+                        [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: active,
+                        ['before:bg-gray']: subNavLinks?.length,
+                        ['!static border-blue bg-black-l0']: navDropdown && dropdownExpanded,
+                        ['!border-s !border-b-0 border-black xxs:border-none']: navDropdown,
                     },
                 )}
             >
@@ -94,14 +90,9 @@ const Header: FC = (): ReactElement => {
                         </div>
                     </>
                 ) : (
-                    <>
-                        <PageLink href={link}>
-                            <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
-                        </PageLink>
-                        {layoutCtx.isBreadCrumbsNav && idx !== layoutCtx.navLinks[NavLink.Nav].length - 1 ? (
-                            <span>/</span>
-                        ) : null}
-                    </>
+                    <PageLink href={link}>
+                        <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
+                    </PageLink>
                 )}
             </li>
         );
@@ -114,7 +105,7 @@ const Header: FC = (): ReactElement => {
         >
             <div className={'flex border-b-s border-gray'}>
                 <Button
-                    onClick={() => setNavExpanded((prevState) => !prevState)}
+                    onClick={() => setNavExpanded(true)}
                     icon={navExpanded ? 'close' : 'burger'}
                     className={cn(`hidden border-s border-transparent px-s  xxs:inline`, {
                         ['!border-blue bg-gray-d1']: navExpanded,
@@ -126,7 +117,8 @@ const Header: FC = (): ReactElement => {
                         styles.content,
                         `z-[2] flex !h-heading items-center pr-xs`,
                         `relative`,
-                        `xxs:x-[static,pl-xxs]`,
+                        `sm:pr-0`,
+                        `xxs:x-[static,px-0]`,
                     )}
                 >
                     <Insignia />
@@ -136,21 +128,13 @@ const Header: FC = (): ReactElement => {
                             `flex items-center`,
                             `relative ml-[calc(2*var(--p-n)-var(--p-xxs))] h-full`,
                             `before:x-[absolute,h-[64%],-left-xxs,border-r-s,border-gray]`,
-                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,w-full,max-w-[14.5625rem],bg-gray-d1]`,
+                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,ml-0,w-full,max-w-[14.5625rem],bg-gray-d1]`,
                             `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))]`,
                             `xxs:before:hidden`,
                             { ['xxs:hidden']: !navExpanded },
                         )}
                     >
-                        <ul
-                            className={cn(
-                                `flex h-full cursor-pointer`,
-                                { ['gap-x-l']: layoutCtx.isBreadCrumbsNav },
-                                `xxs:x-[flex,flex-col,w-full]`,
-                            )}
-                        >
-                            {NavLinks}
-                        </ul>
+                        <ul className={`flex h-full cursor-pointer  xxs:x-[flex,flex-col,w-full]`}>{NavLinks}</ul>
                     </nav>
                     <ProfileMenu />
                 </div>

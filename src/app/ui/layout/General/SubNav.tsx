@@ -4,7 +4,6 @@ import React, {
     forwardRef,
     ReactElement,
     SetStateAction,
-    useEffect,
     useImperativeHandle,
     useRef,
 } from 'react';
@@ -15,7 +14,7 @@ import { NavDropdown } from '@/app/types/layout';
 import { ALWAYS_MAPPED_ROUTES, DROPDOWN_SUB_NAV_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route } from '@/app/static';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
-import { checkSubRoute, getRouteLeave, getIdName } from '@/app/utils';
+import { checkSubRoute, getIdName, getRouteLeave } from '@/app/utils';
 import { useBreakpointCheck, useNavigate } from '@/app/hooks';
 import { useLayout, useModal } from '@/app/context';
 
@@ -24,6 +23,7 @@ import { PageLink } from '@/app/ui/layout';
 
 import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 interface Props {
     setNavExpanded: Dispatch<SetStateAction<boolean>>;
@@ -45,16 +45,9 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     const subNavRef = useRef<HTMLDivElement | null>(null);
     useImperativeHandle(ref, () => subNavRef.current as HTMLDivElement);
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            if (subNavRef && !subNavRef?.current?.contains(event.target as Node)) setDropdownColumns(null);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-        // eslint-disable-next-line
-        }, []);
+    useOuterClickClose(subNavRef, !!subNavRef, () => setDropdownColumns(null));
 
-    const subNavLinks = layoutCtx.navLinks[NavLink.Sub2Nav];
+    const subNavLinks = layoutCtx.navLinks[NavLink.SubNav];
 
     // Elements
     const DropdownLi: ReactElement[] | null = !navDropdown
@@ -84,7 +77,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               }}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
                               className={'flex-row-reverse'}
-                              iconClassName={cn('ml-4xs  !size-[1.6rem]  xxs:[&_*]:!size-[0.8rem]')}
+                              iconClassName={cn('ml-4xs  [&_*]:size-[1.6rem]  xxs:[&_*]:size-[0.8rem]')}
                           >
                               {title}
                           </PageLink>
@@ -100,7 +93,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                       <ul
                           className={cn(
                               'flex flex-col gap-y-xxs text-nowrap',
-                              'xxs:flex-1 xxs:[&>li]:x-[gap-y-0,py-s,border-b-s]',
+                              'xxs:x-[flex-1,gap-y-0] xxs:[&>li]:x-[py-s,border-b-s]',
                           )}
                       >
                           {LinksLi}
@@ -137,7 +130,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                       mappedLink &&
                       (checkSubRoute(route, link) ||
                           ALWAYS_MAPPED_ROUTES.some((check) => getRouteLeave(link).includes(check)));
-                  const isActiveCN = checkSubRoute(route, link, true);
+                  const activeCN = checkSubRoute(route, link, true);
                   const dropdownLinks = DROPDOWN_SUB_NAV_ROUTES[link];
 
                   return (
@@ -145,15 +138,14 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                           key={link + idx}
                           tabIndex={(headerLinkCount ?? 0) + idx}
                           className={cn('group', stylesLayout.navLink, {
-                              [cn(stylesLayout.activeNavLink, 'xxs:hidden')]: isActiveCN,
+                              [cn(stylesLayout.activeNavLink, 'xxs:hidden')]: activeCN,
                           })}
                       >
                           {dropdownLinks ? (
                               <Select
                                   value={link}
                                   options={dropdownLinks}
-                                  //eslint-disable-next-line
-                                    onChangeCustom={(value) => {
+                                  onChangeCustom={(_) => {
                                       // TODO handle links
                                   }}
                                   classNameWrapper={'!static left-0 size-full'}
@@ -181,8 +173,9 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                         styles.section,
                         'absolute left-0 z-[1000] h-fit bg-black-l0',
                         'py-4xl',
-                        'sm:x-[min-w-0,w-[79%]]',
-                        `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))] xxs:x-[gap-x-l,max-w-[14.5625rem],overflow-y-scroll,bg-gray-d1]`,
+                        'sm:x-[min-w-0,w-[79%],overflow-y-scroll] sm:h-[calc(100dvh-var(--h-heading))]',
+                        `xxs:top-[calc(1px+var(--h-heading))]`,
+                        `xxs:x-[gap-x-l,max-w-[14.5625rem],p-0,bg-gray-d1]`,
                     )}
                 >
                     <ul

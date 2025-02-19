@@ -4,8 +4,11 @@ import { StaticImageData } from 'next/image';
 import { ButtonIcon } from '@/app/ui/form/Button';
 import { Route } from '@/app/static';
 import { IModalContext } from '@/app/context/Modal.context';
+import { PlanName } from '@/app/types/subscription';
 
-type InfoSection = {
+type DocumentationLink = { title: string; text: string; route: Route; subscription: PlanName };
+
+type InfoSectionData = {
     title: string;
     subTitle: string;
     description: string;
@@ -24,6 +27,11 @@ type SectionCard = {
     btnIconCN?: string;
 };
 
+type ResourceSectionData = {
+    Node: ReactNode;
+    action?: (props: { isSm: boolean; navigate: (link: Route) => void; modalCtx: IModalContext }) => void;
+};
+
 type NavDropdown = {
     name: string;
     columns: Record<string, string | ((action: IModalContext) => void)>[];
@@ -37,4 +45,12 @@ type TableSection<T extends object> = {
     fallback: ReactNode;
 };
 
-export type { SectionCard, InfoSection, NavDropdownDict, NavDropdown, TableSection };
+export type {
+    DocumentationLink,
+    SectionCard,
+    InfoSectionData,
+    ResourceSectionData,
+    NavDropdownDict,
+    NavDropdown,
+    TableSection,
+};

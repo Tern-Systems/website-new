@@ -79,7 +79,6 @@ function ArticlePage() {
 
         const cards: string | null = localStorage.getItem('article-cards');
         if (cards) setCards(JSON.parse(cards));
-        //eslint-disable-next-line
     }, [id]);
 
     // Elements
