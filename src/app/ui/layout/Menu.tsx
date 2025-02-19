@@ -1,14 +1,15 @@
-import { Dispatch, FC, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, FC, ReactElement, SetStateAction, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { ALWAYS_MAPPED_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route, SPECIAL_NAV_ROUTES } from '@/app/static';
 
-import { checkSubRoute, getRouteLeave, getIdName, getRouteRoot, sliceRoute } from '@/app/utils';
+import { checkSubRoute, getIdName, getRouteLeave, getRouteRoot, sliceRoute } from '@/app/utils';
 import { useLayout } from '@/app/context';
 import { PageLink } from '@/app/ui/layout';
 import { BaseModal } from '@/app/ui/modals';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const NAV_CN = 'justify-between flex-row-reverse [&_span]:mr-auto py-[1.25rem] [&_path]:fill-[--bg-blue]';
 const ACTIVE_ROUTE_CN = `border-s border-blue mx-0 px-[1.125rem] border-l-[0.2rem]`;
@@ -25,19 +26,12 @@ const Menu: FC<Props> = (props: Props) => {
 
     const route = usePathname();
     const { navLinks, getSubNavs } = useLayout();
-    //eslint-disable-next-line
 
     const [isFirstActive, setFirstActiveState] = useState(false);
 
     const ref = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            if (opened && !ref.current?.contains(event.target as Node)) setOpened(false);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-    }, [setOpened, opened]);
+    useOuterClickClose(ref, opened, setOpened);
 
     const renderSub2Nav = (): ReactElement[] | undefined =>
         navLinks[NavLink.Sub2Nav]?.map((link, idx) => {

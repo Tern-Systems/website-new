@@ -174,8 +174,7 @@ const Editable: FC<Props> = (props: Props) => {
             if (typeof error === 'string') setWarning(error);
             return false;
         }
-        //eslint-disable-next-line
-    }, [submitRef.current])
+    }, [submitRef.current]);
 
     const checkPreventUpdate = () => isEqual(form, initValue);
 
@@ -227,7 +226,6 @@ const Editable: FC<Props> = (props: Props) => {
             case '2FA':
                 break;
         }
-        //eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -236,8 +234,7 @@ const Editable: FC<Props> = (props: Props) => {
 
     useEffect(() => {
         resetForm();
-        //eslint-disable-next-line
-    }, [])
+    }, []);
 
     // handlers
     const handleFormSubmit = async (event: FormEvent) => {

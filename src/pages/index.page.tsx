@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Image, { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
-import { InfoSection, SectionCard } from '@/app/types/layout';
+import { InfoSectionData, SectionCard } from '@/app/types/layout';
 
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
@@ -16,7 +16,7 @@ import { ResetPasswordModal } from '@/app/ui/modals';
 import { MainBackground } from '@/app/ui/atoms';
 import { Carousel } from '@/app/ui/misc';
 import { PageLink } from '@/app/ui/layout';
-import { Info, InsideTern } from '@/app/ui/templates';
+import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
@@ -53,7 +53,7 @@ const CARDS: {
     },
 ];
 
-const INFO: InfoSection = {
+const INFO: InfoSectionData = {
     title: 'Building the Ternary Microprocessor',
     image: SVG_CIRCUIT,
     subTitle: 'Imperative Paradigm Shift',
@@ -102,7 +102,6 @@ const HomePage: FC = () => {
         const token = params?.get('resetToken');
         if (token && !modalCtx.isOpened) return modalCtx.openModal(<ResetPasswordModal token={token} />);
         flowCtx.next()?.();
-        //eslint-disable-next-line
     }, [params?.size]);
 
     // const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx}>{p}</p>)
@@ -257,11 +256,11 @@ const HomePage: FC = () => {
                         </p>
                     </div>
                 </section>
-                <Info
+                <InfoSection
                     blur
                     data={INFO}
                 />
-                <InsideTern data={COMPANY} />
+                <InsideTernSection data={COMPANY} />
             </div>
         </>
     );

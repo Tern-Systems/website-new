@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CELL_FALLBACK, MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
-import { ResourceSection, TableSection } from '@/app/types/layout';
+import { ResourceSectionData, TableSection } from '@/app/types/layout';
 import { Invoice } from '@/app/types/billing';
 import { Route } from '@/app/static';
 
@@ -15,11 +15,11 @@ import { formatDate } from '@/app/utils';
 import { Table } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 import { HelpModal, MessageModal } from '@/app/ui/modals';
-import { ResourcesSection } from '@/app/ui/templates/Resources';
+import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-const RESOURCES: ResourceSection[] = [
+const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.ManageSubscriptions} /> },
     { Node: <PageLink href={Route.PurchasingInformation} /> },
     {
@@ -45,11 +45,11 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
                 className,
             )}
         >
-            <td className={'h-[2.25rem]  sm:h-[1.5625rem]'}>{row?.id ?? CELL_FALLBACK}</td>
+            <td className={'h-[2.25rem] pl-3xs  sm:h-[1.5625rem]'}>{row?.id ?? CELL_FALLBACK}</td>
             <td>{row?.startDate ? formatDate(new Date(row?.startDate), 'short') : CELL_FALLBACK}</td>
             <td className={MD_SM_HIDDEN_CN}>{row?.paidUSD ? row.paidUSD.toFixed(2) : CELL_FALLBACK}</td>
             <td className={MD_SM_HIDDEN_CN}>{row?.status ?? CELL_FALLBACK}</td>
-            <td className={SM_HIDDEN_CN}>{row?.item?.name ?? CELL_FALLBACK}</td>
+            <td className={cn(SM_HIDDEN_CN, 'pr-3xs')}>{row?.item?.name ?? CELL_FALLBACK}</td>
         </tr>
     );
 };
@@ -72,7 +72,6 @@ const BillingPage: FC = () => {
             }
         };
         fetchInvoices();
-        //eslint-disable-next-line
     }, [userContext.isLoggedIn]);
 
     if (!isLoggedIn) return null;

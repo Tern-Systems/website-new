@@ -14,6 +14,8 @@ import cn from 'classnames';
 import { copyObject } from '@/app/utils';
 
 import SVG_CHEVRON from '/public/images/icons/chevron.svg';
+import SVG_BULLET_LIST from '/public/images/icons/bullet-list.svg';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const EMPTY_KEY = '';
 
@@ -26,8 +28,10 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
     classNameUl?: string;
     classNameOption?: string;
     classNameChevron?: string;
+    classNameSelected?: string;
     onClick?: () => void;
     onOpen?: (isExpanded: boolean) => void;
+    altIcon?: true;
 }
 
 const Select: FC<Props> = (props: Props) => {
@@ -42,9 +46,11 @@ const Select: FC<Props> = (props: Props) => {
         className,
         classNameLabel,
         classNameChevron,
+        classNameSelected,
         hidden,
         onChangeCustom,
         placeholder,
+        altIcon,
         ...selectPropsRest
     } = props;
 
@@ -68,18 +74,18 @@ const Select: FC<Props> = (props: Props) => {
 
     const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
 
-    useEffect(() => {
-        onOpen?.(expanded);
-        const handleClick = (event: MouseEvent) => {
-            if (expanded && !ref.current?.contains(event.target as Node)) setSelectExpanded(false);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-    }, [expanded, setSelectExpanded, onOpen]);
+    useOuterClickClose(ref, expanded, setSelectExpanded);
+
+    useEffect(() => onOpen?.(expanded), [onOpen]);
 
     // Options list
     const selectedOptionIdx: number =
         value === EMPTY_KEY ? -1 : Object.values(optionsFinal).indexOf(optionsFinal[value]);
+
+    optionsEntries =
+        selectedOptionIdx < 0
+            ? optionsEntries
+            : [...optionsEntries.slice(0, selectedOptionIdx), ...optionsEntries.slice(selectedOptionIdx + 1)];
 
     const Options: ReactElement[] = optionsEntries.map(([key, value], idx) => (
         <option
@@ -98,10 +104,7 @@ const Select: FC<Props> = (props: Props) => {
         </option>
     ));
 
-    const OptionsJSX: ReactElement[] =
-        selectedOptionIdx < 0
-            ? Options
-            : [...Options.slice(0, selectedOptionIdx), ...Options.slice(selectedOptionIdx + 1)];
+    const isPlaceholder = selectedOptionIdx < 0 || !optionsFinal[value];
 
     return (
         <div
@@ -124,39 +127,38 @@ const Select: FC<Props> = (props: Props) => {
                 onBlur={() => setSelectExpanded(false)}
                 className={cn(
                     `group flex w-full cursor-pointer select-none items-center capitalize`,
-                    `border-s border-white-d0 bg-white [&]:rounded-s`,
+                    `border-s border-white-d0 bg-white`,
                     className,
-                    { [`[&&]:rounded-b-none`]: expanded },
                 )}
             >
-                <div className={`relative flex w-fit items-center`}>
+                <div className={cn(`relative flex w-fit items-center`, classNameSelected)}>
                     <span
                         className={cn(`w-fit overflow-x-hidden overflow-ellipsis text-nowrap leading-[1.3]`, {
-                            ['text-section-3xs']: selectedOptionIdx < 0 && !hasEmptyOption,
+                            ['text-placeholder']: isPlaceholder,
                         })}
                     >
-                        {selectedOptionIdx < 0 || !optionsFinal[value]
+                        {isPlaceholder
                             ? hasEmptyOption && optionsFinal[EMPTY_KEY]
                                 ? optionsFinal[EMPTY_KEY]
                                 : (placeholder ?? 'Select')
                             : optionsFinal[value]}
                     </span>
                     <ReactSVG
-                        src={SVG_CHEVRON.src}
+                        src={altIcon ? SVG_BULLET_LIST.src : SVG_CHEVRON.src}
                         className={cn(`group ml-5xs h-auto w-xxs brightness-[85%]`, classNameChevron, {
-                            ['rotate-180']: expanded,
+                            ['rotate-180']: !altIcon && expanded,
                         })}
                     />
                 </div>
                 {expanded ? (
                     <ul
                         className={cn(
-                            `absolute left-0 top-full z-30 max-h-[20rem] w-fit overflow-y-scroll`,
-                            `pointer-events-auto rounded-b-xs`,
+                            `absolute left-0 top-full z-30 max-h-[20rem] w-full min-w-fit overflow-y-scroll`,
+                            `pointer-events-auto`,
                             classNameUl,
                         )}
                     >
-                        {OptionsJSX}
+                        {Options}
                     </ul>
                 ) : null}
             </label>

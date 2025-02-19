@@ -30,6 +30,7 @@ const size = {
     'button-xl': 'var(--h-button-xl)',
     'button-l': 'var(--h-button-l)',
     'button-n': 'var(--h-button-n)',
+    'button-s': 'var(--h-button-s)',
 };
 
 
@@ -54,6 +55,7 @@ const config: Config = {
             margin: spacing,
             padding: spacing,
             maxWidth: size,
+            minWidth: size,
             width: size,
             maxHeight: size,
             minHeight: size,
@@ -130,9 +132,10 @@ const config: Config = {
                 'section-3xs': 'var(--fz-section-3xs)',
             },
             lineHeight: {
-                'xl': 'var(--lh-xl)',
-                'l': 'var(--lh-l)',
+                's': 'var(--lh-s)',
                 'n': 'var(--lh-n)',
+                'l': 'var(--lh-l)',
+                'xl': 'var(--lh-xl)',
             },
         },
     },

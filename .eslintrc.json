@@ -27,10 +27,7 @@
         "printWidth": 120,
         "jsxSingleQuote": true,
         "singleAttributePerLine": true,
-        "tailwindPreserveWhitespace": true,
-        "plugins": [
-          "prettier-plugin-tailwindcss"
-        ]
+        "tailwindPreserveWhitespace": true
       }
     ],
     "react-hooks/rules-of-hooks": "warn",

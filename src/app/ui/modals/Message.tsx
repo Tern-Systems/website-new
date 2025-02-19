@@ -10,7 +10,6 @@ const ANIMATION_DURATION = 500;
 const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const modalCtx = useModal();
 
-    //eslint-disable-next-line
     const [_, setTimer] = useState(100);
     const [hovered, setHoveredState] = useState(false);
     const [animate, setAnimate] = useState<boolean>(false);

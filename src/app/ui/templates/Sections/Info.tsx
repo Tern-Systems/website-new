@@ -2,14 +2,14 @@ import React, { FC } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { InfoSection as InfoSection } from '@/app/types/layout';
+import { InfoSectionData as InfoSectionData } from '@/app/types/layout';
 
 import { PageLink } from '@/app/ui/layout';
 
 import styles from '@/app/common.module.css';
 
 interface Props {
-    data: InfoSection;
+    data: InfoSectionData;
     blur?: true;
     className?: string;
     classNameTitle?: string;
@@ -19,7 +19,7 @@ interface Props {
     classNamePageLink?: string;
 }
 
-const Info: FC<Props> = (props: Props) => {
+const InfoSection: FC<Props> = (props: Props) => {
     const {
         data,
         blur,
@@ -86,4 +86,4 @@ const Info: FC<Props> = (props: Props) => {
     );
 };
 
-export { Info };
+export { InfoSection };
