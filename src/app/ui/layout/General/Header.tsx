@@ -45,12 +45,13 @@ const Header: FC = (): ReactElement => {
     );
 
     const navLinks = layoutCtx.navLinks[NavLink.Nav];
-    const subNavLinks = layoutCtx.navLinks[NavLink.Sub2Nav];
+    const subNavLinks = layoutCtx.navLinks[NavLink.SubNav];
 
     // Elements
     const NavLinks: ReactElement[] = navLinks?.map((link: Route, idx) => {
-        const isActive =
-            route !== Route.Home && checkSubRoute(route, link, ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
+        const active =
+            route !== Route.Home &&
+            checkSubRoute(route, link, !subNavLinks?.length || ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
         const mappedLink = MAPPED_NAV_ROUTES[link];
         const navDropdown = DROPDOWN_NAV_ROUTES[link];
         const linkFinal = SPECIAL_NAV_ROUTES[link] ?? link;
@@ -61,12 +62,17 @@ const Header: FC = (): ReactElement => {
             <li
                 key={link + idx}
                 tabIndex={idx}
-                className={cn('group', stylesLayout.navLink, 'xxs:!h-fit xxs:[&>*]:x-[pl-s,py-xxs]', {
-                    [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: isActive,
-                    ['before:bg-gray']: subNavLinks?.length,
-                    ['!static !border-s border-blue bg-black-l0']: navDropdown && dropdownExpanded,
-                    ['border-s border-b-0 border-black xxs:border-none']: navDropdown,
-                })}
+                className={cn(
+                    'group',
+                    stylesLayout.navLink,
+                    'xxs:!h-fit xxs:[&>*]:[&:not(:first-of-type)]:border-t-s xxs:[&>*]:x-[pl-s,py-xxs,w-full]',
+                    {
+                        [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: active,
+                        ['before:bg-gray']: subNavLinks?.length,
+                        ['!static border-blue bg-black-l0']: navDropdown && dropdownExpanded,
+                        ['!border-s !border-b-0 border-black xxs:border-none']: navDropdown,
+                    },
+                )}
             >
                 {navDropdown ? (
                     <>
@@ -99,7 +105,7 @@ const Header: FC = (): ReactElement => {
         >
             <div className={'flex border-b-s border-gray'}>
                 <Button
-                    onClick={() => setNavExpanded((prevState) => !prevState)}
+                    onClick={() => setNavExpanded(true)}
                     icon={navExpanded ? 'close' : 'burger'}
                     className={cn(`hidden border-s border-transparent px-s  xxs:inline`, {
                         ['!border-blue bg-gray-d1']: navExpanded,
@@ -111,7 +117,8 @@ const Header: FC = (): ReactElement => {
                         styles.content,
                         `z-[2] flex !h-heading items-center pr-xs`,
                         `relative`,
-                        `xxs:x-[static,pl-xxs]`,
+                        `sm:pr-0`,
+                        `xxs:x-[static,px-0]`,
                     )}
                 >
                     <Insignia />
@@ -121,7 +128,7 @@ const Header: FC = (): ReactElement => {
                             `flex items-center`,
                             `relative ml-[calc(2*var(--p-n)-var(--p-xxs))] h-full`,
                             `before:x-[absolute,h-[64%],-left-xxs,border-r-s,border-gray]`,
-                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,w-full,max-w-[14.5625rem],bg-gray-d1]`,
+                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,ml-0,w-full,max-w-[14.5625rem],bg-gray-d1]`,
                             `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))]`,
                             `xxs:before:hidden`,
                             { ['xxs:hidden']: !navExpanded },

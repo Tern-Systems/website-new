@@ -41,7 +41,6 @@ const ProfileMenu: FC = () => {
                     <PageLink
                         href={link}
                         className={`bg-control relative flex justify-center`}
-                        onClick={() => setOpened(false)}
                     />
                 </li>
             ));
@@ -103,7 +102,6 @@ const ProfileMenu: FC = () => {
 
     const userBtns: ReactElement | ReactElement[] = (
         <div
-            ref={ref}
             onClick={() => setOpened((prevState) => !prevState)}
             className={'relative'}
         >
@@ -120,7 +118,14 @@ const ProfileMenu: FC = () => {
         </div>
     );
 
-    return <div className={'ml-auto flex h-full gap-[0.75rem]'}>{userBtns}</div>;
+    return (
+        <div
+            ref={ref}
+            className={'ml-auto flex h-full gap-[0.75rem]'}
+        >
+            {userBtns}
+        </div>
+    );
 };
 
 export { ProfileMenu };
