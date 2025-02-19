@@ -14,13 +14,15 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
 
     const layoutCtx = useLayout();
 
-    const breadcrumbs = layoutCtx.navLinks[NavLink.SubNav]?.[1]
+    const breadcrumbs = layoutCtx.navLinks[NavLink.Breadcrumbs]?.[1]
         ?.split('/')
         .slice(-length)
         .map((parts) => getIdName(parts))
         .join(' / ');
 
-    return <p className={'mt-n text-section-xxs'}>{breadcrumbs}</p>;
+    return (
+        <p className={'mt-n overflow-hidden overflow-ellipsis text-nowrap text-section-xxs leading-s'}>{breadcrumbs}</p>
+    );
 };
 
 export { BreadcrumbRoute };

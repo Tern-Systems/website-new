@@ -72,21 +72,6 @@ enum Route {
     More = '/all_ways/more',
 }
 
-const BLOG_ROUTES = [
-    Route.Artificial,
-    Route.Batteries,
-    Route.Cloud,
-    Route.Cybersecurity,
-    Route.Data,
-    Route.Centers,
-    Route.Robotics,
-    Route.Semiconductors,
-    Route.Videos,
-    Route.Podcasts,
-    Route.Events,
-    Route.More,
-];
-
 const CONTACT_LINKS = {
     Discord: { svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f' },
     'Stack overflow': { svg: SVG_STACKOVERFLOW, href: 'https://stackoverflow.com/users/24470835/tern' },
@@ -112,4 +97,4 @@ const MISC_LINKS = {
     TernKeyDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
 };
 
-export { Route, BLOG_ROUTES, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };
+export { Route, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };

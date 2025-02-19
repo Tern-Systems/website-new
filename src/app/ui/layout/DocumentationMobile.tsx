@@ -1,18 +1,12 @@
 import React, { FC, PropsWithChildren } from 'react';
 
-import { Route } from '@/app/static';
-
-import { useBackground, useMenu } from '@/app/hooks';
+import { useBackground } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
-import { usePathname } from 'next/navigation';
-import { checkSubRoute } from '@/app/utils';
 
 const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const { children } = props;
 
-    const route = usePathname();
-    const [setMenuOpened] = useMenu(checkSubRoute(route, Route.MyDocumentation));
     const bgSrc = useBackground();
 
     return (
@@ -24,7 +18,6 @@ const DocumentationMobileLayout: FC<PropsWithChildren> = (props: PropsWithChildr
         >
             <div className={`flex h-[3.05rem] items-center justify-end`}>
                 <Button
-                    onClick={() => setMenuOpened(true)}
                     icon={'burger'}
                     className={`absolute z-40 border-l-s border-gray-l0 pl-[0.9rem] before:h-[2.25rem] [&&_*]:size-[1.8rem]`}
                 />
