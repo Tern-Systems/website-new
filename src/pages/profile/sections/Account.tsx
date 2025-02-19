@@ -18,6 +18,7 @@ import { AuthenticationCode } from '@/app/ui/modals';
 import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
+import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 const ACCOUNT = 'Account Credentials';
 
@@ -26,47 +27,26 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
 
     const { userData, token } = useUser();
     const modalCtx = useModal();
+    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
 
     if (!userData || !token) return null;
 
-    const userPhoto = userData.photo?.split('?').shift()?.split('_')?.pop() ?? '';
+    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
+    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-s  [&&]:lg:text-section-s`;
 
     return (
         <Collapsible
             title={ACCOUNT}
             icon={'key'}
-            className={styles.collapsible}
+            className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
+            classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
+            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
+            classNameHr={`border-gray-l0 scale-[102%]`}
         >
-            <span className={styles.leftCol + ' ' + styles.ellipsis}>Profile Picture</span>
+            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>TernID</span>
             <Editable
-                type={'image'}
-                {...getSimpleToggleProps(setEditId, editId)}
-                initialize={function <T extends FormType>() {
-                    return {
-                        className: styles.photoInput,
-                        value: { fileName: userPhoto, file: null } as FormInit<T>,
-                        onSave: async (form) => {
-                            if (!('fileName' in form)) throw 'Wrong request setup';
-                            await update(async () => {
-                                const newPhotoUserData: UpdateUserData = { ...userData, photo: form.file };
-                                return await UserService.postUpdateUser(userData.email, newPhotoUserData);
-                            });
-                        },
-                    };
-                }}
-            >
-                <Button
-                    disabled
-                    icon={'upload'}
-                    className={styles.photoInput}
-                    classNameIcon={`[&&_*]:size-[--p-content-3xs]  sm:[&_*]:size-[--p-content-4xs]`}
-                >
-                    {userPhoto || 'Upload media'}
-                </Button>
-            </Editable>
-
-            <span className={styles.leftCol + ' ' + styles.ellipsis}>TernID</span>
-            <Editable
+                classNameText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -82,12 +62,15 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                     };
                 }}
             >
-                <span className={styles.midCol + ' ' + styles.ellipsis}>{userData.ternID ?? userData.email}</span>
+                <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>
+                    {userData.ternID ?? userData.email}
+                </span>
             </Editable>
 
-            <span className={styles.leftCol + ' ' + styles.ellipsis}>Password</span>
+            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Password</span>
             <Editable
                 type={'password'}
+                classNameText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 classNameWrapper={getSimpleToggleProps(setEditId, editId).classNameWrapper + ' gap-y-[--p-content-xxs]'}
                 initialize={function () {
@@ -114,9 +97,9 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                     };
                 }}
             >
-                <span className={styles.midCol + ' ' + styles.ellipsis}>
-                    <span className={'block'}>•••••••••••••••</span>
-                    <span className={'text-section-xs'}>
+                <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>
+                    <span className={'block text-section-xxs tracking-widest'}>•••••••••••••••</span>
+                    <span className={'text-section-3xs md:text-section-xs lg:text-section-xs'}>
                         Last updated&nbsp;
                         {userData.passwordUpdateDate
                             ? formatDate(new Date(userData.passwordUpdateDate), 'short')
@@ -125,9 +108,10 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                 </span>
             </Editable>
 
-            <span className={styles.leftCol + ' ' + styles.ellipsis}>Security</span>
+            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Security</span>
             <Editable
                 type={'2FA'}
+                classNameText={`text-section-xs`}
                 {...getSimpleToggleProps()}
                 classNameWrapper={getSimpleToggleProps().classNameWrapper + ' gap-y-[--p-content-xxs]'}
                 initialize={function <T extends FormType>() {
@@ -174,9 +158,10 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                     };
                 }}
             >
-                <span className={styles.midCol + ' [&&]:text-basic' + styles.ellipsis}>
-                    Enable / disable your <span className={'hidden sm:inline'}>2FA</span>
-                    <span className={'sm:hidden'}>two-factor authentication</span>
+                <span
+                    className={`${styles.midCol} ${styles.ellipsis} [&&]:text-section-xxs [&&]:md:text-basic [&&]:lg:text-basic`}
+                >
+                    Enable / disable your {isSm ? '2FA' : 'two-factor authentication'}
                 </span>
             </Editable>
         </Collapsible>

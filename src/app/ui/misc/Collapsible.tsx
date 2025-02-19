@@ -20,8 +20,7 @@ const ICON: Record<Icon, string> = {
     building: SVG_BUILDING,
     geo: SVG_GEO,
     blocks: SVG_BLOCKS,
-}
-
+};
 
 const WRAPPER_CN = cn(
     `p-l rounded-s bg-gray w-full max-w-[62rem] text-nowrap place-self-center  lg:rounded-none`,
@@ -34,7 +33,9 @@ interface Props extends PropsWithChildren {
     icon?: Icon;
     classNameWrapper?: string;
     classNameTitle?: string;
+    classNameTitleIcon?: string;
     classNameIcon?: string;
+    classNameHr?: string;
     className?: string;
     isChevron?: boolean;
     collapsedContent?: ReactElement;
@@ -51,7 +52,9 @@ const Collapsible: FC<Props> = (props: Props) => {
         className,
         classNameWrapper,
         classNameTitle,
+        classNameTitleIcon,
         classNameIcon,
+        classNameHr,
         expandedState,
     } = props;
 
@@ -79,7 +82,7 @@ const Collapsible: FC<Props> = (props: Props) => {
         <Image
             src={ICON[icon]}
             alt={icon}
-            className={`inline h-auto w-[min(4.3dvw,1.8rem)]`}
+            className={`inline h-auto w-[min(4.3dvw,1.8rem)] ${classNameTitleIcon}`}
         />
     ) : null;
 
@@ -138,7 +141,7 @@ const Collapsible: FC<Props> = (props: Props) => {
             <hr
                 className={cn(
                     { ['hidden']: isChevron },
-                    `mb-[min(2.6dvw,1.54rem)] mt-[min(2.1dvw,1.25rem)] scale-[105%] sm:landscape:scale-[102%]`,
+                    `mb-[min(2.6dvw,1.54rem)] mt-[min(2.1dvw,1.25rem)] scale-[105%] sm:landscape:scale-[102%] ${classNameHr}`,
                 )}
             />
             <div

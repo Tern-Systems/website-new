@@ -110,6 +110,7 @@ interface Props extends PropsWithChildren {
     keepChildrenOnEdit?: boolean;
 
     classNameToggle?: string;
+    classNameText?: string;
     classNameWrapper?: string;
 }
 
@@ -124,6 +125,7 @@ const Editable: FC<Props> = (props: Props) => {
         setParentEditId,
         classNameWrapper,
         classNameToggle,
+        classNameText,
         initialize,
         children,
     } = props;
@@ -294,7 +296,7 @@ const Editable: FC<Props> = (props: Props) => {
                 onClick={() => toggleEditState()}
                 className={`flex cursor-pointer items-center gap-[0.4rem] text-section ${classNameToggle} place-self-end self-start ${editState ? 'hidden' : ''}`}
             >
-                <span className={'hidden lg:inline'}>Edit</span>
+                <span className={`hidden lg:inline ${classNameText}`}>Edit</span>
                 <ReactSVG
                     src={SVG_PENCIL.src}
                     className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}

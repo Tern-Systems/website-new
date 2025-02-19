@@ -6,6 +6,7 @@ import { FormInit, FormType } from '@/app/ui/form/Editable';
 import { COUNTRY, STATE_PROVINCE } from '@/app/static';
 
 import { UserData, useUser } from '@/app/context/User.context';
+import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 import { PrimaryLabel } from '@/app/ui/atoms';
 import { Collapsible } from '@/app/ui/misc';
@@ -22,6 +23,12 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
 
     if (!userData) return null;
 
+    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
+    const isMd = useBreakpointCheck() === Breakpoint.md;
+
+    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
+    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-basic  [&&]:lg:text-basic`;
+
     const Addresses: (ReactElement | null)[] = Object.entries(userData.address)
         .filter((address) => address[1]?.country)
         .map(([type, address], idx) => {
@@ -29,24 +36,35 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             const state = address ? STATE_PROVINCE[address.country]?.[address.state] : '';
             const addressInfo: ReactElement | null = (
                 <>
-                    <span className={'flex w-full flex-col'}>
-                        <span>{address.line1}</span>
-                        <span>{address.line2}</span>
-                        <span>
+                    <span className={'flex w-full flex-col leading-tight'}>
+                        <span className={label_CN}>{address.line1}</span>
+                        <span className={label_CN}>{address.line2}</span>
+                        <span className={label_CN}>
                             {address.city} {state} {address.zip}
                         </span>
-                        <span>{COUNTRY[address.country]}</span>
+                        <span className={label_CN}>{COUNTRY[address.country]}</span>
                     </span>
-                    {address.isPrimary ? <PrimaryLabel /> : null}
+                    {address.isPrimary ? (
+                        <span className={`mt-5xs flex justify-items-start`}>
+                            {' '}
+                            <PrimaryLabel />{' '}
+                        </span>
+                    ) : null}
                 </>
             );
 
             return (
                 <span
                     key={type + idx}
-                    className={'col-start-2'}
+                    className={`col-start-2`}
                 >
-                    <span className={'mb-[0.2rem] mt-[0.76rem] block text-section-xs capitalize'}>
+                    <span
+                        className={cn(
+                            `mb-5xs ${idx !== 0 && 'mt-3xs md:mt-xs lg:mt-xs'} block text-section-3xs capitalize`,
+                            `md:x-[mb-[.5rem],text-section-xs]`,
+                            `lg:x-[mb-[.5rem],text-section-xs]`,
+                        )}
+                    >
                         {type.slice(0, 'Address'.length + 1)} Address
                     </span>
                     {addressInfo}
@@ -58,13 +76,18 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
         <Collapsible
             title={ADDRESSES}
             icon={'geo'}
-            className={'[&]:items-start'}
+            className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
+            classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
+            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
+            classNameHr={`border-gray-l0 scale-[102%]`}
         >
-            <span className={styles.leftCol + ' ' + styles.ellipsis}>
-                Address <span className={'sm:hidden'}>Information</span>
+            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
+                Address <span className={isSm || isMd ? 'hidden' : ''}>Information</span>
             </span>
             <Editable
                 type={'address'}
+                classNameText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
