@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
+import React, { FC, ReactElement, useRef, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 

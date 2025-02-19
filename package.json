@@ -6,11 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint src/",
     "prepare": "husky install",
-    "lint:fix": "eslint --fix",
+    "lint:fix": "eslint --fix src/",
     "pre-commit": "lint-staged --allow-empty",
-    "pre-push": "npm run lint && npm run build"
+    "pre-push": "npm run lint src/ && npm run build"
   },
   "dependencies": {
     "@splinetool/runtime": "^1.9.27",
