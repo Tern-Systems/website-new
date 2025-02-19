@@ -55,6 +55,7 @@ const config: Config = {
             margin: spacing,
             padding: spacing,
             maxWidth: size,
+            minWidth: size,
             width: size,
             maxHeight: size,
             minHeight: size,
