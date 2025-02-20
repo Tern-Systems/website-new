@@ -8,8 +8,32 @@ import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
 
+import { MEDIA_LINKS, MISC_LINKS } from '@/app/static';
+import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png';
+import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png';
+
+const DATA: SectionCard[] = [
+    {
+        title: 'Tern Careers',
+        description: 'Become a ternster',
+        action: 'Explore Jobs',
+        href: MISC_LINKS.Careers,
+        icon: SVG_OFFICE_GIRL_1,
+        btnIcon: 'arrow',
+        btnIconCN: 'rotate-180',
+    },
+    {
+        title: 'Tern Academy',
+        description: 'Explore Learning Opportunities',
+        action: 'Start Learning',
+        href: MEDIA_LINKS.YouTube.href,
+        icon: SVG_OFFICE_GIRL_2,
+        btnIcon: 'arrow-square',
+    },
+];
+
 interface Props {
-    data: SectionCard[];
+    data?: SectionCard[];
     className?: string;
     classNameContent?: string;
     classNameCompanyLi?: string;
@@ -18,7 +42,7 @@ interface Props {
 const InsideTernSection: FC<Props> = (props: Props) => {
     const { data, className, classNameContent, classNameCompanyLi } = props;
 
-    const CompanyLi: ReactElement[] = data.map((entry, idx) => (
+    const CompanyLi: ReactElement[] = (data ?? DATA).map((entry, idx) => (
         <li
             key={entry.title + idx}
             className={'flex w-full flex-col gap-y-3xs text-left'}

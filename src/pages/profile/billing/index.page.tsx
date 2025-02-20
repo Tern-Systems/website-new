@@ -14,7 +14,7 @@ import { useModal, useUser } from '@/app/context';
 import { formatDate } from '@/app/utils';
 import { Table } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
-import { HelpModal, MessageModal } from '@/app/ui/modals';
+import { MessageModal } from '@/app/ui/modals';
 import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
@@ -22,11 +22,7 @@ import styles from '@/app/common.module.css';
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.ManageSubscriptions} /> },
     { Node: <PageLink href={Route.PurchasingInformation} /> },
-    {
-        // TODO change to link to Support Hub page
-        Node: 'Support Hub',
-        action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'brc'} />, { darkenBg: true }),
-    },
+    { Node: <PageLink href={Route.SupportHub} /> },
 ];
 
 const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {

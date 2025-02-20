@@ -77,7 +77,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               }}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
                               className={'flex-row-reverse'}
-                              iconClassName={cn('ml-4xs  [&_*]:size-[1.6rem]  xxs:[&_*]:size-[0.8rem]')}
+                              iconClassName={cn('ml-4xs  size-[1.6rem]  xxs:[&_*]:size-[0.8rem]')}
                           >
                               {title}
                           </PageLink>
@@ -173,7 +173,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                         styles.section,
                         'absolute left-0 z-[1000] h-fit bg-black-l0',
                         'py-4xl',
-                        'sm:x-[min-w-0,w-[79%],overflow-y-scroll] sm:h-[calc(100dvh-var(--h-heading))]',
+                        'sm:x-[min-w-0,w-[79%],overflow-y-scroll] xxs:h-[calc(100dvh-var(--h-heading))]',
                         `xxs:top-[calc(1px+var(--h-heading))]`,
                         `xxs:x-[gap-x-l,max-w-[14.5625rem],p-0,bg-gray-d1]`,
                     )}

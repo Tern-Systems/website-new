@@ -7,32 +7,33 @@ import { DocumentationContent } from '@/app/types/documentation';
 const DOCUMENTATION_LINKS: DocumentationLink[] = [
     {
         title: 'TernKey Manual',
-        text: 'Discover the sandbox application that unlocks the potential of ternary programming.',
-        route: Route.TernKeyDoc,
+        description: 'Discover the sandbox application that unlocks the potential of ternary programming.',
+        href: Route.TernKeyDoc,
         subscription: 'TernKey',
     },
     {
         title: 'TernKit Manual',
-        text: 'Research and test ternary code on a machine equipped for ternary logic execution.',
-        route: Route.TernKitDoc,
+        description: 'Research and test ternary code on a machine equipped for ternary logic execution.',
+        href: Route.TernKitDoc,
         subscription: 'TernKey',
     },
     {
         title: 'G Handbook',
-        text: 'Master the G high-level programming language, optimized for ternary-based computing.',
-        route: Route.GDoc,
+        description: 'Master the G high-level programming language, optimized for ternary-based computing.',
+        href: Route.GDoc,
         subscription: 'TernKey',
     },
     {
         title: 'TERN Handbook',
-        text: 'Discover the TERN assembly programming language and redefine coding beyond binary limits.',
-        route: Route.TernDoc,
+        description: 'Discover the TERN assembly programming language and redefine coding beyond binary limits.',
+        href: Route.TernDoc,
         subscription: 'TernKey',
     },
     {
         title: 'BTMC Textbook',
-        text: 'This textbook outlines BTMC fundamentals and the implementation of balanced ternary logic in systems.',
-        route: Route.BTMCDoc,
+        description:
+            'This textbook outlines BTMC fundamentals and the implementation of balanced ternary logic in systems.',
+        href: Route.BTMCDoc,
         subscription: 'TernKey',
     },
 ];

@@ -68,13 +68,14 @@ const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
                 'G handbook': Route.GDoc,
             },
             {
-                Resources: '', // TODO links
-                'Open a case': Route.Contact,
+                Resources: Route.Resources, // TODO links
+                Downloads: Route.Downloads,
+                Tips: Route.Tips,
                 'Support hub': (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'support'} />),
-                'View your cases': Route.Contact, // TODO links
+                Community: Route.Community, // TODO links
             },
             {
-                Training: '', // TODO links
+                Training: Route.Training, // TODO links
                 Courses: '',
                 'Professional certificates': '',
             },

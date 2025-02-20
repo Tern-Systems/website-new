@@ -2,11 +2,17 @@ import { ReactNode } from 'react';
 import { StaticImageData } from 'next/image';
 
 import { ButtonIcon } from '@/app/ui/form/Button';
-import { Route } from '@/app/static';
 import { IModalContext } from '@/app/context/Modal.context';
+import { Route } from '@/app/static';
 import { PlanName } from '@/app/types/subscription';
 
-type DocumentationLink = { title: string; text: string; route: Route; subscription: PlanName };
+type ResourceLink = {
+    title: string;
+    description: string;
+    href: string;
+};
+
+type DocumentationLink = ResourceLink & { subscription: PlanName };
 
 type InfoSectionData = {
     title: string;
@@ -46,6 +52,7 @@ type TableSection<T extends object> = {
 };
 
 export type {
+    ResourceLink,
     DocumentationLink,
     SectionCard,
     InfoSectionData,

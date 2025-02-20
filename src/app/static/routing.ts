@@ -43,9 +43,11 @@ enum Route {
 
     // /support
     Resources = '/support/resources',
+    Community = '/support/community',
     Training = '/support/training',
     Downloads = '/support/downloads',
     Cases = '/support/cases',
+    Tips = '/support/tips',
     Contact = '/support/contact',
     Help = '/support/my_tern/faqs',
     Documentation = '/support/documentation',
