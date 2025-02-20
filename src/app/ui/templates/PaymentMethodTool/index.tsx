@@ -21,7 +21,6 @@ import SVG_MASTER from '/public/images/icons/card-master-card.svg';
 import SVG_AMEX from '/public/images/icons/card-amex.svg';
 import SVG_DISCOVER from '/public/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '/public/images/icons/card-num.svg';
-import SVG_BULLETLIST from '/public/images/icons/bullet-list.svg';
 
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
 const LEGEND_CN =
@@ -50,12 +49,12 @@ const FORM_DATA_DEFAULT: CardData = {
     isPreferred: false,
 };
 
-const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string) => (
+const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string = '') => (
     <Button
         type={'submit'}
         className={cn(
-            `h-[min(13dvw,3.25rem)] bg-gray px-[1.12rem] text-heading font-bold`,
-            `col-span-2 w-full rounded-full text-primary sm:mt-[2.7dvw]`,
+            'order-last h-[2.25rem] w-full bg-blue text-section-xs font-bold text-primary',
+            BUTTON_CN,
             className,
         )}
     >
@@ -72,7 +71,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const { userData } = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck(Breakpoint.sm);
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
@@ -129,50 +128,34 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         ]) ?? [],
     );
 
-    const SubmitBtn = (
-        <Button
-            type={'submit'}
-            className={`order-last h-[2.25rem] w-full bg-blue text-section-xs font-bold text-primary ${BUTTON_CN}`}
-        >
-            {paymentCreation ? 'Add' : 'Update'}
-        </Button>
-    );
-
     const SelectMethod = (
         <Select
+            altIcon
             hidden={paymentCreation}
             options={SavedCardOptions}
             value={editCardIdx.toString()}
             placeholder={'Select Payment Method'}
-            onChangeCustom={(value) => setEditCardIdx(+value)}
-            classNameWrapper={cn(FIELD_CN, `text-[500] mb-xxs border-b border-gray-l0`)}
-            classNameLabel={cn('text-section-xs  md:text-section-s  lg:text-section-s')}
+            onChangeCustom={(value) => setEditCardIdx(value ? +value : -1)}
+            classNameWrapper={cn(
+                `flex-col gap-y-xxs`,
+                `text-section-xs md:text-basic lg:text-section-s`,
+                `w-full border-b border-gray-l0`,
+            )}
+            classNameLabel={'mr-auto'}
+            classNameSelected={'w-full '}
+            classNameChevron={cn('ml-auto')}
+            className={cn(`px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
             classNameOption={cn(
-                'text-section-xs  md:text-section-s  lg:text-section-s',
-                '[&]:!border-b [&]:border-gray-l0',
-                '[&]:x-[bg-gray,border-transparent,py-4xs]',
-                'hover:bg-[#979797]',
-                'active:x-[border-blue]',
+                'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                'hover:!bg-[#979797]',
             )}
-            className={cn(
-                '[&&]:x-[bg-[#444444],border-none,rounded-none,pl-xxs,text-section-xs] [&&]:md:text-section-s [&&]:lg:text-section-s',
-            )}
-            classNameUl={cn(`w-full bg-gray p-0 py-3xs [&]:x-[rounded-none,border,border-gray-l0]`, `md:py-4xs`)}
-            classNameChevron={cn(
-                `p-4xs`,
-                `md:[&&]:x-[p-[1.0313rem]]  lg:[&&]:x-[p-[1.0313rem]]`,
-                'ml-auto border border-transparent',
-                'hover:x-[border-[#111111],bg-[#111111]]',
-                'active:border-blue',
-            )}
-            altIcon={SVG_BULLETLIST.src}
         >
             Choose Payment Method
         </Select>
     );
 
     return (
-        <div className={'bg-black pb-[17.5rem] pt-[min(8dvw,9rem)] text-primary'}>
+        <div className={'bg-black pb-[17.5rem] text-primary'}>
             <form
                 className={cn(
                     'w-full',
@@ -182,7 +165,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                 )}
                 onSubmit={handleFormSubmit}
             >
-                <fieldset className={`${FIELDSET_CN} lg:col-span-1`}>
+                <fieldset className={`${FIELDSET_CN}  ${paymentCreation ? 'lg:col-span-2' : 'lg:col-span-1'}`}>
                     <h1
                         className={cn(
                             'mt-xxl text-heading font-[500] leading-tight',
@@ -190,9 +173,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             'lg:x-[text-[2rem],mt-[4.375rem]]',
                         )}
                     >
-                        {paymentCreation ? 'Add Alternative Payment Method' : 'Edit Payment Method Details'}
+                        {paymentCreation ? 'Add Payment Method' : 'Edit Payment Method Details'}
                     </h1>
-
                     {!paymentCreation && SelectMethod}
                 </fieldset>
 
@@ -271,7 +253,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         >
                             Set as preferred payment method
                         </Input>
-                        {renderSubmitBtn(paymentCreation, 'sm:hidden')}
+                        {isSmScreen ? renderSubmitBtn(paymentCreation) : null}
                     </span>
                 </fieldset>
 
@@ -321,27 +303,15 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             value={formData.state}
                             onChangeCustom={(value) => setFormData('state')(value)}
                             classNameWrapper={cn(FIELD_CN, `text-[500] w-1/2`)}
-                            classNameLabel={cn('text-section-xs  md:text-section-s  lg:text-section-s')}
-                            classNameOption={cn(
-                                'text-section-xs  md:text-section-s  lg:text-section-s',
-                                '[&]:!border-b [&]:border-gray-l0',
-                                '[&]:x-[bg-gray,border-transparent,py-4xs]',
-                                'hover:bg-[#979797]',
-                                'active:x-[border-blue]',
-                            )}
+                            classNameLabel={'mr-auto'}
+                            classNameSelected={'w-full '}
+                            classNameChevron={cn('ml-auto')}
                             className={cn(
-                                '[&&]:x-[bg-[#444444],border,border-gray-l0,rounded-none,pl-xxs,text-section-xs]',
-                                '[&&]:md:text-section-s [&&]:lg:text-section-s',
+                                `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                             )}
-                            classNameUl={cn(
-                                `w-full bg-gray p-0 py-3xs [&]:x-[rounded-none,border,border-gray-l0]`,
-                                `md:py-4xs`,
-                            )}
-                            classNameChevron={cn(
-                                `p-3xs  md:p-xs  lg:p-xs`,
-                                'ml-auto border border-transparent',
-                                'hover:x-[border-[#111111],bg-[#111111]]',
-                                'active:border-blue',
+                            classNameOption={cn(
+                                'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                'hover:!bg-[#979797]',
                             )}
                             required
                         >
@@ -364,27 +334,15 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                         value={formData.country}
                         onChangeCustom={(value) => setFormData('country')(value)}
                         classNameWrapper={cn(FIELD_CN, `text-[500]`)}
-                        classNameLabel={cn('text-section-xs  md:text-section-s  lg:text-section-s')}
-                        classNameOption={cn(
-                            'text-section-xs  md:text-section-s  lg:text-section-s',
-                            '[&]:!border-b [&]:border-gray-l0',
-                            '[&]:x-[bg-gray,border-transparent,py-4xs]',
-                            'hover:bg-[#979797]',
-                            'active:x-[border-blue]',
-                        )}
+                        classNameLabel={'mr-auto'}
+                        classNameSelected={'w-full '}
+                        classNameChevron={cn('ml-auto')}
                         className={cn(
-                            '[&&]:x-[bg-[#444444],border,border-gray-l0,rounded-none,pl-xxs,text-section-xs]',
-                            '[&&]:md:text-section-s [&&]:lg:text-section-s',
+                            `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                         )}
-                        classNameUl={cn(
-                            `w-full bg-gray p-0 py-3xs [&]:x-[rounded-none,border,border-gray-l0]`,
-                            `md:py-4xs`,
-                        )}
-                        classNameChevron={cn(
-                            `p-3xs  md:p-xs  lg:p-xs`,
-                            'ml-auto border border-transparent',
-                            'hover:x-[border-[#111111],bg-[#111111]]',
-                            'active:border-blue',
+                        classNameOption={cn(
+                            'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                            'hover:!bg-[#979797]',
                         )}
                         required
                     >
@@ -392,7 +350,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </Select>
                 </fieldset>
 
-                {isSmScreen ? SubmitBtn : null}
+                {isSmScreen ? null : renderSubmitBtn(paymentCreation)}
             </form>
             <div
                 className={'mt-[9.375rem]'}

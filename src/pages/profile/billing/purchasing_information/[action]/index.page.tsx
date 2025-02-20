@@ -3,8 +3,12 @@ import { useParams } from 'next/navigation';
 
 import { Route } from '@/app/static';
 
-import { FullScreenLayout } from '@/app/ui/layout';
+import { Layout } from '@/app/ui/layout';
 import { PaymentMethodTool } from '@/app/ui/templates';
+
+import styles from '@/app/common.module.css';
+
+import { BreadcrumbRoute } from '@/app/ui/atoms';
 
 function PurchasingMethodPage() {
     const { action } = (useParams() as { action: string }) ?? {};
@@ -12,7 +16,14 @@ function PurchasingMethodPage() {
 }
 
 PurchasingMethodPage.getLayout = (page: ReactElement) => (
-    <FullScreenLayout backButtonSection={Route.PurchasingInformation}>{page}</FullScreenLayout>
+    <Layout>
+        <section className={`${styles.section} ${styles.fullHeightSection}`}>
+            <div className={styles.content}>
+                <BreadcrumbRoute />
+                {page}
+            </div>
+        </section>
+    </Layout>
 );
 PurchasingMethodPage.getMobileLayout = PurchasingMethodPage.getLayout;
 
