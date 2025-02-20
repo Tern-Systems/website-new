@@ -49,7 +49,7 @@ enum Route {
     Cases = '/support/cases',
     Tips = '/support/tips',
     Contact = '/support/contact',
-    Help = '/support/my_tern/faqs',
+    FAQs = '/support/my_tern/faqs',
     Documentation = '/support/documentation',
     TernKeyDoc = '/support/documentation/ternkey',
     GDoc = '/support/documentation/g',
