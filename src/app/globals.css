@@ -46,7 +46,7 @@
   --b-gray: var(--bg-gray);
   --b-gray-l0: var(--bg-gray-l0);
   --b-gray-l1: #999999;
-  --b-white-d0: #b3b3b3;
+  --b-white-d0: var(--bg-white-d2);
   --b-white: var(--bg-white);
   --b-blue: var(--bg-blue);
   --b-blue-d0: #192131;
@@ -56,12 +56,13 @@
   --bg-main: #000000;
   --bg-black-l0: #111111;
   --bg-gray-d1: #0b0b0b;
-  --bg-gray-d0:#272727;
+  --bg-gray-d0: #272727;
   --bg-gray: #4d4d4d;
   --bg-gray-l0: #808080;
-  --bg-white-d1: #d3d3d3;
-  --bg-white-d0: #d9d9d9;
   --bg-white: #f2f2f2;
+  --bg-white-d0: #d9d9d9;
+  --bg-white-d1: #d3d3d3;
+  --bg-white-d2: #b3b3b3;
   --bg-red: #f42200;
   --bg-blue-l0: #08132d;
   --bg-blue: #178ab7;

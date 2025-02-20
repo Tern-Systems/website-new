@@ -1,5 +1,5 @@
-function ResourcesPage() {
+function TrainingPage() {
     return <>No content yet...</>;
 }
 
-export default ResourcesPage;
+export default TrainingPage;
