@@ -5,6 +5,7 @@ import { InfoSectionData, SectionCard } from '@/app/types/layout';
 import { MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
 import { PageLink } from '@/app/ui/layout';
+import { MainBackground } from '@/app/ui/atoms';
 import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
@@ -15,7 +16,6 @@ import SVG_COMPUTER from '/public/images/old-computer.svg';
 import SVG_ROCKET from '/public/images/rocket.png';
 import SVG_NEURONS from '/public/images/neurons-blue.png';
 import SVG_NATURE from '/public/images/nature-section.png';
-import { MainBackground } from '@/app/ui/atoms';
 
 const INFO: InfoSectionData = {
     title: 'Enabling Efficient Computing',
