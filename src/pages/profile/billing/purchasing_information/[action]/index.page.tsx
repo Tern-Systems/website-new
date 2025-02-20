@@ -1,8 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useParams } from 'next/navigation';
 
-import { Route } from '@/app/static';
-
 import { Layout } from '@/app/ui/layout';
 import { PaymentMethodTool } from '@/app/ui/templates';
 
