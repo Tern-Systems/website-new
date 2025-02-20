@@ -106,7 +106,7 @@ function TernKeyPage() {
     const TilesLi: ReactElement[] = TILES.map((tile, idx) => (
         <li
             key={tile.title + idx}
-            className={'flex flex-col  sm:w-2/3  text-section-xxs md:text-basic lg:text-section'}
+            className={'flex flex-col mx-auto sm:w-2/3  text-section-xxs md:text-basic lg:text-section'}
         >
             <ReactSVG
                 src={tile.image.src}
@@ -337,7 +337,7 @@ function TernKeyPage() {
                     </h2>
                     <ul
                         className={cn(
-                            'mx-auto grid gap-3xl  grid-cols-3 sm:grid-cols-1',
+                            'grid gap-3xl mx-auto  grid-cols-3 sm:grid-cols-1',
                             'w-fit lg:w-full',
                             'mt-3xl md:mt-[4.75rem] lg:mt-5xl',
                         )}
