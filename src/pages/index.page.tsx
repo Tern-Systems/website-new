@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Image, { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
-import { InfoSectionData, SectionCard } from '@/app/types/layout';
+import { InfoSectionData } from '@/app/types/layout';
 
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
@@ -23,8 +23,6 @@ import styles from '@/app/common.module.css';
 import SVG_CITY from '/public/images/city-glowing-way.jpg';
 import SVG_MICROPROCESSOR from '/public/images/microprocessor.png';
 import SVG_NATURE from '/public/images/nature.png';
-import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png';
-import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png';
 import SVG_CIRCUIT from '/public/images/microchip.png';
 
 const CARDS: {
@@ -62,26 +60,6 @@ const INFO: InfoSectionData = {
     description:
         'AI is here to stay, and it’s crucial to ensure we meet the growing demand for energy consumption. Our advanced microprocessor designs serve as the catalyst for the next technological revolution in computing.',
 };
-
-const COMPANY: SectionCard[] = [
-    {
-        title: 'Tern Careers',
-        description: 'Become a ternster',
-        action: 'Explore Jobs',
-        href: MISC_LINKS.Careers,
-        icon: SVG_OFFICE_GIRL_1,
-        btnIcon: 'arrow',
-        btnIconCN: 'rotate-180',
-    },
-    {
-        title: 'Tern Academy',
-        description: 'Explore Learning Opportunities',
-        action: 'Start Learning',
-        href: MEDIA_LINKS.YouTube.href,
-        icon: SVG_OFFICE_GIRL_2,
-        btnIcon: 'arrow-square',
-    },
-];
 
 const BTN_CN = 'px-s h-button-l  lg:h-button-xxl';
 
@@ -260,7 +238,7 @@ const HomePage: FC = () => {
                     blur
                     data={INFO}
                 />
-                <InsideTernSection data={COMPANY} />
+                <InsideTernSection />
             </div>
         </>
     );

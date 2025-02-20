@@ -12,7 +12,7 @@ import { useLoginCheck, useNavigate } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { Table } from '@/app/ui/organisms';
-import { HelpModal, MessageModal } from '@/app/ui/modals';
+import { MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 import { ResourcesSection } from '@/app/ui/templates';
 import { FAQsModal } from '@/pages/support/faqs/index.page';
@@ -56,11 +56,7 @@ const RESOURCES: ResourceSectionData[] = [
         action: ({ isSm, navigate, modalCtx }) =>
             isSm ? navigate(Route.Help) : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
     },
-    {
-        // TODO change to link to Support Hub page
-        Node: 'Support Hub',
-        action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'support'} />, { darkenBg: true }),
-    },
+    { Node: <PageLink href={Route.SupportHub} /> },
 ];
 
 const renderSinceDate = (dateNumber: number | undefined) => {

@@ -1,26 +1,23 @@
 import React from 'react';
 
-import { DocumentationLink, ResourceSectionData } from '@/app/types/layout';
+import { ResourceLink, ResourceSectionData } from '@/app/types/layout';
 import { Route } from '@/app/static';
 import { DOCUMENTATION_LINKS } from '@/app/static/documentation';
 
 import { useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
-import { HelpModal } from '@/app/ui/modals';
-import { DocumentationCardsSection, ResourcesSection } from '@/app/ui/templates';
+import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 import { BreadcrumbRoute } from '@/app/ui/atoms';
 
+import SVG_ARROW from '/public/images/icons/arrow.svg';
+
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Downloads} /> },
     { Node: <PageLink href={Route.Cases}>View your cases</PageLink> },
-    {
-        // TODO change to link to Support Hub page
-        Node: 'Support Hub',
-        action: ({ modalCtx }) => modalCtx.openModal(<HelpModal type={'support'} />, { darkenBg: true }),
-    },
+    { Node: <PageLink href={Route.SupportHub} /> },
 ];
 
 interface Props {
@@ -32,11 +29,12 @@ function DocumentationPage(props: Props) {
 
     const { userData } = useUser();
 
-    let links: DocumentationLink[] = DOCUMENTATION_LINKS;
-    if (filterBySubscription)
+    let links: ResourceLink[] = DOCUMENTATION_LINKS;
+    if (filterBySubscription) {
         links = DOCUMENTATION_LINKS.filter((link) =>
             userData?.subscriptions.some((plan) => plan.subscription.includes(link.subscription)),
         );
+    }
 
     return (
         <div className={'pb-[8.16rem]'}>
@@ -45,7 +43,10 @@ function DocumentationPage(props: Props) {
                 <h1 className={`mt-3xl font-oxygen text-section-xl font-bold  sm:text-section-l`}>Documentation</h1>
             </section>
             <section className={styles.content}>
-                <DocumentationCardsSection links={links} />
+                <ResourceCards
+                    icon={SVG_ARROW}
+                    links={links}
+                />
             </section>
             <ResourcesSection
                 data={RESOURCES}

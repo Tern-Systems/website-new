@@ -14,7 +14,7 @@ import React, {
 import { usePathname } from 'next/navigation';
 
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
-import { BLOG_ROUTES, LAYOUT, NavLink, Route } from '@/app/static';
+import { LAYOUT, NavLink, Route } from '@/app/static';
 
 import { checkSubRoute, getRouteLeave } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
@@ -35,40 +35,39 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
     const isSm = breakpoint <= Breakpoint.sm;
 
     let navLinks: Route[] = LAYOUT.navLinks;
+    let breadCrumbLinks: Route[] | null = [];
     let subNavLinks: Route[] | null = [];
-    let sub2NavLinks: Route[] | null = [];
 
     if (route !== Route.Home) {
         // Much specific routes should be kept at the top (e.g. Route.MyDocumentation is mush specific than Route.Profile as it's nested under Route.Profile)
         switch (true) {
             case checkSubRoute(route, Route.MyDocumentation, true):
                 navLinks = [Route.Billing, Route.MyDocumentation, Route.Resources, Route.Training];
-                subNavLinks = isSm ? [Route.MyDocumentation] : null;
+                breadCrumbLinks = isSm ? [Route.MyDocumentation] : null;
                 break;
             case checkSubRoute(route, Route.Profile):
                 navLinks = LAYOUT.profileLinks;
-                subNavLinks = isSm ? null : LAYOUT.profileLinks;
+                breadCrumbLinks = isSm ? null : LAYOUT.profileLinks;
                 break;
             case checkSubRoute(route, Route.Documentation):
-                navLinks = [Route.MyDocumentation, route as Route];
-                subNavLinks = [Route.MyDocumentation];
-                sub2NavLinks = isSm
+                breadCrumbLinks = [Route.MyDocumentation];
+                subNavLinks = isSm
                     ? [route as Route]
                     : [Route.BTMCDoc, Route.GDoc, Route.TernDoc, Route.TernKeyDoc, Route.TernKitDoc];
                 break;
             case checkSubRoute(route, Route.AllWays):
-                let routes = BLOG_ROUTES;
+                let routes = LAYOUT.blogLinks;
                 if (breakpoint <= Breakpoint.sm) routes = [routes[0], routes[4], routes[2], routes[3]];
-                sub2NavLinks = [Route.AllWays, ...routes];
+                subNavLinks = [Route.AllWays, ...routes];
                 break;
             case checkSubRoute(route, Route.TernKey):
-                sub2NavLinks = [Route.TernKey, Route.TernKeyPricing, Route.TernKeyProductManual];
+                subNavLinks = [Route.TernKey, Route.TernKeyPricing, Route.TernKeyProductManual];
                 break;
             default:
                 break;
         }
     }
-    return [navLinks, subNavLinks, sub2NavLinks];
+    return [navLinks, breadCrumbLinks, subNavLinks];
 };
 
 interface ILayoutContext {
@@ -77,7 +76,6 @@ interface ILayoutContext {
     setFadeState: Dispatch<SetStateAction<boolean>>;
     isFade: boolean;
     navLinks: NavLinks;
-    breadCrumbsNav: boolean;
     getSubNavs: (route: Route, breakpoint: Breakpoint) => [Route[], Route[] | null, Route[] | null];
     navigateState: [NavigationState, SetState<NavigationState>, Route | null, SetState<Route | null>];
 }
@@ -97,19 +95,22 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const fullscreenRef = useRef<HTMLDivElement | null>(null);
 
     const navLinks: NavLinks = getSubNavs(route as Route, breakpoint);
-    let breadCrumbsNav = false;
     switch (true) {
         case checkSubRoute(route, Route.Documentation):
-            breadCrumbsNav = true;
-            navLinks[NavLink.SubNav] = [
+            navLinks[NavLink.Breadcrumbs] = [
                 userCtx.isLoggedIn ? Route.MyTern : Route.Home,
                 userCtx.isLoggedIn ? Route.MyDocumentation : Route.Documentation,
                 getRouteLeave(route) as Route,
             ];
             break;
         case checkSubRoute(route, Route.Credo):
-            breadCrumbsNav = true;
-            navLinks[NavLink.SubNav] = [Route.About, Route.Credo];
+            navLinks[NavLink.Breadcrumbs] = [Route.About, Route.Credo];
+            break;
+        case checkSubRoute(route, Route.ManageSubscriptions):
+            navLinks[NavLink.Breadcrumbs] = [Route.Billing, Route.ManageSubscriptions];
+            break;
+        case checkSubRoute(route, Route.Downloads):
+            navLinks[NavLink.Breadcrumbs] = [Route.Resources, Route.Downloads];
             break;
         default:
             break;
@@ -142,7 +143,6 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 setFadeState,
                 isFade,
                 navLinks,
-                breadCrumbsNav,
                 getSubNavs,
                 navigateState: [navigationState, setNavigationState, blockedRoute, setBlockedRoute],
             }}

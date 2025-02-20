@@ -47,7 +47,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
 
     useOuterClickClose(subNavRef, !!subNavRef, () => setDropdownColumns(null));
 
-    const subNavLinks = layoutCtx.navLinks[NavLink.Sub2Nav];
+    const subNavLinks = layoutCtx.navLinks[NavLink.SubNav];
 
     // Elements
     const DropdownLi: ReactElement[] | null = !navDropdown
@@ -77,7 +77,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               }}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
                               className={'flex-row-reverse'}
-                              iconClassName={cn('ml-4xs  !size-[1.6rem]  xxs:[&_*]:!size-[0.8rem]')}
+                              iconClassName={cn('ml-4xs  size-[1.6rem]  xxs:[&_*]:size-[0.8rem]')}
                           >
                               {title}
                           </PageLink>
@@ -93,7 +93,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                       <ul
                           className={cn(
                               'flex flex-col gap-y-xxs text-nowrap',
-                              'xxs:flex-1 xxs:[&>li]:x-[gap-y-0,py-s,border-b-s]',
+                              'xxs:x-[flex-1,gap-y-0] xxs:[&>li]:x-[py-s,border-b-s]',
                           )}
                       >
                           {LinksLi}
@@ -173,8 +173,9 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                         styles.section,
                         'absolute left-0 z-[1000] h-fit bg-black-l0',
                         'py-4xl',
-                        'sm:x-[min-w-0,w-[79%]]',
-                        `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))] xxs:x-[gap-x-l,max-w-[14.5625rem],overflow-y-scroll,bg-gray-d1]`,
+                        'sm:x-[min-w-0,w-[79%],overflow-y-scroll] xxs:h-[calc(100dvh-var(--h-heading))]',
+                        `xxs:top-[calc(1px+var(--h-heading))]`,
+                        `xxs:x-[gap-x-l,max-w-[14.5625rem],p-0,bg-gray-d1]`,
                     )}
                 >
                     <ul
