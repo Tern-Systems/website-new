@@ -20,7 +20,7 @@ const ICON: Record<Icon, string> = {
     building: SVG_BUILDING,
     geo: SVG_GEO,
     blocks: SVG_BLOCKS,
-}
+};
 
 const WRAPPER_CN = cn(
     `p-l rounded-s bg-gray w-full max-w-[62rem] text-nowrap place-self-center  lg:rounded-none`,
@@ -141,7 +141,7 @@ const Collapsible: FC<Props> = (props: Props) => {
             <hr
                 className={cn(
                     { ['hidden']: isChevron },
-                    `mb-[min(2.6dvw,1.54rem)] mt-[min(2.1dvw,1.25rem)] scale-[105%] sm:landscape:scale-[102%] ${classNameHr}`,
+                    `mb-[min(2.6dvw,1.54rem)] mt-[min(2.1dvw,1.25rem)] [&]:scale-[102%] ${classNameHr}`,
                 )}
             />
             <div

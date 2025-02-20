@@ -92,7 +92,7 @@ const AppsSection: FC = () => {
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
             classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
-            classNameHr={`border-gray-l0 scale-[102%]`}
+            classNameHr={`border-gray-l0`}
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Domain</span>
             {userData.personalDomain ? (
