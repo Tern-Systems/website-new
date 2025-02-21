@@ -87,11 +87,16 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             </span>
             <Editable
                 type={'address'}
-                classNameText={`text-section-xs`}
+                classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
-                        className: cn(styles.singleInputBase, styles.common, styles.roundedWFull),
+                        className: cn(
+                            styles.singleInputBase,
+                            styles.common,
+                            styles.roundedWFull,
+                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                        ),
                         value: userData.address as FormInit<T>,
                         onSave: async (formData) => {
                             if (!('personalAddress' in formData)) throw 'Incorrect request setup';

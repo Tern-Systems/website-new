@@ -5,10 +5,11 @@ interface Props {
     handleSwitch: () => void;
     state: boolean;
     className?: string;
+    classNameSwitchText?: string;
 }
 
 const Switch: FC<Props> = (props: Props) => {
-    const { handleSwitch, state, className } = props;
+    const { handleSwitch, state, className, classNameSwitchText } = props;
     return (
         <div
             className={`flex cursor-pointer items-center gap-x-[0.4rem] ${className}`}
@@ -24,7 +25,7 @@ const Switch: FC<Props> = (props: Props) => {
                     )}
                 />
             </div>
-            <span className={'sm:hidden'}>{state ? 'On' : 'Off'}</span>
+            <span className={`sm:hidden  ${classNameSwitchText}`}>{state ? 'On' : 'Off'}</span>
         </div>
     );
 };

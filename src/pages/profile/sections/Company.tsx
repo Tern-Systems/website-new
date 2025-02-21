@@ -46,11 +46,16 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                 Organization<span className={isSm || isMd ? 'hidden' : ''}>al Information</span>
             </span>
             <Editable
-                classNameText={`text-section-xs`}
+                classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
-                        className: cn(styles.singleInput, styles.singleInputBase, styles.common),
+                        className: cn(
+                            styles.singleInput,
+                            styles.singleInputBase,
+                            styles.common,
+                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                        ),
                         value: { value: userData.company?.name ?? '' } as FormInit<T>,
                         onSave: async (form) => {
                             if (!('value' in form) || !form.value) throw 'Incorrect request setup';
@@ -76,7 +81,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
             </span>
             <Editable
                 type={'company'}
-                classNameText={`text-section-xs`}
+                classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -85,6 +90,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInputBase,
                             `px-[0.76rem] border-small`,
                             styles.roundedWFull,
+                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
                         ),
                         value: userData.company as FormInit<T>,
                         onSave: async (form) => {

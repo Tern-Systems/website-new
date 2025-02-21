@@ -12,6 +12,7 @@ import React, {
     useState,
 } from 'react';
 import { ReactSVG } from 'react-svg';
+import cn from 'classnames';
 import { isEqual } from 'lodash';
 import { v4 } from 'uuid';
 
@@ -52,7 +53,7 @@ const FA2_INPUT_CN =
     'bg-gray-l0 py-[min(1.7dvw,0.35rem)] w-full rounded-xs px-[min(16dvw,0.76rem)] border-s border-white';
 const CHECKBOX_CN = {
     classNameWrapper: 'flex-row-reverse place-self-start',
-    classNameLabel: 'text-section',
+    classNameLabel: 'text-section-xxs  md:text-section-xs  lg:text-basic',
 };
 
 type FormType = 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'address' | 'image' | 'company';
@@ -110,7 +111,7 @@ interface Props extends PropsWithChildren {
     keepChildrenOnEdit?: boolean;
 
     classNameToggle?: string;
-    classNameText?: string;
+    classNameToggleText?: string;
     classNameWrapper?: string;
 }
 
@@ -125,7 +126,7 @@ const Editable: FC<Props> = (props: Props) => {
         setParentEditId,
         classNameWrapper,
         classNameToggle,
-        classNameText,
+        classNameToggleText,
         initialize,
         children,
     } = props;
@@ -250,14 +251,16 @@ const Editable: FC<Props> = (props: Props) => {
     const CancelBtn = (
         <Button
             type={'reset'}
-            className={'h-full rounded-full bg-gray-l0 px-xxs'}
+            className={'h-full rounded-full bg-gray-l0 px-xxs text-section-xxs  md:text-section-xs'}
             onClick={() => toggleEditState()}
         >
             Cancel
         </Button>
     );
     const ControlBtns: FC = () => (
-        <span className={`mt-[min(1.3dvw,0.95rem)] flex h-button-n gap-x-[min(1dvw,0.75rem)] text-section font-bold`}>
+        <span
+            className={`mt-[min(1.3dvw,0.95rem)] flex h-button-n gap-x-[min(1dvw,0.75rem)] text-section-xxs  md:text-section-xs font-bold`}
+        >
             {CancelBtn}
             <Button
                 ref={submitRef}
@@ -296,7 +299,7 @@ const Editable: FC<Props> = (props: Props) => {
                 onClick={() => toggleEditState()}
                 className={`flex cursor-pointer items-center gap-[0.4rem] text-section ${classNameToggle} place-self-end self-start ${editState ? 'hidden' : ''}`}
             >
-                <span className={`hidden lg:inline ${classNameText}`}>Edit</span>
+                <span className={`hidden lg:inline ${classNameToggleText}`}>Edit</span>
                 <ReactSVG
                     src={SVG_PENCIL.src}
                     className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}
@@ -306,15 +309,17 @@ const Editable: FC<Props> = (props: Props) => {
 
     // Styles
     const SELECT_CN = {
-        classNameWrapper: 'flex-col gap-y-[min(1.3dvw,0.6rem)]',
-        classNameLabel: `self-start text-section`,
-        className: `${initial?.className} rounded-xs h-[min(3.4dvw,2rem)]`,
+        classNameWrapper: `flex-col gap-y-4xs`,
+        classNameLabel: `self-start text-section-xxs  md:text-section-xs  lg:text-basic`,
+        className: `${initial?.className} px-3xs py-5xs [&]:bg-gray-l0`,
         classNameOption: `${initial?.className} [&&]:rounded-none`,
+        classNameSelected: `w-full `,
+        classNameChevron: `ml-auto`,
     };
     const INPUT_CN = {
-        className: initial?.className,
-        classNameWrapper: 'flex-col gap-y-[min(1.3dvw,0.6rem)] w-full',
-        classNameLabel: `first-letter:capitalize place-self-start text-section`,
+        className: `${initial?.className}`,
+        classNameWrapper: 'flex-col gap-y-4xs w-full text-section-xxs  md:text-section-xs  lg:text-basic',
+        classNameLabel: `first-letter:capitalize place-self-start text-section-xxs  md:text-section-xs  lg:text-basic`,
     };
 
     // Form controls
@@ -452,7 +457,13 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         New Password
                     </Input>
-                    <ul className={'ml-[min(2dvw,1rem)] grid list-inside list-disc grid-cols-2 text-basic'}>
+                    <ul
+                        className={cn(
+                            'grid list-inside list-disc grid-cols-2 sm:portrait:grid-cols-1',
+                            'ml-3xs text-section-xxs',
+                            'marker:[&]:pr-5xs gap-1',
+                        )}
+                    >
                         <li>
                             <span className={'sm:hidden'}>Minimum of </span>9 characters
                         </li>
@@ -464,7 +475,7 @@ const Editable: FC<Props> = (props: Props) => {
                         <li>
                             <span className={'hidden sm:inline'}>L</span>
                             <span className={'sm:hidden'}>One l</span>
-                            owercase leter
+                            owercase letter
                         </li>
                         <li>
                             <span className={'hidden sm:inline'}>N</span>
@@ -538,6 +549,7 @@ const Editable: FC<Props> = (props: Props) => {
             EditToggle = (
                 <Switch
                     state={editState}
+                    classNameSwitchText={classNameToggleText}
                     handleSwitch={async () => {
                         await initial.onSwitch?.(editState);
                         if (

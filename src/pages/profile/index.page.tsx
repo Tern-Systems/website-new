@@ -130,7 +130,7 @@ const ProfilePage: FC = () => {
                             className={cn(
                                 `sticky self-start text-nowrap text-left`,
                                 `top-[min(25.3dvw,3.88rem)] hidden`,
-                                `lg:x-[block,mr-xs]`,
+                                `lg:x-[block] w-[16.25rem]`,
                             )}
                         >
                             <ul className={cn(styles.line, `flex flex-col text-section-s before:bg-white`)}>

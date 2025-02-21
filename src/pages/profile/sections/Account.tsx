@@ -46,11 +46,16 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>TernID</span>
             <Editable
-                classNameText={`text-section-xs`}
+                classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
-                        className: cn(styles.singleInput, styles.singleInputBase, styles.common),
+                        className: cn(
+                            styles.singleInput,
+                            styles.singleInputBase,
+                            styles.common,
+                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                        ),
                         title: 'Update your TernID',
                         value: { value: userData.email } as FormInit<T>,
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -70,12 +75,17 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Password</span>
             <Editable
                 type={'password'}
-                classNameText={`text-section-xs`}
+                classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
-                classNameWrapper={getSimpleToggleProps(setEditId, editId).classNameWrapper + ' gap-y-[--p-content-xxs]'}
+                classNameWrapper={getSimpleToggleProps(setEditId, editId).classNameWrapper + ' gap-y-3xs'}
                 initialize={function () {
                     return {
-                        className: cn(styles.singleInput, styles.singleInputBase, styles.common),
+                        className: cn(
+                            styles.singleInput,
+                            styles.singleInputBase,
+                            styles.common,
+                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                        ),
                         title: 'Update password',
                         value: null,
                         onSave: async (form) => {
@@ -111,9 +121,9 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Security</span>
             <Editable
                 type={'2FA'}
-                classNameText={`text-section-xs`}
+                classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps()}
-                classNameWrapper={getSimpleToggleProps().classNameWrapper + ' gap-y-[--p-content-xxs]'}
+                classNameWrapper={getSimpleToggleProps().classNameWrapper + ' gap-y-xxs'}
                 initialize={function <T extends FormType>() {
                     return {
                         value: {
