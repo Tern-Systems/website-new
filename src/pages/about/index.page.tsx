@@ -69,7 +69,7 @@ const AboutPage: FC = () => {
                     </div>
                 </section>
 
-                <section className={cn(styles.section, styles.fullHeightSection, 'relative bg-black')}>
+                <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
                     <div
                         style={{ backgroundImage: `url("${SVG_NEURONS.src}")` }}
                         className={cn(

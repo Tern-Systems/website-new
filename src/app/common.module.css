@@ -1,5 +1,8 @@
 .section {
+  position: relative;
+  z-index: 10;
   min-width: 100dvw;
+  background-color: #000;
 }
 
 .fullHeightSection {
@@ -72,11 +75,6 @@
 .contentHighlight:after {
   @apply absolute -z-10 top-0 w-full h-full bg-blue blur-[15rem];
   content: "";
-}
-
-
-.cardGrayGradient {
-  @apply from-gray to-[--bg-white-d2]  bg-gradient-to-r sm:bg-gradient-to-b;
 }
 
 .fadeIn {

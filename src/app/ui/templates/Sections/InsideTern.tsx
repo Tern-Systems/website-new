@@ -70,7 +70,13 @@ const InsideTernSection: FC<Props> = (props: Props) => {
 
     return (
         <section className={cn(styles.section, className)}>
-            <div className={cn(styles.content, 'pb-xxl pt-6xl text-section  lg:pb-[9.44rem]', classNameContent)}>
+            <div
+                className={cn(
+                    styles.content,
+                    'text-section  pt-[6.25rem] md:pt-[5rem]  pb-xxl lg:pb-[9.44rem]',
+                    classNameContent,
+                )}
+            >
                 <h2 className={'text-left text-heading-xl font-bold '}>Inside Tern</h2>
                 <ul
                     className={cn(

@@ -184,7 +184,7 @@ function MyTernPage() {
     ));
 
     return (
-        <div className={cn(styles.section, `min-h-dvh bg-black pt-[6.25rem]`)}>
+        <div className={cn(styles.section, styles.fullHeightSection, `pt-[6.25rem]`)}>
             <section className={styles.content}>
                 <h1 className={`flex text-section-xl font-bold`}>Dashboard</h1>
                 <p className={'text-xxs mt-xxs'}>{renderSinceDate(userCtx.userData?.registrationDate)}</p>
