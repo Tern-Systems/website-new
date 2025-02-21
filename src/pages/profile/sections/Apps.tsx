@@ -41,7 +41,7 @@ const AppsSection: FC = () => {
         return apps.map((app, idx) => {
             const userApp = userApps.find((userApp) => userApp.name === app);
             const isFound = userApp !== undefined;
-            const text = `Connect` + (isFound ? `ed` : ``);
+            const text = isFound ? 'Connected' : 'Connect';
             const icon: ButtonIcon = isFound ? 'mark-square' : 'plus-square';
 
             return (
@@ -66,7 +66,7 @@ const AppsSection: FC = () => {
                         icon={icon}
                         hovered={{
                             icon: isFound ? 'close-square' : icon,
-                            text: isFound ? '' : 'Disconnect',
+                            text: isFound ? 'Disconnect' : 'Connect',
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
                         className={cn(
