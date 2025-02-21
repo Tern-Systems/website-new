@@ -5,7 +5,8 @@ import cn from 'classnames';
 import { Route } from '@/app/static';
 
 import { MainBackground } from '@/app/ui/atoms';
-import { InsideTernSection, ResourceCard } from '@/app/ui/templates';
+import { ResourceCard } from '@/app/ui/organisms';
+import { InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 

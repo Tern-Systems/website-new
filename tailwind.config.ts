@@ -31,6 +31,7 @@ const size = {
     'button-l': 'var(--h-button-l)',
     'button-n': 'var(--h-button-n)',
     'button-s': 'var(--h-button-s)',
+    'card': 'var(--w-card)',
 };
 
 

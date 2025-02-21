@@ -12,7 +12,7 @@ import { useModal } from '@/app/context';
 
 import { Button } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
-import { ArticleCardLi } from '@/app/ui/templates';
+import { ArticleCard } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
@@ -104,10 +104,15 @@ function ArticlePage() {
         .filter((article) => article.id !== content?.id)
         .slice(0, RELATED_CARDS_COUNT - +isLg)
         .map((article, idx) => (
-            <ArticleCardLi
-                key={article.id + idx}
-                article={article}
-            />
+            <li
+                key={article?.title ?? 'card-' + idx}
+                className={'contents'}
+            >
+                <ArticleCard
+                    key={article.id + idx}
+                    article={article}
+                />
+            </li>
         ));
 
     return (

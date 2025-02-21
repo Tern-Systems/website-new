@@ -8,7 +8,7 @@ import { BlogService } from '@/app/services/blog.service';
 import { useModal } from '@/app/context';
 
 import { MessageModal } from '@/app/ui/modals';
-import { ArticleCardLi } from '@/app/ui/templates';
+import { ArticleCard } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
@@ -46,7 +46,7 @@ const TagArticle: FC<Props> = (props: Props) => {
 
     // Elements
     const CardsLi: ReactElement[] = articlesFinal.map((article, idx) => (
-        <ArticleCardLi
+        <ArticleCard
             key={article.id + idx}
             article={article}
         />

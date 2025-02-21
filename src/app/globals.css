@@ -20,7 +20,7 @@
   --p-4xs: 0.62rem;
   --p-5xs: 0.31rem;
 
-  /* Heights */
+  /* Heights / Widths */
   --h-button-xxl: 2.88rem;
   --h-button-xl: 2.375rem;
   --h-button-l: 1.875rem;
@@ -32,6 +32,7 @@
   --h-sub-heading: 1.67rem;
   --insignia-h: 1.25rem;
   --h-footer-lg: 28.5rem;
+  --w-card: 22rem;
 
   /* Borders */
   --b-s: 0.0625rem;
