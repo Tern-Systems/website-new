@@ -75,6 +75,10 @@
 }
 
 
+.cardGrayGradient {
+  @apply from-gray to-[--bg-white-d2]  bg-gradient-to-r sm:bg-gradient-to-b;
+}
+
 .fadeIn {
   opacity: 1;
   transition: opacity 0.5s ease-in;
