@@ -20,8 +20,13 @@ import { ADDRESSES, AddressesSection } from './sections/Addresses';
 import { COMPANY, CompanySection } from './sections/Company';
 import { CONTACT, ContactSection } from './sections/Contact';
 import { ACCOUNT, AccountSection } from './sections/Account';
+import { AboutPrivacy } from './sections/AboutPrivacy';
 
+import stylesCommon from '@/app/common.module.css';
 import styles from './Profile.module.css';
+import { Select } from '@/app/ui/form';
+
+import SVG_BULLETLIST from '/public/images/icons/bullet-list.svg';
 
 interface SectionProps {
     update: (valueOrHandle: Partial<UpdateUserData> | (() => Promise<Res>)) => Promise<void>;
@@ -30,6 +35,8 @@ interface SectionProps {
 }
 
 const SECTIONS: string[] = [ACCOUNT, CONTACT, COMPANY, ADDRESSES, APPS, OFFBOARDING];
+
+const SECTION_NAMES = ['Credentials', 'Contact', 'Organization', 'Addresses', 'Applications', 'Offboarding'];
 
 const getSimpleToggleProps = (
     setEditId?: Dispatch<SetStateAction<string | null>>,
@@ -45,7 +52,8 @@ const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const { userData, token, fetchUserData } = useUser();
     const isLoggedIn = useLoginCheck();
-    const isSm = useBreakpointCheck() <= Breakpoint.sm;
+    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
+    const isMdScreen = useBreakpointCheck() <= Breakpoint.md;
 
     const sectionsRef = useRef<HTMLDivElement>(null);
     const [activeSectionIdx, setActiveSectionIdx] = useState(0);
@@ -54,13 +62,13 @@ const ProfilePage: FC = () => {
     useEffect(() => {
         const handleScroll = () => {
             SECTIONS.forEach((section, index) => {
-                const elem = document.getElementById(section.toLowerCase().split(' ').join(''));
-                if (elem && elem.getBoundingClientRect().top < 0.5 * window.innerHeight) setActiveSectionIdx(index);
+                const elem = document.getElementById(section.toLowerCase().replace(/[^a-z0-9]/g, ''));
+                if (elem && elem.getBoundingClientRect().top < 0.25 * window.innerHeight) setActiveSectionIdx(index);
             });
         };
         window.addEventListener('wheel', handleScroll);
         return () => window.removeEventListener('wheel', handleScroll);
-    }, [isSm]);
+    }, [isSmScreen]);
 
     if (!userData || !isLoggedIn || !token) return null;
 
@@ -85,88 +93,122 @@ const ProfilePage: FC = () => {
     const SectionsNav: ReactElement[] = SECTIONS.map((link, idx) => (
         <li
             key={link + idx}
-            className={cn(`cursor-pointer pl-l leading-[200%] sm:landscape:pl-xxs`, {
+            className={cn(`cursor-pointer pl-xs leading-[200%] sm:landscape:pl-xxs`, {
                 [`before:bg-blue ${styles.line}`]: idx === activeSectionIdx,
             })}
         >
             <span
                 onClick={() => {
                     setActiveSectionIdx(idx);
-                    const id = '#' + link.toLowerCase().split(' ').join('');
+                    const id = '#' + link.toLowerCase().replace(/[^a-z0-9]/g, '');
                     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
                 }}
             >
-                {link}
+                {SECTION_NAMES[idx]}
             </span>
         </li>
     ));
 
     return (
-        <div
+        <section
             className={cn(
-                'flex',
-                'lg:mt-[3.88rem]',
-                `md:x-[mt-xs,px-xs,overflow-y-scroll] md:portrait:h-[calc(100%-2*var(--p-xs))]`,
-                `sm:mt-0`,
-                `sm:portrait:h-[calc(100%-2*var(--p-xxl))] sm:portrait:x-[mt-xxl,px-xs,overflow-y-scroll]`,
-                `sm:landscape:h-[calc(100%-2*var(--p-xs))] sm:landscape:x-[mt-xs,px-xs,overflow-y-scroll]`,
+                stylesCommon.section,
+                stylesCommon.fullHeightSection,
+                'bg-black',
+                `bg-[radial-gradient(circle_at_50%_50%,var(--bg-blue),#000000)]`,
             )}
         >
-            <aside
-                className={cn(
-                    `sticky self-start text-nowrap text-left`,
-                    `top-[min(25.3dvw,3.88rem)] ml-[min(5.3dvw,15rem)] hidden`,
-                    `lg:block`,
-                )}
-            >
-                <div className={cn(`font-bold`, `mb-s text-heading`, `sm:landscape:text-heading-s`)}>
-                    <span>Sections</span>
-                </div>
-                <ul
+            <div className={stylesCommon.content}>
+                <div
                     className={cn(
-                        styles.line,
-                        `flex flex-col before:bg-white`,
-                        `text-section`,
-                        `sm:landscape:text-section-xs`,
+                        `relative flex justify-center md:justify-center lg:justify-between `,
+                        'pt-xs  md:pt-n  lg:pt-[6.25rem]',
                     )}
                 >
-                    {SectionsNav}
-                </ul>
-            </aside>
-            <div
-                ref={sectionsRef}
-                className={cn(
-                    `flex flex-grow flex-col gap-y-4xs`,
-                    `lg:ml-[10rem]`,
-                    `sm:landscape:x-[grid,auto-rows-min,grid-cols-2,gap-5xs] sm:landscape:[&>div]:place-self-start`,
-                )}
-            >
-                <AccountSection
-                    setEditId={setEditId}
-                    editId={editId}
-                    update={handleUpdate}
-                />
-                <ContactSection
-                    setEditId={setEditId}
-                    editId={editId}
-                    update={handleUpdate}
-                />
-                <CompanySection
-                    setEditId={setEditId}
-                    editId={editId}
-                    update={handleUpdate}
-                />
-                <AddressesSection
-                    setEditId={setEditId}
-                    editId={editId}
-                    update={handleUpdate}
-                />
-                <AppsSection />
-                <OffboardingSection />
+                    {!isSmScreen && !isMdScreen && (
+                        <aside
+                            className={cn(
+                                `sticky self-start text-nowrap text-left`,
+                                `top-[min(25.3dvw,3.88rem)] hidden`,
+                                `lg:x-[block] w-[16.25rem]`,
+                            )}
+                        >
+                            <ul className={cn(styles.line, `flex flex-col text-section-s before:bg-white`)}>
+                                {SectionsNav}
+                            </ul>
+                        </aside>
+                    )}
+                    <div
+                        ref={sectionsRef}
+                        className={cn(`relative flex flex-col gap-y-xxs  md:gap-y-xs  lg:gap-y-4xs`)}
+                    >
+                        {(isSmScreen || isMdScreen) && (
+                            <Select
+                                altIcon
+                                options={Object.fromEntries(
+                                    SECTIONS.map((section, index) => [index.toString(), section]),
+                                )}
+                                value={activeSectionIdx.toString()}
+                                placeholder={'Select'}
+                                onChangeCustom={(value) => {
+                                    const idx = parseInt(value);
+                                    setActiveSectionIdx(parseInt(value) || -1);
+                                    const id = '#' + SECTIONS[idx].toLowerCase().split(' ').join('');
+                                    document
+                                        .querySelector(id)
+                                        ?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                                }}
+                                classNameWrapper={cn(
+                                    `w-full mb-4xs`,
+                                    `flex-col gap-y-xxs text-section-s`,
+                                    `border-b [&]:border-gray-l0`,
+                                )}
+                                classNameLabel={'mr-auto'}
+                                classNameSelected={'w-full '}
+                                classNameChevron={'ml-auto'}
+                                className={cn(
+                                    `!border-0 !bg-gray-d2 [&]:h-[2.7681rem]  md:h-[3.3875rem]  sm:h-button-xl`,
+                                    `px-xxs  md:px-xs `,
+                                )}
+                                classNameUl={`border border-gray-l0`}
+                                classNameOption={cn(
+                                    `h-[3.1375rem] sm:h-button-xl`,
+                                    `[&]:x-[bg-gray,border-transparent,py-4xs]`,
+                                    `hover:bg-[#979797]`,
+                                    `text-section-s  md:text-section`,
+                                    `px-xxs  md:px-xs`,
+                                )}
+                            />
+                        )}
 
-                <ScrollEnd />
+                        <AccountSection
+                            setEditId={setEditId}
+                            editId={editId}
+                            update={handleUpdate}
+                        />
+                        <ContactSection
+                            setEditId={setEditId}
+                            editId={editId}
+                            update={handleUpdate}
+                        />
+                        <CompanySection
+                            setEditId={setEditId}
+                            editId={editId}
+                            update={handleUpdate}
+                        />
+                        <AddressesSection
+                            setEditId={setEditId}
+                            editId={editId}
+                            update={handleUpdate}
+                        />
+                        <AppsSection />
+                        <OffboardingSection />
+                        <AboutPrivacy />
+                        <ScrollEnd />
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 

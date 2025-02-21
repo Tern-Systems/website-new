@@ -138,20 +138,14 @@ const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, PropsWithoutR
             })}
         >
             {Icon}
-            <span
-                hidden={!children}
-                className={cn({ ['hover:hidden']: hovered?.text })}
-            >
-                {children}
-            </span>
-            {hovered?.text ? (
-                <span
-                    hidden={!children}
-                    className={cn({ ['hover:inline']: hovered?.text })}
-                >
-                    {hovered?.text}
-                </span>
-            ) : null}
+            {hovered ? (
+                <>
+                    <span className='group-hover:hidden'>{children}</span>
+                    {hovered?.text && <span className='hidden group-hover:inline'>{hovered.text}</span>}
+                </>
+            ) : (
+                <span>{children}</span>
+            )}
         </button>
     );
 };

@@ -210,7 +210,7 @@ function ManageSubscriptionsPage() {
                         options={subscriptionOptions}
                         value={selectedSubscriptionIdx.toString()}
                         placeholder={'Select'}
-                        onChangeCustom={(value) => setSelectedSubscriptionsIdx(+value ?? -1)}
+                        onChangeCustom={(value) => setSelectedSubscriptionsIdx(parseInt(value) || -1)}
                         classNameWrapper={cn(
                             `flex-col gap-y-xxs`,
                             `text-section-xs md:text-basic lg:text-section-s`,
