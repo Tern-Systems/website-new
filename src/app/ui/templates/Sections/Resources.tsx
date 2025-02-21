@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, PropsWithChildren, ReactElement } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
@@ -13,13 +13,13 @@ import styles from '@/app/common.module.css';
 
 import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
 
-interface Props {
+interface Props extends PropsWithChildren {
     className?: string;
     data: ResourceSectionData[];
 }
 
 const ResourcesSection: FC<Props> = (props: Props) => {
-    const { data, className } = props;
+    const { data, children, className } = props;
 
     const breakpoint = useBreakpointCheck();
     const modalCtx = useModal();
@@ -45,7 +45,7 @@ const ResourcesSection: FC<Props> = (props: Props) => {
 
     return (
         <section className={cn(styles.content, className, 'text-section-xs')}>
-            <p className={'pl-n font-bold'}>Additional resources</p>
+            <p className={'pl-n font-bold'}>{children ?? 'Additional resources'}</p>
             <ul className={'mt-xxs border-t-s border-white-d0  [&>li]:x-[px-n,py-xs,text-blue]'}>{ResourcesLi}</ul>
         </section>
     );

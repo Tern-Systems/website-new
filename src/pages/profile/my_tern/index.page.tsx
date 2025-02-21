@@ -54,7 +54,7 @@ const RESOURCES: ResourceSectionData[] = [
     {
         Node: 'Help & FAQs',
         action: ({ isSm, navigate, modalCtx }) =>
-            isSm ? navigate(Route.Help) : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
+            isSm ? navigate(Route.FAQs) : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
     },
     { Node: <PageLink href={Route.SupportHub} /> },
 ];

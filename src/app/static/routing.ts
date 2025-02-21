@@ -49,7 +49,7 @@ enum Route {
     Cases = '/support/cases',
     Tips = '/support/tips',
     Contact = '/support/contact',
-    Help = '/support/my_tern/faqs',
+    FAQs = '/support/my_tern/faqs',
     Documentation = '/support/documentation',
     TernKeyDoc = '/support/documentation/ternkey',
     GDoc = '/support/documentation/g',
@@ -97,6 +97,7 @@ const MISC_LINKS = {
     TernKey,
     TernKeyExploreKeys: TernKey + '/explore',
     TernKeyDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
+    TernKeyDemoEmbed: 'https://www.youtube.com/embed/uMb2KI6PHPQ?si=gktgx0tR4UuY2VPW',
 };
 
 export { Route, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };
