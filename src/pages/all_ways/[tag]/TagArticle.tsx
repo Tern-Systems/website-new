@@ -166,7 +166,7 @@ const TagArticle: FC<Props> = (props: Props) => {
                         icon={PNG_MICROPROCESSOR}
                         title={'The Latest News and Insights in Deep Tech'}
                         action={{ title: 'Subscribe today', href: '' }} //TODO link
-                        className={{ wrapper: 'mx-auto max-w-card' }}
+                        className={{ wrapper: 'sm:x-[mx-auto,max-w-card]' }}
                     >
                         Discover expertly curated insights and news on AI, cloud and more in the weekly All Ways
                         Newsletter.
