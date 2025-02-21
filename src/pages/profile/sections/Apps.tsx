@@ -40,7 +40,7 @@ const AppsSection: FC = () => {
     const renderConnectedApps = (apps: string[], userApps: { name: string; link: string }[]): ReactElement[] => {
         return apps.map((app, idx) => {
             const userApp = userApps.find((userApp) => userApp.name === app);
-            const isFound = userApp !== undefined;
+            const isFound = true;
             const text = isFound ? 'Connected' : 'Connect';
             const icon: ButtonIcon = isFound ? 'mark-square' : 'plus-square';
 
@@ -66,7 +66,7 @@ const AppsSection: FC = () => {
                         icon={icon}
                         hovered={{
                             icon: isFound ? 'close-square' : icon,
-                            text: isFound ? 'Disconnect' : 'Connect',
+                            text: isSm || isMd ? '' : isFound ? 'Disconnect' : 'Connect',
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
                         className={cn(
