@@ -135,7 +135,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             options={SavedCardOptions}
             value={editCardIdx.toString()}
             placeholder={'Select Payment Method'}
-            onChangeCustom={(value) => setEditCardIdx(value ? +value : -1)}
+            onChangeCustom={(value) => setEditCardIdx(parseInt(value) ?? -1)}
             classNameWrapper={cn(
                 `flex-col gap-y-xxs`,
                 `text-section-xs md:text-basic lg:text-section-s`,
@@ -155,7 +155,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     );
 
     return (
-        <div className={'bg-black pb-[17.5rem] text-primary'}>
+        <div className={'pb-[17.5rem] text-primary'}>
             <form
                 className={cn(
                     'w-full',
@@ -179,197 +179,210 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                 </fieldset>
 
                 <fieldset className={`${FIELDSET_CN} order-3 lg:order-none lg:row-span-1 lg:row-start-2`}>
-                    <h2 className={`${LEGEND_CN}`}>Card Information</h2>
+                    {savedCards[+editCardIdx] || paymentCreation ? (
+                        <>
+                            <h2 className={`${LEGEND_CN}`}>Card Information</h2>
 
-                    <Input
-                        type={'text'}
-                        value={
-                            editCardIdx >= 0 && !paymentCreation
-                                ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4
-                                : ''
-                        }
-                        maxLength={16}
-                        onChange={setFormData('cardNumber')}
-                        placeholder={'1234 1234 1234 1234'}
-                        icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
-                        classNameWrapper={cn(FIELD_CN, 'text-section-s', { ['brightness-[0.9]']: !paymentCreation })}
-                        className={INPUT_CN}
-                        disabled={!paymentCreation}
-                    >
-                        Card Number
-                    </Input>
-                    <div className='flex flex-row gap-n'>
-                        <Input
-                            type={'expiration'}
-                            value={formData.expirationDate}
-                            maxLength={5}
-                            onChange={setFormData('expirationDate')}
-                            placeholder={'MM/YY'}
-                            classNameWrapper={`${FIELD_CN} w-1/2`}
-                            className={INPUT_CN}
-                            required
-                        >
-                            Expiration
-                        </Input>
-                        <Input
-                            value={formData.cvc}
-                            maxLength={
-                                formData.cardNumber &&
-                                (formData.cardNumber.startsWith('34') || formData.cardNumber.startsWith('37'))
-                                    ? 4
-                                    : 3
-                            }
-                            onChange={setFormData('cvc')}
-                            placeholder={'CVC'}
-                            icons={[SVG_CARD_NUM]}
-                            classNameWrapper={`${FIELD_CN} w-1/2`}
-                            className={INPUT_CN}
-                            required
-                        >
-                            CVC
-                        </Input>
-                    </div>
+                            <Input
+                                type={'text'}
+                                value={
+                                    editCardIdx >= 0 && !paymentCreation
+                                        ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4
+                                        : ''
+                                }
+                                maxLength={16}
+                                onChange={setFormData('cardNumber')}
+                                placeholder={'1234 1234 1234 1234'}
+                                icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
+                                classNameWrapper={cn(FIELD_CN, 'text-section-s', {
+                                    ['brightness-[0.9]']: !paymentCreation,
+                                })}
+                                className={INPUT_CN}
+                                disabled={!paymentCreation}
+                            >
+                                Card Number
+                            </Input>
+                            <div className='flex flex-row gap-n'>
+                                <Input
+                                    type={'expiration'}
+                                    value={formData.expirationDate}
+                                    maxLength={5}
+                                    onChange={setFormData('expirationDate')}
+                                    placeholder={'MM/YY'}
+                                    classNameWrapper={`${FIELD_CN} w-1/2`}
+                                    className={INPUT_CN}
+                                    required
+                                >
+                                    Expiration
+                                </Input>
+                                <Input
+                                    value={formData.cvc}
+                                    maxLength={
+                                        formData.cardNumber &&
+                                        (formData.cardNumber.startsWith('34') || formData.cardNumber.startsWith('37'))
+                                            ? 4
+                                            : 3
+                                    }
+                                    onChange={setFormData('cvc')}
+                                    placeholder={'CVC'}
+                                    icons={[SVG_CARD_NUM]}
+                                    classNameWrapper={`${FIELD_CN} w-1/2`}
+                                    className={INPUT_CN}
+                                    required
+                                >
+                                    CVC
+                                </Input>
+                            </div>
 
-                    <Input
-                        type={'text'}
-                        value={formData.nickName}
-                        onChange={setFormData('nickName')}
-                        classNameWrapper={`${FIELD_CN} `}
-                        className={INPUT_CN}
-                        required
-                    >
-                        Nickname
-                    </Input>
-                    <span className={''}>
-                        <Input
-                            type={'checkbox'}
-                            checked={formData.isPreferred}
-                            onChange={setFormData('isPreferred')}
-                            classNameWrapper={`[&&]:mb-s w-fit`}
-                            classNameLabel={'text-section-3xs [&&]:mb-0  md:text-section-xxs  lg:text-section-xxs'}
-                            className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-[#444444]'}
-                            classNameCheckbox={`h-[.75rem] w-[.75rem]  md:x-[h-[.9375rem],w-[.9375rem]]  lg:x-[h-[.9375rem],w-[.9375rem]]`}
-                            isCustomCheckbox
-                        >
-                            Set as preferred payment method
-                        </Input>
-                        {isSmScreen ? renderSubmitBtn(paymentCreation) : null}
-                    </span>
+                            <Input
+                                type={'text'}
+                                value={formData.nickName}
+                                onChange={setFormData('nickName')}
+                                classNameWrapper={`${FIELD_CN} `}
+                                className={INPUT_CN}
+                                required
+                            >
+                                Nickname
+                            </Input>
+                            <span className={''}>
+                                <Input
+                                    type={'checkbox'}
+                                    checked={formData.isPreferred}
+                                    onChange={setFormData('isPreferred')}
+                                    classNameWrapper={`[&&]:mb-s w-fit`}
+                                    classNameLabel={
+                                        'text-section-3xs [&&]:mb-0  md:text-section-xxs  lg:text-section-xxs'
+                                    }
+                                    className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-[#444444]'}
+                                    classNameCheckbox={`h-[.75rem] w-[.75rem]  md:x-[h-[.9375rem],w-[.9375rem]]  lg:x-[h-[.9375rem],w-[.9375rem]]`}
+                                    isCustomCheckbox
+                                >
+                                    Set as preferred payment method
+                                </Input>
+                                {renderSubmitBtn(paymentCreation)}
+                            </span>
+                        </>
+                    ) : null}
                 </fieldset>
 
-                <fieldset className={` ${FIELDSET_CN} lg:row-span-2`}>
-                    <h2 className={` ${LEGEND_CN}`}>Billing address</h2>
-                    <Input
-                        value={formData.cardholderName}
-                        onChange={setFormData('cardholderName')}
-                        classNameWrapper={`${FIELD_CN} `}
-                        className={INPUT_CN}
-                        required
-                    >
-                        Full Name
-                    </Input>
-                    <Input
-                        value={formData.addressLine1}
-                        onChange={setFormData('addressLine1')}
-                        classNameWrapper={`${FIELD_CN} `}
-                        className={INPUT_CN}
-                        required
-                    >
-                        Street Address #1
-                    </Input>
-                    <Input
-                        value={formData.addressLine2}
-                        onChange={setFormData('addressLine2')}
-                        classNameWrapper={`${FIELD_CN} `}
-                        className={INPUT_CN}
-                    >
-                        Street Address #2
-                    </Input>
-                    <Input
-                        value={formData.city}
-                        onChange={setFormData('city')}
-                        onKeyDown={(event) => {
-                            if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace') event.preventDefault();
-                        }}
-                        classNameWrapper={`${FIELD_CN}`}
-                        className={INPUT_CN}
-                        required
-                    >
-                        City / Locality
-                    </Input>
-                    <div className='flex flex-row gap-n'>
-                        <Select
-                            options={STATE_PROVINCE?.[formData.country] ?? {}}
-                            value={formData.state}
-                            onChangeCustom={(value) => setFormData('state')(value)}
-                            classNameWrapper={cn(FIELD_CN, `text-[500] w-1/2`)}
-                            classNameLabel={'mr-auto'}
-                            classNameSelected={'w-full '}
-                            classNameChevron={cn('ml-auto')}
-                            className={cn(
-                                `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
-                            )}
-                            classNameOption={cn(
-                                'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                'hover:!bg-[#979797]',
-                            )}
-                            required
-                        >
-                            State / Province
-                        </Select>
-                        <Input
-                            type={'number'}
-                            value={formData.zip}
-                            maxLength={5}
-                            onChange={setFormData('zip')}
-                            classNameWrapper={`${FIELD_CN} w-1/2`}
-                            className={INPUT_CN}
-                            required
-                        >
-                            Postal / ZIP Code
-                        </Input>
-                    </div>
-                    <Select
-                        options={COUNTRY}
-                        value={formData.country}
-                        onChangeCustom={(value) => setFormData('country')(value)}
-                        classNameWrapper={cn(FIELD_CN, `text-[500]`)}
-                        classNameLabel={'mr-auto'}
-                        classNameSelected={'w-full '}
-                        classNameChevron={cn('ml-auto')}
-                        className={cn(
-                            `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
-                        )}
-                        classNameOption={cn(
-                            'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                            'hover:!bg-[#979797]',
-                        )}
-                        required
-                    >
-                        Country / Region
-                    </Select>
-                </fieldset>
-
-                {isSmScreen ? null : renderSubmitBtn(paymentCreation)}
+                {savedCards[+editCardIdx] || paymentCreation ? (
+                    <>
+                        <fieldset className={` ${FIELDSET_CN} lg:row-span-2`}>
+                            <h2 className={` ${LEGEND_CN}`}>Billing address</h2>
+                            <Input
+                                value={formData.cardholderName}
+                                onChange={setFormData('cardholderName')}
+                                classNameWrapper={`${FIELD_CN} `}
+                                className={INPUT_CN}
+                                required
+                            >
+                                Full Name
+                            </Input>
+                            <Input
+                                value={formData.addressLine1}
+                                onChange={setFormData('addressLine1')}
+                                classNameWrapper={`${FIELD_CN} `}
+                                className={INPUT_CN}
+                                required
+                            >
+                                Street Address #1
+                            </Input>
+                            <Input
+                                value={formData.addressLine2}
+                                onChange={setFormData('addressLine2')}
+                                classNameWrapper={`${FIELD_CN} `}
+                                className={INPUT_CN}
+                            >
+                                Street Address #2
+                            </Input>
+                            <Input
+                                value={formData.city}
+                                onChange={setFormData('city')}
+                                onKeyDown={(event) => {
+                                    if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
+                                        event.preventDefault();
+                                }}
+                                classNameWrapper={`${FIELD_CN}`}
+                                className={INPUT_CN}
+                                required
+                            >
+                                City / Locality
+                            </Input>
+                            <div className='flex flex-row gap-n'>
+                                <Select
+                                    options={STATE_PROVINCE?.[formData.country] ?? {}}
+                                    value={formData.state}
+                                    onChangeCustom={(value) => setFormData('state')(value)}
+                                    classNameWrapper={cn(FIELD_CN, `text-[500] w-1/2`)}
+                                    classNameLabel={'mr-auto'}
+                                    classNameSelected={'w-full '}
+                                    classNameChevron={cn('ml-auto')}
+                                    className={cn(
+                                        `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                    )}
+                                    classNameOption={cn(
+                                        'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                        'hover:!bg-[#979797]',
+                                    )}
+                                    required
+                                >
+                                    State / Province
+                                </Select>
+                                <Input
+                                    type={'number'}
+                                    value={formData.zip}
+                                    maxLength={5}
+                                    onChange={setFormData('zip')}
+                                    classNameWrapper={`${FIELD_CN} w-1/2`}
+                                    className={INPUT_CN}
+                                    required
+                                >
+                                    Postal / ZIP Code
+                                </Input>
+                            </div>
+                            <Select
+                                options={COUNTRY}
+                                value={formData.country}
+                                onChangeCustom={(value) => setFormData('country')(value)}
+                                classNameWrapper={cn(FIELD_CN, `text-[500]`)}
+                                classNameLabel={'mr-auto'}
+                                classNameSelected={'w-full '}
+                                classNameChevron={cn('ml-auto')}
+                                className={cn(
+                                    `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                )}
+                                classNameOption={cn(
+                                    'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                    'hover:!bg-[#979797]',
+                                )}
+                                required
+                            >
+                                Country / Region
+                            </Select>
+                        </fieldset>
+                    </>
+                ) : null}
             </form>
-            <div
-                className={'mt-[9.375rem]'}
-                hidden={paymentCreation}
-            >
-                <span
-                    className={'cursor-pointer text-section-xxs text-red'}
-                    onClick={() => {
-                        if (savedCards[+editCardIdx]) {
-                            modalCtx.openModal(
-                                <RemovePaymentMethodModal card={mapSavedCard(savedCards[+editCardIdx])} />,
-                                { darkenBg: true },
-                            );
-                        }
-                    }}
+            {savedCards[+editCardIdx] || paymentCreation ? (
+                <div
+                    className={'mt-[9.375rem]'}
+                    hidden={paymentCreation}
                 >
-                    Remove Payment Method
-                </span>
-            </div>
+                    <span
+                        className={'cursor-pointer text-section-xxs text-red'}
+                        onClick={() => {
+                            if (savedCards[+editCardIdx]) {
+                                modalCtx.openModal(
+                                    <RemovePaymentMethodModal card={mapSavedCard(savedCards[+editCardIdx])} />,
+                                    { darkenBg: true },
+                                );
+                            }
+                        }}
+                    >
+                        Remove Payment Method
+                    </span>
+                </div>
+            ) : null}
             <ScrollEnd />
         </div>
     );

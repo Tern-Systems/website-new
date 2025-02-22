@@ -10,9 +10,9 @@ import { useModal, useUser } from '@/app/context';
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 
-import SVG_CARD from '/public/images/card.svg';
+import SVG_CARD from '/public/images/card-outline.svg';
 
-const BTN_CN = 'px-xxs h-h-button-n rounded-full';
+const BTN_CN = 'h-[1.4375rem] px-5xs text-white text-section-xxs  md:text-section-xs  lg:text-section-xs';
 
 interface Props {
     card: CardData;
@@ -37,36 +37,42 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal
             title={'Remove Payment Method'}
-            className={`w-[min(90dvw,33rem)] bg-white text-basic [&_h2+button]:brightness-50 [&_h2]:text-gray [&_hr]:border-gray-l0`}
-            classNameContent={'text-gray text-center'}
+            classNameTitle={`text-section  md:text-heading  lg:text-heading`}
+            className={`w-[min(90dvw,33rem)] [&]:rounded-none bg-gray [&_h2+button]:brightness-50 text-primary border-gray-l1`}
+            classNameContent={'text-primary '}
+            classNameHr='[&]:mt-5xs [&]:mb-s border-white'
         >
-            <span className={'inline-block'}>
-                <span>Remove {card.nickName}</span>
-                <span className={`my-s flex items-center gap-xs rounded-s bg-white-d1 p-xs`}>
+            <div className={''}>
+                <span className='text-section-xs  md:text-basic  lg:text-basic'>
+                    Remove {card.nickName ? card.nickName : `${card.type} Card`}
+                </span>
+                <div className={`w-full flex gap-xs bg-gray-d0 mt-xs mb-xl px-n py-s border border-gray-l1`}>
                     <Image
                         src={SVG_CARD}
                         alt={'card'}
-                        className={'h-auto w-[min(12.5dvw,4.75rem)]'}
+                        className={'h-auto w-[min(16dvw,8.3362rem)]'}
                     />
-                    <span>
-                        <span className={'capitalize'}>{card.type}</span> Ending in •••• {card.cardNumber.slice(-4)}
+                    <span className='w-full flex items-center justify-center text-section-xs  md:text-section-s  lg:text-section-s'>
+                        <span>
+                            {card.type} Ending in • • • {card.cardNumber.slice(-4)}
+                        </span>
                     </span>
-                </span>
-                <span className={'flex justify-center gap-[0.625rem] text-section font-bold text-primary'}>
+                </div>
+                <div className={'flex gap-xxs'}>
                     <Button
-                        className={`border-s border-red text-red ${BTN_CN}`}
+                        className={`bg-[#F42200] font-bold ${BTN_CN} `}
                         onClick={() => handleRemove()}
                     >
                         Remove
                     </Button>
                     <Button
-                        className={`bg-gray-l0 ${BTN_CN}`}
+                        className={`bg-[#000] font-[500] border border-gray-l0 ${BTN_CN} `}
                         onClick={() => modalCtx.closeModal()}
                     >
                         Cancel
                     </Button>
-                </span>
-            </span>
+                </div>
+            </div>
         </BaseModal>
     );
 };

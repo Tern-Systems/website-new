@@ -15,7 +15,9 @@ function PurchasingMethodPage() {
 
 PurchasingMethodPage.getLayout = (page: ReactElement) => (
     <Layout>
-        <section className={`${styles.section} ${styles.fullHeightSection}`}>
+        <section
+            className={`${styles.section} ${styles.fullHeightSection} bg-black bg-gradient-to-t from-blue to-black to-30% lg:to-40%`}
+        >
             <div className={styles.content}>
                 <BreadcrumbRoute />
                 {page}
