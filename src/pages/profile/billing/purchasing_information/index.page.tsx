@@ -23,9 +23,7 @@ function PurchasingInformationPage() {
     const modalCtx = useModal();
     const isLoggedIn = useLoginCheck();
 
-    // eslint-disable-next-line
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
-    // eslint-disable-next-line
     const [defaultCardIdx, setDefaultCardIdx] = useState<number>(-1);
     const [invoiceHistory, setInvoiceHistory] = useState<Invoice[]>([]);
 
@@ -46,7 +44,6 @@ function PurchasingInformationPage() {
             }
         };
         fetchSubscriptionDetailsAndCards();
-        // eslint-disable-next-line
     }, [userCtx.userData]);
 
     if (!isLoggedIn) return null;

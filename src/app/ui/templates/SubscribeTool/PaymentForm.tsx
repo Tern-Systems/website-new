@@ -101,7 +101,6 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 flowCtx.run(flow);
             }
         }
-        // eslint-disable-next-line
     }, [paymentStatus]);
 
     const toggleBillingDetails = () => setBillingExpandedState((prev) => !prev);

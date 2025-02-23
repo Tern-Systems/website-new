@@ -9,11 +9,10 @@ import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { formatDate } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/context';
 
 import { Button } from '@/app/ui/form';
-import { MessageModal } from '@/app/ui/modals';
 import { ArticleCard } from '@/app/ui/organisms';
+import { SubscribeCard } from '../../SubscribeCard';
 
 import styles from '@/app/common.module.css';
 
@@ -24,9 +23,7 @@ import SVG_EMAIL from '/public/images/icons/email.svg';
 import SVG_X from '/public/images/icons/x-twitter.svg';
 import SVG_LINKEDIN from '/public/images/icons/linkedin.svg';
 import SVG_FACEBOOK from '/public/images/icons/facebook.svg';
-import { BlogService } from '@/app/services/blog.service';
 
-// eslint-disable-next-line
 const SHARE_BTNS = [
     {
         icon: SVG_LINK,
@@ -41,42 +38,36 @@ const SHARE_BTNS = [
 ];
 
 const RELATED_CARDS_COUNT = 4;
+// TODO highlighted card, image injection
+const H2_REGEX = /<h2>/g;
 
 const INFO_CN = 'border-t-s border-gray-l0 py-s px-4xs';
+const CONTENT_CN = '[&_*]:!text-primary [&_*]:[all:revert]';
 
 function ArticlePage() {
     const { id } = useParams() ?? ({} as { id: string });
-    const modalCtx = useModal();
     const isLg = useBreakpointCheck() === Breakpoint.lg;
 
     const [url, setURL] = useState<string | null>(null);
     const [content, setContent] = useState<Article | null>(null);
+    const [contentParts, setContentParts] = useState<string[]>([]);
     const [cards, setCards] = useState<Article[]>([]);
 
     useEffect(() => {
-        const fetchContent = async () => {
-            const articleStr: string | null = localStorage.getItem('article');
-            if (articleStr) {
-                const article: Article = JSON.parse(articleStr);
+        const articleStr: string | null = localStorage.getItem('article');
+        if (articleStr) {
+            const article: Article = JSON.parse(articleStr);
+            setContent(article);
 
-                const url = article.html;
-                article.html = '';
-                setContent(article);
+            const h2Matches: RegExpExecArray[] = Array.from(article.content.matchAll(H2_REGEX));
+            const contentCenterIdx: number | undefined = h2Matches[Math.trunc(0.5 * h2Matches.length)]?.index;
+            setContentParts(
+                contentCenterIdx
+                    ? [article.content.substring(0, contentCenterIdx), article.content.substring(contentCenterIdx)]
+                    : [article.content, ''],
+            );
+        }
 
-                try {
-                    const { payload } = await BlogService.getArticleContent(url);
-                    article.html = payload;
-                } catch (error: unknown) {
-                    const msg = `Error fetching article's content`;
-                    article.html = msg;
-                    if (typeof error === 'string') modalCtx.openModal(<MessageModal>{msg}</MessageModal>);
-                }
-
-                setContent(article);
-            } else modalCtx.openModal(<MessageModal>Encountered an error while preparing the article</MessageModal>);
-        };
-
-        fetchContent();
         setURL(window.location.href);
 
         const cards: string | null = localStorage.getItem('article-cards');
@@ -166,16 +157,21 @@ function ArticlePage() {
                             />
                         </span>
                         <span className={'font-bold'}>{content?.author.name}</span>
-                        <span>
-                            {content?.author.position}, {content?.author.company}
-                        </span>
+                        <span>{content?.author.position}</span>
                     </span>
                 </div>
 
-                <div
-                    className={'mt-xl md:mt-4xl lg:mt-[3.56rem]'}
-                    dangerouslySetInnerHTML={{ __html: content?.html ?? '' }}
-                />
+                <div className={'leading-l  mt-xl md:mt-4xl lg:mt-[3.56rem]'}>
+                    <div
+                        className={CONTENT_CN}
+                        dangerouslySetInnerHTML={{ __html: contentParts[0] ?? '' }}
+                    />
+                    <SubscribeCard />
+                    <div
+                        className={CONTENT_CN}
+                        dangerouslySetInnerHTML={{ __html: contentParts[1] ?? '' }}
+                    />
+                </div>
 
                 <div className={'mt-[10.3rem]'}>
                     <h3 className={'text-center  text-section-xl md:text-heading-xl lg:text-heading-xxl'}>

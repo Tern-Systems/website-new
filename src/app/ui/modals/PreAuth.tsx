@@ -16,7 +16,6 @@ const PreAuthModal: FC = () => {
 
     useEffect(() => {
         if (breakpoint > Breakpoint.sm) modalCtx.closeModal();
-        // eslint-disable-next-line
     }, [breakpoint]);
 
     return (

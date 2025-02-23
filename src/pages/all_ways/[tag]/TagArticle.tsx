@@ -16,15 +16,15 @@ import { useModal } from '@/app/context';
 import { PageLink } from '@/app/ui/layout';
 import { MainBackground } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
-import { ArticleCard, ResourceCard } from '@/app/ui/organisms';
+import { ArticleCard } from '@/app/ui/organisms';
 import { InsideTernSection } from '@/app/ui/templates';
+import { SubscribeCard } from '../SubscribeCard';
 
 import styles from '@/app/common.module.css';
 
 import PNG_ELECTRONS from '/public/images/electrons.png';
 import PNG_INSIDE_TERN_GIRL from '/public/images/allways-inside-tern-girl.png';
 import PNG_ACCOLADES from '/public/images/resources-card-5.png';
-import PNG_MICROPROCESSOR from '/public/images/allways-microprocessor.png';
 import PNG_CARD_CUBES from '/public/images/allways-card-cubes.png';
 
 // TODO links
@@ -161,16 +161,7 @@ const TagArticle: FC<Props> = (props: Props) => {
             </section>
             <section className={styles.section}>
                 <div className={cn(styles.content, 'py-[3.44rem] md:py-3xl lg:py-5xl')}>
-                    <ResourceCard
-                        type={'highlighted'}
-                        icon={PNG_MICROPROCESSOR}
-                        title={'The Latest News and Insights in Deep Tech'}
-                        action={{ title: 'Subscribe today', href: '' }} //TODO link
-                        className={{ wrapper: 'sm:x-[mx-auto,max-w-card]' }}
-                    >
-                        Discover expertly curated insights and news on AI, cloud and more in the weekly All Ways
-                        Newsletter.
-                    </ResourceCard>
+                    <SubscribeCard />
                 </div>
             </section>
             <section className={styles.section}>
