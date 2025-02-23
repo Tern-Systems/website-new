@@ -56,8 +56,9 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
                 </span>
                 {!phone.isPrimary ? (
                     <span className={`mt-5xs flex justify-items-start`}>
-                        {' '}
-                        <PrimaryLabel />{' '}
+                        &nbsp;
+                        <PrimaryLabel />
+                        &nbsp;
                     </span>
                 ) : null}
             </span>

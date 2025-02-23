@@ -97,8 +97,8 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         <span>
                             {isDisabling
                                 ? 'You are about to disable two-factor authentication for your account. To proceed, please confirm your identity by entering the authorization code sent to '
-                                : 'Please confirm your account by entering the authorization code sent to '}{' '}
-                            &nbsp;
+                                : 'Please confirm your account by entering the authorization code sent to '}
+                            &nbsp; &nbsp;
                             <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
                         </span>
                     </div>

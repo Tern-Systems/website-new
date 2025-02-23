@@ -348,15 +348,15 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 className='underline'
                             >
                                 cancel at any time
-                            </PageLink>{' '}
-                            . By subscribing, you agree to Tern System&apos;s&nbsp;
+                            </PageLink>
+                            &nbsp; . By subscribing, you agree to Tern System&apos;s&nbsp;
                             <PageLink
                                 href={Route.Terms}
                                 className='underline'
                             >
                                 Terms & Conditions
-                            </PageLink>{' '}
-                            and&nbsp;
+                            </PageLink>
+                            &nbsp; and&nbsp;
                             <PageLink
                                 href={Route.Privacy}
                                 className='underline'

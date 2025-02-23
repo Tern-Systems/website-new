@@ -34,7 +34,6 @@ import SVG_TILE_SHARE from '/public/images/icons/share.svg';
 import SVG_TILE_SAVE from '/public/images/icons/save.svg';
 import SVG_TILE_HEART from '/public/images/icons/heart.svg';
 import SVG_PLAY from '/public/images/icons/play.svg';
-import SVG_PLAY_ALT from '/public/images/icons/play-alt.svg';
 
 type Tiles = {
     title: string;

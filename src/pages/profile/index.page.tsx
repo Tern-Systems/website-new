@@ -11,6 +11,7 @@ import { UserService } from '@/app/services';
 import { useBreakpointCheck, useLoginCheck } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
 
+import { Select } from '@/app/ui/form';
 import { ScrollEnd } from '@/app/ui/misc';
 import { MessageModal } from '@/app/ui/modals';
 
@@ -24,9 +25,6 @@ import { AboutPrivacy } from './sections/AboutPrivacy';
 
 import stylesCommon from '@/app/common.module.css';
 import styles from './Profile.module.css';
-import { Select } from '@/app/ui/form';
-
-import SVG_BULLETLIST from '/public/images/icons/bullet-list.svg';
 
 interface SectionProps {
     update: (valueOrHandle: Partial<UpdateUserData> | (() => Promise<Res>)) => Promise<void>;

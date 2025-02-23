@@ -86,7 +86,7 @@ function PurchasingInformationPage() {
             <tr key={idx}>
                 <td className={'leading-[1.5rem] md:w-[31%] lg:w-[15%]'}> {order.id}</td>
                 <td className={'md:hidden lg:w-[15%]'}>
-                    {invoiceDate.toLocaleString('default', { month: 'long' })} {invoiceDate.getDate()}th,{' '}
+                    {invoiceDate.toLocaleString('default', { month: 'long' })} {invoiceDate.getDate()}th,&nbsp;
                     {invoiceDate.getFullYear()}
                 </td>
                 <td className={'md:w-[21%] lg:w-[11%]'}>${order.paidUSD}</td>
