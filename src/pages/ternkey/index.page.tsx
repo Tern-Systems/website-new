@@ -162,6 +162,12 @@ function TernKeyPage() {
             >
                 <div
                     className={cn(
+                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
+                        'bg-gradient-to-b from-blue to-transparent to-50%',
+                    )}
+                />
+                <div
+                    className={cn(
                         styles.content,
                         'relative z-50 leading-n',
                         'pt-4xl md:pt-[7.81em] lg:pt-6xl',
@@ -218,7 +224,7 @@ function TernKeyPage() {
                     className={cn(
                         styles.content,
                         styles.contentHighlight,
-                        'relative z-10 text-heading-xl leading-n',
+                        'text-heading-xl leading-n',
                         'pt-[6.62rem] pb-[7rem] md:x-[pt-[12.55rem],pb-[13rem]] lg:x-[pt-[16rem],pb-[19.5rem]]',
                     )}
                 >
@@ -250,9 +256,9 @@ function TernKeyPage() {
                     </div>
                 </div>
             </section>
-            <section className={styles.section}>
+            <section className={cn(styles.section, '!bg-transparent')}>
                 <div
-                    className={cn(styles.content, 'relative z-10 grid gap-x-5xl leading-n  grid-cols-2 sm:grid-cols-1')}
+                    className={cn(styles.content, 'relative z-50 grid gap-x-5xl leading-n  grid-cols-2 sm:grid-cols-1')}
                 >
                     <div className={'contents'}>
                         <Image
@@ -288,6 +294,7 @@ function TernKeyPage() {
                 <div
                     className={cn(
                         styles.content,
+                        styles.contentGradientBlue,
                         'grid max-h-min grid-cols-[1fr,1fr,max-content] gap-y-5xl leading-n',
                         'sm:x-[grid-cols-1,w-2/3,justify-items-center]',
                         'py-6xl md:x-[pt-[16.81rem],pb-[20.69rem]] lg:x-[pt-[19.25rem],pb-[21.56rem]]',
@@ -329,7 +336,7 @@ function TernKeyPage() {
                     </div>
                 </div>
             </section>
-            <section className={styles.section}>
+            <section className={cn(styles.section, 'bg-transparent')}>
                 <div className={cn(styles.content, 'py-6xl')}>
                     <h2 className={'font-bold sm:x-[text-center,text-heading] md:text-heading-l lg:text-heading-xl'}>
                         Features
