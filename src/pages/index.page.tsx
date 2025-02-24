@@ -128,13 +128,13 @@ const HomePage: FC = () => {
 
     return (
         <>
-            <MainBackground
-                url={bgSrc}
-                className={styles.sectionInsetShadowBlack}
-            />
             <div className={'relative z-10'}>
                 <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <div className={cn(styles.content, 'flex items-center justify-center')}>
+                    <MainBackground
+                        url={bgSrc}
+                        className={styles.sectionInsetShadowBlack}
+                    />
+                    <div className={cn(styles.content, 'relative z-10 flex items-center justify-center')}>
                         <div>
                             <h1
                                 className={cn(
@@ -238,7 +238,7 @@ const HomePage: FC = () => {
                     blur
                     data={INFO}
                 />
-                <InsideTernSection />
+                <InsideTernSection className={'!bg-transparent'} />
             </div>
         </>
     );
