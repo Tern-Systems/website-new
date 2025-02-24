@@ -48,7 +48,6 @@ function ManageSubscriptionsPage() {
             }
         };
         fetchCards();
-        // eslint-disable-next-line
     }, [setSavedCards, userData, updateCards]);
 
     if (!isLoggedIn) return null;

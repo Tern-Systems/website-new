@@ -84,13 +84,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         } catch (error: unknown) {
             if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
-        // eslint-disable-next-line
     }, [userData]);
 
     useEffect(() => {
         if (paymentCreation) return;
         fetchEditCards();
-        // eslint-disable-next-line
     }, [fetchEditCards, paymentCreation]);
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {

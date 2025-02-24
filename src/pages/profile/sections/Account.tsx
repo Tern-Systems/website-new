@@ -2,11 +2,12 @@ import React, { FC } from 'react';
 import cn from 'classnames';
 
 import { FormInit, FormType } from '@/app/ui/form/Editable';
-import { UpdateUserData } from '@/app/services/user.service';
 
 import { REGEX } from '@/app/static';
 
-import { AuthService, UserService } from '@/app/services';
+import { AuthService } from '@/app/services';
+
+import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 import { formatDate } from '@/app/utils';
 import { useUser } from '@/app/context/User.context';
@@ -18,7 +19,6 @@ import { AuthenticationCode } from '@/app/ui/modals';
 import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 const ACCOUNT = 'Account Credentials';
 

@@ -45,9 +45,9 @@ const CancelModal: FC<Props> = (props: Props) => {
                     You&apos;re about to cancel your {props.plan} Pro Plan subscription.
                 </p>
                 <p>
-                    If you wish to proceed, please click the red{' '}
+                    If you wish to proceed, please click the red&nbsp;
                     <span className={'font-bold'}>Cancel Subscription</span> button. Otherwise, click the
-                    <span className={'font-bold'}> Return to Billing</span> button to return to managing your{' '}
+                    <span className={'font-bold'}> Return to Billing</span> button to return to managing your&nbsp;
                     {props.plan}
                     subscription billing settings.
                 </p>

@@ -29,7 +29,6 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
     classNameOption?: string;
     classNameChevron?: string;
     classNameSelected?: string;
-    iconSrc?: string;
     onClick?: () => void;
     onOpen?: (isExpanded: boolean) => void;
     altIcon?: true;
@@ -48,7 +47,6 @@ const Select: FC<Props> = (props: Props) => {
         classNameLabel,
         classNameChevron,
         classNameSelected,
-        iconSrc,
         hidden,
         onChangeCustom,
         placeholder,

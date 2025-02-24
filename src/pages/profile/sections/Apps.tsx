@@ -28,11 +28,12 @@ const SOCIAL_MEDIA: string[] = [
 
 const AppsSection: FC = () => {
     const { userData } = useUser();
+    const breakpoint = useBreakpointCheck();
 
     if (!userData) return null;
 
-    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
-    const isMd = useBreakpointCheck() === Breakpoint.md;
+    const isSm = breakpoint <= Breakpoint.sm;
+    const isMd = breakpoint === Breakpoint.md;
 
     const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
     const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-section-xs`;

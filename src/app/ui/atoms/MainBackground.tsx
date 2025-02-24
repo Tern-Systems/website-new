@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
+// TODO rework to be section + gradients
 interface Props {
     url: StaticImageData | string;
     className?: string;
@@ -15,9 +16,8 @@ const MainBackground: FC<Props> = (props: Props) => {
             <div
                 style={{ backgroundImage: `url("${url}")` }}
                 className={cn(
-                    'max-w-dwv absolute bottom-0 right-0 top-0 min-h-full h-screen max-h-[100rem] w-dvw bg-cover bg-center bg-repeat-y',
-                    'bg-right',
-                    'lg:bg-bottom',
+                    'max-w-dwv absolute bottom-0 right-0 top-0 min-h-full h-screen max-h-[100rem] w-dvw bg-fixed bg-cover',
+                    'bg-center',
                     className,
                 )}
             />

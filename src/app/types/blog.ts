@@ -20,9 +20,8 @@ type Article = {
         name: string;
         image: string | null;
         position: string;
-        company: string;
     };
-    html: string;
+    content: string;
 };
 
 export type { ArticleTag, Article };

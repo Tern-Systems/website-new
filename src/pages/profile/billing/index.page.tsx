@@ -90,7 +90,7 @@ const BillingPage: FC = () => {
     };
 
     return (
-        <div className={cn(styles.section, `min-h-dvh pt-[6.25rem]  sm:pt-l  md:pt-xxl`)}>
+        <div className={cn(styles.section, styles.fullHeightSection)}>
             <section className={styles.content}>
                 <h1 className={`flex text-section-xl font-bold`}>Billing</h1>
             </section>

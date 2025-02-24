@@ -11,33 +11,11 @@ const CACHED_ARTICLE_COUNT = 5;
 
 interface IBlogService {
     getArticles(): Promise<Res<ArticlesDTO, false>>;
-
-    getArticleContent(url: string): Promise<Res<string, false>>;
 }
 
 class BlogServiceImpl extends BaseService implements IBlogService {
     constructor() {
         super(BlogServiceImpl.name);
-    }
-
-    async getArticleContent(url: string): Promise<Res<string, false>> {
-        const [debug, error] = this.getLoggers(this.getArticleContent.name);
-
-        const config: AxiosRequestConfig = {
-            method: 'GET',
-            url,
-            withCredentials: true,
-        };
-
-        try {
-            debug(config);
-            const response = await axios(config);
-            debug(response);
-            return { payload: response.data };
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
-        }
     }
 
     async getArticles(): Promise<Res<ArticlesDTO, false>> {

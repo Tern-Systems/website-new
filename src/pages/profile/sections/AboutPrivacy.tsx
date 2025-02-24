@@ -30,14 +30,14 @@ const AboutPrivacy: FC = () => {
                         <br />
                         <br />
                         <br />
-                        The{' '}
+                        The&nbsp;
                         <Link
                             className={'text-blue'}
                             href={'#'}
                         >
                             Tern Privacy Policy
-                        </Link>{' '}
-                        provided detailed information about your privacy rights.
+                        </Link>
+                        &nbsp; provided detailed information about your privacy rights.
                     </p>
                 </div>
             </div>

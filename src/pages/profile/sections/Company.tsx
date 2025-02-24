@@ -20,11 +20,12 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
     const { update, setEditId, editId } = props;
 
     const { userData } = useUser();
+    const breakpoint = useBreakpointCheck();
 
     if (!userData) return null;
 
-    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
-    const isMd = useBreakpointCheck() === Breakpoint.md;
+    const isSm = breakpoint <= Breakpoint.sm;
+    const isMd = breakpoint === Breakpoint.md;
 
     // @ts-expect-error wrong sub-industry key
     const subIndustry = SUB_INDUSTRY?.[userData.company.industry]?.[userData.company.subIndustry];

@@ -20,11 +20,9 @@ const ADDRESSES = 'Addresses';
 const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
     const { update, setEditId, editId } = props;
     const { userData } = useUser();
+    const breakpoint = useBreakpointCheck();
 
     if (!userData) return null;
-
-    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
-    const isMd = useBreakpointCheck() === Breakpoint.md;
 
     const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
     const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-basic  [&&]:lg:text-basic`;
@@ -46,8 +44,9 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
                     </span>
                     {address.isPrimary ? (
                         <span className={`mt-5xs flex justify-items-start`}>
-                            {' '}
-                            <PrimaryLabel />{' '}
+                            &nbsp;
+                            <PrimaryLabel />
+                            &nbsp;
                         </span>
                     ) : null}
                 </>
@@ -83,7 +82,10 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             classNameHr={`border-gray-l0`}
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                Address <span className={isSm || isMd ? 'hidden' : ''}>Information</span>
+                Address&nbsp;
+                <span className={cn({ ['hidden']: breakpoint <= Breakpoint.sm || breakpoint === Breakpoint.md })}>
+                    Information
+                </span>
             </span>
             <Editable
                 type={'address'}
