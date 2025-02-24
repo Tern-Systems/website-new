@@ -14,7 +14,6 @@ import SVG_CITY_WAY from '/public/images/city-glowing-way.jpg';
 import SVG_OFFICE_PEOPLE from '/public/images/office-people.png';
 import SVG_COMPUTER from '/public/images/old-computer.svg';
 import SVG_ROCKET from '/public/images/rocket.png';
-import SVG_NEURONS from '/public/images/neurons-blue.png';
 import SVG_NATURE from '/public/images/nature-section.png';
 
 const INFO: InfoSectionData = {

@@ -9,7 +9,6 @@ import { BillingService } from '@/app/services';
 import { mapSavedCard } from '@/app/utils';
 import { useForm } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 import { ScrollEnd } from '@/app/ui/misc';
 import { Button, Input, Select } from '@/app/ui/form';
@@ -71,7 +70,6 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const { userData } = useUser();
     const modalCtx = useModal();
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
