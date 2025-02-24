@@ -111,8 +111,7 @@ const config: Config = {
                 red: 'var(--color-red)',
             },
             fontFamily: {
-                caslon: ['"Adobe Caslon Pro"', 'serif'],
-                neo: ['"Neo Sans W1G"', 'sans-serif'],
+                gothic: ['"Abode Gothic Standard"', 'sans-serif'],
                 english: ['"Old English Five"', 'serif'],
                 oxygen: ['"Oxygen"', 'sans-serif'],
                 arial: ['"Arial"', 'serif'],
