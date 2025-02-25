@@ -107,8 +107,8 @@ function ManageSubscriptionsPage() {
                             {selectedPlan.recurrency === 'monthly' ? 'month' : 'year'}
                         </span>
                         <Button
-                            icon={detailsExpanded ? 'chevron-up' : 'chevron-down'}
-                            // isIconFlippedY={detailsExpanded}
+                            icon={'chevron'}
+                            isIconFlippedY={detailsExpanded}
                             className={'col-start-1 mr-auto flex-row-reverse  text-section-xxs sm:text-section-xs'}
                             classNameIcon={'[&_path]:fill-gray [&_*]:w-[0.4rem] [&_path]:fill-primary'}
                             onClick={() => setDetailsExpanded((prevState) => !prevState)}

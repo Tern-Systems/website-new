@@ -19,7 +19,7 @@ const DATA: SectionCard[] = [
         action: 'Explore Jobs',
         href: MISC_LINKS.Careers,
         icon: SVG_OFFICE_GIRL_1,
-        btnIcon: 'arrow-left',
+        btnIcon: 'arrow',
         btnIconCN: 'rotate-180',
     },
     {
@@ -28,7 +28,7 @@ const DATA: SectionCard[] = [
         action: 'Start Learning',
         href: MEDIA_LINKS.YouTube.href,
         icon: SVG_OFFICE_GIRL_2,
-        btnIcon: 'square-arrow-up-right',
+        btnIcon: 'arrow-square',
     },
 ];
 

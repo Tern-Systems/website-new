@@ -174,7 +174,7 @@ function MyTernPage() {
             href={btn.href}
         >
             <Button
-                icon={'chevron-down'}
+                icon={'chevron'}
                 className={cn(`flex-row-reverse bg-blue`, `p-4xs text-basic`, `xxs:x-[p-[0.56rem],text-section-xs]`)}
                 classNameIcon={cn(`[&_path]:fill-primary -rotate-90 ml-n [&_*]:w-[0.6rem]`, `sm:[&_*]:w-[0.525rem]`)}
             >
