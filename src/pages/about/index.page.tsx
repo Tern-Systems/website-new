@@ -33,7 +33,7 @@ const COMPANY: SectionCard[] = [
         action: 'Join the Podcast',
         href: MEDIA_LINKS.YouTube.href,
         icon: SVG_CITY_WAY,
-        btnIcon: 'arrow',
+        btnIcon: 'arrow-left',
         btnIconCN: 'rotate-180',
     },
     {
@@ -42,7 +42,7 @@ const COMPANY: SectionCard[] = [
         action: 'Attend',
         href: MISC_LINKS.Events,
         icon: SVG_OFFICE_PEOPLE,
-        btnIcon: 'arrow-square',
+        btnIcon: 'square-arrow-up-right',
     },
 ];
 

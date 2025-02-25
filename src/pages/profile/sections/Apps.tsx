@@ -43,7 +43,7 @@ const AppsSection: FC = () => {
             const userApp = userApps.find((userApp) => userApp.name === app);
             const isFound = true;
             const text = isFound ? 'Connected' : 'Connect';
-            const icon: ButtonIcon = isFound ? 'mark-square' : 'plus-square';
+            const icon: ButtonIcon = isFound ? 'square-check' : 'plus-square';
 
             return (
                 <span
@@ -65,11 +65,11 @@ const AppsSection: FC = () => {
                     )}
                     <Button
                         icon={icon}
-                        hovered={{
-                            icon: isFound ? 'close-square' : icon,
-                            text: isSm || isMd ? '' : isFound ? 'Disconnect' : 'Connect',
-                            className: isFound ? 'bg-red' : 'bg-blue',
-                        }}
+                        // hovered={{
+                        //     icon: isFound ? 'square-xmark' : icon,
+                        //     elem: isSm || isMd ? '' : isFound ? 'Disconnect' : 'Connect',
+                        //     className: isFound ? 'bg-red' : 'bg-blue',
+                        // }}
                         className={cn(
                             `col-start-3 flex-row-reverse gap-[5px] place-self-end text-section-xs font-bold`,
                             styles.ellipsis,
@@ -111,7 +111,8 @@ const AppsSection: FC = () => {
 
             <Button
                 disabled={userData.personalDomain?.isVerified}
-                icon={userData.personalDomain?.isVerified ? 'mark-flower' : 'plus-flower'}
+                // icon={userData.personalDomain?.isVerified ? 'mark-flower' : 'plus-flower'}
+                icon={userData.personalDomain?.isVerified ? 'check-circle' : 'plus-circle'}
                 className={'col-start-3 flex-row-reverse place-self-end'}
             >
                 <span className={`${isSm || isMd ? 'hidden' : ''} ${label_CN}`}>

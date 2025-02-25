@@ -35,7 +35,7 @@ const COMPANY: SectionCard[] = [
         action: 'Find Community',
         href: MEDIA_LINKS.YouTube.href,
         icon: PNG_ACCOLADES,
-        btnIcon: 'arrow',
+        btnIcon: 'arrow-left',
         btnIconCN: 'rotate-180',
     },
     {
@@ -44,7 +44,7 @@ const COMPANY: SectionCard[] = [
         action: 'Start Earning',
         href: MISC_LINKS.Events,
         icon: PNG_INSIDE_TERN_GIRL,
-        btnIcon: 'arrow-square',
+        btnIcon: 'square-arrow-up-right',
     },
 ];
 

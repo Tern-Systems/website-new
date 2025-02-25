@@ -263,7 +263,7 @@ const Editable: FC<Props> = (props: Props) => {
         >
             {CancelBtn}
             <Button
-                ref={submitRef}
+                // ref={submitRef}
                 type={'submit'}
                 disabled={checkPreventUpdate()}
                 className={'rounded-full bg-navy px-xxs disabled:bg-gray-l0 disabled:text-gray'}
