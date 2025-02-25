@@ -21,7 +21,7 @@ const Carousel: FC<Props> = (props: Props) => {
                     carouselRef.current.scrollLeft =
                         carouselRef.current.scrollLeft + (right ? 0.5 : -0.5) * window.outerWidth;
             }}
-            icon={'chevron-down'}
+            icon={'chevron'}
             className={cn(
                 'absolute top-1/2 z-50 !-translate-y-1/2 [&_*]:size-[2.875rem]',
                 right ? 'right-0 -rotate-90' : 'left-0 rotate-90',

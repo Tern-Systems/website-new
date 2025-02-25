@@ -1,88 +1,156 @@
-import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
-import { StaticImageData } from 'next/dist/shared/lib/get-img-props';
-import { IconName, IconProp } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './fontawesome';
+import {
+    ButtonHTMLAttributes,
+    ForwardedRef,
+    forwardRef,
+    ForwardRefRenderFunction,
+    PropsWithoutRef,
+    ReactElement,
+} from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
-import Image from 'next/image';
+
 import styles from '@/app/common.module.css';
-import useMounted from '@/app/hooks/useMounted';
 
-type ButtonIcon = IconProp | StaticImageData; // FontAwesome icon or SVG
+import SVG_ARROW from '/public/images/icons/arrow.svg';
+import SVG_ARROW_SQUARE from '/public/images/icons/arrow-square.svg';
+import SVG_BURGER_MENU from '/public/images/icons/burger-menu.svg';
+import SVG_BOOK from '/public/images/icons/book-opened.svg';
+import SVG_CHECK_FLOWER from '/public/images/icons/checkmark-flower.svg';
+import SVG_CHECK_SQUARE from '/public/images/icons/checkmark-square.svg';
+import SVG_CHEVRON from '/public/images/icons/chevron.svg';
+import SVG_CLOSE from '/public/images/icons/close.svg';
+import SVG_CLOSE_SQUARE from '/public/images/icons/close-square.svg';
+import SVG_DELETE from '/public/images/icons/delete.svg';
+import SVG_DELETE_SQUARE from '/public/images/icons/delete-square.svg';
+import SVG_DIAMOND from '/public/images/icons/diamond.svg';
+import SVG_DOTS_V from '/public/images/icons/dots-v.svg';
+import SVG_DOWNLOAD from '/public/images/icons/download.svg';
+import SVG_EDIT from '/public/images/icons/edit-line.svg';
+import SVG_FILE from '/public/images/icons/file.svg';
+import SVG_GLASS from '/public/images/icons/glass.svg';
+import SVG_LABEL from '/public/images/icons/label.svg';
+import SVG_LOCK from '/public/images/icons/lock.svg';
+import SVG_NOTEPAD from '/public/images/icons/notepad.svg';
+import SVG_PENCIL from '/public/images/icons/pencil.svg';
+import SVG_PLUS from '/public/images/icons/plus.svg';
+import SVG_PLUS_FLOWER from '/public/images/icons/plus-flower.svg';
+import SVG_PLUS_SQUARE from '/public/images/icons/plus-square.svg';
+import SVG_SHARE from '/public/images/icons/share.svg';
+import SVG_UPLOAD from '/public/images/icons/upload.svg';
+import SVG_WARN from '/public/images/icons/warn.svg';
 
-// Used for rendering both custom SVGs and FontAwesomeIcons
-const renderIcon = (
-    icon: ButtonIcon | null | undefined,
-    className: string | undefined,
-    hoverIcon: ButtonIcon | null | undefined,
-    hover?: boolean,
-): ReactNode | null => {
-    const mounted = useMounted();
-    const iconFinal = hover ? hoverIcon : icon;
-    if (!iconFinal) return null;
+type ButtonIcon =
+    | 'arrow'
+    | 'arrow-square'
+    | 'book'
+    | 'burger'
+    | 'chevron'
+    | 'close'
+    | 'close-square'
+    | 'delete'
+    | 'delete-square'
+    | 'diamond'
+    | 'dots'
+    | 'download'
+    | 'edit'
+    | 'file'
+    | 'glass'
+    | 'label'
+    | 'lock'
+    | 'mark-flower'
+    | 'mark-square'
+    | 'notepad'
+    | 'pencil'
+    | 'plus'
+    | 'plus-flower'
+    | 'plus-square'
+    | 'share'
+    | 'upload'
+    | 'warn';
 
-    const classNameFinal = cn('inline max-w-full max-h-full duration-0', className, {
-        [hover ? 'hidden group-hover:inline' : 'group-hover:hidden']: hoverIcon,
-    });
-
-    if (typeof iconFinal !== 'string' && 'src' in iconFinal)
-        return (
-            <ReactSVG
-                src={iconFinal.src}
-                className={classNameFinal}
-            />
-        );
-    //else if (typeof iconFinal === 'string')
-    //    return <Image src={iconFinal} alt={'icon'} width={50} height={50} className={classNameFinal} />;
-    else if (iconFinal && mounted)
-        return (
-            <FontAwesomeIcon
-                icon={['fas', iconFinal as IconName]}
-                className={classNameFinal}
-            />
-        );
+const ICON: Record<ButtonIcon, { src: string }> = {
+    arrow: SVG_ARROW,
+    'arrow-square': SVG_ARROW_SQUARE,
+    book: SVG_BOOK,
+    burger: SVG_BURGER_MENU,
+    chevron: SVG_CHEVRON,
+    close: SVG_CLOSE,
+    'close-square': SVG_CLOSE_SQUARE,
+    diamond: SVG_DIAMOND,
+    'mark-square': SVG_CHECK_SQUARE,
+    'mark-flower': SVG_CHECK_FLOWER,
+    delete: SVG_DELETE,
+    'delete-square': SVG_DELETE_SQUARE,
+    dots: SVG_DOTS_V,
+    download: SVG_DOWNLOAD,
+    edit: SVG_EDIT,
+    file: SVG_FILE,
+    glass: SVG_GLASS,
+    label: SVG_LABEL,
+    lock: SVG_LOCK,
+    notepad: SVG_NOTEPAD,
+    pencil: SVG_PENCIL,
+    plus: SVG_PLUS,
+    'plus-flower': SVG_PLUS_FLOWER,
+    'plus-square': SVG_PLUS_SQUARE,
+    share: SVG_SHARE,
+    upload: SVG_UPLOAD,
+    warn: SVG_WARN,
 };
 
-// Custom Button with icons support (not styled)
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: ButtonIcon | null;
-    hovered?: { elem?: ReactNode | null; icon?: ButtonIcon | null }; // Hover state elements
-    classNameIcon?: string; // Hover / static icon
+    hovered?: { icon?: ButtonIcon | null; text?: string; className?: string };
+    isIconFlippedY?: boolean;
+    classNameIcon?: string;
 }
 
-const Button: FC<Props> = (props: Props) => {
-    const { children, icon, hovered, className, classNameIcon, ...btnProps } = props;
+const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, PropsWithoutRef<Props>> = (
+    props: Props,
+    ref: ForwardedRef<HTMLButtonElement>,
+) => {
+    const { children, icon, isIconFlippedY, className, classNameIcon, hovered, ...btnProps } = props;
 
-    const Icon: ReactNode | null = renderIcon(icon, classNameIcon, hovered?.icon);
-    const HoverIcon: ReactNode | null = renderIcon(icon, classNameIcon, hovered?.icon, true);
+    const iconClassName = cn(`inline [&_*]:size-[1rem]`, { ['rotate-180']: isIconFlippedY }, classNameIcon);
+    const Icon: ReactElement | null = (
+        <>
+            {icon ? (
+                <ReactSVG
+                    src={ICON[icon].src}
+                    className={cn(iconClassName, { ['group-hover:hidden']: hovered?.icon })}
+                />
+            ) : null}
+            {hovered?.icon ? (
+                <ReactSVG
+                    src={ICON[hovered.icon].src}
+                    className={cn(iconClassName, 'hidden group-hover:inline', hovered.className)}
+                />
+            ) : null}
+        </>
+    );
 
     return (
         <button
             {...btnProps}
-            className={cn(
-                `group cursor-pointer text-nowrap rounded-full font-sans disabled:cursor-default`,
-                className,
-                styles.clickable,
-                {
-                    ['flex items-center justify-center']: Icon ?? HoverIcon,
-                    ['gap-x-5xs']: children && (Icon ?? HoverIcon),
-                },
-            )}
+            ref={ref}
+            className={cn(`group cursor-pointer text-nowrap disabled:cursor-default`, className, styles.clickable, {
+                ['flex items-center justify-center gap-x-5xs']: icon ?? hovered?.icon,
+            })}
         >
             {Icon}
-            {HoverIcon}
-            {children ? (
+            {hovered ? (
                 <>
-                    <span className={cn({ ['group-hover:hidden']: hovered?.elem })}>{children}</span>
-                    {hovered?.elem ? (
-                        <span className={cn({ ['hidden group-hover:inline']: hovered.elem })}>{hovered.elem}</span>
-                    ) : null}
+                    <span className='group-hover:hidden'>{children}</span>
+                    {hovered?.text && <span className='hidden group-hover:inline'>{hovered.text}</span>}
                 </>
-            ) : null}
+            ) : (
+                <span>{children}</span>
+            )}
         </button>
     );
 };
 
-export type { ButtonIcon };
+const Button = forwardRef(ButtonComponent);
+
 export { Button };
+export type { ButtonIcon };
