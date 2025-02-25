@@ -90,7 +90,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                 <Button
                     type={'submit'}
                     disabled={!isAllowedToDelete}
-                    icon={isAllowedToDelete ? 'warn' : 'lock'}
+                    icon={isAllowedToDelete ? 'warning' : 'lock'}
                     className={`mt-xs h-[min(5.9dvw,2.1rem)] w-full place-self-center rounded-full text-section font-bold ${isAllowedToDelete ? 'bg-red' : 'text-secondary'}`}
                 >
                     {isAllowedToDelete ? 'Permanently Delete My Account' : 'Locked'}

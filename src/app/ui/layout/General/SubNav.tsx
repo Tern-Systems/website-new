@@ -110,7 +110,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
             >
                 <Button
                     onClick={() => setDropdownColumns(null)}
-                    icon={'chevron'}
+                    icon={'chevron-down'}
                     className={'!justify-start border-b-s p-s font-bold'}
                     classNameIcon={'[&_*]:!size-[0.5625rem] rotate-90'}
                 >

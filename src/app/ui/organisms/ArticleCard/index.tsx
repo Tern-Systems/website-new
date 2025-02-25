@@ -79,7 +79,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
                     </span>
                 )}
                 <Button
-                    icon={'book'}
+                    icon={'book-open'}
                     className={'mt-auto text-blue'}
                     classNameIcon={'[&_*]:w-[0.67rem]'}
                 >

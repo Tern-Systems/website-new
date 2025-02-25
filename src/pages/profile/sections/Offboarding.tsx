@@ -35,7 +35,7 @@ const OffboardingSection: FC = () => {
             </span>
             <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>Delete your account and data</span>
             <Button
-                icon={'delete-square'}
+                icon={'square-xmark'}
                 className={'flex-row-reverse [&]:place-content-end'}
                 onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData} />, { darkenBg: true })}
             >
