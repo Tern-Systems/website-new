@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
-import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
+import { CardLink } from '@/app/types/layout';
 import { Route } from '@/app/static';
 
 import { MainBackground } from '@/app/ui/atoms';
@@ -17,13 +17,7 @@ import PNG_CARD_3 from '/public/images/resources-card-3.png';
 import PNG_CARD_4 from '/public/images/resources-card-4.png';
 import PNG_CARD_5 from '/public/images/resources-card-5.png';
 
-const CARDS: {
-    title: string;
-    description: string;
-    icon: StaticImageData;
-    action: { title: string; href: Route };
-    alt?: true;
-}[] = [
+const CARDS: CardLink[] = [
     {
         title: 'Downloads',
         description: 'Explore and download the latest software from Tern',

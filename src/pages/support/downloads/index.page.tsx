@@ -2,8 +2,7 @@ import React from 'react';
 import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
-import { ResourceLink, ResourceSectionData } from '@/app/types/layout';
-import { PlanName } from '@/app/types/subscription';
+import { DocumentationLink, ResourceLink, ResourceSectionData } from '@/app/types/layout';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { Route } from '@/app/static';
 
@@ -19,7 +18,7 @@ import styles from '@/app/common.module.css';
 import SVG_DOWNLOAD_ARROW from '/public/images/icons/arrow-down-underline.svg';
 import SVG_ARROW from '/public/images/icons/arrow.svg';
 
-const DOWNLOAD_LINKS: (ResourceLink & { subscription: PlanName })[] = [
+const DOWNLOAD_LINKS: DocumentationLink[] = [
     {
         title: 'TIDE',
         description: 'Download the desktop version of TIDE for further customization options and offline use.',
