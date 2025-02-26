@@ -10,6 +10,8 @@ import { Button } from '@/app/ui/form';
 import SVG_TERN_LOGO from '/public/images/insignia-logo.png';
 import SVG_DOCUMENT from '/public/images/document.svg';
 
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+
 const BTN_CN = 'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)]';
 
 interface Props {
@@ -72,14 +74,14 @@ const OrderPreview: FC<Props> = (props: Props) => {
                     className={`mt-xl flex items-center justify-center gap-x-[0.75rem] text-heading-s font-bold sm:flex-col sm:gap-y-[4dvw]`}
                 >
                     <Button
-                        icon={'download'}
+                        icon={faDownload}
                         className={`border-s border-gray [&_path]:fill-gray ${BTN_CN}`}
                         onClick={() => toPDF({})}
                     >
                         Download Invoice
                     </Button>
                     <Button
-                        icon={'download'}
+                        icon={faDownload}
                         className={`bg-gray text-primary [&_path]:fill-primary ${BTN_CN}`}
                         onClick={() => toPDFReceipt()}
                     >

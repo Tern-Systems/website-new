@@ -10,6 +10,8 @@ import { useModal, useUser } from '@/app/context';
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
+import { faTriangleExclamation, faLock } from '@fortawesome/free-solid-svg-icons';
+
 const LIST: string[] = [
     'Account deletion is permanent and cannot be reversed.',
     'Once deleted, access to all Tern products and services, including Tidal, TernKit, and any future offerings, will be permanently revoked.',
@@ -90,7 +92,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                 <Button
                     type={'submit'}
                     disabled={!isAllowedToDelete}
-                    icon={isAllowedToDelete ? 'warn' : 'lock'}
+                    icon={isAllowedToDelete ? faTriangleExclamation : faLock}
                     className={`mt-xs h-[min(5.9dvw,2.1rem)] w-full place-self-center rounded-full text-section font-bold ${isAllowedToDelete ? 'bg-red' : 'text-secondary'}`}
                 >
                     {isAllowedToDelete ? 'Permanently Delete My Account' : 'Locked'}

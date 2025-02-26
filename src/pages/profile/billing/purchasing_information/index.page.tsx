@@ -18,6 +18,9 @@ import { ExportInvoiceModal } from './ExportInvoiceModal';
 
 import SVG_CARD from '/public/images/icons/card.svg';
 
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+
 function PurchasingInformationPage() {
     const userCtx = useUser();
     const modalCtx = useModal();
@@ -115,7 +118,7 @@ function PurchasingInformationPage() {
                                 prevent={!savedCards.length}
                             >
                                 <Button
-                                    icon={'edit'}
+                                    icon={faPen}
                                     className={'flex-row-reverse text-section'}
                                     onClick={() => router.push(Route.EditPaymentMethod)}
                                 >
@@ -129,7 +132,7 @@ function PurchasingInformationPage() {
                             href={Route.AddPaymentMethod}
                             className={'mt-[min(2.7dvw,1.5rem)] font-bold sm:landscape:mt-3xs'}
                         >
-                            <Button icon={'plus'}>Add alternative payment method</Button>
+                            <Button icon={faPlus}>Add alternative payment method</Button>
                         </PageLink>
                     </div>
                     <div>

@@ -10,6 +10,7 @@ import { Insignia } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 interface Props extends PropsWithChildren {
     backButtonSection: Route;
@@ -28,7 +29,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
             <div className={`flex h-heading items-center justify-between p-[1.25rem] md:hidden lg:hidden`}>
                 <Insignia />
                 <Button
-                    icon={'close'}
+                    icon={faX}
                     onClick={() => navigate(backButtonSection)}
                     classNameIcon={'[&_path]:fill-blue [&&_*]:w-[1.125rem] h-auto'}
                 />

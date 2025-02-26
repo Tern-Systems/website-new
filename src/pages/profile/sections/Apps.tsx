@@ -11,6 +11,13 @@ import { Collapsible } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 
 import styles from '@/pages/profile/Profile.module.css';
+import {
+    faCheckCircle,
+    faPlusCircle,
+    faSquareCheck,
+    faSquarePlus,
+    faSquareXmark,
+} from '@fortawesome/free-solid-svg-icons';
 
 const APPS = 'Third-Party Applications';
 
@@ -44,7 +51,7 @@ const AppsSection: FC = () => {
             const userApp = userApps.find((userApp) => userApp.name === app);
             const isFound = true;
             const text = isFound ? 'Connected' : 'Connect';
-            const icon: ButtonIcon = isFound ? 'mark-square' : 'plus-square';
+            const icon: ButtonIcon = isFound ? faSquareCheck : faSquarePlus;
 
             return (
                 <span
@@ -66,8 +73,8 @@ const AppsSection: FC = () => {
                     )}
                     <Button
                         icon={icon}
-                        hovered={{
-                            icon: isFound ? 'close-square' : icon,
+                        hover={{
+                            icon: isFound ? faSquareXmark : icon,
                             text: isSm || isMd ? '' : isFound ? 'Disconnect' : 'Connect',
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
@@ -112,7 +119,7 @@ const AppsSection: FC = () => {
 
             <Button
                 disabled={userData.personalDomain?.isVerified}
-                icon={userData.personalDomain?.isVerified ? 'mark-flower' : 'plus-flower'}
+                icon={userData.personalDomain?.isVerified ? faCheckCircle : faPlusCircle}
                 className={'col-start-3 flex-row-reverse place-self-end'}
             >
                 <span className={`${isSm || isMd ? 'hidden' : ''} ${label_CN}`}>

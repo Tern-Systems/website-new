@@ -25,6 +25,8 @@ import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
 interface Props {
     setNavExpanded: Dispatch<SetStateAction<boolean>>;
     dropdownState: [NavDropdown | null, Dispatch<SetStateAction<NavDropdown | null>>];
@@ -110,7 +112,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
             >
                 <Button
                     onClick={() => setDropdownColumns(null)}
-                    icon={'chevron'}
+                    icon={faChevronRight}
                     className={'!justify-start border-b-s p-s font-bold'}
                     classNameIcon={'[&_*]:!size-[0.5625rem] rotate-90'}
                 >

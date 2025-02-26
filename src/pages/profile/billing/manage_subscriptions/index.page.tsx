@@ -10,6 +10,8 @@ import { BillingService } from '@/app/services';
 import { formatDate } from '@/app/utils';
 import { useLoginCheck } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
+
+import { BreadcrumbRoute } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
 import { Button, Select } from '@/app/ui/form';
 import { CancelModal } from './CancelModal';
@@ -19,7 +21,8 @@ import styles from '@/app/common.module.css';
 
 import SVG_CARD from '/public/images/icons/card.svg';
 import SVG_PENCIL from '/public/images/icons/edit.svg';
-import { BreadcrumbRoute } from '@/app/ui/atoms';
+
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 const SELECT_CN = 'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl';
 
@@ -107,8 +110,7 @@ function ManageSubscriptionsPage() {
                             {selectedPlan.recurrency === 'monthly' ? 'month' : 'year'}
                         </span>
                         <Button
-                            icon={'chevron'}
-                            isIconFlippedY={detailsExpanded}
+                            icon={detailsExpanded ? faChevronDown : faChevronUp}
                             className={'col-start-1 mr-auto flex-row-reverse  text-section-xxs sm:text-section-xs'}
                             classNameIcon={'[&_path]:fill-gray [&_*]:w-[0.4rem] [&_path]:fill-primary'}
                             onClick={() => setDetailsExpanded((prevState) => !prevState)}
