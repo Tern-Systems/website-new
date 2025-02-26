@@ -18,6 +18,7 @@ class BlogServiceImpl extends BaseService implements IBlogService {
         super(BlogServiceImpl.name);
     }
 
+    // TODO count param
     async getArticles(): Promise<Res<ArticlesDTO, false>> {
         const [debug, error] = this.getLoggers(this.getArticles.name);
 
