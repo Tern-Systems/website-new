@@ -16,11 +16,14 @@ import PNG_NATURE from '/public/images/nature.png';
 interface Props {
     type?: 'default' | 'expand' | 'alt';
     article: Article | null;
+    hideTag?: true;
+    altLink?: string;
     className?: string;
+    classNameContent?: string;
 }
 
 const ArticleCard: FC<Props> = (props: Props) => {
-    const { type, article, className } = props;
+    const { type, article, hideTag, altLink, className, classNameContent } = props;
 
     const [navigate] = useNavigate(true);
 
@@ -56,12 +59,16 @@ const ArticleCard: FC<Props> = (props: Props) => {
                 />
             </div>
             <div
-                className={cn('relative z-10 flex flex-grow flex-col items-start p-xs', {
-                    ['px-xs lg:px-xl  sm:pt-xs pt-n  pb-s lg:pb-[2.88rem] ']: expand,
-                    ['pt-[2.2rem]']: !alt,
-                })}
+                className={cn(
+                    'relative z-10 flex flex-grow flex-col items-start p-xs',
+                    {
+                        ['px-xs lg:px-xl  sm:pt-xs pt-n  pb-s lg:pb-[2.88rem] ']: expand,
+                        ['pt-[2.2rem]']: !alt,
+                    },
+                    classNameContent,
+                )}
             >
-                {alt ? null : (
+                {alt || hideTag ? null : (
                     <span className={'mb-n block text-section-3xs text-secondary'}>
                         {article?.tag ?? 'There will be a tag...'}
                     </span>
@@ -79,11 +86,11 @@ const ArticleCard: FC<Props> = (props: Props) => {
                     </span>
                 )}
                 <Button
-                    icon={'book'}
-                    className={'mt-auto text-blue'}
-                    classNameIcon={'[&_*]:w-[0.67rem]'}
+                    icon={altLink ? 'arrow-right' : 'book'}
+                    className={cn('mt-auto text-blue', { ['flex-row-reverse']: altLink })}
+                    classNameIcon={cn('[&_*]:w-[0.67rem] [&_path]:fill-blue mt-auto', { ['ml-5xs']: altLink })}
                 >
-                    Read
+                    {altLink ?? 'Read'}
                 </Button>
             </div>
         </div>

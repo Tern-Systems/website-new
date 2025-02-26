@@ -12,6 +12,14 @@ type ResourceLink = {
     href: string;
 };
 
+type CardLink = {
+    title: string;
+    description: string;
+    icon: StaticImageData;
+    action: { title: string; href: string };
+    alt?: true;
+};
+
 type DocumentationLink = ResourceLink & { subscription: PlanName };
 
 type InfoSectionData = {
@@ -53,6 +61,7 @@ type TableSection<T extends object> = {
 
 export type {
     ResourceLink,
+    CardLink,
     DocumentationLink,
     SectionCard,
     InfoSectionData,

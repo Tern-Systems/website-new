@@ -68,8 +68,8 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         className={cn('w-full h-auto', className?.image)}
                     />
                     <span className={cn('contents lg:flex flex-col gap-y-n h-full', className?.content)}>
-                        <span className={'text-section-xl md:text-heading sm:text-section'}>{title}</span>
-                        <span className={cn('leading-l  lg:w-1/2', className?.children)}>{children}</span>
+                        <span className={'block text-section-xl md:text-heading sm:text-section'}>{title}</span>
+                        <span className={cn('block leading-l  lg:w-1/2', className?.children)}>{children}</span>
                         <PageLink
                             icon={'arrow-right-long'}
                             href={action.href}
