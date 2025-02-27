@@ -57,9 +57,8 @@ const ArticleCard: FC<Props> = (props: Props) => {
             )}
         >
             <div
-                className={cn('relative -z-10 flex size-full overflow-hidden', {
+                className={cn('relative -z-10 flex size-full overflow-hidden', altVertical ? 'pb-0' : 'pr-0', {
                     ['p-xs']: alt,
-                    ['pr-0']: !altVertical,
                 })}
             >
                 <div className={'absolute from-0 bg-gradient-to-t from-black to-25%'} />
@@ -68,7 +67,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
                     width={100}
                     height={100}
                     alt={`article-img`}
-                    className={cn('size-full object-cover', {
+                    className={cn('size-full min-h-full object-cover', {
                         [altVertical ? 'sm:max-h-[10.75rem] max-h-[12.8125rem]' : '!min-w-[11.625rem]']: alt,
                     })}
                 />

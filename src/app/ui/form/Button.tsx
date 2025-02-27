@@ -16,6 +16,7 @@ import SVG_ARROW_RIGHT from '/public/images/icons/arrow-right-long.svg';
 import SVG_ARROW_SQUARE from '/public/images/icons/arrow-square.svg';
 import SVG_BURGER_MENU from '/public/images/icons/burger-menu.svg';
 import SVG_BOOK from '/public/images/icons/book-opened.svg';
+import SVG_CAMERA from '/public/images/icons/camera.svg';
 import SVG_CHECK_FLOWER from '/public/images/icons/checkmark-flower.svg';
 import SVG_CHECK_SQUARE from '/public/images/icons/checkmark-square.svg';
 import SVG_CHEVRON from '/public/images/icons/chevron.svg';
@@ -47,6 +48,7 @@ type ButtonIcon =
     | 'book'
     | 'burger'
     | 'chevron'
+    | 'camera'
     | 'close'
     | 'close-square'
     | 'delete'
@@ -77,6 +79,7 @@ const ICON: Record<ButtonIcon, { src: string }> = {
     book: SVG_BOOK,
     burger: SVG_BURGER_MENU,
     chevron: SVG_CHEVRON,
+    camera: SVG_CAMERA,
     close: SVG_CLOSE,
     'close-square': SVG_CLOSE_SQUARE,
     diamond: SVG_DIAMOND,
@@ -136,9 +139,14 @@ const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, PropsWithoutR
         <button
             {...btnProps}
             ref={ref}
-            className={cn(`group cursor-pointer text-nowrap disabled:cursor-default`, className, styles.clickable, {
-                ['flex items-center justify-center gap-x-5xs']: icon ?? hovered?.icon,
-            })}
+            className={cn(
+                `group inline-flex items-center cursor-pointer text-nowrap disabled:cursor-default`,
+                className,
+                styles.clickable,
+                {
+                    ['justify-center gap-x-5xs']: icon ?? hovered?.icon,
+                },
+            )}
         >
             {Icon}
             {hovered ? (
