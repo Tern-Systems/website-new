@@ -14,7 +14,7 @@ type ResourceLink = {
 
 type CardLink = {
     title: string;
-    description: string;
+    description?: string;
     icon: StaticImageData;
     action: { title: string; href: string };
     alt?: true;
