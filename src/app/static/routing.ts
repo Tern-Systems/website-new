@@ -48,6 +48,8 @@ enum Route {
     Downloads = '/support/downloads',
     Cases = '/support/cases',
     Tips = '/support/tips',
+    TipsVideos = '/support/tips/videos',
+    TipsReads = '/support/tips/reads',
     Contact = '/support/contact',
     FAQs = '/support/my_tern/faqs',
     Documentation = '/support/documentation',
