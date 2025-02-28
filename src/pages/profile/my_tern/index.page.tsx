@@ -15,7 +15,6 @@ import { Table } from '@/app/ui/organisms';
 import { MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 import { ResourcesSection } from '@/app/ui/templates';
-import { FAQsModal } from '@/pages/support/faqs/index.page';
 
 import styles from '@/app/common.module.css';
 
@@ -51,11 +50,7 @@ const EVENTS_TEMPLATE: TableEntry[] = [
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
-    {
-        Node: 'Help & FAQs',
-        action: ({ isSm, navigate, modalCtx }) =>
-            isSm ? navigate(Route.FAQs) : modalCtx.openModal(<FAQsModal />, { darkenBg: true }),
-    },
+    { Node: 'Help & FAQs', action: ({ navigate }) => navigate(Route.FAQs) },
     { Node: <PageLink href={Route.SupportHub} /> },
 ];
 

@@ -3,6 +3,7 @@ import cn from 'classnames';
 
 import { FormInit, FormType } from '@/app/ui/form/Editable';
 
+import { getId } from '@/app/utils';
 import { UserData, useUser } from '@/app/context/User.context';
 import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
@@ -138,4 +139,5 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
     );
 };
 
-export { CompanySection, COMPANY };
+const COMPANY_ID = getId(COMPANY);
+export { CompanySection, COMPANY_ID };

@@ -5,11 +5,12 @@ import { FormInit, FormType } from '@/app/ui/form/Editable';
 
 import { COUNTRY, STATE_PROVINCE } from '@/app/static';
 
+import { getId } from '@/app/utils';
 import { UserData, useUser } from '@/app/context/User.context';
 import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 import { PrimaryLabel } from '@/app/ui/atoms';
-import { Collapsible } from '@/app/ui/misc';
+import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { getSimpleToggleProps, SectionProps } from '../index.page';
 
@@ -114,4 +115,5 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
     );
 };
 
-export { AddressesSection, ADDRESSES };
+const ADDRESSES_ID = getId(ADDRESSES);
+export { AddressesSection, ADDRESSES_ID };

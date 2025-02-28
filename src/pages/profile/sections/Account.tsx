@@ -9,7 +9,7 @@ import { AuthService } from '@/app/services';
 
 import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
-import { formatDate } from '@/app/utils';
+import { formatDate, getId } from '@/app/utils';
 import { useUser } from '@/app/context/User.context';
 import { useModal } from '@/app/context';
 
@@ -178,4 +178,5 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
     );
 };
 
-export { AccountSection, ACCOUNT };
+const ACCOUNT_ID = getId(ACCOUNT);
+export { AccountSection, ACCOUNT_ID };

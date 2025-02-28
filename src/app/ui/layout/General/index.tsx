@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect } from 'react';
+import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
@@ -72,6 +72,8 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
     },
 ];
 
+const SCROLL_CHECK_INTERVAL_MS = 50;
+
 const Layout: FC<PropsWithChildren> = ({ children }) => {
     const modalCtx = useModal();
     const params = useSearchParams();
@@ -79,10 +81,50 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     const layoutCtx = useLayout();
     const userCtx = useUser();
 
+    const [_, setScrollState] = layoutCtx.scrollState;
+
+    const ref = useRef<HTMLDivElement>(null);
+    const scrollIntervalRef = useRef<null | NodeJS.Timeout>(null);
+
     useEffect(() => {
         const token = params?.get('resetToken');
         if (token) router.push(Route.Home + '?resetToken=' + token);
     }, [params?.size]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollState((prevState) => ({
+                ...prevState,
+                scrollHeight: ref.current?.scrollHeight ?? 0,
+                scrollTop: ref.current?.getBoundingClientRect().top ?? 0,
+            }));
+        };
+
+        const handleMouseDown = (event: MouseEvent) => {
+            if (event.button === 1 && !scrollIntervalRef.current) {
+                scrollIntervalRef.current = setInterval(() => {
+                    handleScroll();
+                }, SCROLL_CHECK_INTERVAL_MS);
+            } else if (scrollIntervalRef.current) {
+                clearInterval(scrollIntervalRef.current);
+                handleScroll();
+                scrollIntervalRef.current = null;
+            }
+        };
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (['ArrowDown', 'Escape', 'ArrowUp'].includes(event.key)) handleScroll();
+        };
+
+        window.addEventListener('wheel', handleScroll);
+        window.addEventListener('mouseup', handleMouseDown);
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('wheel', handleScroll);
+            window.removeEventListener('mouseup', handleMouseDown);
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [ref.current, scrollIntervalRef.current]);
 
     const FooterLinksLi: ReactElement[] = FOOTER_LINKS.map((section, idx: number) => {
         const LinksLi: ReactNode[] = section.links.map((link, linkIdx) => {
@@ -152,7 +194,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             <div
                 id={'content'}
                 className={cn(
-                    `relative flex w-full flex-grow flex-col items-center`,
+                    `flex w-full flex-grow flex-col items-center`,
                     `w-screen bg-cover bg-fixed bg-no-repeat`,
                     `sm:overflow-hidden`,
                     `sm:landscape:overflow-y-scroll`,
@@ -203,10 +245,15 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     const LayoutFinal = layoutCtx.isNoLayout ? (
         children
     ) : (
-        <div className={`flex min-h-full flex-grow select-none flex-col justify-between`}>{Layout}</div>
+        <div
+            ref={ref}
+            className={`flex min-h-full flex-grow select-none flex-col justify-between`}
+        >
+            {Layout}
+        </div>
     );
 
-    return <div className={'relative h-dvh max-h-dvh overflow-y-scroll text-primary'}>{LayoutFinal}</div>;
+    return <div className={'h-dvh max-h-dvh overflow-y-scroll text-primary'}>{LayoutFinal}</div>;
 };
 
 export { Layout };

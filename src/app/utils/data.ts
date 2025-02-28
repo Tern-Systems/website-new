@@ -7,4 +7,11 @@ const copyObject = <T extends object>(object: T): T => JSON.parse(JSON.stringify
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-export { generateFallbackEntries, formatDate, copyObject, capitalize };
+const getId = (str: string) =>
+    str
+        .toLowerCase()
+        .split(' ')
+        .join('')
+        .replaceAll(/[^a-zA-Z\d]/g, '');
+
+export { generateFallbackEntries, formatDate, copyObject, capitalize, getId };

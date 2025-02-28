@@ -1,30 +1,26 @@
-import React, { Dispatch, FC, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import cn from 'classnames';
 
 import { Res } from '@/app/types/service';
 import { UpdateUserData } from '@/app/services/user.service';
 import { EditableProps } from '@/app/ui/form/Editable';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { UserService } from '@/app/services';
 
-import { useBreakpointCheck, useLoginCheck } from '@/app/hooks';
+import { useLoginCheck } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
-
-import { Select } from '@/app/ui/form';
-import { ScrollEnd } from '@/app/ui/misc';
+import { SideNav } from '@/app/ui/organisms';
 import { MessageModal } from '@/app/ui/modals';
 
-import { OFFBOARDING, OffboardingSection } from './sections/Offboarding';
-import { APPS, AppsSection } from './sections/Apps';
-import { ADDRESSES, AddressesSection } from './sections/Addresses';
-import { COMPANY, CompanySection } from './sections/Company';
-import { CONTACT, ContactSection } from './sections/Contact';
-import { ACCOUNT, AccountSection } from './sections/Account';
+import { OFFBOARDING_ID, OffboardingSection } from './sections/Offboarding';
+import { APPS_ID, AppsSection } from './sections/Apps';
+import { ADDRESSES_ID, AddressesSection } from './sections/Addresses';
+import { COMPANY_ID, CompanySection } from './sections/Company';
+import { CONTACT_ID, ContactSection } from './sections/Contact';
+import { ACCOUNT_ID, AccountSection } from './sections/Account';
 import { AboutPrivacy } from './sections/AboutPrivacy';
 
-import stylesCommon from '@/app/common.module.css';
-import styles from './Profile.module.css';
+import styles from '@/app/common.module.css';
 
 interface SectionProps {
     update: (valueOrHandle: Partial<UpdateUserData> | (() => Promise<Res>)) => Promise<void>;
@@ -32,9 +28,16 @@ interface SectionProps {
     editId: string | null;
 }
 
-const SECTIONS: string[] = [ACCOUNT, CONTACT, COMPANY, ADDRESSES, APPS, OFFBOARDING];
+const SECTION_IDS: string[] = [ACCOUNT_ID, CONTACT_ID, COMPANY_ID, ADDRESSES_ID, APPS_ID, OFFBOARDING_ID];
 
-const SECTION_NAMES = ['Credentials', 'Contact', 'Organization', 'Addresses', 'Applications', 'Offboarding'];
+const SECTIONS: Record<string, string> = {
+    [ACCOUNT_ID]: 'Credentials',
+    [CONTACT_ID]: 'Contact',
+    [COMPANY_ID]: 'Organization',
+    [ADDRESSES_ID]: 'Addresses',
+    [APPS_ID]: 'Applications',
+    [OFFBOARDING_ID]: 'Offboarding',
+};
 
 const getSimpleToggleProps = (
     setEditId?: Dispatch<SetStateAction<string | null>>,
@@ -50,23 +53,8 @@ const ProfilePage: FC = () => {
     const modalCtx = useModal();
     const { userData, token, fetchUserData } = useUser();
     const isLoggedIn = useLoginCheck();
-    const isSmScreen = useBreakpointCheck() <= Breakpoint.sm;
-    const isMdScreen = useBreakpointCheck() <= Breakpoint.md;
 
-    const sectionsRef = useRef<HTMLDivElement>(null);
-    const [activeSectionIdx, setActiveSectionIdx] = useState(0);
     const [editId, setEditId] = useState<string | null>('');
-
-    useEffect(() => {
-        const handleScroll = () => {
-            SECTIONS.forEach((section, index) => {
-                const elem = document.getElementById(section.toLowerCase().replace(/[^a-z0-9]/g, ''));
-                if (elem && elem.getBoundingClientRect().top < 0.25 * window.innerHeight) setActiveSectionIdx(index);
-            });
-        };
-        window.addEventListener('wheel', handleScroll);
-        return () => window.removeEventListener('wheel', handleScroll);
-    }, [isSmScreen]);
 
     if (!userData || !isLoggedIn || !token) return null;
 
@@ -88,97 +76,30 @@ const ProfilePage: FC = () => {
         }
     };
 
-    const SectionsNav: ReactElement[] = SECTIONS.map((link, idx) => (
-        <li
-            key={link + idx}
-            className={cn(`cursor-pointer pl-xs leading-[200%] sm:landscape:pl-xxs`, {
-                [`before:bg-blue ${styles.line}`]: idx === activeSectionIdx,
-            })}
-        >
-            <span
-                onClick={() => {
-                    setActiveSectionIdx(idx);
-                    const id = '#' + link.toLowerCase().replace(/[^a-z0-9]/g, '');
-                    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                }}
-            >
-                {SECTION_NAMES[idx]}
-            </span>
-        </li>
-    ));
-
     return (
         <section
             className={cn(
-                stylesCommon.section,
-                stylesCommon.fullHeightSection,
+                styles.section,
+                styles.fullHeightSection,
                 'bg-black',
                 `bg-[radial-gradient(circle_at_50%_50%,var(--bg-blue),#000000)]`,
             )}
         >
-            <div className={stylesCommon.content}>
-                <div
-                    className={cn(
-                        `relative flex justify-center md:justify-center lg:justify-between `,
-                        'pt-xs  md:pt-n  lg:pt-[6.25rem]',
-                    )}
-                >
-                    {!isSmScreen && !isMdScreen && (
-                        <aside
-                            className={cn(
-                                `sticky self-start text-nowrap text-left`,
-                                `top-[min(25.3dvw,3.88rem)] hidden`,
-                                `lg:x-[block] w-[16.25rem]`,
-                            )}
-                        >
-                            <ul className={cn(styles.line, `flex flex-col text-section-s before:bg-white`)}>
-                                {SectionsNav}
-                            </ul>
-                        </aside>
-                    )}
-                    <div
-                        ref={sectionsRef}
-                        className={cn(`relative flex flex-col gap-y-xxs  md:gap-y-xs  lg:gap-y-4xs`)}
-                    >
-                        {(isSmScreen || isMdScreen) && (
-                            <Select
-                                altIcon
-                                options={Object.fromEntries(
-                                    SECTIONS.map((section, index) => [index.toString(), section]),
-                                )}
-                                value={activeSectionIdx.toString()}
-                                placeholder={'Select'}
-                                onChangeCustom={(value) => {
-                                    const idx = parseInt(value);
-                                    setActiveSectionIdx(parseInt(value) || -1);
-                                    const id = '#' + SECTIONS[idx].toLowerCase().split(' ').join('');
-                                    document
-                                        .querySelector(id)
-                                        ?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                                }}
-                                classNameWrapper={cn(
-                                    `w-full mb-4xs`,
-                                    `flex-col gap-y-xxs text-section-s`,
-                                    `border-b [&]:border-gray-l0`,
-                                )}
-                                classNameLabel={'mr-auto'}
-                                classNameSelected={'w-full '}
-                                classNameChevron={'ml-auto'}
-                                className={cn(
-                                    `!border-0 !bg-gray-d2 [&]:h-[2.7681rem]  md:h-[3.3875rem]  sm:h-button-xl`,
-                                    `px-xxs  md:px-xs `,
-                                )}
-                                classNameUl={`border border-gray-l0`}
-                                classNameOption={cn(
-                                    `h-[3.1375rem] sm:h-button-xl`,
-                                    `[&]:x-[bg-gray,border-transparent,py-4xs]`,
-                                    `hover:bg-[#979797]`,
-                                    `text-section-s  md:text-section`,
-                                    `px-xxs  md:px-xs`,
-                                )}
-                            />
+            <div className={styles.content}>
+                <div className={`lg:flex  pt-xs md:pt-n lg:pt-[6.25rem]  justify-center lg:justify-between`}>
+                    <aside
+                        className={cn(
+                            `lg:sticky self-start text-nowrap text-left`,
+                            `top-[min(25.3dvw,3.88rem)]`,
+                            `w-full lg:w-fit`,
                         )}
-
+                    >
+                        <SideNav
+                            sectionIDs={SECTION_IDS}
+                            sectionNames={SECTIONS}
+                        />
+                    </aside>
+                    <div className={cn(`relative flex flex-col gap-y-xxs  md:gap-y-xs  lg:gap-y-4xs`)}>
                         <AccountSection
                             setEditId={setEditId}
                             editId={editId}
@@ -202,7 +123,6 @@ const ProfilePage: FC = () => {
                         <AppsSection />
                         <OffboardingSection />
                         <AboutPrivacy />
-                        <ScrollEnd />
                     </div>
                 </div>
             </div>

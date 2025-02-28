@@ -3,8 +3,9 @@ import cn from 'classnames';
 
 import { ButtonIcon } from '@/app/ui/form/Button';
 
-import { useUser } from '@/app/context';
+import { getId } from '@/app/utils';
 import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
+import { useUser } from '@/app/context';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
@@ -134,4 +135,5 @@ const AppsSection: FC = () => {
     );
 };
 
-export { AppsSection, APPS };
+const APPS_ID = getId(APPS);
+export { AppsSection, APPS_ID };
