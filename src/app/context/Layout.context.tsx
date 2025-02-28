@@ -121,6 +121,8 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             break;
         case checkSubRoute(route, Route.TernKeyFAQs):
             navLinks[NavLink.Breadcrumbs] = [Route.TernKey, Route.TernKeyFAQs];
+        case checkSubRoute(route, Route.CommunityEvents):
+            navLinks[NavLink.Breadcrumbs] = [Route.Community, Route.CommunityEvents];
             break;
         default:
             break;

@@ -16,10 +16,15 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
 
     const layoutCtx = useLayout();
 
-    const breadcrumbs = layoutCtx.navLinks[NavLink.Breadcrumbs]?.[1]
-        ?.split('/')
-        .slice(-length)
-        .map((parts) => getIdName(parts))
+    const breadcrumbs = layoutCtx.navLinks[NavLink.Breadcrumbs]
+        ?.slice(-length)
+        .map((path: string) => {
+            const parts = path.split('/');
+            const lastPart = parts[parts.length - 1];
+            const idName = getIdName(lastPart);
+            console.log(`Path: ${path}, Last part: ${lastPart}, IdName: ${idName}`);
+            return idName;
+        })
         .join(' / ');
 
     return (
