@@ -118,7 +118,7 @@ function EventPage() {
                     <div className='md:col-span-2 lg:col-span-2 mt-xs  md:mt-n  lg:mt-n'>
                         <span
                             className={cn(
-                                'bg-[#979797] py-1 px-5xs text-black text-section-3xs',
+                                'bg-gray-l2 py-1 px-5xs text-black text-section-3xs',
                                 'md:x-[py-1,px-[.375rem],text-[.6875rem]]',
                                 'lg:x-[py-[.2813rem],px-2,text-section-xxs]',
                             )}
@@ -135,7 +135,7 @@ function EventPage() {
                     <div className='flex flex-col gap-y-[3.125rem] mt-n  md:mt-0  lg:mt-0  '>
                         <div className='flex flex-col gap-y-xxs  lg:gap-y-xs'>
                             <Button
-                                className={`${BUTTON_CN} border bg-[#178AB7] border-[#178AB7] text-white max-w-[10.5625rem]`}
+                                className={`${BUTTON_CN} border bg-blue border-blue text-white max-w-[10.5625rem]`}
                                 icon={'arrow'}
                                 classNameIcon={'order-last [&_*]:fill-white size:[.5831rem] lg:size-[.75rem]'}
                                 isIconFlippedY
@@ -143,7 +143,7 @@ function EventPage() {
                                 Register Now
                             </Button>
                             <Button
-                                className={`${BUTTON_CN} border bg-[#b3b3b3] border-gray-l0 text-[#444444] max-w-[11.875rem]`}
+                                className={`${BUTTON_CN} border bg-white-d2 border-gray-l0 text-gray-d2 max-w-[11.875rem]`}
                                 icon={'arrow'}
                                 classNameIcon={'order-last size:[.625rem] lg:size-[.75rem]'}
                                 isIconFlippedY

@@ -22,7 +22,6 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
             const parts = path.split('/');
             const lastPart = parts[parts.length - 1];
             const idName = getIdName(lastPart);
-            console.log(`Path: ${path}, Last part: ${lastPart}, IdName: ${idName}`);
             return idName;
         })
         .join(' / ');
