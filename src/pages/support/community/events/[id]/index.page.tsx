@@ -88,7 +88,7 @@ function EventPage() {
             )}
         >
             <div className={cn(styles.content, 'pt-n md:pt-[3.125rem] lg:pt-[3.125rem]')}>
-                <BreadcrumbRoute className='mt-0' />
+                <BreadcrumbRoute className='[&]:mt-0' />
                 <div className={'flex flex-col gap-x-xs mt-n md:mt-[3.125rem] lg:mt-[3.125rem]'}>
                     <div className={' w-full'}>
                         <h1 className={'leading-n  text-section md:text-section-xl lg:text-heading-l'}>

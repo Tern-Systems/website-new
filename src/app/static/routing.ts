@@ -39,8 +39,8 @@ enum Route {
     Invoice = '/profile/billing/order',
     ManageSubscriptions = '/profile/billing/manage_subscriptions',
     PurchasingInformation = '/profile/billing/purchasing_information',
-    EditPaymentMethod = '/profile/billing/purchasing_information/edit',
-    AddPaymentMethod = '/profile/billing/purchasing_information/add',
+    EditPaymentMethod = '/profile/billing/purchasing_information/edit_payment_method',
+    AddPaymentMethod = '/profile/billing/purchasing_information/add_payment_method',
 
     // /support
     Resources = '/support/resources',
