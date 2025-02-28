@@ -6,7 +6,7 @@ import { PageLink } from '@/app/ui/layout/Link';
 import { useNavigate } from '@/app/hooks';
 import { useLayout, useModal } from '@/app/context';
 
-import { Insignia } from '@/app/ui/misc';
+import { Insignia } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';

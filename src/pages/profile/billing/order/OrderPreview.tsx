@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { Invoice } from '@/app/types/billing';
 
-import { ScrollEnd } from '@/app/ui/misc';
+import { ScrollEnd } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 
 import SVG_TERN_LOGO from '/public/images/insignia-logo.png';

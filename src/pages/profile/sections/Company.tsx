@@ -8,7 +8,7 @@ import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 import { INDUSTRY, JOB_FUNCTION, SUB_INDUSTRY } from '@/app/static';
 
-import { Collapsible } from '@/app/ui/misc';
+import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { getSimpleToggleProps, SectionProps } from '@/pages/profile/index.page';
 

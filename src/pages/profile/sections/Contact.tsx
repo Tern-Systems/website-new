@@ -10,7 +10,7 @@ import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { UserData, useUser } from '@/app/context/User.context';
 
-import { Collapsible } from '@/app/ui/misc';
+import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { PrimaryLabel } from '@/app/ui/atoms';
 import { getSimpleToggleProps, SectionProps } from '../index.page';

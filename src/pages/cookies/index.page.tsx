@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Route } from '@/app/static';
 
-import { Highlighted } from '@/app/ui/misc';
+import { Highlighted } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 
 const PARAGRAPHS: string = `Tern Systems LLC Cookie Policy

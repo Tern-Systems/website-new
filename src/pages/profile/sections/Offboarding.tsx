@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { useModal, useUser } from '@/app/context';
 import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
-import { Collapsible } from '@/app/ui/misc';
+import { Collapsible } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 import { DeleteAccountModal } from '@/pages/profile/DeleteAccountModal';
 

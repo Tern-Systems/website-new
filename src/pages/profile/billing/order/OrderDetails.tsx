@@ -4,7 +4,7 @@ import { Invoice } from '@/app/types/billing';
 import { Route, STATE_PROVINCE } from '@/app/static';
 
 import { PageLink } from '@/app/ui/layout';
-import { ScrollEnd } from '@/app/ui/misc';
+import { ScrollEnd } from '@/app/ui/organisms';
 
 interface Props {
     invoice: Invoice | null;

@@ -12,7 +12,7 @@ import { getIdName } from '@/app/utils';
 import { useLayout, useModal, useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
-import { Insignia } from '@/app/ui/misc';
+import { Insignia } from '@/app/ui/organisms';
 import { HelpModal } from '@/app/ui/modals';
 import { Header } from './Header';
 
