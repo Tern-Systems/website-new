@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import cn from 'classnames';
 
 import { NavLink } from '@/app/static';
 
@@ -7,10 +8,11 @@ import { useLayout } from '@/app/context';
 
 interface Props {
     length?: number;
+    className?: string;
 }
 
 const BreadcrumbRoute: FC<Props> = (props: Props) => {
-    const { length = 2 } = props;
+    const { length = 2, className } = props;
 
     const layoutCtx = useLayout();
 
@@ -21,7 +23,9 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
         .join(' / ');
 
     return (
-        <p className={'mt-n overflow-hidden overflow-ellipsis text-nowrap text-section-xxs leading-s'}>{breadcrumbs}</p>
+        <p className={cn('mt-n overflow-hidden overflow-ellipsis text-nowrap text-section-xxs leading-s', className)}>
+            {breadcrumbs}
+        </p>
     );
 };
 

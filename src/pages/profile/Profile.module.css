@@ -27,7 +27,7 @@
 }
 
 .roundedWFull {
-    border-radius: var(--br-smallest);
+    border-radius: var(--br-s);
     width: 100%;
 }
 
@@ -62,7 +62,7 @@
 .singleInput {
     height: min(5.8dvw, 2rem);
     width: 100%;
-    border-radius: var(--br-smallest);
+    border-radius: var(--br-s);
     font-size: var(--fz-section-s);
 }
 

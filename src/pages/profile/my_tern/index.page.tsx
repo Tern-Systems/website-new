@@ -50,7 +50,7 @@ const EVENTS_TEMPLATE: TableEntry[] = [
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
-    { Node: 'Help & FAQs', action: ({ navigate }) => navigate(Route.FAQs) },
+    { Node: <PageLink href={Route.GeneralFAQs}>Help & FAQs</PageLink> },
     { Node: <PageLink href={Route.SupportHub} /> },
 ];
 

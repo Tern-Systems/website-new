@@ -140,7 +140,7 @@ const ButtonComponent: ForwardRefRenderFunction<HTMLButtonElement, PropsWithoutR
             {...btnProps}
             ref={ref}
             className={cn(
-                `group inline-flex items-center cursor-pointer text-nowrap disabled:cursor-default`,
+                `group inline-flex items-center justify-center cursor-pointer text-nowrap disabled:cursor-default`,
                 className,
                 styles.clickable,
                 {

@@ -82,7 +82,7 @@ const TILES: Tiles[] = [
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.TernKeyPricing}>Pricing</PageLink> },
-    { Node: <PageLink href={Route.FAQs} /> },
+    { Node: <PageLink href={Route.TernKeyFAQs}>Help & FAQs</PageLink> },
     { Node: <PageLink href={Route.Documentation} /> },
 ];
 
