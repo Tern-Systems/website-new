@@ -87,7 +87,7 @@ function EventPage() {
                 `bg-black bg-gradient-to-t from-blue to-black to-30% lg:to-40%`,
             )}
         >
-            <div className={cn(styles.content, 'pt-n md:pt-[3.125rem] lg:pt-[3.125rem]')}>
+            <div className={cn(styles.content, 'py-n  md:py-[3.125rem]  lg:py-[3.125rem]')}>
                 <BreadcrumbRoute className='[&]:mt-0' />
                 <div className={'flex flex-col gap-x-xs mt-n md:mt-[3.125rem] lg:mt-[3.125rem]'}>
                     <div className={' w-full'}>
@@ -135,6 +135,7 @@ function EventPage() {
                     <div className='flex flex-col gap-y-[3.125rem] mt-n  md:mt-0  lg:mt-0  '>
                         <div className='flex flex-col gap-y-xxs  lg:gap-y-xs'>
                             <Button
+                                onClick={() => {}} // TODO
                                 className={`${BUTTON_CN} border bg-blue border-blue text-white max-w-[10.5625rem]`}
                                 icon={'arrow'}
                                 classNameIcon={'order-last [&_*]:fill-white size:[.5831rem] lg:size-[.75rem]'}
@@ -143,6 +144,7 @@ function EventPage() {
                                 Register Now
                             </Button>
                             <Button
+                                onClick={() => {}} // TODO
                                 className={`${BUTTON_CN} border bg-white-d2 border-gray-l0 text-gray-d2 max-w-[11.875rem]`}
                                 icon={'arrow'}
                                 classNameIcon={'order-last size:[.625rem] lg:size-[.75rem]'}
