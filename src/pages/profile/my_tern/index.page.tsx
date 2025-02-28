@@ -50,7 +50,11 @@ const EVENTS_TEMPLATE: TableEntry[] = [
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
+<<<<<<< HEAD
     { Node: <PageLink href={Route.GeneralFAQs}>Help & FAQs</PageLink> },
+=======
+    { Node: 'Help & FAQs', action: ({ navigate }) => navigate(Route.FAQs) },
+>>>>>>> 7c1f168 (feat: add SideNav, reuse on Profile / AllWays/Article pages)
     { Node: <PageLink href={Route.SupportHub} /> },
 ];
 

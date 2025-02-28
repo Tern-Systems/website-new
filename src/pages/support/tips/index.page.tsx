@@ -11,9 +11,8 @@ import { BlogService, TipsDTO } from '@/app/services/blog.service';
 import { useModal } from '@/app/context';
 
 import { MainBackground } from '@/app/ui/atoms';
-import { ArticleCard, ResourceCard } from '@/app/ui/organisms';
+import { ArticleCard, ResourceCard, Carousel } from '@/app/ui/organisms';
 import { AllWaysCard, InsideTernSection } from '@/app/ui/templates';
-import { Carousel } from '@/app/ui/misc';
 import { MessageModal } from '@/app/ui/modals';
 
 import styles from '@/app/common.module.css';
