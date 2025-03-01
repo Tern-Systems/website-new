@@ -8,7 +8,7 @@ import { useModal } from '@/app/context';
 import { Button } from '@/app/ui/form';
 import { useBreakpointCheck } from '@/app/hooks';
 
-import { Insignia } from '@/app/ui/misc';
+import { Insignia } from '@/app/ui/organisms';
 
 interface ModalConfig extends PropsWithChildren {
     isSimple?: boolean | Breakpoint;

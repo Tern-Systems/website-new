@@ -18,7 +18,7 @@ import { useLayout } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
 import { Button } from '@/app/ui/form';
-import { Insignia } from '@/app/ui/misc';
+import { Insignia } from '@/app/ui/organisms';
 import { ProfileMenu } from '../ProfileMenu';
 import { SubNav } from './SubNav';
 

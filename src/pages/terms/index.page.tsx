@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Highlighted } from '@/app/ui/misc';
+import { Highlighted } from '@/app/ui/organisms';
 
 const PARAGRAPHS: string = `Tern Systems LLC: Terms and Conditions
 

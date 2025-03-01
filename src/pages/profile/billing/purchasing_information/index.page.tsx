@@ -10,7 +10,7 @@ import { BillingService } from '@/app/services';
 import { useLoginCheck } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
 
-import { ScrollEnd } from '@/app/ui/misc';
+import { ScrollEnd } from '@/app/ui/organisms';
 import { FullScreenLayout, PageLink } from '@/app/ui/layout';
 import { MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';

@@ -11,7 +11,7 @@ import { BillingService } from '@/app/services';
 import { useForm, useNavigate } from '@/app/hooks';
 import { useFlow, useModal, useUser } from '@/app/context';
 
-import { ScrollEnd } from '@/app/ui/misc';
+import { ScrollEnd } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 import { Button, Input, Select } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';

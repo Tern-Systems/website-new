@@ -8,15 +8,16 @@ import { COUNTRY, CountryKey, LANGUAGE, LanguageKey, REGEX, SALUTATION } from '@
 import { UserService } from '@/app/services';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
+import { getId } from '@/app/utils';
+import { useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 import { UserData, useUser } from '@/app/context/User.context';
 
-import { Collapsible } from '@/app/ui/misc';
+import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { PrimaryLabel } from '@/app/ui/atoms';
 import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
-import { useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 const CONTACT = 'Contact Information';
 
@@ -235,4 +236,5 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
     );
 };
 
-export { ContactSection, CONTACT };
+const CONTACT_ID = getId(CONTACT);
+export { ContactSection, CONTACT_ID };

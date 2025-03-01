@@ -5,6 +5,8 @@ export { TAGS } from './blog';
 export type { JobFunctionKey, IndustryKey, SubIndustryKey } from './company';
 export { JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY } from './company';
 
+export { FAQs } from './faqs';
+
 export {
     NavLink,
     ROUTES_WITH_INDEX,

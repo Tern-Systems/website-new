@@ -11,7 +11,7 @@ import { formatDate } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
-import { ArticleCard } from '@/app/ui/organisms';
+import { ArticleCard, SideNav } from '@/app/ui/organisms';
 import { SubscribeCard } from '../../SubscribeCard';
 
 import styles from '@/app/common.module.css';
@@ -41,6 +41,7 @@ const RELATED_CARDS_COUNT = 4;
 // TODO image injection
 const H2_REGEX = /<h2>/g;
 
+const SECTION_GRID_CN = 'lg:grid  grid-cols-[min-content,3fr,1fr] gap-x-xs';
 const INFO_CN = 'border-t-s border-gray-l0 py-s px-4xs';
 const CONTENT_CN = '[&_*]:!text-primary [&_h2]:!text-heading-xl [&_*]:[all:revert]';
 
@@ -58,7 +59,6 @@ function ArticlePage() {
         if (articleStr) {
             const article: Article = JSON.parse(articleStr);
             setContent(article);
-
             const h2Matches: RegExpExecArray[] = Array.from(article.content.matchAll(H2_REGEX));
             const contentCenterIdx: number | undefined = h2Matches[Math.trunc(0.5 * h2Matches.length)]?.index;
             setContentParts(
@@ -106,10 +106,10 @@ function ArticlePage() {
         ));
 
     return (
-        <div className={cn(styles.section, styles.fullHeightSection, 'pb-[10rem]')}>
-            <div className={cn(styles.content, 'pt-3xl md:pt-xxl lg:pt-[4.43rem]')}>
-                <div className={'grid-cols-[3fr,1fr] gap-x-xs mt-xl md:mt-3xl lg:mt-[4.4rem]  block lg:grid'}>
-                    <div className={'flex flex-col w-full'}>
+        <>
+            <section className={styles.section}>
+                <div className={cn(styles.content, SECTION_GRID_CN, 'mt-xl md:pt-3xl lg:pt-[4.4rem]')}>
+                    <div className={'col-span-2 flex flex-col w-full h-fit'}>
                         <h1 className={'leading-n  text-section-xl md:text-heading-xxl lg:text-heading-3xl'}>
                             {content?.title}
                         </h1>
@@ -144,7 +144,9 @@ function ArticlePage() {
                         </div>
                     </div>
                 </div>
-                <div className={'mt-4xl md:mt-[5.78rem] lg:mt-xxl'}>
+            </section>
+            <section className={'mt-4xl md:mt-[5.78rem] lg:mt-xxl'}>
+                <div className={styles.content}>
                     <span className={'mb-xxs block font-bold'}>Author</span>
                     <span className={'grid grid-cols-[min-content,1fr] grid-rows-2 items-center gap-x-l'}>
                         <span className={'row-span-2 size-[3.125rem]'}>
@@ -160,20 +162,30 @@ function ArticlePage() {
                         <span>{content?.author.position}</span>
                     </span>
                 </div>
-
-                <div className={'leading-l  mt-xl md:mt-4xl lg:mt-[3.56rem]'}>
-                    <div
-                        className={CONTENT_CN}
-                        dangerouslySetInnerHTML={{ __html: contentParts[0] ?? '' }}
-                    />
-                    <SubscribeCard />
-                    <div
-                        className={CONTENT_CN}
-                        dangerouslySetInnerHTML={{ __html: contentParts[1] ?? '' }}
-                    />
+            </section>
+            <section className={'leading-l  mt-xl md:mt-4xl lg:mt-[3.56rem]'}>
+                <div className={cn(styles.content, SECTION_GRID_CN)}>
+                    {content?.contentIDs.length ? (
+                        <SideNav
+                            sideOnly
+                            sectionIDs={content.contentIDs}
+                        />
+                    ) : null}
+                    <div className={content?.contentIDs.length ? 'col-start-2' : 'col-span-2'}>
+                        <div
+                            className={CONTENT_CN}
+                            dangerouslySetInnerHTML={{ __html: contentParts[0] ?? '' }}
+                        />
+                        <SubscribeCard className={'mt-l'} />
+                        <div
+                            className={CONTENT_CN}
+                            dangerouslySetInnerHTML={{ __html: contentParts[1] ?? '' }}
+                        />
+                    </div>
                 </div>
-
-                <div className={'mt-[10.3rem]'}>
+            </section>
+            <section className={'mt-[10.3rem] pb-[10rem]'}>
+                <div className={styles.content}>
                     <h3 className={'text-center  text-section-xl md:text-heading-xl lg:text-heading-xxl'}>
                         More related articles
                     </h3>
@@ -188,8 +200,8 @@ function ArticlePage() {
                         {CardsLi}
                     </ul>
                 </div>
-            </div>
-        </div>
+            </section>
+        </>
     );
 }
 

@@ -14,7 +14,7 @@ import { useFlow, useModal } from '@/app/context';
 
 import { ResetPasswordModal } from '@/app/ui/modals';
 import { MainBackground } from '@/app/ui/atoms';
-import { Carousel } from '@/app/ui/misc';
+import { Carousel } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 

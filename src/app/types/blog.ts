@@ -21,6 +21,7 @@ type Article = {
         position: string;
     };
     content: string;
+    contentIDs: string[];
 };
 
 // TODO clarify

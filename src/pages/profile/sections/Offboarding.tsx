@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 
-import { useModal, useUser } from '@/app/context';
+import { getId } from '@/app/utils';
 import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
+import { useModal, useUser } from '@/app/context';
 
-import { Collapsible } from '@/app/ui/misc';
+import { Collapsible } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 import { DeleteAccountModal } from '@/pages/profile/DeleteAccountModal';
 
@@ -45,4 +46,5 @@ const OffboardingSection: FC = () => {
     );
 };
 
-export { OffboardingSection, OFFBOARDING };
+const OFFBOARDING_ID = getId(OFFBOARDING);
+export { OffboardingSection, OFFBOARDING_ID };

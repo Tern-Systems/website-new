@@ -11,6 +11,7 @@ import SVG_BLOCKS from '/public/images/icons/blocks.svg';
 import SVG_PLUS from '/public/images/icons/plus.svg';
 import SVG_MINUS from '/public/images/icons/minus.svg';
 import SVG_CHEVRON from '/public/images/icons/chevron.svg';
+import { getId } from '@/app/utils';
 
 type Icon = 'key' | 'book' | 'building' | 'geo' | 'blocks';
 
@@ -61,11 +62,7 @@ const Collapsible: FC<Props> = (props: Props) => {
     const [isExpanded, setExpandState] = useState<boolean>(expandedState?.[0] ?? true);
 
     const isExpandedFinal = isExpanded || expandedState?.[0] === true;
-    const titleFinal = title
-        ?.toLowerCase()
-        .split(' ')
-        .join('')
-        .replaceAll(/[^a-zA-Z\d]/g, '');
+    const titleFinal = getId(title ?? '');
 
     const handleToggle = () => {
         if (expandedState?.[1]) expandedState[1]();

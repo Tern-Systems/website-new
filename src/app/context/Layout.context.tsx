@@ -20,6 +20,8 @@ import { checkSubRoute, getRouteLeave } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
 import { useUser } from '@/app/context/User.context';
 
+type ScrollState = { scrollTop: number; scrollHeight: number; autoScroll: boolean };
+
 type SetState<T> = Dispatch<SetStateAction<T>>;
 
 enum NavigationState {
@@ -75,6 +77,7 @@ interface ILayoutContext {
     isNoLayout: boolean;
     setFadeState: Dispatch<SetStateAction<boolean>>;
     isFade: boolean;
+    scrollState: [ScrollState, Dispatch<SetStateAction<ScrollState>>];
     navLinks: NavLinks;
     getSubNavs: (route: Route, breakpoint: Breakpoint) => [Route[], Route[] | null, Route[] | null];
     navigateState: [NavigationState, SetState<NavigationState>, Route | null, SetState<Route | null>];
@@ -89,6 +92,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     const [isNoLayout, setNoLayoutState] = useState(false);
     const [isFade, setFadeState] = useState(false);
+    const scrollState = useState<ScrollState>({ scrollTop: 0, scrollHeight: 0, autoScroll: false });
 
     const [navigationState, setNavigationState] = useState<NavigationState>(NavigationState.FREE);
     const [blockedRoute, setBlockedRoute] = useState<Route | null>(null);
@@ -111,6 +115,12 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             break;
         case checkSubRoute(route, Route.Downloads):
             navLinks[NavLink.Breadcrumbs] = [Route.Resources, Route.Downloads];
+            break;
+        case checkSubRoute(route, Route.GeneralFAQs):
+            navLinks[NavLink.Breadcrumbs] = [Route.MyTern, Route.GeneralFAQs];
+            break;
+        case checkSubRoute(route, Route.TernKeyFAQs):
+            navLinks[NavLink.Breadcrumbs] = [Route.TernKey, Route.TernKeyFAQs];
             break;
         default:
             break;
@@ -140,6 +150,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             value={{
                 toggleFullscreen,
                 isNoLayout,
+                scrollState,
                 setFadeState,
                 isFade,
                 navLinks,

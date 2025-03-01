@@ -10,7 +10,7 @@ import { mapSavedCard } from '@/app/utils';
 import { useForm } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
 
-import { ScrollEnd } from '@/app/ui/misc';
+import { ScrollEnd } from '@/app/ui/organisms';
 import { Button, Input, Select } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
 import { RemovePaymentMethodModal } from './RemovePaymentMethodModal';
