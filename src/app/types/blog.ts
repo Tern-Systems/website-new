@@ -1,6 +1,5 @@
 type ArticleTag =
-    | 'Artificial'
-    | 'Intelligence'
+    | 'Artificial Intelligence'
     | 'Batteries'
     | 'Cloud'
     | 'Cybersecurity'
@@ -24,4 +23,9 @@ type Article = {
     content: string;
 };
 
-export type { ArticleTag, Article };
+// TODO clarify
+type TipType = 'video';
+type Tip = Pick<Article, 'id' | 'title' | 'poster' | 'content'> &
+    Partial<Pick<Article, 'description'>> & { type: TipType };
+
+export type { ArticleTag, Article, Tip };

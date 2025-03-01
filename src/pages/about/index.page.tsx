@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
 
-import { InfoSectionData, SectionCard } from '@/app/types/layout';
-import { MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
+import { InfoSectionData } from '@/app/types/layout';
+import { Route } from '@/app/static';
 
 import { PageLink } from '@/app/ui/layout';
 import { MainBackground } from '@/app/ui/atoms';
@@ -10,8 +10,6 @@ import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import SVG_CITY_WAY from '/public/images/city-glowing-way.jpg';
-import SVG_OFFICE_PEOPLE from '/public/images/office-people.png';
 import SVG_COMPUTER from '/public/images/old-computer.svg';
 import SVG_ROCKET from '/public/images/rocket.png';
 import SVG_NATURE from '/public/images/nature-section.png';
@@ -25,26 +23,6 @@ const INFO: InfoSectionData = {
     description:
         'The successive era of computing is not speed or scale, it is optimization. Tern is focused on allowing computer systems to reach their full potential today rather than tomorrow.',
 };
-
-const COMPANY: SectionCard[] = [
-    {
-        title: 'Your Tern',
-        description: 'Be Our Next Guest',
-        action: 'Join the Podcast',
-        href: MEDIA_LINKS.YouTube.href,
-        icon: SVG_CITY_WAY,
-        btnIcon: 'arrow',
-        btnIconCN: 'rotate-180',
-    },
-    {
-        title: 'Tern Events',
-        description: 'Discover Events Near You',
-        action: 'Attend',
-        href: MISC_LINKS.Events,
-        icon: SVG_OFFICE_PEOPLE,
-        btnIcon: 'arrow-square',
-    },
-];
 
 const AboutPage: FC = () => {
     return (
@@ -189,7 +167,7 @@ const AboutPage: FC = () => {
                         )}
                     />
                     <InsideTernSection
-                        data={COMPANY}
+                        data={'alt1'}
                         className={'bg-gradient-to-t from-blue to-transparent to-50%'}
                     />
                 </div>

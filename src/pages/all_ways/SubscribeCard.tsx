@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { ResourceCard } from '@/app/ui/organisms';
 
-import PNG_MICROPROCESSOR from '/public/images/allways-microprocessor.png';
+import PNG_MICROPROCESSOR from '/public/images/microprocessor.png';
 
 const SubscribeCard: FC = () => (
     <ResourceCard

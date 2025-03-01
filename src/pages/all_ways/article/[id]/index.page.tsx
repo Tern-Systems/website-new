@@ -38,11 +38,11 @@ const SHARE_BTNS = [
 ];
 
 const RELATED_CARDS_COUNT = 4;
-// TODO highlighted card, image injection
+// TODO image injection
 const H2_REGEX = /<h2>/g;
 
 const INFO_CN = 'border-t-s border-gray-l0 py-s px-4xs';
-const CONTENT_CN = '[&_*]:!text-primary [&_*]:[all:revert]';
+const CONTENT_CN = '[&_*]:!text-primary [&_h2]:!text-heading-xl [&_*]:[all:revert]';
 
 function ArticlePage() {
     const { id } = useParams() ?? ({} as { id: string });

@@ -1,11 +1,7 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
-import Image from 'next/image';
 import cn from 'classnames';
-
-import { SectionCard } from '@/app/types/layout';
 import { Article, ArticleTag } from '@/app/types/blog';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
-import { MEDIA_LINKS, MISC_LINKS } from '@/app/static';
 
 import { BlogService } from '@/app/services/blog.service';
 
@@ -13,40 +9,15 @@ import { getIdName } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
 import { useModal } from '@/app/context';
 
-import { PageLink } from '@/app/ui/layout';
 import { MainBackground } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
 import { ArticleCard } from '@/app/ui/organisms';
-import { InsideTernSection } from '@/app/ui/templates';
+import { AllWaysCard, InsideTernSection } from '@/app/ui/templates';
 import { SubscribeCard } from '../SubscribeCard';
 
 import styles from '@/app/common.module.css';
 
 import PNG_ELECTRONS from '/public/images/electrons.png';
-import PNG_INSIDE_TERN_GIRL from '/public/images/allways-inside-tern-girl.png';
-import PNG_ACCOLADES from '/public/images/resources-card-5.png';
-import PNG_CARD_CUBES from '/public/images/allways-card-cubes.png';
-
-// TODO links
-const COMPANY: SectionCard[] = [
-    {
-        title: 'Tern Community',
-        description: 'Foster Meaningful Connections',
-        action: 'Find Community',
-        href: MEDIA_LINKS.YouTube.href,
-        icon: PNG_ACCOLADES,
-        btnIcon: 'arrow',
-        btnIconCN: 'rotate-180',
-    },
-    {
-        title: 'Tern Credentials',
-        description: 'Earn Impressive Accolades',
-        action: 'Start Earning',
-        href: MISC_LINKS.Events,
-        icon: PNG_INSIDE_TERN_GIRL,
-        btnIcon: 'arrow-square',
-    },
-];
 
 const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 
@@ -78,7 +49,8 @@ const TagArticle: FC<Props> = (props: Props) => {
     }, []);
 
     let articlesFinal: Article[] = articles;
-    if (tag) articlesFinal = articles.filter((article) => article.tag === tag);
+    const tagFinal = tag?.split('_').join(' ').toLowerCase();
+    if (tagFinal) articlesFinal = articles.filter((article) => article.tag.toLowerCase() === tagFinal);
 
     // Elements
     const CardsLi: ReactElement[] = articlesFinal.slice(0, ARTICLE_COUNT.ourPicks).map((article, idx) => (
@@ -133,27 +105,12 @@ const TagArticle: FC<Props> = (props: Props) => {
                             article={articlesFinal[0]}
                         />
                     </div>
-                    <div>
+                    <div className={'flex flex-col'}>
                         <p className={P_CN}>Latest</p>
-                        <ul className={'grid md:grid-rows-3 lg:grid-rows-4'}>
+                        <ul className={'flex-grow grid md:grid-rows-3 lg:grid-rows-4'}>
                             {CardsLatestLi}
-                            <li className={'flex flex-col sm:x-[mx-auto,max-w-card]'}>
-                                <Image
-                                    src={PNG_CARD_CUBES}
-                                    alt={'cubes'}
-                                    className={'w-full bg-cover flex-grow'}
-                                />
-                                <PageLink
-                                    icon={'arrow-right-long'}
-                                    iconClassName={'size-[1.59rem]'}
-                                    className={cn(
-                                        'flex-row-reverse justify-between px-xxs py-3xs w-full bg-blue',
-                                        'text-section-xs lg:text-basic',
-                                    )}
-                                    href={''} // TODO
-                                >
-                                    Register to attend All Ways 2026
-                                </PageLink>
+                            <li className={'contents'}>
+                                <AllWaysCard />
                             </li>
                         </ul>
                     </div>
@@ -185,7 +142,7 @@ const TagArticle: FC<Props> = (props: Props) => {
                     )}
                 </div>
             </section>
-            <InsideTernSection data={COMPANY} />
+            <InsideTernSection data={'alt0'} />
         </>
     );
 };
