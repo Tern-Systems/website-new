@@ -76,6 +76,7 @@ const config: Config = {
                 'gray': 'var(--bg-gray)',
                 'gray-l0': 'var(--bg-gray-l0)',
                 'gray-l1': 'var(--bg-gray-l1)',
+                'white-d2': 'var(--bg-white-d2)',
                 'white-d1': 'var(--bg-white-d1)',
                 'white-d0': 'var(--bg-white-d0)',
                 'white': 'var(--bg-white)',

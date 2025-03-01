@@ -44,6 +44,7 @@ enum Route {
     // /support
     Resources = '/support/resources',
     Community = '/support/community',
+    CommunityEvents = '/support/community/events',
     Training = '/support/training',
     Downloads = '/support/downloads',
     Cases = '/support/cases',
