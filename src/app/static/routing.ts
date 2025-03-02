@@ -53,7 +53,7 @@ enum Route {
     TipsVideos = '/support/tips/videos',
     TipsReads = '/support/tips/reads',
     Contact = '/support/contact',
-    FAQs = '/support/faqs',
+    GeneralFAQs = '/support/faqs',
     Documentation = '/support/documentation',
     TernKeyDoc = '/support/documentation/ternkey',
     GDoc = '/support/documentation/g',
