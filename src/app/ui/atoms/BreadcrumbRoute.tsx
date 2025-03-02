@@ -25,7 +25,6 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
             return idName;
         })
         .join(' / ');
-    console.log(layoutCtx);
 
     return (
         <p className={cn('mt-n overflow-hidden overflow-ellipsis text-nowrap text-section-xxs leading-s', className)}>
