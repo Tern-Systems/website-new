@@ -63,8 +63,7 @@
   --bg-gray: #4d4d4d;
   --bg-gray-l0: #808080;
   --bg-gray-l1: #999999;
-  --bg-white-d1: #d3d3d3;
-  --bg-white-d0: #d9d9d9;
+  --bg-gray-l2: #979797;
   --bg-white: #f2f2f2;
   --bg-white-d2: #b3b3b3;
   --bg-red: #f42200;
@@ -100,6 +99,7 @@
   --color-primary: #ecf0f3;
   --color-secondary: var(--bg-gray-l0);
   --color-gray: var(--bg-gray);
+  --color-gray-d2: var(--bg-gray-d2);
   --color-placeholder: var(--b-white-d0);
   --color-blue: var(--bg-blue);
   --color-blue-l0: #21a1d3;

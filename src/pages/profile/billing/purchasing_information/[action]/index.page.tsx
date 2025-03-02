@@ -10,7 +10,7 @@ import { BreadcrumbRoute } from '@/app/ui/atoms';
 
 function PurchasingMethodPage() {
     const { action } = (useParams() as { action: string }) ?? {};
-    return <PaymentMethodTool paymentCreation={action === 'add'} />;
+    return <PaymentMethodTool paymentCreation={action === 'add_payment_method'} />;
 }
 
 PurchasingMethodPage.getLayout = (page: ReactElement) => (
@@ -19,7 +19,7 @@ PurchasingMethodPage.getLayout = (page: ReactElement) => (
             className={`${styles.section} ${styles.fullHeightSection} bg-black bg-gradient-to-t from-blue to-black to-30% lg:to-40%`}
         >
             <div className={styles.content}>
-                <BreadcrumbRoute />
+                <BreadcrumbRoute length={3} />
                 {page}
             </div>
         </section>

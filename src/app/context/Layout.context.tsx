@@ -113,6 +113,22 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         case checkSubRoute(route, Route.ManageSubscriptions):
             navLinks[NavLink.Breadcrumbs] = [Route.Billing, Route.ManageSubscriptions];
             break;
+        case checkSubRoute(route, Route.EditPaymentMethod):
+            navLinks[NavLink.Breadcrumbs] = [
+                Route.Profile,
+                Route.Billing,
+                Route.PurchasingInformation,
+                Route.EditPaymentMethod,
+            ];
+            break;
+        case checkSubRoute(route, Route.AddPaymentMethod):
+            navLinks[NavLink.Breadcrumbs] = [
+                Route.Profile,
+                Route.Billing,
+                Route.PurchasingInformation,
+                Route.AddPaymentMethod,
+            ];
+            break;
         case checkSubRoute(route, Route.Downloads):
             navLinks[NavLink.Breadcrumbs] = [Route.Resources, Route.Downloads];
             break;
@@ -121,6 +137,9 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             break;
         case checkSubRoute(route, Route.TernKeyFAQs):
             navLinks[NavLink.Breadcrumbs] = [Route.TernKey, Route.TernKeyFAQs];
+            break;
+        case checkSubRoute(route, Route.CommunityEvents):
+            navLinks[NavLink.Breadcrumbs] = [Route.Community, Route.CommunityEvents];
             break;
         default:
             break;
