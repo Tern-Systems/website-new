@@ -24,7 +24,7 @@ const Table = <T extends object>(props: Props<T>) => {
 
     const TableRows: ReactElement[] = table.data.map((row, idx) => (
         <Row
-            key={Date.now().toString() + idx}
+            key={JSON.stringify(row) + idx}
             row={row}
             className={cn('align-middle', '[&_td]:x-[max-w-0,text-nowrap,overflow-hidden,overflow-ellipsis]')}
         />
