@@ -111,7 +111,7 @@ const ProfileMenu: FC = () => {
                     width={29}
                     height={29}
                     alt={'profile icon'}
-                    className={'!w-heading-icon cursor-pointer rounded-full'}
+                    className={'!w-heading-icon cursor-pointer'}
                 />
             </div>
             {ProfileMenu}
