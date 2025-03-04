@@ -87,7 +87,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             modalCtx.openModal(<DeclinedModal />);
             setPaymentStatus(null);
         } else if (paymentStatus) {
-            userCtx.fetchUserData();
+            userCtx.setupSession();
             const next = flowCtx.next();
             if (next) next();
             else {

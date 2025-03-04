@@ -17,14 +17,14 @@ const RemoveProfilePictureModal: FC<Props> = (props: Props) => {
     const { onRemove } = props;
 
     const modalCtx = useModal();
-    const { userData, fetchUserData } = useUser();
+    const { userData, setupSession } = useUser();
 
     const handleRemove = async () => {
         if (!userData) return;
         try {
             const { message } = await UserService.postRemoveProfilePicture(userData.email);
             modalCtx.openModal(<MessageModal>{message}</MessageModal>);
-            await fetchUserData(false);
+            await setupSession(false);
             onRemove();
         } catch (error: unknown) {
             if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
