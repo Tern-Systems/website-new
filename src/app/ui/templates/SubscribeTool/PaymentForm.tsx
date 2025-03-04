@@ -109,7 +109,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
         event.preventDefault();
 
         try {
-            if (!userCtx.userData || !priceUSD || !recurrency || !type) return;
+            if (!userCtx.userData || !priceUSD || !recurrency || !type || !formData.billingAddress) return;
 
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
             let formDataMapped: SubscribeData = formData;
@@ -128,6 +128,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
             if (savedCards.length) {
                 const selectedCard: SavedCard = savedCards[+formData.savedCardIdx];
+                if (!selectedCard.billingAddress) throw 'Error preparing billing address';
+
                 formDataMapped.id = selectedCard.id;
                 formDataMapped.cvc = formData.cvc;
                 formDataMapped.state = selectedCard.billingAddress.state;
@@ -147,7 +149,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     userCtx.userData.email,
                 );
             setPaymentStatus(true);
-        } catch (error: unknown) {
+        } catch (err: unknown) {
+            if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
             setPaymentStatus(false);
         }
     };
@@ -235,7 +238,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     <legend>Billing Address</legend>
                     <Select
                         options={COUNTRY}
-                        value={formData.country}
+                        value={formData.country ?? ''}
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('country')(value)}
                         className={`${SELECT_CN} bg-white [&&]:rounded-b-none`}
@@ -280,9 +283,9 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 />
                             </div>
                             <Select
-                                options={STATE_PROVINCE?.[formData.country] ?? {}}
+                                options={STATE_PROVINCE?.[formData?.country ?? ''] ?? {}}
                                 hidden={!isBillingExpanded}
-                                value={formData.state}
+                                value={formData.state ?? ''}
                                 placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
                                 className={`${SELECT_CN} [&&]:rounded-t-none [&&]:border-t-0`}

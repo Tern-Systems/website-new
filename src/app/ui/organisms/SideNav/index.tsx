@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { useLayout } from '@/app/context';
@@ -9,7 +9,7 @@ import styles from './SideNav.module.css';
 
 interface Props {
     sideOnly?: true;
-    sectionIDs: string[];
+    sectionIDs: (string | undefined)[];
     sectionNames?: Record<string, string>;
 }
 
@@ -19,10 +19,12 @@ const SideNav: FC<Props> = (props: Props) => {
     const { scrollState } = useLayout();
     const [scrollValue] = scrollState;
 
-    const [activeSection, setActiveSection] = useState<string>(sectionIDs[0]);
+    const [activeSection, setActiveSection] = useState<string>(sectionIDs[0] ?? '');
 
     useEffect(() => {
         sectionIDs.forEach((section, idx, array) => {
+            if (!section) return;
+
             const elem = document.getElementById(section);
             if (!elem) return;
 
@@ -37,20 +39,23 @@ const SideNav: FC<Props> = (props: Props) => {
         });
     }, [scrollValue]);
 
-    const SectionsNavLi: ReactElement[] = sectionIDs.map((section, idx) => (
-        <li key={section + idx}>
-            <span
-                onClick={() => {
-                    const id = sectionIDs[idx];
-                    setActiveSection(id);
-                    document.querySelector('#' + id)?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className={'capitalize cursor-pointer'}
-            >
-                {sectionNames?.[section] ?? section}
-            </span>
-        </li>
-    ));
+    const SectionsNavLi: ReactNode = sectionIDs.map((section, idx) =>
+        section ? (
+            <li key={section + idx}>
+                <span
+                    onClick={() => {
+                        const id = sectionIDs[idx];
+                        if (!id) return;
+                        setActiveSection(id);
+                        document.querySelector('#' + id)?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className={'capitalize cursor-pointer'}
+                >
+                    {sectionNames?.[section] ?? section}
+                </span>
+            </li>
+        ) : null,
+    );
 
     const thumbHeight = 100 / sectionIDs.length;
     const activeSectionIdx = sectionIDs.findIndex((section) => section === activeSection);

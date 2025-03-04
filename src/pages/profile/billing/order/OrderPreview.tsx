@@ -1,8 +1,12 @@
+'use client';
+
 import React, { FC, ReactElement } from 'react';
 import { Margin, Resolution, usePDF } from 'react-to-pdf';
 import Image from 'next/image';
 
 import { Invoice } from '@/app/types/billing';
+
+import { checkNumber } from '@/app/utils';
 
 import { ScrollEnd } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
@@ -15,7 +19,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
 const BTN_CN = 'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)]';
 
 interface Props {
-    invoice: Invoice | null;
+    invoice: Invoice;
     card: string;
     invoiceDate: string;
     VisibilityToggle: ReactElement;
@@ -31,6 +35,11 @@ const OrderPreview: FC<Props> = (props: Props) => {
         page: { margin: Margin.LARGE },
         resolution: Resolution.NORMAL,
     });
+
+    const subtotal: string = checkNumber(invoice?.subtotalUSD)
+        ? '$' + invoice.subtotalUSD.toFixed(2)
+        : '-- missing price --';
+    const status: string = invoice?.status ? 'Invoice ' + invoice.status : '-- missing status --';
 
     return (
         <div className={`relative shadow-2xl ${className}`}>
@@ -52,17 +61,17 @@ const OrderPreview: FC<Props> = (props: Props) => {
                             alt={'document'}
                             className={'h-auto w-[min(24.7dvw,5.4rem)] place-self-center'}
                         />
-                        <span className={'my-s block text-heading-s'}>Invoice {invoice?.status ?? '--'}</span>
-                        <span className={'block text-[3rem]'}>${invoice?.subtotalUSD.toFixed(2) ?? '--'}</span>
+                        <span className={'my-s block text-heading-s'}>{status}</span>
+                        <span className={'block text-[3rem]'}>{subtotal}</span>
                     </div>
 
                     <div
                         className={`grid grid-cols-[minmax(0,1fr),minmax(0,max-content)] gap-y-[min(5.3dvw,1.9rem)] text-[min(4.8dvw,var(--fz-content-))]`}
                     >
                         <span>Status</span>
-                        <span className={'text-right capitalize'}>{invoice?.status ?? '--'}</span>
+                        <span className={'text-right capitalize'}>{status}</span>
                         <span>Order (invoice) number</span>
-                        <span className={'text-right'}>{invoice?.id ?? '--'}</span>
+                        <span className={'text-right'}>{invoice?.id ?? '-- missing id --'}</span>
                         <span>Payment date</span>
                         <span className={'text-right'}>{invoiceDate}</span>
                         <span>Payment methods</span>

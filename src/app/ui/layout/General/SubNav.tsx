@@ -7,6 +7,7 @@ import React, {
     useImperativeHandle,
     useRef,
 } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
@@ -15,7 +16,7 @@ import { ALWAYS_MAPPED_ROUTES, DROPDOWN_SUB_NAV_ROUTES, MAPPED_SUB_NAV_ROUTES, N
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { checkSubRoute, getIdName, getRouteLeave } from '@/app/utils';
-import { useBreakpointCheck, useNavigate } from '@/app/hooks';
+import { useBreakpointCheck, useNavigate, useOuterClickClose } from '@/app/hooks';
 import { useLayout, useModal } from '@/app/context';
 
 import { Button, Select } from '@/app/ui/form';
@@ -23,9 +24,8 @@ import { PageLink } from '@/app/ui/layout';
 
 import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
-import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+
+import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     setNavExpanded: Dispatch<SetStateAction<boolean>>;
@@ -112,7 +112,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
             >
                 <Button
                     onClick={() => setDropdownColumns(null)}
-                    icon={'chevron'}
+                    icon={faChevronDown}
                     className={'!justify-start border-b-s p-s font-bold'}
                     classNameIcon={'[&_*]:!size-[0.5625rem] rotate-90'}
                 >
@@ -169,9 +169,13 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     return (
         <>
             <Button
-             onClick={() => setNavExpanded((prev) => !prev)}
-             className="mdmd:hidden md:hidden lg:hidden flex items-center justify-center p-2 absolute top-3 left-2 z-[1100] bg-gray-800 rounded"
-            ><FontAwesomeIcon icon={faBars} className="w-6 h-6 text-white" />
+                onClick={() => setNavExpanded((prev) => !prev)}
+                className='mdmd:hidden md:hidden lg:hidden flex items-center justify-center p-2 absolute top-3 left-2 z-[1100] bg-gray-800 rounded'
+            >
+                <FontAwesomeIcon
+                    icon={faBars}
+                    className='w-6 h-6 text-white'
+                />
             </Button>
             {!DropdownLi ? null : (
                 <div

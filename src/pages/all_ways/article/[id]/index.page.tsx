@@ -59,7 +59,10 @@ function ArticlePage() {
         if (articleStr) {
             const article: Article = JSON.parse(articleStr);
             setContent(article);
-            const h2Matches: RegExpExecArray[] = Array.from(article.content.matchAll(H2_REGEX));
+
+            if (!article.content) return setContentParts([]);
+
+            const h2Matches: RegExpExecArray[] = Array.from(article.content.matchAll(H2_REGEX) ?? []);
             const contentCenterIdx: number | undefined = h2Matches[Math.trunc(0.5 * h2Matches.length)]?.index;
             setContentParts(
                 contentCenterIdx
@@ -95,13 +98,10 @@ function ArticlePage() {
         .slice(0, RELATED_CARDS_COUNT - +isLg)
         .map((article, idx) => (
             <li
-                key={article?.title ?? 'card-' + idx}
+                key={article?.id ?? 'card-' + idx}
                 className={'contents'}
             >
-                <ArticleCard
-                    key={article.id + idx}
-                    article={article}
-                />
+                <ArticleCard article={article} />
             </li>
         ));
 
@@ -158,20 +158,20 @@ function ArticlePage() {
                                 className={'size-full'}
                             />
                         </span>
-                        <span className={'font-bold'}>{content?.author.name}</span>
-                        <span>{content?.author.position}</span>
+                        <span className={'font-bold'}>{content?.author?.name ?? '-- missing author name --'}</span>
+                        {content?.author?.position ? <span>content.author.position </span> : null}
                     </span>
                 </div>
             </section>
             <section className={'leading-l  mt-xl md:mt-4xl lg:mt-[3.56rem]'}>
                 <div className={cn(styles.content, SECTION_GRID_CN)}>
-                    {content?.contentIDs.length ? (
+                    {content?.contentIDs?.length ? (
                         <SideNav
                             sideOnly
                             sectionIDs={content.contentIDs}
                         />
                     ) : null}
-                    <div className={content?.contentIDs.length ? 'col-start-2' : 'col-span-2'}>
+                    <div className={content?.contentIDs?.length ? 'col-start-2' : 'col-span-2'}>
                         <div
                             className={CONTENT_CN}
                             dangerouslySetInnerHTML={{ __html: contentParts[0] ?? '' }}

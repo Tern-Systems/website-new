@@ -163,7 +163,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardCode: formData.cvc,
         };
 
-        const [firstName, lastName] = formData.cardholderName.split(' ');
+        const [firstName, ...lastName] = formData?.cardholderName?.split(' ') ?? [];
 
         const billingDetails = {
             firstName,
@@ -288,7 +288,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardCode: data.cvc,
             cardholderName: data.cardholderName,
         };
-        const [firstName, ...lastName] = data.cardholderName.split(' ');
+        const [firstName, ...lastName] = data?.cardholderName?.split(' ') ?? [];
         const billingDetails = {
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,
@@ -392,15 +392,19 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                 .filter((subscription: PlanDetails) => subscription.Source === source)
                 .reduce((result, subscription: PlanDetails): SubscriptionPreview => {
                     const updatedResult: SubscriptionPreview = copyObject(result);
-                    if (!updatedResult.type[subscription.Plan]) {
-                        updatedResult.type[subscription.Plan] = {
-                            benefits: subscription.Details,
-                            priceUSD: { annual: 0, monthly: 0 },
-                        };
-                    }
+                    if (updatedResult?.type) {
+                        const plan = updatedResult.type[subscription.Plan];
 
-                    updatedResult.type[subscription.Plan].priceUSD[subscription.Duration === 1 ? 'monthly' : 'annual'] =
-                        subscription.Price;
+                        if (!plan) {
+                            updatedResult.type[subscription.Plan] = {
+                                benefits: subscription.Details,
+                                priceUSD: { annual: 0, monthly: 0 },
+                            };
+                        }
+
+                        if (plan?.priceUSD)
+                            plan.priceUSD[subscription.Duration === 1 ? 'monthly' : 'annual'] = subscription.Price;
+                    }
                     return updatedResult;
                 }, previewResult);
 

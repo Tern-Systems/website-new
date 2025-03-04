@@ -32,7 +32,7 @@ function DocumentationPage(props: Props) {
     let links: ResourceLink[] = DOCUMENTATION_LINKS;
     if (filterBySubscription) {
         links = DOCUMENTATION_LINKS.filter((link) =>
-            userData?.subscriptions.some((plan) => plan.subscription.includes(link.subscription)),
+            userData?.subscriptions.some((plan) => plan.subscription?.includes(link.subscription)),
         );
     }
 

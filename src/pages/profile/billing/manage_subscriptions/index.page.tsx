@@ -7,13 +7,13 @@ import { Subscription } from '@/app/types/subscription';
 
 import { BillingService } from '@/app/services';
 
-import { formatDate } from '@/app/utils';
+import { checkNumber, formatDate } from '@/app/utils';
 import { useLoginCheck } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
 
 import { BreadcrumbRoute } from '@/app/ui/atoms';
-import { MessageModal } from '@/app/ui/modals';
 import { Button, Select } from '@/app/ui/form';
+import { MessageModal } from '@/app/ui/modals';
 import { CancelModal } from './CancelModal';
 import { ChangePaymentMethod } from './ChangePaymentMethod';
 
@@ -56,7 +56,7 @@ function ManageSubscriptionsPage() {
     if (!isLoggedIn) return null;
 
     const subscriptions = userData?.subscriptions?.filter(
-        (subscription) => !subscription.type.toLowerCase().includes('basic'),
+        (subscription) => !subscription.type?.toLowerCase().includes('basic'),
     );
 
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
@@ -66,6 +66,11 @@ function ManageSubscriptionsPage() {
             (subscription.subscription === 'TernKey' ? 'Tidal' : '') + ' ' + subscription.type + ' Plan',
         ]) ?? [],
     );
+
+    const taxUSD: number | undefined = checkNumber(selectedPlan?.tax) ? selectedPlan?.tax : undefined;
+    const priceUSD: number | undefined = checkNumber(selectedPlan?.priceUSD) ? selectedPlan.priceUSD : undefined;
+
+    const price: string = priceUSD ? '$' + priceUSD.toFixed(2) : '-- missing price --';
 
     // Elements
     const RenderPlanInfo = () => {
@@ -103,11 +108,17 @@ function ManageSubscriptionsPage() {
                             {selectedPlan.subscription} {selectedPlan.type} Plan
                         </span>
                         <span className={cn('text-nowrap sm:row-start-3', 'text-basic sm:text-section-xs')}>
-                            Your plan renews on {formatDate(new Date(selectedPlan.renewDate))}
+                            {selectedPlan.renewDate
+                                ? 'Your plan renews on ' + formatDate(new Date(selectedPlan.renewDate))
+                                : '-- missing renew date --'}
                         </span>
                         <span className={'font-bold'}>
-                            ${selectedPlan.priceUSD.toFixed(2)} per&nbsp;
-                            {selectedPlan.recurrency === 'monthly' ? 'month' : 'year'}
+                            ${price} per&nbsp;
+                            {selectedPlan.recurrency
+                                ? selectedPlan.recurrency === 'monthly'
+                                    ? 'month'
+                                    : 'year'
+                                : '-- missing recurrency --'}
                         </span>
                         <Button
                             icon={detailsExpanded ? faChevronDown : faChevronUp}
@@ -129,17 +140,22 @@ function ManageSubscriptionsPage() {
                             )}
                         >
                             <span className={'capitalize'}>
-                                {selectedPlan.subscription} {selectedPlan.type} Subscription
+                                {selectedPlan.subscription ?? '-- missing name --'}&nbsp;
+                                {selectedPlan.type ? selectedPlan.type + ' Subscription' : '-- missing type --'}
                             </span>
-                            <span className={'text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
+                            <span className={'text-right'}>{price}</span>
                             <span className={'font-bold'}>Subtotal</span>
-                            <span className={'text-right'}>${selectedPlan.priceUSD.toFixed(2)}</span>
+                            <span className={'text-right'}>{price}</span>
                             <hr className={'col-span-2 self-center border-white-d0'} />
                             <span>Tax</span>
-                            <span className={'text-right'}>${selectedPlan.tax.toFixed(2)}</span>
+                            <span className={'text-right'}>
+                                {taxUSD ? '$' + taxUSD.toFixed(2) : '-- missing tax --'}
+                            </span>
                             <span className={'font-bold'}>Total</span>
                             <span className={'text-right'}>
-                                ${(selectedPlan.priceUSD + selectedPlan.tax).toFixed(2)}
+                                {checkNumber(priceUSD) && checkNumber(taxUSD)
+                                    ? '$' + (priceUSD + taxUSD).toFixed(2)
+                                    : '-- unable to calculate total --'}
                             </span>
                         </div>
                     ) : null}

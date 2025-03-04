@@ -166,9 +166,7 @@ const AboutPage: FC = () => {
                             'sm:x-[mt-n,h-button-l,max-w-[7.3125rem],text-basic] ',
                         )}
                     />
-                    <InsideTernSection
-                        data={'alt1'}
-                    />
+                    <InsideTernSection data={'alt1'} />
                 </div>
             </div>
         </>
