@@ -84,8 +84,11 @@ interface IUserContext {
     token: string | null;
     setSession: (token: string, data?: UserData) => void;
     removeSession: () => void;
-    fetchUserData: (fetchPlanDetails?: boolean, token?: string) => Promise<void>;
+    setupSession: (fetchPlanDetails?: boolean, token?: string) => Promise<void>;
 }
+
+const COOKIE_TOKEN_KEY_NAME = 'bearer-token=';
+const COOKIE_TOKEN_EXPIRE_S = 900; // 15 mins
 
 const UserContext = createContext<IUserContext | null>(null);
 
@@ -97,6 +100,9 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const setSession = (token: string, userData?: UserData) => {
         if (userData) setUserDataHelper(userData);
         setLoggedState(true);
+
+        document.cookie = `${COOKIE_TOKEN_KEY_NAME}${token}; path=/; max-age=${COOKIE_TOKEN_EXPIRE_S}; secure; SameSite=Strict`;
+
         setToken(token);
         localStorage.setItem('token', token);
     };
@@ -106,7 +112,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         localStorage.removeItem('token');
     };
 
-    const fetchUserData = useCallback(
+    const setupSession = useCallback(
         async (fetchPlanDetails?: boolean, bearer?: string) => {
             const tokenFinal = bearer ?? token;
             if (!tokenFinal) return;
@@ -123,13 +129,22 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     );
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) fetchUserData(true, token);
+        const token = document.cookie.split(COOKIE_TOKEN_KEY_NAME).pop();
+        if (token) setupSession(true, token);
         else setLoggedState(false);
-    }, [fetchUserData]);
+    }, [setupSession]);
 
     return (
-        <UserContext.Provider value={{ userData, isLoggedIn, setSession, removeSession, fetchUserData, token }}>
+        <UserContext.Provider
+            value={{
+                userData,
+                isLoggedIn,
+                setSession,
+                removeSession,
+                setupSession,
+                token,
+            }}
+        >
             {props.children}
         </UserContext.Provider>
     );

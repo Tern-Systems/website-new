@@ -66,7 +66,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
 
-            await userCtx.fetchUserData();
+            await userCtx.setupSession();
         } catch (error: unknown) {
             if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }

@@ -51,7 +51,7 @@ const getSimpleToggleProps = (
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
-    const { userData, token, fetchUserData } = useUser();
+    const { userData, token, setupSession } = useUser();
     const isLoggedIn = useLoginCheck();
 
     const [editId, setEditId] = useState<string | null>('');
@@ -70,7 +70,7 @@ const ProfilePage: FC = () => {
                 responseMsg = message;
             }
             modalCtx.openModal(<MessageModal>{responseMsg}</MessageModal>);
-            await fetchUserData(false);
+            await setupSession(false);
         } catch (error: unknown) {
             if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
