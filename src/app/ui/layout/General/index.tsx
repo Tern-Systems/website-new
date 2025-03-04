@@ -218,7 +218,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                         `xs:x-[flex,flex-col,gap-y-xxl]`,
                     )}
                 >
-                    <Insignia className={'[&_*]:x-[!w-[5.875rem],h-auto]'} />
+                    <Insignia className={'[&&_*]:!h-[2.125rem] self-start'} />
                     <ul
                         className={cn(
                             'flex w-full justify-between',
