@@ -196,7 +196,7 @@ function ManageSubscriptionsPage() {
                 <BreadcrumbRoute />
                 <h1
                     className={cn(
-                        `overflow-hidden overflow-ellipsis text-nowrap`,
+                        `overflow-ellipsis text-nowrap`,
                         `text-heading sm:leading-s lg:text-section-xl`,
                         `mt-4xl md:mt-3xl lg:mt-xxl`,
                     )}
