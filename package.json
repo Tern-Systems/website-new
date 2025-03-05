@@ -6,6 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --passWithNoTests --coverage",
+    "test:quick": "jest --passWithNoTests --forceExit --no-cache --bail=1",
+    "test:watch": "jest --passWithNoTests --watch",
     "lint": "eslint",
     "prepare": "husky install",
     "lint:fix": "eslint --fix",
@@ -14,6 +18,8 @@
   },
   "dependencies": {
     "@splinetool/runtime": "^1.9.27",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/lodash": "^4.17.15",
     "@types/qrcode": "^1.5.5",
@@ -35,19 +41,25 @@
     "uuid": "^11.0.5"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.25.9",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.16.5",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18",
+    "dotenv": "^16.4.7",
     "eslint": "^8",
     "eslint-config-next": "^14.2.8",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "husky": "^8.0.0",
+    "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.4.3",
     "postcss": "^8",
     "prettier": "^3.4.2",
     "prettier-eslint": "^16.3.0",
+    "supertest": "^7.0.0",
     "tailwindcss": "^3.4.1",
+    "ts-jest": "^29.2.6",
     "typescript": "^5.5.4"
   }
 }
