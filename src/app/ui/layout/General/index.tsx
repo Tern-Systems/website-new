@@ -155,7 +155,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         return (
             <li
                 key={section.title + idx}
-                className={'xxs:flex-1'}
+                className={'w-fit'}
             >
                 <ul className={'flex flex-col gap-y-xs'}>
                     <li className={'text-section-s font-bold capitalize'}>{section.title}</li>
@@ -173,7 +173,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     ].map((link, idx) => (
         <li
             key={link.href + idx}
-            className={`size-[2.5rem] sm:size-n ${styles.clickable}`}
+            className={`size-[2.5rem] ${styles.clickable}`}
         >
             <a
                 href={link.href}
@@ -214,27 +214,39 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                 <div
                     className={cn(
                         styles.content,
-                        `h-footer-lg grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] py-l leading-none`,
-                        `xs:x-[flex,flex-col,gap-y-xxl]`,
+                        `pt-xxl pb-n leading-none tracking-wide`,
+                        `xs:x-[flex,flex-col,gap-y-[6.25rem]]`,
+                        `sm:x-[flex,flex-col,gap-y-[6.25rem]]`,
                     )}
                 >
-                    <Insignia className={'[&_*]:x-[!w-[5.875rem],h-auto]'} />
-                    <ul
-                        className={cn(
-                            'flex w-full justify-between',
-                            `xs:x-[justify-start,gap-x-xxl]`,
-                            `xxs:x-[gap-y-n,flex-wrap]`,
-                        )}
-                    >
-                        {FooterLinksLi}
-                    </ul>
                     <div
                         className={cn(
-                            'col-span-2 mt-[7rem] flex w-full items-center justify-between',
-                            `xs:x-[flex,flex-col-reverse,gap-y-n,mt-0,items-start]`,
+                            `h-footer-lg grid grid-cols-[min-content,minmax(0,2fr)] `,
+                            `xs:x-[flex,flex-col,gap-y-xxl]`,
+                            `sm:x-[flex,flex-col,gap-y-xxl]`,
                         )}
                     >
-                        <p className={'leading-n'}>Copyright © 2025 Tern Systems LLC </p>
+                        <Insignia className={'[&&_*]:!h-[2.125rem] self-start'} />
+                        <ul
+                            className={cn(
+                                'flex w-full  md:justify-items-end  lg:justify-items-end',
+                                'grid gap-y-xxl',
+                                'grid-cols-2 md:grid-cols-4 lg:grid-cols-4',
+                                'xs:gap-x-xxl',
+                            )}
+                        >
+                            {FooterLinksLi}
+                        </ul>
+                    </div>
+                    <div
+                        className={cn(
+                            'col-span-2 flex w-full items-center justify-between  md:mt-[10.9375rem]  lg:mt-[10rem] ',
+                            `xs:x-[flex,flex-col-reverse,gap-y-xxl,mt-0,items-start]`,
+                        )}
+                    >
+                        <p className={'leading-n  xs:self-start  sm:self-end  md:self-end  lg:self-end'}>
+                            Copyright © 2025 Tern Systems LLC{' '}
+                        </p>
                         <ul className={cn('col-span-3 flex flex-wrap gap-3xs')}>{ContactLinks}</ul>
                     </div>
                 </div>
