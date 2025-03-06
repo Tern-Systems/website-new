@@ -16,6 +16,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaEleme
     icons?: string[];
     isCustomCheckbox?: boolean;
     classNameCheckbox?: string;
+    classNameIconSpan?: string;
 }
 
 const Input: FC<Props> = (props: Props) => {
@@ -28,6 +29,7 @@ const Input: FC<Props> = (props: Props) => {
         icons,
         isCustomCheckbox,
         classNameCheckbox,
+        classNameIconSpan,
         ...inputProps
     } = props;
 
@@ -174,7 +176,10 @@ const Input: FC<Props> = (props: Props) => {
                     <div className={`relative flex items-center ${isCheckbox ? '' : 'w-full'}`}>
                         <span
                             hidden={!IconsSVGs}
-                            className={'absolute right-0 flex gap-[min(0.6dvw,0.135rem)] pr-[min(3.5dvw,0.81rem)]'}
+                            className={cn(
+                                'absolute right-0 flex gap-[min(0.6dvw,0.135rem)] pr-[min(3.5dvw,0.81rem)]',
+                                classNameIconSpan,
+                            )}
                             onClick={() => {
                                 if (inputRef.current)
                                     inputRef.current.setAttribute(
