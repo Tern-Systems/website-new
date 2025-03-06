@@ -193,7 +193,7 @@ function ManageSubscriptionsPage() {
     return (
         <section className={cn(styles.section, styles.fullHeightSection)}>
             <div className={styles.content}>
-                <BreadcrumbRoute />
+                <BreadcrumbRoute className={'!leading-l'} />
                 <h1
                     className={cn(
                         `overflow-ellipsis text-nowrap`,
