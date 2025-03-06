@@ -21,11 +21,11 @@ enum Route {
 
     // /product
     // Products = '/products/all',
-    TernKey = '/ternkey',
-    TernKeyPricing = '/ternkey/plans',
-    TernKeyProductManual = '/ternkey/manual',
-    TernKeySubscribe = '/subscribe/ternkey',
-    TernKeyFAQs = '/ternkey/faqs',
+    Tidal = '/tidal',
+    TidalPricing = '/tidal/plans',
+    TidalProductManual = '/tidal/manual',
+    TidalSubscribe = '/subscribe/tidal',
+    TidalFAQs = '/tidal/faqs',
     // Dot = '/products/dot',
     // DotPricing = '/products/dot/pricing',
     // DotProductManual = '/products/dot/user_manual',
@@ -55,7 +55,7 @@ enum Route {
     Contact = '/support/contact',
     GeneralFAQs = '/support/faqs',
     Documentation = '/support/documentation',
-    TernKeyDoc = '/support/documentation/ternkey',
+    TidalDoc = '/support/documentation/tidal',
     GDoc = '/support/documentation/g',
     TernKitDoc = '/support/documentation/tern_kit',
     TernDoc = '/support/documentation/tern',
@@ -94,14 +94,14 @@ const MEDIA_LINKS = {
     Twitch: { svg: SVG_TWITCH, href: 'https://www.twitch.tv/tern_systems' },
 };
 
-const TernKey = 'https://tern.ac/ternkey';
+const Tidal = 'https://tern.ac/tidal';
 const MISC_LINKS = {
     Careers: 'https://www.linkedin.com/company/tern-sys/jobs/',
     Events: 'https://www.eventbrite.com/o/tern-103937850401',
-    TernKey,
-    TernKeyExploreKeys: TernKey + '/explore',
-    TernKeyDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
-    TernKeyDemoEmbed: 'https://www.youtube.com/embed/uMb2KI6PHPQ?si=gktgx0tR4UuY2VPW',
+    Tidal,
+    TidalExploreKeys: Tidal + '/explore',
+    TidalDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
+    TidalDemoEmbed: 'https://www.youtube.com/embed/uMb2KI6PHPQ?si=gktgx0tR4UuY2VPW',
 };
 
 export { Route, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };

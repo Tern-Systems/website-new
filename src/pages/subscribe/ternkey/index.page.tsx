@@ -11,7 +11,7 @@ function SubscribePage() {
 }
 
 SubscribePage.getLayout = (page: ReactElement) => (
-    <FullScreenLayout backButtonSection={Route.TernKeyPricing}>{page}</FullScreenLayout>
+    <FullScreenLayout backButtonSection={Route.TidalPricing}>{page}</FullScreenLayout>
 );
 SubscribePage.getMobileLayout = SubscribePage.getLayout;
 

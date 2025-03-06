@@ -54,7 +54,7 @@ interface UserData {
     email: string;
     registrationDate: number;
     phones: UserPhone;
-    ternKeyPurchased: boolean;
+    tidalPurchased: boolean;
     subscriptions: Subscription[];
     lastLogin: number;
     connectedApps: {

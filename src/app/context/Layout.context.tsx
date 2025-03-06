@@ -55,15 +55,15 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                 breadCrumbLinks = [Route.MyDocumentation];
                 subNavLinks = isSm
                     ? [route as Route]
-                    : [Route.BTMCDoc, Route.GDoc, Route.TernDoc, Route.TernKeyDoc, Route.TernKitDoc];
+                    : [Route.BTMCDoc, Route.GDoc, Route.TernDoc, Route.TidalDoc, Route.TernKitDoc];
                 break;
             case checkSubRoute(route, Route.AllWays):
                 let routes = LAYOUT.blogLinks;
                 if (breakpoint <= Breakpoint.sm) routes = [routes[0], routes[4], routes[2], routes[3]];
                 subNavLinks = [Route.AllWays, ...routes];
                 break;
-            case checkSubRoute(route, Route.TernKey):
-                subNavLinks = [Route.TernKey, Route.TernKeyPricing, Route.TernKeyProductManual];
+            case checkSubRoute(route, Route.Tidal):
+                subNavLinks = [Route.Tidal, Route.TidalPricing, Route.TidalProductManual];
                 break;
             default:
                 break;
@@ -138,8 +138,8 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         case checkSubRoute(route, Route.GeneralFAQs):
             navLinks[NavLink.Breadcrumbs] = [Route.MyTern, Route.GeneralFAQs];
             break;
-        case checkSubRoute(route, Route.TernKeyFAQs):
-            navLinks[NavLink.Breadcrumbs] = [Route.TernKey, Route.TernKeyFAQs];
+        case checkSubRoute(route, Route.TidalFAQs):
+            navLinks[NavLink.Breadcrumbs] = [Route.Tidal, Route.TidalFAQs];
             break;
         default:
             break;

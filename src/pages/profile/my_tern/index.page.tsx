@@ -27,25 +27,25 @@ type TableEntry = {
 
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
     // dot: Route.Dot,
-    TernKey: MISC_LINKS.TernKey,
+    Tidal: MISC_LINKS.Tidal,
     trial: '',
 };
 
 const NAV_BTNS_DEFAULT: { title: string; href: string; external?: true }[] = [
-    { title: 'Try TernKey Pro', href: MISC_LINKS.TernKey, external: true },
-    { title: 'Build Key', href: MISC_LINKS.TernKey, external: true },
+    { title: 'Try Tidal Pro', href: MISC_LINKS.Tidal, external: true },
+    { title: 'Build Key', href: MISC_LINKS.Tidal, external: true },
     { title: 'View All Ways', href: Route.AllWays, external: true },
-    { title: 'Explore Keys', href: MISC_LINKS.TernKeyExploreKeys, external: true },
+    { title: 'Explore Keys', href: MISC_LINKS.TidalExploreKeys, external: true },
     { title: 'Get Certified', href: MISC_LINKS.Careers, external: true },
     { title: 'Join Newsletter', href: MISC_LINKS.Events, external: true },
 ];
 
 const EVENTS_TEMPLATE: TableEntry[] = [
     { name: 'Bleeding Edge on X', type: 'Online Event', data: Date.now(), href: 'https://youtube.com' },
-    { name: 'TernKey Scrum', type: 'BTS Video', data: Date.now(), href: 'https://youtube.com' },
+    { name: 'Tidal Scrum', type: 'BTS Video', data: Date.now(), href: 'https://youtube.com' },
     { name: 'SWEs of New York', type: 'In-Person Event', data: Date.now(), href: 'https://youtube.com' },
     { name: 'Your tern Podcast', type: 'Show', data: Date.now(), href: 'https://youtube.com' },
-    { name: 'TernKey version 1.0.0-beta', type: 'Version Release', data: Date.now(), href: 'https://youtube.com' },
+    { name: 'Tidal version 1.0.0-beta', type: 'Version Release', data: Date.now(), href: 'https://youtube.com' },
 ];
 
 const RESOURCES: ResourceSectionData[] = [
@@ -121,7 +121,7 @@ function MyTernPage() {
 
     const navBtns = copyObject(NAV_BTNS_DEFAULT);
     if (userCtx.userData?.subscriptions?.find((plan) => plan.subscription === 'trial'))
-        navBtns.splice(1, 0, { title: 'Try TernKey Pro', href: Route.TernKeyPricing });
+        navBtns.splice(1, 0, { title: 'Try Tidal Pro', href: Route.TidalPricing });
 
     const subscriptionTable: TableSection<TableEntry> = {
         title: 'My Product',
@@ -140,7 +140,7 @@ function MyTernPage() {
             <span>
                 You don&apos;t have any products purchased. You could explore the plans on&nbsp;
                 <PageLink
-                    href={Route.TernKeyPricing}
+                    href={Route.TidalPricing}
                     className={'underline'}
                 >
                     Pricing page

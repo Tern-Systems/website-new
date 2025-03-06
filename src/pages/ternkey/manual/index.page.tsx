@@ -7,8 +7,8 @@ import { CONTENTS } from '@/pages/support/documentation/[content]/index.page';
 
 import { DocumentationSection } from '@/app/ui/templates';
 
-const DOCUMENTATION_CONTENTS: Record<Route.TernKeyProductManual, DocumentationContent> = {
-    [Route.TernKeyProductManual]: CONTENTS[Route.TernKeyDoc],
+const DOCUMENTATION_CONTENTS: Record<Route.TidalProductManual, DocumentationContent> = {
+    [Route.TidalProductManual]: CONTENTS[Route.TidalDoc],
 };
 
 function UserManualPage() {

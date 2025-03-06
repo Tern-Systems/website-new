@@ -18,7 +18,7 @@ const LAYOUT: {
 } = {
     fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
-    navLinks: [Route.About, Route.TernKey, Route.Contact, Route.SupportHub, Route.AllWays],
+    navLinks: [Route.About, Route.Tidal, Route.Contact, Route.SupportHub, Route.AllWays],
     blogLinks: [
         Route.Artificial,
         Route.Batteries,
@@ -40,12 +40,12 @@ const ROUTES_WITH_INDEX: Record<string, true> = { [Route.Profile]: true };
 const MAPPED_NAV_ROUTES: Record<string, string> = {};
 
 const SPECIAL_NAV_ROUTES: Record<string, string> = {
-    [Route.TernKey]: 'TernKey',
-    [Route.TernKeyDoc]: 'TernKey',
+    [Route.Tidal]: 'Tidal',
+    [Route.TidalDoc]: 'Tidal',
 };
 
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
-    [Route.TernKey]: 'Home',
+    [Route.Tidal]: 'Home',
     [Route.BTMCDoc]: 'BTMC',
 };
 
@@ -64,7 +64,7 @@ const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
             {
                 Documentation: Route.MyDocumentation,
                 'All Documentation': Route.Documentation,
-                'TernKey user manual': Route.TernKeyDoc,
+                'Tidal user manual': Route.TidalDoc,
                 'G handbook': Route.GDoc,
             },
             {
