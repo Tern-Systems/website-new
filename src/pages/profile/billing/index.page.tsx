@@ -79,7 +79,7 @@ const BillingPage: FC = () => {
             <span>
                 You don&apos;t have any products purchased. You could explore the plans on&nbsp;
                 <PageLink
-                    href={Route.TernKeyPricing}
+                    href={Route.TidalPricing}
                     className={'underline'}
                 >
                     Pricing page

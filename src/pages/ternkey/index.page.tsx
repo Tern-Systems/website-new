@@ -20,13 +20,13 @@ import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import PNG_BACKGROUND_MAIN from '/public/images/ternkey-bg-main.png';
-import PNG_BACKGROUND_CIRCUIT from '/public/images/ternkey-bg-circuit.png';
+import PNG_BACKGROUND_MAIN from '/public/images/tidal-bg-main.png';
+import PNG_BACKGROUND_CIRCUIT from '/public/images/tidal-bg-circuit.png';
 
-import SVG_TERNKEY from '/public/images/ternkey-logo.svg';
+import SVG_TIDAL from '/public/images/tidal-logo.svg';
 import PNG_EMULATOR_SAMPLE from '/public/images/emulator-sample.png';
-import PNG_GIRL from '/public/images/ternkey-girl.png';
-import PNG_GLOBE_GLASS from '/public/images/ternkey-globe-glass.png';
+import PNG_GIRL from '/public/images/tidal-girl.png';
+import PNG_GLOBE_GLASS from '/public/images/tidal-globe-glass.png';
 import SVG_TILE_PROFILE from '/public/images/icons/profile.svg';
 import SVG_TILE_STAR from '/public/images/icons/star-alt.svg';
 import SVG_TILE_GLASS from '/public/images/icons/search.svg';
@@ -45,44 +45,44 @@ const TILES: Tiles[] = [
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including TernKey. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
         image: SVG_TILE_PROFILE,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including TernKey. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
         image: SVG_TILE_STAR,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including TernKey. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
         image: SVG_TILE_GLASS,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including TernKey. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
         image: SVG_TILE_SHARE,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including TernKey. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
         image: SVG_TILE_SAVE,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including TernKey. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
         image: SVG_TILE_HEART,
     },
 ];
 
 const RESOURCES: ResourceSectionData[] = [
-    { Node: <PageLink href={Route.TernKeyPricing}>Pricing</PageLink> },
-    { Node: <PageLink href={Route.TernKeyFAQs}>Help & FAQs</PageLink> },
+    { Node: <PageLink href={Route.TidalPricing}>Pricing</PageLink> },
+    { Node: <PageLink href={Route.TidalFAQs}>Help & FAQs</PageLink> },
     { Node: <PageLink href={Route.Documentation} /> },
 ];
 
@@ -92,7 +92,7 @@ const BTN_CN = 'px-n  h-button-xxl  md:h-button-xl  sm:h-button-l';
 const BTN_BLUE_CN = BTN_CN + ' bg-blue';
 const BTN_BLACK_CN = BTN_CN + ' border-s border-gray-l0 bg-black text-blue';
 
-function TernKeyPage() {
+function TidalPage() {
     const userCtx = useUser();
 
     const [videoStarted, setVideoStarted] = useState(false);
@@ -116,8 +116,7 @@ function TernKeyPage() {
         </li>
     ));
 
-    const ternKeyUrl =
-        MISC_LINKS.TernKey + (userCtx.token ? `/?website_login=${encodeURIComponent(userCtx.token)}` : '');
+    const TidalUrl = MISC_LINKS.Tidal + (userCtx.token ? `/?website_login=${encodeURIComponent(userCtx.token)}` : '');
 
     return (
         <>
@@ -127,7 +126,7 @@ function TernKeyPage() {
                     <div className={'pb-6xl pt-5xl  sm:x-[pt-l,pb-5xl]'}>
                         <h1 className={'text-heading-3xl  lg:text-heading-4xl'}>TIDE</h1>
                         <Image
-                            src={SVG_TERNKEY}
+                            src={SVG_TIDAL}
                             alt={'logo'}
                             className={'h-auto  my-3xl sm:my-4xl  w-[20.4%] lg:w-[15.2%]'}
                         />
@@ -141,7 +140,7 @@ function TernKeyPage() {
                         >
                             <PageLink
                                 isExternal
-                                href={ternKeyUrl}
+                                href={TidalUrl}
                                 className={cn(BTN_BLUE_CN, ' !h-button-xxl text-black')}
                             >
                                 Try it Free
@@ -181,11 +180,11 @@ function TernKeyPage() {
                             'pt-[6.63rem] md:pt-[12.55rem] lg:pt-[17rem]',
                         )}
                     >
-                        TernKey is the World’s First Ternary Software Stack
+                        Tidal is the World’s First Ternary Software Stack
                     </h2>
                     <p className={'mt-[6rem] sm:mt-xxl  text-basic md:text-section-l lg:text-heading-xl'}>
                         We are driving the evolution from binary to ternary computing. By harnessing the superior data
-                        density and efficiency of ternary logic, TernKey provides developers with an innovative platform
+                        density and efficiency of ternary logic, Tidal provides developers with an innovative platform
                         to redefine programming paradigms and unlock new computational possibilities.
                     </p>
                     <div className={'relative'}>
@@ -249,7 +248,7 @@ function TernKeyPage() {
                         />
                         <div className={'[&_*]:!size-full size-full'}>
                             <ReactPlayer
-                                url={MISC_LINKS.TernKeyDemoEmbed}
+                                url={MISC_LINKS.TidalDemoEmbed}
                                 playing={videoStarted}
                             />
                         </div>
@@ -283,9 +282,9 @@ function TernKeyPage() {
                                 'text-basic md:text-heading lg:text-heading-xl',
                             )}
                         >
-                            Users can write code using the TernKey software and run that code within our online
-                            emulator, enabling software developers from any experience level to explore this untapped
-                            scape of programming.
+                            Users can write code using the Tidal software and run that code within our online emulator,
+                            enabling software developers from any experience level to explore this untapped scape of
+                            programming.
                         </p>
                     </div>
                 </div>
@@ -312,13 +311,13 @@ function TernKeyPage() {
                     <p className={'sm:text-center'}>
                         <span className={'block  text-heading  lg:text-section-xl'}>Fostering Collaboration</span>
                         <span className={'mt-5xs block'}>
-                            TernKey enhances developer collaboration through Explore Keys, a comprehensive database of
-                            TernKey programs, known as Keys. This platform connects users with software developers
+                            Tidal enhances developer collaboration through Explore Keys, a comprehensive database of
+                            Tidal programs, known as Keys. This platform connects users with software developers
                             globally, fostering an open and dynamic environment for learning, sharing, and growth.
                         </span>
                         <PageLink
                             isExternal
-                            href={MISC_LINKS.TernKeyExploreKeys}
+                            href={MISC_LINKS.TidalExploreKeys}
                             className={cn(BTN_BLUE_CN, 'mt-n')}
                         >
                             Explore keys
@@ -359,7 +358,7 @@ function TernKeyPage() {
                         {/*TODO links*/}
                         <PageLink
                             isExternal
-                            href={MISC_LINKS.TernKey}
+                            href={MISC_LINKS.Tidal}
                             icon={'arrow-right-long'}
                             className={cn(BTN_BLUE_CN, ' !h-button-xxl flex-row-reverse')}
                             iconClassName={BTN_ICON}
@@ -386,4 +385,4 @@ function TernKeyPage() {
     );
 }
 
-export default TernKeyPage;
+export default TidalPage;

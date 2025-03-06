@@ -153,14 +153,14 @@ const HomePage: FC = () => {
                             >
                                 <PageLink
                                     isExternal
-                                    href={MISC_LINKS.TernKey}
+                                    href={MISC_LINKS.Tidal}
                                     className={cn(BTN_CN, 'bg-blue text-black')}
                                 >
                                     Discover Tern
                                 </PageLink>
                                 <PageLink
                                     isExternal
-                                    href={MISC_LINKS.TernKeyDemo}
+                                    href={MISC_LINKS.TidalDemo}
                                     className={cn(BTN_CN, 'h-button-l border-n border-gray-l0 bg-black text-blue')}
                                 >
                                     Watch Demo

@@ -383,9 +383,9 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(response);
 
             let previewResult: SubscriptionPreview = {
-                route: Route.TernKeySubscribe,
+                route: Route.TidalSubscribe,
                 subscription: source,
-                isBasicKind: source === 'TernKey',
+                isBasicKind: source === 'Tidal',
                 type: {},
             };
             previewResult = response.data.allplanDetails

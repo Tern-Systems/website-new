@@ -34,7 +34,7 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
         title: 'Company',
         links: [
             Route.About,
-            Route.TernKey,
+            Route.Tidal,
             Route.Contact,
             // {title: 'TernKit', action: 'https://'},
             // {title: 'Cyrus', action: 'https://'},

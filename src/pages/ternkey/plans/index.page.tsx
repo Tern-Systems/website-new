@@ -15,7 +15,7 @@ const PricingAndPlansPage: FC = () => {
     useEffect(() => {
         const fetchPlanDetails = async () => {
             try {
-                const { payload: planPreview } = await BillingService.getPlanDetails('TernKey');
+                const { payload: planPreview } = await BillingService.getPlanDetails('Tidal');
                 setSubscription(planPreview);
             } catch (error: unknown) {
                 if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
