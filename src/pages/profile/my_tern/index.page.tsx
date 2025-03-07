@@ -28,6 +28,7 @@ type TableEntry = {
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
     // dot: Route.Dot,
     Tidal: MISC_LINKS.Tidal,
+    TernKey: '',
     trial: '',
 };
 
@@ -64,6 +65,7 @@ const renderTd = (data: string | number) => (typeof data === 'string' ? data : n
 
 const SubscriptionRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
     const { row, className } = props;
+    console.log('row: ', row);
     const [navigate] = useNavigate();
     return (
         <tr
@@ -130,7 +132,7 @@ function MyTernPage() {
                 ?.filter((plan: Subscription) => plan.subscription !== 'trial')
                 ?.map(
                     (plan: Subscription): TableEntry => ({
-                        name: plan.subscription,
+                        name: plan.subscription === 'TernKey' ? 'Tidal' : '',
                         type: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
                         data: new Date(plan.renewDate).toLocaleDateString(),
                         href: SUBSCRIPTION_LINK_DICT[plan.subscription],
