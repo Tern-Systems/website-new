@@ -14,6 +14,7 @@ import styles from '@/pages/profile/Profile.module.css';
 import {
     faCheckCircle,
     faPlusCircle,
+    faRightLeft,
     faSquareCheck,
     faSquarePlus,
     faSquareXmark,
@@ -51,7 +52,7 @@ const AppsSection: FC = () => {
             const userApp = userApps.find((userApp) => userApp.name === app);
             const isFound = true;
             const text = isFound ? 'Connected' : 'Connect';
-            const icon: ButtonIcon = isFound ? faSquareCheck : faSquarePlus;
+            const icon: ButtonIcon = isFound ? faSquarePlus : faSquareCheck;
 
             return (
                 <span
@@ -119,7 +120,7 @@ const AppsSection: FC = () => {
 
             <Button
                 disabled={userData.personalDomain?.isVerified}
-                icon={userData.personalDomain?.isVerified ? faCheckCircle : faPlusCircle}
+                icon={userData.personalDomain?.isVerified ? faRightLeft : faRightLeft}
                 className={'col-start-3 flex-row-reverse place-self-end'}
             >
                 <span className={`${isSm || isMd ? 'hidden' : ''} ${label_CN}`}>
