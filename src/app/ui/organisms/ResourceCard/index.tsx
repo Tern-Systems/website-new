@@ -13,6 +13,7 @@ interface Props extends PropsWithChildren {
         wrapper?: string;
         image?: string;
         content?: string;
+        title?: string;
         children?: string;
         link?: string;
     };
@@ -68,7 +69,9 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         className={cn('w-full h-auto', className?.image)}
                     />
                     <span className={cn('contents lg:flex flex-col gap-y-n h-full', className?.content)}>
-                        <span className={'block text-section-xl md:text-heading sm:text-section'}>{title}</span>
+                        <span className={cn('block text-section-xl md:text-heading sm:text-section', className?.title)}>
+                            {title}
+                        </span>
                         <span className={cn('block leading-l  lg:w-1/2', className?.children)}>{children}</span>
                         <PageLink
                             icon={'arrow-right-long'}
