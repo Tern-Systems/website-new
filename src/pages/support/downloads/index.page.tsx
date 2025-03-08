@@ -22,25 +22,25 @@ const DOWNLOAD_LINKS: DocumentationLink[] = [
     {
         title: 'TIDE',
         description: 'Download the desktop version of TIDE for further customization options and offline use.',
-        subscription: 'TernKey',
+        subscription: 'Tidal',
         href: '',
     },
     {
         title: 'Calculator',
         description: 'The Calculator application is an advanced low-level language converter for BTMC and T27I.',
-        subscription: 'TernKey',
+        subscription: 'Tidal',
         href: '',
     },
     {
         title: 'Market Penetration White Paper',
         description: 'Tern drives adoption through engineers, TIDE, hardware validation, and industry partnerships.',
-        subscription: 'TernKey',
+        subscription: 'Tidal',
         href: '',
     },
     {
         title: 'G White Paper',
         description: 'Understand the reasoning behind building a new high-level programming language.',
-        subscription: 'TernKey',
+        subscription: 'Tidal',
         href: '',
     },
 ];

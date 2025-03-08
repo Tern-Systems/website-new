@@ -41,7 +41,7 @@ const GHandbookContent = () => {
             </p>
             <br />
             <p>
-                TernKey features a cutting-edge high-level programming language called G, which resembles C in terms of
+                Tidal features a cutting-edge high-level programming language called G, which resembles C in terms of
                 structure. It leverages Backus-Naur Form notation and shares syntax and semantic rules similar to
                 C&apos;s. The G language’s primary goal is to facilitate seamless adoption, allowing developers to
                 effectively delve into and contrast the conventional binary-based programming paradigm with the

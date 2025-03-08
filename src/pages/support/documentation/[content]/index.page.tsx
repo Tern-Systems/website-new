@@ -6,13 +6,13 @@ import { COMING_SOON_DOC } from '@/app/static/documentation';
 
 import { DocumentationSection } from '@/app/ui/templates';
 
-import { TernKeyManualAnchors, TernKeyManualContent } from './ternkey';
+import { TidalManualAnchors, TidalManualContent } from './tidal';
 import { GHandbookAnchors, GHandbookContent } from './g';
 
-type Content = Route.TernKeyDoc | Route.GDoc | Route.TernKitDoc | Route.TernDoc | Route.BTMCDoc;
+type Content = Route.TidalDoc | Route.GDoc | Route.TernKitDoc | Route.TernDoc | Route.BTMCDoc;
 
 const CONTENTS: Record<Content, DocumentationContent> = {
-    [Route.TernKeyDoc]: { anchors: TernKeyManualAnchors, children: <TernKeyManualContent /> },
+    [Route.TidalDoc]: { anchors: TidalManualAnchors, children: <TidalManualContent /> },
     [Route.GDoc]: { anchors: GHandbookAnchors, children: <GHandbookContent />, isChapter: true },
     [Route.TernKitDoc]: COMING_SOON_DOC,
     [Route.TernDoc]: COMING_SOON_DOC,

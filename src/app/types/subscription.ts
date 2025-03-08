@@ -1,7 +1,7 @@
 import { Route } from '@/app/static';
 
 type SubscriptionRecurrency = 'annual' | 'monthly';
-type PlanName = 'TernKey' | 'trial';
+type PlanName = 'Tidal' | 'trial' | 'TernKey';
 type PlanType = 'Basic' | 'Pro';
 
 type SubscriptionBase = {
