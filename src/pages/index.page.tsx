@@ -25,6 +25,8 @@ import SVG_MICROPROCESSOR from '/public/images/microprocessor.png';
 import SVG_NATURE from '/public/images/nature.png';
 import SVG_CIRCUIT from '/public/images/microchip.png';
 
+//commenting or automation testing
+
 const CARDS: {
     title: string;
     info: string;
