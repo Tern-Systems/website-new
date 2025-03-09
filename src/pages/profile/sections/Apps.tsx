@@ -11,14 +11,9 @@ import { Collapsible } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 
 import styles from '@/pages/profile/Profile.module.css';
-import {
-    faCheckCircle,
-    faPlusCircle,
-    faRightLeft,
-    faSquareCheck,
-    faSquarePlus,
-    faSquareXmark,
-} from '@fortawesome/free-solid-svg-icons';
+
+import { faCircleXmark, faSquarePlus } from '@fortawesome/free-regular-svg-icons';
+import { faSquareXmark, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 const APPS = 'Third-Party Applications';
 
@@ -52,7 +47,7 @@ const AppsSection: FC = () => {
             const userApp = userApps.find((userApp) => userApp.name === app);
             const isFound = true;
             const text = isFound ? 'Connected' : 'Connect';
-            const icon: ButtonIcon = isFound ? faSquarePlus : faSquareCheck;
+            const icon: ButtonIcon = isFound ? faSquarePlus : 'plus-square';
 
             return (
                 <span
@@ -74,7 +69,7 @@ const AppsSection: FC = () => {
                     )}
                     <Button
                         icon={icon}
-                        hover={{
+                        hovered={{
                             icon: isFound ? faSquareXmark : icon,
                             text: isSm || isMd ? '' : isFound ? 'Disconnect' : 'Connect',
                             className: isFound ? 'bg-red' : 'bg-blue',
@@ -120,7 +115,7 @@ const AppsSection: FC = () => {
 
             <Button
                 disabled={userData.personalDomain?.isVerified}
-                icon={userData.personalDomain?.isVerified ? faRightLeft : faRightLeft}
+                icon={userData.personalDomain?.isVerified ? faCircleXmark : faCirclePlus}
                 className={'col-start-3 flex-row-reverse place-self-end'}
             >
                 <span className={`${isSm || isMd ? 'hidden' : ''} ${label_CN}`}>

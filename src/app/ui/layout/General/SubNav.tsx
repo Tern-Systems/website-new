@@ -193,8 +193,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                 </div>
             )}
             {!SubNavItems?.length ? null : (
-                <div className={'border-b-s border-gray'}>
-                    
+                <div className={'border-b-s border-gray'}>                    
                     <ul
                         className={cn(
                             styles.content,

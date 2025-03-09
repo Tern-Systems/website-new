@@ -7,7 +7,6 @@ import Image from 'next/image';
 import cn from 'classnames';
 
 import styles from '@/app/common.module.css';
- 
 
 export type ButtonIcon = IconProp | StaticImageData | IconDefinition; // FontAwesome icon or SVG
 
