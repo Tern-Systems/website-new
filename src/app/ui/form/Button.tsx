@@ -74,7 +74,7 @@ const ButtonComponent = (props: Props, ref: ForwardedRef<HTMLButtonElement>) => 
             ref={ref}
             {...btnProps}
             className={cn(
-                `group cursor-pointer text-nowrap rounded-full font-sans disabled:cursor-default`,
+                `group cursor-pointer text-nowrap rounded-full disabled:cursor-default`,
                 className,
                 styles.clickable,
                 {
