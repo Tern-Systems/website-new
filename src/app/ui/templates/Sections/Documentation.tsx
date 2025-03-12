@@ -1,6 +1,5 @@
 import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import Image from 'next/image';
 import cn from 'classnames';
 
 import { ContentAnchors, DocumentationContent } from '@/app/types/documentation';
@@ -12,8 +11,8 @@ import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
 
-import SVG_FULLSCREEN from '/public/images/icons/fullscreen.svg';
-import SVG_VIEW_VIEW from '/public/images/icons/view-view.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExpand, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const PIP_MODE_PARENT = 'pip-mode-parent';
 const PIP_MODE_CHILD = 'pip-mode-child';
@@ -147,16 +146,11 @@ const DocumentationSection: FC<Props> = (props: Props) => {
                     onClick={() => layoutCtx.toggleFullscreen()}
                     className={'size-[1.81rem]'}
                 >
-                    <Image
-                        src={SVG_FULLSCREEN}
-                        alt={'fullscreen'}
-                    />
+                    <FontAwesomeIcon icon={faExpand} />
                 </Button>
+
                 <Button onClick={() => handleEnablePiP()}>
-                    <Image
-                        src={SVG_VIEW_VIEW}
-                        alt={'view-view'}
-                    />
+                    <FontAwesomeIcon icon={faEye} />
                 </Button>
             </>
         );

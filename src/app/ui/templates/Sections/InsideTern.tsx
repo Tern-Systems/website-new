@@ -12,6 +12,7 @@ import { MEDIA_LINKS, MISC_LINKS } from '@/app/static';
 
 import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png';
 import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png';
+import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
 import PNG_INSIDE_TERN_GIRL from '/public/images/inside-tern-girl.png';
 import PNG_ACCOLADES from '/public/images/resources-card-5.png';
@@ -29,7 +30,7 @@ const DATA: Record<Data, SectionCard[]> = {
             action: 'Explore Jobs',
             href: MISC_LINKS.Careers,
             icon: SVG_OFFICE_GIRL_1,
-            btnIcon: 'arrow',
+            btnIcon: faArrowRight,
             btnIconCN: 'rotate-180',
         },
         {
@@ -38,7 +39,7 @@ const DATA: Record<Data, SectionCard[]> = {
             action: 'Start Learning',
             href: MEDIA_LINKS.YouTube.href,
             icon: SVG_OFFICE_GIRL_2,
-            btnIcon: 'arrow-square',
+            btnIcon: faArrowUpRightFromSquare,
         },
     ],
     alt0: [
@@ -48,7 +49,7 @@ const DATA: Record<Data, SectionCard[]> = {
             action: 'Find Community',
             href: MEDIA_LINKS.YouTube.href,
             icon: PNG_ACCOLADES,
-            btnIcon: 'arrow',
+            btnIcon: faArrowRight,
             btnIconCN: 'rotate-180',
         },
         {
@@ -57,7 +58,7 @@ const DATA: Record<Data, SectionCard[]> = {
             action: 'Start Earning',
             href: MISC_LINKS.Events,
             icon: PNG_INSIDE_TERN_GIRL,
-            btnIcon: 'arrow-square',
+            btnIcon: faArrowUpRightFromSquare,
         },
     ],
     alt1: [
@@ -67,7 +68,7 @@ const DATA: Record<Data, SectionCard[]> = {
             action: 'Join the Podcast',
             href: MEDIA_LINKS.YouTube.href,
             icon: SVG_CITY_WAY,
-            btnIcon: 'arrow',
+            btnIcon: faArrowRight,
             btnIconCN: 'rotate-180',
         },
         {
@@ -76,7 +77,7 @@ const DATA: Record<Data, SectionCard[]> = {
             action: 'Attend',
             href: MISC_LINKS.Events,
             icon: SVG_OFFICE_PEOPLE,
-            btnIcon: 'arrow-square',
+            btnIcon: faArrowUpRightFromSquare,
         },
     ],
 };
@@ -110,7 +111,6 @@ const InsideTernSection: FC<Props> = (props: Props) => {
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
                 className={'mt-s flex-row-reverse !gap-x-4xs self-start text-blue'}
-                classNameIcon={cn('[&_*]:size-[1.25rem] [&_path]:fill-blue-l0', entry.btnIconCN)}
             >
                 {entry.action}
             </Button>

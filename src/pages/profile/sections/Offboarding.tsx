@@ -9,6 +9,7 @@ import { Button } from '@/app/ui/form';
 import { DeleteAccountModal } from '@/pages/profile/DeleteAccountModal';
 
 import styles from '@/pages/profile/Profile.module.css';
+import { faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 
 const OFFBOARDING = 'Offboarding';
 
@@ -36,7 +37,7 @@ const OffboardingSection: FC = () => {
             </span>
             <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>Delete your account and data</span>
             <Button
-                icon={'delete-square'}
+                icon={faSquareXmark}
                 className={'flex-row-reverse [&]:place-content-end'}
                 onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData} />, { darkenBg: true })}
             >

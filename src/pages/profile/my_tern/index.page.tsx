@@ -17,6 +17,7 @@ import { Button } from '@/app/ui/form';
 import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 type TableEntry = {
     name: string;
@@ -171,7 +172,7 @@ function MyTernPage() {
             href={btn.href}
         >
             <Button
-                icon={'chevron'}
+                icon={faChevronDown}
                 className={cn(`flex-row-reverse bg-blue`, `p-4xs text-basic`, `xxs:x-[p-[0.56rem],text-section-xs]`)}
                 classNameIcon={cn(`[&_path]:fill-primary -rotate-90 ml-n [&_*]:w-[0.6rem]`, `sm:[&_*]:w-[0.525rem]`)}
             >

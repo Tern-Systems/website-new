@@ -27,6 +27,7 @@ import stylesLayout from './Layout.module.css';
 
 import SVG_CHEVRON from '/public/images/icons/chevron.svg';
 import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
+import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
 
 const Header: FC = (): ReactElement => {
     const route = usePathname();
@@ -106,7 +107,7 @@ const Header: FC = (): ReactElement => {
             <div className={'flex border-b-s border-gray'}>
                 <Button
                     onClick={() => setNavExpanded(true)}
-                    icon={navExpanded ? 'close' : 'burger'}
+                    icon={navExpanded ? faX : faBars}
                     className={cn(`hidden border-s border-transparent px-s  xxs:inline`, {
                         ['!border-blue bg-gray-d1']: navExpanded,
                     })}

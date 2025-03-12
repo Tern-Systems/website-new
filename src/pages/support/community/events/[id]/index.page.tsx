@@ -16,6 +16,7 @@ import SVG_EMAIL from '/public/images/icons/email.svg';
 import SVG_X from '/public/images/icons/x-twitter.svg';
 import SVG_LINKEDIN from '/public/images/icons/linkedin.svg';
 import SVG_FACEBOOK from '/public/images/icons/facebook.svg';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const SHARE_BTNS = [
     {
@@ -137,18 +138,16 @@ function EventPage() {
                             <Button
                                 onClick={() => {}} // TODO
                                 className={`${BUTTON_CN} border bg-blue border-blue text-white max-w-[10.5625rem]`}
-                                icon={'arrow'}
+                                icon={faArrowRight}
                                 classNameIcon={'order-last [&_*]:fill-white size:[.5831rem] lg:size-[.75rem]'}
-                                isIconFlippedY
                             >
                                 Register Now
                             </Button>
                             <Button
                                 onClick={() => {}} // TODO
                                 className={`${BUTTON_CN} border bg-white-d2 border-gray-l0 text-gray-d2 max-w-[11.875rem]`}
-                                icon={'arrow'}
+                                icon={faArrowRight}
                                 classNameIcon={'order-last size:[.625rem] lg:size-[.75rem]'}
-                                isIconFlippedY
                             >
                                 Add to Calendar
                             </Button>

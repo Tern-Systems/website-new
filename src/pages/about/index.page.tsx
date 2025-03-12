@@ -168,7 +168,6 @@ const AboutPage: FC = () => {
                     />
                     <InsideTernSection
                         data={'alt1'}
-                        className={'bg-gradient-to-t from-blue to-transparent to-50%'}
                     />
                 </div>
             </div>
