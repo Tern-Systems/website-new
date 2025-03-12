@@ -47,12 +47,12 @@ describe('Router utils test', () => {
     });
 
     // unit test cases for getIdName funciton
-    test(' should convert last segment of route to capitalized words with spaces when joinWords is not passed (false by default)', () => {
+    test('should convert last segment of route to capitalized words with spaces when joinWords is not passed (false by default)', () => {
         const expected = 'Profile Id';
 
         expect(getIdName('/home/user/profile_id')).toEqual(expected);
     });
-    test(' should convert last segment of route to capitalized words with spaces when joinWords is false', () => {
+    test('should convert last segment of route to capitalized words with spaces when joinWords is false', () => {
         const expected = 'Profile Id';
 
         expect(getIdName('/home/user/profile_id', false)).toEqual(expected);
