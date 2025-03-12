@@ -7,7 +7,7 @@ import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
-import { mapSavedCard } from '@/app/utils';
+import { getCardName, mapSavedCard } from '@/app/utils';
 import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 import { useModal, useUser } from '@/app/context';
 
@@ -74,7 +74,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                     className={`mr-4xs [&_*]:w-[1.55rem] sm:[&_*]:w-[1.375rem]`}
                 />
                 <span className={'max-w-[calc(100%-1.75rem)] overflow-hidden overflow-ellipsis text-nowrap'}>
-                    {card.nickName ?? card.cardType + ' **** ' + card.cardNumber.slice(-4)}
+                    {getCardName(card)}
                 </span>
                 {preferred ? (
                     <ReactSVG

@@ -1,3 +1,5 @@
+import { DeepPartial } from '@/app/types/utils';
+
 type ArticleTag =
     | 'Artificial Intelligence'
     | 'Batteries'
@@ -8,7 +10,7 @@ type ArticleTag =
     | 'Robotics'
     | 'Semiconductors';
 
-type Article = {
+type Article = DeepPartial<{
     id: string;
     tag: ArticleTag;
     title: string;
@@ -22,11 +24,12 @@ type Article = {
     };
     content: string;
     contentIDs: string[];
-};
+}>;
 
 // TODO clarify
 type TipType = 'video';
-type Tip = Pick<Article, 'id' | 'title' | 'poster' | 'content'> &
-    Partial<Pick<Article, 'description'>> & { type: TipType };
+type Tip = DeepPartial<
+    Pick<Article, 'id' | 'title' | 'poster' | 'content'> & Partial<Pick<Article, 'description'>> & { type: TipType }
+>;
 
 export type { ArticleTag, Article, Tip };

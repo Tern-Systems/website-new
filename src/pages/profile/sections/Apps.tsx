@@ -69,7 +69,7 @@ const AppsSection: FC = () => {
                     )}
                     <Button
                         icon={icon}
-                        hovered={{
+                        hover={{
                             icon: isFound ? faSquareXmark : icon,
                             text: isSm || isMd ? '' : isFound ? 'Disconnect' : 'Connect',
                             className: isFound ? 'bg-red' : 'bg-blue',

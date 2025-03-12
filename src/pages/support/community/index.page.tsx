@@ -228,11 +228,10 @@ function CommunityPage() {
     if (breakpoint === Breakpoint.md) articleCount = ARTICLE_CARD_COUNT_LG + 1;
     const ArticleCardsLi: ReactElement[] = articles.slice(0, articleCount).map((article: Article, idx) => (
         <li
-            key={article?.title ?? 'card-' + idx}
+            key={article?.id ?? 'card-' + idx}
             className={'contents'}
         >
             <ArticleCard
-                key={article.id + idx}
                 article={article}
                 hideTag
                 altLink={'Enter support hub'}

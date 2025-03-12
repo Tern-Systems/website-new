@@ -64,7 +64,7 @@ function DocumentationPage(props: Props) {
     let links: ResourceLink[] = DOWNLOAD_LINKS;
     if (filterBySubscription) {
         links = DOWNLOAD_LINKS.filter((link) =>
-            userData?.subscriptions.some((plan) => plan.subscription.includes(link.subscription)),
+            userData?.subscriptions.some((plan) => plan.subscription?.includes(link.subscription)),
         );
     }
 

@@ -24,7 +24,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
     const modalCtx = useModal();
 
     const handleRemove = async () => {
-        if (!userData || !card.profileId) return;
+        if (!userData || !card.profileId || !card.id) throw 'Error setting up operation - no required card data';
         try {
             const { message } = await BillingService.postDeleteCard(card.profileId, card.id, userData.email);
             modalCtx.openModal(<MessageModal>{message}</MessageModal>);
@@ -34,6 +34,11 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
         }
     };
 
+    const cardStr =
+        (card.type ?? '-- missing type --') +
+        ' ' +
+        (card.cardNumber ? 'Ending in • • • ' + card.cardNumber?.slice(-4) : '-- missing number --');
+
     return (
         <BaseModal
             title={'Remove Payment Method'}
@@ -42,9 +47,9 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
             classNameContent={'text-primary '}
             classNameHr='[&]:mt-5xs [&]:mb-s border-white'
         >
-            <div className={''}>
+            <div>
                 <span className='text-section-xs  md:text-basic  lg:text-basic'>
-                    Remove {card.nickName ? card.nickName : `${card.type} Card`}
+                    Remove {card.nickName ? card.nickName : cardStr}
                 </span>
                 <div className={`w-full flex gap-xs bg-gray-d0 mt-xs mb-xl px-n py-s border border-gray-l1`}>
                     <Image
@@ -53,9 +58,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
                         className={'h-auto w-[min(16dvw,8.3362rem)]'}
                     />
                     <span className='w-full flex items-center justify-center text-section-xs  md:text-section-s  lg:text-section-s'>
-                        <span>
-                            {card.type} Ending in • • • {card.cardNumber.slice(-4)}
-                        </span>
+                        <span>{cardStr}</span>
                     </span>
                 </div>
                 <div className={'flex gap-xxs'}>

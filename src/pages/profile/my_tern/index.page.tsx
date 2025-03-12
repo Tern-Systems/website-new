@@ -66,7 +66,6 @@ const renderTd = (data: string | number) => (typeof data === 'string' ? data : n
 
 const SubscriptionRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
     const { row, className } = props;
-    console.log('row: ', row);
     const [navigate] = useNavigate();
     return (
         <tr
@@ -133,10 +132,14 @@ function MyTernPage() {
                 ?.filter((plan: Subscription) => plan.subscription !== 'trial')
                 ?.map(
                     (plan: Subscription): TableEntry => ({
-                        name: plan.subscription === 'TernKey' ? 'Tidal' : '',
-                        type: capitalize(plan.type) + ' (' + capitalize(plan.recurrency ?? '') + ')',
-                        data: new Date(plan.renewDate).toLocaleDateString(),
-                        href: SUBSCRIPTION_LINK_DICT[plan.subscription],
+                        name: plan.subscription === 'TernKey' ? 'Tidal' : '-- missing name --',
+                        type:
+                            capitalize(plan.type ?? '-- missing type --') +
+                            ' (' +
+                            capitalize(plan.recurrency ?? '-- missing recurrency --') +
+                            ')',
+                        data: plan.renewDate ? new Date(plan.renewDate).toLocaleDateString() : '-- missing date --',
+                        href: plan.subscription ? SUBSCRIPTION_LINK_DICT[plan.subscription] : '-- missing link --',
                     }),
                 ) ?? [],
         fallback: (

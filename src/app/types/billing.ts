@@ -1,7 +1,9 @@
+import { DeepPartial } from '@/app/types/utils';
+
 import { CountryKey, StateKey } from '@/app/static';
 import { SubscriptionRecurrency } from './subscription';
 
-type CardData = {
+type CardData = DeepPartial<{
     profileId?: string;
     id: string;
     type: string;
@@ -18,9 +20,9 @@ type CardData = {
     state: StateKey;
     nickName: string;
     isPreferred: boolean;
-};
+}>;
 
-type Invoice = {
+type Invoice = DeepPartial<{
     id: number;
     startDate: number;
     to: string;
@@ -35,9 +37,9 @@ type Invoice = {
     state: StateKey;
     status: 'paid' | 'unpaid';
     type: SubscriptionRecurrency;
-};
+}>;
 
-type SavedCard = {
+type SavedCard = DeepPartial<{
     billingAddress: {
         firstName: string;
         lastName: string;
@@ -53,9 +55,9 @@ type SavedCard = {
     id: string;
     last4: string;
     preferred: boolean;
-};
+}>;
 
-type SavedCardFull = {
+type SavedCardFull = DeepPartial<{
     customerProfileId: string;
     paymentProfileId: string;
     billingAddress: {
@@ -73,6 +75,6 @@ type SavedCardFull = {
     last4: string;
     nickName: string;
     preferred: boolean;
-};
+}>;
 
 export type { CardData, Invoice, SavedCard, SavedCardFull };

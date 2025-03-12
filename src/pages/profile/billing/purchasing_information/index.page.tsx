@@ -1,3 +1,5 @@
+'use client';
+
 import React, { ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -17,6 +19,7 @@ import { Button } from '@/app/ui/form';
 import { ExportInvoiceModal } from './ExportInvoiceModal';
 
 import SVG_CARD from '/public/images/icons/card.svg';
+import { checkNumber, getCardName } from '@/app/utils';
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
@@ -59,7 +62,7 @@ function PurchasingInformationPage() {
 
         return (
             <li
-                key={card.last4 + idx}
+                key={card.last4 ?? 'card-' + idx}
                 className={'flex items-center gap-[0.65rem] text-heading-s'}
             >
                 <Image
@@ -81,19 +84,23 @@ function PurchasingInformationPage() {
     if (!Cards.length) Cards = [<span key={0}>No saved cards</span>];
 
     const InvoiceRows: ReactElement[] = invoiceHistory.map((order, idx) => {
-        const invoiceDate = new Date(order.startDate);
+        const { card } = order;
+
+        const invoiceDate: Date | undefined = order.startDate ? new Date(order.startDate) : undefined;
+        const localDate: string = invoiceDate
+            ? `${invoiceDate.toLocaleString('default', { month: 'long' })}} ${invoiceDate.getDate()}th, ` +
+              invoiceDate.getFullYear()
+            : '-- missing date --';
+
         return (
             <tr key={idx}>
                 <td className={'leading-[1.5rem] md:w-[31%] lg:w-[15%]'}> {order.id}</td>
-                <td className={'md:hidden lg:w-[15%]'}>
-                    {invoiceDate.toLocaleString('default', { month: 'long' })} {invoiceDate.getDate()}th,&nbsp;
-                    {invoiceDate.getFullYear()}
+                <td className={'md:hidden lg:w-[15%]'}>{localDate}</td>
+                <td className={'md:w-[21%] lg:w-[11%]'}>
+                    {checkNumber(order.paidUSD) ? order.paidUSD : '-- missing price --'}
                 </td>
-                <td className={'md:w-[21%] lg:w-[11%]'}>${order.paidUSD}</td>
-                <td className={'md:hidden lg:w-[11%]'}>{order.status}</td>
-                <td className={'lg:table-cell lg:w-[22%]'}>
-                    {order.card?.nickName ?? order.card.cardType + ' **** ' + order.card.last4}
-                </td>
+                <td className={'md:hidden lg:w-[11%]'}>{order.status ?? '-- missing status --'}</td>
+                <td className={'lg:table-cell lg:w-[22%]'}>{getCardName(card)}</td>
                 <td className={'sm:hidden'}>{order.item?.name}</td>
             </tr>
         );

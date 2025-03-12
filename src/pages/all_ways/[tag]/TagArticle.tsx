@@ -50,28 +50,24 @@ const TagArticle: FC<Props> = (props: Props) => {
 
     let articlesFinal: Article[] = articles;
     const tagFinal = tag?.split('_').join(' ').toLowerCase();
-    if (tagFinal) articlesFinal = articles.filter((article) => article.tag.toLowerCase() === tagFinal);
+    if (tagFinal) articlesFinal = articles.filter((article) => article?.tag?.toLowerCase() === tagFinal);
 
     // Elements
     const CardsLi: ReactElement[] = articlesFinal.slice(0, ARTICLE_COUNT.ourPicks).map((article, idx) => (
         <li
-            key={article?.title ?? 'card-' + idx}
+            key={article?.id ?? 'card-' + idx}
             className={'contents'}
         >
-            <ArticleCard
-                key={article.id + idx}
-                article={article}
-            />
+            <ArticleCard article={article} />
         </li>
     ));
     const CardsLatestLi: ReactElement[] = articlesFinal.slice(1, ARTICLE_COUNT.latest + +lg).map((article, idx) => (
         <li
-            key={article?.title ?? 'card-' + idx}
+            key={article?.id ?? 'card-' + idx}
             className={'contents'}
         >
             <ArticleCard
                 type={'alt'}
-                key={article.id + idx}
                 article={article}
                 className={'[&:not(:first-of-type)]:border-t-0'}
             />

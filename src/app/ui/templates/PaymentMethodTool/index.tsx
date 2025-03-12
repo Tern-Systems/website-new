@@ -306,8 +306,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             </Input>
                             <div className='flex flex-row gap-n'>
                                 <Select
-                                    options={STATE_PROVINCE?.[formData.country] ?? {}}
-                                    value={formData.state}
+                                    options={STATE_PROVINCE?.[formData.country ?? ''] ?? {}}
+                                    value={formData.state ?? ''}
                                     onChangeCustom={(value) => setFormData('state')(value)}
                                     classNameWrapper={cn(FIELD_CN, `text-[500] w-1/2`)}
                                     classNameLabel={'mr-auto'}
@@ -338,7 +338,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             </div>
                             <Select
                                 options={COUNTRY}
-                                value={formData.country}
+                                value={formData.country ?? ''}
                                 onChangeCustom={(value) => setFormData('country')(value)}
                                 classNameWrapper={cn(FIELD_CN, `text-[500]`)}
                                 classNameLabel={'mr-auto'}
