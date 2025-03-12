@@ -66,27 +66,34 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground
-                    url={OFFICE_GIRL_3}
-                    className={cn('!bg-no-repeat [&]:bg-[center_top] lg:[&]:bg-[80px_top]')}
-                />
-                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                    <div>
-                        <h1
-                            className={cn(
-                                `w-min text-left leading-n`,
-                                `mb-n text-heading-4xl`,
-                                `lg:x-[w-full,mt-[6.25rem]]`,
-                                `md:x-[mt-xl,text-heading-4xl]`,
-                                `sm:x-[flex,mt-xs,text-[3.9375rem]]`,
-                            )}
-                        >
-                            Contact Tern
-                        </h1>
+            <section className={'flex justify-center w-full'}>
+                <div
+                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
+                    style={{
+                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
+                        position: 'relative',
+                        backgroundSize: 'cover',
+                        backgroundPosition: '50% top',
+                    }}
+                >
+                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                        <div>
+                            <h1
+                                className={cn(
+                                    `w-min text-left leading-n`,
+                                    `mb-n text-heading-4xl`,
+                                    `lg:x-[w-full,mt-[6.25rem]]`,
+                                    `md:x-[mt-xl,text-heading-4xl]`,
+                                    `sm:x-[flex,mt-xs,text-[3.9375rem]]`,
+                                )}
+                            >
+                                Contact Tern
+                            </h1>
+                        </div>
                     </div>
+                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
+                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
                 </div>
-                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-5% lg:via-5% to-transparent  sm:to-100%  md:to-50% lg:to-60% z-0' />
             </section>
 
             <div
@@ -100,7 +107,7 @@ const ContactsPage: FC = () => {
                         'pb-[8.125rem] pt-[10.25rem]',
                         'sm:pb-[4.375rem]',
                         'md:pb-[6.875rem]',
-                        'gap-[9.875rem]',
+                        'gap-[3.75rem] md:gap-[6.25rem] lg:gap-[9.875rem]',
                     )}
                 >
                     <div className={cn('lg:w-1/2 md:w-[65%]')}>
@@ -192,8 +199,14 @@ const ContactsPage: FC = () => {
                             </form>
                         </div>
                     </div>
-                    <div className='lg:w-1/2  md:w-[65%]'>
-                        <div className={cn('h-full md:h-[60dvh] sm:h-[70dvh]')}>
+                    <div className='lg:w-1/2  md:w-[65%] flex'>
+                        <div
+                            className={cn(
+                                'h-full w-full',
+                                'md:h-[60dvh] md:max-h-[43.5rem]',
+                                'sm:h-[70dvh] sm:max-h-[29.75rem]',
+                            )}
+                        >
                             <MapEmbed />
                         </div>
                     </div>
@@ -243,7 +256,7 @@ const ContactsPage: FC = () => {
                                 'text-black',
                                 'lg:x-[!grid-cols-2,gap-x-0] lg:col-span-2',
                                 'md:x-[!grid-cols-2,gap-x-0] md:[&]:x-[col-span-2,px-xl]',
-                                'sm:x-[mx-auto,max-w-card]',
+                                'sm:x-[mx-auto,w-full]',
                             ),
                             image: '!size-full object-cover',
                             content: 'lg:pl-l  md:pl-l md:flex',
