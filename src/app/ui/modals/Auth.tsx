@@ -54,9 +54,11 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 modalCtx.closeModal();
             } else if (!REGEX.email.test(formValue.email))
                 setWarningMsg(`Entered email doesn't match the email format`);
-            else if (!REGEX.password.test(formValue.password))
-                setWarningMsg(`Entered password doesn't meet the requirements`);
-            else if (formValue.password !== formValue.passwordConfirm) setWarningMsg("Passwords don't match");
+            else if (!REGEX.password.test(formValue.password)) {
+                setWarningMsg(
+                    `Entered password should consist of minimum 9 characters, one uppercase letter, one lowercase letter and one number`,
+                );
+            } else if (formValue.password !== formValue.passwordConfirm) setWarningMsg("Passwords don't match");
             else {
                 const { message } = await AuthService.postSignUp(formValue);
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);

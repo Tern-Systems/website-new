@@ -141,7 +141,7 @@ const Input: FC<Props> = (props: Props) => {
                     </span>
                     <textarea
                         {...inputProps}
-                        className={`min-h-[18.75rem] p-[--s-dl-small] ${className}`}
+                        className={`min-h-[9.25rem] p-xxs ${className}`}
                         ref={inputRef as React.RefObject<HTMLTextAreaElement>}
                     />
                 </label>
