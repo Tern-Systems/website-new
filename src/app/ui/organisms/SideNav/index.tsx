@@ -5,16 +5,15 @@ import { useLayout } from '@/app/context';
 
 import { Select } from '@/app/ui/form';
 
-import styles from './SideNav.module.css';
-
 interface Props {
     sideOnly?: true;
     sectionIDs: (string | undefined)[];
     sectionNames?: Record<string, string>;
+    className?: string;
 }
 
 const SideNav: FC<Props> = (props: Props) => {
-    const { sideOnly, sectionIDs, sectionNames } = props;
+    const { sideOnly, sectionIDs, sectionNames, className } = props;
 
     const { scrollState } = useLayout();
     const [scrollValue] = scrollState;
@@ -39,9 +38,18 @@ const SideNav: FC<Props> = (props: Props) => {
         });
     }, [scrollValue]);
 
+    const activeSectionIdx = sectionIDs.findIndex((section) => section === activeSection);
+
     const SectionsNavLi: ReactNode = sectionIDs.map((section, idx) =>
         section ? (
-            <li key={section + idx}>
+            <li
+                key={section + idx}
+                className={cn(
+                    'relative pl-xs',
+                    'before:x-[absolute,left-0,border-l-[0.30rem],border-white] before:top-[calc(-0.5*var(--p-l))] before:h-[calc(100%+var(--p-l))]',
+                    { ['before:!border-blue']: idx === activeSectionIdx },
+                )}
+            >
                 <span
                     onClick={() => {
                         const id = sectionIDs[idx];
@@ -57,22 +65,10 @@ const SideNav: FC<Props> = (props: Props) => {
         ) : null,
     );
 
-    const thumbHeight = 100 / sectionIDs.length;
-    const activeSectionIdx = sectionIDs.findIndex((section) => section === activeSection);
-
     return (
-        <div>
+        <div className={cn(className, 'h-fit')}>
             <div className={'hidden lg:block  relative'}>
-                <span className={styles.line}>
-                    <span
-                        style={{
-                            top: activeSectionIdx * thumbHeight + '%',
-                            height: thumbHeight + '%',
-                        }}
-                        className={styles.lineThumb}
-                    />
-                </span>
-                <ul className={`flex flex-col gap-y-l pl-xs text-section-s`}>{SectionsNavLi}</ul>
+                <ul className={`flex flex-col gap-y-l text-section-xs`}>{SectionsNavLi}</ul>
             </div>
             {sideOnly ? null : (
                 <Select
