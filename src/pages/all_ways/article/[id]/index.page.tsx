@@ -39,9 +39,9 @@ const SHARE_BTNS = [
 
 const RELATED_CARDS_COUNT = 4;
 // TODO image injection
-const H2_REGEX = /<h2>/g;
+const H2_REGEX = /<h2/g;
 
-const SECTION_GRID_CN = 'lg:grid  grid-cols-[min-content,3fr,1fr] gap-x-xs';
+const SECTION_GRID_CN = 'lg:grid  grid-cols-[1fr,3fr,1fr] gap-x-xs';
 const INFO_CN = 'border-t-s border-gray-l0 py-s px-4xs';
 const CONTENT_CN = '[&_*]:!text-primary [&_h2]:!text-heading-xl [&_*]:[all:revert]';
 
@@ -50,6 +50,7 @@ function ArticlePage() {
     const isLg = useBreakpointCheck() === Breakpoint.lg;
 
     const [url, setURL] = useState<string | null>(null);
+    const [nav, setNav] = useState<{ ids: string[]; idMap: Record<string, string> }>({ ids: [], idMap: {} });
     const [content, setContent] = useState<Article | null>(null);
     const [contentParts, setContentParts] = useState<string[]>([]);
     const [cards, setCards] = useState<Article[]>([]);
@@ -69,6 +70,17 @@ function ArticlePage() {
                     ? [article.content.substring(0, contentCenterIdx), article.content.substring(contentCenterIdx)]
                     : [article.content, ''],
             );
+
+            const ids: string[] = [];
+            const idMap: Record<string, string> = Object.fromEntries(
+                article.contentIDs?.map((id, idx) => {
+                    const map: string = 'heading_' + idx;
+                    ids.push(map);
+                    return [map as string | undefined, id];
+                }) ?? [],
+            );
+
+            setNav({ ids, idMap });
         }
 
         setURL(window.location.href);
@@ -159,16 +171,18 @@ function ArticlePage() {
                             />
                         </span>
                         <span className={'font-bold'}>{content?.author?.name ?? '-- missing author name --'}</span>
-                        {content?.author?.position ? <span>content.author.position </span> : null}
+                        {content?.author?.position ? <span>{content.author.position}</span> : null}
                     </span>
                 </div>
             </section>
-            <section className={'leading-l  mt-xl md:mt-4xl lg:mt-[3.56rem]'}>
+            <section className={'relative leading-l  mt-xl md:mt-4xl lg:mt-[3.56rem]'}>
                 <div className={cn(styles.content, SECTION_GRID_CN)}>
                     {content?.contentIDs?.length ? (
                         <SideNav
                             sideOnly
-                            sectionIDs={content.contentIDs}
+                            sectionIDs={nav.ids}
+                            sectionNames={nav.idMap}
+                            className={'sticky top-xxl'}
                         />
                     ) : null}
                     <div className={content?.contentIDs?.length ? 'col-start-2' : 'col-span-2'}>
