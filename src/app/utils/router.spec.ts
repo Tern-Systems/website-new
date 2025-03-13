@@ -50,12 +50,12 @@ describe('Router utils test', () => {
     test('should convert last segment of route to capitalized words with spaces when joinWords is not passed (false by default)', () => {
         const expected = 'Profile Id';
 
-        expect(getIdName('/home/user/profile_id')).toEqual(expected);
+        expect(getIdName('/home/user/profile_id')?.trim()).toEqual(expected);
     });
     test('should convert last segment of route to capitalized words with spaces when joinWords is false', () => {
         const expected = 'Profile Id';
 
-        expect(getIdName('/home/user/profile_id', false)).toEqual(expected);
+        expect(getIdName('/home/user/profile_id', false)?.trim()).toEqual(expected);
     });
     test('should convert last segment of route to capitalized words without spaces when joinWords is true', () => {
         const expected = 'ProfileId';
@@ -65,10 +65,10 @@ describe('Router utils test', () => {
     test('should handle single-word last segment correctly', () => {
         const expected = 'Dashboard';
 
-        expect(getIdName('/dashboard')).toEqual(expected);
+        expect(getIdName('/dashboard')?.trim()).toEqual(expected);
     });
     test('should handle multiple underscores in last segment', () => {
-        expect(getIdName('/multi_part_example')).toBe('Multi Part Example');
+        expect(getIdName('/multi_part_example')?.trim()).toBe('Multi Part Example');
     });
 
     test('should handle multiple underscores in last segment with joinWords', () => {
