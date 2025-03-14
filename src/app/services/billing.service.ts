@@ -392,18 +392,18 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                 .filter((subscription: PlanDetails) => subscription.Source === source)
                 .reduce((result, subscription: PlanDetails): SubscriptionPreview => {
                     const updatedResult: SubscriptionPreview = copyObject(result);
-                    if (updatedResult?.type) {
-                        const plan = updatedResult.type[subscription.Plan];
+                    let plan = updatedResult.type[subscription.Plan];
 
-                        if (!plan) {
-                            updatedResult.type[subscription.Plan] = {
-                                benefits: subscription.Details,
-                                priceUSD: { annual: 0, monthly: 0 },
-                            };
-                        }
+                    if (!plan) {
+                        updatedResult.type[subscription.Plan] = {
+                            benefits: subscription.Details,
+                            priceUSD: { annual: 0, monthly: 0 },
+                        };
+                        plan = updatedResult.type[subscription.Plan];
+                    }
 
-                        if (plan?.priceUSD)
-                            plan.priceUSD[subscription.Duration === 1 ? 'monthly' : 'annual'] = subscription.Price;
+                    if (plan?.priceUSD) {
+                        plan.priceUSD[subscription.Duration === 1 ? 'monthly' : 'annual'] = subscription.Price;
                     }
                     return updatedResult;
                 }, previewResult);

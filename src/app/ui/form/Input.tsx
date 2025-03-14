@@ -193,7 +193,7 @@ const Input: FC<Props> = (props: Props) => {
 
                         <input
                             {...inputProps}
-                            className={`${className} ${isCustomCheckbox ? 'peer hidden' : ''}`}
+                            className={`${className} pl-3xs ${isCustomCheckbox ? 'peer hidden' : ''}`}
                             ref={inputRef as React.RefObject<HTMLInputElement>}
                             onInput={(event) => {
                                 inputProps.onInput?.(event);
