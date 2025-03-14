@@ -21,11 +21,11 @@ enum Route {
 
     // /product
     // Products = '/products/all',
-    Tidal = '/tidal',
-    TidalPricing = '/tidal/plans',
-    TidalProductManual = '/tidal/manual',
+    Tidal = '/product',
+    TidalPricing = '/product/plans',
+    TidalProductManual = '/product/manual',
     TidalSubscribe = '/subscribe/tidal',
-    TidalFAQs = '/tidal/faqs',
+    TidalFAQs = '/product/faqs',
     // Dot = '/products/dot',
     // DotPricing = '/products/dot/pricing',
     // DotProductManual = '/products/dot/user_manual',
