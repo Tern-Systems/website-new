@@ -63,7 +63,7 @@ function ManageSubscriptionsPage() {
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
         subscriptions?.map((subscription, idx) => [
             idx,
-            (subscription.subscription === 'TernKey' ? 'Tidal' : '') + ' ' + subscription.type + ' Plan',
+            subscription.subscription + ' ' + subscription.type + ' Plan',
         ]) ?? [],
     );
 

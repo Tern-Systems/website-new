@@ -29,7 +29,6 @@ type TableEntry = {
 const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
     // dot: Route.Dot,
     Tidal: MISC_LINKS.Tidal,
-    TernKey: '',
     trial: '',
 };
 
@@ -132,7 +131,7 @@ function MyTernPage() {
                 ?.filter((plan: Subscription) => plan.subscription !== 'trial')
                 ?.map(
                     (plan: Subscription): TableEntry => ({
-                        name: plan.subscription === 'TernKey' ? 'Tidal' : '-- missing name --',
+                        name: plan.subscription ?? '-- missing name --',
                         type:
                             capitalize(plan.type ?? '-- missing type --') +
                             ' (' +

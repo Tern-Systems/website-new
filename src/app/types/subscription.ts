@@ -2,7 +2,7 @@ import { Route } from '@/app/static';
 import { DeepPartial } from '@/app/types/utils';
 
 type SubscriptionRecurrency = 'annual' | 'monthly';
-type PlanName = 'Tidal' | 'trial' | 'TernKey';
+type PlanName = 'Tidal' | 'trial';
 type PlanType = 'Basic' | 'Pro';
 
 type SubscriptionBase = DeepPartial<{
