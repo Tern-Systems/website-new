@@ -351,7 +351,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 className={cn(
                     'grid w-full auto-rows-min justify-center self-center overflow-scroll',
                     'lg:gap-x-[4.13rem]',
-                    'lg:h-[calc(100%-2.5rem)] lg:grid-cols-[repeat(2,minmax(0,25rem))]',
+                    'lg:h-[calc(100%-2.5rem)] lg:flex',
                     'md:portrait:h-[calc(100%-6.75rem)] md:portrait:grid-cols-[minmax(0,24rem)] md:landscape:grid-cols-[repeat(2,minmax(0,24rem))]',
                     'md:gap-xxs',
                     'sm:portrait:h-[calc(100%-6.75rem)] sm:portrait:grid-cols-[minmax(0,20rem)] sm:portrait:gap-y-4xs',
