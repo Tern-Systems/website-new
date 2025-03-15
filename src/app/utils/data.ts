@@ -15,6 +15,6 @@ const getId = (str: string) =>
         .replaceAll(/[^a-zA-Z\d]/g, '');
 
 const checkNumber = <T extends number | undefined>(value: T): value is Exclude<T, 0 | '' | null | undefined | false> =>
-    !(value || value === 0);
+    value !== undefined || value === 0;
 
 export { generateFallbackEntries, formatDate, copyObject, capitalize, getId, checkNumber };

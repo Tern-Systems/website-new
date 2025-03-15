@@ -69,7 +69,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                 {Hr}
                 <div className={`flex justify-between`}>
                     <span>Total due today</span>
-                    <span>${subtotal ?? '--'}</span>
+                    <span>{subtotal ?? '--'}</span>
                 </div>
             </div>
         </div>

@@ -43,7 +43,7 @@ const FORM_DEFAULT: SubscribeData = {
     acceptTerms: false,
 };
 
-const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0';
+const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0 bg-[#fff]';
 const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 interface Props {
@@ -75,7 +75,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 const { payload: cards } = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
             } catch (error: unknown) {
-                if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+                // Empty block
             }
         };
         fetchCards();
@@ -87,7 +87,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             modalCtx.openModal(<DeclinedModal />);
             setPaymentStatus(null);
         } else if (paymentStatus) {
-            userCtx.setupSession();
+            userCtx.setupSession(true);
             const next = flowCtx.next();
             if (next) next();
             else {
@@ -109,11 +109,12 @@ const PaymentForm: FC<Props> = (props: Props) => {
         event.preventDefault();
 
         try {
-            if (!userCtx.userData || !priceUSD || !recurrency || !type || !formData.billingAddress) return;
+            if (!userCtx.userData || !priceUSD || !recurrency || !type) return;
 
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
             let formDataMapped: SubscribeData = formData;
             if (!isBillingExpanded) {
+                if (!formData.billingAddress) return;
                 const billingAddress = formData.billingAddress.split(',');
                 formDataMapped = {
                     ...formData,
@@ -243,6 +244,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         onChangeCustom={(value) => setFormData('country')(value)}
                         className={`${SELECT_CN} bg-white [&&]:rounded-b-none`}
                         classNameOption={CONTROL_H_CN}
+                        classNameUl={'min-w-0'}
                         required
                     />
                     {isBillingExpanded ? (

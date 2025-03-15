@@ -25,12 +25,10 @@ type SubscriptionPreviewData = DeepPartial<{
     benefits: string[];
 }>;
 
-type SubscriptionPreview = DeepPartial<
-    Pick<SubscriptionBase, 'subscription' | 'isBasicKind'> & {
-        type: Record<string, SubscriptionPreviewData>;
-        route: Route;
-    }
->;
+type SubscriptionPreview = DeepPartial<Pick<SubscriptionBase, 'subscription' | 'isBasicKind'>> & {
+    type: Record<string, SubscriptionPreviewData>;
+    route: Route;
+};
 
 export type {
     PlanName,
