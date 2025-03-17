@@ -77,6 +77,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
             onClose={() => onClose?.()}
             classNameTitle={'justify-self-start text-heading   sm:[&]:mb-xs   sm:landscape:ml-0 '}
+            className={'sm:bg-white'}
             classNameContent={cn(
                 'w-[30rem] items-start mx-auto place-items-center text-basic',
                 '[&]:overflow-y-visible',
