@@ -163,11 +163,11 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardCode: formData.cvc,
         };
 
-        const [firstName, ...lastName] = formData?.cardholderName?.split(' ') ?? [];
+        const nameParts = formData?.cardholderName?.split(' ') ?? [];
 
         const billingDetails = {
-            firstName,
-            lastName,
+            firstName: nameParts.slice(0, -1).join(' '),
+            lastName: nameParts[nameParts.length - 1],
             address: `${formData.addressLine1} | ${formData.addressLine2}`,
             city: formData.city,
             state: formData.state,
@@ -288,15 +288,15 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardCode: data.cvc,
             cardholderName: data.cardholderName,
         };
-        const [firstName, ...lastName] = data?.cardholderName?.split(' ') ?? [];
+        const nameParts = data?.cardholderName?.split(' ') ?? [];
         const billingDetails = {
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,
             state: data.state,
             zip: data.zip,
             country: data.country,
-            firstName,
-            lastName,
+            firstName: nameParts.slice(0, -1).join(' '),
+            lastName: nameParts[nameParts.length - 1],
         };
         const selectedPlan = {
             planName: planType,
