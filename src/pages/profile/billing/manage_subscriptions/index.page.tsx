@@ -209,7 +209,13 @@ function ManageSubscriptionsPage() {
     };
 
     return (
-        <section className={cn(styles.section, styles.fullHeightSection)}>
+        <section
+            className={cn(
+                styles.section,
+                styles.fullHeightSection,
+                'bg-black bg-gradient-to-t from-blue to-transparent to-55% sm:to-40%',
+            )}
+        >
             <div className={styles.content}>
                 <BreadcrumbRoute className={'!leading-l'} />
                 <h1
