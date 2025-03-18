@@ -10,7 +10,6 @@ import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
 import { Route } from '@/app/static';
-import { MainBackground } from '@/app/ui/atoms';
 
 import styles from '@/app/common.module.css';
 
