@@ -4,7 +4,7 @@ import { FlowQueue } from '@/app/context/Flow.context';
 import { SavedCard } from '@/app/types/billing';
 import { Subscription, SubscriptionRecurrency } from '@/app/types/subscription';
 import { SubscribeData } from '@/app/services/billing.service';
-import { COUNTRY, CountryKey, Route, STATE_PROVINCE, StateKey } from '@/app/static';
+import { COUNTRY, CountryKey, MISC_LINKS, Route, STATE_PROVINCE, StateKey } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
@@ -54,12 +54,12 @@ interface Props {
 }
 
 const PaymentForm: FC<Props> = (props: Props) => {
-    const { type, recurrency, priceUSD } = props;
+    const { name, type, recurrency, priceUSD } = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
-    const [navigate] = useNavigate();
+    const [navigate] = useNavigate(true);
 
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
     const [isBillingExpanded, setBillingExpandedState] = useState(false);
@@ -83,24 +83,21 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
     // Flow / payment status
     useEffect(() => {
-        if (paymentStatus === false) {
-            modalCtx.openModal(<DeclinedModal />);
-            setPaymentStatus(null);
-        } else if (paymentStatus) {
-            userCtx.setupSession(true);
-            const next = flowCtx.next();
-            if (next) next();
-            else {
-                const flow: FlowQueue = [];
-                flow.push(() => {
+        const finishPayment = async () => {
+            if (paymentStatus === false) {
+                modalCtx.openModal(<DeclinedModal />);
+                setPaymentStatus(null);
+            } else if (paymentStatus) {
+                await userCtx.setupSession(true);
+                const next = flowCtx.next();
+                if (next) next();
+                else {
+                    window.open(MISC_LINKS.Tidal, '_blank');
                     navigate(Route.Home);
-                });
-                flow.push(() => {
-                    modalCtx.openModal(<MessageModal>{paymentStatus}</MessageModal>);
-                });
-                flowCtx.run(flow);
+                }
             }
-        }
+        };
+        finishPayment();
     }, [paymentStatus]);
 
     const toggleBillingDetails = () => setBillingExpandedState((prev) => !prev);
@@ -113,7 +110,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
             let formDataMapped: SubscribeData = formData;
-            if (!isBillingExpanded) {
+            if (!isBillingExpanded && !savedCards.length) {
                 if (!formData.billingAddress) return;
                 const billingAddress = formData.billingAddress.split(',');
                 formDataMapped = {
@@ -129,11 +126,13 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
             if (savedCards.length) {
                 const selectedCard: SavedCard = savedCards[+formData.savedCardIdx];
+
                 if (!selectedCard.billingAddress) throw 'Error preparing billing address';
 
                 formDataMapped.id = selectedCard.id;
                 formDataMapped.cvc = formData.cvc;
                 formDataMapped.state = selectedCard.billingAddress.state;
+
                 await BillingService.postProcessSavedPayment(
                     formDataMapped,
                     type,

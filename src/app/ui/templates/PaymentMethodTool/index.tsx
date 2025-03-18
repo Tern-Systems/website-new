@@ -79,6 +79,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const fetchEditCards = useCallback(async () => {
         if (!userData) return;
         try {
+            setSavedCards([]);
             const { payload: cards } = await BillingService.getEditCards(userData.email);
             setSavedCards(cards);
         } catch (error: unknown) {
