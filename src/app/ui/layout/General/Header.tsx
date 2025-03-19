@@ -150,4 +150,6 @@ const Header: FC = (): ReactElement => {
     );
 };
 
+Header.displayName = 'Header';
+
 export { Header };

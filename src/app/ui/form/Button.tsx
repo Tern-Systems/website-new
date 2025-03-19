@@ -97,7 +97,6 @@ const ButtonComponent = (props: Props, ref: ForwardedRef<HTMLButtonElement>) => 
     );
 };
 
-const Button = forwardRef(ButtonComponent);
+ButtonComponent.displayName = 'Button';
 
-export type { Props as ButtonProps };
-export { Button };
+export const Button = forwardRef(ButtonComponent);

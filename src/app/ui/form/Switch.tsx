@@ -30,4 +30,6 @@ const Switch: FC<Props> = (props: Props) => {
     );
 };
 
+Switch.displayName = 'Switch';
+
 export { Switch };

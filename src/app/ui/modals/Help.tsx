@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { BaseModal } from '@/app/ui/modals';
 
 type Type = 'brc' | 'support';
+export type { Type as HelpType };
 
 const Contacts: Record<Type, { title: string; email: string; phone: string }> = {
     brc: { title: 'Billing Resolution Center', email: 'brc@tern.ac', phone: '+1 (914) 306-5528' },
@@ -45,5 +46,7 @@ const HelpModal: FC<Props> = (props: Props) => {
         </BaseModal>
     );
 };
+
+HelpModal.displayName = 'HelpModal';
 
 export { HelpModal };

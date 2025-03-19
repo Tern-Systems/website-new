@@ -144,4 +144,6 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     }
 };
 
+BaseModal.displayName = 'BaseModal';
+
 export { BaseModal };

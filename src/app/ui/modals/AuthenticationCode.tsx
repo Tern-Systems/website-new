@@ -13,6 +13,7 @@ import SVG_SAFE from '/public/images/safe.svg';
 import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 type FormData = { code: string };
+export type { FormData as AuthCodeFormData };
 
 const FORM_DEFAULT: FormData = { code: '' };
 
@@ -112,7 +113,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                             placeholder={'Code'}
                             maxLength={6}
                             value={formValue.code}
-                            onChange={(event) => {
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                 setFormValue('code')(event);
                                 setWarningMsg(null);
                             }}
@@ -129,7 +130,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                     </form>
                     <div className={'mt-[2.51rem] text-section sm:portrait:w-[14.75rem]'}>
                         <span>
-                            It may take a minute to receive your code. Haven’t received it?&nbsp;
+                            It may take a minute to receive your code. Haven&apos;t received it?&nbsp;
                             <span
                                 className={'cursor-pointer font-bold text-blue'}
                                 onClick={() => handleSendNewCode()}
@@ -143,5 +144,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         </BaseModal>
     );
 };
+
+AuthenticationCode.displayName = 'AuthenticationCode';
 
 export { AuthenticationCode };

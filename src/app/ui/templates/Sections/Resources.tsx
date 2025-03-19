@@ -51,4 +51,6 @@ const ResourcesSection: FC<Props> = (props: Props) => {
     );
 };
 
+ResourcesSection.displayName = 'ResourcesSection';
+
 export { ResourcesSection };
