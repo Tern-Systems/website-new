@@ -60,6 +60,6 @@ const PreAuthModal: FC = () => {
     );
 };
 
-PreAuthModal.displayName = PreAuthModal.name;
+PreAuthModal.displayName = 'PreAuthModal';
 
 export { PreAuthModal };

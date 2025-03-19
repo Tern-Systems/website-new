@@ -110,6 +110,6 @@ const SideNav: FC<Props> = (props: Props) => {
     );
 };
 
-SideNav.displayName = SideNav.name;
+SideNav.displayName = 'SideNav';
 
 export { SideNav };

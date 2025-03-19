@@ -156,6 +156,6 @@ const Collapsible: FC<Props> = (props: Props) => {
     );
 };
 
-Collapsible.displayName = Collapsible.name;
+Collapsible.displayName = 'Collapsible';
 
 export { Collapsible };

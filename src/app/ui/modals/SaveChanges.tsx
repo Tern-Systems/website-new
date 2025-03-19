@@ -60,6 +60,6 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
     );
 };
 
-SaveChangesModal.displayName = SaveChangesModal.name;
+SaveChangesModal.displayName = 'SaveChangesModal';
 
 export { SaveChangesModal };

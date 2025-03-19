@@ -27,6 +27,6 @@ const MainBackground: FC<Props> = (props: Props) => {
     );
 };
 
-MainBackground.displayName = MainBackground.name;
+MainBackground.displayName = 'MainBackground';
 
 export { MainBackground };

@@ -1,14 +1,12 @@
-'use client';
-
-import { FC, InputHTMLAttributes, ReactElement, useState } from 'react';
+import React, { FC, InputHTMLAttributes, ReactElement, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
 import { Input, Select } from '../form';
 
-import SVG_ARROW_DOWN from '@/assets/images/icons/arrow-down.svg';
-import SVG_SEARCH from '@/assets/images/icons/search.svg';
-import SVG_CALENDAR from '@/assets/images/icons/calendar.svg';
+import SVG_ARROW_DOWN from '/public/images/icons/arrow-down.svg';
+import SVG_SEARCH from '/public/images/icons/search.svg';
+import SVG_CALENDAR from '/public/images/icons/calendar.svg';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
     contentTypes: Record<string, string>;
@@ -31,6 +29,7 @@ const SearchBar: FC<Props> = (props: Props) => {
                 <Select
                     options={contentTypes}
                     value={contentType}
+                    onChangeCustom={(value: string) => {
                     onChangeCustom={(value: string) => {
                         setContentType(value);
                     }}
@@ -114,6 +113,6 @@ const SearchBar: FC<Props> = (props: Props) => {
     );
 };
 
-SearchBar.displayName = SearchBar.name;
+SearchBar.displayName = 'SearchBar';
 
 export { SearchBar };

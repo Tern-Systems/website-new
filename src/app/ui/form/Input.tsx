@@ -247,6 +247,6 @@ const Input: FC<Props> = (props: Props) => {
     }
 };
 
-Input.displayName = Input.name;
+Input.displayName = 'Input';
 
 export { Input };

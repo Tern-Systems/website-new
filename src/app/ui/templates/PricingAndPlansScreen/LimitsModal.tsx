@@ -53,6 +53,6 @@ const LimitsModal = () => (
     </BaseModal>
 );
 
-LimitsModal.displayName = LimitsModal.name;
+LimitsModal.displayName = 'LimitsModal';
 
 export { LimitsModal };

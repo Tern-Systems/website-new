@@ -387,6 +387,6 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     );
 };
 
-PaymentMethodTool.displayName = PaymentMethodTool.name;
+PaymentMethodTool.displayName = 'PaymentMethodTool';
 
 export { PaymentMethodTool };

@@ -231,5 +231,5 @@ const DocumentationSection: FC<Props> = (props: Props) => {
     );
 };
 
-DocumentationSection.displayName = DocumentationSection.name;
+DocumentationSection.displayName = 'DocumentationSection';
 export { DocumentationSection };

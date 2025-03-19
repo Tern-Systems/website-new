@@ -55,7 +55,7 @@ const Table = <T extends object>(props: Props<T>) => {
     );
 };
 
-Table.displayName = Table.name;
+Table.displayName = 'Table';
 
 export type { RowProps };
 export { Table };

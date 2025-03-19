@@ -143,6 +143,6 @@ const InsideTernSection: FC<Props> = (props: Props) => {
     );
 };
 
-InsideTernSection.displayName = InsideTernSection.name;
+InsideTernSection.displayName = 'InsideTernSection';
 
 export { InsideTernSection };

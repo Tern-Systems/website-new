@@ -30,6 +30,6 @@ const Highlighted: FC<Props> = (props: Props) => {
     );
 };
 
-Highlighted.displayName = Highlighted.name;
+Highlighted.displayName = 'Highlighted';
 
 export { Highlighted };

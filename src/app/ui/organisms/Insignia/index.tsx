@@ -27,6 +27,6 @@ const Insignia: FC<Props> = (props: Props) => {
     );
 };
 
-Insignia.displayName = Insignia.name;
+Insignia.displayName = 'Insignia';
 
 export { Insignia };

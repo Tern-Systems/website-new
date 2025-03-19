@@ -382,6 +382,6 @@ const PaymentForm: FC<Props> = (props: Props) => {
     );
 };
 
-PaymentForm.displayName = PaymentForm.name;
+PaymentForm.displayName = 'PaymentForm';
 
 export { PaymentForm };
