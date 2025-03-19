@@ -58,5 +58,7 @@ const Table = <T extends object>(props: Props<T>) => {
     );
 };
 
+Table.displayName = 'Table';
+
 export type { RowProps };
 export { Table, CELL_FALLBACK, MD_SM_HIDDEN_CN, SM_HIDDEN_CN };

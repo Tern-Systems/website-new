@@ -25,4 +25,6 @@ const MainBackground: FC<Props> = (props: Props) => {
     );
 };
 
+MainBackground.displayName = 'MainBackground';
+
 export { MainBackground };

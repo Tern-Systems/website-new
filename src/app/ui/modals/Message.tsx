@@ -56,4 +56,6 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     );
 };
 
+MessageModal.displayName = 'MessageModal';
+
 export { MessageModal };

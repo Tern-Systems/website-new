@@ -91,4 +91,6 @@ const ResourceCard: FC<Props> = (props: Props) => {
     }
 };
 
+ResourceCard.displayName = 'ResourceCard';
+
 export { ResourceCard };

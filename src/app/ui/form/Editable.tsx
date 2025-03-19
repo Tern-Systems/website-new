@@ -39,7 +39,7 @@ import { RemoveProfilePictureModal } from '@/pages/profile/RemoveProfilePictureM
 import SVG_PENCIL from '/public/images/icons/edit-line.svg';
 
 const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };
-const DEFAULT_ADDRESS: Address = {
+export const DEFAULT_ADDRESS: Address = {
     line1: '',
     line2: '',
     city: '',
@@ -114,6 +114,10 @@ interface Props extends PropsWithChildren {
     classNameToggleText?: string;
     classNameWrapper?: string;
 }
+
+export type { Props as EditableProps };
+
+export type { FormType, FormInit, FormData };
 
 const Editable: FC<Props> = (props: Props) => {
     const {
@@ -333,7 +337,7 @@ const Editable: FC<Props> = (props: Props) => {
                     <span className={'flex items-center'}>
                         <Input
                             value={form.value ?? ''}
-                            onChange={(event) => {
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                 setWarning(null);
                                 setForm({ value: event.currentTarget.value });
                             }}
@@ -362,7 +366,7 @@ const Editable: FC<Props> = (props: Props) => {
                     <Input
                         type={'file'}
                         accept={'image/*'}
-                        onClick={(event) => {
+                        onClick={(event: React.MouseEvent<HTMLInputElement>) => {
                             if (event.currentTarget) event.currentTarget.value = '';
                         }}
                         onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -414,7 +418,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={initial.options}
                         value={form.value ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) => setForm({ value })}
+                        onChangeCustom={(value: string) => setForm({ value })}
                         {...SELECT_CN}
                         classNameOption={initial?.className}
                         required
@@ -433,7 +437,7 @@ const Editable: FC<Props> = (props: Props) => {
                     <Input
                         type={'password'}
                         value={form.currentPassword}
-                        onChange={(event) => {
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             setWarning(null);
                             const currentPassword = event.currentTarget.value;
                             setForm((prevState) => ({ ...prevState, currentPassword }) as FormData<'password'>);
@@ -447,7 +451,7 @@ const Editable: FC<Props> = (props: Props) => {
                     <Input
                         type={'password'}
                         value={form.newPassword}
-                        onChange={(event) => {
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             setWarning(null);
                             const newPassword = event.currentTarget.value;
                             setForm((prevState) => ({ ...prevState, newPassword }) as FormData<'password'>);
@@ -486,7 +490,7 @@ const Editable: FC<Props> = (props: Props) => {
                     <Input
                         type={'password'}
                         value={form.passwordConfirm}
-                        onChange={(event) => {
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             setWarning(null);
                             const passwordConfirm = event.currentTarget.value;
                             setForm((prevState) => ({ ...prevState, passwordConfirm }) as FormData<'password'>);
@@ -570,7 +574,7 @@ const Editable: FC<Props> = (props: Props) => {
             if (!form || !('business' in form)) break;
 
             const requireOnChangePhone = (key: keyof UserPhone, subKey: KeysOfUnion<Phone>, isCheckBox?: boolean) => {
-                return (event: ChangeEvent<HTMLInputElement>) => {
+                return (event: React.ChangeEvent<HTMLInputElement>) => {
                     setWarning(null);
                     const value = isCheckBox ? event.currentTarget.checked : event.currentTarget.value;
                     setForm((prevState) => {
@@ -676,7 +680,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={SALUTATION}
                         value={form.salutation}
                         placeholder={'Select'}
-                        onChangeCustom={(value) =>
+                        onChangeCustom={(value: string) =>
                             setForm(
                                 (prevState) =>
                                     ({
@@ -694,7 +698,7 @@ const Editable: FC<Props> = (props: Props) => {
                     <span className={'grid grid-cols-[minmax(0,2fr),minmax(0,1fr)] gap-x-4xs'}>
                         <Input
                             value={form.firstName}
-                            onChange={(event) => {
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                 const firstName = event.currentTarget.value;
                                 setForm((prevState) => ({ ...prevState, firstName }) as FormData<'name'>);
                             }}
@@ -705,7 +709,7 @@ const Editable: FC<Props> = (props: Props) => {
                         </Input>
                         <Input
                             value={form.initial}
-                            onChange={(event) => {
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                 const initial = event.currentTarget.value;
                                 setForm((prevState) => ({ ...prevState, initial }) as FormData<'name'>);
                             }}
@@ -718,7 +722,7 @@ const Editable: FC<Props> = (props: Props) => {
                     </span>
                     <Input
                         value={form.lastName}
-                        onChange={(event) => {
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             const lastName = event.currentTarget.value;
                             setForm((prevState) => ({ ...prevState, lastName }) as FormData<'name'>);
                         }}
@@ -783,7 +787,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 options={COUNTRY}
                                 value={form[key].country ?? ''}
                                 placeholder={'Select'}
-                                onChangeCustom={(value) => requireOnChangeAddress(key, 'country')(value)}
+                                onChangeCustom={(value: string) => requireOnChangeAddress(key, 'country')(value)}
                                 {...SELECT_CN}
                                 classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
                                 required
@@ -794,7 +798,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 options={STATE_PROVINCE?.[form[key].country] ?? {}}
                                 value={form[key]?.state ?? ''}
                                 placeholder={'Select'}
-                                onChangeCustom={(value) => requireOnChangeAddress(key, 'state')(value)}
+                                onChangeCustom={(value: string) => requireOnChangeAddress(key, 'state')(value)}
                                 {...SELECT_CN}
                                 classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
                                 required
@@ -878,7 +882,7 @@ const Editable: FC<Props> = (props: Props) => {
                 <div className={'flex flex-col gap-y-xs'}>
                     <Input
                         value={form.jobTitle ?? ''}
-                        onChange={(event) => {
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             const jobTitle = event.currentTarget.value;
                             setForm((prevState) => ({ ...prevState, jobTitle }) as FormData<'company'>);
                         }}
@@ -892,7 +896,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={JOB_FUNCTION}
                         value={form.jobFunction ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) =>
+                        onChangeCustom={(value: string) =>
                             setForm(
                                 (prevState) =>
                                     ({
@@ -910,7 +914,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={INDUSTRY}
                         value={form.industry ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) =>
+                        onChangeCustom={(value: string) =>
                             setForm(
                                 (prevState) =>
                                     ({
@@ -928,7 +932,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={SUB_INDUSTRY[form.industry]}
                         value={form.subIndustry ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) =>
+                        onChangeCustom={(value: string) =>
                             setForm(
                                 (prevState) =>
                                     ({
@@ -976,6 +980,6 @@ const Editable: FC<Props> = (props: Props) => {
     }
 };
 
-export type { Props as EditableProps, FormData, FormInit, FormType };
-export { DEFAULT_ADDRESS };
+Editable.displayName = 'Editable';
+
 export { Editable };
