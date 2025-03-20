@@ -245,7 +245,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                         )}
                     >
                         <p className={'leading-n  xs:self-start  sm:self-end  md:self-end  lg:self-end'}>
-                            Copyright © 2025 Tern Systems Inc.{' '}
+                            Copyright © 2025 Tern Inc.{' '}
                         </p>
                         <ul className={cn('col-span-3 flex flex-wrap gap-3xs')}>{ContactLinks}</ul>
                     </div>
