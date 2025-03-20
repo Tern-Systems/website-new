@@ -1,13 +1,9 @@
-name: Deploy Website to GCP Compute Engine
+name: Deploy to GCP Compute Engine (Staging)
 
-env: 
-  DEBUG: true 
-  
 on:
-  push:
-    branches:
-    - staging
-  
+  repository_dispatch:
+    types: [deploy-staging]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest  
@@ -18,44 +14,49 @@ jobs:
 
       - name: Set up SSH
         run: |
-          mkdir -p ~/.ssh  # Create .ssh directory if it doesn't exist
-          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
-          chmod 600 ~/.ssh/id_rsa  # Set appropriate permissions for the SSH key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
-      - name: Verify SSH connection
+      - name: Deploy to Staging
+        id: deploy
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_STG }} << 'EOF'
-            # Display Node.js and npm versions to confirm connection and environment setup
-            node -v
-            npm -v
-          EOF
-
-      - name: SSH into the GCP instance and run the deployment script
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_STG }} << 'EOF'
-            # Navigate to the project directory on the GCP instance
             cd /home/${{ secrets.GCP_USERNAME }}/Website
-            # Pull the latest changes from the main branch
-            git pull origin staging
-            # Install any new dependencies
-            npm install
-            # Build the application for production
-            npm run build
-            # Restart the application service to apply updates
-            sudo service website-app restart
-          EOF
-      
-      - name: Send Deployment Status Notification to Discord
-        if: always()  # Run this step regardless of success or failure
-        run: |
-          # Capture the job status
-          STATUS="${{ job.status }}"
-          MESSAGE=":x: Deployment failed"
-          if [ "$STATUS" == "success" ]; then
-            MESSAGE=":white_check_mark: Deployment successful"
-          fi
+            
+            LAST_COMMIT=$(git rev-parse --short HEAD)
+            GIT_STATUS=$(git status -s)
+            BUILD_STATUS="Success"
 
-          # Send message to Discord
+            git pull origin staging || BUILD_STATUS="Git Pull Failed"
+            npm install || BUILD_STATUS="NPM Install Failed"
+            npm run build || BUILD_STATUS="Build Failed"
+
+            SERVICES_STATUS=$(sudo systemctl status website-app | grep Active)
+            
+            sudo service website-app restart
+            
+            echo "LAST_COMMIT=$LAST_COMMIT" >> $GITHUB_ENV
+            echo "GIT_STATUS=$GIT_STATUS" >> $GITHUB_ENV
+            echo "BUILD_STATUS=$BUILD_STATUS" >> $GITHUB_ENV
+            echo "SERVICES_STATUS=$SERVICES_STATUS" >> $GITHUB_ENV
+          EOF
+
+      - name: Send Deployment Notification to Slack
+        if: always()
+        run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d "{\"content\":\"**Deploy Website-Staging**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $MESSAGE\"}" \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+          -d '{
+            "text": "🚀 *Staging Deployment*",
+            "attachments": [
+              {
+                "fields": [
+                  { "title": "Commit", "value": "${{ env.LAST_COMMIT }}", "short": true },
+                  { "title": "Git Status", "value": "${{ env.GIT_STATUS }}", "short": true },
+                  { "title": "Build Status", "value": "${{ env.BUILD_STATUS }}", "short": true },
+                  { "title": "Service Status", "value": "${{ env.SERVICES_STATUS }}", "short": true }
+                ]
+              }
+            ]
+          }' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
