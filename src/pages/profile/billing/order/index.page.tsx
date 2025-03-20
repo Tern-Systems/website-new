@@ -41,7 +41,7 @@ function OrderPage() {
 
     // Elements
     const ToggleDetailsBtn = (
-        <div className={'mt-3xl text-center text-section-xs  md:text-section-s  lg:text-section-s'}>
+        <div className={'mt-3xl text-center text-section-xs sm:landscape:mt-xs md:text-section-s  lg:text-section-s'}>
             <Button
                 onClick={() => setDetailsToggleState((prevState) => !prevState)}
                 className={'justify-self-center underline md:landscape:hidden lg:hidden'}
@@ -67,7 +67,7 @@ function OrderPage() {
     return (
         <div
             className={
-                'grid h-full w-full flex-col bg-white mx-auto  lg:x-[grid-cols-2,gap-6] md:landscape:grid-cols-2 sm:landscape:grid-cols-2'
+                'grid h-full w-full flex-col bg-white mx-auto  lg:x-[grid-cols-2,gap-6] md:landscape:grid-cols-2'
             }
         >
             {invoice ? (
@@ -81,7 +81,6 @@ function OrderPage() {
                             'md:pt-5xl lg:pt-5xl',
                             isDetailsToggled ? 'sm:hidden' : '',
                             isDetailsToggled ? 'md:hidden' : '',
-                            'sm:landscape:w-full',
                         )}
                         VisibilityToggle={ToggleDetailsBtn}
                     />
