@@ -62,7 +62,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
                             <Image
                                 src={SVG_TERN_LOGO}
                                 alt={'tern-logo'}
-                                className={'h-auto w-[2.48rem] sm:hidden md:landscape:hidden'}
+                                className={'h-auto w-[2.48rem] sm:hidden'}
                             />
                             Tern Systems, LLC
                         </h2>

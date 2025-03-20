@@ -27,11 +27,11 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
             className={`relative h-dvh max-h-dvh bg-white text-heading-s text-gray ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}
         >
             <div className={`flex h-heading items-center justify-between p-[1.25rem] md:hidden lg:hidden`}>
-                <Insignia />
+                <Insignia className={'[&_path]:fill-black'} />
                 <Button
                     icon={faX}
                     onClick={() => navigate(backButtonSection)}
-                    classNameIcon={'[&_path]:fill-blue [&&_*]:w-[1.125rem] h-auto'}
+                    classNameIcon={'[&_path]:fill-blue [&_*]:w-[1.125rem] sm:[&_*]:w-[0.75rem]'}
                 />
             </div>
             <hr className={`md:hidden lg:hidden`} />
