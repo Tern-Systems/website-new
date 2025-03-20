@@ -6,7 +6,7 @@
 }
 
 .hidden {
-    @media screen and (max-width: 835px) {
+    @media screen and (max-width: 1439px) {
         display: none;
     }
 }

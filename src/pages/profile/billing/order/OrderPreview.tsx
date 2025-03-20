@@ -3,6 +3,7 @@
 import React, { FC, ReactElement } from 'react';
 import { Margin, Resolution, usePDF } from 'react-to-pdf';
 import Image from 'next/image';
+import cn from 'classnames';
 
 import { Invoice } from '@/app/types/billing';
 
@@ -42,11 +43,14 @@ const OrderPreview: FC<Props> = (props: Props) => {
     const status: string = invoice?.status ? 'Invoice ' + invoice.status : '-- missing status --';
 
     return (
-        <div className={`relative shadow-2xl ${className}`}>
-            <div className={'min-w-[min(100%,53rem)] place-self-center px-[min(5.3dvw,6.6rem)]'}>
+        <div className={`relative md:landscape:shadow-2xl lg:shadow-2xl ${className}`}>
+            <div className={'relative place-self-center mx-[min(5.3dvw,6.6rem)] py-n max-w-[43.75rem]'}>
                 <div ref={targetRef}>
                     <h2
-                        className={`mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-heading-l font-bold`}
+                        className={cn(
+                            `mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-heading font-bold`,
+                            `md:text-heading-xl lg:text-heading-xl`,
+                        )}
                     >
                         <Image
                             src={SVG_TERN_LOGO}
@@ -55,22 +59,24 @@ const OrderPreview: FC<Props> = (props: Props) => {
                         />
                         Tern Systems, LLC
                     </h2>
-                    <div className={'mb-[min(8dvw,1.5rem)] text-center font-bold'}>
+                    <div className={'mb-n md:mb-xl lg:mb-xl text-center font-bold'}>
                         <Image
                             src={SVG_DOCUMENT}
                             alt={'document'}
                             className={'h-auto w-[min(24.7dvw,5.4rem)] place-self-center'}
                         />
                         <span className={'my-s block text-heading-s'}>{status}</span>
-                        <span className={'block text-[3rem]'}>{subtotal}</span>
+                        <span className={'block text-heading-l  md:text-heading-xxl  lg:text-heading-xxl'}>
+                            {subtotal}
+                        </span>
                     </div>
 
                     <div
-                        className={`grid grid-cols-[minmax(0,1fr),minmax(0,max-content)] gap-y-[min(5.3dvw,1.9rem)] text-[min(4.8dvw,var(--fz-content-))]`}
+                        className={`grid grid-cols-[1fr,1fr] gap-y-xs text-basic  md:text-heading-s  lg:text-heading-s`}
                     >
-                        <span>Status</span>
-                        <span className={'text-right capitalize'}>{status}</span>
-                        <span>Order (invoice) number</span>
+                        <span className='md:hidden  lg:hidden'>Status</span>
+                        <span className={'text-right capitalize  md:hidden  lg:hidden'}>{status}</span>
+                        <span>Order number</span>
                         <span className={'text-right'}>{invoice?.id ?? '-- missing id --'}</span>
                         <span>Payment date</span>
                         <span className={'text-right'}>{invoiceDate}</span>
@@ -80,7 +86,10 @@ const OrderPreview: FC<Props> = (props: Props) => {
                 </div>
 
                 <div
-                    className={`mt-xl flex items-center justify-center gap-x-[0.75rem] text-heading-s font-bold sm:flex-col sm:gap-y-[4dvw]`}
+                    className={cn(
+                        `mt-xl flex items-center justify-center gap-y-xxs gap-x-[0.75rem] text-heading-s font-bold sm:flex-col md:landscape:flex-col lg:flex-col`,
+                        `md:text-heading-s  lg:text-heading-s`,
+                    )}
                 >
                     <Button
                         icon={faDownload}

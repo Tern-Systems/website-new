@@ -49,7 +49,7 @@ const config: Config = {
                 xs: { max: '774px' },
                 sm: { max: '835px' },
                 mdmd: { max: '835px', min: '616px'},
-                md: { min: '835px', max: '1440px' },
+                md: { min: '835px', max: '1439px' },
                 lg: { min: '1440px' },
             },
             spacing: spacing,
