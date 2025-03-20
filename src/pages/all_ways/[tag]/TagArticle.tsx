@@ -85,7 +85,13 @@ const TagArticle: FC<Props> = (props: Props) => {
                     </h2>
                 </div>
             </section>
-            <section className={styles.section}>
+
+            <section className={cn(styles.section)}>
+                <div
+                    className={cn(
+                        'h-full w-full absolute left-0 top-0 z-0 bg-gradient-to-b from-blue to-transparent to-[5%] md:to-[15%] lg:to-[15%]',
+                    )}
+                />
                 <div
                     className={cn(
                         styles.content,
@@ -138,7 +144,15 @@ const TagArticle: FC<Props> = (props: Props) => {
                     )}
                 </div>
             </section>
-            <InsideTernSection data={'alt0'} />
+            <InsideTernSection
+                data={'alt0'}
+                className='bg-transparent pb-[9.375rem]'
+            />
+            <div
+                className={cn(
+                    'h-full w-full absolute left-0 top-0 z-0 bg-black bg-gradient-to-t from-blue from-[-1%] to-transparent to-[4%]  lg:to-10%',
+                )}
+            />
         </>
     );
 };

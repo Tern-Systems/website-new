@@ -88,7 +88,7 @@ function ResourcesPage() {
     ));
 
     return (
-        <div className={' pb-[32.91rem] md:pb-[28.12rem]'}>
+        <div className={' pb-[32.91rem] md:pb-[28.12rem] bg-black'}>
             <section
                 className={cn(styles.section, styles.fullHeightSection, styles.contentGradientBlackLeft, 'relative')}
             >
@@ -115,7 +115,12 @@ function ResourcesPage() {
                     </h2>
                 </div>
             </section>
-            <section className={styles.section}>
+            <section className={cn(styles.section, 'bg-transparent')}>
+                <div
+                    className={cn(
+                        'h-full w-full absolute left-0 top-0 z-10 bg-gradient-to-b from-blue to-transparent to-[60%] lg:to-[55%]',
+                    )}
+                />
                 <div className={cn(styles.content, 'pt-[7.25rem] md:pt-[6.75rem] sm:pt-[7.2rem]')}>
                     <h3 className={'text-heading-xl md:text-heading sm:text-documentation'}>
                         Prepare for your journey with Tern
@@ -129,12 +134,17 @@ function ResourcesPage() {
                     </h4>
                 </div>
             </section>
-            <section className={styles.section}>
+            <section className={cn(styles.section, 'bg-transparent')}>
                 <div className={styles.content}>
                     <ul className={'flex flex-col'}>{CardsLi}</ul>
                 </div>
             </section>
-            <InsideTernSection />
+            <InsideTernSection className='bg-transparent' />
+            <div
+                className={cn(
+                    'h-full w-full absolute left-0 top-0 z-0 bg-gradient-to-t from-blue to-transparent to-10% md:to-5%',
+                )}
+            />
         </div>
     );
 }

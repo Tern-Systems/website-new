@@ -50,14 +50,14 @@ const AboutPage: FC = () => {
                     className={cn(
                         styles.fullHeightSection,
                         'max-w-dwv absolute left-0 top-0 z-10 w-dvw bg-cover bg-center bg-no-repeat',
-                        'bg-gradient-to-b from-blue to-transparent to-20%',
+                        'bg-gradient-to-b from-blue to-transparent to-60% md:from-[-10%] lg:to-40% lg:from-[-15%]',
                     )}
                 />
                 <div
                     className={cn(
                         styles.fullHeightSection,
                         'max-w-dwv absolute left-0 top-0 z-10 w-dvw bg-cover bg-center bg-no-repeat',
-                        'bg-gradient-to-t from-blue to-transparent to-20%',
+                        'bg-gradient-to-t from-blue to-transparent to-60% md:from-[-15%] md:to-30% lg:to-35% lg:from-[-15%]',
                     )}
                 />
                 <div
@@ -150,10 +150,17 @@ const AboutPage: FC = () => {
                 </div>
             </section>
             <div className='relative h-full'>
-                <div className='relative z-10'>
+                <div className='relative z-10 bg-black bg-gradient-to-b from-blue to-transparent to-60% md:to-35%  lg:x-[from-[-15%],to-20%]'>
+                    <div
+                        className={cn(
+                            'hidden lg:block',
+                            'h-full w-full absolute left-0 top-0 z-10',
+                            'bg-gradient-to-t from-green to-transparent to-30%',
+                        )}
+                    />
                     <InfoSection
                         data={INFO}
-                        className={cn('pt-[12rem] bg-gradient-to-b from-blue to-transparent to-45%')}
+                        className={cn('pt-[12rem] bg-transparent')}
                         classNameTitle={'md:text-heading-l  sm:x-[text-[1.75rem],mb-xl]'}
                         classNameSubTitle={'mb-4xs text-documentation  lg:text-[2.5rem]  sm:text-documentation'}
                         classNameContent={'md:x-[max-w-[62rem],mx-auto]'}
@@ -166,7 +173,10 @@ const AboutPage: FC = () => {
                             'sm:x-[mt-n,h-button-l,max-w-[7.3125rem],text-basic] ',
                         )}
                     />
-                    <InsideTernSection data={'alt1'} />
+                    <InsideTernSection
+                        data={'alt1'}
+                        className='bg-transparent'
+                    />
                 </div>
             </div>
         </>
