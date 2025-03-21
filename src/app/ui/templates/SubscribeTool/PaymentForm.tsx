@@ -307,7 +307,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 </fieldset>
                 <span
                     hidden={isBillingExpanded}
-                    className={'mt-[0.65rem] block cursor-pointer text-section-xs underline'}
+                    className={'mt-[0.65rem] block cursor-pointer text-14 underline'}
                     onClick={() => toggleBillingDetails()}
                 >
                     Enter address manually
@@ -336,7 +336,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         className={'max-h-xxs max-w-xxs'}
                         required
                     >
-                        <span className={'text-section-xs leading-normal'}>
+                        <span className={'text-14 leading-normal'}>
                             You will be charged the amount and at the frequency listed above until you cancel. We may
                             charge our prices as described in our&nbsp;
                             <PageLink
@@ -371,7 +371,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        className={`mt-[min(4dvw,--p-n)] h-[4.4rem] w-full rounded-full bg-gray text-section-s font-bold text-primary sm:h-[3.125rem]`}
+                        className={`mt-[min(4dvw,--p-n)] h-[4.4rem] w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-[3.125rem]`}
                     >
                         Subscribe
                     </Button>

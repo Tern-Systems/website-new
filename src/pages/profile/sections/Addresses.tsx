@@ -25,8 +25,8 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
 
     if (!userData) return null;
 
-    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
-    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-basic  [&&]:lg:text-basic`;
+    const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
+    const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-16  [&&]:lg:text-16`;
 
     const Addresses: (ReactElement | null)[] = Object.entries(userData.address)
         .filter((address) => address[1]?.country)
@@ -60,9 +60,9 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
                 >
                     <span
                         className={cn(
-                            `mb-5xs ${idx !== 0 && 'mt-3xs md:mt-xs lg:mt-xs'} block text-section-3xs capitalize`,
-                            `md:x-[mb-[.5rem],text-section-xs]`,
-                            `lg:x-[mb-[.5rem],text-section-xs]`,
+                            `mb-5xs ${idx !== 0 && 'mt-3xs md:mt-xs lg:mt-xs'} block text-10 capitalize`,
+                            `md:x-[mb-[.5rem],text-14]`,
+                            `lg:x-[mb-[.5rem],text-14]`,
                         )}
                     >
                         {type.slice(0, 'Address'.length + 1)} Address
@@ -78,7 +78,7 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             icon={'geo'}
             className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
-            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitle={`text-18  md:text-27  lg:text-27`}
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
             classNameHr={`border-gray-l0`}
         >
@@ -90,7 +90,7 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             </span>
             <Editable
                 type={'address'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -98,7 +98,7 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInputBase,
                             styles.common,
                             styles.roundedWFull,
-                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                            `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
                         value: userData.address as FormInit<T>,
                         onSave: async (formData) => {

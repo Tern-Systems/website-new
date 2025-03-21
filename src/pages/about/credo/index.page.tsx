@@ -16,7 +16,7 @@ function CredoPage() {
                     <BreadcrumbRoute />
                 </div>
                 <div className={'mt-xxl flex flex-col  items-center  lg:mt-5xl'}>
-                    <h1 className={'text-heading-3xl  sm:text-section-xl  md:text-heading-xxl'}>Our Credo</h1>
+                    <h1 className={'text-64  sm:text-32  md:text-48'}>Our Credo</h1>
                     <ReactSVG
                         src={SVG_CREDO_HR.src}
                         className={'mt-[2.31rem]  sm:mt-xs md:mt-s  [&_*]:w-[12.69rem] sm:[&_*]:w-[6.0625rem]'}
@@ -25,9 +25,9 @@ function CredoPage() {
                 <div
                     className={cn(
                         styles.content,
-                        'pb-[27.5rem] pt-[7.64rem] text-heading-l leading-l',
-                        'md:x-[pt-[6.87rem],pb-[21.87rem],text-section-xl]',
-                        'sm:x-[pt-[5.65rem],pb-[16.38rem],text-section]',
+                        'pb-[27.5rem] pt-[7.64rem] text-36 leading-l',
+                        'md:x-[pt-[6.87rem],pb-[21.87rem],text-32]',
+                        'sm:x-[pt-[5.65rem],pb-[16.38rem],text-20]',
                     )}
                 >
                     <p>

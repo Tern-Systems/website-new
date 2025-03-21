@@ -24,7 +24,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`relative h-dvh max-h-dvh bg-white text-heading-s text-gray ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}
+            className={`relative h-dvh max-h-dvh bg-white text-21 text-gray ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}
         >
             <div className={`flex h-heading items-center justify-between p-[1.25rem] md:hidden lg:hidden`}>
                 <Insignia className={'[&_path]:fill-black'} />

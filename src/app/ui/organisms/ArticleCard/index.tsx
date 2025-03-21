@@ -85,20 +85,20 @@ const ArticleCard: FC<Props> = (props: Props) => {
                 )}
             >
                 {alt || hideTag || !isArticle ? null : (
-                    <span className={'mb-n block text-section-3xs text-secondary'}>
+                    <span className={'mb-n block text-10 text-secondary'}>
                         {article.tag ?? 'There will be a tag...'}
                     </span>
                 )}
                 <span
                     className={cn(
                         'mb-[1.13rem] block leading-n',
-                        isArticle ? { ['text-section md:text-documentation lg:text-heading-l']: expand } : 'text-basic',
+                        isArticle ? { ['text-20 md:text-24 lg:text-36']: expand } : 'text-16',
                     )}
                 >
                     {article?.title ?? 'There will be a title...'}
                 </span>
                 {alt || !article ? null : (
-                    <span className={'mb-n block leading-n  sm:text-section-3xs text-section-xxs'}>
+                    <span className={'mb-n block leading-n  sm:text-10 text-12'}>
                         {article.description ?? 'There will be a description...'}
                     </span>
                 )}

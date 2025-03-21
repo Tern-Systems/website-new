@@ -35,7 +35,7 @@ const AboutPage: FC = () => {
                             className={cn(
                                 `w-min text-right font-bold leading-n`,
                                 `mb-n text-[8rem]`,
-                                `md:text-heading-4xl md:landscape:text-[2.5rem]`,
+                                `md:text-96 md:landscape:text-[2.5rem]`,
                                 `sm:x-[flex,w-[20rem],mt-n,text-[2.5rem]]`,
                             )}
                         >
@@ -76,8 +76,8 @@ const AboutPage: FC = () => {
                         <div>
                             <h2
                                 className={cn(
-                                    'mb-xl text-heading-3xl sm:x-[mb-xs,text-heading]',
-                                    'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]',
+                                    'mb-xl text-64 sm:x-[mb-xs,text-27]',
+                                    'md:text-[3rem] md:landscape:x-[text-27,mb-xs]',
                                 )}
                             >
                                 Mission
@@ -85,7 +85,7 @@ const AboutPage: FC = () => {
                             <p
                                 className={cn(
                                     'text-[2.5rem] leading-tight sm:text-[1.1875rem]',
-                                    'md:text-heading-l md:landscape:text-[1.1875rem]',
+                                    'md:text-36 md:landscape:text-[1.1875rem]',
                                 )}
                             >
                                 Revolutionize computing by harnessing the power of ternary microprocessors.
@@ -94,8 +94,8 @@ const AboutPage: FC = () => {
                         <div>
                             <h2
                                 className={cn(
-                                    'mb-xl text-heading-3xl sm:x-[mb-xs,text-heading]',
-                                    'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]',
+                                    'mb-xl text-64 sm:x-[mb-xs,text-27]',
+                                    'md:text-[3rem] md:landscape:x-[text-27,mb-xs]',
                                 )}
                             >
                                 Vision
@@ -103,7 +103,7 @@ const AboutPage: FC = () => {
                             <p
                                 className={cn(
                                     'text-[2.5rem] leading-tight sm:text-[1.1875rem]',
-                                    'md:text-heading-l md:landscape:text-[1.1875rem]',
+                                    'md:text-36 md:landscape:text-[1.1875rem]',
                                 )}
                             >
                                 Ushering in the era of efficient computing, equipping all legacy devices with advanced
@@ -130,8 +130,8 @@ const AboutPage: FC = () => {
                     <h1
                         className={cn(
                             `ml-auto w-min text-right font-bold leading-n text-black`,
-                            `mb-n text-heading-4xl`,
-                            `md:text-heading-3xl md:landscape:text-[3rem]`,
+                            `mb-n text-96`,
+                            `md:text-64 md:landscape:text-[3rem]`,
                             `sm:x-[mb-xs,text-[3rem]]`,
                         )}
                     >
@@ -141,7 +141,7 @@ const AboutPage: FC = () => {
                         <PageLink
                             href={Route.Credo}
                             className={
-                                'flex h-button-xl w-full max-w-[10.5rem] justify-center bg-white text-section-s text-black'
+                                'flex h-button-xl w-full max-w-[10.5rem] justify-center bg-white text-18 text-black'
                             }
                         >
                             Read Our Credo
@@ -161,16 +161,16 @@ const AboutPage: FC = () => {
                     <InfoSection
                         data={INFO}
                         className={cn('pt-[12rem] bg-transparent')}
-                        classNameTitle={'md:text-heading-l  sm:x-[text-[1.75rem],mb-xl]'}
-                        classNameSubTitle={'mb-4xs text-documentation  lg:text-[2.5rem]  sm:text-documentation'}
+                        classNameTitle={'md:text-36  sm:x-[text-[1.75rem],mb-xl]'}
+                        classNameSubTitle={'mb-4xs text-24  lg:text-[2.5rem]  sm:text-24'}
                         classNameContent={'md:x-[max-w-[62rem],mx-auto]'}
-                        classNameDescription={'text-basic  lg:text-section'}
+                        classNameDescription={'text-16  lg:text-20'}
                         classNamePageLink={cn(
                             'flex items-center justify-center rounded-none',
                             'w-full max-w-[8.4375rem] h-button-xl mt-n [&]:p-0 ',
-                            '[&]:text-section-s  [&]:sm:text-basic',
+                            '[&]:text-18  [&]:sm:text-16',
                             'md:mt-n',
-                            'sm:x-[mt-n,h-button-l,max-w-[7.3125rem],text-basic] ',
+                            'sm:x-[mt-n,h-button-l,max-w-[7.3125rem],text-16] ',
                         )}
                     />
                     <InsideTernSection

@@ -20,7 +20,7 @@ const FAQsContent = () => {
         const FAQsLi: ReactElement[] = section.faqs.map((faq, faqIdx) => (
             <li key={faq.question.slice(5) + idx + faqIdx}>
                 <p className={'inline'}>{faq.question}</p>
-                <p className={'leading-l  mt-n sm:mt-s  text-basic sm:text-section-xs'}>{faq.answer}</p>
+                <p className={'leading-l  mt-n sm:mt-s  text-16 sm:text-14'}>{faq.answer}</p>
             </li>
         ));
 
@@ -29,13 +29,13 @@ const FAQsContent = () => {
                 key={section.heading + idx}
                 id={id}
             >
-                <h3 className={'text-[2.625rem] sm:text-heading-l'}>{section.heading}</h3>
+                <h3 className={'text-[2.625rem] sm:text-36'}>{section.heading}</h3>
                 <ol
                     className={cn(
                         'list-decimal list-inside flex flex-col',
                         'gap-y-xl sm:gap-y-n',
                         'mt-xxl sm:mt-l',
-                        'text-[1.75rem] sm:text-documentation',
+                        'text-[1.75rem] sm:text-24',
                     )}
                 >
                     {FAQsLi}

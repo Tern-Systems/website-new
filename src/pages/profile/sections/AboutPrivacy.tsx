@@ -14,7 +14,7 @@ const AboutPrivacy: FC = () => {
             <div
                 className={cn(
                     `grid grid-cols-1 gap-[min(4dvw,0.56rem)] text-left
-                    items-start text-basic whitespace-pre-wrap`,
+                    items-start text-16 whitespace-pre-wrap`,
                     `md:grid-cols-[minmax(0,4fr),minmax(0,6fr)]  lg:grid-cols-[minmax(0,4fr),minmax(0,6fr)]`,
                 )}
             >

@@ -40,7 +40,7 @@ function DocumentationPage(props: Props) {
         <div className={'pb-[8.16rem]'}>
             <section className={styles.content}>
                 <BreadcrumbRoute />
-                <h1 className={`mt-3xl font-oxygen text-section-xl font-bold  sm:text-section-l`}>Documentation</h1>
+                <h1 className={`mt-3xl font-oxygen text-32 font-bold  sm:text-30`}>Documentation</h1>
             </section>
             <section className={styles.content}>
                 <ResourceCards

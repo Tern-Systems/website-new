@@ -39,8 +39,8 @@ const AppsSection: FC = () => {
     const isSm = breakpoint <= Breakpoint.sm;
     const isMd = breakpoint === Breakpoint.md;
 
-    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
-    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-section-xs`;
+    const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
+    const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-14  [&&]:lg:text-14`;
 
     const renderConnectedApps = (apps: string[], userApps: { name: string; link: string }[]): ReactElement[] => {
         return apps.map((app, idx) => {
@@ -75,7 +75,7 @@ const AppsSection: FC = () => {
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
                         className={cn(
-                            `col-start-3 flex-row-reverse gap-[5px] place-self-end text-section-xs font-bold`,
+                            `col-start-3 flex-row-reverse gap-[5px] place-self-end text-14 font-bold`,
                             styles.ellipsis,
                         )}
                         onClick={() => {
@@ -95,7 +95,7 @@ const AppsSection: FC = () => {
             icon={'blocks'}
             className={`${styles.collapsible} [&&]:gap-y-5xs [&&]:md:gap-y-4xs [&&]:lg:gap-y-4xs`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
-            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitle={`text-18  md:text-27  lg:text-27`}
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
             classNameHr={`border-gray-l0`}
         >
@@ -126,13 +126,13 @@ const AppsSection: FC = () => {
             <span className={`mt-xxs md:mt-xs lg:mt-xs ${styles.leftCol} ${styles.ellipsis} ${title_CN} `}>
                 Data Storage
             </span>
-            <span className={`col-start-2 self-end text-section-xs ${styles.ellipsis} ${label_CN}`}>Applications</span>
+            <span className={`col-start-2 self-end text-14 ${styles.ellipsis} ${label_CN}`}>Applications</span>
             {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
             <span className={`mt-xxs md:mt-xs lg:mt-xs ${styles.leftCol} ${styles.ellipsis} ${title_CN} `}>
                 Social Media
             </span>
-            <span className={`col-start-2 self-end text-section-xs ${label_CN}`}>Applications</span>
+            <span className={`col-start-2 self-end text-14 ${label_CN}`}>Applications</span>
             {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
         </Collapsible>
     );

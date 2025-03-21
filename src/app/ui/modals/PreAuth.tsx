@@ -22,9 +22,9 @@ const PreAuthModal: FC = () => {
         <BaseModal
             adaptedDefault
             title={'Tern Account'}
-            classNameTitle={'justify-self-start text-heading   sm:landscape:ml-0'}
+            classNameTitle={'justify-self-start text-27   sm:landscape:ml-0'}
             classNameContent={cn(
-                'w-full items-start mx-auto px-xs py-n place-items-center text-basic',
+                'w-full items-start mx-auto px-xs py-n place-items-center text-16',
                 'max-w-[23rem]',
                 'sm:landscape:x-[max-w-[73rem],px-4xl]',
             )}
@@ -39,7 +39,7 @@ const PreAuthModal: FC = () => {
                         <li>And many more exclusive benefits</li>
                     </ul>
                 </div>
-                <div className={'w-full max-w-[19rem] place-self-center text-section-s font-bold sm:portrait:w-[85%]'}>
+                <div className={'w-full max-w-[19rem] place-self-center text-18 font-bold sm:portrait:w-[85%]'}>
                     <Button
                         onClick={() => modalCtx.openModal(<AuthModal />)}
                         className={'mb-xxs h-[2.7rem] w-full rounded-full bg-blue text-primary'}

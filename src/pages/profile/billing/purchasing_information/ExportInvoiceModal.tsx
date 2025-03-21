@@ -67,7 +67,7 @@ const ExportInvoiceModal: FC = () => {
                 </Select>
                 <Button
                     className={
-                        'h-h-button-n mt-[min(6.5dvw,2.5rem)] rounded-full border-s border-white-d0 px-[1rem] text-section font-bold'
+                        'h-h-button-n mt-[min(6.5dvw,2.5rem)] rounded-full border-s border-white-d0 px-[1rem] text-20 font-bold'
                     }
                 >
                     Export

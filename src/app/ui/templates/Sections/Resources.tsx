@@ -44,7 +44,7 @@ const ResourcesSection: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <section className={cn(styles.content, className, 'text-section-xs')}>
+        <section className={cn(styles.content, className, 'text-14')}>
             <p className={'pl-n font-bold'}>{children ?? 'Additional resources'}</p>
             <ul className={'mt-xxs border-t-s border-white-d0  [&>li]:x-[px-n,py-xs,text-blue]'}>{ResourcesLi}</ul>
         </section>

@@ -102,7 +102,7 @@ const Header: FC = (): ReactElement => {
     return (
         <header
             id={'header'}
-            className={cn('z-10 bg-black text-section-xs leading-none', navExpanded ? 'sticky top-0' : 'relative')}
+            className={cn('z-10 bg-black text-14 leading-none', navExpanded ? 'sticky top-0' : 'relative')}
         >
             <div className={'flex border-b-s border-gray'}>
                 <Button
