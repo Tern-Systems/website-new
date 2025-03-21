@@ -11,7 +11,7 @@ import { useModal } from '@/app/context';
 
 import styles from '@/app/common.module.css';
 
-import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
+import SVG_ARROW_LONG from '@/assets/images/icons/arrow-right-long.svg';
 
 interface Props extends PropsWithChildren {
     className?: string;
@@ -38,7 +38,7 @@ const ResourcesSection: FC<Props> = (props: Props) => {
             {entry.Node}
             <ReactSVG
                 src={SVG_ARROW_LONG.src}
-                className={'[&_*]:w-[1.41rem] [&_path]:fill-blue'}
+                className={'w-[1.41rem] [&_path]:fill-blue'}
             />
         </li>
     ));

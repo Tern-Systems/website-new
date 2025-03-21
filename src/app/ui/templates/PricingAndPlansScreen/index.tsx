@@ -24,11 +24,11 @@ import { Collapsible, ScrollEnd } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
-import SVG_BULLET_DASHED from '/public/images/icons/bullet-dashed.svg';
-import SVG_BULLET from '/public/images/icons/bullet.svg';
-import SVG_STAR from '/public/images/icons/star.svg';
-import SVG_DIAMOND from '/public/images/icons/diamond.svg';
-import SVG_DIAMOND_ACE from '/public/images/icons/diamond-ace.svg';
+import SVG_BULLET_DASHED from '@/assets/images/icons/bullet-dashed.svg';
+import SVG_BULLET from '@/assets/images/icons/bullet.svg';
+import SVG_STAR from '@/assets/images/icons/star.svg';
+import SVG_DIAMOND from '@/assets/images/icons/diamond.svg';
+import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg';
 
 const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ['monthly', 'annual'];
 

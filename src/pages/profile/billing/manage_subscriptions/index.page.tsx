@@ -19,8 +19,8 @@ import { ChangePaymentMethod } from './ChangePaymentMethod';
 
 import styles from '@/app/common.module.css';
 
-import SVG_CARD from '/public/images/icons/card.svg';
-import SVG_PENCIL from '/public/images/icons/edit.svg';
+import SVG_CARD from '@/assets/images/icons/card.svg';
+import SVG_PENCIL from '@/assets/images/icons/edit.svg';
 
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -123,7 +123,7 @@ function ManageSubscriptionsPage() {
                         <Button
                             icon={detailsExpanded ? faChevronDown : faChevronUp}
                             className={'col-start-1 mr-auto flex-row-reverse  text-section-xxs sm:text-section-xs'}
-                            classNameIcon={'[&_path]:fill-gray [&_*]:w-[0.4rem] [&_path]:fill-primary'}
+                            classNameIcon={'[&_path]:fill-gray w-[0.4rem] [&_path]:fill-primary'}
                             onClick={() => setDetailsExpanded((prevState) => !prevState)}
                         >
                             {detailsExpanded ? 'Hide' : 'Show'} Details
@@ -191,7 +191,7 @@ function ManageSubscriptionsPage() {
                                 <span className={'mr-4xs sm:hidden'}>Change</span>
                                 <ReactSVG
                                     src={SVG_PENCIL.src}
-                                    className={'[&_*]:size-[0.8rem] lg:[&_*]:size-[1.3rem]'}
+                                    className={'size-[0.8rem] lg:size-[1.3rem]'}
                                 />
                                 {editPaymentMethodVisible ? (
                                     <ChangePaymentMethod

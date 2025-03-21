@@ -8,6 +8,8 @@ import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { Article } from '@/app/types/blog';
 import { CONTACT_LINKS, Route } from '@/app/static';
 
+import { BlogService } from '@/app/services/blog.service';
+
 import { useBreakpointCheck } from '@/app/hooks';
 import { useModal } from '@/app/context';
 
@@ -18,18 +20,17 @@ import { PageLink } from '@/app/ui/layout';
 
 import styles from '@/app/common.module.css';
 
-import PNG_BG_MAIN from '/public/images/community-bg-main.png';
-import PNG_ABOUT from '/public/images/community-about.png';
-import PNG_HIGHLIGHTED_0 from '/public/images/community-card-highlighted-0.png';
-import PNG_HIGHLIGHTED_1 from '/public/images/community-card-highlighted-2.png';
+import PNG_BG_MAIN from '@/assets/images/community-bg-main.png';
+import PNG_ABOUT from '@/assets/images/community-about.png';
+import PNG_HIGHLIGHTED_0 from '@/assets/images/community-card-highlighted-0.png';
+import PNG_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-2.png';
 
-import SVG_CLOCK from '/public/images/icons/clock.svg';
-import PNG_CARD_1 from '/public/images/community-card-0.png';
-import PNG_CARD_2 from '/public/images/community-card-1.png';
-import PNG_CARD_HIGHLIGHTED_1 from '/public/images/community-card-highlighted-1.png';
-import PNG_CARD_4 from '/public/images/community-card-2.png';
-import PNG_CARD_5 from '/public/images/community-card-3.png';
-import { BlogService } from '@/app/services/blog.service';
+import SVG_CLOCK from '@/assets/images/icons/clock.svg';
+import PNG_CARD_1 from '@/assets/images/community-card-0.png';
+import PNG_CARD_2 from '@/assets/images/community-card-1.png';
+import PNG_CARD_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-1.png';
+import PNG_CARD_4 from '@/assets/images/community-card-2.png';
+import PNG_CARD_5 from '@/assets/images/community-card-3.png';
 
 type Event = {
     date: number;
@@ -191,7 +192,7 @@ function CommunityPage() {
                     <span className={'flex items-center  sm:col-span-2'}>
                         <ReactSVG
                             src={SVG_CLOCK.src}
-                            className={'size-[0.5625rem] sm:size-[0.4375rem]'}
+                            className={'size-[0.75rem] sm:size-[0.55rem]'}
                         />
                         <span className={'ml-5xs sm:ml-[0.2rem]'}>
                             {new Date(event.time.start).getHours()} - {new Date(event.time.start).getHours()} hrs&nbsp;
@@ -358,7 +359,7 @@ function CommunityPage() {
                         href={Route.CommunityEvents}
                         icon={'arrow-right-long'}
                         className={'flex-row-reverse text-blue  mt-xs md:mt-xl lg:mt-l'}
-                        iconClassName={'[&_path]:fill-blue [&_*]:size-[0.79rem]  ml-4xs lg:ml-xxs'}
+                        iconClassName={'[&_path]:fill-blue size-[0.79rem]  ml-4xs lg:ml-xxs'}
                     >
                         See all
                     </PageLink>

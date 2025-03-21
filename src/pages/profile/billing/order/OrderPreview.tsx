@@ -11,8 +11,8 @@ import { checkNumber } from '@/app/utils';
 import { ScrollEnd } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 
-import SVG_TERN_LOGO from '/public/images/insignia-logo.png';
-import SVG_DOCUMENT from '/public/images/document.svg';
+import SVG_TERN_LOGO from '@/assets/images/insignia-logo.png';
+import SVG_DOCUMENT from '@/assets/images/document.svg';
 
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 

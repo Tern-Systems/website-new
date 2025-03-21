@@ -7,7 +7,6 @@ import React, {
     useImperativeHandle,
     useRef,
 } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
@@ -25,7 +24,7 @@ import { PageLink } from '@/app/ui/layout';
 import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 
-import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     setNavExpanded: Dispatch<SetStateAction<boolean>>;
@@ -50,6 +49,8 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     useOuterClickClose(subNavRef, !!subNavRef, () => setDropdownColumns(null));
 
     const subNavLinks = layoutCtx.navLinks[NavLink.SubNav];
+
+    const xxs = breakpoint <= Breakpoint.xxs;
 
     // Elements
     const DropdownLi: ReactElement[] | null = !navDropdown
@@ -79,7 +80,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               }}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
                               className={'flex-row-reverse'}
-                              iconClassName={cn('ml-4xs  size-[1.6rem]  xxs:[&_*]:size-[0.8rem]')}
+                              iconClassName={cn('ml-4xs  !size-[1.6rem]  xxs:h-[0.8rem]')}
                           >
                               {title}
                           </PageLink>
@@ -104,7 +105,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
               );
           });
 
-    if (breakpoint <= Breakpoint.xxs) {
+    if (xxs) {
         const BackBtn: ReactElement = (
             <li
                 key={'back-' + DropdownLi?.length}
@@ -112,9 +113,9 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
             >
                 <Button
                     onClick={() => setDropdownColumns(null)}
-                    icon={faChevronDown}
+                    icon={faChevronLeft}
                     className={'!justify-start border-b-s p-s font-bold'}
-                    classNameIcon={'[&_*]:!size-[0.5625rem] rotate-90'}
+                    classNameIcon={'!size-[0.5625rem] !min-w-fit'}
                 >
                     <span>Back</span>
                 </Button>
@@ -124,7 +125,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     }
 
     const SubNavItems: ReactElement[] | null =
-        breakpoint <= Breakpoint.xxs || !subNavLinks
+        xxs || !subNavLinks
             ? null
             : subNavLinks.map((link, idx) => {
                   const mappedLink = MAPPED_SUB_NAV_ROUTES[link];
@@ -157,7 +158,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                       styles.clickable,
                                       '!bg-black-l0 !border-0 text-section-xxs !py-5xs',
                                   )}
-                                  classNameChevron={'[&_*]:w-[0.5625rem]'}
+                                  classNameChevron={'w-[0.5625rem]'}
                               />
                           ) : (
                               <PageLink href={link}>{getIdName(mapRoute ? mappedLink : link)}</PageLink>
@@ -168,15 +169,6 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
 
     return (
         <>
-            <Button
-                onClick={() => setNavExpanded((prev) => !prev)}
-                className='mdmd:hidden md:hidden lg:hidden flex items-center justify-center p-2 absolute top-3 left-2 z-[1100] bg-gray-800 rounded'
-            >
-                <FontAwesomeIcon
-                    icon={faBars}
-                    className='w-6 h-6 text-white'
-                />
-            </Button>
             {!DropdownLi ? null : (
                 <div
                     ref={subNavRef}
@@ -184,15 +176,15 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                         styles.section,
                         'absolute left-0 z-[1000] h-fit bg-black-l0',
                         'py-4xl',
-                        'sm:x-[min-w-0,w-[79%],overflow-y-scroll] xxs:h-[calc(100dvh-var(--h-heading))]',
+                        'sm:x-[min-w-0,w-[79%]] xxs:h-[calc(100vh-var(--h-heading))] xxs:overflow-y-scroll',
                         `xxs:top-[calc(1px+var(--h-heading))]`,
-                        `xxs:x-[gap-x-l,max-w-[14.5625rem],p-0,bg-gray-d1]`,
+                        `xxs:x-[gap-x-l,w-fit,max-w-fit,p-0,bg-gray-d1]`,
                     )}
                 >
                     <ul
                         className={cn(
                             styles.content,
-                            'flex',
+                            'flex min-h-fit',
                             'flex-wrap justify-between gap-xs',
                             'xxs:x-[flex-col,gap-y-s,!px-0,text-section-xxs]',
                         )}

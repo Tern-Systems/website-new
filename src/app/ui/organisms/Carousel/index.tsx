@@ -65,7 +65,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         carouselRef.current.scrollLeft + (right ? 0.5 : -0.5) * window.outerWidth;
             }}
             className={cn(
-                'absolute top-1/2 z-50 !-translate-y-1/2 [&_*]:size-[2.875rem]',
+                'absolute top-1/2 z-50 !-translate-y-1/2 size-[2.875rem]',
                 right ? 'right-0 -rotate-90' : 'left-0 rotate-90',
                 classNameArrow,
             )}
@@ -139,7 +139,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         <PageLink
                             icon={'arrow-right-long'}
                             className={'flex-row-reverse text-blue text-basic  hidden lg:flex'}
-                            iconClassName={'ml-xxs [&_*]:size-[1.06rem] [&_path]:fill-blue'}
+                            iconClassName={'ml-xxs size-[1.06rem] [&_path]:fill-blue'}
                         >
                             See All
                         </PageLink>

@@ -36,7 +36,7 @@ import { useModal } from '@/app/context';
 import { Button, Input, Select, Switch } from '@/app/ui/form';
 import { RemoveProfilePictureModal } from '@/pages/profile/RemoveProfilePictureModal';
 
-import SVG_PENCIL from '/public/images/icons/edit-line.svg';
+import SVG_PENCIL from '@/assets/images/icons/edit-line.svg';
 
 const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };
 const DEFAULT_ADDRESS: Address = {
@@ -302,7 +302,7 @@ const Editable: FC<Props> = (props: Props) => {
                 <span className={`hidden lg:inline ${classNameToggleText}`}>Edit</span>
                 <ReactSVG
                     src={SVG_PENCIL.src}
-                    className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}
+                    className={'w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}
                 />
             </span>
         );
@@ -372,7 +372,7 @@ const Editable: FC<Props> = (props: Props) => {
                         }}
                         classNameWrapper={initial.className}
                         className={'w-fit'}
-                        classNameIcon={'[&&_*]:size-3xs  sm:[&_*]:size-4xs'}
+                        classNameIcon={'[&&_*]:size-3xs  sm:size-4xs'}
                     >
                         {(form.fileName ?? initValue.fileName) || 'Upload media'}
                     </Input>

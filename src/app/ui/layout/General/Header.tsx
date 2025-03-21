@@ -25,13 +25,17 @@ import { SubNav } from './SubNav';
 import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 
-import SVG_CHEVRON from '/public/images/icons/chevron.svg';
+import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
 import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
+import { useBreakpointCheck } from '@/app/hooks';
+import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 const Header: FC = (): ReactElement => {
     const route = usePathname();
     const layoutCtx = useLayout();
+
+    const breakpoint = useBreakpointCheck();
 
     const [navExpanded, setNavExpanded] = useState(false);
     const [navDropdownExpanded, setNavDropdownExpanded] = useState<NavDropdown | null>(null);
@@ -63,6 +67,9 @@ const Header: FC = (): ReactElement => {
             <li
                 key={link + idx}
                 tabIndex={idx}
+                onClick={() => {
+                    if (breakpoint <= Breakpoint.xxs) setNavExpanded(false);
+                }}
                 className={cn(
                     'group',
                     stylesLayout.navLink,
@@ -84,7 +91,7 @@ const Header: FC = (): ReactElement => {
                             <p>{navDropdown.name}</p>
                             <ReactSVG
                                 src={SVG_CHEVRON.src}
-                                className={cn('xxs:-rotate-90 [&_*]:size-[0.5625rem]', {
+                                className={cn('xxs:-rotate-90 size-[0.5625rem]', {
                                     ['rotate-180']: dropdownExpanded,
                                 })}
                             />
@@ -111,7 +118,7 @@ const Header: FC = (): ReactElement => {
                     className={cn(`hidden border-s border-transparent px-s  xxs:inline`, {
                         ['!border-blue bg-gray-d1']: navExpanded,
                     })}
-                    classNameIcon={'!size-heading-icon h-auto'}
+                    classNameIcon={'!w-heading-icon h-auto'}
                 />
                 <div
                     className={cn(
@@ -119,7 +126,7 @@ const Header: FC = (): ReactElement => {
                         `z-[2] flex !h-heading items-center pr-xs`,
                         `relative`,
                         `sm:pr-0`,
-                        `xxs:x-[static,px-0]`,
+                        `xxs:x-[static,pl-xs]`,
                     )}
                 >
                     <Insignia />

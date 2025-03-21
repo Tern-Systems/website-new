@@ -13,8 +13,8 @@ import { useModal } from '@/app/context';
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
-import SVG_INSIGNIA from '/public/images/insignia-logo.png';
-import SVG_EYE from '/public/images/icons/eye.svg';
+import SVG_INSIGNIA from '@/assets/images/insignia-logo.png';
+import SVG_EYE from '@/assets/images/icons/eye.svg';
 
 type FormData = Pick<SignUpData, 'email' | 'password' | 'passwordConfirm'>;
 

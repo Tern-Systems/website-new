@@ -7,12 +7,11 @@ import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 import { useBreakpointCheck } from '@/app/hooks';
 import { useModal } from '@/app/context';
 
-import SVG_DOUBLE_ARROW from '/public/images/icons/double-arrow.svg';
-
 import { BreadcrumbRoute, SearchBar } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
 
-import SVG_CLOCK from '/public/images/icons/clock.svg';
+import CLOCK_ICON from '@/assets/images/icons/clock.svg';
+import DOUBLE_ARROW_ICON from '@/assets/images/icons/double-arrow.svg';
 
 type Event = {
     date: number;
@@ -205,8 +204,8 @@ function CommunityEventsPage() {
                         }
                     >
                         <ReactSVG
-                            src={SVG_CLOCK.src}
-                            className='sm:x-[[&_*]:size-[0.4375rem]] [&_path]:fill-blue'
+                            src={CLOCK_ICON.src}
+                            className={'size-[0.5625rem] size-[0.5625rem] sm:size-[0.55rem]'}
                         />
                         <span className={'ml-[0.3125rem]'}>
                             {new Date(event.time.start).toLocaleString('en-US', {
@@ -214,7 +213,7 @@ function CommunityEventsPage() {
                                 month: isSm ? undefined : 'short',
                                 day: isSm ? undefined : '2-digit',
                                 year: isSm ? undefined : 'numeric',
-                            })}{' '}
+                            })}
                             | {`${String(new Date(event.time.start).getHours()).padStart(2, '0')}00`} -&nbsp;
                             {`${String(new Date(event.time.start).getHours() + 1).padStart(2, '0')}00`} hrs&nbsp; (
                             {event.timeZone})
@@ -247,10 +246,10 @@ function CommunityEventsPage() {
                 disabled={pageNos === 1}
             >
                 <ReactSVG
-                    src={SVG_DOUBLE_ARROW.src}
+                    src={DOUBLE_ARROW_ICON.src}
                     className={cn(
                         'my-auto mx-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
-                        '[&_*]:size-[0.75rem]',
+                        'size-[0.75rem]',
                         '[&_*]:scale-x-[-1] [&_*]:translate-x-full',
                     )}
                 />
@@ -275,10 +274,10 @@ function CommunityEventsPage() {
                 disabled={pageNos === totalPages}
             >
                 <ReactSVG
-                    src={SVG_DOUBLE_ARROW.src}
+                    src={DOUBLE_ARROW_ICON.src}
                     className={cn(
-                        'my-auto mx-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
-                        '[&_*]:size-[0.75rem]',
+                        'my-auto mx-auto text-white stransition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
+                        'size-[0.75rem]',
                     )}
                 />
             </button>

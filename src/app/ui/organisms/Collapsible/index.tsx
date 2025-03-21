@@ -2,15 +2,15 @@ import { FC, PropsWithChildren, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import SVG_KEY from '/public/images/icons/key.svg';
-import SVG_BOOK from '/public/images/icons/book.svg';
-import SVG_BUILDING from '/public/images/icons/building.svg';
-import SVG_GEO from '/public/images/icons/geo.svg';
-import SVG_BLOCKS from '/public/images/icons/blocks.svg';
+import SVG_KEY from '@/assets/images/icons/key.svg';
+import SVG_BOOK from '@/assets/images/icons/book.svg';
+import SVG_BUILDING from '@/assets/images/icons/building.svg';
+import SVG_GEO from '@/assets/images/icons/geo.svg';
+import SVG_BLOCKS from '@/assets/images/icons/blocks.svg';
 
-import SVG_PLUS from '/public/images/icons/plus.svg';
-import SVG_MINUS from '/public/images/icons/minus.svg';
-import SVG_CHEVRON from '/public/images/icons/chevron.svg';
+import SVG_PLUS from '@/assets/images/icons/plus.svg';
+import SVG_MINUS from '@/assets/images/icons/minus.svg';
+import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
 import { getId } from '@/app/utils';
 
 type Icon = 'key' | 'book' | 'building' | 'geo' | 'blocks';

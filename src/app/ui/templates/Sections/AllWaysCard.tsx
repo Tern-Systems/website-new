@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 import { PageLink } from '@/app/ui/layout';
 
-import PNG_CARD_CUBES from '/public/images/blue-cubes.png';
+import PNG_CARD_CUBES from '@/assets/images/blue-cubes.png';
 
 interface Props {
     alt?: true;
@@ -41,7 +41,7 @@ const AllWaysCard: FC<Props> = (props: Props) => {
                     'text-section-xs lg:text-basic',
                     alt ? 'right-n bottom-n h-fit !w-fit' : 'bottom-0',
                 )}
-                iconClassName={cn('sm:size-[0.884rem] sm:[&_*]size-[0.884rem]  size-[1.25rem] [&_*]:size-[1.25rem]', {
+                iconClassName={cn('sm:size-[0.884rem] sm:[&_*]size-[0.884rem]  size-[1.25rem] size-[1.25rem]', {
                     ['ml-xl']: alt,
                 })}
             >

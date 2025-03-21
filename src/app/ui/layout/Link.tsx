@@ -9,11 +9,11 @@ import { Route, SPECIAL_NAV_ROUTES } from '@/app/static';
 import { getIdName } from '@/app/utils';
 import { useNavigate } from '@/app/hooks';
 
-import SVG_ARROW from '/public/images/icons/arrow.svg';
-import SVG_CALENDAR from '/public/images/icons/calendar.svg';
-import SVG_ARROW_LONG from '/public/images/icons/arrow-right-long.svg';
-import SVG_INSIGNIA from '/public/images/tidal-logo.svg';
-import SVG_PLUS from '/public/images/icons/plus.svg';
+import SVG_ARROW from '@/assets/images/icons/arrow.svg';
+import SVG_CALENDAR from '@/assets/images/icons/calendar.svg';
+import SVG_ARROW_LONG from '@/assets/images/icons/arrow-right-long.svg';
+import SVG_INSIGNIA from '@/assets/images/tidal-logo.svg';
+import SVG_PLUS from '@/assets/images/icons/plus.svg';
 
 import styles from '@/app/common.module.css';
 
@@ -56,7 +56,7 @@ const PageLink: FC<Props> = (props: Props) => {
     const Icon: ReactElement | null = icon ? (
         <ReactSVG
             src={ICON[icon].src}
-            className={cn(`inline-block size-[1rem]`, { ['rotate-180']: icon === 'forward' }, iconClassName)}
+            className={cn(`inline-block !size-[1rem]`, { ['rotate-180']: icon === 'forward' }, iconClassName)}
         />
     ) : null;
 

@@ -10,15 +10,15 @@ import styles from '@/app/common.module.css';
 
 import { MEDIA_LINKS, MISC_LINKS } from '@/app/static';
 
-import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png';
-import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png';
+import SVG_OFFICE_GIRL_1 from '@/assets/images/office-girl-2.png';
+import SVG_OFFICE_GIRL_2 from '@/assets/images/office-girl-1.png';
 import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
-import PNG_INSIDE_TERN_GIRL from '/public/images/inside-tern-girl.png';
-import PNG_ACCOLADES from '/public/images/resources-card-5.png';
+import PNG_INSIDE_TERN_GIRL from '@/assets/images/inside-tern-girl.png';
+import PNG_ACCOLADES from '@/assets/images/resources-card-5.png';
 
-import SVG_CITY_WAY from '/public/images/city-glowing-way.jpg';
-import SVG_OFFICE_PEOPLE from '/public/images/office-people.png';
+import SVG_CITY_WAY from '@/assets/images/city-glowing-way.jpg';
+import SVG_OFFICE_PEOPLE from '@/assets/images/office-people.png';
 
 type Data = 'default' | 'alt0' | 'alt1';
 

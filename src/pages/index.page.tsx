@@ -20,10 +20,10 @@ import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import SVG_CITY from '/public/images/city-glowing-way.jpg';
-import SVG_MICROPROCESSOR from '/public/images/microprocessor.png';
-import SVG_NATURE from '/public/images/nature.png';
-import SVG_CIRCUIT from '/public/images/microchip.png';
+import SVG_CITY from '@/assets/images/city-glowing-way.jpg';
+import SVG_MICROPROCESSOR from '@/assets/images/microprocessor.png';
+import SVG_NATURE from '@/assets/images/nature.png';
+import SVG_CIRCUIT from '@/assets/images/microchip.png';
 
 //commenting or automation testing
 

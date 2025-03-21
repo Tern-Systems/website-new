@@ -10,7 +10,7 @@ import { useModal, useUser } from '@/app/context';
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 
-import SVG_CARD from '/public/images/card-outline.svg';
+import SVG_CARD from '@/assets/images/card-outline.svg';
 
 const BTN_CN = 'h-[1.4375rem] px-5xs text-white text-section-xxs  md:text-section-xs  lg:text-section-xs';
 

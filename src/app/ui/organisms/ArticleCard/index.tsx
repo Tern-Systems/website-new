@@ -12,7 +12,7 @@ import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
 
-import PNG_NATURE from '/public/images/nature.png';
+import PNG_NATURE from '@/assets/images/nature.png';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faReadme } from '@fortawesome/free-brands-svg-icons';
 
@@ -105,7 +105,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
                 <Button
                     icon={(altIcon ?? altLink) ? faArrowRight : faReadme}
                     className={cn('mt-auto capitalize text-blue', { ['flex-row-reverse']: altLink })}
-                    classNameIcon={cn('[&_*]:w-[0.67rem] [&_path]:fill-blue mt-auto', { ['ml-5xs']: altLink })}
+                    classNameIcon={cn('w-[0.67rem] [&_path]:fill-blue mt-auto', { ['ml-5xs']: altLink })}
                 >
                     {altLink ?? 'Read'}
                 </Button>

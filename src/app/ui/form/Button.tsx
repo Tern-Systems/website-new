@@ -73,15 +73,10 @@ const ButtonComponent = (props: Props, ref: ForwardedRef<HTMLButtonElement>) => 
         <button
             ref={ref}
             {...btnProps}
-            className={cn(
-                `group cursor-pointer text-nowrap rounded-full disabled:cursor-default`,
-                className,
-                styles.clickable,
-                {
-                    ['flex items-center justify-center']: Icon ?? HoverIcon,
-                    ['gap-x-5xs']: children && (Icon ?? HoverIcon),
-                },
-            )}
+            className={cn(`group cursor-pointer text-nowrap  disabled:cursor-default`, className, styles.clickable, {
+                ['flex items-center justify-center']: Icon ?? HoverIcon,
+                ['gap-x-5xs']: children && (Icon ?? HoverIcon),
+            })}
         >
             {Icon}
             {HoverIcon}

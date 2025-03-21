@@ -16,13 +16,13 @@ import { SubscribeCard } from '../../SubscribeCard';
 
 import styles from '@/app/common.module.css';
 
-import PNG_NATURE from '/public/images/nature-section.png';
-import SVG_PROFILE from '/public/images/icons/profile.svg';
-import SVG_LINK from '/public/images/icons/link.svg';
-import SVG_EMAIL from '/public/images/icons/email.svg';
-import SVG_X from '/public/images/icons/x-twitter.svg';
-import SVG_LINKEDIN from '/public/images/icons/linkedin.svg';
-import SVG_FACEBOOK from '/public/images/icons/facebook.svg';
+import PNG_NATURE from '@/assets/images/nature-section.png';
+import SVG_PROFILE from '@/assets/images/icons/profile.svg';
+import SVG_LINK from '@/assets/images/icons/link.svg';
+import SVG_EMAIL from '@/assets/images/icons/email.svg';
+import SVG_X from '@/assets/images/icons/x-twitter.svg';
+import SVG_LINKEDIN from '@/assets/images/icons/linkedin.svg';
+import SVG_FACEBOOK from '@/assets/images/icons/facebook.svg';
 
 const SHARE_BTNS = [
     {

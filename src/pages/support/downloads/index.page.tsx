@@ -15,8 +15,8 @@ import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import SVG_DOWNLOAD_ARROW from '/public/images/icons/arrow-down-underline.svg';
-import SVG_ARROW from '/public/images/icons/arrow.svg';
+import SVG_DOWNLOAD_ARROW from '@/assets/images/icons/arrow-down-underline.svg';
+import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 
 const DOWNLOAD_LINKS: DocumentationLink[] = [
     {

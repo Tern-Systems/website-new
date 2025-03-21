@@ -13,8 +13,8 @@ import cn from 'classnames';
 
 import { copyObject } from '@/app/utils';
 
-import SVG_CHEVRON from '/public/images/icons/chevron.svg';
-import SVG_BULLET_LIST from '/public/images/icons/bullet-list.svg';
+import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
+import SVG_BULLET_LIST from '@/assets/images/icons/bullet-list.svg';
 import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const EMPTY_KEY = '';

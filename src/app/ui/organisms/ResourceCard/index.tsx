@@ -45,7 +45,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                             icon={'arrow-right-long'}
                             href={action.href}
                             className={cn('flex-row-reverse p-xxs w-fit bg-blue', className?.link)}
-                            iconClassName={'ml-xs [&_*]:size-[1.06rem]'}
+                            iconClassName={'ml-xs size-[1.06rem]'}
                         >
                             {action.title}
                         </PageLink>
@@ -79,7 +79,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                             icon={'arrow-right-long'}
                             href={action.href}
                             className={cn('flex-row-reverse p-xxs w-fit bg-blue lg:mt-auto', className?.link)}
-                            iconClassName={'ml-xs [&_*]:size-[1.06rem]'}
+                            iconClassName={'ml-xs size-[1.06rem]'}
                         >
                             {action.title}
                         </PageLink>

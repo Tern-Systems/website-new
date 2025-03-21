@@ -17,8 +17,8 @@ import { MessageModal } from '@/app/ui/modals';
 
 import styles from '@/app/common.module.css';
 
-import PNG_BG_MAIN from '/public/images/tips-bg-main.png';
-import PNG_MICROPROCESSOR from '/public/images/microprocessor.png';
+import PNG_BG_MAIN from '@/assets/images/tips-bg-main.png';
+import PNG_MICROPROCESSOR from '@/assets/images/microprocessor.png';
 
 // TOOD href
 const HIGHLIGHTED_CARD: CardLink = {

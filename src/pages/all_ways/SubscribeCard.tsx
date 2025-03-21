@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { ResourceCard } from '@/app/ui/organisms';
 
-import PNG_MICROPROCESSOR from '/public/images/microprocessor.png';
+import PNG_MICROPROCESSOR from '@/assets/images/microprocessor.png';
 
 interface Props {
     className?: string;

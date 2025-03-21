@@ -10,12 +10,12 @@ import { InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import JPG_MAIN from '/public/images/resources-bg-main.jpg';
-import PNG_CARD_1 from '/public/images/resources-card-1.png';
-import PNG_CARD_2 from '/public/images/resources-card-2.png';
-import PNG_CARD_3 from '/public/images/resources-card-3.png';
-import PNG_CARD_4 from '/public/images/resources-card-4.png';
-import PNG_CARD_5 from '/public/images/resources-card-5.png';
+import JPG_MAIN from '@/assets/images/resources-bg-main.jpg';
+import PNG_CARD_1 from '@/assets/images/resources-card-1.png';
+import PNG_CARD_2 from '@/assets/images/resources-card-2.png';
+import PNG_CARD_3 from '@/assets/images/resources-card-3.png';
+import PNG_CARD_4 from '@/assets/images/resources-card-4.png';
+import PNG_CARD_5 from '@/assets/images/resources-card-5.png';
 
 const CARDS: CardLink[] = [
     {

@@ -11,7 +11,7 @@ import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout/Link';
 import { AuthModal } from '@/app/ui/modals';
 
-import SVG_PROFILE from '/public/images/icons/profile.svg';
+import SVG_PROFILE from '@/assets/images/icons/profile.svg';
 import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const AUTH_BTNS: { title: string; action: string; description: string }[] = [
@@ -105,7 +105,7 @@ const ProfileMenu: FC = () => {
             onClick={() => setOpened((prevState) => !prevState)}
             className={'relative'}
         >
-            <div className={cn('h-full content-center px-s', { ['bg-gray-d1']: opened })}>
+            <div className={cn('flex items-center h-full px-s', { ['bg-gray-d1']: opened })}>
                 <Image
                     src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
                     width={29}

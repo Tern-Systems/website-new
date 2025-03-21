@@ -11,11 +11,11 @@ import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
 
-import SVG_LINK from '/public/images/icons/link.svg';
-import SVG_EMAIL from '/public/images/icons/email.svg';
-import SVG_X from '/public/images/icons/x-twitter.svg';
-import SVG_LINKEDIN from '/public/images/icons/linkedin.svg';
-import SVG_FACEBOOK from '/public/images/icons/facebook.svg';
+import SVG_LINK from '@/assets/images/icons/link.svg';
+import SVG_EMAIL from '@/assets/images/icons/email.svg';
+import SVG_X from '@/assets/images/icons/x-twitter.svg';
+import SVG_LINKEDIN from '@/assets/images/icons/linkedin.svg';
+import SVG_FACEBOOK from '@/assets/images/icons/facebook.svg';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const SHARE_BTNS = [

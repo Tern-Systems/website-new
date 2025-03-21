@@ -12,7 +12,7 @@ import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
 import styles from '@/app/common.module.css';
 import { BreadcrumbRoute } from '@/app/ui/atoms';
 
-import SVG_ARROW from '/public/images/icons/arrow.svg';
+import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Downloads} /> },

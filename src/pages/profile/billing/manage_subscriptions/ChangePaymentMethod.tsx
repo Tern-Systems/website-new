@@ -14,9 +14,9 @@ import { useModal, useUser } from '@/app/context';
 import { PageLink } from '@/app/ui/layout';
 import { MessageModal } from '@/app/ui/modals';
 
-import SVG_CARD from '/public/images/icons/card.svg';
-import SVG_MARK from '/public/images/icons/mark.svg';
-import SVG_CROSS from '/public/images/icons/close.svg';
+import SVG_CARD from '@/assets/images/icons/card.svg';
+import SVG_MARK from '@/assets/images/icons/mark.svg';
+import SVG_CROSS from '@/assets/images/icons/close.svg';
 
 const LI_P_CN = `px-xxs py-4xs sm:py-3xs`;
 
@@ -71,7 +71,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
             >
                 <ReactSVG
                     src={SVG_CARD.src}
-                    className={`mr-4xs [&_*]:w-[1.55rem] sm:[&_*]:w-[1.375rem]`}
+                    className={`mr-4xs w-[1.55rem] sm:w-[1.375rem]`}
                 />
                 <span className={'max-w-[calc(100%-1.75rem)] overflow-hidden overflow-ellipsis text-nowrap'}>
                     {getCardName(card)}
@@ -99,10 +99,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                         setOpened(false);
                     }}
                     src={SVG_CROSS.src}
-                    className={cn(
-                        'p-3xs hover:bg-black-l0 [&_path]:fill-primary',
-                        '[&_*]:size-[0.875rem] sm:[&_*]:size-[0.75rem]',
-                    )}
+                    className={cn('p-3xs hover:bg-black-l0 [&_path]:fill-primary', 'size-[0.875rem] sm:size-[0.75rem]')}
                 />
             </div>
             <hr className={'border-gray'} />
@@ -112,7 +109,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                     icon={'plus'}
                     href={Route.EditPaymentMethod}
                     className={cn('w-full sm:justify-start', LI_P_CN)}
-                    iconClassName={'mr-3xs sm:mr-[1rem]  [&_*]:size-[1.125rem] sm:[&_*]:size-[1rem]'}
+                    iconClassName={'mr-3xs sm:mr-[1rem]  size-[1.125rem] sm:size-[1rem]'}
                 >
                     Add alternative payment method
                 </PageLink>

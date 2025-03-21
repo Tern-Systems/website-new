@@ -17,7 +17,7 @@ import { SubscribeCard } from '../SubscribeCard';
 
 import styles from '@/app/common.module.css';
 
-import PNG_ELECTRONS from '/public/images/electrons.png';
+import PNG_ELECTRONS from '@/assets/images/electrons.png';
 
 const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 

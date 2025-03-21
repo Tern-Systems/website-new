@@ -6,7 +6,7 @@ import { Route } from '@/app/static';
 
 import { useNavigate } from '@/app/hooks';
 
-import SVG_LOGO from '/public/images/tern-logo.svg';
+import SVG_LOGO from '@/assets/images/tern-logo.svg';
 
 interface Props {
     className?: string;

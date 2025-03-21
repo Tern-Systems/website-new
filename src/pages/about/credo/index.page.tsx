@@ -6,7 +6,7 @@ import { BreadcrumbRoute } from '@/app/ui/atoms';
 import styles from '@/app/common.module.css';
 import stylesLocal from './Credo.module.css';
 
-import SVG_CREDO_HR from '/public/images/credo-hr.svg';
+import SVG_CREDO_HR from '@/assets/images/credo-hr.svg';
 
 function CredoPage() {
     return (
@@ -19,7 +19,7 @@ function CredoPage() {
                     <h1 className={'text-heading-3xl  sm:text-section-xl  md:text-heading-xxl'}>Our Credo</h1>
                     <ReactSVG
                         src={SVG_CREDO_HR.src}
-                        className={'mt-[2.31rem]  sm:mt-xs md:mt-s  [&_*]:w-[12.69rem] sm:[&_*]:w-[6.0625rem]'}
+                        className={'mt-[2.31rem]  sm:mt-xs md:mt-s  w-[12.69rem] sm:w-[6.0625rem]'}
                     />
                 </div>
                 <div
