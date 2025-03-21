@@ -12,7 +12,7 @@ const LimitsModal = () => (
         classNameTitle={'sm:x-[mb-[5.3dvw],text-[1.7rem]] sm:landscape:mb-s'}
     >
         <div className={`max-h-[79dvh] sm:x-[text-[1rem],overflow-y-scroll] sm:landscape:max-h-[55dvh]`}>
-            <h2 className={'mb-[0.5rem] text-section-s font-bold sm:mb-0'}>Tidal Pro Plan Subscription Limitations</h2>
+            <h2 className={'mb-[0.5rem] text-18 font-bold sm:mb-0'}>Tidal Pro Plan Subscription Limitations</h2>
             <div>
                 <span>
                     As part of the Tidal Pro plan, specific usage limitations are implemented to maintain optimal

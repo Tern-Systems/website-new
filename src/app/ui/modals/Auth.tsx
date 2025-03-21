@@ -84,10 +84,10 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             preventClose={preventClose}
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
             onClose={() => onClose?.()}
-            classNameTitle={'justify-self-start text-heading   sm:[&]:mb-xs   sm:landscape:ml-0 '}
+            classNameTitle={'justify-self-start text-27   sm:[&]:mb-xs   sm:landscape:ml-0 '}
             className={'sm:bg-white'}
             classNameContent={cn(
-                'w-[30rem] items-start mx-auto place-items-center text-basic',
+                'w-[30rem] items-start mx-auto place-items-center text-16',
                 '[&]:overflow-y-visible',
                 'sm:[&]:x-[px-xs,py-n,w-full,overflow-y-scroll]',
                 'sm:landscape:x-[max-w-[73rem],px-xxl]',
@@ -102,7 +102,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             alt={'insignia'}
                             className={`my-xs h-[9rem] w-[10rem]`}
                         />
-                        {isLoginForm ? null : <span className={' text-heading'}>Tern</span>}
+                        {isLoginForm ? null : <span className={' text-27'}>Tern</span>}
                     </div>
                 </div>
                 <form
@@ -154,7 +154,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             type={'submit'}
                             className={cn(
                                 `border-control mt-s w-[60%] place-self-center rounded-full border-s py-xxs`,
-                                `text-section-s font-bold`,
+                                `text-18 font-bold`,
                                 `sm:w-[90%]`,
                                 isLoginForm
                                     ? 'bg-white text-gray sm:x-[bg-blue,text-primary] sm:landscape:mt-auto'

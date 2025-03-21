@@ -37,8 +37,8 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                 <div
                     className={`mb-[3.75rem] grid grid-cols-[max-content,1fr] grid-rows-2 items-center gap-x-[0.4rem] sm:mb-xs`}
                 >
-                    <span className={`row-span-2 text-[3rem] sm:text-heading-l`}>{price}</span>
-                    <span className={'contents text-section-s font-normal sm:text-section-xxs'}>
+                    <span className={`row-span-2 text-[3rem] sm:text-36`}>{price}</span>
+                    <span className={'contents text-18 font-normal sm:text-12'}>
                         <span>per</span>
                         <span>month</span>
                     </span>
@@ -48,7 +48,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                         {subscriptionName} {subscription?.type ?? '-- missing type --'} Subscription
                     </span>
                     <span>{price}</span>
-                    <span className={'sm:text-section-xxs text-basic font-normal'}>
+                    <span className={'sm:text-12 text-16 font-normal'}>
                         {subscription?.recurrency ? 'Billed ' + subscription?.recurrency : '-- missing recurrency --'}
                     </span>
                 </div>
@@ -56,7 +56,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                 <div className={`grid auto-rows-min grid-cols-2 gap-y-[0.6rem]`}>
                     <span>Subtotal</span>
                     <span className={`justify-self-end`}>{subtotal}</span>
-                    <span className={'sm:text-section-xxs contents text-basic font-normal'}>
+                    <span className={'sm:text-12 contents text-16 font-normal'}>
                         <span className={'flex items-center'}>
                             <span>Tax</span>
                             <Image

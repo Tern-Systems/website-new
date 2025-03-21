@@ -25,9 +25,7 @@ const SearchBar: FC<Props> = (props: Props) => {
     const Dropdown: ReactElement = (
         <div className={cn('w-full p-xs flex gap-x-n relative')}>
             <div>
-                <h3 className={cn('text-section-xs text-primary flex-col leading-[0.6125rem] mb-4xs')}>
-                    Content Types
-                </h3>
+                <h3 className={cn('text-14 text-primary flex-col leading-[0.6125rem] mb-4xs')}>Content Types</h3>
                 <Select
                     options={contentTypes}
                     value={contentType}
@@ -43,7 +41,7 @@ const SearchBar: FC<Props> = (props: Props) => {
                 />
             </div>
             <div className={'flex flex-col relative'}>
-                <h3 className={cn('text-section-xs text-primary flex-col leading-[0.6125rem] mb-4xs')}>Date Range</h3>
+                <h3 className={cn('text-14 text-primary flex-col leading-[0.6125rem] mb-4xs')}>Date Range</h3>
                 <Input
                     icons={[SVG_CALENDAR]}
                     className={'bg-gray border-s border-gray-l0 w-[7.5625rem] h-[1.8125rem] pl-5xs'}
@@ -72,7 +70,7 @@ const SearchBar: FC<Props> = (props: Props) => {
         >
             <input
                 {...inputProps}
-                className={`w-full bg-inherit py-5xs pl-3xs text-section-s outline-none sm:pl-5xs`}
+                className={`w-full bg-inherit py-5xs pl-3xs text-18 outline-none sm:pl-5xs`}
                 tabIndex={0}
                 autoFocus
             />

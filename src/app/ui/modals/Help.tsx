@@ -20,11 +20,11 @@ const HelpModal: FC<Props> = (props: Props) => {
     return (
         <BaseModal
             title={Contacts[type].title}
-            classNameTitle={'sm:landscape:text-heading-s'}
+            classNameTitle={'sm:landscape:text-21'}
             classNameContent={'w-[min(80dvw,26rem)] sm:landscape:w-[min(40dvw,20rem)]'}
             className={'sm:landscape:p-xxs'}
         >
-            <div className={`flex flex-col items-center text-section-s sm:landscape:text-section`}>
+            <div className={`flex flex-col items-center text-18 sm:landscape:text-20`}>
                 <span className={'mb-xs sm:landscape:mb-xxs'}>
                     Email:&nbsp;
                     <a

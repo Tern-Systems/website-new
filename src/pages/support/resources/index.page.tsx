@@ -104,14 +104,10 @@ function ResourcesPage() {
                         'relative z-10 flex flex-col justify-between  py-[6.25rem] md:py-xxl sm:py-[2.72rem]',
                     )}
                 >
-                    <h1 className={'text-heading-4xl sm:text-heading-xl  w-[70%] sm:w-1/2  leading-l'}>
+                    <h1 className={'text-96 sm:text-40  w-[70%] sm:w-1/2  leading-l'}>
                         All your resources in one place
                     </h1>
-                    <h2
-                        className={
-                            'leading-l  w-[65%] md:w-[75%] sm:w-full  text-section-xl md:text-documentation sm:text-section'
-                        }
-                    >
+                    <h2 className={'leading-l  w-[65%] md:w-[75%] sm:w-full  text-32 md:text-24 sm:text-20'}>
                         Learn how to get the most out of Tern with downloads, tips, the support hub and our engaging
                         community.
                     </h2>
@@ -124,14 +120,8 @@ function ResourcesPage() {
                     )}
                 />
                 <div className={cn(styles.content, 'pt-[7.25rem] md:pt-[6.75rem] sm:pt-[7.2rem]')}>
-                    <h3 className={'text-heading-xl md:text-heading sm:text-documentation'}>
-                        Prepare for your journey with Tern
-                    </h3>
-                    <h4
-                        className={
-                            'pt-[3.69rem] md:pt-3xl sm:pt-xxl  text-section-xl md:text-documentation sm:text-heading-s'
-                        }
-                    >
+                    <h3 className={'text-40 md:text-27 sm:text-24'}>Prepare for your journey with Tern</h3>
+                    <h4 className={'pt-[3.69rem] md:pt-3xl sm:pt-xxl  text-32 md:text-24 sm:text-21'}>
                         What tools do you need to succeed?
                     </h4>
                 </div>
