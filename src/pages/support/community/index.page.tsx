@@ -167,7 +167,7 @@ function CommunityPage() {
                         'sm:gap-x-0 gap-x-xxs',
                         'sm:grid-cols-[1fr,min-content] grid-cols-[min-content,1fr]',
                         'sm:p-5xs p-xxs',
-                        'sm:text-section-3xs text-section-xxs',
+                        'sm:text-10 text-12',
                     )}
                 >
                     <span
@@ -178,15 +178,13 @@ function CommunityPage() {
                             'size-[7.1875rem] sm:size-fit',
                         )}
                     >
-                        <span className={'text-center sm:text-documentation text-heading-3xl'}>{day}</span>
-                        <span className={'sm:ml-5xs  sm:text-section-3xs text-section-xxs'}>{DAY_NAMES[day]}</span>
+                        <span className={'text-center sm:text-24 text-64'}>{day}</span>
+                        <span className={'sm:ml-5xs  sm:text-10 text-12'}>{DAY_NAMES[day]}</span>
                     </span>
                     <span className={'col-start-2 flex items-center p-[0.19rem] size-fit bg-gray-l1 text-black'}>
                         {event.tag}
                     </span>
-                    <span className={'leading-n  sm:col-span-2  sm:text-section-3xs text-basic'}>
-                        {event.description}
-                    </span>
+                    <span className={'leading-n  sm:col-span-2  sm:text-10 text-16'}>{event.description}</span>
                     <span className={'flex items-center  sm:col-span-2'}>
                         <ReactSVG
                             src={SVG_CLOCK.src}
@@ -248,13 +246,13 @@ function CommunityPage() {
                     className={'translate-y-0 max-h-full'}
                 />
                 <div className={cn(styles.content, 'relative z-10 pt-xxl')}>
-                    <h1 className={'md:w-[83%] lg:w-1/2  leading-l text-heading-3xl'}>Welcome to the Tern Community</h1>
+                    <h1 className={'md:w-[83%] lg:w-1/2  leading-l text-64'}>Welcome to the Tern Community</h1>
                 </div>
             </section>
             <section className={cn(styles.section, 'bg-gradient-to-b from-blue to-transparent to-10%')}>
                 <div className={cn(styles.content, 'pt-[7.3rem] md:pt-[6.7rem] lg:pt-[7.5rem]')}>
-                    <h3 className={'text-heading lg:text-heading-xl'}>Get plugged in with like minded individuals</h3>
-                    <p className={'mt-xxl leading-l  text-section md:text-heading-s lg:text-heading'}>
+                    <h3 className={'text-27 lg:text-40'}>Get plugged in with like minded individuals</h3>
+                    <p className={'mt-xxl leading-l  text-20 md:text-21 lg:text-27'}>
                         Tern is dedicated to fostering a strong community around it’s products and services to cultivate
                         a sustainable business mode built on trust.
                     </p>
@@ -270,7 +268,7 @@ function CommunityPage() {
                             className={cn(
                                 'w-min break-words content-center font-bold leading-[2]',
                                 'px-n lg:px-[3.5rem]',
-                                'text-heading-xxl md:text-heading-3xl lg:text-heading-4xl',
+                                'text-48 md:text-64 lg:text-96',
                             )}
                         >
                             Culture. Drives. Markets.
@@ -280,10 +278,8 @@ function CommunityPage() {
             </section>
             <section className={styles.section}>
                 <div className={cn(styles.content, 'pt-5xl md:pt-[6.25rem] lg:pt-[9.3rem]')}>
-                    <h3 className={'text-section-xl md:text-heading-xxl lg:text-heading-3xl'}>What Drives You?</h3>
-                    <p className={'leading-l  mt-n lg:mt-xl  text-section md:text-heading-s lg:text-heading'}>
-                        Join the conversation
-                    </p>
+                    <h3 className={'text-32 md:text-48 lg:text-64'}>What Drives You?</h3>
+                    <p className={'leading-l  mt-n lg:mt-xl  text-20 md:text-21 lg:text-27'}>Join the conversation</p>
                     {/*TODO href*/}
                     <ResourceCard
                         type={'highlighted'}
@@ -308,7 +304,7 @@ function CommunityPage() {
             </section>
             <section className={styles.section}>
                 <div className={cn(styles.content, 'pt-5xl md:pt-[6.25rem] lg:pt-[9.3rem]')}>
-                    <h3 className={'text-heading lg:text-heading-xl'}>Events</h3>
+                    <h3 className={'text-27 lg:text-40'}>Events</h3>
                     <ul
                         className={cn(
                             'grid grid-cols-2',

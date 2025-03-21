@@ -68,7 +68,7 @@ const SideNav: FC<Props> = (props: Props) => {
     return (
         <div className={cn(className, 'h-fit')}>
             <div className={'hidden lg:block  relative'}>
-                <ul className={`flex flex-col gap-y-l text-section-xs`}>{SectionsNavLi}</ul>
+                <ul className={`flex flex-col gap-y-l text-14`}>{SectionsNavLi}</ul>
             </div>
             {sideOnly ? null : (
                 <Select
@@ -84,7 +84,7 @@ const SideNav: FC<Props> = (props: Props) => {
                     }}
                     classNameWrapper={cn(
                         `lg:hidden  w-full mb-4xs`,
-                        `flex-col gap-y-xxs text-section-s`,
+                        `flex-col gap-y-xxs text-18`,
                         `border-b [&]:border-gray-l0`,
                     )}
                     classNameLabel={'mr-auto'}
@@ -99,7 +99,7 @@ const SideNav: FC<Props> = (props: Props) => {
                         `h-[3.1375rem] sm:h-button-xl`,
                         `[&]:x-[bg-gray,border-transparent,py-4xs]`,
                         `hover:bg-[#979797]`,
-                        `text-section-s  md:text-section`,
+                        `text-18  md:text-20`,
                         `px-xxs  md:px-xs`,
                     )}
                 />

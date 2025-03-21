@@ -39,7 +39,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         className={cn('w-full h-auto', className?.image)}
                     />
                     <span className={cn('contents lg:flex  flex-col gap-y-n', className?.content)}>
-                        <span className={'row-start-1  text-section-xl md:text-heading sm:text-section'}>{title}</span>
+                        <span className={'row-start-1  text-32 md:text-27 sm:text-20'}>{title}</span>
                         <span className={cn('leading-l', className?.children)}>{children}</span>
                         <PageLink
                             icon={'arrow-right-long'}
@@ -69,9 +69,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         className={cn('w-full h-auto', className?.image)}
                     />
                     <span className={cn('contents lg:flex flex-col gap-y-n h-full', className?.content)}>
-                        <span className={cn('block text-section-xl md:text-heading sm:text-section', className?.title)}>
-                            {title}
-                        </span>
+                        <span className={cn('block text-32 md:text-27 sm:text-20', className?.title)}>{title}</span>
                         <span className={cn('block leading-l  lg:w-1/2', className?.children)}>{children}</span>
                         <PageLink
                             icon={'arrow-right-long'}

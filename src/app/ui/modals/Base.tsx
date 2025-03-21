@@ -83,9 +83,9 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         const Heading = title ? (
             <h2
                 className={cn(
-                    ` text-heading font-bold text-inherit`,
-                    `sm:portrait:text-heading-s`,
-                    `sm:landscape:text-section-s`,
+                    ` text-27 font-bold text-inherit`,
+                    `sm:portrait:text-21`,
+                    `sm:landscape:text-18`,
                     classNameTitle,
                     { ['mb-n']: adaptApplied },
                 )}

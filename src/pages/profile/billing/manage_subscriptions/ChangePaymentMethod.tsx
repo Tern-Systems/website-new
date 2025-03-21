@@ -64,7 +64,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                 onClick={() => updateCard(idx)}
                 className={cn(
                     `grid grid-cols-[min-content,1fr,min-content] items-center justify-between rounded-s [&_path]:fill-primary`,
-                    `sm:text-heading-xs text-basic`,
+                    `sm:text-27-xs text-16`,
                     LI_P_CN,
                     { ['brightness-[0.6]']: preferred },
                 )}
@@ -92,7 +92,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
             className={'absolute -top-xs right-0 z-10 w-[27.5625rem] max-w-full bg-black'}
         >
             <div className={'flex items-center justify-between'}>
-                <h1 className={'pl-xxs text-basic lg:text-section-s'}>Change Payment Method</h1>
+                <h1 className={'pl-xxs text-16 lg:text-18'}>Change Payment Method</h1>
                 <ReactSVG
                     onClick={(event) => {
                         event.stopPropagation();

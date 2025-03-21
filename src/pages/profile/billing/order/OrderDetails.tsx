@@ -46,9 +46,9 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                 ref={ref}
                 className={'w-[min(100%,29rem)] place-self-center'}
             >
-                <h2 className={'text-heading font-bold'}>Paid on {invoiceDate}</h2>
+                <h2 className={'text-27 font-bold'}>Paid on {invoiceDate}</h2>
 
-                <h3 className={'mt-xl text-section-s font-bold text-secondary'}>Summary</h3>
+                <h3 className={'mt-xl text-18 font-bold text-secondary'}>Summary</h3>
                 {Hr}
                 <div className={`grid grid-cols-2 gap-y-[min(4dvw,2rem)]`}>
                     <span>To</span>
@@ -59,7 +59,7 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                     <span>{invoice?.id ? '#' + invoice.id : '-- missing id --'}</span>
                 </div>
 
-                <h3 className={'mt-xl text-section-s font-bold text-secondary'}>Items</h3>
+                <h3 className={'mt-xl text-18 font-bold text-secondary'}>Items</h3>
                 {Hr}
                 <div className={`mb-[min(8dvw,1.5rem)] flex flex-col gap-y-xxs`}>
                     <span className={'col-span-2 font-bold text-secondary'}>
@@ -75,19 +75,19 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                             </span>
                         </span>
                     </span>
-                    <span className={'text-section text-secondary'}>
+                    <span className={'text-20 text-secondary'}>
                         {invoice?.item ? 'Qty ' + 1 : '-- missing quantity --'}
                     </span>
                 </div>
 
                 {Hr}
-                <div className={'flex justify-between text-section-s font-bold text-secondary'}>
+                <div className={'flex justify-between text-18 font-bold text-secondary'}>
                     <span>Subtotal</span>
                     <span>{subtotal}</span>
                 </div>
 
                 {Hr}
-                <div className={`grid grid-cols-[1fr,max-content] gap-y-xxs text-section-s font-bold text-secondary`}>
+                <div className={`grid grid-cols-[1fr,max-content] gap-y-xxs text-18 font-bold text-secondary`}>
                     <span>Total excluding tax</span>
                     <span className={'text-right'}>{subtotal}</span>
                     <span className={'text-secondary'}>
@@ -112,16 +112,14 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                 </div>
 
                 {Hr}
-                <h3 className={'mb-[0.94rem] mt-[2.5rem] text-section-s font-bold text-secondary sm:mt-0'}>
-                    Payment history
-                </h3>
-                <div className={'grid grid-rows-2 gap-y-xxs text-section'}>
+                <h3 className={'mb-[0.94rem] mt-[2.5rem] text-18 font-bold text-secondary sm:mt-0'}>Payment history</h3>
+                <div className={'grid grid-rows-2 gap-y-xxs text-20'}>
                     <span className={'col-span-2 font-bold'}>{price}</span>
                     <span className={'capitalize'}>{card}</span>
                     <span className={'text-right'}>{invoiceDate}</span>
                 </div>
 
-                <div className={'mt-xl text-section text-secondary'}>
+                <div className={'mt-xl text-20 text-secondary'}>
                     <span>
                         Questions?&nbsp;
                         <PageLink

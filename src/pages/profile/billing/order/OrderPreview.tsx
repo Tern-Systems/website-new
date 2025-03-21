@@ -46,7 +46,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
             <div className={'min-w-[min(100%,53rem)] place-self-center px-[min(5.3dvw,6.6rem)]'}>
                 <div ref={targetRef}>
                     <h2
-                        className={`mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-heading-l font-bold`}
+                        className={`mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-36 font-bold`}
                     >
                         <Image
                             src={SVG_TERN_LOGO}
@@ -61,7 +61,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
                             alt={'document'}
                             className={'h-auto w-[min(24.7dvw,5.4rem)] place-self-center'}
                         />
-                        <span className={'my-s block text-heading-s'}>{status}</span>
+                        <span className={'my-s block text-21'}>{status}</span>
                         <span className={'block text-[3rem]'}>{subtotal}</span>
                     </div>
 
@@ -80,7 +80,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
                 </div>
 
                 <div
-                    className={`mt-xl flex items-center justify-center gap-x-[0.75rem] text-heading-s font-bold sm:flex-col sm:gap-y-[4dvw]`}
+                    className={`mt-xl flex items-center justify-center gap-x-[0.75rem] text-21 font-bold sm:flex-col sm:gap-y-[4dvw]`}
                 >
                     <Button
                         icon={faDownload}

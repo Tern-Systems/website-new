@@ -60,7 +60,7 @@ const ProfileMenu: FC = () => {
             ProfileMenu = (
                 <ul
                     className={cn(
-                        `absolute right-0 top-[calc(1px+var(--h-heading))] z-10 w-[9.1875rem] text-nowrap bg-gray-d1 text-basic`,
+                        `absolute right-0 top-[calc(1px+var(--h-heading))] z-10 w-[9.1875rem] text-nowrap bg-gray-d1 text-16`,
                         `[&>li]:x-[px-xs,py-xxs]`,
                     )}
                 >
@@ -73,12 +73,12 @@ const ProfileMenu: FC = () => {
                     key={entry.title + idx}
                     className={'flex flex-col gap-y-4xs'}
                 >
-                    <p className={'text-section-s'}>{entry.title}</p>
+                    <p className={'text-18'}>{entry.title}</p>
                     <p className={'text-gray'}>{entry.description}</p>
                     <Button
                         onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1} />, { darkenBg: !isSm })}
                         className={cn(
-                            `w-full rounded-full border-s border-gray py-5xs text-section font-bold capitalize`,
+                            `w-full rounded-full border-s border-gray py-5xs text-20 font-bold capitalize`,
                             idx ? 'bg-black text-primary' : 'bg-white text-black',
                         )}
                     >
@@ -93,7 +93,7 @@ const ProfileMenu: FC = () => {
                         'text-nowrap border-gray-l0 bg-black',
                     )}
                 >
-                    <h2 className={'text-heading font-bold'}>Tern Account</h2>
+                    <h2 className={'text-27 font-bold'}>Tern Account</h2>
                     <ul className={'mt-xs flex flex-col gap-y-xs'}>{ProfileMenuLi}</ul>
                 </div>
             );

@@ -31,8 +31,8 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
     // @ts-expect-error wrong sub-industry key
     const subIndustry = SUB_INDUSTRY?.[userData.company.industry]?.[userData.company.subIndustry];
 
-    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
-    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-basic  [&&]:lg:text-basic`;
+    const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
+    const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-16  [&&]:lg:text-16`;
 
     return (
         <Collapsible
@@ -40,7 +40,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
             icon={'building'}
             className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
-            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitle={`text-18  md:text-27  lg:text-27`}
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
             classNameHr={`border-gray-l0`}
         >
@@ -48,7 +48,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                 Organization<span className={isSm || isMd ? 'hidden' : ''}>al Information</span>
             </span>
             <Editable
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -56,7 +56,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInput,
                             styles.singleInputBase,
                             styles.common,
-                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                            `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
                         value: { value: userData.company?.name ?? '' } as FormInit<T>,
                         onSave: async (form) => {
@@ -83,7 +83,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
             </span>
             <Editable
                 type={'company'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -92,7 +92,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInputBase,
                             `px-[0.76rem] border-small`,
                             styles.roundedWFull,
-                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                            `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
                         value: userData.company as FormInit<T>,
                         onSave: async (form) => {
@@ -110,8 +110,8 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                     <div
                         className={cn(
                             'flex flex-col gap-y-4xs md:gap-y-xs lg:gap-y-xs',
-                            '[&>span]:x-[col-start-2,flex,flex-col,gap-y-[--p-content-5xs],text-basic]',
-                            'leading-tight [&>span>span]:text-section-xs',
+                            '[&>span]:x-[col-start-2,flex,flex-col,gap-y-[--p-content-5xs],text-16]',
+                            'leading-tight [&>span>span]:text-14',
                         )}
                     >
                         <span>

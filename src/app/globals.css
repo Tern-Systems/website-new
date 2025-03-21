@@ -74,22 +74,22 @@
   --bg-green: #0c545c;
 
   /* Text */
-  --fz-heading-4xl: 6rem;
-  --fz-heading-3xl: 4rem;
-  --fz-heading-xxl: 3rem;
-  --fz-heading-xl: 2.5rem;
-  --fz-heading-l: 2.25rem;
-  --fz-section-xl: 2rem;
-  --fz-section-l: 1.875rem;
-  --fz-heading: 1.6875rem;
-  --fz-heading-s: 1.3125rem;
-  --fz-documentation: 1.5rem;
-  --fz-section: 1.25rem;
-  --fz-section-s: 1.125rem;
-  --fz-basic: 1rem;
-  --fz-section-xs: 0.875rem;
-  --fz-section-xxs: 0.75rem;
-  --fz-section-3xs: 0.625rem;
+  --fz-96: 6rem;
+  --fz-64: 4rem;
+  --fz-48: 3rem;
+  --fz-40: 2.5rem;
+  --fz-36: 2.25rem;
+  --fz-32: 2rem;
+  --fz-30: 1.875rem;
+  --fz-27: 1.6875rem;
+  --fz-24: 1.5rem;
+  --fz-21: 1.3125rem;
+  --fz-20: 1.25rem;
+  --fz-18: 1.125rem;
+  --fz-16: 1rem;
+  --fz-14: 0.875rem;
+  --fz-12: 0.75rem;
+  --fz-10: 0.625rem;
 
   --lh-xl: 5rem;
   --lh-l: 1.3;
