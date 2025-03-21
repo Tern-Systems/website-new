@@ -2,14 +2,15 @@ import React, { FC } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { InfoSection as InfoSection } from '@/app/types/layout';
+import { InfoSectionData as InfoSectionData } from '@/app/types/layout';
 
 import { PageLink } from '@/app/ui/layout';
 
 import styles from '@/app/common.module.css';
 
 interface Props {
-    data: InfoSection;
+    data: InfoSectionData;
+    blur?: true;
     className?: string;
     classNameTitle?: string;
     classNameContent?: string;
@@ -18,9 +19,10 @@ interface Props {
     classNamePageLink?: string;
 }
 
-const Info: FC<Props> = (props: Props) => {
+const InfoSection: FC<Props> = (props: Props) => {
     const {
         data,
+        blur,
         className,
         classNameTitle,
         classNameContent,
@@ -32,10 +34,14 @@ const Info: FC<Props> = (props: Props) => {
 
     return (
         <section className={cn(styles.section, className)}>
-            <div className={cn(styles.content, 'pb-[12.25rem] pt-[3.5rem] font-oxygen', classNameContent)}>
+            <div
+                className={cn(styles.content, 'mb-[12.25rem] pt-[3.5rem] ', classNameContent, {
+                    [styles.contentGradientBlue]: blur,
+                })}
+            >
                 <h2
                     className={cn(
-                        'mb-[4.62rem] text-center font-oxygen font-bold',
+                        'mb-[4.62rem] text-center font-bold',
                         'text-[1.75rem]',
                         'lg:text-[2.5rem]',
                         classNameTitle,
@@ -47,23 +53,21 @@ const Info: FC<Props> = (props: Props) => {
                     <span className={'w-[40%] text-left sm:x-[w-full,text-center]'}>
                         <span
                             className={cn(
-                                'mb-5xs block text-[2rem] sm:text-section-xs md:text-[1.5rem]',
+                                'mb-4xs block text-section-xl sm:text-section-xs md:text-[1.5rem]',
                                 classNameSubTitle,
                             )}
                         >
                             {subTitle}
                         </span>
-                        <span
-                            className={cn('block text-[0.9375rem] leading-[1.2] lg:text-section', classNameDescription)}
-                        >
+                        <span className={cn('block text-[0.9375rem] leading-n lg:text-section', classNameDescription)}>
                             {description}
                         </span>
                         <PageLink
                             href={link}
                             className={cn(
-                                'rounded-full bg-blue px-n',
-                                'mt-xl h-[1.875rem] text-basic',
-                                'lg:x-[h-[2.375rem],text-heading-s]',
+                                'bg-blue px-n',
+                                'mt-xl h-button-l text-basic',
+                                'lg:x-[h-button-xl,text-heading-s]',
                                 'sm:mt-s',
                                 classNamePageLink,
                             )}
@@ -82,4 +86,4 @@ const Info: FC<Props> = (props: Props) => {
     );
 };
 
-export { Info };
+export { InfoSection };

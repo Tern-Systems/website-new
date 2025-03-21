@@ -10,9 +10,11 @@ import { useModal, useUser } from '@/app/context';
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
+import { faTriangleExclamation, faLock } from '@fortawesome/free-solid-svg-icons';
+
 const LIST: string[] = [
     'Account deletion is permanent and cannot be reversed.',
-    'Once deleted, access to all Tern products and services, including TernKey, TernKit, and any future offerings, will be permanently revoked.',
+    'Once deleted, access to all Tern products and services, including Tidal, TernKit, and any future offerings, will be permanently revoked.',
     'You will not be able to register a new account using the same email address associated with the deleted account.',
     'Your data will be erased within 30 days, except for a limited subset that may be retained as required or permitted by law.',
 ];
@@ -74,7 +76,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     value={formData.password}
                     onChange={setFormValue('password')}
                     classNameWrapper={'flex-col [&]:items-start gap-[0.63rem] mt-[1.9rem]'}
-                    className={'b-control4 h-[1.875rem] w-full rounded-xs border-s bg-gray-l0 px-[0.73rem]'}
+                    className={'h-button-l w-full rounded-xs border-s bg-gray-l0 px-[0.73rem]'}
                     classNameLabel={'font-bold'}
                     required
                 >
@@ -90,7 +92,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                 <Button
                     type={'submit'}
                     disabled={!isAllowedToDelete}
-                    icon={isAllowedToDelete ? 'warn' : 'lock'}
+                    icon={isAllowedToDelete ? faTriangleExclamation : faLock}
                     className={`mt-xs h-[min(5.9dvw,2.1rem)] w-full place-self-center rounded-full text-section font-bold ${isAllowedToDelete ? 'bg-red' : 'text-secondary'}`}
                 >
                     {isAllowedToDelete ? 'Permanently Delete My Account' : 'Locked'}

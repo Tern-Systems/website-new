@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Route } from '@/app/static';
 
-import { Highlighted } from '@/app/ui/misc';
+import { Highlighted } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 
 const PARAGRAPHS: string = `Tern Systems LLC Cookie Policy
@@ -63,7 +63,7 @@ const CookiesPage = () => (
     <Highlighted heading={'Cookies Policy'}>
         <pre
             dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
-            className={'whitespace-pre-line font-neo'}
+            className={'whitespace-pre-line '}
         />
         <span>
             For additional information, please refer to our&nbsp;

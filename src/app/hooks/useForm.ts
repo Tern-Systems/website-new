@@ -18,7 +18,7 @@ const useForm = <T extends object>(
                 typeof event === 'string'
                     ? event
                     : event.target[event.target.type === 'checkbox' ? 'checked' : 'value'];
-            setFormValue((prevState) => ({ ...prevState, [key]: typeof value === 'string' ? value.trim() : value }));
+            setFormValue((prevState) => ({ ...prevState, [key]: value }));
             onChange?.();
         };
     };

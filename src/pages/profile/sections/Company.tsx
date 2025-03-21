@@ -3,11 +3,13 @@ import cn from 'classnames';
 
 import { FormInit, FormType } from '@/app/ui/form/Editable';
 
+import { getId } from '@/app/utils';
 import { UserData, useUser } from '@/app/context/User.context';
+import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
 
 import { INDUSTRY, JOB_FUNCTION, SUB_INDUSTRY } from '@/app/static';
 
-import { Collapsible } from '@/app/ui/misc';
+import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { getSimpleToggleProps, SectionProps } from '@/pages/profile/index.page';
 
@@ -19,26 +21,43 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
     const { update, setEditId, editId } = props;
 
     const { userData } = useUser();
+    const breakpoint = useBreakpointCheck();
 
     if (!userData) return null;
 
+    const isSm = breakpoint <= Breakpoint.sm;
+    const isMd = breakpoint === Breakpoint.md;
+
     // @ts-expect-error wrong sub-industry key
     const subIndustry = SUB_INDUSTRY?.[userData.company.industry]?.[userData.company.subIndustry];
+
+    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
+    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-basic  [&&]:lg:text-basic`;
 
     return (
         <Collapsible
             title={COMPANY}
             icon={'building'}
-            className={styles.collapsible}
+            className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
+            classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
+            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
+            classNameHr={`border-gray-l0`}
         >
-            <span className={styles.leftCol + ' ' + styles.ellipsis}>
-                Organization<span className={'sm:hidden'}>al Information</span>
+            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
+                Organization<span className={isSm || isMd ? 'hidden' : ''}>al Information</span>
             </span>
             <Editable
+                classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
-                        className: cn(styles.singleInput, styles.singleInputBase, styles.common),
+                        className: cn(
+                            styles.singleInput,
+                            styles.singleInputBase,
+                            styles.common,
+                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                        ),
                         value: { value: userData.company?.name ?? '' } as FormInit<T>,
                         onSave: async (form) => {
                             if (!('value' in form) || !form.value) throw 'Incorrect request setup';
@@ -56,14 +75,15 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                     };
                 }}
             >
-                <span>{userData.company?.name ?? '--'}</span>
+                <span className={label_CN}>{userData.company?.name ?? '--'}</span>
             </Editable>
 
-            <span className={styles.leftCol + ' ' + styles.ellipsis}>
-                Career <span className={'sm:hidden'}>Information</span>
+            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
+                Career <span className={isSm || isMd ? 'hidden' : ''}>Information</span>
             </span>
             <Editable
                 type={'company'}
+                classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -72,6 +92,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInputBase,
                             `px-[0.76rem] border-small`,
                             styles.roundedWFull,
+                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
                         ),
                         value: userData.company as FormInit<T>,
                         onSave: async (form) => {
@@ -88,26 +109,26 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
                 {userData.company ? (
                     <div
                         className={cn(
-                            'flex flex-col gap-y-[--p-content-xs]',
+                            'flex flex-col gap-y-4xs md:gap-y-xs lg:gap-y-xs',
                             '[&>span]:x-[col-start-2,flex,flex-col,gap-y-[--p-content-5xs],text-basic]',
-                            '[&>span>span]:text-section-xs',
+                            'leading-tight [&>span>span]:text-section-xs',
                         )}
                     >
                         <span>
-                            <span>Job Title</span>
-                            <span>{userData.company.jobTitle ?? '--'}</span>
+                            <span className={`${label_CN}`}>Job Title</span>
+                            <span className={`${label_CN}`}>{userData.company.jobTitle ?? '--'}</span>
                         </span>
                         <span>
-                            <span>Job Function</span>
-                            <span>{JOB_FUNCTION[userData.company.jobFunction] ?? '--'}</span>
+                            <span className={label_CN}>Job Function</span>
+                            <span className={label_CN}>{JOB_FUNCTION[userData.company.jobFunction] ?? '--'}</span>
                         </span>
                         <span>
-                            <span>Industry</span>
-                            <span>{INDUSTRY[userData.company.industry] ?? '--'}</span>
+                            <span className={label_CN}>Industry</span>
+                            <span className={label_CN}>{INDUSTRY[userData.company.industry] ?? '--'}</span>
                         </span>
                         <span>
-                            <span>Sub-Industry</span>
-                            <span>{subIndustry ?? '--'}</span>
+                            <span className={label_CN}>Sub-Industry</span>
+                            <span className={label_CN}>{subIndustry ?? '--'}</span>
                         </span>
                     </div>
                 ) : (
@@ -118,4 +139,5 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
     );
 };
 
-export { CompanySection, COMPANY };
+const COMPANY_ID = getId(COMPANY);
+export { CompanySection, COMPANY_ID };

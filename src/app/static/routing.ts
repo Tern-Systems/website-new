@@ -14,18 +14,18 @@ enum Route {
 
     Credo = '/about/credo',
     About = '/about',
-    Contact = '/contact',
-    Support = '/support',
+    SupportHub = '/support',
     Terms = '/terms',
     Cookies = '/cookies',
     Privacy = '/privacy',
 
     // /product
     // Products = '/products/all',
-    TernKey = '/ternkey',
-    TernKeyPricing = '/ternkey/plans',
-    TernKeyProductManual = '/ternkey/manual',
-    TernKeySubscribe = '/subscribe/ternkey',
+    Tidal = '/product',
+    TidalPricing = '/product/plans',
+    TidalProductManual = '/product/manual',
+    TidalSubscribe = '/subscribe/tidal',
+    TidalFAQs = '/product/faqs',
     // Dot = '/products/dot',
     // DotPricing = '/products/dot/pricing',
     // DotProductManual = '/products/dot/user_manual',
@@ -33,22 +33,33 @@ enum Route {
     // /profile
     Profile = '/profile',
     MyTern = '/profile/my_tern',
+    MyDocumentation = '/profile/my_tern/documentation',
+
     Billing = '/profile/billing',
     Invoice = '/profile/billing/order',
     ManageSubscriptions = '/profile/billing/manage_subscriptions',
     PurchasingInformation = '/profile/billing/purchasing_information',
-    EditPaymentMethod = '/profile/billing/purchasing_information/edit',
-    AddPaymentMethod = '/profile/billing/purchasing_information/add',
+    EditPaymentMethod = '/profile/billing/purchasing_information/edit_payment_method',
+    AddPaymentMethod = '/profile/billing/purchasing_information/add_payment_method',
 
-    // Docs / help
-    Help = '/profile/my_tern/faqs',
-    MyDocumentation = '/profile/my_tern/documentation',
-    Documentation = '/documentation',
-    TernKeyDoc = '/documentation/ternkey',
-    GDoc = '/documentation/g',
-    TernKitDoc = '/documentation/tern_kit',
-    TernDoc = '/documentation/tern',
-    BTMCDoc = '/documentation/btmc',
+    // /support
+    Resources = '/support/resources',
+    Community = '/support/community',
+    CommunityEvents = '/support/community/events',
+    Training = '/support/training',
+    Downloads = '/support/downloads',
+    Cases = '/support/cases',
+    Tips = '/support/tips',
+    TipsVideos = '/support/tips/videos',
+    TipsReads = '/support/tips/reads',
+    Contact = '/support/contact',
+    GeneralFAQs = '/support/faqs',
+    Documentation = '/support/documentation',
+    TidalDoc = '/support/documentation/tidal',
+    GDoc = '/support/documentation/g',
+    TernKitDoc = '/support/documentation/tern_kit',
+    TernDoc = '/support/documentation/tern',
+    BTMCDoc = '/support/documentation/btmc',
 
     // /all_ways
     AllWays = '/all_ways',
@@ -67,21 +78,6 @@ enum Route {
     More = '/all_ways/more',
 }
 
-const BLOG_ROUTES = [
-    Route.Artificial,
-    Route.Batteries,
-    Route.Cloud,
-    Route.Cybersecurity,
-    Route.Data,
-    Route.Centers,
-    Route.Robotics,
-    Route.Semiconductors,
-    Route.Videos,
-    Route.Podcasts,
-    Route.Events,
-    Route.More,
-];
-
 const CONTACT_LINKS = {
     Discord: { svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f' },
     'Stack overflow': { svg: SVG_STACKOVERFLOW, href: 'https://stackoverflow.com/users/24470835/tern' },
@@ -98,11 +94,14 @@ const MEDIA_LINKS = {
     Twitch: { svg: SVG_TWITCH, href: 'https://www.twitch.tv/tern_systems' },
 };
 
+const Tidal = 'https://tern.ac/tidal';
 const MISC_LINKS = {
     Careers: 'https://www.linkedin.com/company/tern-sys/jobs/',
     Events: 'https://www.eventbrite.com/o/tern-103937850401',
-    TernKey: 'https://tern.ac/ternkey',
-    TernKeyDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
+    Tidal,
+    TidalExploreKeys: Tidal + '/explore',
+    TidalDemo: 'https://www.youtube.com/watch?v=uMb2KI6PHPQ',
+    TidalDemoEmbed: 'https://www.youtube.com/embed/uMb2KI6PHPQ?si=gktgx0tR4UuY2VPW',
 };
 
-export { Route, BLOG_ROUTES, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };
+export { Route, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS };

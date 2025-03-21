@@ -1,9 +1,11 @@
-export { Route, BLOG_ROUTES, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS } from './routing';
+export { Route, CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS } from './routing';
 
 export { TAGS } from './blog';
 
 export type { JobFunctionKey, IndustryKey, SubIndustryKey } from './company';
 export { JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY } from './company';
+
+export { FAQs } from './faqs';
 
 export {
     NavLink,

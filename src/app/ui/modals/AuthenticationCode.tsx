@@ -43,9 +43,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         } catch (error: unknown) {
             if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
-
-        //eslint-disable-next-line
-    }, [])
+    }, []);
 
     useEffect(() => {
         handleSendNewCode();
@@ -68,7 +66,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
 
-            await userCtx.fetchUserData();
+            await userCtx.setupSession();
         } catch (error: unknown) {
             if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
         }
@@ -99,8 +97,8 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         <span>
                             {isDisabling
                                 ? 'You are about to disable two-factor authentication for your account. To proceed, please confirm your identity by entering the authorization code sent to '
-                                : 'Please confirm your account by entering the authorization code sent to '}{' '}
-                            &nbsp;
+                                : 'Please confirm your account by entering the authorization code sent to '}
+                            &nbsp; &nbsp;
                             <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
                         </span>
                     </div>
@@ -119,7 +117,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                                 setWarningMsg(null);
                             }}
                             classNameWrapper={'flex-col [&]:items-start'}
-                            className={'b-control4 h-[1.875rem] w-full rounded-xs border-s bg-gray-l0 px-[0.73rem]'}
+                            className={'h-button-l w-full rounded-xs border-s bg-gray-l0 px-[0.73rem]'}
                             required
                         />
                         {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}

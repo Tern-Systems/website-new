@@ -8,7 +8,8 @@ import { useModal } from '@/app/context';
 import { Button } from '@/app/ui/form';
 import { useBreakpointCheck } from '@/app/hooks';
 
-import { Insignia } from '@/app/ui/misc';
+import { Insignia } from '@/app/ui/organisms';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 interface ModalConfig extends PropsWithChildren {
     isSimple?: boolean | Breakpoint;
@@ -68,7 +69,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
             >
                 <div className={'w-full ' + classNameContent}>{children}</div>
                 <Button
-                    icon={'close'}
+                    icon={faX}
                     onClick={() => handleClose()}
                     className={cn(
                         `inline-block min-w-[0.55rem] place-self-start`,
@@ -82,7 +83,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         const Heading = title ? (
             <h2
                 className={cn(
-                    `font-oxygen text-heading font-bold text-inherit`,
+                    ` text-heading font-bold text-inherit`,
                     `sm:portrait:text-heading-s`,
                     `sm:landscape:text-section-s`,
                     classNameTitle,
@@ -110,13 +111,13 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 )}
             >
                 <div
-                    className={cn(`relative flex items-center justify-between font-oxygen`, {
+                    className={cn(`relative flex items-center justify-between `, {
                         ['h-heading-modal p-xs']: adaptApplied,
                     })}
                 >
                     {adaptApplied ? <Insignia className={'[&_path]:fill-black'} /> : Heading}
                     <Button
-                        icon={'close'}
+                        icon={faX}
                         onClick={() => handleClose()}
                         classNameIcon={cn('sm:[&_*]:w-[0.75rem]', {
                             ['[&_path]:fill-blue [&_*]:w-[1.125rem]']: adaptApplied,

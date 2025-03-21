@@ -49,7 +49,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const salt = await genSalt(10);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + 'signup01',
+            url: this._API + 'arch-signup',
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -18,6 +18,7 @@ abstract class BaseService {
 
     protected getLoggers(method: string) {
         const env: string | undefined = process.env.NEXT_PUBLIC_NODE_ENV ?? process.env.NODE_ENV ?? 'development';
+        // eslint-disable-next-line no-console
         if (env === 'development') console.log(this._serviceName + ' - ' + method + ':');
         return [this.debug, this.error];
     }
@@ -25,11 +26,13 @@ abstract class BaseService {
     // eslint-disable-next-line
     private debug(...data: any[]): void {
         const env: string | undefined = process.env.NEXT_PUBLIC_NODE_ENV ?? process.env.NODE_ENV ?? 'development';
+        // eslint-disable-next-line no-console
         if (env === 'development') console.log('DEBUG', ...data);
     }
 
     private error(error: unknown) {
         const env: string | undefined = process.env.NEXT_PUBLIC_NODE_ENV ?? process.env.NODE_ENV ?? 'development';
+        // eslint-disable-next-line no-console
         if (env === 'development') console.log('ERROR', error);
     }
 }

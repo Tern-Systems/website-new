@@ -163,11 +163,11 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardCode: formData.cvc,
         };
 
-        const [firstName, lastName] = formData.cardholderName.split(' ');
+        const nameParts = formData?.cardholderName?.split(' ') ?? [];
 
         const billingDetails = {
-            firstName,
-            lastName,
+            firstName: nameParts.slice(0, -1).join(' '),
+            lastName: nameParts[nameParts.length - 1],
             address: `${formData.addressLine1} | ${formData.addressLine2}`,
             city: formData.city,
             state: formData.state,
@@ -288,15 +288,15 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             cardCode: data.cvc,
             cardholderName: data.cardholderName,
         };
-        const [firstName, ...lastName] = data.cardholderName.split(' ');
+        const nameParts = data?.cardholderName?.split(' ') ?? [];
         const billingDetails = {
             address: data.addressLine1 + (data.addressLine2 ?? ''),
             city: data.city,
             state: data.state,
             zip: data.zip,
             country: data.country,
-            firstName,
-            lastName,
+            firstName: nameParts.slice(0, -1).join(' '),
+            lastName: nameParts[nameParts.length - 1],
         };
         const selectedPlan = {
             planName: planType,
@@ -383,24 +383,28 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             debug(response);
 
             let previewResult: SubscriptionPreview = {
-                route: Route.TernKeySubscribe,
+                route: Route.TidalSubscribe,
                 subscription: source,
-                isBasicKind: source === 'TernKey',
+                isBasicKind: source === 'Tidal',
                 type: {},
             };
             previewResult = response.data.allplanDetails
                 .filter((subscription: PlanDetails) => subscription.Source === source)
                 .reduce((result, subscription: PlanDetails): SubscriptionPreview => {
                     const updatedResult: SubscriptionPreview = copyObject(result);
-                    if (!updatedResult.type[subscription.Plan]) {
+                    let plan = updatedResult.type[subscription.Plan];
+
+                    if (!plan) {
                         updatedResult.type[subscription.Plan] = {
                             benefits: subscription.Details,
                             priceUSD: { annual: 0, monthly: 0 },
                         };
+                        plan = updatedResult.type[subscription.Plan];
                     }
 
-                    updatedResult.type[subscription.Plan].priceUSD[subscription.Duration === 1 ? 'monthly' : 'annual'] =
-                        subscription.Price;
+                    if (plan?.priceUSD) {
+                        plan.priceUSD[subscription.Duration === 1 ? 'monthly' : 'annual'] = subscription.Price;
+                    }
                     return updatedResult;
                 }, previewResult);
 

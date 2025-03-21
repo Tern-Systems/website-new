@@ -16,7 +16,6 @@ const PreAuthModal: FC = () => {
 
     useEffect(() => {
         if (breakpoint > Breakpoint.sm) modalCtx.closeModal();
-        // eslint-disable-next-line
     }, [breakpoint]);
 
     return (
@@ -27,7 +26,7 @@ const PreAuthModal: FC = () => {
             classNameContent={cn(
                 'w-full items-start mx-auto px-xs py-n place-items-center text-basic',
                 'max-w-[23rem]',
-                'sm:landscape:x-[max-w-[73rem],px-3xl]',
+                'sm:landscape:x-[max-w-[73rem],px-4xl]',
             )}
         >
             <div className={'flex w-full flex-col sm:landscape:flex-row sm:landscape:justify-between'}>

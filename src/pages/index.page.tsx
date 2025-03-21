@@ -2,10 +2,10 @@
 
 import React, { FC, ReactElement, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { StaticImageData } from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
-import { InfoSection, SectionCard } from '@/app/types/layout';
+import { InfoSectionData } from '@/app/types/layout';
 
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
@@ -13,18 +13,19 @@ import { useBackground, useLoginCheck } from '@/app/hooks';
 import { useFlow, useModal } from '@/app/context';
 
 import { ResetPasswordModal } from '@/app/ui/modals';
-import { Carousel } from '@/app/ui/misc';
+import { MainBackground } from '@/app/ui/atoms';
+import { Carousel } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
-import { Info, InsideTern } from '@/app/ui/templates';
+import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
 import SVG_CITY from '/public/images/city-glowing-way.jpg';
 import SVG_MICROPROCESSOR from '/public/images/microprocessor.png';
 import SVG_NATURE from '/public/images/nature.png';
-import SVG_OFFICE_GIRL_1 from '/public/images/office-girl-2.png';
-import SVG_OFFICE_GIRL_2 from '/public/images/office-girl-1.png';
 import SVG_CIRCUIT from '/public/images/microchip.png';
+
+//commenting or automation testing
 
 const CARDS: {
     title: string;
@@ -52,7 +53,7 @@ const CARDS: {
     },
 ];
 
-const INFO: InfoSection = {
+const INFO: InfoSectionData = {
     title: 'Building the Ternary Microprocessor',
     image: SVG_CIRCUIT,
     subTitle: 'Imperative Paradigm Shift',
@@ -62,25 +63,7 @@ const INFO: InfoSection = {
         'AI is here to stay, and it’s crucial to ensure we meet the growing demand for energy consumption. Our advanced microprocessor designs serve as the catalyst for the next technological revolution in computing.',
 };
 
-const COMPANY: SectionCard[] = [
-    {
-        title: 'Tern Careers',
-        description: 'Become a ternster',
-        action: 'Explore Jobs',
-        href: MISC_LINKS.Careers,
-        icon: SVG_OFFICE_GIRL_1,
-        btnIcon: 'arrow',
-        btnIconCN: 'rotate-180',
-    },
-    {
-        title: 'Tern Academy',
-        description: 'Explore Learning Opportunities',
-        action: 'Start Learning',
-        href: MEDIA_LINKS.YouTube.href,
-        icon: SVG_OFFICE_GIRL_2,
-        btnIcon: 'arrow-square',
-    },
-];
+const BTN_CN = 'px-s h-button-l  lg:h-button-xxl';
 
 // const PARAGRAPHS: string[] = [
 //     "We abide by the following doctrine, which outlines our core ideology's six core values and exclusive purpose. We look for consistency, earnestness, acumen, flexibility, obsession, and ingenuity in each constituent we interact with. These six values, defined as follows, outline our organization's expectations and illustrate the characteristics we respect and adhere to.",
@@ -99,41 +82,41 @@ const HomePage: FC = () => {
         const token = params?.get('resetToken');
         if (token && !modalCtx.isOpened) return modalCtx.openModal(<ResetPasswordModal token={token} />);
         flowCtx.next()?.();
-        //eslint-disable-next-line
-    }, [params?.size])
-
+    }, [params?.size]);
 
     // const Paragraphs = PARAGRAPHS.map((p, idx) => <p key={p.slice(5) + idx}>{p}</p>)
 
     const CardsLi: ReactElement[] = CARDS.map((card, idx) => (
         <li
             key={card.title + idx}
-            className={'flex h-full flex-col overflow-hidden rounded-n border-n border-white-d0 text-center'}
+            className={
+                'relative flex h-full flex-col overflow-hidden border-s border-white-d0 text-center  md:max-w-[22rem]'
+            }
         >
-            <div
-                style={{ backgroundImage: `url("${card.image.src}")` }}
-                className={cn(
-                    'flex h-[14.125rem] w-[calc(100%-2px)] items-end justify-center',
-                    'bg-cover bg-center bg-no-repeat',
-                )}
-            >
-                <div className={'w-full bg-gradient-to-b from-transparent to-black pb-4xs'}>
-                    <h4 className={cn(styles.textGlow, 'font-oxygen text-heading font-bold')}>{card.title}</h4>
-                </div>
+            <div className={'relative -z-10 h-[14.125rem] w-full'}>
+                <div className={'absolute bg-gradient-to-t from-black to-transparent to-30%'} />
+                <Image
+                    width={150}
+                    height={150}
+                    src={card.image.src}
+                    alt={card.image.src}
+                    className={'h-full w-full object-cover'}
+                />
             </div>
             <div
                 className={cn(
-                    'flex flex-grow flex-col items-center justify-between p-xs leading-[1.2]',
+                    'flex flex-grow flex-col items-center justify-between p-s pt-n leading-n',
                     'pb-xl',
                     'sm:pb-n',
                 )}
             >
-                <p>{card.info}</p>
+                <h4 className={cn('text-heading font-bold')}>{card.title}</h4>
+                <p className={'mt-n'}>{card.info}</p>
                 <PageLink
                     href={card.link.href}
                     isExternal={card.link.href.startsWith('https://')}
                     className={cn(
-                        'h-[2.375rem] w-fit rounded-full border-s border-gray-l0 px-xs text-blue',
+                        'mt-xs  h-button-xl w-fit text-nowrap border-s border-gray-l0 px-xs text-blue',
                         'text-section-s',
                         'md:text-basic',
                         'sm:mt-xl',
@@ -147,52 +130,40 @@ const HomePage: FC = () => {
 
     return (
         <>
-            <div
-                style={{ backgroundImage: `url("${bgSrc}")` }}
-                className={
-                    'max-w-dwv absolute left-0 top-0 h-screen max-h-[100rem] w-dvw bg-cover bg-center bg-no-repeat'
-                }
-            />
             <div className={'relative z-10'}>
                 <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <div className={cn(styles.content, 'flex items-center justify-center')}>
+                    <MainBackground
+                        url={bgSrc}
+                        className={styles.sectionInsetShadowBlack}
+                    />
+                    <div className={cn(styles.content, 'relative z-10 flex items-center justify-center')}>
                         <div>
                             <h1
                                 className={cn(
-                                    styles.textGlow,
-                                    `text-center font-oxygen leading-[1.2]`,
-                                    `mb-n text-[5.0625rem]`,
-                                    `md:text-[3.4375rem]`,
-                                    `sm:x-[mb-xs,text-[2.9375rem]]`,
+                                    `text-center leading-n`,
+                                    `mb-n text-heading-3xl`,
+                                    `md:text-[2.8125rem]`,
+                                    `sm:x-[mb-xs,text-heading-l]`,
                                 )}
                             >
-                                <span>
-                                    <span>The Future of&nbsp;</span>
-                                    <span className={cn(styles.textBlueGlow, 'text-blue')}>AI</span>
-                                </span>
-                                <span>
-                                    &nbsp;is Built on <span className={'font-bold'}>tern</span>
-                                </span>
+                                We Design Advanced Semiconductors
                             </h1>
-                            <p className={'flex justify-center gap-x-xs text-heading-s sm:text-basic'}>
+                            <p
+                                className={
+                                    'flex flex-wrap justify-center gap-s text-nowrap text-basic lg:x-[gap-x-xl,text-heading-s]'
+                                }
+                            >
                                 <PageLink
                                     isExternal
-                                    href={MISC_LINKS.TernKey}
-                                    className={cn(
-                                        'h-[3.125rem] rounded-full bg-blue px-n text-black',
-                                        'sm:x-[px-xs,h-[1.875rem]]',
-                                    )}
+                                    href={MISC_LINKS.Tidal}
+                                    className={cn(BTN_CN, 'bg-blue text-black')}
                                 >
                                     Discover Tern
                                 </PageLink>
                                 <PageLink
                                     isExternal
-                                    href={MISC_LINKS.TernKeyDemo}
-                                    className={cn(
-                                        'h-[3.125rem] rounded-full border-n border-gray-l0 px-n',
-                                        'bg-black text-blue',
-                                        'sm:x-[px-xs,h-[1.875rem]]',
-                                    )}
+                                    href={MISC_LINKS.TidalDemo}
+                                    className={cn(BTN_CN, 'h-button-l border-n border-gray-l0 bg-black text-blue')}
                                 >
                                     Watch Demo
                                 </PageLink>
@@ -200,7 +171,7 @@ const HomePage: FC = () => {
                         </div>
                     </div>
                 </section>
-                <section className={cn(styles.section, styles.fullHeightSection, 'sm:!h-fit')}>
+                <section className={cn(styles.section, styles.fullHeightSection)}>
                     <div
                         className={cn(
                             styles.content,
@@ -210,29 +181,29 @@ const HomePage: FC = () => {
                     >
                         <h2
                             className={cn(
-                                styles.textGlow,
-                                'text-center font-oxygen text-[2.5rem] font-bold leading-[1.2] tracking-[0.1rem]',
-                                'md:text-[1.75rem]',
-                                'sm:text-[1.1875rem]',
+                                'text-center text-heading-xl font-bold',
+                                'text-[3.1875rem] leading-xl',
+                                'sm:x-[text-[1.5625rem],leading-l]',
                             )}
                         >
-                            <p>Redesigning the Computer from the Inside Out with Tern.</p>
-                            <p>All Ways.</p>
+                            <span>There’s Always a Better Way</span>
+                            <span className={'block text-blue'}>All Ways</span>
                         </h2>
                         <Carousel
-                            className={'sm: lg:contents'}
-                            classNameUl={
-                                'grid-cols-[repeat(3,22rem)] !h-[30.3125rem]  lg:max-h-[30.3125rem]  sm:grid-cols-[minmax(0,21rem)] sm:!h-fit'
-                            }
+                            className={'lg:contents'}
+                            classNameUl={cn(
+                                'grid-cols-[repeat(3,22rem)]',
+                                'lg:max-h-[30.3125rem]',
+                                'sm:!h-fit sm:grid-cols-[minmax(0,21rem)]',
+                            )}
                             classNameArrow={'hidden  md:block'}
                         >
                             {CardsLi}
                         </Carousel>
                         <p
                             className={cn(
-                                styles.textGlow,
-                                'mt-auto w-[82%] text-left font-bold leading-[1.2]',
-                                'text-[2rem]',
+                                'mt-auto w-[82%] text-left font-bold leading-n',
+                                'text-section-xl',
                                 'md:text-[1.5rem]',
                                 'sm:x-[mt-[10.5rem],text-section]',
                             )}
@@ -243,9 +214,8 @@ const HomePage: FC = () => {
                 </section>
                 <section
                     className={cn(
-                        styles.textGlow,
                         styles.section,
-                        'bg-gradient-to-t from-[--bg-green] via-[#0a313a] to-transparent',
+                        'from-green bg-gradient-to-t via-[#0a313a] to-transparent',
                         'pb-[28rem]',
                         'md:pb-[23rem]',
                     )}
@@ -261,13 +231,16 @@ const HomePage: FC = () => {
                         >
                             the world is not binary
                         </h2>
-                        <p className={'text-right text-[2rem] font-bold sm:text-[1.25rem] md:text-[1.5rem]'}>
+                        <p className={'text-right text-section-xl font-bold sm:text-[1.25rem] md:text-[1.5rem]'}>
                             and neither is the future.
                         </p>
                     </div>
                 </section>
-                <Info data={INFO} />
-                <InsideTern data={COMPANY} />
+                <InfoSection
+                    blur
+                    data={INFO}
+                />
+                <InsideTernSection className={'!bg-transparent'} />
             </div>
         </>
     );

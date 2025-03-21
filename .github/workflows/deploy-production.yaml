@@ -23,7 +23,7 @@ jobs:
 
       - name: Verify SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_PRD }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
             # Display Node.js and npm versions to confirm connection and environment setup
             node -v
             npm -v
@@ -31,7 +31,7 @@ jobs:
 
       - name: SSH into the GCP instance and run the deployment script
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_PRD }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
             # Navigate to the project directory on the GCP instance
             cd /home/${{ secrets.GCP_USERNAME }}/Website
             # Pull the latest changes from the main branch
@@ -42,9 +42,10 @@ jobs:
             npm run build
             # Restart the application service to apply updates
             sudo service website-app restart
+            sudo systemctl status website-app
           EOF
       
-      - name: Send Deployment Status Notification to Discord
+      - name: Send Deployment Status Notification to Slack
         if: always()  # Run this step regardless of success or failure
         run: |
           # Capture the job status
@@ -53,9 +54,18 @@ jobs:
           if [ "$STATUS" == "success" ]; then
             MESSAGE=":white_check_mark: Deployment successful"
           fi
-
-          # Send message to Discord
+      
+          # Construct the GitHub Actions run link
+          ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      
+          # Send message to Slack
           curl -X POST -H "Content-Type: application/json" \
-          -d "{\"content\":\"**Deploy Website**\n**Creator:** ${{ github.event.client_payload.creator }}\n**Approver:** ${{ github.event.client_payload.approver }}\n**Merger:** ${{ github.event.client_payload.merger }}\n**Status:** $MESSAGE\"}" \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
-
+          -d '{
+            "text": "**🚀 Deploy Website**\n
+            **Creator:** ${{ github.event.client_payload.creator }}\n
+            **Approver:** ${{ github.event.client_payload.approver }}\n
+            **Merger:** ${{ github.event.client_payload.merger }}\n
+            **Status:** '"$MESSAGE"'\n
+            **[🔍 View Action]('"$ACTIONS_URL"')**"
+          }' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}

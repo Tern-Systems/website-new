@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
+import React, { FC, ReactElement, useRef, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
@@ -12,6 +12,7 @@ import { PageLink } from '@/app/ui/layout/Link';
 import { AuthModal } from '@/app/ui/modals';
 
 import SVG_PROFILE from '/public/images/icons/profile.svg';
+import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const AUTH_BTNS: { title: string; action: string; description: string }[] = [
     { title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account' },
@@ -27,14 +28,7 @@ const ProfileMenu: FC = () => {
 
     const ref = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            if (opened && !ref.current?.contains(event.target as Node)) setOpened(false);
-        };
-        window.addEventListener('mousedown', handleClick);
-        return () => window.removeEventListener('mousedown', handleClick);
-        // eslint-disable-next-line
-    }, [opened]);
+    useOuterClickClose(ref, opened, setOpened);
 
     let ProfileMenu: ReactElement | null = null;
     if (opened) {
@@ -47,7 +41,6 @@ const ProfileMenu: FC = () => {
                     <PageLink
                         href={link}
                         className={`bg-control relative flex justify-center`}
-                        onClick={() => setOpened(false)}
                     />
                 </li>
             ));
@@ -67,7 +60,7 @@ const ProfileMenu: FC = () => {
             ProfileMenu = (
                 <ul
                     className={cn(
-                        `absolute right-0 top-[calc(1px+var(--h-heading))] z-10 w-[9.1875rem] text-nowrap bg-gray-d0 text-basic`,
+                        `absolute right-0 top-[calc(1px+var(--h-heading))] z-10 w-[9.1875rem] text-nowrap bg-gray-d1 text-basic`,
                         `[&>li]:x-[px-xs,py-xxs]`,
                     )}
                 >
@@ -109,24 +102,30 @@ const ProfileMenu: FC = () => {
 
     const userBtns: ReactElement | ReactElement[] = (
         <div
-            ref={ref}
             onClick={() => setOpened((prevState) => !prevState)}
             className={'relative'}
         >
-            <div className={cn('h-full content-center px-s', { ['bg-gray-d0']: opened })}>
+            <div className={cn('h-full content-center px-s', { ['bg-gray-d1']: opened })}>
                 <Image
                     src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
                     width={29}
                     height={29}
                     alt={'profile icon'}
-                    className={'!w-heading-icon cursor-pointer rounded-full'}
+                    className={'!w-heading-icon cursor-pointer'}
                 />
             </div>
             {ProfileMenu}
         </div>
     );
 
-    return <div className={'ml-auto flex h-full gap-[0.75rem]'}>{userBtns}</div>;
+    return (
+        <div
+            ref={ref}
+            className={'ml-auto flex h-full gap-[0.75rem]'}
+        >
+            {userBtns}
+        </div>
+    );
 };
 
 export { ProfileMenu };

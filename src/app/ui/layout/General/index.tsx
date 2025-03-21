@@ -1,27 +1,23 @@
 'use client';
 
-import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect } from 'react';
+import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { IModalContext } from '@/app/context/Modal.context';
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
 import { getIdName } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks';
 import { useLayout, useModal, useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
-import { Insignia } from '@/app/ui/misc';
+import { Insignia } from '@/app/ui/organisms';
 import { HelpModal } from '@/app/ui/modals';
 import { Header } from './Header';
 
 import '@/app/globals.css';
 import styles from '@/app/common.module.css';
-
-import PNG_NEURONS from '/public/images/neurons.png';
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);
 
@@ -38,7 +34,7 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
         title: 'Company',
         links: [
             Route.About,
-            Route.TernKey,
+            Route.Tidal,
             Route.Contact,
             // {title: 'TernKit', action: 'https://'},
             // {title: 'Cyrus', action: 'https://'},
@@ -76,19 +72,59 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
     },
 ];
 
+const SCROLL_CHECK_INTERVAL_MS = 50;
+
 const Layout: FC<PropsWithChildren> = ({ children }) => {
     const modalCtx = useModal();
     const params = useSearchParams();
     const router = useRouter();
     const layoutCtx = useLayout();
     const userCtx = useUser();
-    const breakpoint = useBreakpointCheck();
+
+    const [_, setScrollState] = layoutCtx.scrollState;
+
+    const ref = useRef<HTMLDivElement>(null);
+    const scrollIntervalRef = useRef<null | NodeJS.Timeout>(null);
 
     useEffect(() => {
         const token = params?.get('resetToken');
         if (token) router.push(Route.Home + '?resetToken=' + token);
-        //eslint-disable-next-line
     }, [params?.size]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollState((prevState) => ({
+                ...prevState,
+                scrollHeight: ref.current?.scrollHeight ?? 0,
+                scrollTop: ref.current?.getBoundingClientRect().top ?? 0,
+            }));
+        };
+
+        const handleMouseDown = (event: MouseEvent) => {
+            if (event.button === 1 && !scrollIntervalRef.current) {
+                scrollIntervalRef.current = setInterval(() => {
+                    handleScroll();
+                }, SCROLL_CHECK_INTERVAL_MS);
+            } else if (scrollIntervalRef.current) {
+                clearInterval(scrollIntervalRef.current);
+                handleScroll();
+                scrollIntervalRef.current = null;
+            }
+        };
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (['ArrowDown', 'Escape', 'ArrowUp'].includes(event.key)) handleScroll();
+        };
+
+        window.addEventListener('wheel', handleScroll);
+        window.addEventListener('mouseup', handleMouseDown);
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('wheel', handleScroll);
+            window.removeEventListener('mouseup', handleMouseDown);
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [ref.current, scrollIntervalRef.current]);
 
     const FooterLinksLi: ReactElement[] = FOOTER_LINKS.map((section, idx: number) => {
         const LinksLi: ReactNode[] = section.links.map((link, linkIdx) => {
@@ -119,7 +155,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         return (
             <li
                 key={section.title + idx}
-                className={cn({ ['flex-1']: breakpoint <= Breakpoint.xxs })}
+                className={'w-fit'}
             >
                 <ul className={'flex flex-col gap-y-xs'}>
                     <li className={'text-section-s font-bold capitalize'}>{section.title}</li>
@@ -137,7 +173,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     ].map((link, idx) => (
         <li
             key={link.href + idx}
-            className={`size-[2.5rem] sm:size-n ${styles.clickable}`}
+            className={`size-[2.5rem] ${styles.clickable}`}
         >
             <a
                 href={link.href}
@@ -157,9 +193,8 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             <Header />
             <div
                 id={'content'}
-                style={{ backgroundImage: `url("${PNG_NEURONS.src}")` }}
                 className={cn(
-                    `relative flex w-full flex-grow flex-col items-center`,
+                    `flex w-full flex-grow flex-col items-center`,
                     `w-screen bg-cover bg-fixed bg-no-repeat`,
                     `sm:overflow-hidden`,
                     `sm:landscape:overflow-y-scroll`,
@@ -179,26 +214,39 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                 <div
                     className={cn(
                         styles.content,
-                        `h-footer-lg grid grid-cols-[minmax(0,1fr),minmax(0,2fr)] py-l leading-none`,
-                        { [`!flex flex-col gap-y-xxl`]: breakpoint <= Breakpoint.xs },
+                        `pt-xxl pb-n leading-none tracking-wide`,
+                        `xs:x-[flex,flex-col,gap-y-[6.25rem]]`,
+                        `sm:x-[flex,flex-col,gap-y-[6.25rem]]`,
                     )}
                 >
-                    <Insignia className={'[&_*]:x-[!w-[5.875rem],h-auto]'} />
-                    <ul
+                    <div
                         className={cn(
-                            'flex w-full justify-between',
-                            { [`!justify-start gap-x-xxl`]: breakpoint <= Breakpoint.xs },
-                            { [`flex-wrap gap-y-n`]: breakpoint <= Breakpoint.xxs },
+                            `h-footer-lg grid grid-cols-[min-content,minmax(0,2fr)] `,
+                            `xs:x-[flex,flex-col,gap-y-xxl]`,
+                            `sm:x-[flex,flex-col,gap-y-xxl]`,
                         )}
                     >
-                        {FooterLinksLi}
-                    </ul>
+                        <Insignia className={'[&&_*]:!h-[2.125rem] self-start'} />
+                        <ul
+                            className={cn(
+                                'flex w-full  md:justify-items-end  lg:justify-items-end',
+                                'grid gap-y-xxl',
+                                'grid-cols-2 md:grid-cols-4 lg:grid-cols-4',
+                                'xs:gap-x-xxl',
+                            )}
+                        >
+                            {FooterLinksLi}
+                        </ul>
+                    </div>
                     <div
-                        className={cn('col-span-2 mt-[7rem] flex w-full items-center justify-between', {
-                            [`mt-0 flex flex-col-reverse !items-start gap-y-n`]: breakpoint <= Breakpoint.xs,
-                        })}
+                        className={cn(
+                            'col-span-2 flex w-full items-center justify-between  md:mt-[10.9375rem]  lg:mt-[10rem] ',
+                            `xs:x-[flex,flex-col-reverse,gap-y-xxl,mt-0,items-start]`,
+                        )}
                     >
-                        <p className={'leading-[1.2]'}>Copyright © 2025 Tern Systems LLC </p>
+                        <p className={'leading-n  xs:self-start  sm:self-end  md:self-end  lg:self-end'}>
+                            Copyright © 2025 Tern Inc.{' '}
+                        </p>
                         <ul className={cn('col-span-3 flex flex-wrap gap-3xs')}>{ContactLinks}</ul>
                     </div>
                 </div>
@@ -209,10 +257,15 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     const LayoutFinal = layoutCtx.isNoLayout ? (
         children
     ) : (
-        <div className={`flex min-h-full flex-grow select-none flex-col justify-between`}>{Layout}</div>
+        <div
+            ref={ref}
+            className={`flex min-h-full flex-grow select-none flex-col justify-between`}
+        >
+            {Layout}
+        </div>
     );
 
-    return <div className={'relative h-dvh max-h-dvh overflow-y-scroll font-neo text-primary'}>{LayoutFinal}</div>;
+    return <div className={'h-dvh max-h-dvh overflow-y-scroll text-primary'}>{LayoutFinal}</div>;
 };
 
 export { Layout };

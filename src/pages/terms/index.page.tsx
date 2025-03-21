@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Highlighted } from '@/app/ui/misc';
+import { Highlighted } from '@/app/ui/organisms';
 
 const PARAGRAPHS: string = `Tern Systems LLC: Terms and Conditions
 
@@ -82,7 +82,7 @@ const TermsPage = () => (
     <Highlighted heading={'Terms & Conditions'}>
         <pre
             dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
-            className={'whitespace-pre-line font-neo'}
+            className={'whitespace-pre-line '}
         />
     </Highlighted>
 );

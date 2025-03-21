@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Highlighted } from '@/app/ui/misc';
+import { Highlighted } from '@/app/ui/organisms';
 
 const PARAGRAPHS: string = `Tern Systems LLC Privacy Policy
 
@@ -90,7 +90,7 @@ const PrivacyPage = () => (
     <Highlighted heading={'Privacy Policy'}>
         <pre
             dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
-            className={'whitespace-pre-line font-neo'}
+            className={'whitespace-pre-line '}
         />
     </Highlighted>
 );

@@ -6,50 +6,53 @@ import { HelpModal } from '@/app/ui/modals';
 
 enum NavLink {
     Nav,
+    Breadcrumbs,
     SubNav,
-    Sub2Nav,
 }
 
 const LAYOUT: {
     fadeDuration: number;
     profileLinks: Route[];
     navLinks: Route[];
-    breadcrumbsRoutes: Route[];
+    blogLinks: Route[];
 } = {
     fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
-    navLinks: [Route.About, Route.TernKey, Route.Contact, Route.Support, Route.AllWays],
-    breadcrumbsRoutes: [Route.Documentation],
+    navLinks: [Route.About, Route.Tidal, Route.Contact, Route.SupportHub, Route.AllWays],
+    blogLinks: [
+        Route.Artificial,
+        Route.Batteries,
+        Route.Cloud,
+        Route.Cybersecurity,
+        Route.Data,
+        Route.Centers,
+        Route.Robotics,
+        Route.Semiconductors,
+        Route.Videos,
+        Route.Podcasts,
+        Route.Events,
+        Route.More,
+    ],
 };
 
 const ROUTES_WITH_INDEX: Record<string, true> = { [Route.Profile]: true };
 
-const MAPPED_NAV_ROUTES: Record<string, string> = {
-    // [Route.Products]: 'Products',
-    // [Route.ARCH]: 'Services',
-    [Route.Home]: 'Home',
-    [Route.TernKey]: 'TernKey',
+const MAPPED_NAV_ROUTES: Record<string, string> = {};
+
+const SPECIAL_NAV_ROUTES: Record<string, string> = {
+    [Route.Tidal]: 'Tidal',
+    [Route.TidalDoc]: 'Tidal',
 };
 
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
-    // [Route.Products]: 'All',
-    [Route.TernKey]: 'Home',
-    // [Route.Dot]: 'Download',
-    // [Route.TBD0]: 'TBD',
-    // [Route.TBD1]: 'TBD',
-    // [Route.TBD2]: 'TBD',
-};
-
-const SPECIAL_NAV_ROUTES: Record<string, string> = {
+    [Route.Tidal]: 'Home',
     [Route.BTMCDoc]: 'BTMC',
-    [Route.TernKey]: 'TernKey',
-    [Route.TernKeyDoc]: 'TernKey',
 };
 
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
 
 const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
-    [Route.Support]: {
+    [Route.SupportHub]: {
         name: 'Support',
         columns: [
             {
@@ -61,17 +64,18 @@ const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
             {
                 Documentation: Route.MyDocumentation,
                 'All Documentation': Route.Documentation,
-                'TernKey user manual': Route.TernKeyDoc,
+                'Tidal user manual': Route.TidalDoc,
                 'G handbook': Route.GDoc,
             },
             {
-                Resources: '', // TODO links
-                'Open a case': Route.Contact,
+                Resources: Route.Resources, // TODO links
+                Downloads: Route.Downloads,
+                Tips: Route.Tips,
                 'Support hub': (modalCtx: IModalContext) => modalCtx.openModal(<HelpModal type={'support'} />),
-                'View your cases': Route.Contact, // TODO links
+                Community: Route.Community, // TODO links
             },
             {
-                Training: '', // TODO links
+                Training: Route.Training, // TODO links
                 Courses: '',
                 'Professional certificates': '',
             },

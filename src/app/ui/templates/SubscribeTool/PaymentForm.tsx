@@ -4,14 +4,14 @@ import { FlowQueue } from '@/app/context/Flow.context';
 import { SavedCard } from '@/app/types/billing';
 import { Subscription, SubscriptionRecurrency } from '@/app/types/subscription';
 import { SubscribeData } from '@/app/services/billing.service';
-import { COUNTRY, CountryKey, Route, STATE_PROVINCE, StateKey } from '@/app/static';
+import { COUNTRY, CountryKey, MISC_LINKS, Route, STATE_PROVINCE, StateKey } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
 import { useForm, useNavigate } from '@/app/hooks';
 import { useFlow, useModal, useUser } from '@/app/context';
 
-import { ScrollEnd } from '@/app/ui/misc';
+import { ScrollEnd } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 import { Button, Input, Select } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
@@ -43,7 +43,7 @@ const FORM_DEFAULT: SubscribeData = {
     acceptTerms: false,
 };
 
-const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0';
+const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0 bg-[#fff]';
 const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 interface Props {
@@ -54,12 +54,12 @@ interface Props {
 }
 
 const PaymentForm: FC<Props> = (props: Props) => {
-    const { type, recurrency, priceUSD } = props;
+    const { name, type, recurrency, priceUSD } = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
     const userCtx = useUser();
-    const [navigate] = useNavigate();
+    const [navigate] = useNavigate(true);
 
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
     const [isBillingExpanded, setBillingExpandedState] = useState(false);
@@ -75,7 +75,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 const { payload: cards } = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
             } catch (error: unknown) {
-                if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+                // Empty block
             }
         };
         fetchCards();
@@ -83,25 +83,21 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
     // Flow / payment status
     useEffect(() => {
-        if (paymentStatus === false) {
-            modalCtx.openModal(<DeclinedModal />);
-            setPaymentStatus(null);
-        } else if (paymentStatus) {
-            userCtx.fetchUserData();
-            const next = flowCtx.next();
-            if (next) next();
-            else {
-                const flow: FlowQueue = [];
-                flow.push(() => {
+        const finishPayment = async () => {
+            if (paymentStatus === false) {
+                modalCtx.openModal(<DeclinedModal />);
+                setPaymentStatus(null);
+            } else if (paymentStatus) {
+                await userCtx.setupSession(true);
+                const next = flowCtx.next();
+                if (next) next();
+                else {
+                    window.open(MISC_LINKS.Tidal, '_blank');
                     navigate(Route.Home);
-                });
-                flow.push(() => {
-                    modalCtx.openModal(<MessageModal>{paymentStatus}</MessageModal>);
-                });
-                flowCtx.run(flow);
+                }
             }
-        }
-        // eslint-disable-next-line
+        };
+        finishPayment();
     }, [paymentStatus]);
 
     const toggleBillingDetails = () => setBillingExpandedState((prev) => !prev);
@@ -114,7 +110,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
             let formDataMapped: SubscribeData = formData;
-            if (!isBillingExpanded) {
+            if (!isBillingExpanded && !savedCards.length) {
+                if (!formData.billingAddress) return;
                 const billingAddress = formData.billingAddress.split(',');
                 formDataMapped = {
                     ...formData,
@@ -129,9 +126,13 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
             if (savedCards.length) {
                 const selectedCard: SavedCard = savedCards[+formData.savedCardIdx];
+
+                if (!selectedCard.billingAddress) throw 'Error preparing billing address';
+
                 formDataMapped.id = selectedCard.id;
                 formDataMapped.cvc = formData.cvc;
                 formDataMapped.state = selectedCard.billingAddress.state;
+
                 await BillingService.postProcessSavedPayment(
                     formDataMapped,
                     type,
@@ -148,7 +149,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     userCtx.userData.email,
                 );
             setPaymentStatus(true);
-        } catch (error: unknown) {
+        } catch (err: unknown) {
+            if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
             setPaymentStatus(false);
         }
     };
@@ -236,11 +238,12 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     <legend>Billing Address</legend>
                     <Select
                         options={COUNTRY}
-                        value={formData.country}
+                        value={formData.country ?? ''}
                         placeholder={'Country / Region'}
                         onChangeCustom={(value) => setFormData('country')(value)}
                         className={`${SELECT_CN} bg-white [&&]:rounded-b-none`}
                         classNameOption={CONTROL_H_CN}
+                        classNameUl={'min-w-0'}
                         required
                     />
                     {isBillingExpanded ? (
@@ -281,9 +284,9 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 />
                             </div>
                             <Select
-                                options={STATE_PROVINCE?.[formData.country] ?? {}}
+                                options={STATE_PROVINCE?.[formData?.country ?? ''] ?? {}}
                                 hidden={!isBillingExpanded}
-                                value={formData.state}
+                                value={formData.state ?? ''}
                                 placeholder={'State / Province'}
                                 onChangeCustom={(value) => setFormData('state')(value)}
                                 className={`${SELECT_CN} [&&]:rounded-t-none [&&]:border-t-0`}
@@ -348,15 +351,15 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 className='underline'
                             >
                                 cancel at any time
-                            </PageLink>{' '}
-                            . By subscribing, you agree to Tern System&apos;s&nbsp;
+                            </PageLink>
+                            &nbsp; . By subscribing, you agree to Tern System&apos;s&nbsp;
                             <PageLink
                                 href={Route.Terms}
                                 className='underline'
                             >
                                 Terms & Conditions
-                            </PageLink>{' '}
-                            and&nbsp;
+                            </PageLink>
+                            &nbsp; and&nbsp;
                             <PageLink
                                 href={Route.Privacy}
                                 className='underline'
@@ -368,7 +371,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        className={`mt-[min(4dvw,--p-n)] h-[4.4rem] w-full rounded-full bg-gray font-neo text-section-s font-bold text-primary sm:h-[3.125rem]`}
+                        className={`mt-[min(4dvw,--p-n)] h-[4.4rem] w-full rounded-full bg-gray text-section-s font-bold text-primary sm:h-[3.125rem]`}
                     >
                         Subscribe
                     </Button>

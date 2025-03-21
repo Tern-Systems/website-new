@@ -34,8 +34,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-        //eslint-disable-next-line
-    }, [Modal])
+    }, [Modal]);
 
     const handleModalChange = (Component: ReactElement | null, config: ModalConfig) => {
         setModal(Component);
@@ -62,7 +61,7 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 <div
                     onClick={() => closeModal()}
                     className={cn(
-                        `absolute z-50 flex h-full w-full select-none overflow-hidden font-neo text-primary`,
+                        `absolute z-50 flex h-full w-full select-none overflow-hidden text-primary`,
                         layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn,
                     )}
                 >

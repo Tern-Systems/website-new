@@ -6,7 +6,12 @@
   @apply block px-xxs h-full content-center;
 }
 
-.activeNavLink::before {
-  @apply absolute left-5xs h-[1px] -bottom-[0.5px];
+.activeNavLink {
+  @apply relative;
+}
+
+.activeNavLink:before {
+  @apply absolute left-5xs h-[2px] -bottom-[1px] bg-blue;
+  content: "";
   width: calc(100% - 2 * var(--p-5xs));
 }

@@ -1,3 +1,3 @@
-export { copyObject, formatDate, generateFallbackEntries, capitalize } from './data';
-export { mapSavedCard } from './payment';
+export { copyObject, formatDate, generateFallbackEntries, capitalize, getId, checkNumber } from './data';
+export { mapSavedCard, getCardName } from './payment';
 export { getIdName, getRouteRoot, checkSubRoute, getRouteLeave, sliceRoute } from './router';

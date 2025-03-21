@@ -17,10 +17,10 @@ import { useBreakpointCheck, useNavigate } from '@/app/hooks';
 import { useModal, useUser } from '@/app/context';
 
 import { PageLink } from '@/app/ui/layout';
-import { AuthModal, HelpModal } from '@/app/ui/modals';
+import { AuthModal, HelpModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 import { LimitsModal } from './LimitsModal';
-import { Collapsible, ScrollEnd } from '@/app/ui/misc';
+import { Collapsible, ScrollEnd } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
@@ -48,19 +48,21 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
     const handleSubscribeClick = (type: PlanType) => {
         if (!userCtx.isLoggedIn) {
-            const info = `You must log into a Tern account to subscribe to ${subscriptionData?.subscription}. Please login or create an account to purchase a Plan.`;
-            return modalCtx.openModal(<AuthModal info={info} />, {
-                hideContent: true,
-            });
+            const info = `You must log into a Tern account to subscribe${subscriptionData?.subscription ? ' to ' + subscriptionData.subscription : ''}. Please login or create an account to purchase a Plan.`;
+            return modalCtx.openModal(<AuthModal info={info} />, { hideContent: true });
         }
 
-        if (!subscriptionData) return;
-
+        if (!subscriptionData || !subscriptionData.route) {
+            return modalCtx.openModal(
+                <MessageModal>Can&apos;t proceed with subscription - no required data</MessageModal>,
+                { darkenBg: true },
+            );
+        }
         const subscription: SubscriptionBase = {
             subscription: subscriptionData.subscription,
             type,
             isBasicKind: subscriptionData.isBasicKind,
-            priceUSD: subscriptionData.type[type].priceUSD[selectedRecurrency],
+            priceUSD: subscriptionData.type?.[type]?.priceUSD?.[selectedRecurrency],
             recurrency: selectedRecurrency,
         };
         sessionStorage.setItem('subscription', JSON.stringify(subscription));
@@ -89,8 +91,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     ): ReactElement => {
         const isAnnualRecurrency = selectedRecurrency.toLocaleLowerCase() === 'annual'.toLocaleLowerCase();
         const isCurrentRecurrency =
-            userSubscription?.recurrency.toLocaleLowerCase() === selectedRecurrency.toLocaleLowerCase();
-        const isCurrentType = userSubscription?.type.toLocaleLowerCase() === type.toLocaleLowerCase();
+            userSubscription?.recurrency?.toLocaleLowerCase() === selectedRecurrency.toLocaleLowerCase();
+        const isCurrentType = userSubscription?.type?.toLocaleLowerCase() === type.toLocaleLowerCase();
         const { isBasicKind } = subscriptionData ?? {};
         const isBasicPlan = type.toLocaleLowerCase() === 'Basic'.toLocaleLowerCase();
 
@@ -192,7 +194,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         }
 
         const pricing: string = data
-            ? data.priceUSD[selectedRecurrency]
+            ? data?.priceUSD?.[selectedRecurrency]
                 ? '$' + data.priceUSD[selectedRecurrency] + '/month'
                 : 'Free'
             : '--';
@@ -201,7 +203,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             <>
                 <h2
                     className={cn(
-                        `flex items-center font-oxygen font-bold capitalize`,
+                        `flex items-center font-bold capitalize`,
                         `mb-4xs text-heading-s`,
                         `lg:x-[mb-xxs,text-heading]`,
                         `md:text-heading`,
@@ -232,7 +234,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         `w-full rounded-full bg-blue text-section-s font-bold`,
                         `py-[1.12rem]`,
                         `sm:x-[py-xxs,text-basic]`,
-                        `disabled:x-[bg-inherit,border-s,border-gray,text-secondary]`,
+                        `disabled:x-[bg-inherit,border-s,border-gray-l0,text-secondary]`,
                     )}
                     disabled={isBtnDisabled}
                 >
@@ -270,7 +272,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 </ul>
                 <div
                     className={cn(
-                        `mt-[2.1rem] flex flex-grow flex-col font-oxygen text-section-xxs text-secondary`,
+                        `mt-auto flex flex-grow flex-col text-section-xxs text-secondary`,
                         `sm:landscape:text-section-3xs`,
                     )}
                 >
@@ -286,9 +288,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             (subscription: SubscriptionBase) => subscription.subscription === subscriptionData?.subscription,
         );
 
-        const isProUser = userSubscription?.type.toLocaleLowerCase() === 'Pro'.toLocaleLowerCase();
+        const isProUser = userSubscription?.type?.toLocaleLowerCase() === 'Pro'.toLocaleLowerCase();
         const isCurrentSubscription =
-            userSubscription?.subscription.toLocaleLowerCase() === subscriptionData?.subscription.toLocaleLowerCase();
+            userSubscription?.subscription?.toLocaleLowerCase() === subscriptionData?.subscription?.toLocaleLowerCase();
 
         const cutBasicColumn = subscriptionData?.isBasicKind === true && isCurrentSubscription && isProUser;
 
@@ -349,7 +351,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 className={cn(
                     'grid w-full auto-rows-min justify-center self-center overflow-scroll',
                     'lg:gap-x-[4.13rem]',
-                    'lg:h-[calc(100%-2.5rem)] lg:grid-cols-[repeat(2,minmax(0,25rem))]',
+                    'lg:h-[calc(100%-2.5rem)] lg:flex',
                     'md:portrait:h-[calc(100%-6.75rem)] md:portrait:grid-cols-[minmax(0,24rem)] md:landscape:grid-cols-[repeat(2,minmax(0,24rem))]',
                     'md:gap-xxs',
                     'sm:portrait:h-[calc(100%-6.75rem)] sm:portrait:grid-cols-[minmax(0,20rem)] sm:portrait:gap-y-4xs',

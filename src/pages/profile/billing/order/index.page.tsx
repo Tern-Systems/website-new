@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { Invoice } from '@/app/types/billing';
 import { Route } from '@/app/static';
 
-import { formatDate } from '@/app/utils';
+import { formatDate, getCardName } from '@/app/utils';
 import { useModal } from '@/app/context';
 
 import { FullScreenLayout } from '@/app/ui/layout';
@@ -62,27 +62,31 @@ function OrderPage() {
         renewDateStr = formatDate(renewDate);
     }
 
-    const card = (invoice?.card.cardType ?? '--') + ' •••• ' + (invoice?.card.last4 ?? '--');
+    const card: string = getCardName(invoice?.card);
 
     return (
-        <div className={'flex h-full font-oxygen sm:flex-col'}>
-            <OrderPreview
-                toPDFReceipt={toPDF}
-                invoice={invoice}
-                card={card}
-                invoiceDate={invoiceDateStr}
-                className={cn(styles.column, isDetailsToggled ? 'sm:hidden' : '')}
-                VisibilityToggle={ToggleDetailsBtn}
-            />
-            <OrderDetails
-                ref={receiptRef}
-                invoice={invoice}
-                card={card}
-                invoiceDate={invoiceDateStr}
-                renewDate={renewDateStr}
-                className={cn(styles.column, isDetailsToggled ? '' : styles.hidden)}
-                VisibilityToggle={ToggleDetailsBtn}
-            />
+        <div className={'flex h-full sm:flex-col'}>
+            {invoice ? (
+                <>
+                    <OrderPreview
+                        toPDFReceipt={toPDF}
+                        invoice={invoice}
+                        card={card}
+                        invoiceDate={invoiceDateStr}
+                        className={cn(styles.column, isDetailsToggled ? 'sm:hidden' : '')}
+                        VisibilityToggle={ToggleDetailsBtn}
+                    />
+                    <OrderDetails
+                        ref={receiptRef}
+                        invoice={invoice}
+                        card={card}
+                        invoiceDate={invoiceDateStr}
+                        renewDate={renewDateStr}
+                        className={cn(styles.column, isDetailsToggled ? '' : styles.hidden)}
+                        VisibilityToggle={ToggleDetailsBtn}
+                    />
+                </>
+            ) : null}
         </div>
     );
 }
