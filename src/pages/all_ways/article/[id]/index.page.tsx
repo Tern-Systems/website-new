@@ -45,7 +45,7 @@ const H2_REGEX = /<h2/g;
 
 const SECTION_GRID_CN = 'lg:grid  grid-cols-[1fr,3fr,1fr] gap-x-xs';
 const INFO_CN = 'border-t-s border-gray-l0 py-s px-4xs';
-const CONTENT_CN = '[&_*]:!text-primary [&_h2]:!text-heading-xl [&_*]:[all:revert]';
+const CONTENT_CN = '[&_*]:!text-primary [&_h2]:!text-40 [&_*]:[all:revert]';
 
 function ArticlePage() {
     const { id } = useParams() ?? ({} as { id: string });
@@ -124,9 +124,7 @@ function ArticlePage() {
             <section className={styles.section}>
                 <div className={cn(styles.content, SECTION_GRID_CN, 'mt-xl md:pt-3xl lg:pt-[4.4rem]')}>
                     <div className={'col-span-2 flex flex-col w-full h-fit'}>
-                        <h1 className={'leading-n  text-section-xl md:text-heading-xxl lg:text-heading-3xl'}>
-                            {content?.title}
-                        </h1>
+                        <h1 className={'leading-n  text-32 md:text-48 lg:text-64'}>{content?.title}</h1>
                         <div className={'contents'}>
                             <Image
                                 src={content?.poster ?? PNG_NATURE}
@@ -141,14 +139,14 @@ function ArticlePage() {
                         <div className={cn(INFO_CN, 'mt-xl lg:mt-0')}>
                             <span
                                 className={cn('bg-gray-l0 py-5xs px-3xs rounded-full', {
-                                    ['text-section-xxs']: !content?.tag,
+                                    ['text-12']: !content?.tag,
                                 })}
                             >
                                 {content?.tag ?? 'All Ways'}
                             </span>
                         </div>
                         <div className={INFO_CN}>
-                            <span className={cn({ ['text-section-xxs']: !content?.date })}>
+                            <span className={cn({ ['text-12']: !content?.date })}>
                                 {content?.date ? formatDate(new Date(content?.date)) : '-- date is not provided --'}
                             </span>
                         </div>
@@ -202,9 +200,7 @@ function ArticlePage() {
             </section>
             <section className={'mt-[10.3rem] pb-[10rem]'}>
                 <div className={styles.content}>
-                    <h3 className={'text-center  text-section-xl md:text-heading-xl lg:text-heading-xxl'}>
-                        More related articles
-                    </h3>
+                    <h3 className={'text-center  text-32 md:text-40 lg:text-48'}>More related articles</h3>
                     <ul
                         className={cn(
                             `grid auto-rows-max justify-items-center`,

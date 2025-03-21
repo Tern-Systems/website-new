@@ -99,7 +99,7 @@ const Select: FC<Props> = (props: Props) => {
                 `border-s border-white-d0 bg-white [&:not(:last-of-type)]:border-b-0`,
                 `overflow-ellipsis text-nowrap`,
                 classNameOption,
-                { ['!text-section-3xs']: EMPTY_KEY === key },
+                { ['!text-10']: EMPTY_KEY === key },
             )}
         >
             {value}

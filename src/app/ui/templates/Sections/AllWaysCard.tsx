@@ -23,9 +23,7 @@ const AllWaysCard: FC<Props> = (props: Props) => {
             <span
                 className={cn(
                     'absolute z-10 left-0 top-n bg-black/60 font-bold',
-                    alt
-                        ? 'sm:p-xs p-n lg:py-xl  text-heading-4xl sm:text-heading-3xl'
-                        : 'px-n py-5xs lg:p-3xs  text-heading-xl lg:text-heading-xxl',
+                    alt ? 'sm:p-xs p-n lg:py-xl  text-96 sm:text-64' : 'px-n py-5xs lg:p-3xs  text-40 lg:text-48',
                 )}
             >
                 All Ways
@@ -40,7 +38,7 @@ const AllWaysCard: FC<Props> = (props: Props) => {
                 icon={'arrow-right-long'}
                 className={cn(
                     'absolute flex-row-reverse justify-between px-xxs py-3xs w-full bg-blue',
-                    'text-section-xs lg:text-basic',
+                    'text-14 lg:text-16',
                     alt ? 'right-n bottom-n h-fit !w-fit' : 'bottom-0',
                 )}
                 iconClassName={cn('sm:size-[0.884rem] sm:[&_*]size-[0.884rem]  size-[1.25rem] [&_*]:size-[1.25rem]', {

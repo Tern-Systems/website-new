@@ -40,7 +40,7 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
             className={cn(
                 styles.clickable,
                 `cursor-pointer text-nowrap align-middle odd:bg-gray-d0  hover:!bg-gray-l0`,
-                `text-heading-s  sm:text-section-xxs`,
+                `text-21  sm:text-12`,
                 className,
             )}
         >
@@ -95,7 +95,7 @@ const BillingPage: FC = () => {
     return (
         <div className={cn(styles.section, `pt-[6.25rem]`)}>
             <section className={styles.content}>
-                <h1 className={`flex text-section-xl font-bold`}>Billing</h1>
+                <h1 className={`flex text-32 font-bold`}>Billing</h1>
             </section>
             <section className={cn(styles.content, styles.contentHighlight, 'mt-xl  lg:mt-xxl')}>
                 <Table

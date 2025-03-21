@@ -174,7 +174,7 @@ function CommunityEventsPage() {
                         'grid',
                         'sm:gap-x-0 gap-x-xxs',
                         'sm:grid-cols-[1fr,min-content] grid-cols-[min-content,1fr]',
-                        'text-section-xxs',
+                        'text-12',
                     )}
                 >
                     <span
@@ -186,19 +186,17 @@ function CommunityEventsPage() {
                             'w-[7.1875rem] h-[7.875rem]',
                         )}
                     >
-                        <span className={'text-center text-heading-3xl sm:x-[text-[2.5rem]]'}>{day}</span>
-                        <span className={'sm:x-[ml-[0.3125rem],text-section-3xs] text-section-xxs'}>
-                            {DAY_NAMES[day]}
-                        </span>
+                        <span className={'text-center text-64 sm:x-[text-[2.5rem]]'}>{day}</span>
+                        <span className={'sm:x-[ml-[0.3125rem],text-10] text-12'}>{DAY_NAMES[day]}</span>
                     </span>
                     <span
                         className={
-                            'col-start-2 flex items-center size-fit text-basic text-primary mt-[0.875rem] sm:x-[col-span-2,mt-[0.4375rem],!mr-auto]'
+                            'col-start-2 flex items-center size-fit text-16 text-primary mt-[0.875rem] sm:x-[col-span-2,mt-[0.4375rem],!mr-auto]'
                         }
                     >
                         {event.tag}
                     </span>
-                    <span className={'leading-n sm:x-[text-section-3xs,row-start-3,col-span-3] text-xs'}>
+                    <span className={'leading-n sm:x-[text-10,row-start-3,col-span-3] text-xs'}>
                         {event.description}
                     </span>
                     <span
@@ -295,9 +293,7 @@ function CommunityEventsPage() {
                 )}
             >
                 <BreadcrumbRoute />
-                <h1 className={cn('text-heading-xxl sm:x-[text-documentation,mb-[10px],mt-[10px]]')}>
-                    All Tern Community Events
-                </h1>
+                <h1 className={cn('text-48 sm:x-[text-24,mb-[10px],mt-[10px]]')}>All Tern Community Events</h1>
                 <SearchBar contentTypes={CONTENT_TYPES} />
                 <ul className={cn('grid grid-cols-1', 'gap-y-xxs gap-x-xs md:x-[gap-y-s,gap-x-n] lg:x-[gap-y-l]')}>
                     {EventsLi}
