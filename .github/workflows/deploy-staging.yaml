@@ -1,9 +1,13 @@
-name: Deploy to GCP Compute Engine (Staging)
+name: Deploy Website to GCP Compute Engine
 
+env: 
+  DEBUG: true 
+  
 on:
-  repository_dispatch:
-    types: [deploy-staging]
-
+  push:
+    branches:
+    - staging
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest  
@@ -14,58 +18,57 @@ jobs:
 
       - name: Set up SSH
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          mkdir -p ~/.ssh  # Create .ssh directory if it doesn't exist
+          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
+          chmod 600 ~/.ssh/id_rsa  # Set appropriate permissions for the SSH key
 
-      - name: Deploy to Staging
-        id: deploy
+      - name: Verify SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_STG }} << 'EOF'
-            set -e
-            
-            cd /home/${{ secrets.GCP_USERNAME }}/Website
-            
-            LAST_COMMIT=$(git rev-parse --short HEAD)
-            GIT_STATUS=$(git status -s || echo "Failed to get status")
-            BUILD_STATUS="Success"
-            
-            if ! git pull origin staging; then BUILD_STATUS="Git Pull Failed"; fi
-            if ! npm install; then BUILD_STATUS="NPM Install Failed"; fi
-            if ! npm run build; then BUILD_STATUS="Build Failed"; fi
-            
-            SERVICES_STATUS=$(sudo systemctl is-active website-app || echo "Service check failed")
-            sudo systemctl restart website-app || echo "Service restart failed"
-            
-            echo "LAST_COMMIT=$LAST_COMMIT" >> $GITHUB_ENV
-            echo "GIT_STATUS=$GIT_STATUS" >> $GITHUB_ENV
-            echo "BUILD_STATUS=$BUILD_STATUS" >> $GITHUB_ENV
-            echo "SERVICES_STATUS=$SERVICES_STATUS" >> $GITHUB_ENV
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_STG }} << 'EOF'
+            # Display Node.js and npm versions to confirm connection and environment setup
+            node -v
+            npm -v
           EOF
 
-      - name: Send Deployment Notification to Slack
-        if: always()
+      - name: SSH into the GCP instance and run the deployment script
         run: |
-          JSON_PAYLOAD=$(jq -n \
-            --arg commit "${{ env.LAST_COMMIT }}" \
-            --arg git_status "${{ env.GIT_STATUS }}" \
-            --arg build_status "${{ env.BUILD_STATUS }}" \
-            --arg service_status "${{ env.SERVICES_STATUS }}" \
-            '{
-              text: "🚀 *Staging Deployment*",
-              attachments: [
-                {
-                  fields: [
-                    { "title": "Commit", "value": $commit, "short": true },
-                    { "title": "Git Status", "value": $git_status, "short": true },
-                    { "title": "Build Status", "value": $build_status, "short": true },
-                    { "title": "Service Status", "value": $service_status, "short": true }
-                  ]
-                }
-              ]
-            }')
-
-          curl -X POST -H "Content-Type: application/json" -d "$JSON_PAYLOAD" ${{ secrets.SLACK_WEBHOOK_URL }}
-
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_STG }} << 'EOF'
+            # Navigate to the project directory on the GCP instance
+            cd /home/${{ secrets.GCP_USERNAME }}/Website
+            # Pull the latest changes from the main branch
+            git pull origin staging
+            # Install any new dependencies
+            npm install
+            # Build the application for production
+            npm run build
+            # Restart the application service to apply updates
+            sudo service website-app restart
+            # Service Status for website-app
+            sudo systemctl status website-app
+          EOF
+      
+      - name: Send Deployment Status Notification to Slack
+        if: always()  # Run this step regardless of success or failure
+        run: |
+          # Capture the job status
+          STATUS="${{ job.status }}"
+          MESSAGE=":x: Deployment failed"
+          if [ "$STATUS" == "success" ]; then
+            MESSAGE=":white_check_mark: Deployment successful"
+          fi
+      
+          # Construct the GitHub Actions run link
+          ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      
+          # Send message to Slack
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{
+            "text": "**🚀 Deploy Website**\n
+            **Creator:** ${{ github.event.client_payload.creator }}\n
+            **Approver:** ${{ github.event.client_payload.approver }}\n
+            **Merger:** ${{ github.event.client_payload.merger }}\n
+            **Status:** '"$MESSAGE"'\n
+            **[🔍 View Action]('"$ACTIONS_URL"')**"
           }' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
+
