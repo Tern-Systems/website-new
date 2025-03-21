@@ -1,9 +1,12 @@
-name: Deploy to GCP Compute Engine (Production)
+name: Deploy Website to GCP Compute Engine
 
+env: 
+  DEBUG: true 
+  
 on:
   repository_dispatch:
     types: [deploy-production]
-
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest  
@@ -14,49 +17,55 @@ jobs:
 
       - name: Set up SSH
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          mkdir -p ~/.ssh  # Create .ssh directory if it doesn't exist
+          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa  # Save SSH key from secrets
+          chmod 600 ~/.ssh/id_rsa  # Set appropriate permissions for the SSH key
 
-      - name: Deploy to Production
-        id: deploy
+      - name: Verify SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP_PRD }} << 'EOF'
-            cd /home/${{ secrets.GCP_USERNAME }}/Website
-            
-            LAST_COMMIT=$(git rev-parse --short HEAD)
-            GIT_STATUS=$(git status -s)
-            BUILD_STATUS="Success"
-
-            git pull origin main || BUILD_STATUS="Git Pull Failed"
-            npm install || BUILD_STATUS="NPM Install Failed"
-            npm run build || BUILD_STATUS="Build Failed"
-
-            SERVICES_STATUS=$(sudo systemctl status website-app | grep Active)
-            
-            sudo service website-app restart
-            
-            echo "LAST_COMMIT=$LAST_COMMIT" >> $GITHUB_ENV
-            echo "GIT_STATUS=$GIT_STATUS" >> $GITHUB_ENV
-            echo "BUILD_STATUS=$BUILD_STATUS" >> $GITHUB_ENV
-            echo "SERVICES_STATUS=$SERVICES_STATUS" >> $GITHUB_ENV
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
+            # Display Node.js and npm versions to confirm connection and environment setup
+            node -v
+            npm -v
           EOF
 
-      - name: Send Deployment Notification to Slack
-        if: always()
+      - name: SSH into the GCP instance and run the deployment script
         run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_INSTANCE_IP }} << 'EOF'
+            # Navigate to the project directory on the GCP instance
+            cd /home/${{ secrets.GCP_USERNAME }}/Website
+            # Pull the latest changes from the main branch
+            git pull origin main
+            # Install any new dependencies
+            npm install
+            # Build the application for production
+            npm run build
+            # Restart the application service to apply updates
+            sudo service website-app restart
+            sudo systemctl status website-app
+          EOF
+      
+      - name: Send Deployment Status Notification to Slack
+        if: always()  # Run this step regardless of success or failure
+        run: |
+          # Capture the job status
+          STATUS="${{ job.status }}"
+          MESSAGE=":x: Deployment failed"
+          if [ "$STATUS" == "success" ]; then
+            MESSAGE=":white_check_mark: Deployment successful"
+          fi
+      
+          # Construct the GitHub Actions run link
+          ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      
+          # Send message to Slack
           curl -X POST -H "Content-Type: application/json" \
           -d '{
-            "text": "🚀 *Production Deployment*",
-            "attachments": [
-              {
-                "fields": [
-                  { "title": "Commit", "value": "${{ env.LAST_COMMIT }}", "short": true },
-                  { "title": "Git Status", "value": "${{ env.GIT_STATUS }}", "short": true },
-                  { "title": "Build Status", "value": "${{ env.BUILD_STATUS }}", "short": true },
-                  { "title": "Service Status", "value": "${{ env.SERVICES_STATUS }}", "short": true }
-                ]
-              }
-            ]
+            "text": "**🚀 Deploy Website**\n
+            **Creator:** ${{ github.event.client_payload.creator }}\n
+            **Approver:** ${{ github.event.client_payload.approver }}\n
+            **Merger:** ${{ github.event.client_payload.merger }}\n
+            **Status:** '"$MESSAGE"'\n
+            **[🔍 View Action]('"$ACTIONS_URL"')**"
           }' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
