@@ -12,7 +12,7 @@ import { useBreakpointCheck } from '@/app/hooks';
 import { useModal } from '@/app/context';
 
 import { MainBackground } from '@/app/ui/atoms';
-import { ArticleCard, ResourceCard } from '@/app/ui/organisms';
+import { ArticleCard, ResourceCard, Tabs } from '@/app/ui/organisms';
 import { MessageModal } from '@/app/ui/modals';
 import { PageLink } from '@/app/ui/layout';
 
@@ -21,6 +21,7 @@ import styles from '@/app/common.module.css';
 import PNG_BG_MAIN from '/public/images/community-bg-main.png';
 import PNG_ABOUT from '/public/images/community-about.png';
 import PNG_HIGHLIGHTED_0 from '/public/images/community-card-highlighted-0.png';
+import PNG_HIGHLIGHTED_1 from '/public/images/community-card-highlighted-2.png';
 
 import SVG_CLOCK from '/public/images/icons/clock.svg';
 import PNG_CARD_1 from '/public/images/community-card-0.png';
@@ -240,6 +241,61 @@ function CommunityPage() {
         </li>
     ));
 
+    const RC_Wrapper = '!p-0 !bg-white-d2 from-transparent !gap-0  sm:!grid-cols-1 !grid-cols-2';
+    const RC_Title = '[&]:text-documentation leading-l  md:[&]:text-heading-l  lg:[&]:text-heading-xl';
+    const RC_IMG = '!object-cover object-right h-[25.5rem]  md:h-[31.25rem]  lg:h-[39.1875rem]';
+    const RC_Content =
+        '[&]:flex row-start-1 text-black p-xxs gap-y-xxs  sm:row-start-2  md:x-[p-n,gap-y-3xl]  lg:x-[p-xxl,gap-y-[5rem]]';
+    const RC_Children = '!w-full tracking-wide text-section-xxs  md:text-section-xs  lg:text-basic';
+    const RC_Link = 'sm:mt-xs !mt-auto text-section-xxs  md:text-section-xs  lg:text-basic';
+
+    const tabs = [
+        {
+            name: 'Associates',
+            content: (
+                <ResourceCard
+                    type={'highlighted'}
+                    icon={PNG_HIGHLIGHTED_0}
+                    title={'We love interacting with our associates'}
+                    action={{ title: 'Read Whitepaper', href: '' }}
+                    className={{
+                        wrapper: RC_Wrapper,
+                        title: RC_Title,
+                        image: RC_IMG,
+                        content: RC_Content,
+                        children: RC_Children,
+                        link: cn(RC_Link, 'bg-transparent text-blue text-section-xxs [&_path]:fill-blue p-0 '),
+                    }}
+                >
+                    Find out more about our unique strategic approach to cultivating lasting professional relationships.
+                </ResourceCard>
+            ),
+        },
+        {
+            name: 'Customers',
+            content: (
+                <ResourceCard
+                    type={'highlighted'}
+                    icon={PNG_HIGHLIGHTED_1}
+                    title={'Customers deserve undivided attention'}
+                    action={{ title: 'Find resources', href: '' }}
+                    className={{
+                        wrapper: RC_Wrapper,
+                        title: RC_Title,
+                        image: RC_IMG,
+                        content: RC_Content,
+                        children: RC_Children,
+                        link: cn(RC_Link, 'bg-blue text-white [&_path]:fill-white p-0'),
+                    }}
+                >
+                    At Tern we hold our customers on the highest pedestal to ensure they receive the high-class
+                    professionalism they deserve. We do this through our Support Hub and Billing Resolution Centers
+                    resources.
+                </ResourceCard>
+            ),
+        },
+    ];
+
     return (
         <>
             <section className={cn(styles.section, 'h-screen max-h-[21.625rem]')}>
@@ -280,30 +336,11 @@ function CommunityPage() {
             </section>
             <section className={styles.section}>
                 <div className={cn(styles.content, 'pt-5xl md:pt-[6.25rem] lg:pt-[9.3rem]')}>
-                    <h3 className={'text-section-xl md:text-heading-xxl lg:text-heading-3xl'}>What Drives You?</h3>
-                    <p className={'leading-l  mt-n lg:mt-xl  text-section md:text-heading-s lg:text-heading'}>
-                        Join the conversation
-                    </p>
-                    {/*TODO href*/}
-                    <ResourceCard
-                        type={'highlighted'}
-                        icon={PNG_HIGHLIGHTED_0}
-                        title={'We love interacting with our associates'}
-                        action={{ title: 'Read Whitepaper', href: '' }}
-                        className={{
-                            wrapper: cn(
-                                '!p-0 !bg-white-d2 from-transparent !gap-0  sm:!grid-cols-1 !grid-cols-2',
-                                'mt-n md:mt-3xl lg:mt-5xl',
-                            ),
-                            image: cn('!object-cover object-right', 'h-[25.5rem] md:h-[31.25rem] lg:h-[39.1875rem]'),
-                            content: cn('row-start-1 text-black  sm:row-start-2 !flex  !p-xxs md:p-n lg:p-xxl'),
-                            children: '!w-full  mt-xxs md:mt-3xl lg:mt-[6.25rem]',
-                            link: 'bg-transparent text-blue [&_path]:fill-blue p-0  sm:mt-xs !mt-auto',
-                        }}
-                    >
-                        Find out more about our unique strategic approach to cultivating lasting professional
-                        relationships.
-                    </ResourceCard>
+                    <Tabs
+                        title='What Drives You?'
+                        description='Join the conversation'
+                        tabs={tabs}
+                    />
                 </div>
             </section>
             <section className={styles.section}>
