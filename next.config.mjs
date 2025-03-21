@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     pageExtensions: ['page.tsx', 'jsx', '_app.tsx'],
-    images: { // TODO
+    swcMinify: true,
+    experimental: {
+        forceSwcTransforms: true,
+        swcTraceProfiling: true,
+    },
+    images: {
         unoptimized: true,
         remotePatterns: [
             {

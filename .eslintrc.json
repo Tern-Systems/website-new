@@ -9,10 +9,6 @@
   "plugins": [
     "prettier"
   ],
-  "ignorePatterns": [
-    "*.*",
-    "!/src/**/*"
-  ],
   "rules": {
     "prettier/prettier": [
       "warn",
@@ -26,8 +22,7 @@
         "parser": "typescript",
         "printWidth": 120,
         "jsxSingleQuote": true,
-        "singleAttributePerLine": true,
-        "tailwindPreserveWhitespace": true
+        "singleAttributePerLine": true
       }
     ],
     "react-hooks/rules-of-hooks": "warn",

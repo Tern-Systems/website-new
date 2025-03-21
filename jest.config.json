@@ -12,20 +12,23 @@
     "jsx"
   ],
   "moduleNameMapper": {
+    ".+\\.(svg|png|jpg)$": "jest-transform-stub",
     "^@/(.+)": "<rootDir>/src/$1"
   },
-  "testRegex": ".*\\.spec\\.tsx?$",
+  "testRegex": ".*\\.(e2e-)?(int-)?spec\\.tsx?$",
   "setupFiles": [
     "<rootDir>/setupTests.js"
   ],
   "transform": {
-    "^.+\\.tsx?$": "babel-jest"
+    "^.+\\.tsx?$": "babel-jest",
+    "^.+\\.module.css$": "jest-css-modules-transform"
   },
   "collectCoverageFrom": [
     "src/**/*.tsx",
     "src/**/*.ts"
   ],
   "coverageDirectory": "coverage/",
-  "testEnvironment": "jsdom",
-  "verbose": true
+  "testEnvironment": "jest-environment-jsdom",
+  "verbose": true,
+  "clearMocks": true
 }
