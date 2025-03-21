@@ -1,4 +1,4 @@
-name: Fetch PR Data & Trigger Deployment
+name: Fetch PR Data on Push to Staging or Main
 
 on:
   push:
@@ -19,18 +19,38 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
+          echo "Fetching details for the latest PR merged into the ${{ github.ref_name }} branch"
+
+          # Fetch the latest merged PR
           PR_INFO=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
             "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&base=${{ github.ref_name }}")
 
           PR_NUMBER=$(echo "$PR_INFO" | jq -r '[.[] | select(.merged_at != null)][0].number')
-          if [ -z "$PR_NUMBER" ]; then exit 1; fi
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No recently merged PR found."
+            exit 1
+          fi
 
+          # Fetch PR details
           PR_DETAILS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
             "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
 
+          # Extract creator, approver, and merger
           CREATOR=$(echo "$PR_DETAILS" | jq -r '.user.login')
+          REVIEWS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews")
+          APPROVER=$(echo "$REVIEWS" | jq -r '[.[] | select(.state == "APPROVED")][0].user.login')
+          MERGER=$(echo "$PR_DETAILS" | jq -r '.merged_by.login')
 
+          # Log extracted data
+          echo "PR Creator: $CREATOR"
+          echo "Approver: ${APPROVER:-None}"
+          echo "Merger: ${MERGER:-None}"
+
+          # Set outputs
           echo "creator=$CREATOR" >> $GITHUB_ENV
+          echo "approver=${APPROVER:-None}" >> $GITHUB_ENV
+          echo "merger=${MERGER:-None}" >> $GITHUB_ENV
 
       - name: Trigger Deployment
         uses: peter-evans/repository-dispatch@v2
@@ -39,5 +59,7 @@ jobs:
           event-type: ${{ github.ref_name == 'main' && 'deploy-production' || 'deploy-staging' }}
           client-payload: >
             {
-              "creator": "${{ env.creator }}"
+              "creator": "${{ env.creator }}",
+              "approver": "${{ env.approver }}",
+              "merger": "${{ env.merger }}"
             }
