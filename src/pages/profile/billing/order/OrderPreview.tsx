@@ -48,7 +48,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
             <div
                 className={cn(
                     'relative place-self-center mx-[min(5.3dvw,6.6rem)] py-n max-w-[43.75rem]',
-                    'sm:landscape:x-[grid,py-0,pt-xs] sm:landscape:grid-cols-2',
+                    'sm:landscape:x-[grid,py-0,pt-xs] sm:landscape:[&]:w-[90dvw]  sm:landscape:grid-cols-2',
                 )}
             >
                 <div ref={targetRef}>
