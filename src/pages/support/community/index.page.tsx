@@ -191,7 +191,7 @@ function CommunityPage() {
                     <span className={'flex items-center  sm:col-span-2'}>
                         <ReactSVG
                             src={SVG_CLOCK.src}
-                            className={'size-[0.5625rem] sm:size-[0.4375rem]'}
+                            className={'[&_*]:size-[0.75rem] [&_*]:sm:size-[0.55rem]'}
                         />
                         <span className={'ml-5xs sm:ml-[0.2rem]'}>
                             {new Date(event.time.start).getHours()} - {new Date(event.time.start).getHours()} hrs&nbsp;
