@@ -78,7 +78,7 @@ function TipsPage() {
                     className={'translate-y-0 max-h-full'}
                 />
                 <div className={cn(styles.content, 'relative z-10 flex flex-col justify-between', 'py-xxl md:pb-4xl')}>
-                    <h1 className={'text-[3.375rem] md:text-[4.5rem] lg;text-96'}>Tips</h1>
+                    <h1 className={'text-64 md:text-80 lg:text-96'}>Tips</h1>
                     <h2 className={'w-full lg:w-2/3  leading-n  text-20 md:text-36 lg:text-36'}>
                         Learn how to manage your Tern products, services, and accounts like a professional
                     </h2>

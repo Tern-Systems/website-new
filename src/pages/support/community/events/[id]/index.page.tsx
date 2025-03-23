@@ -120,8 +120,8 @@ function EventPage() {
                         <span
                             className={cn(
                                 'bg-gray-l2 py-1 px-5xs text-black text-10',
-                                'md:x-[py-1,px-[.375rem],text-[.6875rem]]',
-                                'lg:x-[py-[.2813rem],px-2,text-12]',
+                                'md:x-[py-1,px-[0.375rem],text-12]',
+                                'lg:x-[py-[0.2813rem],px-2,text-12]',
                             )}
                         >
                             {event?.tag ?? 'Webinar'}
@@ -139,7 +139,7 @@ function EventPage() {
                                 onClick={() => {}} // TODO
                                 className={`${BUTTON_CN} border bg-blue border-blue text-white max-w-[10.5625rem]`}
                                 icon={faArrowRight}
-                                classNameIcon={'order-last [&_*]:fill-white size:[.5831rem] lg:size-[.75rem]'}
+                                classNameIcon={'order-last [&_*]:fill-white size:[.5831rem] lg:size-[0.75rem]'}
                             >
                                 Register Now
                             </Button>
@@ -147,7 +147,7 @@ function EventPage() {
                                 onClick={() => {}} // TODO
                                 className={`${BUTTON_CN} border bg-white-d2 border-gray-l0 text-gray-d2 max-w-[11.875rem]`}
                                 icon={faArrowRight}
-                                classNameIcon={'order-last size:[.625rem] lg:size-[.75rem]'}
+                                classNameIcon={'order-last size:[.625rem] lg:size-[0.75rem]'}
                             >
                                 Add to Calendar
                             </Button>

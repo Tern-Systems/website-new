@@ -51,17 +51,11 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                 }
             >
                 <div>
-                    <h2 className={'text-section-s font-bold  md:text-heading  lg:text-heading'}>
-                        Paid on {invoiceDate}
-                    </h2>
+                    <h2 className={'text-18 font-bold  md:text-27  lg:text-27'}>Paid on {invoiceDate}</h2>
 
-                    <h3
-                        className={'mt-l text-section-xs font-bold text-secondary  md:text-section-s  g:text-section-s'}
-                    >
-                        Summary
-                    </h3>
+                    <h3 className={'mt-l text-14 font-bold text-secondary  md:text-18  g:text-18'}>Summary</h3>
                     {<Hr className='mt-4xs  md:mt-3xs  lg:mt-3xs ' />}
-                    <div className={`grid grid-cols-2 gap-y-4xs text-section-xxs  md:text-basic  lg:text-basic`}>
+                    <div className={`grid grid-cols-2 gap-y-4xs text-12  md:text-16  lg:text-16`}>
                         <span className='text-secondary'>To</span>
                         <span>{invoice?.to ?? '-- missing receiver --'}</span>
                         <span className='text-secondary'>From</span>
@@ -71,17 +65,11 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                     </div>
                 </div>
                 <div className='sm:landscape:x-[max-h-[70dvh],overflow-y-scroll]'>
-                    <h3
-                        className={
-                            'mt-l text-section-xs font-bold text-secondary  sm:landscape:mt-0   md:text-section-s  lg:text-section-s'
-                        }
-                    >
+                    <h3 className={'mt-l text-14 font-bold text-secondary  sm:landscape:mt-0   md:text-18  lg:text-18'}>
                         Items
                     </h3>
                     {<Hr className='mt-4xs  md:mt-3xs  lg:mt-3xs' />}
-                    <div
-                        className={`mb-[min(8dvw,1.5rem)] flex flex-col gap-y-4xs text-section-xs  md:text-basic  lg:text-basic`}
-                    >
+                    <div className={`mb-[min(8dvw,1.5rem)] flex flex-col gap-y-4xs text-14  md:text-16  lg:text-16`}>
                         <span className={'col-span-2 font-bold text-secondary'}>
                             {invoiceDate} - {renewDate}
                         </span>
@@ -95,34 +83,30 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                                 </span>
                             </span>
                         </span>
-                        <span className={'text-section-xxs  md:text-section-xs  lg:text-section-xs'}>
+                        <span className={'text-12  md:text-14  lg:text-14'}>
                             {invoice?.item ? 'Qty ' + 1 : '-- missing quantity --'}
                         </span>
                     </div>
 
                     {<Hr />}
-                    <div className={'flex justify-between text-section-xs font-bold  md:text-basic  lg:text-basic'}>
+                    <div className={'flex justify-between text-14 font-bold  md:text-16  lg:text-16'}>
                         <span>Subtotal</span>
                         <span>{subtotal}</span>
                     </div>
 
                     {<Hr />}
-                    <div
-                        className={`grid grid-cols-[1fr,1fr] gap-y-4xs text-section-xs font-bold  md:text-basic  lg:text-basic`}
-                    >
+                    <div className={`grid grid-cols-[1fr,1fr] gap-y-4xs text-14 font-bold  md:text-16  lg:text-16`}>
                         <span>Total excluding tax</span>
                         <span className={'text-right'}>{subtotal}</span>
                         <span className={'text-secondary'}>
                             Sales tax - {state}
                             &nbsp;({taxPercent?.toFixed(0) ?? '-- missing tax --'}%)
                         </span>
-                        <span className={'text-right text-section-xs text-secondary  md:text-basic  lg:text-basic'}>
-                            {taxAmount}
-                        </span>
+                        <span className={'text-right text-14 text-secondary  md:text-16  lg:text-16'}>{taxAmount}</span>
                     </div>
 
                     {<Hr />}
-                    <div className={'flex text-section-xs justify-between font-bold  md:text-basic  lg:text-basic'}>
+                    <div className={'flex text-14 justify-between font-bold  md:text-16  lg:text-16'}>
                         <span>Total due</span>
                         <span>{totalDue ? '$' + totalDue.toFixed(2) : '-- missing total due --'}</span>
                     </div>
@@ -130,7 +114,7 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                     {<Hr />}
                     <div
                         className={
-                            'grid grid-cols-[1fr,max-content] gap-y-4xs text-section-xs font-bold  md:text-basic  lg:text-basic'
+                            'grid grid-cols-[1fr,max-content] gap-y-4xs text-14 font-bold  md:text-16  lg:text-16'
                         }
                     >
                         <span>Amount paid</span>
@@ -140,20 +124,14 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                     </div>
 
                     {<Hr />}
-                    <h3 className={'mb-3xs text-section-xs font-bold sm:mt-0  md:text-basic  lg:text-basic'}>
-                        Payment history
-                    </h3>
-                    <div
-                        className={
-                            'grid grid-rows-2 gap-y-4xs text-section-xxs  md:text-section-xs  lg:text-section-xs'
-                        }
-                    >
+                    <h3 className={'mb-3xs text-14 font-bold sm:mt-0  md:text-16  lg:text-16'}>Payment history</h3>
+                    <div className={'grid grid-rows-2 gap-y-4xs text-12  md:text-14  lg:text-14'}>
                         <span className={'col-span-2 font-bold'}>{price}</span>
                         <span className={'capitalize'}>{card}</span>
                         <span className={'text-right'}>{invoiceDate}</span>
                     </div>
 
-                    <div className={'mt-xl text-section-3xs text-secondary  md:text-section-xs  lg:text-section-xs'}>
+                    <div className={'mt-xl text-10 text-secondary  md:text-14  lg:text-14'}>
                         <span>
                             Questions?&nbsp;
                             <PageLink

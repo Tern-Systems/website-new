@@ -71,7 +71,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
                         Remove
                     </Button>
                     <Button
-                        className={`bg-[#000] font-[500] border border-gray-l0 ${BTN_CN} `}
+                        className={`bg-black font-[500] border border-gray-l0 ${BTN_CN} `}
                         onClick={() => modalCtx.closeModal()}
                     >
                         Cancel

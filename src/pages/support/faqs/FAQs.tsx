@@ -31,13 +31,13 @@ const FAQsContent = () => {
                 key={section.heading + idx}
                 id={id}
             >
-                <h3 className={'text-[2.625rem] sm:text-36'}>{section.heading}</h3>
+                <h3 className={'text-40 sm:text-36'}>{section.heading}</h3>
                 <ol
                     className={cn(
                         'list-decimal list-inside flex flex-col',
                         'gap-y-xl sm:gap-y-n',
                         'mt-xxl sm:mt-l',
-                        'text-[1.75rem] sm:text-24',
+                        'text-27 sm:text-24',
                     )}
                 >
                     {FAQsLi}

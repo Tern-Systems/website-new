@@ -186,7 +186,7 @@ function CommunityEventsPage() {
                             'w-[7.1875rem] h-[7.875rem]',
                         )}
                     >
-                        <span className={'text-center text-64 sm:x-[text-[2.5rem]]'}>{day}</span>
+                        <span className={'text-center text-64 sm:x-[text-40]'}>{day}</span>
                         <span className={'sm:x-[ml-[0.3125rem],text-10] text-12'}>{DAY_NAMES[day]}</span>
                     </span>
                     <span
@@ -293,7 +293,7 @@ function CommunityEventsPage() {
                 )}
             >
                 <BreadcrumbRoute />
-                <h1 className={cn('text-48 sm:x-[text-24,mb-[10px],mt-[10px]]')}>All Tern Community Events</h1>
+                <h1 className={cn('text-48 sm:x-[text-24,mb-[0.625rem],mt-[0.625rem]]')}>All Tern Community Events</h1>
                 <SearchBar contentTypes={CONTENT_TYPES} />
                 <ul className={cn('grid grid-cols-1', 'gap-y-xxs gap-x-xs md:x-[gap-y-s,gap-x-n] lg:x-[gap-y-l]')}>
                     {EventsLi}

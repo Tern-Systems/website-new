@@ -24,7 +24,7 @@ import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
-const LEGEND_CN = 'text-24 font-[500] mt-[3.75rem] mb-3xs  md:x-[text-27,mt-[70px]]  lg:x-[text-27,mt-[4.375rem]]';
+const LEGEND_CN = 'text-24 font-[500] mt-[3.75rem] mb-3xs  md:x-[text-27,mt-[4.375rem]]  lg:x-[text-27,mt-[4.375rem]]';
 const INPUT_CN =
     'bg-[#444444] w-full h-[2.25rem] border border-gray-l0 px-xxs  md:x-[h-[3.125rem],px-xs]  lg:x-[h-[3.125rem],px-xs]';
 const FIELD_CN = 'text-14 grid grid-auto-rows gap-y-3xs  md:text-18  lg:text-18';
@@ -163,8 +163,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <h1
                         className={cn(
                             'mt-xxl text-27 font-[500] leading-tight',
-                            'md:x-[text-[2rem],mt-[4.375rem]]',
-                            'lg:x-[text-[2rem],mt-[4.375rem]]',
+                            'md:x-[text-32,mt-[4.375rem]]',
+                            'lg:x-[text-32,mt-[4.375rem]]',
                         )}
                     >
                         {paymentCreation ? 'Add Payment Method' : 'Edit Payment Method Details'}
@@ -246,7 +246,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameWrapper={`[&&]:mb-s w-fit`}
                                     classNameLabel={'text-10 [&&]:mb-0  md:text-12  lg:text-12'}
                                     className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-[#444444]'}
-                                    classNameCheckbox={`h-[.75rem] w-[.75rem]  md:x-[h-[.9375rem],w-[.9375rem]]  lg:x-[h-[.9375rem],w-[.9375rem]]`}
+                                    classNameCheckbox={`h-[0.75rem] w-[0.75rem]  md:x-[h-[0.9375rem],w-[0.9375rem]]  lg:x-[h-[0.9375rem],w-[0.9375rem]]`}
                                     isCustomCheckbox
                                 >
                                     Set as preferred payment method

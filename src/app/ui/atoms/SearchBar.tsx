@@ -1,4 +1,6 @@
-import React, { FC, InputHTMLAttributes, ReactElement, useState } from 'react';
+'use client';
+
+import { FC, InputHTMLAttributes, ReactElement, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
@@ -27,7 +29,7 @@ const SearchBar: FC<Props> = (props: Props) => {
                 <Select
                     options={contentTypes}
                     value={contentType}
-                    onChangeCustom={(value: string) => {
+                    onChangeCustom={(value) => {
                         setContentType(value);
                     }}
                     className='!bg-gray h-[1.8125rem] border-s !border-gray-l0 pl-5xs min-w-[7.4375rem]'
@@ -109,7 +111,5 @@ const SearchBar: FC<Props> = (props: Props) => {
         </label>
     );
 };
-
-SearchBar.displayName = SearchBar.name;
 
 export { SearchBar };

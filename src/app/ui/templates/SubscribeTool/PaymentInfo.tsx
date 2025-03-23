@@ -37,7 +37,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                 <div
                     className={`mb-[3.75rem] grid grid-cols-[max-content,1fr] grid-rows-2 items-center gap-x-[0.4rem] sm:mb-xs`}
                 >
-                    <span className={`row-span-2 text-[3rem] sm:text-36`}>{price}</span>
+                    <span className={`row-span-2 text-48 sm:text-36`}>{price}</span>
                     <span className={'contents text-18 font-normal sm:text-12'}>
                         <span>per</span>
                         <span>month</span>

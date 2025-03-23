@@ -74,22 +74,25 @@
   --bg-green: #0c545c;
 
   /* Text */
-  --fz-96: 6rem;
-  --fz-64: 4rem;
-  --fz-48: 3rem;
-  --fz-40: 2.5rem;
-  --fz-36: 2.25rem;
-  --fz-32: 2rem;
-  --fz-30: 1.875rem;
-  --fz-27: 1.6875rem;
-  --fz-24: 1.5rem;
-  --fz-21: 1.3125rem;
-  --fz-20: 1.25rem;
-  --fz-18: 1.125rem;
-  --fz-16: 1rem;
-  --fz-14: 0.875rem;
-  --fz-12: 0.75rem;
-  --fz-10: 0.625rem;
+  --fz-128: 128px;
+  --fz-96 : 6rem;
+  --fz-80 : 5rem;
+  --fz-64 : 4rem;
+  --fz-48 : 3rem;
+  --fz-40 : 2.5rem;
+  --fz-36 : 2.25rem;
+  --fz-32 : 2rem;
+  --fz-30 : 1.875rem;
+  --fz-27 : 1.6875rem;
+  --fz-24 : 1.5rem;
+  --fz-21 : 1.3125rem;
+  --fz-20 : 1.25rem;
+  --fz-18 : 1.125rem;
+  --fz-16 : 1rem;
+  --fz-14 : 0.875rem;
+  --fz-12 : 0.75rem;
+  --fz-10 : 0.625rem;
+  --fz-8  : 0.5rem;  
 
   --lh-xl: 5rem;
   --lh-l: 1.3;

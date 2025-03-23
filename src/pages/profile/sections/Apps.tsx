@@ -77,7 +77,7 @@ function AppsSection() {
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
                         className={cn(
-                            `col-start-3 flex-row-reverse gap-[5px] place-self-end text-14 font-bold`,
+                            `col-start-3 flex-row-reverse gap-5xs place-self-end text-14 font-bold`,
                             styles.ellipsis,
                         )}
                         onClick={() => {

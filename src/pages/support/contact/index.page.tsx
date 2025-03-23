@@ -54,7 +54,7 @@ const RESOURCES: ResourceSectionData[] = [
 const INPUT_PROPS = {
     classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
     classNameLabel: 'font-[400]   ',
-    className: cn('h-[3.125rem] w-full px-xxs ', 'bg-gray-d2 border-[.0313rem] border-gray-l0', 'text-primary'),
+    className: cn('h-[3.125rem] w-full px-xxs ', 'bg-gray-d2 border-[0.0313rem] border-gray-l0', 'text-primary'),
 };
 
 const ContactsPage: FC = () => {
@@ -85,7 +85,7 @@ const ContactsPage: FC = () => {
                                     `mb-n text-96`,
                                     `lg:x-[w-full,mt-[6.25rem]]`,
                                     `md:x-[mt-xl,text-96]`,
-                                    `sm:x-[flex,mt-xs,text-[3.9375rem]]`,
+                                    `sm:x-[flex,mt-xs,text-64]`,
                                 )}
                             >
                                 Contact Tern
@@ -183,7 +183,7 @@ const ContactsPage: FC = () => {
                                         onChange={setFormValue('isAllowedUpdate')}
                                         classNameLabel={'text-12 leading-normal'}
                                         className={'border-gray-l0 bg-gray-d2'}
-                                        classNameCheckbox={'h-[.9375rem] w-[.9375rem] flex-shrink-0'}
+                                        classNameCheckbox={'h-[0.9375rem] w-[0.9375rem] flex-shrink-0'}
                                         classNameWrapper={'flex [&_div]:items-start'}
                                         isCustomCheckbox
                                     >
@@ -261,9 +261,9 @@ const ContactsPage: FC = () => {
                             ),
                             image: '!size-full object-cover',
                             content: 'lg:pl-l  md:pl-l md:flex',
-                            title: 'text-[20px]  md:text-[24px]  lg:text-[27px]',
-                            children: 'text-[12px]  sm:text-[10px]',
-                            link: 'text-primary text-[12px] [&]:py-4xs md:x-[text-[14px],mt-auto,!py-4xs]  lg:x-[text-[18px],!py-xxs]',
+                            title: 'text-20  md:text-24  lg:text-27',
+                            children: 'text-12  sm:text-10',
+                            link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]',
                         }}
                     >
                         {HIGHLIGHTED_CARD.description}

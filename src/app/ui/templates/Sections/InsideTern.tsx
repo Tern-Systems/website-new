@@ -99,7 +99,7 @@ const InsideTernSection: FC<Props> = (props: Props) => {
             key={entry.title + idx}
             className={'flex w-full flex-col gap-y-3xs text-left'}
         >
-            <h4 className={'text-[0.9375rem] sm:text-10'}>{entry.title}</h4>
+            <h4 className={'text-16 sm:text-10'}>{entry.title}</h4>
             <p className={'mt-xxs'}>{entry.description}</p>
             <div className={'relative mt-3xs h-full w-full justify-end'}>
                 <div className={'absolute inset-0 hidden  md:block'} />

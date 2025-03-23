@@ -242,12 +242,12 @@ function CommunityPage() {
     ));
 
     const RC_Wrapper = '!p-0 !bg-white-d2 from-transparent !gap-0  sm:!grid-cols-1 !grid-cols-2';
-    const RC_Title = '[&]:text-documentation leading-l  md:[&]:text-heading-l  lg:[&]:text-heading-xl';
+    const RC_Title = '[&]:text-24 leading-l  md:[&]:text-36  lg:[&]:text-40';
     const RC_IMG = '!object-cover object-right h-[25.5rem]  md:h-[31.25rem]  lg:h-[39.1875rem]';
     const RC_Content =
         '[&]:flex row-start-1 text-black p-xxs gap-y-xxs  sm:row-start-2  md:x-[p-n,gap-y-3xl]  lg:x-[p-xxl,gap-y-[5rem]]';
-    const RC_Children = '!w-full tracking-wide text-section-xxs  md:text-section-xs  lg:text-basic';
-    const RC_Link = 'sm:mt-xs !mt-auto text-section-xxs  md:text-section-xs  lg:text-basic';
+    const RC_Children = '!w-full tracking-wide text-12  md:text-14  lg:text-16';
+    const RC_Link = 'sm:mt-xs !mt-auto text-12  md:text-14  lg:text-16';
 
     const tabs = [
         {
@@ -264,7 +264,7 @@ function CommunityPage() {
                         image: RC_IMG,
                         content: RC_Content,
                         children: RC_Children,
-                        link: cn(RC_Link, 'bg-transparent text-blue text-section-xxs [&_path]:fill-blue p-0 '),
+                        link: cn(RC_Link, 'bg-transparent text-blue text-12 [&_path]:fill-blue p-0 '),
                     }}
                 >
                     Find out more about our unique strategic approach to cultivating lasting professional relationships.

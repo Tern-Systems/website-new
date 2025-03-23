@@ -54,7 +54,7 @@ const CancelModal: FC<Props> = (props: Props) => {
                     {plan ?? '-- missing name --'}
                     subscription billing settings.
                 </p>
-                <span className={'mt-s flex justify-center gap-4xs text-20 font-bold text-[#FFFFFF]'}>
+                <span className={'mt-s flex justify-center gap-4xs text-20 font-bold text-white'}>
                     <Button
                         onClick={() => handleDelete()}
                         className={`bg-red ${BTN_CN}`}

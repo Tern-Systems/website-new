@@ -9,7 +9,7 @@ const LimitsModal = () => (
         title={'Limits Apply'}
         className={'max-w-[56rem]'}
         classNameContent={'sm:p-[min(5.3dvw)] sm:landscape:p-xs'}
-        classNameTitle={'sm:x-[mb-[5.3dvw],text-[1.7rem]] sm:landscape:mb-s'}
+        classNameTitle={'sm:x-[mb-[5.3dvw],text-27] sm:landscape:mb-s'}
     >
         <div className={`max-h-[79dvh] sm:x-[text-[1rem],overflow-y-scroll] sm:landscape:max-h-[55dvh]`}>
             <h2 className={'mb-[0.5rem] text-18 font-bold sm:mb-0'}>Tidal Pro Plan Subscription Limitations</h2>

@@ -34,9 +34,9 @@ const AboutPage: FC = () => {
                         <h1
                             className={cn(
                                 `w-min text-right font-bold leading-n`,
-                                `mb-n text-[8rem]`,
-                                `md:text-96 md:landscape:text-[2.5rem]`,
-                                `sm:x-[flex,w-[20rem],mt-n,text-[2.5rem]]`,
+                                `mb-n text-128`,
+                                `md:text-96 md:landscape:text-40`,
+                                `sm:x-[flex,w-[20rem],mt-n,text-40]`,
                             )}
                         >
                             Reaching New Heights
@@ -77,17 +77,15 @@ const AboutPage: FC = () => {
                             <h2
                                 className={cn(
                                     'mb-xl text-64 sm:x-[mb-xs,text-27]',
-                                    'md:text-[3rem] md:landscape:x-[text-27,mb-xs]',
+                                    'md:text-48 md:landscape:x-[text-27,mb-xs]',
                                 )}
                             >
                                 Mission
                             </h2>
-                            <p
-                                className={cn(
-                                    'text-[2.5rem] leading-tight sm:text-[1.1875rem]',
-                                    'md:text-36 md:landscape:text-[1.1875rem]',
-                                )}
-                            >
+                            <p className={cn(
+                                'text-40 leading-tight sm:text-18', 
+                                'md:text-36 md:landscape:text-18'
+                            )}>
                                 Revolutionize computing by harnessing the power of ternary microprocessors.
                             </p>
                         </div>
@@ -95,17 +93,15 @@ const AboutPage: FC = () => {
                             <h2
                                 className={cn(
                                     'mb-xl text-64 sm:x-[mb-xs,text-27]',
-                                    'md:text-[3rem] md:landscape:x-[text-27,mb-xs]',
+                                    'md:text-48 md:landscape:x-[text-27,mb-xs]',
                                 )}
                             >
                                 Vision
                             </h2>
-                            <p
-                                className={cn(
-                                    'text-[2.5rem] leading-tight sm:text-[1.1875rem]',
-                                    'md:text-36 md:landscape:text-[1.1875rem]',
-                                )}
-                            >
+                            <p className={cn(
+                                'text-40 leading-tight sm:text-18', 
+                                'md:text-36 md:landscape:text-18'
+                            )}>
                                 Ushering in the era of efficient computing, equipping all legacy devices with advanced
                                 microprocessors.
                             </p>
@@ -131,8 +127,8 @@ const AboutPage: FC = () => {
                         className={cn(
                             `ml-auto w-min text-right font-bold leading-n text-black`,
                             `mb-n text-96`,
-                            `md:text-64 md:landscape:text-[3rem]`,
-                            `sm:x-[mb-xs,text-[3rem]]`,
+                            `md:text-64 md:landscape:text-48`,
+                            `sm:x-[mb-xs,text-48]`,
                         )}
                     >
                         Understand Our Why
@@ -161,8 +157,8 @@ const AboutPage: FC = () => {
                     <InfoSection
                         data={INFO}
                         className={cn('pt-[12rem] bg-transparent')}
-                        classNameTitle={'md:text-36  sm:x-[text-[1.75rem],mb-xl]'}
-                        classNameSubTitle={'mb-4xs text-24  lg:text-[2.5rem]  sm:text-24'}
+                        classNameTitle={'md:text-36  sm:x-[text-30,mb-xl]'}
+                        classNameSubTitle={'mb-4xs text-24  lg:text-40  sm:text-24'}
                         classNameContent={'md:x-[max-w-[62rem],mx-auto]'}
                         classNameDescription={'text-16  lg:text-20'}
                         classNamePageLink={cn(

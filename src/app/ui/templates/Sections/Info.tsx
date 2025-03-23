@@ -41,22 +41,15 @@ const InfoSection: FC<Props> = (props: Props) => {
                     [styles.contentGradientBlue]: blur,
                 })}
             >
-                <h2
-                    className={cn(
-                        'mb-[4.62rem] text-center font-bold',
-                        'text-[1.75rem]',
-                        'lg:text-[2.5rem]',
-                        classNameTitle,
-                    )}
-                >
+                <h2 className={cn('mb-[4.62rem] text-center font-bold', 'text-30', 'lg:text-40', classNameTitle)}>
                     {title}
                 </h2>
                 <div className={'flex items-center justify-between sm:x-[gap-y-xxl,flex-col-reverse]'}>
                     <span className={'w-[40%] text-left sm:x-[w-full,text-center]'}>
-                        <span className={cn('mb-4xs block text-32 sm:text-14 md:text-[1.5rem]', classNameSubTitle)}>
+                        <span className={cn('mb-4xs block text-32 sm:text-14 md:text-24', classNameSubTitle)}>
                             {subTitle}
                         </span>
-                        <span className={cn('block text-[0.9375rem] leading-n lg:text-20', classNameDescription)}>
+                        <span className={cn('block text-16 leading-n lg:text-20', classNameDescription)}>
                             {description}
                         </span>
                         <PageLink

@@ -52,29 +52,34 @@ const OrderPreview: FC<Props> = (props: Props) => {
                 )}
             >
                 <div ref={targetRef}>
-                    <h2
-                        className={`mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-36 font-bold`}
-                    >
-                        <Image
-                            src={SVG_TERN_LOGO}
-                            alt={'tern-logo'}
-                            className={'h-auto w-[2.48rem] sm:hidden'}
-                        />
-                        Tern Systems, LLC
-                    </h2>
-                    <div className={'mb-[min(8dvw,1.5rem)] text-center font-bold'}>
-                        <Image
-                            src={SVG_DOCUMENT}
-                            alt={'document'}
-                            className={'h-auto w-[min(24.7dvw,5.4rem)] place-self-center'}
-                        />
-                        <span className={'my-s block text-21'}>{status}</span>
-                        <span className={'block text-[3rem]'}>{subtotal}</span>
+                    <div>
+                        <h2
+                            className={cn(
+                                `mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-27 font-bold`,
+                                `sm:landscape:mb-xs md:text-40 md:landscape:text-36 lg:text-40`,
+                            )}
+                        >
+                            <Image
+                                src={SVG_TERN_LOGO}
+                                alt={'tern-logo'}
+                                className={'h-auto w-[2.48rem] sm:hidden'}
+                            />
+                            Tern Systems, LLC
+                        </h2>
+                        <div className={'mb-n md:mb-xl lg:mb-xl text-center font-bold  sm:landscape:mb-0'}>
+                            <Image
+                                src={SVG_DOCUMENT}
+                                alt={'document'}
+                                className={'h-auto w-[min(24.7dvw,5.4rem)] place-self-center'}
+                            />
+                            <span className={'my-s block text-21  sm:landscape:my-xs'}>{status}</span>
+                            <span className={'block text-36  md:text-48  lg:text-48'}>{subtotal}</span>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <div
-                        className={`grid grid-cols-[1fr,1fr] gap-y-xs text-basic  sm:landscape:gap-y-xxs md:text-heading-s  lg:text-heading-s`}
+                        className={`grid grid-cols-[1fr,1fr] gap-y-xs text-16  sm:landscape:gap-y-xxs md:text-21  lg:text-21`}
                     >
                         <span className='md:hidden  lg:hidden'>Status</span>
                         <span className={'text-right capitalize  md:hidden  lg:hidden'}>{status}</span>
@@ -88,7 +93,10 @@ const OrderPreview: FC<Props> = (props: Props) => {
                 </div>
 
                 <div
-                    className={`mt-xl flex items-center justify-center gap-x-[0.75rem] text-21 font-bold sm:flex-col sm:gap-y-[4dvw]`}
+                    className={cn(
+                        `mt-xl flex items-center justify-center gap-y-xxs gap-x-[0.75rem] text-21 font-bold sm:flex-col md:landscape:flex-col lg:flex-col`,
+                        `sm:landscape:x-[mt-xs,text-16] md:text-21  lg:text-21`,
+                    )}
                 >
                     <Button
                         icon={faDownload}
@@ -105,7 +113,6 @@ const OrderPreview: FC<Props> = (props: Props) => {
                         Download Receipt
                     </Button>
                 </div>
-
                 {VisibilityToggle}
             </div>
             <ScrollEnd />
