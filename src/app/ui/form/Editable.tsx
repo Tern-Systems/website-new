@@ -279,7 +279,7 @@ const Editable: FC<Props> = (props: Props) => {
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
-                className={`box-content rounded-xxs px-3xs py-5xs text-16 ${parentEditId ? '!bg-green !text-primary' : ''} ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''} ${classNameToggle} ${editState ? '[&]:bg-blue' : 'text-gray [&]:bg-white-d0'}`}
+                className={`box-content rounded-xxs px-3xs py-[0.3rem] text-16 ${parentEditId ? '!bg-green !text-primary' : ''} ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''} ${classNameToggle} ${editState ? '[&]:bg-blue' : 'text-gray [&]:bg-white-d0'}`}
             >
                 {parentEditId ? 'Enabled' : editState ? 'Enable' : 'Disabled'}
             </Button>
@@ -754,7 +754,7 @@ const Editable: FC<Props> = (props: Props) => {
                     // gap-x is not used for sm breakpoints
                     <>
                         <span
-                            className={`mb-4xs grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-xs ${isPersonal ? 'mt-xs rounded-s bg-[#686868] p-3xs' : 'mt-[min(0.75dvw,0.94rem)]'}`}
+                            className={`mb-4xs grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-xs ${isPersonal ? 'mt-xs rounded-s bg-gray-l3 p-3xs' : 'mt-[min(0.75dvw,0.94rem)]'}`}
                         >
                             <span className={`col-span-2 flex justify-between text-20 capitalize`}>
                                 <span>{key.slice(0, 'Address'.length + 1)} Address</span>

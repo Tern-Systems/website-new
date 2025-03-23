@@ -43,7 +43,7 @@ const FORM_DEFAULT: SubscribeData = {
     acceptTerms: false,
 };
 
-const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0 bg-[#fff]';
+const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0 bg-white-l0';
 const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 interface Props {

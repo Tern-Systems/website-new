@@ -54,7 +54,7 @@ const RESOURCES: ResourceSectionData[] = [
 const INPUT_PROPS = {
     classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
     classNameLabel: 'font-[400]   ',
-    className: cn('h-[3.125rem] w-full px-xxs ', 'bg-gray-d2 border-[0.0313rem] border-gray-l0', 'text-primary'),
+    className: cn('h-[3.125rem] w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
 };
 
 const ContactsPage: FC = () => {

@@ -179,7 +179,7 @@ function CommunityEventsPage() {
                 >
                     <span
                         className={cn(
-                            'bg-[#979797]',
+                            'bg-gray-l2',
                             'flex  flex-col justify-center px-xs py-n',
                             'sm:x-[row-span-2,w-[4.1875rem],h-[3.9375rem],mr-[0.625rem],mb-[0.625rem]] row-span-3',
                             'size-[4.6875rem]',
@@ -260,7 +260,7 @@ function CommunityEventsPage() {
                 <button
                     key={i}
                     className={cn(
-                        'w-[2.8125rem] h-full border-l-s border-[#808080] transition-colors duration-300',
+                        'w-[2.8125rem] h-full border-l-s border-gray-l0 transition-colors duration-300',
                         pageNos === i + 1 ? 'bg-blue text-white' : 'text-blue hover:bg-blue hover:text-white',
                     )}
                     onClick={() => handlePageChange(i + 1)}
@@ -270,7 +270,7 @@ function CommunityEventsPage() {
             ))}
 
             <button
-                className='border-l-s border-[#808080] size-[3.4375rem] flex place-items-center'
+                className='border-l-s border-gray-l0 size-[3.4375rem] flex place-items-center'
                 onClick={() => handlePageChange(pageNos + 1)}
                 disabled={pageNos === totalPages}
             >
@@ -298,7 +298,7 @@ function CommunityEventsPage() {
                 <ul className={cn('grid grid-cols-1', 'gap-y-xxs gap-x-xs md:x-[gap-y-s,gap-x-n] lg:x-[gap-y-l]')}>
                     {EventsLi}
                 </ul>
-                <div className={cn('w-[18rem] h-[3.4375rem] border-s border-[#979797] mb-[21.75rem]')}>{Pages}</div>
+                <div className={cn('w-[18rem] h-[3.4375rem] border-s border-gray-l2 mb-[21.75rem]')}>{Pages}</div>
             </div>
         </div>
     );

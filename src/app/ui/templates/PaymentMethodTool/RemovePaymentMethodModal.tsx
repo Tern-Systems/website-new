@@ -65,7 +65,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
                 </div>
                 <div className={'flex gap-xxs'}>
                     <Button
-                        className={`bg-[#F42200] font-bold ${BTN_CN} `}
+                        className={`bg-red font-bold ${BTN_CN} `}
                         onClick={() => handleRemove()}
                     >
                         Remove

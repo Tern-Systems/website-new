@@ -17,13 +17,11 @@ const Switch: FC<Props> = (props: Props) => {
             className={`flex cursor-pointer items-center gap-x-[0.4rem] ${className}`}
             onClick={() => handleSwitch()}
         >
-            <div
-                className={`w-h-button-n flex h-[min(2.4dvw,0.8rem)] rounded-full border-[0.1rem] border-gray-l0 text-20`}
-            >
+            <div className={`w-h-button-n flex h-[min(2.4dvw,0.8rem)] rounded-full border-s border-gray-l0 text-20`}>
                 <div
                     className={cn(
                         `h-full w-1/2 cursor-pointer rounded-full border-s border-gray-l0 bg-white font-bold capitalize`,
-                        { ['ml-auto [&]:bg-[#23af7a]']: state },
+                        { ['ml-auto [&]:bg-green-d0']: state },
                     )}
                 />
             </div>

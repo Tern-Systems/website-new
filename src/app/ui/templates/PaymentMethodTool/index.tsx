@@ -26,7 +26,7 @@ import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
 const LEGEND_CN = 'text-24 font-[500] mt-[3.75rem] mb-3xs  md:x-[text-27,mt-[4.375rem]]  lg:x-[text-27,mt-[4.375rem]]';
 const INPUT_CN =
-    'bg-[#444444] w-full h-[2.25rem] border border-gray-l0 px-xxs  md:x-[h-[3.125rem],px-xs]  lg:x-[h-[3.125rem],px-xs]';
+    'bg-gray-d2 w-full h-[2.25rem] border border-gray-l0 px-xxs  md:x-[h-[3.125rem],px-xs]  lg:x-[h-[3.125rem],px-xs]';
 const FIELD_CN = 'text-14 grid grid-auto-rows gap-y-3xs  md:text-18  lg:text-18';
 const BUTTON_CN = 'md:x-[text-18,h-[3.125rem]]  lg:x-[text-18,h-[3.125rem]]';
 
@@ -138,10 +138,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             classNameLabel={'mr-auto'}
             classNameSelected={'w-full '}
             classNameChevron={cn('ml-auto')}
-            className={cn(`px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
+            className={cn(`px-xs h-[3.1375rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
             classNameOption={cn(
                 'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                'hover:!bg-[#979797]',
+                'hover:!bg-gray-l2',
             )}
         >
             Choose Payment Method
@@ -245,7 +245,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     onChange={setFormData('isPreferred')}
                                     classNameWrapper={`[&&]:mb-s w-fit`}
                                     classNameLabel={'text-10 [&&]:mb-0  md:text-12  lg:text-12'}
-                                    className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-[#444444]'}
+                                    className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-gray-d2'}
                                     classNameCheckbox={`h-[0.75rem] w-[0.75rem]  md:x-[h-[0.9375rem],w-[0.9375rem]]  lg:x-[h-[0.9375rem],w-[0.9375rem]]`}
                                     isCustomCheckbox
                                 >
@@ -310,11 +310,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameSelected={'w-full '}
                                     classNameChevron={cn('ml-auto')}
                                     className={cn(
-                                        `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                        `px-xs h-[3.1375rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                     )}
                                     classNameOption={cn(
                                         'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                        'hover:!bg-[#979797]',
+                                        'hover:!bg-gray-l2',
                                     )}
                                     required
                                 >
@@ -341,11 +341,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 classNameSelected={'w-full '}
                                 classNameChevron={cn('ml-auto')}
                                 className={cn(
-                                    `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                    `px-xs h-[3.1375rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                 )}
                                 classNameOption={cn(
                                     'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                    'hover:!bg-[#979797]',
+                                    'hover:!bg-gray-l2',
                                 )}
                                 required
                             >

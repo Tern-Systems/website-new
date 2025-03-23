@@ -133,7 +133,7 @@ const Tabs: FC<Props> = (props: Props) => {
                         >
                             {tab.name}
                             {activeTab === index && (
-                                <div className='absolute bottom-0 left-0 w-full h-[0.0625rem] bg-[#178AB7] z-10' />
+                                <div className='absolute bottom-0 left-0 w-full h-[0.0625rem] bg-blue z-10' />
                             )}
                         </button>
                     ))}

@@ -45,13 +45,13 @@ const SearchBar: FC<Props> = (props: Props) => {
                 <Input
                     icons={[SVG_CALENDAR]}
                     className={'bg-gray border-s border-gray-l0 w-[7.5625rem] h-[1.8125rem] pl-5xs'}
-                    classNameIconSpan={'bg-[#979797] h-full !pr-0 w-[2.023125rem] justify-center'}
+                    classNameIconSpan={'bg-gray-l2 h-full !pr-0 w-[2.023125rem] justify-center'}
                 ></Input>
                 <span className='h-[0.625rem]'></span>
                 <Input
                     icons={[SVG_CALENDAR]}
                     className={'bg-gray border-s border-gray-l0 w-[7.5625rem] h-[1.8125rem] pl-5xs'}
-                    classNameIconSpan={'bg-[#979797] h-full !pr-0 w-[2.023125rem] justify-center'}
+                    classNameIconSpan={'bg-gray-l2 h-full !pr-0 w-[2.023125rem] justify-center'}
                 />
             </div>
         </div>

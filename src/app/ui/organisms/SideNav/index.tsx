@@ -100,7 +100,7 @@ const SideNav: FC<Props> = (props: Props) => {
                     classNameOption={cn(
                         `h-[3.1375rem] sm:h-button-xl`,
                         `[&]:x-[bg-gray,border-transparent,py-4xs]`,
-                        `hover:bg-[#979797]`,
+                        `hover:bg-gray-l2`,
                         `text-18  md:text-20`,
                         `px-xxs  md:px-xs`,
                     )}

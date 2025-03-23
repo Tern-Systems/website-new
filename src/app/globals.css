@@ -35,8 +35,8 @@
   --w-card: 22rem;
 
   /* Borders */
-  --b-s: 0.0625rem;
-  --b-n: 0.125rem;
+  --b-s: 0.0625rem; /* 1px */
+  --b-n: 0.125rem;  /* 2px */
 
   --br-xxs-1: 0.25rem;
   --br-xs: 0.375rem;
@@ -48,6 +48,7 @@
   --b-gray: var(--bg-gray);
   --b-gray-l0: var(--bg-gray-l0);
   --b-white-d0: var(--bg-white-d2);
+  --b-gray-l2: var(--bg-gray-l2);
   --b-gray-l1: var(--bg-gray-l1);
   --b-white: var(--bg-white);
   --b-blue: var(--bg-blue);
@@ -57,13 +58,15 @@
   /* Backgrounds */
   --bg-main: #000000;
   --bg-black-l0: #111111;
-  --bg-gray-d2: #444444;
-  --bg-gray-d1: #0b0b0b;
-  --bg-gray-d0: #272727;
-  --bg-gray: #4d4d4d;
-  --bg-gray-l0: #808080;
-  --bg-gray-l1: #999999;
+  --bg-gray-l3: #686868;
   --bg-gray-l2: #979797;
+  --bg-gray-l1: #999999;
+  --bg-gray-l0: #808080;
+  --bg-gray: #4d4d4d;
+  --bg-gray-d0: #272727;
+  --bg-gray-d1: #0b0b0b;
+  --bg-gray-d2: #444444;
+  --bg-white-l0: #ffffff;
   --bg-white: #f2f2f2;
   --bg-white-d2: #b3b3b3;
   --bg-red: #f42200;
@@ -72,6 +75,9 @@
   --bg-navy: #00397f;
   --bg-navy-d0: #001125;
   --bg-green: #0c545c;
+  --bg-green-d0: #23af7a;
+  
+
 
   /* Text */
   --fz-128: 128px;
