@@ -980,6 +980,6 @@ const Editable: FC<Props> = (props: Props) => {
     }
 };
 
-Editable.displayName = 'Editable';
+Editable.displayName = Editable.name;
 
 export { Editable };

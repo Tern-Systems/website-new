@@ -145,6 +145,6 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
     );
 };
 
-AuthenticationCode.displayName = 'AuthenticationCode';
+AuthenticationCode.displayName = AuthenticationCode.name;
 
 export { AuthenticationCode };

@@ -153,6 +153,6 @@ const Carousel: FC<Props> = (props: Props) => {
     );
 };
 
-Carousel.displayName = 'Carousel';
+Carousel.displayName = Carousel.name;
 
 export { Carousel };
