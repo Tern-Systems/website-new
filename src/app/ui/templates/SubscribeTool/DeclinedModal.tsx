@@ -26,6 +26,6 @@ const DeclinedModal: FC = () => (
     </BaseModal>
 );
 
-DeclinedModal.displayName = 'DeclinedModal';
+DeclinedModal.displayName = DeclinedModal.name;
 
 export { DeclinedModal };

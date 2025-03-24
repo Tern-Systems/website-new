@@ -15,6 +15,6 @@ const PrimaryLabel: FC = () => (
     </span>
 );
 
-PrimaryLabel.displayName = 'PrimaryLabel';
+PrimaryLabel.displayName = PrimaryLabel.name;
 
 export { PrimaryLabel };

@@ -156,6 +156,6 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
     );
 };
 
-ResetPasswordModal.displayName = 'ResetPasswordModal';
+ResetPasswordModal.displayName = ResetPasswordModal.name;
 
 export { ResetPasswordModal };

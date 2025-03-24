@@ -117,6 +117,6 @@ const ArticleCard: FC<Props> = (props: Props) => {
     );
 };
 
-ArticleCard.displayName = 'ArticleCard';
+ArticleCard.displayName = ArticleCard.name;
 
 export { ArticleCard };

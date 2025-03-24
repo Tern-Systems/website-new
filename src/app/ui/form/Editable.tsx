@@ -972,7 +972,7 @@ const Editable: FC<Props> = (props: Props) => {
     }
 };
 
-Editable.displayName = 'Editable';
+Editable.displayName = Editable.name;
 
 export type { Props as EditableProps, FormData, FormInit, FormType };
 export { Editable };

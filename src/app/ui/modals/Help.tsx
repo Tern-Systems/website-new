@@ -49,6 +49,6 @@ const HelpModal: FC<Props> = (props: Props) => {
     );
 };
 
-HelpModal.displayName = 'HelpModal';
+HelpModal.displayName = HelpModal.name;
 
 export { HelpModal };
