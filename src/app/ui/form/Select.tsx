@@ -166,6 +166,6 @@ const Select: FC<Props> = (props: Props) => {
     );
 };
 
-Select.displayName = 'Select';
+Select.displayName = Select.name;
 
 export { Select };

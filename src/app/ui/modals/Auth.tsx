@@ -175,6 +175,6 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     );
 };
 
-AuthModal.displayName = 'AuthModal';
+AuthModal.displayName = AuthModal.name;
 
 export { AuthModal };

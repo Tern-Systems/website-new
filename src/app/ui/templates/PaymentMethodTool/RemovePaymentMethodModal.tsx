@@ -80,6 +80,6 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
     );
 };
 
-RemovePaymentMethodModal.displayName = 'RemovePaymentMethodModal';
+RemovePaymentMethodModal.displayName = RemovePaymentMethodModal.name;
 
 export { RemovePaymentMethodModal };

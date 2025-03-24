@@ -77,6 +77,6 @@ const PageLink: FC<Props> = (props: Props) => {
     );
 };
 
-PageLink.displayName = 'PageLink';
+PageLink.displayName = PageLink.name;
 
 export { PageLink };
