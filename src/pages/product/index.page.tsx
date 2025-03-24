@@ -140,7 +140,7 @@ function TidalPage() {
                         >
                             <PageLink
                                 isExternal
-                                href={TidalUrl}
+                                href={MISC_LINKS.Tidal}
                                 className={cn(BTN_BLUE_CN, ' !h-button-xxl text-black')}
                             >
                                 Try it Free
