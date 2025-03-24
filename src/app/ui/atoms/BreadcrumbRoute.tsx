@@ -34,6 +34,6 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
     );
 };
 
-BreadcrumbRoute.displayName = 'BreadcrumbRoute';
+BreadcrumbRoute.displayName = BreadcrumbRoute.name;
 
 export { BreadcrumbRoute };

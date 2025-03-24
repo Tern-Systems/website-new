@@ -53,5 +53,5 @@ const AllWaysCard: FC<Props> = (props: Props) => {
     );
 };
 
-AllWaysCard.displayName = 'AllWaysCard';
+AllWaysCard.displayName = AllWaysCard.name;
 export { AllWaysCard };

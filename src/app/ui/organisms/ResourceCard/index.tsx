@@ -93,6 +93,6 @@ const ResourceCard: FC<Props> = (props: Props) => {
     }
 };
 
-ResourceCard.displayName = 'ResourceCard';
+ResourceCard.displayName = ResourceCard.name;
 
 export { ResourceCard };

@@ -52,6 +52,6 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
     );
 };
 
-FullScreenLayout.displayName = 'FullScreenLayout';
+FullScreenLayout.displayName = FullScreenLayout.name;
 
 export { FullScreenLayout };

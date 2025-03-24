@@ -114,6 +114,6 @@ const SearchBar: FC<Props> = (props: Props) => {
     );
 };
 
-SearchBar.displayName = 'SearchBar';
+SearchBar.displayName = SearchBar.name;
 
 export { SearchBar };
