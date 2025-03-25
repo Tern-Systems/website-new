@@ -112,7 +112,7 @@
 
 body {
   background: var(--bg-main);
-  font-family: "Abode Gothic Standard", sans-serif;
+  font-family: "Franklin Gothic ATF", sans-serif;
   overflow: hidden;
 
   -ms-overflow-style: none;
@@ -143,16 +143,16 @@ body ::-webkit-scrollbar {
 }
 
 @font-face {
-  font-family: "Abode Gothic Standard";
-  src: url("../../public/fonts/AdobeGothic-Light.otf") format("opentype");
-  font-weight: normal;
+  font-family: "Franklin Gothic ATF";
+  src: url("../../public/fonts/FranklinGothicATF-Med.otf") format("opentype");
+  font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Adobe Gothic Standard";
-  src: url("../../public/fonts/AdobeGothic-Bold.otf") format("opentype");
-  font-weight: bold;
+  font-family: "Franklin Gothic ATF";
+  src: url("../../public/fonts/FranklinGothicATF-Light.otf") format("opentype");
+  font-weight: normal;
   font-style: normal;
 }
 

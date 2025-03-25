@@ -115,7 +115,7 @@ const config: Config = {
                 red: 'var(--color-red)',
             },
             fontFamily: {
-                gothic: ['"Abode Gothic Standard"', 'sans-serif'],
+                gothic: ['"Franklin Gothic ATF"', 'sans-serif'],
                 english: ['"Old English Five"', 'serif'],
                 oxygen: ['"Oxygen"', 'sans-serif'],
                 arial: ['"Arial"', 'serif'],
