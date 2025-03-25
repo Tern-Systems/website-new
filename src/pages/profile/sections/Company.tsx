@@ -92,7 +92,7 @@ function CompanySection(props: SectionProps) {
                         className: cn(
                             styles.singleInput,
                             styles.singleInputBase,
-                            `px-[0.76rem] border-small`,
+                            `px-3xs border-small`,
                             styles.roundedWFull,
                             `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),

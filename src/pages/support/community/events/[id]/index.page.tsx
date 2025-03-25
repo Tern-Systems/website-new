@@ -90,14 +90,14 @@ function EventPage() {
                 `bg-black bg-gradient-to-t from-blue to-black to-30% lg:to-40%`,
             )}
         >
-            <div className={cn(styles.content, 'py-n  md:py-[3.125rem]  lg:py-[3.125rem]')}>
+            <div className={cn(styles.content, 'py-n  md:py-xxl  lg:py-xxl')}>
                 <BreadcrumbRoute className='[&]:mt-0' />
-                <div className={'flex flex-col gap-x-xs mt-n md:mt-[3.125rem] lg:mt-[3.125rem]'}>
+                <div className={'flex flex-col gap-x-xs mt-n md:mt-xxl lg:mt-xxl'}>
                     <div className={' w-full'}>
                         <h1 className={'leading-n  text-20 md:text-32 lg:text-36'}>{event?.title}</h1>
                     </div>
                     <div className={'contents lg:block'}>
-                        <div className={cn(INFO_CN, 'mt-n md:mt-[3.125rem] lg:mt-[3.125rem]')}>
+                        <div className={cn(INFO_CN, 'mt-n md:mt-xxl lg:mt-xxl')}>
                             <span className={'text-12  md:text-14  lg:text-16'}>
                                 {event?.date ? formatDate(new Date(event.date), 'long') : '-- date is not provided --'}
                             </span>
@@ -120,8 +120,8 @@ function EventPage() {
                         <span
                             className={cn(
                                 'bg-gray-l2 py-1 px-5xs text-black text-10',
-                                'md:x-[py-1,px-[0.375rem],text-12]',
-                                'lg:x-[py-[0.2813rem],px-2,text-12]',
+                                'md:x-[py-1,px-4xs-2,text-12]',
+                                'lg:x-[py-5xs,px-2,text-12]',
                             )}
                         >
                             {event?.tag ?? 'Webinar'}
@@ -133,7 +133,7 @@ function EventPage() {
                         </div>
                     </div>
 
-                    <div className='flex flex-col gap-y-[3.125rem] mt-n  md:mt-0  lg:mt-0  '>
+                    <div className='flex flex-col gap-y-xxl mt-n  md:mt-0  lg:mt-0  '>
                         <div className='flex flex-col gap-y-xxs  lg:gap-y-xs'>
                             <Button
                                 onClick={() => {}} // TODO

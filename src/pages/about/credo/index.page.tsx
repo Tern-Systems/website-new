@@ -19,15 +19,15 @@ function CredoPage() {
                     <h1 className={'text-64  sm:text-32  md:text-48'}>Our Credo</h1>
                     <ReactSVG
                         src={SVG_CREDO_HR.src}
-                        className={'mt-[2.31rem]  sm:mt-xs md:mt-s  [&_*]:w-[12.69rem] sm:[&_*]:w-[6.0625rem]'}
+                        className={'mt-xl  sm:mt-xs md:mt-s  [&_*]:w-[12.69rem] sm:[&_*]:w-[6.0625rem]'}
                     />
                 </div>
                 <div
                     className={cn(
                         styles.content,
-                        'pb-[27.5rem] pt-[7.64rem] text-36 leading-l',
-                        'md:x-[pt-[6.87rem],pb-[21.87rem],text-32]',
-                        'sm:x-[pt-[5.65rem],pb-[16.38rem],text-20]',
+                        'pb-[27.5rem] pt-6xl text-36 leading-l',
+                        'md:x-[pt-6xl-1,pb-[21.87rem],text-32]',
+                        'sm:x-[pt-6xl-1,pb-[16.38rem],text-20]',
                     )}
                 >
                     <p>

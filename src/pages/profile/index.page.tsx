@@ -77,7 +77,7 @@ const ProfilePage: FC = () => {
             )}
         >
             <div className={styles.content}>
-                <div className={`lg:flex  pt-xs md:pt-n lg:pt-[6.25rem]  justify-center lg:justify-between`}>
+                <div className={`lg:flex  pt-xs md:pt-n lg:pt-6xl-1  justify-center lg:justify-between`}>
                     <aside
                         className={cn(
                             `lg:sticky self-start text-nowrap text-left`,

@@ -124,18 +124,12 @@ const InsideTernSection: FC<Props> = (props: Props) => {
             <div
                 className={cn(
                     styles.content,
-                    'text-20  pt-[6.25rem] md:pt-[5rem]  pb-xxl lg:pb-[9.44rem]  sm:max-w-card',
+                    'text-20  pt-6xl-1 md:pt-5xl  pb-xxl lg:pb-7xl  sm:max-w-card',
                     classNameContent,
                 )}
             >
                 <h2 className={'text-left text-40 font-bold '}>Inside Tern</h2>
-                <ul
-                    className={cn(
-                        'mt-[3.75rem] grid grid-cols-1 gap-xxl',
-                        'lg:x-[grid-cols-2,gap-3xl]',
-                        classNameCompanyLi,
-                    )}
-                >
+                <ul className={cn('mt-3xl grid grid-cols-1 gap-xxl', 'lg:x-[grid-cols-2,gap-3xl]', classNameCompanyLi)}>
                     {CompanyLi}
                 </ul>
             </div>

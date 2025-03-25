@@ -30,7 +30,7 @@ const HIGHLIGHTED_CARD: CardLink = {
     action: { title: 'Subscribe today', href: '' },
 };
 
-const UL_H_CN = ' mb-xs md:mb-n lg:mb-[2.75rem]  sm:x-[mx-auto,w-card]  sm:text-27 text-40';
+const UL_H_CN = ' mb-xs md:mb-n lg:mb-xxl  sm:x-[mx-auto,w-card]  sm:text-27 text-40';
 const CAROUSEL_UL_CN = 'mx-0 min-h-[27.0625rem]  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3  w-full sm:w-fit';
 
 const renderTips = (type: ArticleCardType, tips: Tip[] = []) =>
@@ -91,7 +91,7 @@ function TipsPage() {
                         'grid grid-rows-2',
                         'md:grid-cols-2 lg:grid-cols-[15fr,14fr,14fr]',
                         'sm:gap-y-xxl gap-n',
-                        'pt-[6.5rem] md:pt-[5.81rem] lg:pt-6xl',
+                        'pt-6xl-1 md:pt-6xl-1 lg:pt-6xl',
                     )}
                 >
                     <div className={'row-span-2 flex flex-col'}>

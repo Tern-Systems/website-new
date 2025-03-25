@@ -14,7 +14,7 @@ const Switch: FC<Props> = (props: Props) => {
     const { handleSwitch, state, className, classNameSwitchText } = props;
     return (
         <div
-            className={`flex cursor-pointer items-center gap-x-[0.4rem] ${className}`}
+            className={`flex cursor-pointer items-center gap-x-4xs-2 ${className}`}
             onClick={() => handleSwitch()}
         >
             <div className={`w-h-button-n flex h-[min(2.4dvw,0.8rem)] rounded-full border-s border-gray-l0 text-20`}>

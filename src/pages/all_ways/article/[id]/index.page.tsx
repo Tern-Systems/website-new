@@ -122,7 +122,7 @@ function ArticlePage() {
     return (
         <>
             <section className={styles.section}>
-                <div className={cn(styles.content, SECTION_GRID_CN, 'mt-xl md:pt-3xl lg:pt-[4.4rem]')}>
+                <div className={cn(styles.content, SECTION_GRID_CN, 'mt-xl md:pt-3xl lg:pt-5xl')}>
                     <div className={'col-span-2 flex flex-col w-full h-fit'}>
                         <h1 className={'leading-n  text-32 md:text-48 lg:text-64'}>{content?.title}</h1>
                         <div className={'contents'}>
@@ -131,7 +131,7 @@ function ArticlePage() {
                                 alt={'article-image'}
                                 width={200}
                                 height={200}
-                                className={'flex-grow size-full  mt-xl md:mt-[3.5rem] lg:mt-[4.44rem]'}
+                                className={'flex-grow size-full  mt-xl md:mt-3xl lg:mt-[4.44rem]'}
                             />
                         </div>
                     </div>
@@ -157,7 +157,7 @@ function ArticlePage() {
                     </div>
                 </div>
             </section>
-            <section className={'mt-4xl md:mt-[5.78rem] lg:mt-xxl'}>
+            <section className={'mt-4xl md:mt-6xl-1 lg:mt-xxl'}>
                 <div className={styles.content}>
                     <span className={'mb-xxs block font-bold'}>Author</span>
                     <span className={'grid grid-cols-[min-content,1fr] grid-rows-2 items-center gap-x-l'}>
@@ -175,7 +175,7 @@ function ArticlePage() {
                     </span>
                 </div>
             </section>
-            <section className={'relative leading-l  mt-xl md:mt-4xl lg:mt-[3.56rem]'}>
+            <section className={'relative leading-l  mt-xl md:mt-4xl lg:mt-3xl'}>
                 <div className={cn(styles.content, SECTION_GRID_CN)}>
                     {content?.contentIDs?.length ? (
                         <SideNav
@@ -198,7 +198,7 @@ function ArticlePage() {
                     </div>
                 </div>
             </section>
-            <section className={'mt-[10.3rem] pb-[10rem]'}>
+            <section className={'mt-[10.3rem] pb-7xl'}>
                 <div className={styles.content}>
                     <h3 className={'text-center  text-32 md:text-40 lg:text-48'}>More related articles</h3>
                     <ul
@@ -206,7 +206,7 @@ function ArticlePage() {
                             `grid auto-rows-max justify-items-center`,
                             `md:x-[mx-auto,w-fit,grid-cols-2] lg:grid-cols-[repeat(3,minmax(var(--w-card),1fr))]`,
                             `gap-y-l md:gap-n lg:gap-x-xl`,
-                            `mt-[2.31rem] md:mt-xxl lg:mt-xl`,
+                            `mt-xl md:mt-xxl lg:mt-xl`,
                         )}
                     >
                         {CardsLi}

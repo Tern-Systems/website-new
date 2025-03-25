@@ -65,8 +65,8 @@ function AddressesSection(props: SectionProps) {
                     <span
                         className={cn(
                             `mb-5xs ${idx !== 0 && 'mt-3xs md:mt-xs lg:mt-xs'} block text-10 capitalize`,
-                            `md:x-[mb-[0.5rem],text-14]`,
-                            `lg:x-[mb-[0.5rem],text-14]`,
+                            `md:x-[mb-4xs-1,text-14]`,
+                            `lg:x-[mb-4xs-1,text-14]`,
                         )}
                     >
                         {type.slice(0, 'Address'.length + 1)} Address

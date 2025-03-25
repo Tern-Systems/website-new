@@ -24,7 +24,7 @@ import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
-const LEGEND_CN = 'text-24 font-[500] mt-[3.75rem] mb-3xs  md:x-[text-27,mt-[4.375rem]]  lg:x-[text-27,mt-[4.375rem]]';
+const LEGEND_CN = 'text-24 font-[500] mt-3xl mb-3xs  md:x-[text-27,mt-5xl]  lg:x-[text-27,mt-5xl]';
 const INPUT_CN =
     'bg-gray-d2 w-full h-[2.25rem] border border-gray-l0 px-xxs  md:x-[h-[3.125rem],px-xs]  lg:x-[h-[3.125rem],px-xs]';
 const FIELD_CN = 'text-14 grid grid-auto-rows gap-y-3xs  md:text-18  lg:text-18';
@@ -163,8 +163,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <h1
                         className={cn(
                             'mt-xxl text-27 font-[500] leading-tight',
-                            'md:x-[text-32,mt-[4.375rem]]',
-                            'lg:x-[text-32,mt-[4.375rem]]',
+                            'md:x-[text-32,mt-5xl]',
+                            'lg:x-[text-32,mt-5xl]',
                         )}
                     >
                         {paymentCreation ? 'Add Payment Method' : 'Edit Payment Method Details'}
@@ -357,7 +357,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             </form>
             {savedCards[+editCardIdx] || paymentCreation ? (
                 <div
-                    className={'mt-[9.375rem]'}
+                    className={'mt-7xl'}
                     hidden={paymentCreation}
                 >
                     <span

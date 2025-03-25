@@ -4,6 +4,7 @@ import Tailwind from 'tailwindcss/plugin';
 const spacing = {
     '7xl': 'var(--p-7xl)',
     '6xl': 'var(--p-6xl)',
+    '6xl-1': 'var(--p-6xl-1)',
     '5xl': 'var(--p-5xl)',
     '4xl': 'var(--p-4xl)',
     '3xl': 'var(--p-3xl)',
@@ -16,7 +17,10 @@ const spacing = {
     xxs: 'var(--p-xxs)',
     '3xs': 'var(--p-3xs)',
     '4xs': 'var(--p-4xs)',
+    '4xs-1': 'var(--p-4xs-1)',
+    '4xs-2': 'var(--p-4xs-2)',
     '5xs': 'var(--p-5xs)',
+    '6xs': 'var(--p-6xs)',
 };
 
 const size = {

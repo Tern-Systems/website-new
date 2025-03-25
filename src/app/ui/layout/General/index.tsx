@@ -214,8 +214,8 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                     className={cn(
                         styles.content,
                         `pt-xxl pb-n leading-none tracking-wide`,
-                        `xs:x-[flex,flex-col,gap-y-[6.25rem]]`,
-                        `sm:x-[flex,flex-col,gap-y-[6.25rem]]`,
+                        `xs:x-[flex,flex-col,gap-y-6xl-1]`,
+                        `sm:x-[flex,flex-col,gap-y-6xl-1]`,
                     )}
                 >
                     <div
@@ -239,7 +239,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                     </div>
                     <div
                         className={cn(
-                            'col-span-2 flex w-full items-center justify-between  md:mt-[10.9375rem]  lg:mt-[10rem] ',
+                            'col-span-2 flex w-full items-center justify-between  md:mt-[10.9375rem]  lg:mt-7xl ',
                             `xs:x-[flex,flex-col-reverse,gap-y-xxl,mt-0,items-start]`,
                         )}
                     >

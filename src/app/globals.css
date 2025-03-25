@@ -4,21 +4,25 @@
 
 :root {
   /* Paddings */
-  --p-7xl: 10.5rem;
-  --p-6xl: 8.25rem;
-  --p-5xl: 5.15rem;
-  --p-4xl: 4.13rem;
-  --p-3xl: 3.75rem;
-  --p-xxl: 3.06rem;
-  --p-xl: 2.5rem;
-  --p-l: 2.06rem;
-  --p-n: 1.88rem;
-  --p-s: 1.56rem;
-  --p-xs: 1.25rem;
-  --p-xxs: 0.94rem;
-  --p-3xs: 0.81rem;
-  --p-4xs: 0.62rem;
-  --p-5xs: 0.31rem;
+  --p-7xl: 10rem;     /* 168px -> 160px */ 
+  --p-6xl: 7.5rem;    /* 132px -> 120px */
+  --p-6xl-1: 6.25rem; /* 100px */
+  --p-5xl: 5rem;      /* 82.4px -> 80px */
+  --p-4xl: 4.13rem;   /* 66.08px */
+  --p-3xl: 3.75rem;   /* 60px */
+  --p-xxl: 3.06rem;   /* 48.96px */
+  --p-xl: 2.5rem;     /* 40px */
+  --p-l: 2.06rem;     /* 32.96px */
+  --p-n: 1.88rem;     /* 30.08px */
+  --p-s: 1.56rem;     /* 24.96px */
+  --p-xs: 1.25rem;    /* 20px */
+  --p-xxs: 0.94rem;   /* 15.04px */
+  --p-3xs: 0.81rem;   /* 12.96px */
+  --p-4xs: 0.62rem;   /* 9.92px */
+  --p-4xs-1: 0.5rem;  /* 8px */
+  --p-4xs-2: 0.375rem;/* 6px */
+  --p-5xs: 0.31rem;   /* 4.96px */
+  --p-6xs: 0.19rem;   /* 3.04px */
 
   /* Heights / Widths */
   --h-button-xxl: 2.88rem;

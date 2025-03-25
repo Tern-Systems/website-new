@@ -126,7 +126,7 @@ const Tabs: FC<Props> = (props: Props) => {
                             key={index}
                             onClick={() => setActiveTab(index)}
                             className={cn(
-                                'relative px-[0.4375rem] py-4xs text-16 font-bold',
+                                'relative px-4xs-1 py-4xs text-16 font-bold',
                                 className?.tabButton,
                                 activeTab === index && cn(className?.activeTab),
                             )}

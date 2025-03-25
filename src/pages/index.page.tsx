@@ -171,13 +171,7 @@ const HomePage: FC = () => {
                     </div>
                 </section>
                 <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <div
-                        className={cn(
-                            styles.content,
-                            'flex flex-col gap-y-[3.75rem] pt-[5rem]',
-                            'sm:x-[gap-y-xl,pt-xl]',
-                        )}
-                    >
+                    <div className={cn(styles.content, 'flex flex-col gap-y-3xl pt-5xl', 'sm:x-[gap-y-xl,pt-xl]')}>
                         <h2
                             className={cn(
                                 'text-center text-40 font-bold',
@@ -222,7 +216,7 @@ const HomePage: FC = () => {
                     <div className={styles.content}>
                         <h2
                             className={cn(
-                                'my-[3.75rem] text-center font-arial font-bold italic',
+                                'my-3xl text-center font-arial font-bold italic',
                                 'text-80',
                                 'md:text-64',
                                 'sm:text-30',

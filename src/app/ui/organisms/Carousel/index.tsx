@@ -19,8 +19,8 @@ enum CardsPerPage {
 }
 
 const getAltSpinnerBtnCn = (alt?: true) =>
-    cn('border-s   border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-[1.375rem] sm:p-[0.4375rem]', {
-        ['md:p-[0.6875rem]']: alt,
+    cn('border-s   border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-xs sm:p-4xs-1', {
+        ['md:p-4xs']: alt,
     });
 
 interface Props extends PropsWithChildren {

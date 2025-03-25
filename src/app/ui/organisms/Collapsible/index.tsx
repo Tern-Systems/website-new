@@ -124,11 +124,11 @@ const Collapsible: FC<Props> = (props: Props) => {
                 onClick={() => handleToggle()}
                 className={cn(
                     classNameTitle,
-                    `flex cursor-pointer items-center justify-between gap-x-[0.2rem] text-27 sm:text-18`,
+                    `flex cursor-pointer items-center justify-between gap-x-6xs text-27 sm:text-18`,
                     { ['mb-[min(16dvw,3.75rem)]']: isChevron },
                 )}
             >
-                <h2 className={`flex items-center gap-[0.65rem] font-bold leading-none text-inherit`}>
+                <h2 className={`flex items-center gap-4xs font-bold leading-none text-inherit`}>
                     {Icon}
                     <span>{title}</span>
                 </h2>

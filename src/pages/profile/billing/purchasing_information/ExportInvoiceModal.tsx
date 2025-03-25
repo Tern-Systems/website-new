@@ -53,7 +53,7 @@ const ExportInvoiceModal: FC = () => {
         >
             <form
                 onSubmit={handleFormSubmit}
-                className={'flex items-center gap-[2.04rem] text-gray'}
+                className={'flex items-center gap-l text-gray'}
             >
                 <Select
                     options={TIMEFRAME_OPTIONS}
@@ -69,7 +69,7 @@ const ExportInvoiceModal: FC = () => {
                 </Select>
                 <Button
                     className={
-                        'h-h-button-n mt-[min(6.5dvw,2.5rem)] rounded-full border-s border-white-d0 px-[1rem] text-20 font-bold'
+                        'h-h-button-n mt-[min(6.5dvw,2.5rem)] rounded-full border-s border-white-d0 px-xxs text-20 font-bold'
                     }
                 >
                     Export

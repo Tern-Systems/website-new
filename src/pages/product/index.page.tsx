@@ -132,9 +132,7 @@ function TidalPage() {
                         />
                         <p className={'text-32  lg:text-40'}>Unlocking the potential of ternary programming</p>
                         <div
-                            className={
-                                'flex flex-wrap gap-x-l gap-y-xs text-nowrap text-21  mt-[2.81rem] md:mt-[2.71rem] lg:mt-[2.31rem]'
-                            }
+                            className={'flex flex-wrap gap-x-l gap-y-xs text-nowrap text-21  mt-xxl md:mt-xxl lg:mt-xl'}
                         >
                             <PageLink
                                 isExternal
@@ -175,12 +173,12 @@ function TidalPage() {
                         className={cn(
                             'mx-auto text-center font-bold leading-n  w-2/3 sm:w-full',
                             'text-27 md:text-48 lg:text-64',
-                            'pt-[6.63rem] md:pt-[12.55rem] lg:pt-[17rem]',
+                            'pt-6xl-1 md:pt-[12.55rem] lg:pt-[17rem]',
                         )}
                     >
                         Tidal is the World’s First Ternary Software Stack
                     </h2>
-                    <p className={'mt-[6rem] sm:mt-xxl  text-16 md:text-30 lg:text-40'}>
+                    <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40'}>
                         We are driving the evolution from binary to ternary computing. By harnessing the superior data
                         density and efficiency of ternary logic, Tidal provides developers with an innovative platform
                         to redefine programming paradigms and unlock new computational possibilities.
@@ -194,16 +192,16 @@ function TidalPage() {
                         <Image
                             src={PNG_EMULATOR_SAMPLE}
                             alt={'emulator sample'}
-                            className={'h-auto w-full  mt-[4.5rem] md:mt-[6rem] lg:mt-[7.56rem]'}
+                            className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-[6rem] lg:mt-[7.59rem]'}>
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-[2.25rem] md:mt-4xl lg:mt-[4.75rem]'}>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
                             className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
@@ -222,7 +220,7 @@ function TidalPage() {
                         styles.content,
                         styles.contentHighlight,
                         'text-40 leading-n',
-                        'pt-[6.62rem] pb-[7rem] md:x-[pt-[12.55rem],pb-[13rem]] lg:x-[pt-[16rem],pb-[19.5rem]]',
+                        'pt-6xl-1 pb-6xl-1 md:x-[pt-[12.55rem],pb-[13rem]] lg:x-[pt-[16rem],pb-[19.5rem]]',
                     )}
                 >
                     <div
@@ -335,7 +333,7 @@ function TidalPage() {
                         className={cn(
                             'grid gap-3xl mx-auto  grid-cols-3 sm:grid-cols-1',
                             'w-fit lg:w-full',
-                            'mt-3xl md:mt-[4.75rem] lg:mt-5xl',
+                            'mt-3xl md:mt-5xl lg:mt-5xl',
                         )}
                     >
                         {TilesLi}
@@ -368,7 +366,7 @@ function TidalPage() {
             </section>
             <ResourcesSection
                 data={RESOURCES}
-                className={'mb-7xl md:mb-[9.34rem] lg:mb-[12.51rem]'}
+                className={'mb-7xl md:mb-7xl lg:mb-[12.51rem]'}
             >
                 More ways to explore
             </ResourcesSection>

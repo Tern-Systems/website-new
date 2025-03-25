@@ -112,7 +112,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                     icon={'plus'}
                     href={Route.EditPaymentMethod}
                     className={cn('w-full sm:justify-start', LI_P_CN)}
-                    iconClassName={'mr-3xs sm:mr-[1rem]  [&_*]:size-[1.125rem] sm:[&_*]:size-[1rem]'}
+                    iconClassName={'mr-3xs sm:mr-xxs  [&_*]:size-[1.125rem] sm:[&_*]:size-[1rem]'}
                 >
                     Add alternative payment method
                 </PageLink>

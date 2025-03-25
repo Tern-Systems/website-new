@@ -82,7 +82,7 @@ function ManageSubscriptionsPage() {
         const preferredCard: SavedCardFull | undefined = savedCards[preferredCardIdx];
 
         return (
-            <div className={`mb-[24.75rem] mt-[6rem] text-16 sm:x-[grid-cols-1,gap-y-l,mt-l]  [&>div>div>*]:px-5xs`}>
+            <div className={`mb-[24.75rem] mt-6xl-1 text-16 sm:x-[grid-cols-1,gap-y-l,mt-l]  [&>div>div>*]:px-5xs`}>
                 <div>
                     <div className={'flex items-center justify-between'}>
                         <h2 className={`text-16 md:text-18 lg:text-20`}>Current Plan</h2>
@@ -135,7 +135,7 @@ function ManageSubscriptionsPage() {
                         <div
                             className={cn(
                                 `grid grid-cols-[1fr,min-content] grid-rows-5 text-nowrap bg-gray px-4xs py-xxs`,
-                                `gap-y-xxs md:gap-y-[1rem] lg:gap-y-xs`,
+                                `gap-y-xxs md:gap-y-xxs lg:gap-y-xs`,
                                 `w-[16rem] min-w-fit max-w-[70%]`,
                                 'mt-4xs lg:mt-3xs',
                                 'text-12 sm:text-10',
@@ -162,7 +162,7 @@ function ManageSubscriptionsPage() {
                         </div>
                     ) : null}
                 </div>
-                <div className={'mt-[6rem]'}>
+                <div className={'mt-6xl-1'}>
                     <h2 className={`text-16 md:text-18 lg:text-20`}>Payment Method</h2>
                     {Hr}
                     {!preferredCard ? (

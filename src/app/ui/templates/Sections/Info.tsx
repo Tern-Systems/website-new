@@ -37,13 +37,11 @@ const InfoSection: FC<Props> = (props: Props) => {
     return (
         <section className={cn(styles.section, className)}>
             <div
-                className={cn(styles.content, 'mb-[12.25rem] pt-[3.5rem] ', classNameContent, {
+                className={cn(styles.content, 'mb-[12.25rem] pt-3xl ', classNameContent, {
                     [styles.contentGradientBlue]: blur,
                 })}
             >
-                <h2 className={cn('mb-[4.62rem] text-center font-bold', 'text-30', 'lg:text-40', classNameTitle)}>
-                    {title}
-                </h2>
+                <h2 className={cn('mb-5xl text-center font-bold', 'text-30', 'lg:text-40', classNameTitle)}>{title}</h2>
                 <div className={'flex items-center justify-between sm:x-[gap-y-xxl,flex-col-reverse]'}>
                     <span className={'w-[40%] text-left sm:x-[w-full,text-center]'}>
                         <span className={cn('mb-4xs block text-32 sm:text-14 md:text-24', classNameSubTitle)}>

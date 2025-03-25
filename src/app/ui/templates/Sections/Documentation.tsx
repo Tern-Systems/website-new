@@ -134,7 +134,7 @@ const DocumentationSection: FC<Props> = (props: Props) => {
     const MenuBtn = pipMode ? null : (
         <Button
             onClick={() => toggleMenuOpen()}
-            className={`h-button-l min-w-button-l rounded-xs border-n border-white p-[0.2rem]`}
+            className={`h-button-l min-w-button-l rounded-xs border-n border-white p-6xs`}
         >
             <div className={`box-border h-full rounded-s-[0.125rem] bg-white ${menuOpened ? 'w-[10%]' : 'w-[40%]'}`} />
         </Button>
@@ -164,11 +164,8 @@ const DocumentationSection: FC<Props> = (props: Props) => {
                 layoutCtx.isNoLayout
                     ? 'absolute inset-0'
                     : cn({
-                          [cn(
-                              'mb-[6.28rem] md:mb-[7.84rem] lg:mb-[9.46rem]',
-                              'mt-xxl md:mt-3xl lg:mt-4xl',
-                              'h-[75dvh]',
-                          )]: !pipModeChild,
+                          [cn('mb-6xl-1 md:mb-6xl lg:mb-7xl', 'mt-xxl md:mt-3xl lg:mt-4xl', 'h-[75dvh]')]:
+                              !pipModeChild,
                       }),
             )}
         >

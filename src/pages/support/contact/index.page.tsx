@@ -83,7 +83,7 @@ const ContactsPage: FC = () => {
                                 className={cn(
                                     `w-min text-left leading-n`,
                                     `mb-n text-96`,
-                                    `lg:x-[w-full,mt-[6.25rem]]`,
+                                    `lg:x-[w-full,mt-6xl-1]`,
                                     `md:x-[mt-xl,text-96]`,
                                     `sm:x-[flex,mt-xs,text-64]`,
                                 )}
@@ -105,17 +105,15 @@ const ContactsPage: FC = () => {
                         styles.content,
                         'relative z-10',
                         'flex flex-col lg:flex-row',
-                        'pb-[8.125rem] pt-[10.25rem]',
-                        'sm:pb-[4.375rem]',
-                        'md:pb-[6.875rem]',
-                        'gap-[3.75rem] md:gap-[6.25rem] lg:gap-[9.875rem]',
+                        'pb-6xl pt-7xl',
+                        'sm:pb-5xl',
+                        'md:pb-6xl-1',
+                        'gap-3xl md:gap-6xl-1 lg:gap-7xl',
                     )}
                 >
                     <div className={cn('lg:w-1/2 md:w-[65%]')}>
                         <div className={cn('')}>
-                            <h2 className={cn('mb-[6.25rem] text-left text-48 font-[500]', 'sm:mb-xl')}>
-                                Get in Touch
-                            </h2>
+                            <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
                             <form
                                 onSubmit={handleSubmit}
                                 className='relative z-10 [&_*]:tracking-wide'
@@ -218,8 +216,8 @@ const ContactsPage: FC = () => {
                         styles.content,
                         'relative z-10',
                         'grid grid-cols-1 gap-xl mb-3xl',
-                        'md:x-[mb-[6.25rem]]',
-                        'lg:x-[grid-cols-3,mb-[7.5rem]]',
+                        'md:x-[mb-6xl-1]',
+                        'lg:x-[grid-cols-3,mb-6xl]',
                     )}
                 >
                     <div className='grid gap-3xs  md:gap-s  lg:order-last'>
@@ -246,7 +244,7 @@ const ContactsPage: FC = () => {
                     </div>
                 </section>
 
-                <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-[6.25rem] lg:mb-[7.5rem]')}>
+                <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
                     <ResourceCard
                         type={'highlighted'}
                         icon={HIGHLIGHTED_CARD.icon}
@@ -273,7 +271,7 @@ const ContactsPage: FC = () => {
                 <section className='relative z-10'>
                     <ResourcesSection
                         data={RESOURCES}
-                        className={'mb-[22.125rem] mt-[6.25rem]'}
+                        className={'mb-[22.125rem] mt-6xl-1'}
                     />
                 </section>
 

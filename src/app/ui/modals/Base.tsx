@@ -64,7 +64,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 onMouseLeave={() => setHoverState?.(false)}
                 onClick={() => modalCtx.closeModal()}
                 className={cn(
-                    `pointer-events-auto absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem]`,
+                    `pointer-events-auto absolute flex items-center gap-xxs px-4xs py-3xs`,
                     adaptApplied ? 'h-dvh w-dvw bg-white-d0 text-gray' : 'rounded-xs bg-gray-l0',
                     className,
                 )}

@@ -93,7 +93,7 @@ const BillingPage: FC = () => {
     };
 
     return (
-        <div className={cn(styles.section, `pt-[6.25rem]`)}>
+        <div className={cn(styles.section, `pt-6xl-1`)}>
             <section className={styles.content}>
                 <h1 className={`flex text-32 font-bold`}>Billing</h1>
             </section>
@@ -111,7 +111,7 @@ const BillingPage: FC = () => {
             </section>
             <ResourcesSection
                 data={RESOURCES}
-                className={'mb-[9.41rem] mt-[6.25rem]'}
+                className={'mb-7xl mt-6xl-1'}
             />
         </div>
     );

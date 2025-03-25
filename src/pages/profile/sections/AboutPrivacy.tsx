@@ -5,11 +5,7 @@ import Link from 'next/link';
 const AboutPrivacy: FC = () => {
     return (
         <section
-            className={cn(
-                `mt-[5.625rem] mb-[6.25rem] w-full max-w-[62rem] text-nowrap place-self-center`,
-                `md:px-0`,
-                `lg:px-l`,
-            )}
+            className={cn(`mt-6xl-1 mb-6xl-1 w-full max-w-[62rem] text-nowrap place-self-center`, `md:px-0`, `lg:px-l`)}
         >
             <div
                 className={cn(

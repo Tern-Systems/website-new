@@ -177,7 +177,7 @@ function MyTernPage() {
         >
             <Button
                 icon={faChevronDown}
-                className={cn(`flex-row-reverse bg-blue`, `p-4xs text-16`, `xxs:x-[p-[0.56rem],text-14]`)}
+                className={cn(`flex-row-reverse bg-blue`, `p-4xs text-16`, `xxs:x-[p-4xs-1,text-14]`)}
                 classNameIcon={cn(`[&_path]:fill-primary -rotate-90 ml-n [&_*]:w-[0.6rem]`, `sm:[&_*]:w-[0.525rem]`)}
             >
                 {btn.title}
@@ -186,7 +186,7 @@ function MyTernPage() {
     ));
 
     return (
-        <div className={cn(styles.section, `pt-[6.25rem]`)}>
+        <div className={cn(styles.section, `pt-6xl-1`)}>
             <section className={styles.content}>
                 <h1 className={`flex text-32 font-bold`}>Dashboard</h1>
                 <p className={'text-xxs mt-xxs'}>{renderSinceDate(userCtx.userData?.registrationDate)}</p>
@@ -220,7 +220,7 @@ function MyTernPage() {
             </section>
             <ResourcesSection
                 data={RESOURCES}
-                className={'mb-[9.41rem] mt-[6.25rem]'}
+                className={'mb-7xl mt-6xl-1'}
             />
         </div>
     );

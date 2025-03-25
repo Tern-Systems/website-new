@@ -307,7 +307,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 </fieldset>
                 <span
                     hidden={isBillingExpanded}
-                    className={'mt-[0.65rem] block cursor-pointer text-14 underline'}
+                    className={'mt-4xs block cursor-pointer text-14 underline'}
                     onClick={() => toggleBillingDetails()}
                 >
                     Enter address manually
@@ -318,7 +318,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`h-full w-1/2 flex-1 overflow-y-scroll bg-white pt-[7.44rem] sm:x-[overflow-y-visible,p-xs,w-full,max-h-fit,shadow-none]`}
+            className={`h-full w-1/2 flex-1 overflow-y-scroll bg-white pt-6xl sm:x-[overflow-y-visible,p-xs,w-full,max-h-fit,shadow-none]`}
         >
             <div className={'mx-auto w-full max-w-[29rem]'}>
                 <form
@@ -331,7 +331,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         type={'checkbox'}
                         checked={formData.acceptTerms}
                         onChange={setFormData('acceptTerms')}
-                        classNameWrapper={'flex-row-reverse mt-[min(4dvw,1.46rem)] [&&]:items-start gap-[0.47rem]'}
+                        classNameWrapper={'flex-row-reverse mt-[min(4dvw,1.46rem)] [&&]:items-start gap-4xs-1'}
                         classNameLabel={'flex'}
                         className={'max-h-xxs max-w-xxs'}
                         required

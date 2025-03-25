@@ -113,7 +113,7 @@ const AboutPage: FC = () => {
                 <div
                     className={cn(
                         styles.content,
-                        'flex w-full flex-col justify-between py-[7rem] sm:landscape:py-[1.875rem] md:landscape:py-[1.875rem]',
+                        'flex w-full flex-col justify-between py-[7rem] sm:landscape:py-n md:landscape:py-n',
                     )}
                 >
                     <div

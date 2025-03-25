@@ -33,11 +33,11 @@ const SearchBar: FC<Props> = (props: Props) => {
                         setContentType(value);
                     }}
                     className='!bg-gray h-[1.8125rem] border-s !border-gray-l0 pl-5xs min-w-[7.4375rem]'
-                    classNameUl='flex flex-col border-s border-gray-l0 max-h-[7.5rem] w-[7.4375rem] !gap-y-[0.125rem] pt-5xs pb-5xs'
+                    classNameUl='flex flex-col border-s border-gray-l0 max-h-[7.5rem] w-[7.4375rem] !gap-y-6xs pt-5xs pb-5xs'
                     classNameOption='!bg-gray border-none h-[1.25rem] overflow-hidden hover:x-[!bg-white-d0,text-black]'
                     placeholder=''
                     classNameSelected='!w-full'
-                    classNameChevron='ml-auto mr-[0.5rem]'
+                    classNameChevron='ml-auto mr-4xs-1'
                 />
             </div>
             <div className={'flex flex-col relative'}>
@@ -78,7 +78,7 @@ const SearchBar: FC<Props> = (props: Props) => {
                 src={SVG_SEARCH.src}
                 className={cn(
                     'my-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
-                    '[&_*]:size-[1.3125rem] mr-[1.25rem]',
+                    '[&_*]:size-[1.3125rem] mr-xs',
                 )}
             />
             <div

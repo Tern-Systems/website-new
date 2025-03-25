@@ -55,7 +55,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
                     <div>
                         <h2
                             className={cn(
-                                `mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-27 font-bold`,
+                                `mb-[min(10.7dvw,5.25rem)] flex items-center gap-xxs text-nowrap text-27 font-bold`,
                                 `sm:landscape:mb-xs md:text-40 md:landscape:text-36 lg:text-40`,
                             )}
                         >

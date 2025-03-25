@@ -61,7 +61,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         'grid items-center from-gray to-[--bg-white-d2]  bg-gradient-to-r sm:bg-gradient-to-b',
                         'lg:justify-items-center lg:grid-cols-[2fr,3fr]',
                         'gap-y-xs md:gap-y-n lg:gap-x-xl',
-                        'p-xxs md:x-[px-xxl,p-[2.31rem]] lg:p-[3.25rem]',
+                        'p-xxs md:x-[px-xxl,p-xl] lg:p-xxl',
                         className?.wrapper,
                     )}
                 >
