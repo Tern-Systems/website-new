@@ -2,10 +2,10 @@
 
 import { Route } from '@/app/static';
 
-import { useBackground } from './hooks';
+import { useBackground } from '@/app/hooks';
 
 import '@/app/globals.css';
-import styles from './common.module.css';
+import styles from '@/app/common.module.css';
 
 const NotFound = () => {
     const bgSrc = useBackground();
