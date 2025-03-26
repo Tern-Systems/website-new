@@ -21,7 +21,7 @@ import HomePage from '@/pages/index.page';
 
 const { modal, layout } = DataTestID;
 const { profile } = layout;
-const { login } = modal;
+const { auth } = modal;
 
 describe('E2E related to ' + AuthServiceImpl.name, () => {
     const UseUserMock = jest.requireMock('@/app/hooks/context/useUser');
@@ -49,7 +49,7 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
             // Main
             await act(async () => fireEvent.click(await findByTestId(profile.loginButton)));
 
-            await act(async () => fireEvent.click(await findByTestId(login.resetLink)));
+            await act(async () => fireEvent.click(await findByTestId(auth.resetLink)));
 
             expect(await findByTestId(forgotPassword.modal)).toBeInTheDocument();
 
@@ -148,21 +148,21 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
             const loginButton = await findByTestId(profile.loginButton);
             await act(() => fireEvent.click(loginButton));
 
-            const LoginModal = await findByTestId(login.modal);
+            const LoginModal = await findByTestId(auth.modal);
             expect(LoginModal).toBeInTheDocument();
 
             await act(async () =>
-                fireEvent.change(await findByTestId(login.emailInput), {
+                fireEvent.change(await findByTestId(auth.form.input.email), {
                     target: { value: dummyEmail },
                 }),
             );
             await act(async () =>
-                fireEvent.change(await findByTestId(login.passwordInput), {
+                fireEvent.change(await findByTestId(auth.form.input.password), {
                     target: { value: dummyPassword + (success || twoFA ? '' : 'wrong') },
                 }),
             );
 
-            await act(async () => fireEvent.click(await findByTestId(login.submitButton)));
+            await act(async () => fireEvent.click(await findByTestId(auth.form.submitButton)));
 
             let TwoFAModal: HTMLElement | null = null;
             if (twoFA) {
@@ -222,7 +222,7 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
             'Should show error message because of wrong password',
             async () => {
                 await doLogin(false);
-                expect(await findByTestId(login.message)).toHaveTextContent('Invalid credentials');
+                expect(await findByTestId(auth.message)).toHaveTextContent('Invalid credentials');
             },
             TIMEOUT.testMs,
         );
@@ -264,7 +264,7 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
     //         'Should successfully set a new password after email verification',
     //         async () => {
     //             await verify(token, 'Successfully set new password');
-    //             expect(await findByTestId(login.modal)).toBeInTheDocument();
+    //             expect(await findByTestId(auth.modal)).toBeInTheDocument();
     //         },
     //         TIMEOUT.testMs,
     //     );
@@ -277,28 +277,42 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
     // });
 
     describe(AuthService.postSignup.name, () => {
-        const { signUp, emailSent } = modal;
+        const { auth } = modal;
 
-        beforeEach(() => render(<HomePage />));
         afterEach(async () => await AuthTestUtil.clean(true));
 
         const doSignUp = async () => {
+            jest.useFakeTimers();
+            await act(() => render(<HomePage />));
+            await act(async () => fireEvent.click(await findByTestId(profile.toggle)));
+            expect(await findByTestId(profile.menuUnlogged)).toBeInTheDocument();
+
             await act(async () => fireEvent.click(await findByTestId(profile.signUpButton)));
-            expect(await findByTestId(signUp.modal)).toBeInTheDocument();
+            expect(await findByTestId(auth.modal)).toBeInTheDocument();
 
             await act(async () =>
-                fireEvent.change(await findByTestId(signUp.emailInput), {
+                fireEvent.change(await findByTestId(auth.form.input.email), {
                     target: { value: dummyEmail },
                 }),
             );
-            await act(async () => fireEvent.click(await findByTestId(signUp.submitButton)));
+            await act(async () =>
+                fireEvent.change(await findByTestId(auth.form.input.password), {
+                    target: { value: dummyPassword },
+                }),
+            );
+            await act(async () =>
+                fireEvent.change(await findByTestId(auth.form.input.passwordConfirm), {
+                    target: { value: dummyPassword },
+                }),
+            );
+            await act(async () => fireEvent.click(await findByTestId(auth.form.submitButton)));
         };
 
         it(
             'Should successfully register a new user',
             async () => {
                 await doSignUp();
-                expect(await findByTestId(emailSent.modal)).toBeInTheDocument();
+                expect(await findByTestId(auth.successModal)).toHaveTextContent('Account is created');
             },
             TIMEOUT.testMs,
         );
@@ -311,7 +325,7 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
 
                 // Main
                 await doSignUp();
-                expect(await findByTestId(signUp.message)).toHaveTextContent('Email already exists');
+                expect(await findByTestId(auth.message)).toHaveTextContent('Email already exists');
             },
             TIMEOUT.testMs,
         );

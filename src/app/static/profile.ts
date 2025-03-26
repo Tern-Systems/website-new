@@ -3827,9 +3827,9 @@ type State = (typeof STATE_PROVINCE)[keyof typeof STATE_PROVINCE];
 type StateKey = KeysOfUnion<State>;
 
 const REGEX = {
-    password: /^(?=.*\d)(?=.*[A-Z])([\w\W\S]{9,})$/g,
-    phone: /^\+\d{11,15}$/g,
-    email: /^\w+@\w+\.\w+$/g,
+    password: /^(?=.*\d)(?=.*[A-Z])([\w\W\S]{9,})$/,
+    phone: /^\+\d{11,15}$/,
+    email: /^\w+@\w+\.\w+$/,
 };
 
 const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };

@@ -9,7 +9,7 @@ const modal = {
     },
     auth: {
         modal: 'auth-modal',
-        successModal: 'auth-modal',
+        successModal: 'auth-success-modal',
         message: 'auth-modal-message-label',
         resetLink: 'auth-modal-reset-link',
         form: {
