@@ -12,7 +12,7 @@
     "jsx"
   ],
   "moduleNameMapper": {
-    ".+\\.(svg|png|jpg)$": "jest-transform-stub",
+    ".+\\.(svg|png|jpg|gif)$": "jest-transform-stub",
     "^@/(.+)": "<rootDir>/src/$1"
   },
   "testRegex": ".*\\.(e2e-)?(int-)?spec\\.tsx?$",

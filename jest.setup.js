@@ -1,4 +1,4 @@
-require('dotenv').config({ path: __dirname + '/.env.local' });
+require('@testing-library/jest-dom');
 
 global.console = {
     ...console,
@@ -8,3 +8,5 @@ global.console = {
     info: jest.fn(),
     debug: jest.fn(),
 };
+
+window.HTMLElement.prototype.scrollIntoView = jest.fn();

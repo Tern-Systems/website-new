@@ -10,6 +10,8 @@ const TIMER_INTERVAL = 50;
 const ANIMATION_DURATION = 500;
 
 const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
+    const { children, ...modalProps } = props;
+
     const modalCtx = useModal();
 
     const [_, setTimer] = useState(100);
@@ -43,6 +45,7 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     return (
         <BaseModal
+            {...modalProps}
             isSimple
             setHoverState={setHoveredState}
             className={cn(
@@ -53,7 +56,7 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                     : 'translate-y-full opacity-0 duration-500 ease-out',
             )}
         >
-            {props.children}
+            {children}
         </BaseModal>
     );
 };

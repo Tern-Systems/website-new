@@ -27,7 +27,7 @@ abstract class BaseService {
             this.debug('No ENV set, continuing in development mode...');
         BaseService.NodeEnv = (env as NodeEnv) ?? 'development';
 
-        const api: string | undefined = process.env.NEXT_PUBLIC_BACKEND_URL;
+        const api: string | undefined = process.env.NEXT_PUBLIC_API_URL;
 
         this.debug('ENV:', BaseService.NodeEnv + ',', 'API url:', api);
         if (!api) throw 'API URL is not defined!';

@@ -15,6 +15,8 @@ interface IAuthService {
 
     postLogin(email: string, password: string): Promise<Res<LoginDTO, false>>;
 
+    postLogout(): Promise<Res>;
+
     postForgotPassword(email: string): Promise<Res>;
 
     postSendOTP(email: string): Promise<Res>;
@@ -52,6 +54,16 @@ class AuthServiceImpl extends BaseService implements IAuthService {
 
     static checkOTP_DTO(data: Partial<OTP_DTO>) {
         return [BaseService.NodeEnv !== 'test' || 'otp' in data];
+    }
+
+    async postLogout(): Promise<Res> {
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `logout`,
+            withCredentials: true,
+        };
+        const { message } = await this.req(this.postLogout.name, config, null);
+        return { message: message ?? AuthServiceImpl._MESSAGE.LOGGED_OUT };
     }
 
     async postSignup(email: string, password: string): Promise<Res> {

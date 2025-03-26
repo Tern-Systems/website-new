@@ -41,6 +41,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         classNameHr,
         adaptBreakpoint,
         adaptedDefault,
+        ...divProps
     } = props;
 
     const modalCtx = useModal();
@@ -59,6 +60,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     if (simple) {
         return (
             <div
+                {...divProps}
                 id={'modal'}
                 onMouseEnter={() => setHoverState?.(true)}
                 onMouseLeave={() => setHoverState?.(false)}
@@ -97,6 +99,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         ) : null;
         return (
             <div
+                {...divProps}
                 id={'modal'}
                 onClick={(event) => event.stopPropagation()}
                 className={cn(

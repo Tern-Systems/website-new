@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
@@ -18,8 +20,6 @@ const Insignia: FC<Props> = (props: Props) => {
         <div className={'contents'}>
             <ReactSVG
                 src={SVG_LOGO.src}
-                width={65}
-                height={29}
                 onClick={() => navigate(Route.Home)}
                 className={cn('cursor-pointer [&_*]:x-[w-fit,!h-insignia]', props.className)}
             />

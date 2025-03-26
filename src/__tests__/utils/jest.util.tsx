@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren, ReactNode } from 'react';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
+import { screen, waitFor } from '@testing-library/dom';
 import { render, RenderOptions } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
@@ -9,11 +10,14 @@ import '@/__tests__/mocks';
 import { TIMEOUT } from '@/__tests__/static';
 
 import { Provider } from '@/app/providers';
-import { screen, waitFor } from '@testing-library/dom';
+
+import { Layout } from '@/app/ui/layout';
 
 const TestProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => (
     <RouterContext.Provider value={RouterMock}>
-        <Provider>{props.children}</Provider>
+        <Provider>
+            <Layout>{props.children}</Layout>
+        </Provider>
     </RouterContext.Provider>
 );
 
