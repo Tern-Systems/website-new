@@ -1,4 +1,6 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import cn from 'classnames';
 
 import MapEmbed from './Map';
@@ -13,8 +15,8 @@ import { Route } from '@/app/static';
 
 import styles from '@/app/common.module.css';
 
-import OFFICE_GIRL_3 from '/public/images/office-girl-3.png';
-import PNG_HIGHLIGHTEDTIPS from '/public/images/contact-card-highlighted-0.png';
+import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
+import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
 
 type FormData = {
     isAllowedUpdate: boolean | undefined;

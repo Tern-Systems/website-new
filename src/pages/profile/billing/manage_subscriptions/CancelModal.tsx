@@ -1,9 +1,11 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';

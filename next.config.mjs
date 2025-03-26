@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    pageExtensions: ['tsx', 'page.tsx', 'jsx', '_app.tsx', 'js', 'ts'],
+    pageExtensions: ['page.tsx', 'jsx', '_app.tsx', 'js', 'ts'],
     swcMinify: true,
     experimental: {
         forceSwcTransforms: true,

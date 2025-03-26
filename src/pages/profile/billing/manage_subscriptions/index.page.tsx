@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
@@ -9,7 +11,7 @@ import { BillingService } from '@/app/services';
 
 import { checkNumber, formatDate } from '@/app/utils';
 import { useLoginCheck } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { BreadcrumbRoute } from '@/app/ui/atoms';
 import { Button, Select } from '@/app/ui/form';
@@ -19,8 +21,8 @@ import { ChangePaymentMethod } from './ChangePaymentMethod';
 
 import styles from '@/app/common.module.css';
 
-import SVG_CARD from '/public/images/icons/card.svg';
-import SVG_PENCIL from '/public/images/icons/edit.svg';
+import SVG_CARD from '@/assets/images/icons/card.svg';
+import SVG_PENCIL from '@/assets/images/icons/edit.svg';
 
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -67,7 +69,7 @@ function ManageSubscriptionsPage() {
         ]) ?? [],
     );
 
-    const taxUSD: number | undefined = checkNumber(selectedPlan?.tax) ? selectedPlan?.tax : undefined;
+    const taxUSD: number | undefined = checkNumber(selectedPlan?.tax?.amount) ? selectedPlan?.tax?.amount : undefined;
     const priceUSD: number | undefined = checkNumber(selectedPlan?.priceUSD) ? selectedPlan.priceUSD : undefined;
 
     const price: string = priceUSD ? '$' + priceUSD.toFixed(2) : '-- missing price --';

@@ -1,11 +1,13 @@
-import React, { FC, useEffect, useState } from 'react';
+'use client';
+
+import { FC, useEffect, useState } from 'react';
 import { SubscriptionPreview } from '@/app/types/subscription';
 
 import { BillingService } from '@/app/services';
 
 import { PricingAndPlansScreen } from '@/app/ui/templates';
 import { MessageModal } from '@/app/ui/modals';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 const PricingAndPlansPage: FC = () => {
     const modalCtx = useModal();

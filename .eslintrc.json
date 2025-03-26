@@ -64,7 +64,8 @@
         "react-refresh"
       ],
       "files": [
-        "./src/__tests__/**/*.tsx"
+        "./src/__tests__/**/*.tsx",
+        "./src/app/static/**/*.tsx"
       ],
       "rules": {
         "react-refresh/only-export-components": "off"

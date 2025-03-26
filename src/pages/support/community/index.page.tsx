@@ -1,15 +1,17 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { ReactElement, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import Image from 'next/image';
 import cn from 'classnames';
 
 import { CardLink } from '@/app/types/layout';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { Article } from '@/app/types/blog';
 import { CONTACT_LINKS, Route } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { MainBackground } from '@/app/ui/atoms';
 import { ArticleCard, ResourceCard, Tabs } from '@/app/ui/organisms';
@@ -18,17 +20,17 @@ import { PageLink } from '@/app/ui/layout';
 
 import styles from '@/app/common.module.css';
 
-import PNG_BG_MAIN from '/public/images/community-bg-main.png';
-import PNG_ABOUT from '/public/images/community-about.png';
-import PNG_HIGHLIGHTED_0 from '/public/images/community-card-highlighted-0.png';
-import PNG_HIGHLIGHTED_1 from '/public/images/community-card-highlighted-2.png';
+import PNG_BG_MAIN from '@/assets/images/community-bg-main.png';
+import PNG_ABOUT from '@/assets/images/community-about.png';
+import PNG_HIGHLIGHTED_0 from '@/assets/images/community-card-highlighted-0.png';
+import PNG_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-2.png';
 
-import SVG_CLOCK from '/public/images/icons/clock.svg';
-import PNG_CARD_1 from '/public/images/community-card-0.png';
-import PNG_CARD_2 from '/public/images/community-card-1.png';
-import PNG_CARD_HIGHLIGHTED_1 from '/public/images/community-card-highlighted-1.png';
-import PNG_CARD_4 from '/public/images/community-card-2.png';
-import PNG_CARD_5 from '/public/images/community-card-3.png';
+import SVG_CLOCK from '@/assets/images/icons/clock.svg';
+import PNG_CARD_1 from '@/assets/images/community-card-0.png';
+import PNG_CARD_2 from '@/assets/images/community-card-1.png';
+import PNG_CARD_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-1.png';
+import PNG_CARD_4 from '@/assets/images/community-card-2.png';
+import PNG_CARD_5 from '@/assets/images/community-card-3.png';
 import { BlogService } from '@/app/services/blog.service';
 
 type Event = {
@@ -145,7 +147,7 @@ function CommunityPage() {
         const fetchArticles = async () => {
             try {
                 const { payload } = await BlogService.getArticles();
-                setArticles(payload.blogs.slice(0, MAX_ARTICLE_CARD_COUNT));
+                setArticles(payload.blogs?.slice(0, MAX_ARTICLE_CARD_COUNT));
             } catch (err: unknown) {
                 if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
             }

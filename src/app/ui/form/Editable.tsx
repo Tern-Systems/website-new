@@ -1,4 +1,6 @@
-import React, {
+'use client';
+
+import {
     ChangeEvent,
     Dispatch,
     FC,
@@ -18,36 +20,29 @@ import { v4 } from 'uuid';
 
 import { KeysOfUnion, NonNullableKeys } from '@/app/types/utils';
 import {
+    COUNTRY,
+    DEFAULT_ADDRESS,
+    DEFAULT_PHONE,
     INDUSTRY,
     IndustryKey,
     JOB_FUNCTION,
     JobFunctionKey,
+    SALUTATION,
+    SalutationKey,
+    STATE_PROVINCE,
     SUB_INDUSTRY,
     SubIndustryKey,
-} from '@/app/static/company';
-import { COUNTRY, SALUTATION, SalutationKey, STATE_PROVINCE } from '@/app/static';
+} from '@/app/static';
 
-import { Address, Company, FullName, Phone, UserAddress, UserPhone } from '@/app/context/User.context';
+import { Address, Company, FullName, Phone, UserAddress, UserPhone } from '@/app/contexts/user.context';
 
 import { copyObject } from '@/app/utils';
-import { useSaveOnLeave } from '@/app/hooks';
-import { useModal } from '@/app/context';
+import { useModal, useSaveOnLeave } from '@/app/hooks';
 
 import { Button, Input, Select, Switch } from '@/app/ui/form';
 import { RemoveProfilePictureModal } from '@/pages/profile/RemoveProfilePictureModal';
 
-import SVG_PENCIL from '/public/images/icons/edit-line.svg';
-
-const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };
-const DEFAULT_ADDRESS: Address = {
-    line1: '',
-    line2: '',
-    city: '',
-    zip: '',
-    state: '',
-    isPrimary: false,
-    country: '',
-};
+import SVG_PENCIL from '@/assets/images/icons/edit-line.svg';
 
 const FA2_INPUT_CN =
     'bg-gray-l0 py-[min(1.7dvw,0.35rem)] w-full rounded-xs px-[min(16dvw,0.76rem)] border-s border-white';
@@ -585,18 +580,19 @@ const Editable: FC<Props> = (props: Props) => {
                         if (isCheckBox && 'business' in newState) {
                             let isAllDefault = false;
                             for (const stateKey in newState) {
-                                // @ts-expect-error no error - the keys are checked above
-                                newState[stateKey][subKey] = key === stateKey && value && newState[stateKey].number;
-                                // @ts-expect-error no error - duplicate
+                                const k = stateKey as keyof UserPhone;
+                                // @ts-expect-error wrong subkey
+                                newState[k][subKey] = key === stateKey && value && newState[stateKey].number;
+                                // @ts-expect-error wrong subkey
                                 isAllDefault = isAllDefault || newState[stateKey][subKey];
                             }
 
                             // Set primary automatically if no one is checked
                             if (!isAllDefault) {
                                 for (const stateKey in newState) {
-                                    // @ts-expect-error no error - the keys are checked above
+                                    // @ts-expect-error wrong subkey
                                     newState[stateKey].isPrimary = newState[stateKey].number;
-                                    // @ts-expect-error no error - the keys are checked above
+                                    // @ts-expect-error wrong subkey
                                     if (newState[stateKey].isPrimary) break;
                                 }
                             }
@@ -977,5 +973,4 @@ const Editable: FC<Props> = (props: Props) => {
 };
 
 export type { Props as EditableProps, FormData, FormInit, FormType };
-export { DEFAULT_ADDRESS };
 export { Editable };

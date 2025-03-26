@@ -1,6 +1,8 @@
-import React, { FC } from 'react';
+'use client';
 
-import { useModal } from '@/app/context';
+import { FC } from 'react';
+
+import { useModal } from '@/app/hooks';
 
 import { BaseModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';

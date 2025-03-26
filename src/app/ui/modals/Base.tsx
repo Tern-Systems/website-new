@@ -1,9 +1,11 @@
-import React, { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
+'use client';
+
+import { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
 import { useBreakpointCheck } from '@/app/hooks';

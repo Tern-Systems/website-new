@@ -1,16 +1,18 @@
-import React, { FC, FormEvent, ReactElement, useCallback, useEffect, useState } from 'react';
+'use client';
+
+import { FC, FormEvent, ReactElement, useCallback, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 
 import { AuthService } from '@/app/services';
 
 import { useForm } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
-import SVG_SAFE from '/public/images/safe.svg';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import SVG_SAFE from '@/assets/images/safe.svg';
+import { Breakpoint } from '@/app/static';
 
 type FormData = { code: string };
 

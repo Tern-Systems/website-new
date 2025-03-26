@@ -143,29 +143,29 @@ body ::-webkit-scrollbar {
 }
 
 @font-face {
-  font-family: "Abode Gothic Standard";
-  src: url("../../public/fonts/AdobeGothic-Light.otf") format("opentype");
+  font-family: "Abode Gothic";
+  src: url("/public/assets/fonts/AdobeGothic-Light.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Adobe Gothic Standard";
-  src: url("../../public/fonts/AdobeGothic-Bold.otf") format("opentype");
+  font-family: "Adobe Gothic";
+  src: url("/public/assets/fonts/AdobeGothic-Bold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Oxygen';
-  src: url('../../public/fonts/Oxygen-Regular.ttf') format('truetype');
+  src: url('/public/assets/fonts/Oxygen-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Old English Five';
-  src: url('../../public/fonts/OldEnglishFive.ttf') format('truetype');
+  src: url('/public/assets/fonts/OldEnglishFive.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }

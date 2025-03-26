@@ -1,6 +1,7 @@
-import React, { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
+'use client';
 
-import { FlowQueue } from '@/app/context/Flow.context';
+import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
+
 import { SavedCard } from '@/app/types/billing';
 import { Subscription, SubscriptionRecurrency } from '@/app/types/subscription';
 import { SubscribeData } from '@/app/services/billing.service';
@@ -8,8 +9,7 @@ import { COUNTRY, CountryKey, MISC_LINKS, Route, STATE_PROVINCE, StateKey } from
 
 import { BillingService } from '@/app/services';
 
-import { useForm, useNavigate } from '@/app/hooks';
-import { useFlow, useModal, useUser } from '@/app/context';
+import { useFlow, useForm, useModal, useNavigate, useUser } from '@/app/hooks';
 
 import { ScrollEnd } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
@@ -17,11 +17,11 @@ import { Button, Input, Select } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
 import { DeclinedModal } from './DeclinedModal';
 
-import SVG_VISA from '/public/images/icons/card-visa.svg';
-import SVG_MASTER from '/public/images/icons/card-master-card.svg';
-import SVG_AMEX from '/public/images/icons/card-amex.svg';
-import SVG_DISCOVER from '/public/images/icons/card-discover.svg';
-import SVG_CARD_NUM from '/public/images/icons/card-num.svg';
+import SVG_VISA from '@/assets/images/icons/card-visa.svg';
+import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';
+import SVG_AMEX from '@/assets/images/icons/card-amex.svg';
+import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
+import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
 import styles from './Subscribe.module.css';
 
@@ -47,14 +47,13 @@ const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0 bg-[#fff]';
 const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 interface Props {
-    name: Subscription['subscription'] | undefined;
     type: Subscription['type'] | undefined;
     recurrency: SubscriptionRecurrency | undefined;
     priceUSD: number | undefined;
 }
 
 const PaymentForm: FC<Props> = (props: Props) => {
-    const { name, type, recurrency, priceUSD } = props;
+    const { type, recurrency, priceUSD } = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -74,7 +73,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             try {
                 const { payload: cards } = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
-            } catch (error: unknown) {
+            } catch (_: unknown) {
                 // Empty block
             }
         };
@@ -93,7 +92,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 if (next) next();
                 else {
                     window.open(MISC_LINKS.Tidal, '_blank');
-                    navigate(Route.Home);
+                    await navigate(Route.Home);
+                    modalCtx.openModal(<MessageModal>{paymentStatus}</MessageModal>);
                 }
             }
         };

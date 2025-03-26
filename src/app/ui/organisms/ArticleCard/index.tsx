@@ -1,4 +1,6 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
@@ -12,7 +14,7 @@ import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
 
-import PNG_NATURE from '/public/images/nature.png';
+import PNG_NATURE from '@/assets/images/nature.png';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faReadme } from '@fortawesome/free-brands-svg-icons';
 

@@ -1,9 +1,11 @@
+'use client';
+
 import { FC, useEffect } from 'react';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { BaseModal } from '@/app/ui/modals/Base';
 import { AuthModal } from '@/app/ui/modals/Auth';

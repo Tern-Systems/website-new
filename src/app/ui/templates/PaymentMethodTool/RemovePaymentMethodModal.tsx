@@ -1,16 +1,18 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import Image from 'next/image';
 
 import { CardData } from '@/app/types/billing';
 
 import { BillingService } from '@/app/services';
 
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 
-import SVG_CARD from '/public/images/card-outline.svg';
+import SVG_CARD from '@/assets/images/card-outline.svg';
 
 const BTN_CN = 'h-[1.4375rem] px-5xs text-white text-section-xxs  md:text-section-xs  lg:text-section-xs';
 

@@ -1,13 +1,23 @@
-import { IModalContext } from '@/app/context/Modal.context';
+import { IModalContext } from '@/app/contexts/modal.context';
 import { NavDropdownDict } from '@/app/types/layout';
 import { Route } from '@/app/static/routing';
 
 import { HelpModal } from '@/app/ui/modals';
+import cn from 'classnames';
 
 enum NavLink {
     Nav,
     Breadcrumbs,
     SubNav,
+}
+
+enum Breakpoint {
+    'x3s',
+    'xxs',
+    'xs',
+    'sm',
+    'md',
+    'lg',
 }
 
 const LAYOUT: {
@@ -112,7 +122,13 @@ const DROPDOWN_SUB_NAV_ROUTES: Record<string, Record<string, string>> = {
     },
 };
 
+const CELL_FALLBACK = <span className={'text-section-xs'}>No data</span>;
+
+const SM_HIDDEN_CN = 'sm:hidden';
+const MD_SM_HIDDEN_CN = cn(SM_HIDDEN_CN, ' md:hidden');
+
 export {
+    Breakpoint,
     NavLink,
     ROUTES_WITH_INDEX,
     MAPPED_NAV_ROUTES,
@@ -121,5 +137,8 @@ export {
     MAPPED_SUB_NAV_ROUTES,
     DROPDOWN_NAV_ROUTES,
     DROPDOWN_SUB_NAV_ROUTES,
+    CELL_FALLBACK,
+    MD_SM_HIDDEN_CN,
+    SM_HIDDEN_CN,
     LAYOUT,
 };

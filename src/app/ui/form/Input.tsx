@@ -1,13 +1,15 @@
-import React, { FC, InputHTMLAttributes, MutableRefObject, PropsWithChildren, ReactElement, useRef } from 'react';
+'use client';
+
+import { FC, InputHTMLAttributes, MutableRefObject, PropsWithChildren, ReactElement, useRef } from 'react';
 import Image from 'next/image';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
 import styles from '@/app/common.module.css';
 
-import SVG_UPLOAD from '/public/images/icons/upload.svg';
-import SVG_COLOR_PICKER_BORDER from '/public/images/color-picker-border.svg';
-import SVG_EYE from '/public/images/icons/eye.svg';
+import SVG_UPLOAD from '@/assets/images/icons/upload.svg';
+import SVG_COLOR_PICKER_BORDER from '@/assets/images/color-picker-border.svg';
+import SVG_EYE from '@/assets/images/icons/eye.svg';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>, PropsWithChildren {
     classNameWrapper?: string;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import { ReactSVG } from 'react-svg';
 import dynamic from 'next/dynamic';
@@ -11,7 +11,7 @@ const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 import { ResourceSectionData } from '@/app/types/layout';
 import { MISC_LINKS, Route } from '@/app/static';
 
-import { useUser } from '@/app/context';
+import { useUser } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
@@ -20,20 +20,20 @@ import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import PNG_BACKGROUND_MAIN from '/public/images/tidal-bg-main.png';
-import PNG_BACKGROUND_CIRCUIT from '/public/images/tidal-bg-circuit.png';
+import PNG_BACKGROUND_MAIN from '@/assets/images/tidal-bg-main.png';
+import PNG_BACKGROUND_CIRCUIT from '@/assets/images/tidal-bg-circuit.png';
 
-import SVG_TIDAL from '/public/images/tidal-logo.svg';
-import PNG_EMULATOR_SAMPLE from '/public/images/emulator-sample.png';
-import PNG_GIRL from '/public/images/tidal-girl.png';
-import PNG_GLOBE_GLASS from '/public/images/tidal-globe-glass.png';
-import SVG_TILE_PROFILE from '/public/images/icons/profile.svg';
-import SVG_TILE_STAR from '/public/images/icons/star-alt.svg';
-import SVG_TILE_GLASS from '/public/images/icons/search.svg';
-import SVG_TILE_SHARE from '/public/images/icons/share.svg';
-import SVG_TILE_SAVE from '/public/images/icons/save.svg';
-import SVG_TILE_HEART from '/public/images/icons/heart.svg';
-import SVG_PLAY from '/public/images/icons/play.svg';
+import SVG_TIDAL from '@/assets/images/tidal-logo.svg';
+import PNG_EMULATOR_SAMPLE from '@/assets/images/emulator-sample.png';
+import PNG_GIRL from '@/assets/images/tidal-girl.png';
+import PNG_GLOBE_GLASS from '@/assets/images/tidal-globe-glass.png';
+import SVG_TILE_PROFILE from '@/assets/images/icons/profile.svg';
+import SVG_TILE_STAR from '@/assets/images/icons/star-alt.svg';
+import SVG_TILE_GLASS from '@/assets/images/icons/search.svg';
+import SVG_TILE_SHARE from '@/assets/images/icons/share.svg';
+import SVG_TILE_SAVE from '@/assets/images/icons/save.svg';
+import SVG_TILE_HEART from '@/assets/images/icons/heart.svg';
+import SVG_PLAY from '@/assets/images/icons/play.svg';
 
 type Tiles = {
     title: string;

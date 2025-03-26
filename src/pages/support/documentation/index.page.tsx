@@ -1,10 +1,12 @@
+'use client';
+
 import React from 'react';
 
 import { ResourceLink, ResourceSectionData } from '@/app/types/layout';
 import { Route } from '@/app/static';
 import { DOCUMENTATION_LINKS } from '@/app/static/documentation';
 
-import { useUser } from '@/app/context';
+import { useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
@@ -12,7 +14,7 @@ import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
 import styles from '@/app/common.module.css';
 import { BreadcrumbRoute } from '@/app/ui/atoms';
 
-import SVG_ARROW from '/public/images/icons/arrow.svg';
+import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Downloads} /> },

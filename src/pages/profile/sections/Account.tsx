@@ -1,33 +1,34 @@
-import React, { FC } from 'react';
+'use client';
+
 import cn from 'classnames';
 
+import { Breakpoint } from '@/app/static';
 import { FormInit, FormType } from '@/app/ui/form/Editable';
+import { SectionProps } from '../index.page';
 
 import { REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services';
 
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
+import { useBreakpointCheck, useModal, useUser } from '@/app/hooks';
 
 import { formatDate, getId } from '@/app/utils';
-import { useUser } from '@/app/context/User.context';
-import { useModal } from '@/app/context';
+import { getSimpleToggleProps } from '../getSimpleToggleProps';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { AuthenticationCode } from '@/app/ui/modals';
-import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
 
 const ACCOUNT = 'Account Credentials';
 
-const AccountSection: FC<SectionProps> = (props: SectionProps) => {
+function AccountSection(props: SectionProps) {
     const { update, setEditId, editId } = props;
 
     const { userData, token } = useUser();
     const modalCtx = useModal();
-    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
+    const sm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
 
     if (!userData || !token) return null;
 
@@ -171,12 +172,13 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                 <span
                     className={`${styles.midCol} ${styles.ellipsis} [&&]:text-section-xxs [&&]:md:text-basic [&&]:lg:text-basic`}
                 >
-                    Enable / disable your {isSm ? '2FA' : 'two-factor authentication'}
+                    Enable / disable your {sm ? '2FA' : 'two-factor authentication'}
                 </span>
             </Editable>
         </Collapsible>
     );
-};
+}
 
-const ACCOUNT_ID = getId(ACCOUNT);
-export { AccountSection, ACCOUNT_ID };
+AccountSection.ID = getId(ACCOUNT);
+
+export { AccountSection };

@@ -1,4 +1,6 @@
-import React, { ReactElement } from 'react';
+'use client';
+
+import { ReactElement } from 'react';
 import cn from 'classnames';
 
 import { FAQs } from '@/app/static';

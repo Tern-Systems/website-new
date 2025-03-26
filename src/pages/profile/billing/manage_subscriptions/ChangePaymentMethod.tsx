@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useRef } from 'react';
+import { Dispatch, FC, SetStateAction, useRef } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
@@ -9,14 +9,14 @@ import { BillingService } from '@/app/services';
 
 import { getCardName, mapSavedCard } from '@/app/utils';
 import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { MessageModal } from '@/app/ui/modals';
 
-import SVG_CARD from '/public/images/icons/card.svg';
-import SVG_MARK from '/public/images/icons/mark.svg';
-import SVG_CROSS from '/public/images/icons/close.svg';
+import SVG_CARD from '@/assets/images/icons/card.svg';
+import SVG_MARK from '@/assets/images/icons/mark.svg';
+import SVG_CROSS from '@/assets/images/icons/close.svg';
 
 const LI_P_CN = `px-xxs py-4xs sm:py-3xs`;
 

@@ -1,11 +1,13 @@
+'use client';
+
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 import { LAYOUT, Route } from '@/app/static';
 
-import { useLayout, useModal } from '@/app/context';
-import { NavigationState } from '@/app/context/Layout.context';
+import { useLayout, useModal } from '@/app/hooks';
+import { NavigationState } from '@/app/contexts/layout.context';
 
 const useNavigate = (
     preventModalClosing?: boolean,

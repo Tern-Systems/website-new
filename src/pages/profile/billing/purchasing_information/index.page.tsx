@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -10,7 +10,7 @@ import { Route } from '@/app/static';
 import { BillingService } from '@/app/services';
 
 import { useLoginCheck } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { ScrollEnd } from '@/app/ui/organisms';
 import { FullScreenLayout, PageLink } from '@/app/ui/layout';
@@ -18,7 +18,7 @@ import { MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 import { ExportInvoiceModal } from './ExportInvoiceModal';
 
-import SVG_CARD from '/public/images/icons/card.svg';
+import SVG_CARD from '@/assets/images/icons/card.svg';
 import { checkNumber, getCardName } from '@/app/utils';
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons';

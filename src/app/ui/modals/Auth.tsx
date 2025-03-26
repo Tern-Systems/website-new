@@ -1,26 +1,32 @@
+'use client';
+
 import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { SignUpData } from '@/app/services/auth.service';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services';
 
 import { useForm } from '@/app/hooks';
-import { useFlow, useModal, useUser } from '@/app/context';
+import { useFlow, useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal, ResetPasswordModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
-import SVG_INSIGNIA from '/public/images/insignia-logo.png';
+import SVG_INSIGNIA from '@/assets/images/insignia-logo.png';
 
 const INPUT_CN = `h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
                     sm:text-primary placeholder:sm:text-primary`;
 
-type FormData = SignUpData;
+type FormData = {
+    email: string;
+    password: string;
+    passwordConfirm: string;
+};
+
 const FORM_DEFAULT: FormData = { email: '', password: '', passwordConfirm: '' };
 
 interface Props {
@@ -49,8 +55,8 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         event.preventDefault();
         try {
             if (isLoginForm) {
-                const { payload: token } = await AuthService.postLogIn(formValue);
-                await userCtx.setupSession(true, token);
+                const { payload } = await AuthService.postLogin(formValue.email, formValue.password);
+                await userCtx.setupSession(true, payload.token);
                 modalCtx.closeModal();
             } else if (!REGEX.email.test(formValue.email))
                 setWarningMsg(`Entered email doesn't match the email format`);
@@ -60,7 +66,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 );
             } else if (formValue.password !== formValue.passwordConfirm) setWarningMsg("Passwords don't match");
             else {
-                const { message } = await AuthService.postSignUp(formValue);
+                const { message } = await AuthService.postSignup(formValue.email, formValue.password);
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             }
             flowCtx.next()?.();

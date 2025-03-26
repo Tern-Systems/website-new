@@ -1,13 +1,15 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { ResourceSectionData, TableSection } from '@/app/types/layout';
 import { PlanName, Subscription } from '@/app/types/subscription';
-import { MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
-import { MISC_LINKS, Route } from '@/app/static';
+import { RowProps } from '@/app/ui/organisms/Table';
+import { MD_SM_HIDDEN_CN, MISC_LINKS, Route, SM_HIDDEN_CN } from '@/app/static';
 
 import { capitalize, copyObject } from '@/app/utils';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 import { useLoginCheck, useNavigate } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';

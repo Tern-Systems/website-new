@@ -1,16 +1,17 @@
-import React, { FC, FormEvent, ReactElement } from 'react';
+'use client';
 
-import { UserData } from '@/app/context/User.context';
+import { FC, FormEvent, ReactElement } from 'react';
+
+import { UserData } from '@/app/contexts/user.context';
+
+import { useForm, useModal, useUser } from '@/app/hooks';
 
 import { AuthService } from '@/app/services';
-
-import { useForm } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
-import { faTriangleExclamation, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 const LIST: string[] = [
     'Account deletion is permanent and cannot be reversed.',

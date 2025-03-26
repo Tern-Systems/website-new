@@ -1,17 +1,18 @@
-import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useEffect, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
 import { ContentAnchors, DocumentationContent } from '@/app/types/documentation';
-import { useOuterClickClose } from '@/app/hooks';
-import { useLayout } from '@/app/context';
+import { useLayout, useOuterClickClose } from '@/app/hooks';
 
 import { BreadcrumbRoute } from '@/app/ui/atoms';
 import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpand, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const PIP_MODE_PARENT = 'pip-mode-parent';

@@ -1,13 +1,15 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 import { Article, ArticleTag } from '@/app/types/blog';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { BlogService } from '@/app/services/blog.service';
 
 import { getIdName } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { MainBackground } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
@@ -17,7 +19,7 @@ import { SubscribeCard } from '../SubscribeCard';
 
 import styles from '@/app/common.module.css';
 
-import PNG_ELECTRONS from '/public/images/electrons.png';
+import PNG_ELECTRONS from '@/assets/images/electrons.png';
 
 const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 

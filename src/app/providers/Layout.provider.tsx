@@ -12,7 +12,7 @@ import { checkSubRoute, getRouteLeave } from '@/app/utils';
 import { useBreakpointCheck, useUser } from '@/app/hooks';
 
 const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Route[] | null, Route[] | null] => {
-    const isSm = breakpoint <= Breakpoint.sm;
+    const sm = breakpoint <= Breakpoint.sm;
 
     let navLinks: Route[] = LAYOUT.navLinks;
     let breadCrumbLinks: Route[] | null = [];
@@ -23,15 +23,15 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
         switch (true) {
             case checkSubRoute(route, Route.MyDocumentation, true):
                 navLinks = [Route.Billing, Route.MyDocumentation, Route.Resources, Route.Training];
-                breadCrumbLinks = isSm ? [Route.MyDocumentation] : null;
+                breadCrumbLinks = sm ? [Route.MyDocumentation] : null;
                 break;
             case checkSubRoute(route, Route.Profile):
                 navLinks = LAYOUT.profileLinks;
-                breadCrumbLinks = isSm ? null : LAYOUT.profileLinks;
+                breadCrumbLinks = sm ? null : LAYOUT.profileLinks;
                 break;
             case checkSubRoute(route, Route.Documentation):
                 breadCrumbLinks = [Route.MyDocumentation];
-                subNavLinks = isSm
+                subNavLinks = sm
                     ? [route as Route]
                     : [Route.BTMCDoc, Route.GDoc, Route.TernDoc, Route.TidalDoc, Route.TernKitDoc];
                 break;

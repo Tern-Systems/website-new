@@ -1,10 +1,12 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
 import { PageLink } from '@/app/ui/layout';
 
-import PNG_CARD_CUBES from '/public/images/blue-cubes.png';
+import PNG_CARD_CUBES from '@/assets/images/blue-cubes.png';
 
 interface Props {
     alt?: true;

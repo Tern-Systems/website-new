@@ -1,23 +1,25 @@
-import React, { FC } from 'react';
+'use client';
+
 import cn from 'classnames';
 
+import { Breakpoint } from '@/app/static';
+import { UserData } from '@/app/contexts/user.context';
 import { FormInit, FormType } from '@/app/ui/form/Editable';
+import { SectionProps } from '../index.page';
+import { INDUSTRY, JOB_FUNCTION, SUB_INDUSTRY } from '@/app/static';
 
 import { getId } from '@/app/utils';
-import { UserData, useUser } from '@/app/context/User.context';
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
-
-import { INDUSTRY, JOB_FUNCTION, SUB_INDUSTRY } from '@/app/static';
+import { getSimpleToggleProps } from '../getSimpleToggleProps';
+import { useBreakpointCheck, useUser } from '@/app/hooks';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
-import { getSimpleToggleProps, SectionProps } from '@/pages/profile/index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
 
 const COMPANY = 'Company or Organization';
 
-const CompanySection: FC<SectionProps> = (props: SectionProps) => {
+function CompanySection(props: SectionProps) {
     const { update, setEditId, editId } = props;
 
     const { userData } = useUser();
@@ -25,8 +27,8 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
 
     if (!userData) return null;
 
-    const isSm = breakpoint <= Breakpoint.sm;
-    const isMd = breakpoint === Breakpoint.md;
+    const sm = breakpoint <= Breakpoint.sm;
+    const md = breakpoint === Breakpoint.md;
 
     // @ts-expect-error wrong sub-industry key
     const subIndustry = SUB_INDUSTRY?.[userData.company.industry]?.[userData.company.subIndustry];
@@ -45,7 +47,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
             classNameHr={`border-gray-l0`}
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                Organization<span className={isSm || isMd ? 'hidden' : ''}>al Information</span>
+                Organization<span className={sm || md ? 'hidden' : ''}>al Information</span>
             </span>
             <Editable
                 classNameToggleText={`text-section-xs`}
@@ -79,7 +81,7 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
 
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                Career <span className={isSm || isMd ? 'hidden' : ''}>Information</span>
+                Career <span className={sm || md ? 'hidden' : ''}>Information</span>
             </span>
             <Editable
                 type={'company'}
@@ -137,7 +139,8 @@ const CompanySection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
         </Collapsible>
     );
-};
+}
 
-const COMPANY_ID = getId(COMPANY);
-export { CompanySection, COMPANY_ID };
+CompanySection.ID = getId(COMPANY);
+
+export { CompanySection };

@@ -1,4 +1,4 @@
-import { CardData, SavedCard, SavedCardFull } from '@/app/types/billing';
+import { CardData, SavedCardFull } from '@/app/types/billing';
 import { CountryKey, StateKey } from '@/app/static';
 
 const mapSavedCard = (card: SavedCardFull | undefined): CardData => {
@@ -24,7 +24,7 @@ const mapSavedCard = (card: SavedCardFull | undefined): CardData => {
     };
 };
 
-const getCardName = (card: SavedCard | SavedCardFull | undefined) =>
+const getCardName = (card: Pick<SavedCardFull, 'nickName' | 'cardType' | 'last4'> | undefined) =>
     card?.nickName ??
     (card?.cardType && card?.last4 ? card?.cardType + ' •••• ' + card.last4 : '-- missing card name --');
 
