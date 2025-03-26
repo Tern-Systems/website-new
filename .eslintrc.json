@@ -7,11 +7,8 @@
     "plugin:prettier/recommended"
   ],
   "plugins": [
-    "prettier"
-  ],
-  "ignorePatterns": [
-    "*.*",
-    "!/src/**/*"
+    "prettier",
+    "react-refresh"
   ],
   "rules": {
     "prettier/prettier": [
@@ -26,10 +23,10 @@
         "parser": "typescript",
         "printWidth": 120,
         "jsxSingleQuote": true,
-        "singleAttributePerLine": true,
-        "tailwindPreserveWhitespace": true
+        "singleAttributePerLine": true
       }
     ],
+    "react-refresh/only-export-components": "error",
     "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "off",
     "react/require-default-props": "off",
@@ -60,5 +57,19 @@
         "caughtErrorsIgnorePattern": "^(_)+$"
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "plugins": [
+        "react-refresh"
+      ],
+      "files": [
+        "./src/__tests__/**/*.tsx",
+        "./src/app/static/**/*.tsx"
+      ],
+      "rules": {
+        "react-refresh/only-export-components": "off"
+      }
+    }
+  ]
 }
