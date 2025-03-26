@@ -1,0 +1,32 @@
+import { BaseUtilImpl } from '@/__tests__/utils/base.util';
+
+import { CountryKey, StateKey } from '@/app/static';
+
+class BillingTestUtilImpl extends BaseUtilImpl {
+    public static readonly DATA = {
+        ...BaseUtilImpl.DATA,
+        dummyCard: {
+            general: {
+                cardholderName: 'Name Surname',
+                cardNumber: '370000000000002',
+                cvc: '1111',
+                expirationDate: '01/30',
+            },
+            fullAddress: {
+                normal: '1111 Street of Country, Unit 1, City, State, 11111',
+                wrong: '1111 Street of Country Unit 1 City State 11111',
+            },
+            address: {
+                country: 'US' as CountryKey,
+                addressLine1: '1111 Street of Country',
+                addressLine2: 'Unit 1',
+                city: 'City',
+                zip: '11111',
+                state: 'NY' as StateKey,
+            },
+        },
+    };
+}
+
+const BillingTestUtil = new BillingTestUtilImpl();
+export { BillingTestUtil, BillingTestUtilImpl };

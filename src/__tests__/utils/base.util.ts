@@ -1,0 +1,104 @@
+import { ReactElement } from 'react';
+import { AxiosRequestConfig } from 'axios';
+
+import { cleanup, RenderResult } from '@testing-library/react';
+
+import { NavigationMock } from '@/__tests__/mocks/navigation';
+import { render, waitFor } from '@/__tests__/utils/jest.util';
+
+import { BaseService } from '@/app/services';
+
+import { AuthService } from '@/app/services/auth.service';
+
+import { createCookie } from '@/app/utils';
+
+const UserContextMock = jest.requireMock('@/app/hooks');
+
+class BaseUtilImpl extends BaseService {
+    public static readonly DATA = {
+        dummyEmail: 'dummyemail@email.dom',
+        dummyPassword: 'Pass25dummy2%',
+    };
+
+    constructor() {
+        super(BaseUtilImpl.name);
+    }
+
+    // User flow
+    async signupUser(email: string = BaseUtilImpl.DATA.dummyEmail, password: string = BaseUtilImpl.DATA.dummyPassword) {
+        await AuthService.postSignup(email, password);
+    }
+
+    async renderLoggedIn(
+        Element: ReactElement,
+        createAccount: boolean = true,
+    ): Promise<{ page: RenderResult; useUserSpy: jest.SpyInstance }> {
+        if (createAccount) await this.signupUser();
+
+        const { payload } = await AuthService.postLogin(BaseUtilImpl.DATA.dummyEmail, BaseUtilImpl.DATA.dummyPassword);
+        const { token } = payload;
+
+        if (!token) throw 'Error receiving bearer token from backend';
+
+        this.mockCookie();
+        document.cookie = createCookie(token);
+
+        const useUserSpy = jest.spyOn(UserContextMock, 'useUser');
+
+        const page = render(Element);
+
+        await waitFor(() => {
+            expect(useUserSpy).toHaveBeenCalled();
+            expect(useUserSpy).not.toHaveLastReturnedWith(expect.objectContaining({ userData: null }));
+        });
+
+        return { page, useUserSpy };
+    }
+
+    // Utils
+    async deleteUser(email: string = BaseUtilImpl.DATA.dummyEmail): Promise<void> {
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `delete-profile`,
+            headers: BaseService._HEADER.CONTENT_JSON,
+            data: JSON.stringify({ email }),
+        };
+
+        await this.req(this.deleteUser.name, config, null);
+    }
+
+    mockCookie = () => Object.defineProperty(document, 'cookie', { writable: true, value: '' });
+
+    mockRouter = () => jest.spyOn(NavigationMock, 'useRouter').mockReturnValue({ push: jest.fn() });
+
+    mockPathName = (path: string) => jest.spyOn(NavigationMock, 'usePathname').mockReturnValue(path);
+
+    mockParams = (params: Record<string, string>) => jest.spyOn(NavigationMock, 'useParams').mockReturnValue(params);
+
+    mockSearchParams = (query: Record<string, string>) =>
+        jest.spyOn(NavigationMock, 'useSearchParams').mockReturnValue(new URLSearchParams(query));
+
+    async clean(expectError?: boolean) {
+        if (expectError) return await this._clean();
+
+        try {
+            await this._clean();
+        } catch (_) {
+            //Empty block
+        }
+    }
+
+    private async _clean() {
+        await BaseTestUtil.deleteUser();
+        jest.clearAllMocks();
+        jest.restoreAllMocks();
+        jest.resetAllMocks();
+        jest.clearAllTimers();
+        jest.resetModules();
+        cleanup();
+    }
+}
+
+const BaseTestUtil = new BaseUtilImpl();
+
+export { BaseTestUtil, BaseUtilImpl };
