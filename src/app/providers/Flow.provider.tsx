@@ -1,17 +1,9 @@
 'use client';
 
-import React, { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 
-type FlowItem = () => void | Promise<void>;
-type FlowQueue = FlowItem[];
-
-interface IFlowContext {
-    run: (flow: FlowQueue) => void;
-    next: () => FlowItem | undefined;
-    clear: () => void;
-}
-
-const FlowContext = createContext<IFlowContext | null>(null);
+import { FlowContext } from '@/app/contexts';
+import { FlowItem, FlowQueue } from '@/app/contexts/flow.context';
 
 const FlowProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [flowQueue, setFlowQueue] = useState<FlowQueue>([]);
@@ -36,11 +28,5 @@ const FlowProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     return <FlowContext.Provider value={{ run, next, clear }}>{props.children}</FlowContext.Provider>;
 };
-const useFlow = (): IFlowContext => {
-    const context = useContext(FlowContext);
-    if (!context) throw new Error('useFlow must be used within a FlowProvider!');
-    return context;
-};
 
-export { FlowProvider, useFlow };
-export type { FlowQueue };
+export { FlowProvider };

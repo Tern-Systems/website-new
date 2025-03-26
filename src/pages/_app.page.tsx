@@ -3,10 +3,11 @@ import { AppProps } from 'next/app';
 import Script from 'next/script';
 import Head from 'next/head';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
-import { FlowProvider, LayoutProvider, ModalProvider, UserProvider } from '@/app/context';
+
+import { Provider } from '@/app/providers';
 
 import { Layout } from '@/app/ui/layout';
 
@@ -28,9 +29,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         getLayout(<Component {...pageProps} />)
     ) : (
         <Layout>
-            <Suspense>
-                <Component {...pageProps} />
-            </Suspense>
+            <Component {...pageProps} />
         </Layout>
     );
 
@@ -55,13 +54,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 `,
                 }}
             />
-            <UserProvider>
-                <LayoutProvider>
-                    <FlowProvider>
-                        <ModalProvider>{FinalElement}</ModalProvider>
-                    </FlowProvider>
-                </LayoutProvider>
-            </UserProvider>
+            <Suspense>
+                <Provider>{FinalElement}</Provider>
+            </Suspense>
         </>
     );
 }
