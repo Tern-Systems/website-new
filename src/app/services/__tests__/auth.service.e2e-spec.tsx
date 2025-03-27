@@ -17,6 +17,8 @@ import {
 } from '@/__tests__/utils';
 
 // App
+import { SearchParamsEnum } from '@/app/static';
+
 import { AuthService, AuthServiceImpl } from '@/app/services/auth.service';
 
 import { createCookie } from '@/app/utils';
@@ -25,12 +27,12 @@ import HomePage from '@/pages/index.page';
 
 const { modal, layout } = DataTestID;
 const { profile } = layout;
-const { auth } = modal;
+const { auth, resetPassword } = modal;
 
 describe('E2E related to ' + AuthServiceImpl.name, () => {
     const UseUserMock = jest.requireMock('@/app/hooks/context/useUser');
 
-    const { dummyEmail, wrongEmail, dummyPassword } = AuthTestUtilImpl.DATA;
+    const { dummyEmail, wrongEmail, dummyPassword, newPassword } = AuthTestUtilImpl.DATA;
 
     beforeAll(async () => await AuthTestUtil.clean());
     beforeEach(() => {
@@ -51,8 +53,6 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
     };
 
     describe(AuthService.postForgotPassword.name, () => {
-        const { resetPassword } = modal;
-
         afterEach(async () => await AuthTestUtil.clean());
 
         const requestReset = async (email: string) => {
@@ -63,7 +63,7 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
 
             // Main
             await click(auth.resetLink);
-            expect(await findByTestId(resetPassword.modal)).toBeInTheDocument();
+            await checkToBeInDocument(resetPassword.modal);
 
             await change(resetPassword.form.input.email, dummyEmail);
             await click(resetPassword.form.submitButton);
@@ -101,6 +101,46 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
 
                 // Cleanup
                 await AuthTestUtil.deleteUser(wrongEmail);
+            },
+            TIMEOUT.testMs,
+        );
+    });
+
+    describe(AuthService.postResetPassword.name, () => {
+        beforeEach(async () => await AuthTestUtil.signupUser());
+        afterEach(async () => await AuthTestUtil.clean(true));
+
+        const verify = async (token: string, expected: string) => {
+            // Preparation
+            AuthTestUtil.mockSearchParams({ success: SearchParamsEnum.token, token });
+            await render(<HomePage />);
+
+            // Main
+            await checkToBeInDocument(resetPassword.modal);
+
+            await change(resetPassword.form.input.password, newPassword);
+            await change(resetPassword.form.input.passwordConfirm, newPassword);
+
+            await click(resetPassword.form.submitButton);
+
+            await checkTextContent(resetPassword.message, expected);
+        };
+
+        it(
+            'Should successfully set a new password after email verification',
+            async () => {
+                const token = await AuthTestUtil.requestPasswordReset();
+                await verify(token, 'Password has been updated successfully');
+                await checkToBeInDocument(auth.modal);
+            },
+            TIMEOUT.testMs,
+        );
+
+        it(
+            'Should show error message because of not existing token',
+            async () => {
+                const token = await AuthTestUtil.requestPasswordReset();
+                await verify(token + 'wrong-token', 'Invalid or expired token');
             },
             TIMEOUT.testMs,
         );
@@ -235,54 +275,6 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
             TIMEOUT.testMs,
         );
     });
-
-    // describe(AuthService.postCreatePassword.name, () => {
-    //     let token: string;
-    //
-    //     beforeEach(async () => await AuthTestUtil.signupUser());
-    //     afterEach(async () => await AuthTestUtil.clean(true));
-    //
-    //     const verify = async (expected: string) => {
-    //         // Preparation
-    //         // Add token request
-    //         AuthTestUtil.mockSearchParams({ success: 'email_verified', token });
-    //
-    //         render(<HomePage />);
-    //         jest.useFakeTimers();
-    //
-    //         // Main
-    //         expect(await findByTestId(modal.createPassword.modal)).toBeInTheDocument();
-    //
-    //         await act(async () =>
-    //             fireEvent.change(await findByTestId(modal.createPassword.passwordInput), {
-    //                 target: { value: dummyPassword },
-    //             }),
-    //         );
-    //         await act(async () =>
-    //             fireEvent.change(await findByTestId(modal.createPassword.passwordConfirmInput), {
-    //                 target: { value: dummyPassword },
-    //             }),
-    //         );
-    //
-    //         await act(async () => fireEvent.click(await findByTestId(modal.createPassword.submitButton)));
-    //         expect(await findByTestId(modal.createPassword.resultModal)).toHaveTextContent(expected);
-    //     };
-    //
-    //     it(
-    //         'Should successfully set a new password after email verification',
-    //         async () => {
-    //             await verify(token, 'Successfully set new password');
-    //             expect(await findByTestId(auth.modal)).toBeInTheDocument();
-    //         },
-    //         TIMEOUT.testMs,
-    //     );
-    //
-    //     it(
-    //         'Should show error message because of not existing token',
-    //         async () => await verify(token + 'wrong-token', 'Token not found'),
-    //         TIMEOUT.testMs,
-    //     );
-    // });
 
     describe(AuthService.postSignup.name, () => {
         const { auth } = modal;

@@ -2,17 +2,26 @@ import { AxiosRequestConfig } from 'axios';
 
 import { BaseUtilImpl } from '@/__tests__/utils/base.util';
 
-import { BaseService } from '@/app/services';
+import { AuthService, BaseService } from '@/app/services';
 import { AuthServiceImpl, OTP_DTO } from '@/app/services/auth.service';
 
 class AuthTestUtilImpl extends BaseUtilImpl {
     public static readonly DATA = {
         ...BaseUtilImpl.DATA,
         wrongEmail: 'wrong-email@email.dom',
+        newPassword: 'Pass25dummy2%%',
         dummyPhone: '+12345678901',
     };
 
-    // User flow
+    // Utils
+    async requestPasswordReset(email: string = AuthTestUtilImpl.DATA.dummyEmail) {
+        const { payload } = await AuthService.postForgotPassword(email);
+        const { token } = payload;
+
+        if (!token) throw 'No token has been received from backend';
+        return token;
+    }
+
     async setup2FA(): Promise<void> {
         // Save phone
         const configSavePhone: AxiosRequestConfig = {

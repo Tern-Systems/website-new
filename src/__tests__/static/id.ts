@@ -34,7 +34,6 @@ const modal = {
             submitButton: 'reset-password-submit-button',
         },
         message: 'reset-password-message-label',
-        successModal: 'reset-password-result-modal',
     },
     emailSent: {
         modal: 'email-sent-modal',

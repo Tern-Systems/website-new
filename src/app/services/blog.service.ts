@@ -103,6 +103,8 @@ const TIPS_DTO_TEMPLATE: TipsDTO = {
 
 interface IBlogService {
     getArticles(): Promise<Res<ArticlesDTO, false>>;
+
+    getTips(): Promise<Res<TipsDTO, false>>;
 }
 
 class BlogServiceImpl extends BaseService implements IBlogService {

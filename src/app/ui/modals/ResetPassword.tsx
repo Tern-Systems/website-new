@@ -4,18 +4,19 @@ import { FC, FormEvent, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
+import { DataTestID } from '@/__tests__/static';
+
 import { Breakpoint, REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services/auth.service';
 
 import { useBreakpointCheck, useForm, useModal } from '@/app/hooks';
 
-import { BaseModal } from '@/app/ui/modals';
+import { AuthModal, BaseModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png';
 import SVG_EYE from '@/assets/images/icons/eye.svg';
-import { DataTestID } from '@/__tests__/static';
 
 const TestID = DataTestID.modal.resetPassword;
 
@@ -26,6 +27,8 @@ type FormData = {
 };
 
 const FORM_DEFAULT: FormData = { email: '', password: '', passwordConfirm: '' };
+
+const LOGIN_MODAL_OPEN_TIMEOUT = 3000;
 
 interface Props {
     token?: string;
@@ -76,6 +79,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
             else {
                 const { message } = await AuthService.postResetPassword(token, formValue.passwordConfirm);
                 setMessage(message);
+                setTimeout(() => modalCtx.openModal(<AuthModal />, { darkenBg: true }), LOGIN_MODAL_OPEN_TIMEOUT);
             }
         } catch (err: unknown) {
             if (typeof err === 'string') setMessage(err);
