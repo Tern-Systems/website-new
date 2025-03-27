@@ -103,7 +103,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
             <li
                 key={type + subIndex}
-                className={'flex items-start gap-x-4xs whitespace-pre-wrap leading-[120%]'}
+                className={'flex items-center gap-x-4xs whitespace-pre-wrap'}
             >
                 <Image
                     src={benefitsIcon}
