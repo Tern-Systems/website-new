@@ -86,9 +86,9 @@ const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Documentation} /> },
 ];
 
-const BTN_ICON = 'ml-xl [&_*]:size-[1.06rem]';
+const BTN_ICON = 'ml-xl [&_*]:size-[1rem]';
 
-const BTN_CN = 'px-n  h-button-xxl  md:h-button-xl  sm:h-button-l';
+const BTN_CN = 'px-n  h-button-l  md:h-button-xl  lg:h-button-xxl';
 const BTN_BLUE_CN = BTN_CN + ' bg-blue';
 const BTN_BLACK_CN = BTN_CN + ' border-s border-gray-l0 bg-black text-blue';
 
@@ -105,11 +105,11 @@ function TidalPage() {
     const TilesLi: ReactElement[] = TILES.map((tile, idx) => (
         <li
             key={tile.title + idx}
-            className={'flex flex-col mx-auto sm:w-2/3  text-12 md:text-16 lg:text-20'}
+            className={cn('flex flex-col mx-auto  sm:w-2/3', 'text-12 md:text-16 lg:text-20')}
         >
             <ReactSVG
                 src={tile.image.src}
-                className={'sm:[&_*]:x-[mx-auto,size-[2.5rem]] md:[&_*]:size-[4.375rem] [&_*]:size-[6.25rem]'}
+                className={'[&_*]:x-[mx-auto,size-[2.5rem]] md:[&_*]:size-[4.375rem] lg:[&_*]:size-[6.25rem]'}
             />
             <span className={'mb-5xs mt-s block font-bold'}>{tile.title}</span>
             <span className={'leading-n'}>{tile.description}</span>
@@ -123,16 +123,19 @@ function TidalPage() {
             <section className={cn(styles.section, styles.fullHeightSection, styles.sectionShadowBlue, 'relative')}>
                 <MainBackground url={PNG_BACKGROUND_MAIN} />
                 <div className={cn(styles.content, 'relative z-10 content-center')}>
-                    <div className={'pb-6xl pt-5xl  sm:x-[pt-l,pb-5xl]'}>
+                    <div className={'sm:x-[pt-l,pb-5xl] pt-5xl pb-6xl'}>
                         <h1 className={'text-64  lg:text-96'}>TIDAL</h1>
                         <Image
                             src={SVG_TIDAL}
                             alt={'logo'}
-                            className={'h-auto  my-3xl sm:my-4xl  w-[20.4%] lg:w-[15.2%]'}
+                            className={'h-auto w-[20.4%] lg:w-[15.2%]  sm:my-4xl my-3xl'}
                         />
                         <p className={'text-32  lg:text-40'}>Unlocking the potential of ternary programming</p>
                         <div
-                            className={'flex flex-wrap gap-x-l gap-y-xs text-nowrap text-21  mt-xxl md:mt-xxl lg:mt-xl'}
+                            className={cn(
+                                'flex flex-wrap gap-x-l gap-y-xs text-nowrap text-21',
+                                'mt-xxl md:mt-xxl lg:mt-xl',
+                            )}
                         >
                             <PageLink
                                 isExternal
@@ -220,7 +223,8 @@ function TidalPage() {
                         styles.content,
                         styles.contentHighlight,
                         'text-40 leading-n',
-                        'pt-6xl-1 pb-6xl-1 md:x-[pt-[12.55rem],pb-[13rem]] lg:x-[pt-[16rem],pb-[19.5rem]]',
+                        'pt-6xl-1 md:pt-[12.55rem] lg:pt-[16rem]',
+                        'pb-6xl-1 md:pb-[13rem] lg:pb-[19.5rem]',
                     )}
                 >
                     <div
@@ -238,7 +242,7 @@ function TidalPage() {
                             src={SVG_PLAY.src}
                             className={cn(
                                 'absolute z-50 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2',
-                                '[&_*]:!size-[2.0625rem] md:[&_*]:!size-[4.75rem] lg:[&_*]:!size-[5.75rem]',
+                                '[&_*]:!size-[2rem] md:[&_*]:!size-[4.75rem] lg:[&_*]:!size-[5.75rem]',
                                 { ['hidden']: videoStarted },
                             )}
                         />

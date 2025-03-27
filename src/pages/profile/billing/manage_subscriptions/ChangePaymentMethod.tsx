@@ -71,7 +71,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
             >
                 <ReactSVG
                     src={SVG_CARD.src}
-                    className={`mr-4xs [&_*]:w-[1.55rem] sm:[&_*]:w-[1.375rem]`}
+                    className={`mr-4xs [&_*]:w-[1.5rem] sm:[&_*]:w-[1.375rem]`}
                 />
                 <span className={'max-w-[calc(100%-1.75rem)] overflow-hidden overflow-ellipsis text-nowrap'}>
                     {getCardName(card)}

@@ -40,7 +40,7 @@ const ResourcesSection: FC<Props> = (props: Props) => {
             {entry.Node}
             <ReactSVG
                 src={SVG_ARROW_LONG.src}
-                className={'[&_*]:w-[1.41rem] [&_path]:fill-blue'}
+                className={'[&_*]:w-[1.375rem] [&_path]:fill-blue'}
             />
         </li>
     ));

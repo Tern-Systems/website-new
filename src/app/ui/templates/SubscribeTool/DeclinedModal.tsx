@@ -11,7 +11,7 @@ const DeclinedModal: FC = () => (
     <BaseModal
         isSimple
         title={'Payment Declined'}
-        className={`bottom-[7.19rem] right-l max-w-[19.3125rem] border-gray-l0 [&_hr]:border-gray-l0`}
+        className={`bottom-[7.1875rem] right-l max-w-[19.3125rem] border-gray-l0 [&_hr]:border-gray-l0`}
         classNameContent={'flex px-xxs gap-4xs'}
     >
         <Image

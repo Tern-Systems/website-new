@@ -4,10 +4,10 @@
 
 :root {
   /* Paddings */
-  --p-7xl: 10rem;     /* 168px -> 160px */ 
-  --p-6xl: 7.5rem;    /* 132px -> 120px */
+  --p-7xl: 10rem;     /* 160px */ 
+  --p-6xl: 7.5rem;    /* 120px */
   --p-6xl-1: 6.25rem; /* 100px */
-  --p-5xl: 5rem;      /* 82.4px -> 80px */
+  --p-5xl: 5rem;      /* 80px */
   --p-4xl: 4.13rem;   /* 66.08px */
   --p-3xl: 3.75rem;   /* 60px */
   --p-xxl: 3.06rem;   /* 48.96px */
@@ -37,6 +37,32 @@
   --insignia-h: 1.25rem;
   --h-footer-lg: 28.5rem;
   --w-card: 22rem;
+
+  /* Heights / Widths / Size */
+  --h-12xl : 7.5rem;   /* 120px */
+  --h-11xl : 7.1875rem;/* 115px */
+  --h-10xl : 6.25rem;  /* 100px */
+  --h-9xl : 4.75rem;   /* 76px */
+  --h-8xl : 4.375rem;  /* 70px */
+  --h-7xl : 3.4375rem; /* 55px */
+  --h-6xl : 3.125rem;  /* 50px */
+  --h-5xl : 2.875rem;  /* 46px */
+  --h-4xl : 2.75rem;   /* 44px */
+  --h-3xl : 2.5rem;    /* 40px */
+  --h-xxl : 2.25rem;   /* 36px */
+  --h-xl : 2.125rem;   /* 34px */
+  --h-l : 2rem;        /* 32px */
+  --h-n : 1.8125rem;   /* 29px */
+  --h-s : 1.6875rem;   /* 27px */
+  --h-xs : 1.5rem;     /* 24px */
+  --h-xxs : 1.375rem;  /* 22px */
+  --h-3xs : 1.25rem;   /* 20px */
+  --h-4xs : 1.125rem;  /* 18px */
+  --h-5xs : 1rem;      /* 16px */
+  --h-6xs : 0.875rem;  /* 14px */
+  --h-7xs : 0.75rem;   /* 12px */
+  --h-8xs : 0.5625rem; /* 9px */
+  --h-10xs : 0.0625rem;/* 1px */
 
   /* Borders */
   --b-s: 0.0625rem; /* 1px */

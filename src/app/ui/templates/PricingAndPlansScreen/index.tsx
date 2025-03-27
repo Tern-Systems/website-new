@@ -214,7 +214,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     <Image
                         src={idx ? SVG_DIAMOND : SVG_DIAMOND_ACE}
                         alt={type + ' icon'}
-                        className={`mr-5xs h-auto w-[1.375rem] sm:w-[0.9375rem]`}
+                        className={`mr-5xs h-auto w-[1.375rem] sm:w-[1rem]`}
                     />
                     <span>{type}</span>
                 </h2>
@@ -259,7 +259,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     `md:landscape:h-[35.5rem]`,
                     `sm:x-[p-xxs,border-none]`,
                 )}
-                classNameIcon={'[&]:w-[0.8125rem]  md:right-s md:top-[calc(var(--p-s)+0.5*var(--fz-heading))]'}
+                classNameIcon={'[&]:w-[0.875rem]  md:right-s md:top-[calc(var(--p-s)+0.5*var(--fz-heading))]'}
                 className={'flex h-full flex-col'}
             >
                 {CollapsedContentSm}
@@ -323,9 +323,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     'flex items-end justify-center',
                     `lg:x-[mb-n,h-[11rem]]`,
                     `md:pb-xxs`,
-                    `md:min-h-[6.75rem]`,
+                    `md:min-h-[6.25rem]`,
                     `sm:pb-xxs`,
-                    `sm:portrait:h-[6.75rem]`,
+                    `sm:portrait:h-[6.25rem]`,
                 )}
             >
                 <div className={cn(`flex h-fit w-fit rounded-full border-s p-6xs text-14`)}>{Switch}</div>

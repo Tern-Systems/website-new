@@ -68,7 +68,7 @@ function PurchasingInformationPage() {
                 <Image
                     src={SVG_CARD}
                     alt={'card'}
-                    className={'h-auto w-[1.35419rem]'}
+                    className={'h-auto w-[1.375rem]'}
                 />
                 <span>{card.nickName ?? card.cardType + ' **** ' + card.last4}</span>
                 <span

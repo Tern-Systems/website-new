@@ -23,7 +23,7 @@ import PNG_ELECTRONS from '@/assets/images/electrons.png';
 
 const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 
-const P_CN = 'mb-s lg:mb-xxl sm:text-center  text-24 md:text-30 lg:text-40';
+const P_CN = 'mb-s lg:mb-xl sm:text-center  text-24 md:text-30 lg:text-40';
 
 interface Props {
     tag: ArticleTag | null;
@@ -80,16 +80,19 @@ const TagArticle: FC<Props> = (props: Props) => {
         <>
             <section className={styles.section}>
                 <MainBackground url={PNG_ELECTRONS} />
-                <div className={cn(styles.content, 'relative z-10 py-5xl')}>
-                    <h1 className={cn(`text-96 sm:heading-xl`)}>All Ways</h1>
-                    <h2 className={cn(`mt-5xl  text-36 sm:text-20`)}>Tech, news, education, events and more</h2>
+                <div className={cn(styles.content, 'relative z-10 py-5xl  sm:py-xxl')}>
+                    <h1 className={cn(`sm:text-40 text-96`)}>All Ways</h1>
+                    <h2 className={cn(`sm:mt-6xl mt-5xl  sm:text-20 text-36`)}>
+                        Tech, news, education, events and more
+                    </h2>
                 </div>
             </section>
 
             <section className={cn(styles.section)}>
                 <div
                     className={cn(
-                        'h-full w-full absolute left-0 top-0 z-0 bg-gradient-to-b from-blue to-transparent to-[5%] md:to-[15%] lg:to-[15%]',
+                        'absolute h-full w-full left-0 top-0 z-0',
+                        'bg-gradient-to-b from-blue to-transparent to-[5%] md:to-[15%] lg:to-[15%]',
                     )}
                 />
                 <div
@@ -150,7 +153,8 @@ const TagArticle: FC<Props> = (props: Props) => {
             />
             <div
                 className={cn(
-                    'h-full w-full absolute left-0 top-0 z-0 bg-black bg-gradient-to-t from-blue from-[-1%] to-transparent to-[4%]  lg:to-10%',
+                    'absolute h-full w-full left-0 top-0 z-0',
+                    'bg-black bg-gradient-to-t from-blue from-[-1%] to-transparent to-[4%]  lg:to-10%',
                 )}
             />
         </>

@@ -62,7 +62,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                             <Image
                                 src={SVG_INFO}
                                 alt={'info'}
-                                className={'ml-[0.2rem] inline h-auto w-[0.6875rem]'}
+                                className={'ml-6xs inline h-auto w-[0.6875rem]'}
                             />
                         </span>
                         <span className={'justify-self-end'}>Calculated by address</span>

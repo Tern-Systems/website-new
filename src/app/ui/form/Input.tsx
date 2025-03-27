@@ -228,7 +228,7 @@ const Input: FC<Props> = (props: Props) => {
                             <>
                                 <div
                                     className={cn(
-                                        `mr-4xs flex h-[0.9375rem] w-[0.9375rem] items-center justify-center border-s border-gray-l0 bg-gray-d2 text-12`,
+                                        `flex h-[1rem] w-[1rem] mr-4xs items-center justify-center border-s border-gray-l0 bg-gray-d2 text-12`,
                                         `peer-checked:bg-gray-d2 peer-checked:text-primary peer-checked:before:text-primary peer-checked:before:content-['✔']`,
                                         classNameCheckbox,
                                     )}

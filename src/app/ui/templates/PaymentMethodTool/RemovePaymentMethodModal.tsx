@@ -14,7 +14,7 @@ import { Button } from '@/app/ui/form';
 
 import SVG_CARD from '@/assets/images/card-outline.svg';
 
-const BTN_CN = 'h-[1.4375rem] px-5xs text-white text-12  md:text-14  lg:text-14';
+const BTN_CN = 'h-[1.5rem] px-5xs text-white text-12  md:text-14  lg:text-14';
 
 interface Props {
     card: CardData;

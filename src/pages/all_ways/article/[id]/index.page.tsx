@@ -44,7 +44,7 @@ const RELATED_CARDS_COUNT = 4;
 const H2_REGEX = /<h2/g;
 
 const SECTION_GRID_CN = 'lg:grid  grid-cols-[1fr,3fr,1fr] gap-x-xs';
-const INFO_CN = 'border-t-s border-gray-l0 py-s px-4xs';
+const INFO_CN = 'border-t-s border-gray-l0 py-s px-xs';
 const CONTENT_CN = '[&_*]:!text-primary [&_h2]:!text-40 [&_*]:[all:revert]';
 
 function ArticlePage() {
@@ -157,7 +157,7 @@ function ArticlePage() {
                     </div>
                 </div>
             </section>
-            <section className={'mt-4xl md:mt-6xl-1 lg:mt-xxl'}>
+            <section className={'px-xs mt-xxl md:mt-3xl lg:mt-5xl'}>
                 <div className={styles.content}>
                     <span className={'mb-xxs block font-bold'}>Author</span>
                     <span className={'grid grid-cols-[min-content,1fr] grid-rows-2 items-center gap-x-l'}>
@@ -175,7 +175,7 @@ function ArticlePage() {
                     </span>
                 </div>
             </section>
-            <section className={'relative leading-l  mt-xl md:mt-4xl lg:mt-3xl'}>
+            <section className={'relative leading-l  mt-l lg:mt-xl'}>
                 <div className={cn(styles.content, SECTION_GRID_CN)}>
                     {content?.contentIDs?.length ? (
                         <SideNav

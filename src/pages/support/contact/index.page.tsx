@@ -181,7 +181,7 @@ const ContactsPage: FC = () => {
                                         onChange={setFormValue('isAllowedUpdate')}
                                         classNameLabel={'text-12 leading-normal'}
                                         className={'border-gray-l0 bg-gray-d2'}
-                                        classNameCheckbox={'h-[0.9375rem] w-[0.9375rem] flex-shrink-0'}
+                                        classNameCheckbox={'h-[1rem] w-[1rem] flex-shrink-0'}
                                         classNameWrapper={'flex [&_div]:items-start'}
                                         isCustomCheckbox
                                     >

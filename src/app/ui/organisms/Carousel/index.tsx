@@ -141,7 +141,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         <PageLink
                             icon={'arrow-right-long'}
                             className={'flex-row-reverse text-blue text-16  hidden lg:flex'}
-                            iconClassName={'ml-xxs [&_*]:size-[1.06rem] [&_path]:fill-blue'}
+                            iconClassName={'ml-xxs [&_*]:size-[1rem] [&_path]:fill-blue'}
                         >
                             See All
                         </PageLink>

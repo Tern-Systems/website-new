@@ -145,7 +145,7 @@ const DocumentationSection: FC<Props> = (props: Props) => {
             <>
                 <Button
                     onClick={() => layoutCtx.toggleFullscreen()}
-                    className={'size-[1.81rem]'}
+                    className={'size-[1.8125rem]'}
                 >
                     <FontAwesomeIcon icon={faExpand} />
                 </Button>

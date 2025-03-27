@@ -73,7 +73,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               }}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
                               className={'flex-row-reverse'}
-                              iconClassName={cn('ml-4xs  size-[1.6rem]  xxs:[&_*]:size-[0.8rem]')}
+                              iconClassName={cn('ml-4xs  size-[1.5rem]  xxs:[&_*]:size-[0.875rem]')}
                           >
                               {title}
                           </PageLink>

@@ -33,8 +33,8 @@ const ResourceCards: FC<Props> = (props: Props) => {
                         src={icon.src}
                         className={cn(
                             `rotate-180 [&_path]:fill-blue`,
-                            `mt-5xl  [&_*]:size-[1.41rem]`,
-                            `sm:mt-l sm:[&_*]:size-[1.23rem]`,
+                            `mt-5xl  [&_*]:size-[1.375rem]`,
+                            `sm:mt-l sm:[&_*]:size-[1.25rem]`,
                         )}
                     />
                 ) : null}

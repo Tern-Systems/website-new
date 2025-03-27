@@ -138,9 +138,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             classNameLabel={'mr-auto'}
             classNameSelected={'w-full '}
             classNameChevron={cn('ml-auto')}
-            className={cn(`px-xs h-[3.1375rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
+            className={cn(`px-xs h-[3.125rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
             classNameOption={cn(
-                'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                'h-[3.125rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
                 'hover:!bg-gray-l2',
             )}
         >
@@ -246,7 +246,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameWrapper={`[&&]:mb-s w-fit`}
                                     classNameLabel={'text-10 [&&]:mb-0  md:text-12  lg:text-12'}
                                     className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-gray-d2'}
-                                    classNameCheckbox={`h-[0.75rem] w-[0.75rem]  md:x-[h-[0.9375rem],w-[0.9375rem]]  lg:x-[h-[0.9375rem],w-[0.9375rem]]`}
+                                    classNameCheckbox={`h-[0.75rem] w-[0.75rem]  md:x-[h-[1rem],w-[1rem]]  lg:x-[h-[1rem],w-[1rem]]`}
                                     isCustomCheckbox
                                 >
                                     Set as preferred payment method
@@ -310,10 +310,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameSelected={'w-full '}
                                     classNameChevron={cn('ml-auto')}
                                     className={cn(
-                                        `px-xs h-[3.1375rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                        `px-xs h-[3.125rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                     )}
                                     classNameOption={cn(
-                                        'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                        'h-[3.125rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
                                         'hover:!bg-gray-l2',
                                     )}
                                     required
@@ -341,10 +341,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 classNameSelected={'w-full '}
                                 classNameChevron={cn('ml-auto')}
                                 className={cn(
-                                    `px-xs h-[3.1375rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                    `px-xs h-[3.125rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                 )}
                                 classNameOption={cn(
-                                    'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                    'h-[3.125rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
                                     'hover:!bg-gray-l2',
                                 )}
                                 required

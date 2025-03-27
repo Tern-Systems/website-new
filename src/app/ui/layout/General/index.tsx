@@ -246,7 +246,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                         <p className={'leading-n  xs:self-start  sm:self-end  md:self-end  lg:self-end'}>
                             Copyright © 2025 Tern Inc.{' '}
                         </p>
-                        <ul className={cn('col-span-3 flex flex-wrap gap-3xs')}>{ContactLinks}</ul>
+                        <ul className={cn('flex flex-wrap gap-3xs col-span-3')}>{ContactLinks}</ul>
                     </div>
                 </div>
             </footer>
@@ -258,7 +258,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     ) : (
         <div
             ref={ref}
-            className={`flex min-h-full flex-grow select-none flex-col justify-between`}
+            className={`flex min-h-full flex-grow flex-col select-none justify-between`}
         >
             {Layout}
         </div>

@@ -76,7 +76,7 @@ function EventPage() {
                 <Image
                     src={btn.icon}
                     alt={'social-link'}
-                    className={'size-[1.6875rem]  md:size-[2.1875rem]  lg:size-[2.5rem]'}
+                    className={'size-[1.6875rem]  md:size-[2.125rem]  lg:size-[2.5rem]'}
                 />
             </btn.Element>
         </li>

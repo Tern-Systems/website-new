@@ -41,7 +41,7 @@ const AllWaysCard: FC<Props> = (props: Props) => {
                     'text-14 lg:text-16',
                     alt ? 'right-n bottom-n h-fit !w-fit' : 'bottom-0',
                 )}
-                iconClassName={cn('sm:size-[0.884rem] sm:[&_*]size-[0.884rem]  size-[1.25rem] [&_*]:size-[1.25rem]', {
+                iconClassName={cn('sm:size-[0.875rem] sm:[&_*]size-[0.875rem]  size-[1.25rem] [&_*]:size-[1.25rem]', {
                     ['ml-xl']: alt,
                 })}
             >

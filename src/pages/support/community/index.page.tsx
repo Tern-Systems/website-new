@@ -191,7 +191,7 @@ function CommunityPage() {
                     <span className={'flex items-center  sm:col-span-2'}>
                         <ReactSVG
                             src={SVG_CLOCK.src}
-                            className={'[&_*]:size-[0.75rem] [&_*]:sm:size-[0.55rem]'}
+                            className={'[&_*]:size-[0.75rem] [&_*]:sm:size-[0.5625rem]'}
                         />
                         <span className={'ml-5xs sm:ml-6xs'}>
                             {new Date(event.time.start).getHours()} - {new Date(event.time.start).getHours()} hrs&nbsp;
@@ -358,7 +358,7 @@ function CommunityPage() {
                         href={Route.CommunityEvents}
                         icon={'arrow-right-long'}
                         className={'flex-row-reverse text-blue  mt-xs md:mt-xl lg:mt-l'}
-                        iconClassName={'[&_path]:fill-blue [&_*]:size-[0.79rem]  ml-4xs lg:ml-xxs'}
+                        iconClassName={'[&_path]:fill-blue [&_*]:size-[0.875rem]  ml-4xs lg:ml-xxs'}
                     >
                         See all
                     </PageLink>

@@ -181,8 +181,8 @@ function CommunityEventsPage() {
                         className={cn(
                             'bg-gray-l2',
                             'flex  flex-col justify-center px-xs py-n',
-                            'sm:x-[row-span-2,w-[4.1875rem],h-[3.9375rem],mr-4xs,mb-4xs] row-span-3',
-                            'size-[4.6875rem]',
+                            'sm:x-[row-span-2,w-[4.375rem],h-[3.9375rem],mr-4xs,mb-4xs] row-span-3',
+                            'size-[4.75rem]',
                             'w-[7.1875rem] h-[7.875rem]',
                         )}
                     >
@@ -206,7 +206,7 @@ function CommunityEventsPage() {
                     >
                         <ReactSVG
                             src={SVG_CLOCK.src}
-                            className='sm:x-[[&_*]:size-[0.4375rem]] [&_path]:fill-blue'
+                            className='sm:x-[[&_*]:size-[0.5625rem]] [&_path]:fill-blue'
                         />
                         <span className={'ml-5xs'}>
                             {new Date(event.time.start).toLocaleString('en-US', {
@@ -260,7 +260,7 @@ function CommunityEventsPage() {
                 <button
                     key={i}
                     className={cn(
-                        'w-[2.8125rem] h-full border-l-s border-gray-l0 transition-colors duration-300',
+                        'w-[2.875rem] h-full border-l-s border-gray-l0 transition-colors duration-300',
                         pageNos === i + 1 ? 'bg-blue text-white' : 'text-blue hover:bg-blue hover:text-white',
                     )}
                     onClick={() => handlePageChange(i + 1)}

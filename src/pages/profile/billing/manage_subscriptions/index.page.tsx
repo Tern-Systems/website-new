@@ -26,7 +26,7 @@ import SVG_PENCIL from '@/assets/images/icons/edit.svg';
 
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-const SELECT_CN = 'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl';
+const SELECT_CN = 'h-[3.125rem] !border-0 !bg-gray  sm:h-button-xl';
 
 const Hr = <hr className={'mb-xs mt-3xs border-white-d0'} />;
 
@@ -180,7 +180,7 @@ function ManageSubscriptionsPage() {
                             >
                                 <ReactSVG
                                     src={SVG_CARD.src}
-                                    className={'h-auto w-[1.35rem]'}
+                                    className={'h-auto w-[1.375rem]'}
                                 />
                                 <span className={cn('mx-5xs block text-16 sm:text-14')}>
                                     {preferredCard.nickName ?? preferredCard.cardType + ' **** ' + preferredCard.last4}
@@ -193,7 +193,7 @@ function ManageSubscriptionsPage() {
                                 <span className={'mr-4xs sm:hidden'}>Change</span>
                                 <ReactSVG
                                     src={SVG_PENCIL.src}
-                                    className={'[&_*]:size-[0.8rem] lg:[&_*]:size-[1.3rem]'}
+                                    className={'[&_*]:size-[0.875rem] lg:[&_*]:size-[1.25rem]'}
                                 />
                                 {editPaymentMethodVisible ? (
                                     <ChangePaymentMethod
