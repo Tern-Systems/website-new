@@ -1,4 +1,6 @@
-import React, { FC, ReactElement } from 'react';
+'use client';
+
+import { FC, ReactElement } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 

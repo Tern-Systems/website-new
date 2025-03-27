@@ -1,12 +1,9 @@
-import React, { FC, PropsWithChildren, ReactElement } from 'react';
+'use client';
+
+import { FC, PropsWithChildren, ReactElement } from 'react';
 import cn from 'classnames';
 
 import { TableSection } from '@/app/types/layout';
-
-const CELL_FALLBACK = <span className={'text-section-xs'}>No data</span>;
-
-const SM_HIDDEN_CN = 'sm:hidden';
-const MD_SM_HIDDEN_CN = cn(SM_HIDDEN_CN, ' md:hidden');
 
 interface RowProps<T extends object> {
     className?: string;
@@ -59,4 +56,4 @@ const Table = <T extends object>(props: Props<T>) => {
 };
 
 export type { RowProps };
-export { Table, CELL_FALLBACK, MD_SM_HIDDEN_CN, SM_HIDDEN_CN };
+export { Table };

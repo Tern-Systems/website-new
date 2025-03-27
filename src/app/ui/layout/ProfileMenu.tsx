@@ -1,18 +1,20 @@
-import React, { FC, ReactElement, useRef, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useRef, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
+import { Breakpoint } from '@/app/static';
+
 import { LAYOUT } from '@/app/static';
 
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
-import { useModal, useUser } from '@/app/context';
+import { useBreakpointCheck, useModal, useOuterClickClose, useUser } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout/Link';
 import { AuthModal } from '@/app/ui/modals';
 
-import SVG_PROFILE from '/public/images/icons/profile.svg';
-import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
+import SVG_PROFILE from '@/assets/images/icons/profile.svg';
 
 const AUTH_BTNS: { title: string; action: string; description: string }[] = [
     { title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account' },
@@ -22,7 +24,7 @@ const AUTH_BTNS: { title: string; action: string; description: string }[] = [
 const ProfileMenu: FC = () => {
     const modalCtx = useModal();
     const userCtx = useUser();
-    const isSm = useBreakpointCheck() <= Breakpoint.xxs;
+    const sm = useBreakpointCheck() <= Breakpoint.xxs;
 
     const [opened, setOpened] = useState(false);
 
@@ -76,7 +78,7 @@ const ProfileMenu: FC = () => {
                     <p className={'text-section-s'}>{entry.title}</p>
                     <p className={'text-gray'}>{entry.description}</p>
                     <Button
-                        onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1} />, { darkenBg: !isSm })}
+                        onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1} />, { darkenBg: !sm })}
                         className={cn(
                             `w-full rounded-full border-s border-gray py-5xs text-section font-bold capitalize`,
                             idx ? 'bg-black text-primary' : 'bg-white text-black',

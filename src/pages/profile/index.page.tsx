@@ -1,24 +1,26 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react';
+'use client';
+
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import cn from 'classnames';
 
 import { Res } from '@/app/types/service';
 import { UpdateUserData } from '@/app/services/user.service';
-import { EditableProps } from '@/app/ui/form/Editable';
 
 import { UserService } from '@/app/services';
 
-import { useLoginCheck } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useLoginCheck, useModal, useUser } from '@/app/hooks';
 import { SideNav } from '@/app/ui/organisms';
 import { MessageModal } from '@/app/ui/modals';
 
-import { OFFBOARDING_ID, OffboardingSection } from './sections/Offboarding';
-import { APPS_ID, AppsSection } from './sections/Apps';
-import { ADDRESSES_ID, AddressesSection } from './sections/Addresses';
-import { COMPANY_ID, CompanySection } from './sections/Company';
-import { CONTACT_ID, ContactSection } from './sections/Contact';
-import { ACCOUNT_ID, AccountSection } from './sections/Account';
-import { AboutPrivacy } from './sections/AboutPrivacy';
+import {
+    AboutPrivacy,
+    AccountSection,
+    AddressesSection,
+    AppsSection,
+    CompanySection,
+    ContactSection,
+    OffboardingSection,
+} from './sections';
 
 import styles from '@/app/common.module.css';
 
@@ -28,26 +30,15 @@ interface SectionProps {
     editId: string | null;
 }
 
-const SECTION_IDS: string[] = [ACCOUNT_ID, CONTACT_ID, COMPANY_ID, ADDRESSES_ID, APPS_ID, OFFBOARDING_ID];
-
 const SECTIONS: Record<string, string> = {
-    [ACCOUNT_ID]: 'Credentials',
-    [CONTACT_ID]: 'Contact',
-    [COMPANY_ID]: 'Organization',
-    [ADDRESSES_ID]: 'Addresses',
-    [APPS_ID]: 'Applications',
-    [OFFBOARDING_ID]: 'Offboarding',
+    [AppsSection.ID]: 'Credentials',
+    [AddressesSection.ID]: 'Contact',
+    [CompanySection.ID]: 'Organization',
+    [ContactSection.ID]: 'Addresses',
+    [AccountSection.ID]: 'Applications',
+    [OffboardingSection.ID]: 'Offboarding',
 };
-
-const getSimpleToggleProps = (
-    setEditId?: Dispatch<SetStateAction<string | null>>,
-    isEditState?: string | null,
-): Pick<EditableProps, 'classNameWrapper' | 'classNameToggle' | 'setParentEditId' | 'parentEditId'> => ({
-    classNameWrapper: 'w-[min(100%,21.625rem)]',
-    classNameToggle: 'col-start-3',
-    setParentEditId: setEditId,
-    parentEditId: isEditState,
-});
+const SECTION_IDS: string[] = Object.keys(SECTIONS);
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
@@ -131,5 +122,4 @@ const ProfilePage: FC = () => {
 };
 
 export type { SectionProps };
-export { getSimpleToggleProps };
 export default ProfilePage;

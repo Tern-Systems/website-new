@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Route } from '@/app/static';
 
 import { FullScreenLayout } from '@/app/ui/layout';

@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import Image from 'next/image';
 
@@ -5,7 +7,7 @@ import { SubscriptionBase } from '@/app/types/subscription';
 
 import { checkNumber } from '@/app/utils';
 
-import SVG_INFO from '/public/images/icons/info.svg';
+import SVG_INFO from '@/assets/images/icons/info.svg';
 
 const Hr = <hr className={'my-n border-gray-l0 sm:my-[0.94rem]'} />;
 

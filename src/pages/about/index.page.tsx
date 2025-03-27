@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import cn from 'classnames';
 
 import { InfoSectionData } from '@/app/types/layout';
@@ -10,9 +10,9 @@ import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import SVG_COMPUTER from '/public/images/old-computer.svg';
-import SVG_ROCKET from '/public/images/rocket.png';
-import SVG_NATURE from '/public/images/nature-section.png';
+import SVG_COMPUTER from '@/assets/images/old-computer.svg';
+import SVG_ROCKET from '@/assets/images/rocket.png';
+import SVG_NATURE from '@/assets/images/nature-section.png';
 
 const INFO: InfoSectionData = {
     title: 'Enabling Efficient Computing',

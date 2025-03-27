@@ -1,24 +1,28 @@
-import React, { FC, ReactElement } from 'react';
+'use client';
+
+import { ReactElement } from 'react';
 import cn from 'classnames';
 
+import { Breakpoint } from '@/app/static';
+import { UserData } from '@/app/contexts/user.context';
 import { FormInit, FormType } from '@/app/ui/form/Editable';
+import { SectionProps } from '../index.page';
 
 import { COUNTRY, STATE_PROVINCE } from '@/app/static';
 
 import { getId } from '@/app/utils';
-import { UserData, useUser } from '@/app/context/User.context';
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
+import { useBreakpointCheck, useUser } from '@/app/hooks';
+import { getSimpleToggleProps } from '../getSimpleToggleProps';
 
 import { PrimaryLabel } from '@/app/ui/atoms';
 import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
-import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
 
 const ADDRESSES = 'Addresses';
 
-const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
+function AddressesSection(props: SectionProps) {
     const { update, setEditId, editId } = props;
     const { userData } = useUser();
     const breakpoint = useBreakpointCheck();
@@ -113,7 +117,8 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
         </Collapsible>
     );
-};
+}
 
-const ADDRESSES_ID = getId(ADDRESSES);
-export { AddressesSection, ADDRESSES_ID };
+AddressesSection.ID = getId(ADDRESSES);
+
+export { AddressesSection };

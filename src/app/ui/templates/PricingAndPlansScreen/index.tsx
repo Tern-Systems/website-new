@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
@@ -9,12 +11,12 @@ import {
     SubscriptionPreviewData,
     SubscriptionRecurrency,
 } from '@/app/types/subscription';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { Route } from '@/app/static';
 
 import { generateFallbackEntries } from '@/app/utils';
 import { useBreakpointCheck, useNavigate } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { AuthModal, HelpModal, MessageModal } from '@/app/ui/modals';
@@ -24,11 +26,11 @@ import { Collapsible, ScrollEnd } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
-import SVG_BULLET_DASHED from '/public/images/icons/bullet-dashed.svg';
-import SVG_BULLET from '/public/images/icons/bullet.svg';
-import SVG_STAR from '/public/images/icons/star.svg';
-import SVG_DIAMOND from '/public/images/icons/diamond.svg';
-import SVG_DIAMOND_ACE from '/public/images/icons/diamond-ace.svg';
+import SVG_BULLET_DASHED from '@/assets/images/icons/bullet-dashed.svg';
+import SVG_BULLET from '@/assets/images/icons/bullet.svg';
+import SVG_STAR from '@/assets/images/icons/star.svg';
+import SVG_DIAMOND from '@/assets/images/icons/diamond.svg';
+import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg';
 
 const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ['monthly', 'annual'];
 
@@ -61,7 +63,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const subscription: SubscriptionBase = {
             subscription: subscriptionData.subscription,
             type,
-            isBasicKind: subscriptionData.isBasicKind,
+            basicKind: subscriptionData.basicKind,
             priceUSD: subscriptionData.type?.[type]?.priceUSD?.[selectedRecurrency],
             recurrency: selectedRecurrency,
         };
@@ -93,7 +95,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const isCurrentRecurrency =
             userSubscription?.recurrency?.toLocaleLowerCase() === selectedRecurrency.toLocaleLowerCase();
         const isCurrentType = userSubscription?.type?.toLocaleLowerCase() === type.toLocaleLowerCase();
-        const { isBasicKind } = subscriptionData ?? {};
+        const { basicKind } = subscriptionData ?? {};
         const isBasicPlan = type.toLocaleLowerCase() === 'Basic'.toLocaleLowerCase();
 
         const isBtnDisabled = (isCurrentSubscription && isCurrentRecurrency && isCurrentType) || isBasicPlan;
@@ -144,7 +146,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         );
 
         let subscribeBtnText: string | ReactElement =
-            userSubscription && isBasicKind && !isProUser ? 'Upgrade to Pro' : 'Subscribe';
+            userSubscription && basicKind && !isProUser ? 'Upgrade to Pro' : 'Subscribe';
         let Links: ReactElement = Limits;
 
         if (isBtnDisabled || isBasicPlan) {
@@ -171,7 +173,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             );
         } else if (!isCurrentRecurrency) {
             subscribeBtnText =
-                (isBasicKind && !isProUser) || !isCurrentSubscription ? (
+                (basicKind && !isProUser) || !isCurrentSubscription ? (
                     subscribeBtnText
                 ) : (
                     <>
@@ -292,7 +294,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const isCurrentSubscription =
             userSubscription?.subscription?.toLocaleLowerCase() === subscriptionData?.subscription?.toLocaleLowerCase();
 
-        const cutBasicColumn = subscriptionData?.isBasicKind === true && isCurrentSubscription && isProUser;
+        const cutBasicColumn = subscriptionData?.basicKind === true && isCurrentSubscription && isProUser;
 
         const columnsData = subscriptionData?.type
             ? Object.entries(subscriptionData.type).slice(+cutBasicColumn)

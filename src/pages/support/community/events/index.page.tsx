@@ -1,18 +1,20 @@
+'use client';
+
 import { ReactElement, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
-import SVG_DOUBLE_ARROW from '/public/images/icons/double-arrow.svg';
+import SVG_DOUBLE_ARROW from '@/assets/images/icons/double-arrow.svg';
 
 import { BreadcrumbRoute, SearchBar } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
 
-import SVG_CLOCK from '/public/images/icons/clock.svg';
+import SVG_CLOCK from '@/assets/images/icons/clock.svg';
 
 type Event = {
     date: number;
@@ -142,7 +144,7 @@ function CommunityEventsPage() {
     const modalCtx = useModal();
     const breakpoint = useBreakpointCheck();
 
-    const isSm = breakpoint <= Breakpoint.sm;
+    const sm = breakpoint <= Breakpoint.sm;
 
     const [events, setEvents] = useState<Event[]>([]);
     const [pageNos, setPageNos] = useState<number>(1);
@@ -211,9 +213,9 @@ function CommunityEventsPage() {
                         <span className={'ml-[0.3125rem]'}>
                             {new Date(event.time.start).toLocaleString('en-US', {
                                 weekday: 'short',
-                                month: isSm ? undefined : 'short',
-                                day: isSm ? undefined : '2-digit',
-                                year: isSm ? undefined : 'numeric',
+                                month: sm ? undefined : 'short',
+                                day: sm ? undefined : '2-digit',
+                                year: sm ? undefined : 'numeric',
                             })}{' '}
                             | {`${String(new Date(event.time.start).getHours()).padStart(2, '0')}00`} -&nbsp;
                             {`${String(new Date(event.time.start).getHours() + 1).padStart(2, '0')}00`} hrs&nbsp; (

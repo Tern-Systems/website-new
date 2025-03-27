@@ -1,11 +1,13 @@
-import React, { FC, ReactElement } from 'react';
+'use client';
+
+import { ReactElement } from 'react';
 import cn from 'classnames';
 
 import { ButtonIcon } from '@/app/ui/form/Button';
+import { Breakpoint } from '@/app/static';
 
 import { getId } from '@/app/utils';
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
-import { useUser } from '@/app/context';
+import { useBreakpointCheck, useUser } from '@/app/hooks';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
@@ -13,7 +15,7 @@ import { Button } from '@/app/ui/form';
 import styles from '@/pages/profile/Profile.module.css';
 
 import { faCircleXmark, faSquarePlus } from '@fortawesome/free-regular-svg-icons';
-import { faSquareXmark, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 
 const APPS = 'Third-Party Applications';
 
@@ -30,14 +32,14 @@ const SOCIAL_MEDIA: string[] = [
     'Facebook',
 ];
 
-const AppsSection: FC = () => {
+function AppsSection() {
     const { userData } = useUser();
     const breakpoint = useBreakpointCheck();
 
     if (!userData) return null;
 
-    const isSm = breakpoint <= Breakpoint.sm;
-    const isMd = breakpoint === Breakpoint.md;
+    const sm = breakpoint <= Breakpoint.sm;
+    const md = breakpoint === Breakpoint.md;
 
     const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
     const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-section-xs`;
@@ -71,7 +73,7 @@ const AppsSection: FC = () => {
                         icon={icon}
                         hover={{
                             icon: isFound ? faSquareXmark : icon,
-                            text: isSm || isMd ? '' : isFound ? 'Disconnect' : 'Connect',
+                            text: sm || md ? '' : isFound ? 'Disconnect' : 'Connect',
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
                         className={cn(
@@ -82,7 +84,7 @@ const AppsSection: FC = () => {
                             // TODO
                         }}
                     >
-                        {isSm || isMd ? null : <span>{text}</span>}
+                        {sm || md ? null : <span>{text}</span>}
                     </Button>
                 </span>
             );
@@ -118,7 +120,7 @@ const AppsSection: FC = () => {
                 icon={userData.personalDomain?.isVerified ? faCircleXmark : faCirclePlus}
                 className={'col-start-3 flex-row-reverse place-self-end'}
             >
-                <span className={`${isSm || isMd ? 'hidden' : ''} ${label_CN}`}>
+                <span className={`${sm || md ? 'hidden' : ''} ${label_CN}`}>
                     Verif{userData.personalDomain?.isVerified ? 'ied' : 'y'}
                 </span>
             </Button>
@@ -136,7 +138,8 @@ const AppsSection: FC = () => {
             {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
         </Collapsible>
     );
-};
+}
 
-const APPS_ID = getId(APPS);
-export { AppsSection, APPS_ID };
+AppsSection.ID = getId(APPS);
+
+export { AppsSection };

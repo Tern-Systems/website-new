@@ -1,7 +1,9 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+'use client';
+
+import { FC, ReactNode, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { useLayout } from '@/app/context';
+import { useLayout } from '@/app/hooks';
 
 import { Select } from '@/app/ui/form';
 

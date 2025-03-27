@@ -1,33 +1,34 @@
-import React, { FC } from 'react';
+'use client';
+
 import cn from 'classnames';
 
-import { DEFAULT_ADDRESS, FormData, FormInit, FormType } from '@/app/ui/form/Editable';
-
-import { COUNTRY, CountryKey, LANGUAGE, LanguageKey, REGEX, SALUTATION } from '@/app/static';
+import { Breakpoint } from '@/app/static';
+import { UserData } from '@/app/contexts/user.context';
+import { FormData, FormInit, FormType } from '@/app/ui/form/Editable';
+import { SectionProps } from '../index.page';
+import { DEFAULT_ADDRESS, COUNTRY, CountryKey, LANGUAGE, LanguageKey, REGEX, SALUTATION } from '@/app/static';
 
 import { UserService } from '@/app/services';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { getId } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
-import { UserData, useUser } from '@/app/context/User.context';
+import { getSimpleToggleProps } from '../getSimpleToggleProps';
+import { useBreakpointCheck, useUser } from '@/app/hooks';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { PrimaryLabel } from '@/app/ui/atoms';
-import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
 
 const CONTACT = 'Contact Information';
 
-const ContactSection: FC<SectionProps> = (props: SectionProps) => {
+function ContactSection(props: SectionProps) {
     const { update, setEditId, editId } = props;
 
     const { userData } = useUser();
 
-    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
-    const isMd = useBreakpointCheck() === Breakpoint.md;
+    const sm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
+    const md = useBreakpointCheck() === Breakpoint.md;
 
     if (!userData) return null;
 
@@ -179,7 +180,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
 
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                Country or Region <span className={isSm || isMd ? 'hidden' : 'block'}>of Residence</span>
+                Country or Region <span className={sm || md ? 'hidden' : 'block'}>of Residence</span>
             </span>
             <Editable
                 key={'country-' + country}
@@ -210,7 +211,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
 
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                <span className={isSm || isMd ? 'hidden' : 'block'}>Preferred </span>Language
+                <span className={sm || md ? 'hidden' : 'block'}>Preferred </span>Language
             </span>
             <Editable
                 key={'language-' + language}
@@ -234,7 +235,8 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
         </Collapsible>
     );
-};
+}
 
-const CONTACT_ID = getId(CONTACT);
-export { ContactSection, CONTACT_ID };
+ContactSection.ID = getId(CONTACT);
+
+export { ContactSection };

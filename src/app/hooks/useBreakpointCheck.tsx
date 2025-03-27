@@ -1,16 +1,11 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfig from '../../../tailwind.config';
 
-enum Breakpoint {
-    'x3s',
-    'xxs',
-    'xs',
-    'sm',
-    'md',
-    'lg',
-}
+import { Breakpoint } from '@/app/static';
 
 const TailwindConfig = resolveConfig(tailwindConfig);
 // @ts-expect-error min is not defined in tailwind.config.tsx
@@ -49,4 +44,4 @@ const useBreakpointCheck = () => {
     return breakpoint;
 };
 
-export { useBreakpointCheck, Breakpoint };
+export { useBreakpointCheck };

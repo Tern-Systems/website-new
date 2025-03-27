@@ -1,10 +1,12 @@
-import React, { FC, PropsWithChildren } from 'react';
+'use client';
+
+import { FC, PropsWithChildren } from 'react';
 
 import { Route } from '@/app/static';
 
 import { PageLink } from '@/app/ui/layout/Link';
 import { useNavigate } from '@/app/hooks';
-import { useLayout, useModal } from '@/app/context';
+import { useLayout, useModal } from '@/app/hooks';
 
 import { Insignia } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';

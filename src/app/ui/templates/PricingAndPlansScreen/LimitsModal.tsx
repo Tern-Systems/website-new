@@ -1,5 +1,7 @@
+'use client';
+
 import { BaseModal } from '@/app/ui/modals';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 const LimitsModal = () => (
     <BaseModal

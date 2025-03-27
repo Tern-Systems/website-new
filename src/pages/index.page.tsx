@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, ReactElement, useEffect } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image, { StaticImageData } from 'next/image';
 import cn from 'classnames';
@@ -9,8 +9,7 @@ import { InfoSectionData } from '@/app/types/layout';
 
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
-import { useBackground, useLoginCheck } from '@/app/hooks';
-import { useFlow, useModal } from '@/app/context';
+import { useBackground, useFlow, useLoginCheck, useModal } from '@/app/hooks';
 
 import { ResetPasswordModal } from '@/app/ui/modals';
 import { MainBackground } from '@/app/ui/atoms';
@@ -20,10 +19,10 @@ import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import SVG_CITY from '/public/images/city-glowing-way.jpg';
-import SVG_MICROPROCESSOR from '/public/images/microprocessor.png';
-import SVG_NATURE from '/public/images/nature.png';
-import SVG_CIRCUIT from '/public/images/microchip.png';
+import SVG_CITY from '@/assets/images/city-glowing-way.jpg';
+import SVG_MICROPROCESSOR from '@/assets/images/microprocessor.png';
+import SVG_NATURE from '@/assets/images/nature.png';
+import SVG_CIRCUIT from '@/assets/images/microchip.png';
 
 //commenting or automation testing
 

@@ -10,12 +10,16 @@ type SubscriptionBase = DeepPartial<{
     recurrency: SubscriptionRecurrency;
     priceUSD: number;
     type: PlanType;
-    isBasicKind: boolean;
+    basicKind: boolean;
 }>;
 
 type Subscription = DeepPartial<
     SubscriptionBase & {
-        tax: number;
+        tax: {
+            amount: number;
+            rate: number;
+        };
+        totalUSD: number;
         renewDate: number;
     }
 >;
@@ -25,10 +29,12 @@ type SubscriptionPreviewData = DeepPartial<{
     benefits: string[];
 }>;
 
-type SubscriptionPreview = DeepPartial<Pick<SubscriptionBase, 'subscription' | 'isBasicKind'>> & {
-    type: Record<string, SubscriptionPreviewData>;
-    route: Route;
-};
+type SubscriptionPreview = DeepPartial<
+    Pick<SubscriptionBase, 'subscription' | 'basicKind'> & {
+        type: Record<string, SubscriptionPreviewData>;
+        route: Route;
+    }
+>;
 
 export type {
     PlanName,

@@ -1,4 +1,6 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { ReactElement, useEffect, useState } from 'react';
 import { Margin, Resolution, usePDF } from 'react-to-pdf';
 import cn from 'classnames';
 
@@ -6,15 +8,13 @@ import { Invoice } from '@/app/types/billing';
 import { Route } from '@/app/static';
 
 import { formatDate, getCardName } from '@/app/utils';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { FullScreenLayout } from '@/app/ui/layout';
 import { Button } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
 import { OrderDetails } from './OrderDetails';
 import { OrderPreview } from './OrderPreview';
-
-import styles from './Order.module.css';
 
 function OrderPage() {
     const modalCtx = useModal();

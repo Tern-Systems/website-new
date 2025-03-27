@@ -1,11 +1,13 @@
-import React, { FC, FormEvent } from 'react';
+'use client';
+
+import { FC, FormEvent } from 'react';
 
 import { useForm } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Select } from '@/app/ui/form';
 import { BillingService } from '@/app/services';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 type FormData = { timeRange: number };
 

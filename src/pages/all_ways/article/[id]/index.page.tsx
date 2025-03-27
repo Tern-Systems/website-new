@@ -1,11 +1,13 @@
-import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
 
 import { Article } from '@/app/types/blog';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { formatDate } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
@@ -16,13 +18,13 @@ import { SubscribeCard } from '../../SubscribeCard';
 
 import styles from '@/app/common.module.css';
 
-import PNG_NATURE from '/public/images/nature-section.png';
-import SVG_PROFILE from '/public/images/icons/profile.svg';
-import SVG_LINK from '/public/images/icons/link.svg';
-import SVG_EMAIL from '/public/images/icons/email.svg';
-import SVG_X from '/public/images/icons/x-twitter.svg';
-import SVG_LINKEDIN from '/public/images/icons/linkedin.svg';
-import SVG_FACEBOOK from '/public/images/icons/facebook.svg';
+import PNG_NATURE from '@/assets/images/nature-section.png';
+import SVG_PROFILE from '@/assets/images/icons/profile.svg';
+import SVG_LINK from '@/assets/images/icons/link.svg';
+import SVG_EMAIL from '@/assets/images/icons/email.svg';
+import SVG_X from '@/assets/images/icons/x-twitter.svg';
+import SVG_LINKEDIN from '@/assets/images/icons/linkedin.svg';
+import SVG_FACEBOOK from '@/assets/images/icons/facebook.svg';
 
 const SHARE_BTNS = [
     {
@@ -47,7 +49,7 @@ const CONTENT_CN = '[&_*]:!text-primary [&_h2]:!text-heading-xl [&_*]:[all:rever
 
 function ArticlePage() {
     const { id } = useParams() ?? ({} as { id: string });
-    const isLg = useBreakpointCheck() === Breakpoint.lg;
+    const lg = useBreakpointCheck() === Breakpoint.lg;
 
     const [url, setURL] = useState<string | null>(null);
     const [nav, setNav] = useState<{ ids: string[]; idMap: Record<string, string> }>({ ids: [], idMap: {} });
@@ -107,7 +109,7 @@ function ArticlePage() {
 
     const CardsLi: ReactElement[] = cards
         .filter((article) => article.id !== content?.id)
-        .slice(0, RELATED_CARDS_COUNT - +isLg)
+        .slice(0, RELATED_CARDS_COUNT - +lg)
         .map((article, idx) => (
             <li
                 key={article?.id ?? 'card-' + idx}

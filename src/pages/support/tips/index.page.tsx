@@ -1,4 +1,6 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CardLink } from '@/app/types/layout';
@@ -8,7 +10,7 @@ import { Route } from '@/app/static';
 
 import { BlogService, TipsDTO } from '@/app/services/blog.service';
 
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { MainBackground } from '@/app/ui/atoms';
 import { ArticleCard, ResourceCard, Carousel } from '@/app/ui/organisms';
@@ -17,8 +19,8 @@ import { MessageModal } from '@/app/ui/modals';
 
 import styles from '@/app/common.module.css';
 
-import PNG_BG_MAIN from '/public/images/tips-bg-main.png';
-import PNG_MICROPROCESSOR from '/public/images/microprocessor.png';
+import PNG_BG_MAIN from '@/assets/images/tips-bg-main.png';
+import PNG_MICROPROCESSOR from '@/assets/images/microprocessor.png';
 
 // TOOD href
 const HIGHLIGHTED_CARD: CardLink = {

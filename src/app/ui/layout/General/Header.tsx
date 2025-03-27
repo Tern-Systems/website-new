@@ -1,4 +1,6 @@
-import React, { FC, ReactElement, useRef, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useRef, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
@@ -14,7 +16,8 @@ import {
 } from '@/app/static';
 
 import { checkSubRoute, getIdName, getRouteRoot } from '@/app/utils';
-import { useLayout } from '@/app/context';
+import { useOuterClickClose } from '@/app/hooks';
+import { useLayout } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { Button } from '@/app/ui/form';
@@ -25,8 +28,7 @@ import { SubNav } from './SubNav';
 import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 
-import SVG_CHEVRON from '/public/images/icons/chevron.svg';
-import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
+import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
 import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
 
 const Header: FC = (): ReactElement => {

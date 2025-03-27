@@ -144,28 +144,43 @@ body ::-webkit-scrollbar {
 
 @font-face {
   font-family: "Franklin Gothic ATF";
-  src: url("../../public/fonts/FranklinGothicATF-Med.otf") format("opentype");
+  src: url("/public/assets/fonts/FranklinGothicATF.otf") format("embedded-opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF-Bold.otf") format("embedded-opentype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Franklin Gothic ATF";
-  src: url("../../public/fonts/FranklinGothicATF-Light.otf") format("opentype");
+  src: url("/public/assets/fonts/FranklinGothicATF-Med.otf") format("embedded-opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF-Light.otf") format("embedded-opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Oxygen';
-  src: url('../../public/fonts/Oxygen-Regular.ttf') format('truetype');
+  src: url('/public/assets/fonts/Oxygen-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Old English Five';
-  src: url('../../public/fonts/OldEnglishFive.ttf') format('truetype');
+  src: url('/public/assets/fonts/OldEnglishFive.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }

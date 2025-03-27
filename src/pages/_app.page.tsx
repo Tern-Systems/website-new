@@ -1,19 +1,24 @@
+'use client';
+
 import { ReactElement, Suspense, useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
 import Script from 'next/script';
 import Head from 'next/head';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
-import { FlowProvider, LayoutProvider, ModalProvider, UserProvider } from '@/app/context';
+
+import { Provider } from '@/app/providers';
 
 import { Layout } from '@/app/ui/layout';
+
+import '@/app/globals.css';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
     const gtagId = process.env.NEXT_PUBLIC_GTAG_ID;
 
-    const isSm = useBreakpointCheck() <= Breakpoint.sm;
+    const sm = useBreakpointCheck() <= Breakpoint.sm;
     const [isPiPModeChild, setPiPModeChildState] = useState(false);
 
     // Click checking
@@ -22,15 +27,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     }, []);
 
     // @ts-expect-error no errors
-    const getLayout = isSm && !isPiPModeChild ? Component.getMobileLayout : Component.getLayout;
+    const getLayout = sm && !isPiPModeChild ? Component.getMobileLayout : Component.getLayout;
 
     const FinalElement: ReactElement = getLayout ? (
         getLayout(<Component {...pageProps} />)
     ) : (
         <Layout>
-            <Suspense>
-                <Component {...pageProps} />
-            </Suspense>
+            <Component {...pageProps} />
         </Layout>
     );
 
@@ -55,13 +58,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 `,
                 }}
             />
-            <UserProvider>
-                <LayoutProvider>
-                    <FlowProvider>
-                        <ModalProvider>{FinalElement}</ModalProvider>
-                    </FlowProvider>
-                </LayoutProvider>
-            </UserProvider>
+            <Suspense>
+                <Provider>{FinalElement}</Provider>
+            </Suspense>
         </>
     );
 }

@@ -1,21 +1,12 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 import { Res } from '@/app/types/service';
-import { PlanName, PlanType, Subscription } from '@/app/types/subscription';
-import { UserData } from '@/app/context/User.context';
+import { Subscription } from '@/app/types/subscription';
+import { UserData } from '@/app/contexts/user.context';
 
 import { BaseService } from './base.service';
 
 type UpdateUserData = Omit<UserData, 'email' | 'photo'> & { photo?: File | null };
-
-type SubscriptionData = {
-    name: PlanType;
-    price: number;
-    tax_amount: number;
-    endDate: string;
-    duration: number;
-    source: PlanName;
-};
 
 interface IUserService {
     getUser(token: string, fetchPlanDetails: boolean): Promise<Res<UserData, false>>;
@@ -30,57 +21,39 @@ interface IUserService {
 }
 
 class UserServiceImpl extends BaseService implements IUserService {
+    private static readonly _MESSAGE = {
+        PROFILE_UPDATED: 'Successfully update profile',
+    };
+
     constructor() {
         super(UserServiceImpl.name);
     }
 
     async postRemoveProfilePicture(email: string): Promise<Res> {
-        const [debug, error] = this.getLoggers(this.postRemoveProfilePicture.name);
-
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `remove-photo`,
-            headers: { 'Content-Type': 'application/json' },
+            headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ userEmail: email }),
             withCredentials: true,
         };
-
-        try {
-            debug(config);
-            const response = await axios(config);
-            debug(response);
-            return { message: response.data.msg };
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
-        }
+        const { message } = await this.req<undefined, false>(this.postRemoveProfilePicture.name, config, null);
+        return { message: message || UserServiceImpl._MESSAGE.PROFILE_UPDATED };
     }
 
     async postUpdateUserName(email: string, username: string): Promise<Res> {
-        const [debug, error] = this.getLoggers(this.postUpdateUser.name);
-
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `add-or-update-username`,
-            headers: { 'Content-Type': 'application/json' },
+            headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ userEmail: email, username }),
             withCredentials: true,
         };
-
-        try {
-            debug(config);
-            const response = await axios(config);
-            debug(response);
-            return { message: response.data.msg };
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
-        }
+        const { message } = await this.req<undefined, false>(this.postUpdateUserName.name, config, null);
+        return { message: message || UserServiceImpl._MESSAGE.PROFILE_UPDATED };
     }
 
     async postUpdateUser(email: string, data: UpdateUserData): Promise<Res> {
-        const [debug, error] = this.getLoggers(this.postUpdateUser.name);
-
         const userFormData = new FormData();
 
         userFormData.set('userEmail', email);
@@ -125,107 +98,64 @@ class UserServiceImpl extends BaseService implements IUserService {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `update-user-data`,
-            headers: { 'Content-Type': 'multipart/form-data' },
+            headers: BaseService._HEADER.CONTENT_JSON,
             data: userFormData,
             withCredentials: true,
         };
-
-        try {
-            debug(config);
-            debug(Object.fromEntries(Array.from(userFormData)));
-            const response = await axios(config);
-            debug(response);
-            return { message: response.data.msg };
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
-        }
+        const { message } = await this.req<undefined, false>(this.postUpdateUser.name, config, null);
+        return { message: message || UserServiceImpl._MESSAGE.PROFILE_UPDATED };
     }
 
     async getUserActivePlans(email: string): Promise<Res<Subscription[], false>> {
-        const [debug, error] = this.getLoggers(this.getUserActivePlans.name);
-
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `get-plan-details`,
             params: { email },
             withCredentials: true,
         };
-
-        try {
-            debug(config);
-            const response = await axios(config);
-            debug(response);
-
-            const userSubscriptions: Subscription[] = response.data.map((entry: SubscriptionData): Subscription => {
-                if (!('tax_amount' in entry)) throw 'Received wrong response schema from the server';
-                return {
-                    subscription: entry.source ?? '--',
-                    type: entry.name ?? '--',
-                    isBasicKind: entry.name === 'Basic',
-                    recurrency: entry.duration === 12 ? 'annual' : 'monthly',
-                    renewDate: new Date(entry.endDate ?? 0).getTime(),
-                    tax: entry.tax_amount ?? NaN,
-                    priceUSD: entry.price ?? NaN,
-                };
-            });
-
-            return { payload: userSubscriptions };
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
-        }
+        const { payload } = await this.req<Subscription[], false>(this.getUserActivePlans.name, config, (data) => [
+            !data.length || typeof data[0].tax?.amount === 'number',
+        ]);
+        return { payload };
     }
 
     async getUser(token: string, fetchPlanDetails: boolean = false): Promise<Res<UserData, false>> {
-        const [debug, error] = this.getLoggers(this.getUser.name);
-
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `get-user-data`,
-            headers: { Authorization: 'Bearer ' + token },
+            headers: BaseService._HEADER.AUTHORIZATION(token),
             withCredentials: true,
         };
+        const { payload: userData } = await this.req<UserData, false>(this.getUserActivePlans.name, config, (data) => [
+            typeof data.email === 'string',
+        ]);
 
-        try {
-            debug(config);
-            const response = await axios(config);
-            debug(response);
-
-            const userData: UserData = response.data;
-
-            if (!userData.email) throw 'Incorrect response from server';
-
-            let subscriptions: Subscription[] = [];
-            if (fetchPlanDetails) {
-                const { payload: activeSubscriptions } = await this.getUserActivePlans(userData.email);
-                subscriptions = activeSubscriptions;
-            }
-
-            const userDataMapped: UserData = {
-                ...userData,
-                subscriptions,
-                connectedApps: {
-                    data: [],
-                    social: [],
-                },
-                phones: {
-                    ...userData.phones,
-                    mobile: {
-                        number: userData.phones.mobile?.number ?? userData.state2FA.phone ?? '',
-                        isPrimary: userData.phones.mobile?.isPrimary ?? Boolean(userData.state2FA.phone) ?? false,
-                    },
-                },
-            };
-
-            return { payload: userDataMapped };
-        } catch (err: unknown) {
-            error(err);
-            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
+        let subscriptions: Subscription[] = [];
+        if (fetchPlanDetails) {
+            const { payload: activeSubscriptions } = await this.getUserActivePlans(userData.email);
+            subscriptions = activeSubscriptions;
         }
+
+        const userDataMapped: UserData = {
+            ...userData,
+            subscriptions,
+            connectedApps: {
+                data: [],
+                social: [],
+            },
+            phones: {
+                ...userData.phones,
+                mobile: {
+                    number: userData.phones.mobile?.number ?? userData.state2FA.phone ?? '',
+                    isPrimary: userData.phones.mobile?.isPrimary ?? Boolean(userData.state2FA.phone) ?? false,
+                },
+            },
+        };
+
+        return { payload: userDataMapped };
     }
 }
 
 const UserService = new UserServiceImpl();
 export type { UpdateUserData };
-export { UserService };
+export { UserServiceImpl, UserService };

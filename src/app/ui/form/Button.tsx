@@ -1,3 +1,5 @@
+'use client';
+
 import { ButtonHTMLAttributes, ForwardedRef, forwardRef, ReactNode } from 'react';
 import { StaticImageData } from 'next/dist/shared/lib/get-img-props';
 import { IconDefinition, IconProp } from '@fortawesome/fontawesome-svg-core';

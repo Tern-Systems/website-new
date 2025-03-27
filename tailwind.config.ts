@@ -1,7 +1,6 @@
 import type { Config } from 'tailwindcss';
 import Tailwind from 'tailwindcss/plugin';
 
-
 const spacing = {
     '7xl': 'var(--p-7xl)',
     '6xl': 'var(--p-6xl)',
@@ -22,7 +21,7 @@ const spacing = {
 
 const size = {
     heading: 'var(--h-heading)',
-    'insignia': 'var(--insignia-h)',
+    insignia: 'var(--insignia-h)',
     'heading-icon': 'var(--h-heading-icon)',
     'heading-modal': 'var(--h-heading-modal)',
     'sub-heading': 'var(--h-sub-heading)',
@@ -31,9 +30,8 @@ const size = {
     'button-l': 'var(--h-button-l)',
     'button-n': 'var(--h-button-n)',
     'button-s': 'var(--h-button-s)',
-    'card': 'var(--w-card)',
+    card: 'var(--w-card)',
 };
-
 
 const config: Config = {
     content: [
@@ -48,7 +46,7 @@ const config: Config = {
                 xxs: { max: '616px' },
                 xs: { max: '774px' },
                 sm: { max: '834px' },
-                mdmd: { max: '835px', min: '616px'},
+                mdmd: { max: '835px', min: '616px' },
                 md: { min: '835px', max: '1439px' },
                 lg: { min: '1440px' },
             },
@@ -74,31 +72,31 @@ const config: Config = {
                 'gray-d2': 'var(--bg-gray-d2)',
                 'gray-d1': 'var(--bg-gray-d1)',
                 'gray-d0': 'var(--bg-gray-d0)',
-                'gray': 'var(--bg-gray)',
+                gray: 'var(--bg-gray)',
                 'gray-l0': 'var(--bg-gray-l0)',
                 'gray-l1': 'var(--bg-gray-l1)',
                 'gray-l2': 'var(--bg-gray-l2)',
                 'white-d2': 'var(--bg-white-d2)',
                 'white-d1': 'var(--bg-white-d1)',
                 'white-d0': 'var(--bg-white-d0)',
-                'white': 'var(--bg-white)',
+                white: 'var(--bg-white)',
                 'blue-l0': 'var(--bg-blue-l0)',
-                'blue': 'var(--bg-blue)',
-                'red': 'var(--bg-red)',
+                blue: 'var(--bg-blue)',
+                red: 'var(--bg-red)',
                 'navy-d0': 'var(--bg-navy-d0)',
-                'green': 'var(--bg-green)',
-                'navy': 'var(--bg-navy)',
+                green: 'var(--bg-green)',
+                navy: 'var(--bg-navy)',
             },
             borderColor: {
                 'black-l0': 'var(--b-black-l0)',
-                'gray': 'var(--b-gray)',
+                gray: 'var(--b-gray)',
                 'gray-l0': 'var(--b-gray-l0)',
                 'gray-l1': 'var(--b-gray-l1)',
-                'white': 'var(--b-white)',
+                white: 'var(--b-white)',
                 'white-d0': 'var(--b-white-d0)',
-                'blue': 'var(--b-blue)',
+                blue: 'var(--b-blue)',
                 'blue-d0': 'var(--b-blue-d0)',
-                'red': 'var(--b-red)',
+                red: 'var(--b-red)',
             },
             borderWidth: {
                 s: 'var(--b-s)',
@@ -139,17 +137,17 @@ const config: Config = {
                 'section-3xs': 'var(--fz-section-3xs)',
             },
             lineHeight: {
-                's': 'var(--lh-s)',
-                'n': 'var(--lh-n)',
-                'l': 'var(--lh-l)',
-                'xl': 'var(--lh-xl)',
+                s: 'var(--lh-s)',
+                n: 'var(--lh-n)',
+                l: 'var(--lh-l)',
+                xl: 'var(--lh-xl)',
             },
         },
     },
     plugins: [
         Tailwind(({ matchUtilities }) => {
             matchUtilities({
-                'x': (value) => ({
+                x: (value) => ({
                     [`@apply ${value.replaceAll(',', ' ')}`]: {},
                 }),
             });

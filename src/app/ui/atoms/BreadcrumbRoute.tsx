@@ -1,10 +1,12 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import cn from 'classnames';
 
 import { NavLink } from '@/app/static';
 
 import { getIdName } from '@/app/utils';
-import { useLayout } from '@/app/context';
+import { useLayout } from '@/app/hooks';
 
 interface Props {
     length?: number;

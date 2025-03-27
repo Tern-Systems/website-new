@@ -1,23 +1,17 @@
-import React, {
-    Dispatch,
-    ForwardedRef,
-    forwardRef,
-    ReactElement,
-    SetStateAction,
-    useImperativeHandle,
-    useRef,
-} from 'react';
+'use client';
+
+import { Dispatch, ForwardedRef, forwardRef, ReactElement, SetStateAction, useImperativeHandle, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
 import { NavDropdown } from '@/app/types/layout';
 import { ALWAYS_MAPPED_ROUTES, DROPDOWN_SUB_NAV_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route } from '@/app/static';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { checkSubRoute, getIdName, getRouteLeave } from '@/app/utils';
 import { useBreakpointCheck, useNavigate, useOuterClickClose } from '@/app/hooks';
-import { useLayout, useModal } from '@/app/context';
+import { useLayout, useModal } from '@/app/hooks';
 
 import { Button, Select } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';

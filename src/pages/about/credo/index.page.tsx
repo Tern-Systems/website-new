@@ -6,7 +6,7 @@ import { BreadcrumbRoute } from '@/app/ui/atoms';
 import styles from '@/app/common.module.css';
 import stylesLocal from './Credo.module.css';
 
-import SVG_CREDO_HR from '/public/images/credo-hr.svg';
+import SVG_CREDO_HR from '@/assets/images/credo-hr.svg';
 
 function CredoPage() {
     return (

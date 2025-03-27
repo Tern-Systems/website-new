@@ -1,22 +1,21 @@
 'use client';
 
-import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react';
+import { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { IModalContext } from '@/app/context/Modal.context';
+import { IModalContext } from '@/app/contexts/modal.context';
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
 import { getIdName } from '@/app/utils';
-import { useLayout, useModal, useUser } from '@/app/context';
+import { useLayout, useModal, useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { Insignia } from '@/app/ui/organisms';
 import { HelpModal } from '@/app/ui/modals';
 import { Header } from './Header';
 
-import '@/app/globals.css';
 import styles from '@/app/common.module.css';
 
 type LinkAction = string | ((modalCtx: IModalContext) => void);

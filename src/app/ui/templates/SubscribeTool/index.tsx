@@ -1,4 +1,6 @@
-import React, { FC, useEffect, useState } from 'react';
+'use client';
+
+import { FC, useEffect, useState } from 'react';
 
 import { SubscriptionBase } from '@/app/types/subscription';
 import { useLoginCheck } from '@/app/hooks';
@@ -21,7 +23,6 @@ const SubscribeTool: FC = () => {
         <div className={`flex h-full text-heading-s text-gray sm:x-[text-basic,flex-col]`}>
             <PaymentInfo subscription={subscription} />
             <PaymentForm
-                name={subscription?.subscription}
                 type={subscription?.type}
                 recurrency={subscription?.recurrency}
                 priceUSD={subscription?.priceUSD}

@@ -1,4 +1,6 @@
-import React, { FC, FormEvent, useCallback, useEffect, useState } from 'react';
+'use client';
+
+import { FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CardData, SavedCardFull } from '@/app/types/billing';
@@ -8,18 +10,18 @@ import { BillingService } from '@/app/services';
 
 import { mapSavedCard } from '@/app/utils';
 import { useForm } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { ScrollEnd } from '@/app/ui/organisms';
 import { Button, Input, Select } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
 import { RemovePaymentMethodModal } from './RemovePaymentMethodModal';
 
-import SVG_VISA from '/public/images/icons/card-visa.svg';
-import SVG_MASTER from '/public/images/icons/card-master-card.svg';
-import SVG_AMEX from '/public/images/icons/card-amex.svg';
-import SVG_DISCOVER from '/public/images/icons/card-discover.svg';
-import SVG_CARD_NUM from '/public/images/icons/card-num.svg';
+import SVG_VISA from '@/assets/images/icons/card-visa.svg';
+import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';
+import SVG_AMEX from '@/assets/images/icons/card-amex.svg';
+import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
+import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
 const LEGEND_CN =

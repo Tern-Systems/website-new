@@ -1,13 +1,15 @@
+'use client';
+
 import React from 'react';
 import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
 import { DocumentationLink, ResourceLink, ResourceSectionData } from '@/app/types/layout';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { Route } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
-import { useUser } from '@/app/context';
+import { useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { BreadcrumbRoute } from '@/app/ui/atoms';
@@ -15,8 +17,8 @@ import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-import SVG_DOWNLOAD_ARROW from '/public/images/icons/arrow-down-underline.svg';
-import SVG_ARROW from '/public/images/icons/arrow.svg';
+import SVG_DOWNLOAD_ARROW from '@/assets/images/icons/arrow-down-underline.svg';
+import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 
 const DOWNLOAD_LINKS: DocumentationLink[] = [
     {

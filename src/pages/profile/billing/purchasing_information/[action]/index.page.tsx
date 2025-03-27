@@ -1,4 +1,6 @@
-import React, { ReactElement } from 'react';
+'use client';
+
+import { ReactElement } from 'react';
 import { useParams } from 'next/navigation';
 
 import { Layout } from '@/app/ui/layout';

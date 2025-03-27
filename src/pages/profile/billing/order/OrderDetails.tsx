@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ForwardedRef, forwardRef, ForwardRefRenderFunction, PropsWithoutRef, ReactElement } from 'react';
+import { ForwardedRef, forwardRef, ForwardRefRenderFunction, PropsWithoutRef, ReactElement } from 'react';
 
 import { Invoice } from '@/app/types/billing';
 import { Route, STATE_PROVINCE } from '@/app/static';

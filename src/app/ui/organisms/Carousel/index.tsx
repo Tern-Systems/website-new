@@ -1,7 +1,9 @@
-import React, { FC, PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
+'use client';
+
+import { FC, PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { Route } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
