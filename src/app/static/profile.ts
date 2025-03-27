@@ -3827,7 +3827,10 @@ type State = (typeof STATE_PROVINCE)[keyof typeof STATE_PROVINCE];
 type StateKey = KeysOfUnion<State>;
 
 const REGEX = {
-    password: /^(?=.*\d)(?=.*[A-Z])([\w\W\S]{9,})$/,
+    password: {
+        regex: /^(?=.*\d)(?=.*[A-Z])([\w\W\S]{9,})$/,
+        message: `Entered password should consist of minimum 9 characters, one uppercase letter, one lowercase letter and one number`,
+    },
     phone: /^\+\d{11,15}$/,
     email: /^\w+@\w+\.\w+$/,
 };

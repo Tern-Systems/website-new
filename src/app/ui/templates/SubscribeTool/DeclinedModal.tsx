@@ -9,7 +9,7 @@ import SVG_DECLINED from '@/assets/images/declined.svg';
 
 const DeclinedModal: FC = () => (
     <BaseModal
-        isSimple
+        simple
         title={'Payment Declined'}
         className={`bottom-[7.19rem] right-l max-w-[19.3125rem] border-gray-l0 [&_hr]:border-gray-l0`}
         classNameContent={'flex px-[1rem] gap-[0.69rem]'}

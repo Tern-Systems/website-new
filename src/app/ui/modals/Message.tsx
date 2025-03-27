@@ -46,8 +46,9 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     return (
         <BaseModal
             {...modalProps}
-            isSimple
+            simple
             setHoverState={setHoveredState}
+            onClick={() => modalCtx.closeModal()}
             className={cn(
                 `bottom-[min(6dvw,7.2rem)] right-l mx-auto w-fit max-w-[19.3rem] cursor-pointer place-self-center`,
                 `transform transition-all`,

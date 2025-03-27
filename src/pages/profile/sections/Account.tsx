@@ -93,8 +93,7 @@ function AccountSection(props: SectionProps) {
                             if (!('passwordConfirm' in form) || !userData) throw 'Wrong request setup';
 
                             if (form.passwordConfirm !== form.newPassword) throw `Passwords don't match`;
-                            if (!REGEX.password.test(form.newPassword))
-                                throw `Entered password doesn't meet the requirements`;
+                            if (!REGEX.password.regex.test(form.newPassword)) throw REGEX.password.message;
 
                             await update(async () => {
                                 return await AuthService.postChangePassword(

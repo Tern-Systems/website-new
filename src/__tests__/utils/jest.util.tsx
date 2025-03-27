@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren, ReactNode } from 'react';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
-import { screen, waitFor } from '@testing-library/dom';
-import { render, RenderOptions } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
+import { act, render, RenderOptions } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { RouterMock } from '@/__tests__/mocks';
@@ -21,8 +21,16 @@ const TestProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => (
     </RouterContext.Provider>
 );
 
-const appRender = (element: ReactNode, options?: RenderOptions) =>
-    render(element, { wrapper: TestProvider, ...options });
+const appRender = async (element: ReactNode, options?: RenderOptions) => {
+    jest.useFakeTimers();
+
+    const result = await act(() => render(element, { wrapper: TestProvider, ...options }));
+
+    jest.clearAllTimers();
+    jest.useRealTimers();
+
+    return result;
+};
 
 const conditionExpect = <T = any,>(elem?: T, be?: boolean) => (be ? expect(elem) : expect(elem).not);
 const findByTestId = async (id: string) => await screen.findByTestId(id, {}, { timeout: TIMEOUT.requestMs });
@@ -31,6 +39,14 @@ const findByText = async (text: string) => await screen.findByText(text, {}, { t
 const findAllByText = async (text: string) => await screen.findAllByText(text, {}, { timeout: TIMEOUT.requestMs });
 const waitForCustom = async (handler: () => Promise<any> | any) =>
     await waitFor(handler, { timeout: TIMEOUT.requestMs });
+
+const checkToBeInDocument = async (testID: string) => expect(await findByTestId(testID)).toBeInTheDocument();
+const checkTextContent = async (testID: string, content: string) =>
+    expect(await findByTestId(testID)).toHaveTextContent(content);
+
+const click = async (testID: string) => await act(async () => fireEvent.click(await findByTestId(testID)));
+const change = async (testID: string, value: string, options?: Record<string, string | number>) =>
+    await act(async () => fireEvent.change(await findByTestId(testID), { target: { value, ...options } }));
 
 export * from '@testing-library/react';
 export {
@@ -42,4 +58,8 @@ export {
     findByText,
     findAllByText,
     waitForCustom as waitFor,
+    checkTextContent,
+    checkToBeInDocument,
+    click,
+    change,
 };

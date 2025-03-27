@@ -5,6 +5,10 @@ import { DataTestID, TIMEOUT } from '@/__tests__/static';
 import {
     AuthTestUtil,
     AuthTestUtilImpl,
+    change,
+    checkTextContent,
+    checkToBeInDocument,
+    click,
     conditionExpect,
     findAllByTestId,
     findByTestId,
@@ -35,39 +39,45 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
     });
     afterAll(async () => await AuthTestUtil.clean());
 
+    const openProfileMenu = async () => {
+        await click(profile.toggle);
+        await checkToBeInDocument(profile.menuUnlogged);
+    };
+
+    const openLoginModal = async () => {
+        await openProfileMenu();
+        await click(profile.loginButton);
+        expect(await findByTestId(auth.modal)).toBeInTheDocument();
+    };
+
     describe(AuthService.postForgotPassword.name, () => {
-        const { forgotPassword } = modal;
+        const { resetPassword } = modal;
 
         afterEach(async () => await AuthTestUtil.clean());
 
         const requestReset = async (email: string) => {
             // Preparation
             await AuthTestUtil.signupUser(email);
-
-            await act(() => render(<HomePage />));
+            await render(<HomePage />);
+            await openLoginModal();
 
             // Main
-            await act(async () => fireEvent.click(await findByTestId(profile.loginButton)));
+            await click(auth.resetLink);
+            expect(await findByTestId(resetPassword.modal)).toBeInTheDocument();
 
-            await act(async () => fireEvent.click(await findByTestId(auth.resetLink)));
-
-            expect(await findByTestId(forgotPassword.modal)).toBeInTheDocument();
-
-            await act(async () =>
-                fireEvent.change(await findByTestId(forgotPassword.emailInput), {
-                    target: { value: dummyEmail },
-                }),
-            );
-
-            await act(async () => fireEvent.click(await findByTestId(forgotPassword.submitButton)));
+            await change(resetPassword.form.input.email, dummyEmail);
+            await click(resetPassword.form.submitButton);
         };
 
         it(
             'Should successfully request email with reset link',
             async () => {
                 await requestReset(dummyEmail);
-                expect(await findByTestId(forgotPassword.message)).toHaveTextContent(
-                    `An email has been sent to ${dummyEmail} with further instructions.`,
+
+                await checkToBeInDocument(resetPassword.emailSent.modal);
+                await checkTextContent(
+                    resetPassword.emailSent.message,
+                    `To reset your password, please click the link provided in the email sent to your registered email address.`,
                 );
 
                 // Cleanup
@@ -87,9 +97,7 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
                 }
 
                 await requestReset(wrongEmail);
-                expect(await findByTestId(forgotPassword.message)).toHaveTextContent(
-                    'User with this email does not exist',
-                );
+                await checkTextContent(resetPassword.message, 'User with this email does not exist');
 
                 // Cleanup
                 await AuthTestUtil.deleteUser(wrongEmail);
@@ -282,37 +290,26 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
         afterEach(async () => await AuthTestUtil.clean(true));
 
         const doSignUp = async () => {
-            jest.useFakeTimers();
-            await act(() => render(<HomePage />));
-            await act(async () => fireEvent.click(await findByTestId(profile.toggle)));
-            expect(await findByTestId(profile.menuUnlogged)).toBeInTheDocument();
+            // Preparation
+            await render(<HomePage />);
+            await openProfileMenu();
 
-            await act(async () => fireEvent.click(await findByTestId(profile.signUpButton)));
-            expect(await findByTestId(auth.modal)).toBeInTheDocument();
+            // Test
+            await click(profile.signUpButton);
+            await checkToBeInDocument(auth.modal);
 
-            await act(async () =>
-                fireEvent.change(await findByTestId(auth.form.input.email), {
-                    target: { value: dummyEmail },
-                }),
-            );
-            await act(async () =>
-                fireEvent.change(await findByTestId(auth.form.input.password), {
-                    target: { value: dummyPassword },
-                }),
-            );
-            await act(async () =>
-                fireEvent.change(await findByTestId(auth.form.input.passwordConfirm), {
-                    target: { value: dummyPassword },
-                }),
-            );
-            await act(async () => fireEvent.click(await findByTestId(auth.form.submitButton)));
+            await change(auth.form.input.email, dummyEmail);
+            await change(auth.form.input.password, dummyPassword);
+            await change(auth.form.input.passwordConfirm, dummyPassword);
+
+            await click(auth.form.submitButton);
         };
 
         it(
             'Should successfully register a new user',
             async () => {
                 await doSignUp();
-                expect(await findByTestId(auth.successModal)).toHaveTextContent('Account is created');
+                await checkTextContent(auth.successModal, 'Account is created');
             },
             TIMEOUT.testMs,
         );
@@ -325,7 +322,7 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
 
                 // Main
                 await doSignUp();
-                expect(await findByTestId(auth.message)).toHaveTextContent('Email already exists');
+                await checkTextContent(auth.message, 'Email already exists');
             },
             TIMEOUT.testMs,
         );

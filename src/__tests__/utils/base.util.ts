@@ -45,7 +45,7 @@ class BaseUtilImpl extends BaseService {
 
         const useUserSpy = jest.spyOn(UserContextMock, 'useUser');
 
-        const page = render(Element);
+        const page = await render(Element);
 
         await waitFor(() => {
             expect(useUserSpy).toHaveBeenCalled();

@@ -1,12 +1,4 @@
 const modal = {
-    createPassword: {
-        modal: 'create-password-modal',
-        submitButton: 'create-password-submit-button',
-        passwordInput: 'create-password-password-input',
-        passwordConfirmInput: 'create-password-password-confirm-input',
-        message: 'create-password-message-label',
-        resultModal: 'create-password-result-modal',
-    },
     auth: {
         modal: 'auth-modal',
         successModal: 'auth-success-modal',
@@ -27,11 +19,22 @@ const modal = {
         codeInput: 'otp-code-input',
         message: 'otp-message-label',
     },
-    forgotPassword: {
-        modal: 'forgot-password-modal',
-        emailInput: 'forgot-password-email-input',
-        submitButton: 'forgot-password-submit-button',
-        message: 'forgot-password-message-label',
+    resetPassword: {
+        modal: 'reset-password-modal',
+        emailSent: {
+            modal: 'reset-password-email-sent-modal',
+            message: 'reset-password-email-sent-message',
+        },
+        form: {
+            input: {
+                email: 'reset-password-email-input',
+                password: 'create-password-password-input',
+                passwordConfirm: 'create-password-password-confirm-input',
+            },
+            submitButton: 'reset-password-submit-button',
+        },
+        message: 'reset-password-message-label',
+        successModal: 'reset-password-result-modal',
     },
     emailSent: {
         modal: 'email-sent-modal',

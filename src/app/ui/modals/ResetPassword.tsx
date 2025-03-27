@@ -4,19 +4,20 @@ import { FC, FormEvent, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/static';
-import { REGEX } from '@/app/static';
+import { Breakpoint, REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services/auth.service';
 
-import { useBreakpointCheck, useForm } from '@/app/hooks';
-import { useModal } from '@/app/hooks';
+import { useBreakpointCheck, useForm, useModal } from '@/app/hooks';
 
-import { BaseModal, MessageModal } from '@/app/ui/modals';
+import { BaseModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png';
 import SVG_EYE from '@/assets/images/icons/eye.svg';
+import { DataTestID } from '@/__tests__/static';
+
+const TestID = DataTestID.modal.resetPassword;
 
 type FormData = {
     email: string;
@@ -36,7 +37,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
     const modalCtx = useModal();
     const sm = useBreakpointCheck() <= Breakpoint.sm;
 
-    const [warningMsg, setWarningMsg] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -44,6 +45,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
 
         const EmailSentModal: FC = () => (
             <BaseModal
+                data-testid={TestID.emailSent.modal}
                 adaptBreakpoint={Breakpoint.sm}
                 title={'Email Sent'}
                 className={'w-[30rem] border-s border-white text-center'}
@@ -55,7 +57,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     alt={'insignia'}
                     className={`mb-[1.25rem] h-[9rem] w-[10rem] place-self-center sm:hidden`}
                 />
-                <span>
+                <span data-testid={TestID.emailSent.message}>
                     To reset your password, please click the link provided in the email sent to your registered email
                     address.
                 </span>
@@ -65,27 +67,27 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
         try {
             if (!token) {
                 if (!REGEX.email.test(formValue.email))
-                    return setWarningMsg(`Entered email doesn't match the email format`);
+                    return setMessage(`Entered email doesn't match the email format`);
 
                 await AuthService.postForgotPassword(formValue.email);
                 modalCtx.openModal(<EmailSentModal />, { darkenBg: true });
-            } else if (!REGEX.password.test(formValue.password))
-                setWarningMsg(`Entered password doesn't meet the requirements`);
-            else if (formValue.password !== formValue.passwordConfirm) setWarningMsg("Passwords don't match");
+            } else if (!REGEX.password.regex.test(formValue.password)) setMessage(REGEX.password.message);
+            else if (formValue.password !== formValue.passwordConfirm) setMessage("Passwords don't match");
             else {
                 const { message } = await AuthService.postResetPassword(token, formValue.passwordConfirm);
-                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+                setMessage(message);
             }
-        } catch (error: unknown) {
-            if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+        } catch (err: unknown) {
+            if (typeof err === 'string') setMessage(err);
         }
     };
 
     const Controls = token ? (
         <>
             <Input
+                data-testid={TestID.form.input.password}
+                name={TestID.form.input.password}
                 type={'password'}
-                name={'password'}
                 placeholder={'Password'}
                 value={formValue.password}
                 onChange={setFormValue('password')}
@@ -93,8 +95,9 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 required
             />
             <Input
+                data-testid={TestID.form.input.passwordConfirm}
+                name={TestID.form.input.passwordConfirm}
                 type={'password'}
-                name={'password-repeat'}
                 placeholder={'Confirm Password'}
                 value={formValue.passwordConfirm}
                 onChange={setFormValue('passwordConfirm')}
@@ -105,7 +108,8 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
         </>
     ) : (
         <Input
-            name={'email'}
+            data-testid={TestID.form.input.email}
+            name={TestID.form.input.email}
             placeholder={'Email'}
             value={formValue.email}
             onChange={setFormValue('email')}
@@ -117,9 +121,10 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
 
     return (
         <BaseModal
+            data-testid={TestID.modal}
             adaptBreakpoint={Breakpoint.sm}
             title={sm ? 'Tern' : ''}
-            isSimple={!sm}
+            simple={!sm}
             className={`border-control relative mx-auto w-[30rem] place-self-center border-s sm:border-none md:bg-gray lg:bg-gray`}
             classNameContent={`py-[1.5rem] pl-[1.7rem] pr-0     sm:px-[1.25rem] sm:max-w-[23rem] sm:place-self-center
                                 sm:landscape:min-w-[21rem]`}
@@ -142,8 +147,16 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     </legend>
                     {Controls}
                 </fieldset>
-                {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
+                {message ? (
+                    <span
+                        data-testid={TestID.message}
+                        className={'my-[0.63rem] text-center'}
+                    >
+                        {message}
+                    </span>
+                ) : null}
                 <Button
+                    data-testid={TestID.form.submitButton}
                     className={cn(
                         `mt-[1.56rem] rounded-full py-[0.92rem] text-section-s font-bold`,
                         `w-full max-w-[18.93rem] place-self-center bg-white text-gray sm:w-[90%]`,
