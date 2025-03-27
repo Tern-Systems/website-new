@@ -18,7 +18,7 @@ import SVG_DOCUMENT from '@/assets/images/document.svg';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const BTN_CN =
-    'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)] sm:landscape:x-[h-[1.8125rem],py-0]';
+    'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)] sm:landscape:x-[h-n,py-0]';
 
 interface Props {
     invoice: Invoice;
@@ -62,7 +62,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
                             <Image
                                 src={SVG_TERN_LOGO}
                                 alt={'tern-logo'}
-                                className={'h-auto w-[2.5rem] sm:hidden'}
+                                className={'h-auto w-3xl sm:hidden'}
                             />
                             Tern Systems, LLC
                         </h2>

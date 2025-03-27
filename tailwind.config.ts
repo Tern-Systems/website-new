@@ -35,7 +35,7 @@ const size = {
     'button-n': 'var(--h-button-n)',
     'button-s': 'var(--h-button-s)',
     'card': 'var(--w-card)',
-    
+
     '12xl': 'var(--h-12xl)',
     '11xl': 'var(--h-11xl)',
     '10xl': 'var(--h-10xl)',
@@ -89,6 +89,7 @@ const config: Config = {
             maxHeight: size,
             minHeight: size,
             height: size,
+            size: size,
             borderRadius: {
                 'xxs-1': 'var(--br-xxs-1)',
                 xxs: 'var(--br-xxs)',

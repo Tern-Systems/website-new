@@ -101,7 +101,7 @@ function ArticlePage() {
                 <Image
                     src={btn.icon}
                     alt={'social-link'}
-                    className={'size-[2.5rem]'}
+                    className={'size-3xl'}
                 />
             </btn.Element>
         </li>
@@ -161,7 +161,7 @@ function ArticlePage() {
                 <div className={styles.content}>
                     <span className={'mb-xxs block font-bold'}>Author</span>
                     <span className={'grid grid-cols-[min-content,1fr] grid-rows-2 items-center gap-x-l'}>
-                        <span className={'row-span-2 size-[3.125rem]'}>
+                        <span className={'row-span-2 size-6xl'}>
                             <Image
                                 src={content?.author?.image ?? SVG_PROFILE}
                                 alt={'author-image'}

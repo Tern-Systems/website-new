@@ -171,7 +171,7 @@ const AboutPage: FC = () => {
                         classNamePageLink={cn(
                             'flex w-full [&]:p-0 items-center justify-center rounded-none',
                             'text-16 md:text-18 lg:[&]:text-18',
-                            'sm:max-w-[7.1875rem] max-w-[8.4375rem]',
+                            'sm:max-w-11xl max-w-[8.4375rem]',
                             'sm:h-button-l h-button-xl',
                             'mt-n md:mt-xl lg:mt-xxl',
                         )}

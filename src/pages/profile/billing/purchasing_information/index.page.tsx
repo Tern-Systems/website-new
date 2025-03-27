@@ -68,7 +68,7 @@ function PurchasingInformationPage() {
                 <Image
                     src={SVG_CARD}
                     alt={'card'}
-                    className={'h-auto w-[1.375rem]'}
+                    className={'h-auto w-xxs'}
                 />
                 <span>{card.nickName ?? card.cardType + ' **** ' + card.last4}</span>
                 <span
@@ -126,7 +126,7 @@ function PurchasingInformationPage() {
                             >
                                 <Button
                                     icon={faPen}
-                                    className={'flex-row-reverse text-20'}
+                                    className={'flex-row-reverse text-16'}
                                     onClick={() => router.push(Route.EditPaymentMethod)}
                                 >
                                     <span className={'sm:hidden'}>Edit</span>
@@ -173,9 +173,7 @@ function PurchasingInformationPage() {
                 <div className={`flex items-center justify-between`}>
                     <h2 className={'text-left text-27 font-bold sm:landscape:text-21'}>Invoice History</h2>
                     <Button
-                        className={
-                            'h-h-button-n rounded-full border-s border-white-d0 px-[min(2.1dvw,1rem)] text-20 font-bold'
-                        }
+                        className={'rounded-full border-s border-white-d0 px-xs py-6xs text-16 font-bold '}
                         onClick={() => modalCtx.openModal(<ExportInvoiceModal />, { darkenBg: true })}
                     >
                         Export

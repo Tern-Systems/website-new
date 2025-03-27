@@ -145,7 +145,7 @@ const DocumentationSection: FC<Props> = (props: Props) => {
             <>
                 <Button
                     onClick={() => layoutCtx.toggleFullscreen()}
-                    className={'size-[1.8125rem]'}
+                    className={'size-n'}
                 >
                     <FontAwesomeIcon icon={faExpand} />
                 </Button>
@@ -178,7 +178,7 @@ const DocumentationSection: FC<Props> = (props: Props) => {
                     { ['h-screen']: menuOpened && pipModeChild },
                 )}
             >
-                <div className={`flex h-[2rem] items-center`}>
+                <div className={`flex h-l items-center`}>
                     {MenuBtn}
                     {menuOpened ? <span className={`ml-3xs text-nowrap text-18`}>Table of Contents</span> : null}
                 </div>

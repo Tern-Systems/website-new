@@ -76,7 +76,9 @@ const SideNav: FC<Props> = (props: Props) => {
                 <Select
                     altIcon
                     options={Object.fromEntries(
-                        sectionIDs.map((_, idx) => [sectionIDs[idx], sectionNames?.[idx] ?? sectionIDs?.[idx]]),
+                        sectionIDs
+                            .filter((id): id is string => id !== undefined)
+                            .map((id) => [id, sectionNames?.[id] ?? id]),
                     )}
                     value={activeSection}
                     placeholder={'Select'}
@@ -92,13 +94,10 @@ const SideNav: FC<Props> = (props: Props) => {
                     classNameLabel={'mr-auto'}
                     classNameSelected={'w-full '}
                     classNameChevron={'ml-auto'}
-                    className={cn(
-                        `!border-0 !bg-gray-d2 [&]:h-[2.75rem]  md:h-[3.4375rem]  sm:h-button-xl`,
-                        `px-xxs  md:px-xs `,
-                    )}
+                    className={cn(`!border-0 !bg-gray-d2 [&]:h-4xl  md:h-7xl  sm:h-button-xl`, `px-xxs  md:px-xs `)}
                     classNameUl={`border border-gray-l0`}
                     classNameOption={cn(
-                        `h-[3.125rem] sm:h-button-xl`,
+                        `h-6xl sm:h-button-xl`,
                         `[&]:x-[bg-gray,border-transparent,py-4xs]`,
                         `hover:bg-gray-l2`,
                         `text-18  md:text-20`,

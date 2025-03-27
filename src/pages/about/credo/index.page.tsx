@@ -20,7 +20,7 @@ function CredoPage() {
                     <ReactSVG
                         src={SVG_CREDO_HR.src}
                         className={cn(
-                            '[&_*]:w-[6.25rem] md:[&_*]:w-[12.69rem] lg:[&_*]:w-[12.69rem]',
+                            '[&_*]:w-10xl md:[&_*]:w-[12.69rem] lg:[&_*]:w-[12.69rem]',
                             'mt-xs md:mt-s lg:mt-xl',
                         )}
                     />

@@ -76,7 +76,7 @@ function EventPage() {
                 <Image
                     src={btn.icon}
                     alt={'social-link'}
-                    className={'size-[1.6875rem]  md:size-[2.125rem]  lg:size-[2.5rem]'}
+                    className={'size-s  md:size-xl  lg:size-3xl'}
                 />
             </btn.Element>
         </li>
@@ -139,7 +139,7 @@ function EventPage() {
                                 onClick={() => {}} // TODO
                                 className={`${BUTTON_CN} border bg-blue border-blue text-white max-w-[10.5625rem]`}
                                 icon={faArrowRight}
-                                classNameIcon={'order-last [&_*]:fill-white size:[.5831rem] lg:size-[0.75rem]'}
+                                classNameIcon={'order-last [&_*]:fill-white size:[.5831rem] lg:size-7xs'}
                             >
                                 Register Now
                             </Button>
@@ -147,7 +147,7 @@ function EventPage() {
                                 onClick={() => {}} // TODO
                                 className={`${BUTTON_CN} border bg-white-d2 border-gray-l0 text-gray-d2 max-w-[11.875rem]`}
                                 icon={faArrowRight}
-                                classNameIcon={'order-last size:[.625rem] lg:size-[0.75rem]'}
+                                classNameIcon={'order-last size:[.625rem] lg:size-7xs'}
                             >
                                 Add to Calendar
                             </Button>

@@ -88,14 +88,10 @@ const ProfilePage: FC = () => {
                         <SideNav
                             sectionIDs={SECTION_IDS}
                             sectionNames={SECTIONS}
+                            className={cn('w-full max-w-[62rem] place-self-center', 'mb-xxs md:mb-xs')}
                         />
                     </aside>
-                    <div
-                        className={cn(
-                            `relative flex flex-col',
-                        'gap-y-xxs md:gap-y-xs lg:gap-y-4xs`,
-                        )}
-                    >
+                    <div className={cn(`relative flex flex-col`, `gap-y-xxs md:gap-y-xs lg:gap-y-4xs`)}>
                         <AccountSection
                             setEditId={setEditId}
                             editId={editId}

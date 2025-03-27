@@ -86,7 +86,7 @@ const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Documentation} /> },
 ];
 
-const BTN_ICON = 'ml-xl [&_*]:size-[1rem]';
+const BTN_ICON = 'ml-xl [&_*]:size-5xs';
 
 const BTN_CN = 'px-n  h-button-l  md:h-button-xl  lg:h-button-xxl';
 const BTN_BLUE_CN = BTN_CN + ' bg-blue';
@@ -109,7 +109,7 @@ function TidalPage() {
         >
             <ReactSVG
                 src={tile.image.src}
-                className={'[&_*]:x-[mx-auto,size-[2.5rem]] md:[&_*]:size-[4.375rem] lg:[&_*]:size-[6.25rem]'}
+                className={'[&_*]:x-[mx-auto,size-3xl] md:[&_*]:size-8xl lg:[&_*]:size-10xl'}
             />
             <span className={'mb-5xs mt-s block font-bold'}>{tile.title}</span>
             <span className={'leading-n'}>{tile.description}</span>
@@ -242,7 +242,7 @@ function TidalPage() {
                             src={SVG_PLAY.src}
                             className={cn(
                                 'absolute z-50 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2',
-                                '[&_*]:!size-[2rem] md:[&_*]:!size-[4.75rem] lg:[&_*]:!size-[5.75rem]',
+                                '[&_*]:!size-l md:[&_*]:!size-9xl lg:[&_*]:!size-[5.75rem]',
                                 { ['hidden']: videoStarted },
                             )}
                         />

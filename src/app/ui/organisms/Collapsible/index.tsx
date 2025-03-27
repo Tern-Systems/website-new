@@ -104,7 +104,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                     onClick={() => handleToggle()}
                     className={cn(
                         collapseCN,
-                        `absolute right-l top-l h-auto w-[1.8125rem] cursor-pointer`,
+                        `absolute right-l top-l h-auto w-n cursor-pointer`,
                         `lg:hidden`,
                         `sm:landscape:size-[2dvw]`,
                         classNameIcon,
@@ -135,7 +135,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline-block size-[0.875rem] cursor-pointer ${collapseCN} ${classNameIcon}`}
+                    className={`inline-block size-6xs cursor-pointer ${collapseCN} ${classNameIcon}`}
                 />
             </div>
             <hr

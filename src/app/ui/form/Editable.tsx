@@ -373,7 +373,7 @@ const Editable: FC<Props> = (props: Props) => {
                     </Input>
                     <span className={`mt-xxs block text-14 ${waring ? '' : 'hidden'}`}>{waring}</span>
                     <span
-                        className={`flex h-h-button-n mt-[min(1.3dvw,0.95rem)] gap-x-[min(1dvw,0.75rem)] text-20 font-bold`}
+                        className={`flex h-button-n mt-[min(1.3dvw,0.95rem)] gap-x-[min(1dvw,0.75rem)] text-20 font-bold`}
                     >
                         {CancelBtn}
                         <Button

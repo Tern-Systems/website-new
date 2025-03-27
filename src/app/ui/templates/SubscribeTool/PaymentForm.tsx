@@ -43,7 +43,7 @@ const FORM_DEFAULT: SubscribeData = {
     acceptTerms: false,
 };
 
-const CONTROL_H_CN = 'h-[3rem] sm:h-[1.6875rem] sm:landscape:[&&]:py-0 bg-white-l0';
+const CONTROL_H_CN = 'h-[3rem] sm:h-s sm:landscape:[&&]:py-0 bg-white-l0';
 const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 interface Props {
@@ -371,7 +371,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        className={`mt-[min(4dvw,--p-n)] h-[4.375rem] w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-[3.125rem]`}
+                        className={`mt-[min(4dvw,--p-n)] h-8xl w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-6xl`}
                     >
                         Subscribe
                     </Button>

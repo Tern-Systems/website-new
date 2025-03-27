@@ -86,7 +86,7 @@ const Header: FC = (): ReactElement => {
                             <p>{navDropdown.name}</p>
                             <ReactSVG
                                 src={SVG_CHEVRON.src}
-                                className={cn('xxs:-rotate-90 [&_*]:size-[0.5625rem]', {
+                                className={cn('xxs:-rotate-90 [&_*]:size-8xs', {
                                     ['rotate-180']: dropdownExpanded,
                                 })}
                             />
@@ -110,10 +110,10 @@ const Header: FC = (): ReactElement => {
                 <Button
                     onClick={() => setNavExpanded(true)}
                     icon={navExpanded ? faX : faBars}
-                    className={cn(`hidden border-s border-transparent px-s  xxs:inline`, {
-                        ['!border-blue bg-gray-d1']: navExpanded,
+                    className={cn(`hidden border-s border-transparent rounded-none p-xs xxs:inline h-full mr-4xs`, {
+                        ['!border-blue bg-gray-d1 ']: navExpanded,
                     })}
-                    classNameIcon={'!size-heading-icon h-auto'}
+                    classNameIcon={cn('!size-heading-icon min-w-xs h-xs')}
                 />
                 <div
                     className={cn(

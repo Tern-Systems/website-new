@@ -33,7 +33,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
                 <Button
                     icon={faX}
                     onClick={() => navigate(backButtonSection)}
-                    classNameIcon={'[&_path]:fill-blue [&_*]:w-[1.125rem] sm:[&_*]:w-[0.75rem]'}
+                    classNameIcon={'[&_path]:fill-blue [&_*]:w-4xs sm:[&_*]:w-7xs'}
                 />
             </div>
             <hr className={`md:hidden lg:hidden`} />

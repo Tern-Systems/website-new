@@ -32,13 +32,9 @@ const SearchBar: FC<Props> = (props: Props) => {
                     onChangeCustom={(value) => {
                         setContentType(value);
                     }}
-                    className={'h-[1.8125rem] min-w-[7.5] pl-5xs !bg-gray border-s !border-gray-l0'}
-                    classNameUl={
-                        'flex flex-col max-h-[7.5rem] w-[7.5rem] !gap-y-6xs pt-5xs pb-5xs border-s border-gray-l0'
-                    }
-                    classNameOption={
-                        'h-[1.25rem] !bg-gray border-none overflow-hidden hover:x-[!bg-white-d0,text-black]'
-                    }
+                    className={'h-n min-w-[7.5] pl-5xs !bg-gray border-s !border-gray-l0'}
+                    classNameUl={'flex flex-col max-h-12xl w-12xl !gap-y-6xs pt-5xs pb-5xs border-s border-gray-l0'}
+                    classNameOption={'h-3xs !bg-gray border-none overflow-hidden hover:x-[!bg-white-d0,text-black]'}
                     placeholder={''}
                     classNameSelected={'!w-full'}
                     classNameChevron={'ml-auto mr-4xs-1'}
@@ -48,14 +44,14 @@ const SearchBar: FC<Props> = (props: Props) => {
                 <h3 className={cn('flex-col mb-4xs text-14 text-primary leading-[0.6125rem]')}>Date Range</h3>
                 <Input
                     icons={[SVG_CALENDAR]}
-                    className={'w-[7.5rem] h-[1.8125rem] pl-5xs bg-gray border-s border-gray-l0'}
-                    classNameIconSpan={'h-full w-[2rem] !pr-0 bg-gray-l2 justify-center'}
+                    className={'w-12xl h-n pl-5xs bg-gray border-s border-gray-l0'}
+                    classNameIconSpan={'h-full w-l !pr-0 bg-gray-l2 justify-center'}
                 ></Input>
                 <span className='h-[0.625rem]'></span>
                 <Input
                     icons={[SVG_CALENDAR]}
-                    className={'w-[7.5rem] h-[1.8125rem] pl-5xs bg-gray border-s border-gray-l0'}
-                    classNameIconSpan={'h-full w-[2rem] !pr-0 bg-gray-l2 justify-center'}
+                    className={'w-12xl h-n pl-5xs bg-gray border-s border-gray-l0'}
+                    classNameIconSpan={'h-full w-l !pr-0 bg-gray-l2 justify-center'}
                 />
             </div>
         </div>
@@ -64,7 +60,7 @@ const SearchBar: FC<Props> = (props: Props) => {
     return (
         <label
             className={cn(
-                `relative flex h-[3.125rem] group bg-gray-d2 border-gray-l0 cursor-white cursor-text`,
+                `relative flex h-6xl group bg-gray-d2 border-gray-l0 cursor-white cursor-text`,
                 `transition-all duration-500 ease-in-out focus-within:x-[border-white-d0,shadow-lg]`,
                 className,
             )}
@@ -78,7 +74,7 @@ const SearchBar: FC<Props> = (props: Props) => {
             <ReactSVG
                 src={SVG_SEARCH.src}
                 className={cn(
-                    'flex my-auto [&_*]:size-[1.25rem]  mr-xs text-white',
+                    'flex my-auto [&_*]:size-3xs  mr-xs text-white',
                     'transition-all duration-500 ease-in-out group-focus-within:text-white-d0',
                 )}
             />
@@ -87,7 +83,7 @@ const SearchBar: FC<Props> = (props: Props) => {
                     toggleFilterExpand();
                 }}
                 className={cn(
-                    'flex size-[3.125rem] place-items-center justify-center cursor-pointer',
+                    'flex size-6xl place-items-center justify-center cursor-pointer',
                     filterExpanded ? 'bg-gray' : 'bg-inherit',
                 )}
             >

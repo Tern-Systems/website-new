@@ -25,10 +25,9 @@ import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
 const LEGEND_CN = 'text-24 font-[500] mt-3xl mb-3xs  md:x-[text-27,mt-5xl]  lg:x-[text-27,mt-5xl]';
-const INPUT_CN =
-    'bg-gray-d2 w-full h-[2.25rem] border border-gray-l0 px-xxs  md:x-[h-[3.125rem],px-xs]  lg:x-[h-[3.125rem],px-xs]';
+const INPUT_CN = 'bg-gray-d2 w-full h-xxl border border-gray-l0 px-xxs  md:x-[h-6xl,px-xs]  lg:x-[h-6xl,px-xs]';
 const FIELD_CN = 'text-14 grid grid-auto-rows gap-y-3xs  md:text-18  lg:text-18';
-const BUTTON_CN = 'md:x-[text-18,h-[3.125rem]]  lg:x-[text-18,h-[3.125rem]]';
+const BUTTON_CN = 'md:x-[text-18,h-6xl]  lg:x-[text-18,h-6xl]';
 
 const FORM_DATA_DEFAULT: CardData = {
     profileId: '',
@@ -52,7 +51,7 @@ const FORM_DATA_DEFAULT: CardData = {
 const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string = '') => (
     <Button
         type={'submit'}
-        className={cn('order-last h-[2.25rem] w-full bg-blue text-14 font-bold text-primary', BUTTON_CN, className)}
+        className={cn('order-last h-xxl w-full bg-blue text-14 font-bold text-primary', BUTTON_CN, className)}
     >
         {paymentCreation ? 'Add' : 'Update'}
     </Button>
@@ -138,9 +137,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             classNameLabel={'mr-auto'}
             classNameSelected={'w-full '}
             classNameChevron={cn('ml-auto')}
-            className={cn(`px-xs h-[3.125rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
+            className={cn(`px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
             classNameOption={cn(
-                'h-[3.125rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
                 'hover:!bg-gray-l2',
             )}
         >
@@ -246,7 +245,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameWrapper={`[&&]:mb-s w-fit`}
                                     classNameLabel={'text-10 [&&]:mb-0  md:text-12  lg:text-12'}
                                     className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-gray-d2'}
-                                    classNameCheckbox={`h-[0.75rem] w-[0.75rem]  md:x-[h-[1rem],w-[1rem]]  lg:x-[h-[1rem],w-[1rem]]`}
+                                    classNameCheckbox={`h-7xs w-7xs  md:x-[h-5xs,w-5xs]  lg:x-[h-5xs,w-5xs]`}
                                     isCustomCheckbox
                                 >
                                     Set as preferred payment method
@@ -310,10 +309,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameSelected={'w-full '}
                                     classNameChevron={cn('ml-auto')}
                                     className={cn(
-                                        `px-xs h-[3.125rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                        `px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                     )}
                                     classNameOption={cn(
-                                        'h-[3.125rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                        'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
                                         'hover:!bg-gray-l2',
                                     )}
                                     required
@@ -341,10 +340,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 classNameSelected={'w-full '}
                                 classNameChevron={cn('ml-auto')}
                                 className={cn(
-                                    `px-xs h-[3.125rem] !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                    `px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                 )}
                                 classNameOption={cn(
-                                    'h-[3.125rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                    'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
                                     'hover:!bg-gray-l2',
                                 )}
                                 required

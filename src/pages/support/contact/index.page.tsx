@@ -54,7 +54,7 @@ const RESOURCES: ResourceSectionData[] = [
 const INPUT_PROPS = {
     classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
     classNameLabel: 'font-[400]   ',
-    className: cn('h-[3.125rem] w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
+    className: cn('h-6xl w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
 };
 
 const ContactsPage: FC = () => {
@@ -181,7 +181,7 @@ const ContactsPage: FC = () => {
                                         onChange={setFormValue('isAllowedUpdate')}
                                         classNameLabel={'text-12 leading-normal'}
                                         className={'border-gray-l0 bg-gray-d2'}
-                                        classNameCheckbox={'h-[1rem] w-[1rem] flex-shrink-0'}
+                                        classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
                                         classNameWrapper={'flex [&_div]:items-start'}
                                         isCustomCheckbox
                                     >
@@ -190,7 +190,7 @@ const ContactsPage: FC = () => {
                                     </Input>
                                     <Button
                                         type={'submit'}
-                                        className='border-control-gray-l0 max-w-[7.9375rem] border bg-black px-6 py-3 text-21'
+                                        className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
                                     >
                                         Submit
                                     </Button>

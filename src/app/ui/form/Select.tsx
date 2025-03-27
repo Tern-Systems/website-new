@@ -147,7 +147,7 @@ const Select: FC<Props> = (props: Props) => {
                     </span>
                     <ReactSVG
                         src={altIcon ? SVG_BULLET_LIST.src : SVG_CHEVRON.src}
-                        className={cn(`group ml-5xs h-auto w-xxs brightness-[85%]`, classNameChevron, {
+                        className={cn(`group ml-5xs h-auto brightness-[85%]`, classNameChevron, {
                             ['rotate-180']: !altIcon && expanded,
                         })}
                     />

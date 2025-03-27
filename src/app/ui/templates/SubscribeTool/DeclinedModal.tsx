@@ -17,7 +17,7 @@ const DeclinedModal: FC = () => (
         <Image
             src={SVG_DECLINED}
             alt={'declined'}
-            className={'mb-s h-auto w-[1.6875rem]'}
+            className={'mb-s h-auto w-s'}
         />
         <span>
             There was an issue processing your payment. Please review your card and billing information, or try an

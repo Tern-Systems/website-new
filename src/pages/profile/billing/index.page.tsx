@@ -44,7 +44,7 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
                 className,
             )}
         >
-            <td className={'h-[2.25rem] pl-3xs  sm:h-[1.5rem]'}>{row?.id ?? CELL_FALLBACK}</td>
+            <td className={'h-xxl pl-3xs  sm:h-xs'}>{row?.id ?? CELL_FALLBACK}</td>
             <td>{row?.startDate ? formatDate(new Date(row?.startDate), 'short') : CELL_FALLBACK}</td>
             <td className={MD_SM_HIDDEN_CN}>{row?.paidUSD ? row.paidUSD.toFixed(2) : CELL_FALLBACK}</td>
             <td className={MD_SM_HIDDEN_CN}>{row?.status ?? CELL_FALLBACK}</td>

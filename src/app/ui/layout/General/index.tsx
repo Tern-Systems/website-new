@@ -172,7 +172,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     ].map((link, idx) => (
         <li
             key={link.href + idx}
-            className={`size-[2.5rem] ${styles.clickable}`}
+            className={`size-3xl ${styles.clickable}`}
         >
             <a
                 href={link.href}
@@ -225,7 +225,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                             `sm:x-[flex,flex-col,gap-y-xxl]`,
                         )}
                     >
-                        <Insignia className={'[&&_*]:!h-[2.125rem] self-start'} />
+                        <Insignia className={'[&&_*]:!h-xl self-start'} />
                         <ul
                             className={cn(
                                 'flex w-full  md:justify-items-end  lg:justify-items-end',

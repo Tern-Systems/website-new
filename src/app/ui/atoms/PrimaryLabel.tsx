@@ -8,8 +8,8 @@ const PrimaryLabel: FC = () => (
         className={cn(
             `flex items-center justify-center bg-white-d0 px-5xs`,
             `text-center text-8 text-gray rounded-xxs-1`,
-            `md:x-[h-[1.125rem],px-3xs,text-12,rounded-none]`,
-            `lg:x-[h-[1.125rem],px-3xs,text-12,rounded-none]`,
+            `md:x-[h-4xs,px-3xs,text-12,rounded-none]`,
+            `lg:x-[h-4xs,px-3xs,text-12,rounded-none]`,
         )}
     >
         Primary

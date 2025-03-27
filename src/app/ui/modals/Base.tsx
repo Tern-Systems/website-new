@@ -74,8 +74,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     icon={faX}
                     onClick={() => handleClose()}
                     className={cn(
-                        `inline-block min-w-[0.5625rem] place-self-start`,
-                        { ['ml-auto [&_*]:size-[1.125rem] [&_path]:fill-blue']: adaptApplied },
+                        `inline-block min-w-8xs place-self-start`,
+                        { ['ml-auto [&_*]:size-4xs [&_path]:fill-blue']: adaptApplied },
                         classNameTitle,
                     )}
                 />
@@ -121,8 +121,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     <Button
                         icon={faX}
                         onClick={() => handleClose()}
-                        classNameIcon={cn('sm:[&_*]:w-[0.75rem]', {
-                            ['[&_path]:fill-blue [&_*]:w-[1.125rem]']: adaptApplied,
+                        classNameIcon={cn('sm:[&_*]:w-7xs', {
+                            ['[&_path]:fill-blue [&_*]:w-4xs']: adaptApplied,
                         })}
                     />
                 </div>

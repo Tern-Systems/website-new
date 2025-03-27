@@ -148,7 +148,11 @@ function TipsPage() {
             </section>
             <InsideTernSection
                 data={'alt0'}
-                className={'bg-gradient-to-t from-blue to-transparent to-60%'}
+                className={cn(
+                    'bg-gradient-to-t from-blue to-transparent to-60%',
+                    'pt-5xl md:pt-6xl-1 lg:pt-7xl',
+                    'pb-[33rem] md:pb-[27rem] lg:pb-[29.5rem]',
+                )}
                 classNameContent={'pb-[25.3rem] md:pb-[26rem] lg:pb-[28rem]'}
             />
         </>

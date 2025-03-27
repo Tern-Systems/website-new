@@ -12,7 +12,7 @@ import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
 import { PlanName } from '@/app/types/subscription';
 
-const BTN_CN = 'px-[min(2.7dvw,1rem)] h-h-button-n rounded-full';
+const BTN_CN = 'px-[min(2.7dvw,1rem)] h-button-n rounded-full';
 
 interface Props {
     plan: PlanName | undefined;

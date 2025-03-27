@@ -178,7 +178,7 @@ function CommunityPage() {
                             'bg-blue',
                             'sm:x-[inline,p-0] flex  flex-col justify-center px-xs py-n',
                             'sm:row-span-1 row-span-3',
-                            'size-[7.1875rem] sm:size-fit',
+                            'size-11xl sm:size-fit',
                         )}
                     >
                         <span className={'text-center sm:text-24 text-64'}>{day}</span>
@@ -191,7 +191,7 @@ function CommunityPage() {
                     <span className={'flex items-center  sm:col-span-2'}>
                         <ReactSVG
                             src={SVG_CLOCK.src}
-                            className={'[&_*]:size-[0.75rem] [&_*]:sm:size-[0.5625rem]'}
+                            className={'[&_*]:size-7xs [&_*]:sm:size-8xs'}
                         />
                         <span className={'ml-5xs sm:ml-6xs'}>
                             {new Date(event.time.start).getHours()} - {new Date(event.time.start).getHours()} hrs&nbsp;
@@ -345,7 +345,7 @@ function CommunityPage() {
             </section>
             <section className={styles.section}>
                 <div className={cn(styles.content, 'pt-5xl md:pt-6xl-1 lg:pt-7xl')}>
-                    <h3 className={'text-27 lg:text-40'}>Events</h3>
+                    <h3 className={cn('text-27 lg:text-40', `mb-xs md:mb-xl lg:mb-xl`)}>Events</h3>
                     <ul
                         className={cn(
                             'grid grid-cols-2',
@@ -358,7 +358,7 @@ function CommunityPage() {
                         href={Route.CommunityEvents}
                         icon={'arrow-right-long'}
                         className={'flex-row-reverse text-blue  mt-xs md:mt-xl lg:mt-l'}
-                        iconClassName={'[&_path]:fill-blue [&_*]:size-[0.875rem]  ml-4xs lg:ml-xxs'}
+                        iconClassName={'[&_path]:fill-blue [&_*]:size-6xs  ml-4xs lg:ml-xxs'}
                     >
                         See all
                     </PageLink>
@@ -372,14 +372,20 @@ function CommunityPage() {
             </section>
             {/* TODO create ArticleCards*/}
             <section className={cn(styles.section, 'bg-gradient-to-t from-blue to-transparent to-60%')}>
-                <div className={cn(styles.content, 'pb-[33rem] md:pb-[27rem] lg:pb-[29.5rem]')}>
+                <div
+                    className={cn(
+                        styles.content,
+                        'pt-5xl md:pt-6xl-1 lg:pt-7xl',
+                        'pb-[33rem] md:pb-[27rem] lg:pb-[29.5rem]',
+                    )}
+                >
                     <h3>Community News</h3>
                     <ul
                         className={cn(
                             `grid auto-rows-max justify-items-center`,
                             `md:x-[mx-auto,w-fit,grid-cols-2] lg:grid-cols-[repeat(3,minmax(var(--w-card),1fr))]`,
                             `gap-y-l md:gap-n lg:gap-x-xl`,
-                            `mt-xl md:mt-xxl lg:mt-xl`,
+                            `mt-xs md:mt-xl lg:mt-xl`,
                         )}
                     >
                         {ArticleCardsLi}

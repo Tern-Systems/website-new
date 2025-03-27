@@ -125,8 +125,8 @@ const InsideTernSection: FC<Props> = (props: Props) => {
                 className={cn(
                     styles.content,
                     'text-20',
-                    'sm:w-full sm:max-w-[35rem]',
-                    'md:w-[70dvw] md:max-w-[50rem] md:ml-0',
+                    'sm:w-full sm:max-w-[37.5rem]',
+                    'md:w-[80dvw] md:max-w-[50rem] md:ml-0',
                     'pt-6xl-1 md:pt-5xl  pb-xxl lg:pb-7xl ',
                     classNameContent,
                 )}
