@@ -1,6 +1,10 @@
 import { BaseUtilImpl } from '@/__tests__/utils/base.util';
 
 import { CountryKey, StateKey } from '@/app/static';
+import { PlanType, RecurrencyEnum } from '@/app/types/subscription';
+import { SubscribeData } from '@/app/services/billing.service';
+
+import { BillingService } from '@/app/services';
 
 class BillingTestUtilImpl extends BaseUtilImpl {
     public static readonly DATA = {
@@ -26,6 +30,23 @@ class BillingTestUtilImpl extends BaseUtilImpl {
             },
         },
     };
+
+    // Utils
+    async subscribePlan(type: PlanType, recurrency: RecurrencyEnum) {
+        await this.signupUser();
+
+        const { dummyCard, dummyEmail } = BillingTestUtilImpl.DATA;
+        const card: SubscribeData = {
+            ...dummyCard.general,
+            ...dummyCard.address,
+            id: '',
+            type,
+            billingAddress: '',
+            savedCardIdx: '0',
+            acceptTerms: true,
+        };
+        await BillingService.postProcessPayment(card, type, recurrency, 0, dummyEmail);
+    }
 }
 
 const BillingTestUtil = new BillingTestUtilImpl();

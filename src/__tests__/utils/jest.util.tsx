@@ -40,11 +40,29 @@ const findAllByText = async (text: string) => await screen.findAllByText(text, {
 const waitForCustom = async (handler: () => Promise<any> | any) =>
     await waitFor(handler, { timeout: TIMEOUT.requestMs });
 
-const checkToBeInDocument = async (testID: string) => expect(await findByTestId(testID)).toBeInTheDocument();
-const checkTextContent = async (testID: string, content: string) =>
-    expect(await findByTestId(testID)).toHaveTextContent(content);
+const checkToBeInDocument = async (testID: string, amount?: number) => {
+    const elements = await findAllByTestId(testID);
+    if (amount) expect(elements).toHaveLength(amount);
+    else expect(elements[0]).toBeInTheDocument();
+};
 
-const click = async (testID: string) => await act(async () => fireEvent.click(await findByTestId(testID)));
+const checkTextContentHelper = (element: HTMLElement, content: string, be: boolean) => {
+    const matchers = expect(element);
+    if (be) return matchers.toHaveTextContent(content);
+    else return matchers.not.toHaveTextContent(content);
+};
+
+const checkTextContent = async (testID: string, content: string, be: boolean = true, idx?: 'all' | number) => {
+    const elements = await findAllByTestId(testID);
+    if (idx === 'all') return elements.forEach((element) => checkTextContentHelper(element, content, be));
+    checkTextContentHelper(elements[idx ?? 0], content, be);
+};
+
+const click = async (ElementOrID: HTMLElement | string) => {
+    const Element = typeof ElementOrID === 'string' ? await findByTestId(ElementOrID) : ElementOrID;
+    await act(async () => fireEvent.click(Element));
+};
+
 const change = async (testID: string, value: string, options?: Record<string, string | number>) =>
     await act(async () => fireEvent.change(await findByTestId(testID), { target: { value, ...options } }));
 

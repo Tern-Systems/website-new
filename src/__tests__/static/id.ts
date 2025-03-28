@@ -52,9 +52,43 @@ const DataTestID = {
         },
     },
     page: {
+        tidal: {
+            plans: {
+                recurrencySwitch: {
+                    monthly: 'tidal-plan-recurrency-switch-monthly',
+                    annual: 'tidal-plan-recurrency-switch-annual',
+                },
+                card: {
+                    container: 'tidal-plan-card-container',
+                    name: 'tidal-plan-card-plan-name-label',
+                    price: 'tidal-plan-card-plan-price-label',
+                    subscribeButton: 'tidal-plan-card-subscribe-button',
+                    extension: 'tidal-plan-card-plan-extension-name-label',
+                    benefit: 'tidal-plan-card-plan-benefit-label',
+                    yearlyLabel: 'tidal-plan-card-plan-yearly-label',
+                    links: {
+                        limits: 'tidal-plan-card-link-limits',
+                        brc: {
+                            simple: 'tidal-plan-card-link-brc-simple',
+                            related: 'tidal-plan-card-link-brc',
+                        },
+                        manage: 'tidal-plan-card-link-manage',
+                    },
+                },
+            },
+        },
         subscribe: {
+            paymentInfo: {
+                heading: 'payment-info-heading',
+                price: 'payment-info-price',
+                subscription: 'payment-info-subscription',
+                subtotal: 'payment-info-subtotal',
+                due: 'payment-info-due',
+            },
             paymentForm: {
                 input: {
+                    savedCardIdx: 'form-saved-card-index',
+
                     cardNumber: 'form-card-number',
                     expirationDate: 'form-expiration-date',
                     cvc: 'form-cvc',
@@ -68,6 +102,8 @@ const DataTestID = {
                     city: 'form-city',
                     zip: 'form-zip',
                     state: 'form-state',
+
+                    termsCheckbox: 'form-terms-checkbox',
                 },
                 expandButton: 'form-expand-address-button',
                 submitButton: 'form-submit-button',

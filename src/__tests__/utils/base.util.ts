@@ -1,18 +1,20 @@
 import { ReactElement } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
-import { cleanup, RenderResult } from '@testing-library/react';
+import { cleanup, RenderOptions, RenderResult } from '@testing-library/react';
 
 import { NavigationMock } from '@/__tests__/mocks/navigation';
 import { render, waitFor } from '@/__tests__/utils/jest.util';
 
-import { BaseService } from '@/app/services';
+import { Subscription } from '@/app/types/subscription';
+
+import { BaseService, UserService } from '@/app/services';
 
 import { AuthService } from '@/app/services/auth.service';
 
 import { createCookie } from '@/app/utils';
 
-const UserContextMock = jest.requireMock('@/app/hooks');
+const UseUserHookMock = jest.requireMock('@/app/hooks/context/useUser');
 
 class BaseUtilImpl extends BaseService {
     public static readonly DATA = {
@@ -32,6 +34,7 @@ class BaseUtilImpl extends BaseService {
     async renderLoggedIn(
         Element: ReactElement,
         createAccount: boolean = true,
+        options: RenderOptions = {},
     ): Promise<{ page: RenderResult; useUserSpy: jest.SpyInstance }> {
         if (createAccount) await this.signupUser();
 
@@ -43,9 +46,9 @@ class BaseUtilImpl extends BaseService {
         this.mockCookie();
         document.cookie = createCookie(token);
 
-        const useUserSpy = jest.spyOn(UserContextMock, 'useUser');
+        const useUserSpy = jest.spyOn(UseUserHookMock, 'useUser');
 
-        const page = await render(Element);
+        const page = await render(Element, options);
 
         await waitFor(() => {
             expect(useUserSpy).toHaveBeenCalled();
@@ -68,6 +71,9 @@ class BaseUtilImpl extends BaseService {
     }
 
     mockCookie = () => Object.defineProperty(document, 'cookie', { writable: true, value: '' });
+
+    mockGetUserPlans = (subscriptions: Subscription[]) =>
+        jest.spyOn(UserService, 'getUserActivePlans').mockReturnValue(Promise.resolve({ payload: subscriptions }));
 
     mockRouter = () => jest.spyOn(NavigationMock, 'useRouter').mockReturnValue({ push: jest.fn() });
 

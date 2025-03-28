@@ -16,7 +16,7 @@
     "prepare": "husky install",
     "lint:fix": "eslint --fix",
     "pre-commit": "lint-staged --allow-empty",
-    "pre-push": "npm run lint src/ && npm run build"
+    "pre-push": "npm run lint src/ && npm run build && npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
