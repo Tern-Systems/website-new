@@ -1,12 +1,13 @@
 import { AxiosRequestConfig } from 'axios';
 
 import { Res } from '@/app/types/service';
-import { Subscription } from '@/app/types/subscription';
+import { RecurrencyEnum, Subscription } from '@/app/types/subscription';
 import { UserData } from '@/app/contexts/user.context';
 
 import { BaseService } from './base.service';
 
 type UpdateUserData = Omit<UserData, 'email' | 'photo'> & { photo?: File | null };
+type SubscriptionDTO = Omit<Subscription, 'recurrency'> & { recurrency: number };
 
 interface IUserService {
     getUser(token: string, fetchPlanDetails: boolean): Promise<Res<UserData, false>>;
@@ -113,10 +114,15 @@ class UserServiceImpl extends BaseService implements IUserService {
             params: { email },
             withCredentials: true,
         };
-        const { payload } = await this.req<Subscription[], false>(this.getUserActivePlans.name, config, (data) => [
+        const { payload } = await this.req<SubscriptionDTO[], false>(this.getUserActivePlans.name, config, (data) => [
             !data.length || typeof data[0].tax?.amount === 'number',
         ]);
-        return { payload };
+        const subscriptions: Subscription[] = payload.map((subscription) => ({
+            ...subscription,
+            recurrency: subscription.recurrency === RecurrencyEnum.monthly ? 'monthly' : 'annual',
+        }));
+
+        return { payload: subscriptions };
     }
 
     async getUser(token: string, fetchPlanDetails: boolean = false): Promise<Res<UserData, false>> {

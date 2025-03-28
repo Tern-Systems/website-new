@@ -31,8 +31,14 @@ import SVG_BULLET from '@/assets/images/icons/bullet.svg';
 import SVG_STAR from '@/assets/images/icons/star.svg';
 import SVG_DIAMOND from '@/assets/images/icons/diamond.svg';
 import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg';
+import { DataTestID } from '@/__tests__/static';
 
-const PLAN_TIME_RANGE: SubscriptionRecurrency[] = ['monthly', 'annual'];
+const TestID = DataTestID.page.tidal.plans;
+
+const PLAN_TIME_RANGE: { testID: string; recurrency: SubscriptionRecurrency }[] = [
+    { testID: TestID.recurrencySwitch.monthly, recurrency: 'monthly' },
+    { testID: TestID.recurrencySwitch.annual, recurrency: 'annual' },
+];
 
 interface Props {
     subscriptionData: SubscriptionPreview | null;
@@ -46,7 +52,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const [navigate] = useNavigate();
     const breakpoint = useBreakpointCheck();
 
-    const [selectedRecurrency, setSelectedRecurrency] = useState<SubscriptionRecurrency>('monthly');
+    const [recurrency, setRecurrency] = useState<SubscriptionRecurrency>('monthly');
 
     const handleSubscribeClick = (type: PlanType) => {
         if (!userCtx.isLoggedIn) {
@@ -64,8 +70,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             subscription: subscriptionData.subscription,
             type,
             basicKind: subscriptionData.basicKind,
-            priceUSD: subscriptionData.type?.[type]?.priceUSD?.[selectedRecurrency],
-            recurrency: selectedRecurrency,
+            priceUSD: subscriptionData.type?.[type]?.priceUSD?.[recurrency],
+            recurrency: recurrency,
         };
         sessionStorage.setItem('subscription', JSON.stringify(subscription));
         navigate(subscriptionData.route);
@@ -87,21 +93,20 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         type: PlanType,
         data: SubscriptionPreviewData | undefined,
         idx: number,
-        isProUser: boolean,
-        isCurrentSubscription: boolean,
+        proUser: boolean,
+        currentSubscription: boolean,
         cutBasicColumn: boolean,
     ): ReactElement => {
-        const isAnnualRecurrency = selectedRecurrency.toLocaleLowerCase() === 'annual'.toLocaleLowerCase();
-        const isCurrentRecurrency =
-            userSubscription?.recurrency?.toLocaleLowerCase() === selectedRecurrency.toLocaleLowerCase();
-        const isCurrentType = userSubscription?.type?.toLocaleLowerCase() === type.toLocaleLowerCase();
+        const annualRecurrency = recurrency.toLocaleLowerCase() === 'annual'.toLocaleLowerCase();
+        const currentRecurrency = userSubscription?.recurrency?.toLocaleLowerCase() === recurrency.toLocaleLowerCase();
+        const currentType = userSubscription?.type?.toLocaleLowerCase() === type.toLocaleLowerCase();
         const { basicKind } = subscriptionData ?? {};
-        const isBasicPlan = type.toLocaleLowerCase() === 'Basic'.toLocaleLowerCase();
+        const basicPlan = type.toLocaleLowerCase() === 'Basic'.toLocaleLowerCase();
 
-        const isBtnDisabled = (isCurrentSubscription && isCurrentRecurrency && isCurrentType) || isBasicPlan;
+        const buttonDisabled = (currentSubscription && currentRecurrency && currentType) || basicPlan;
 
         const benefitsData = data?.benefits ?? generateFallbackEntries(5);
-        const benefitsIcon = !isBtnDisabled ? SVG_BULLET_DASHED : type === 'Pro' ? SVG_STAR : SVG_BULLET;
+        const benefitsIcon = !buttonDisabled ? SVG_BULLET_DASHED : type === 'Pro' ? SVG_STAR : SVG_BULLET;
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
             <li
                 key={type + subIndex}
@@ -112,14 +117,14 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     alt={'list-icon'}
                     className={'inline [&]:size-[1rem]'}
                 />
-                <span>{benefit}</span>
+                <span data-testid={TestID.card.benefit}>{benefit}</span>
             </li>
         ));
 
         if (idx) {
             const Additional = (
                 <div key={'additional'}>
-                    <span>Everything in {firstPlanType}, and:</span>
+                    <span data-testid={TestID.card.extension}>Everything in {firstPlanType}, and:</span>
                 </div>
             );
             Benefits.unshift(Additional);
@@ -128,14 +133,19 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const Limits: ReactElement = (
             <>
                 <span
+                    data-testid={TestID.card.links.limits}
                     className={'cursor-pointer underline'}
                     onClick={() => modalCtx.openModal(<LimitsModal />, { darkenBg: true })}
                 >
                     Limits apply
                 </span>
-                <span className={cn(userSubscription ? 'hidden' : 'whitespace-pre-wrap')}>
+                <span
+                    data-testid={TestID.card.links.brc.related}
+                    className={cn(userSubscription ? 'hidden' : 'whitespace-pre-wrap')}
+                >
                     Have an existing plan? See the&nbsp;
                     <span
+                        data-testid={TestID.card.links.brc.simple}
                         onClick={() => modalCtx.openModal(<HelpModal type={'brc'} />, { darkenBg: true })}
                         className={`${styles.clickable} underline`}
                     >
@@ -146,58 +156,59 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         );
 
         let subscribeBtnText: string | ReactElement =
-            userSubscription && basicKind && !isProUser ? 'Upgrade to Pro' : 'Subscribe';
+            userSubscription && basicKind && !proUser ? 'Upgrade to Pro' : 'Subscribe';
         let Links: ReactElement = Limits;
 
-        if (isBtnDisabled || isBasicPlan) {
+        if (buttonDisabled || basicPlan) {
             subscribeBtnText = 'Your current plan';
             Links = (
                 <>
                     <span className={`underline`}>
                         <PageLink
+                            data-testid={TestID.card.links.manage}
                             href={Route.ManageSubscriptions}
                             className={'cursor-pointer'}
                         >
                             Manage subscription
                         </PageLink>
                     </span>
-                    <span className={'first-letter:capitalize'}>{BillingResolution}</span>
+                    {BillingResolution}
                 </>
             );
-        } else if (!isCurrentType && userSubscription) {
+        } else if (!currentType && userSubscription) {
             subscribeBtnText = (
                 <>
                     {idx + +cutBasicColumn ? 'Up' : 'Down'}grade to&nbsp;
                     <span className={'capitalize'}>{type}</span>
                 </>
             );
-        } else if (!isCurrentRecurrency) {
+        } else if (!currentRecurrency) {
             subscribeBtnText =
-                (basicKind && !isProUser) || !isCurrentSubscription ? (
+                (basicKind && !proUser) || !currentSubscription ? (
                     subscribeBtnText
                 ) : (
                     <>
                         Switch to&nbsp;
-                        <span className={'capitalize'}>{PLAN_TIME_RANGE[+isAnnualRecurrency]}</span>
+                        <span className={'capitalize'}>{PLAN_TIME_RANGE[+annualRecurrency].recurrency}</span>
                         &nbsp;Plan
                     </>
                 );
         }
 
-        const showAsterisk = isAnnualRecurrency && !isBasicPlan && !isBtnDisabled;
+        const showAsterisk = annualRecurrency && !basicPlan && !buttonDisabled;
 
         if (showAsterisk) {
             Links = (
                 <>
-                    <span>*Price billed annually</span>
+                    <span data-testid={TestID.card.yearlyLabel}>*Price billed annually</span>
                     {Links}
                 </>
             );
         }
 
         const pricing: string = data
-            ? data?.priceUSD?.[selectedRecurrency]
-                ? '$' + data.priceUSD[selectedRecurrency] + '/month'
+            ? data?.priceUSD?.[recurrency]
+                ? '$' + data.priceUSD[recurrency] + '/month'
                 : 'Free'
             : '--';
 
@@ -216,7 +227,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         alt={type + ' icon'}
                         className={`mr-5xs h-auto w-[1.375rem] sm:w-[0.9375rem]`}
                     />
-                    <span>{type}</span>
+                    <span data-testid={TestID.card.name}>{type}</span>
                 </h2>
                 <div
                     className={cn(
@@ -228,9 +239,10 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         'sm:landscape:text-section-s',
                     )}
                 >
-                    <span>{pricing + (showAsterisk ? '*' : '')}</span>
+                    <span data-testid={TestID.card.price}>{pricing + (showAsterisk ? '*' : '')}</span>
                 </div>
                 <Button
+                    data-testid={TestID.card.subscribeButton}
                     onClick={() => handleSubscribeClick(type)}
                     className={cn(
                         `w-full rounded-full bg-blue text-section-s font-bold`,
@@ -238,7 +250,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         `sm:x-[py-xxs,text-basic]`,
                         `disabled:x-[bg-inherit,border-s,border-gray-l0,text-secondary]`,
                     )}
-                    disabled={isBtnDisabled}
+                    disabled={buttonDisabled}
                 >
                     {subscribeBtnText}
                 </Button>
@@ -247,9 +259,10 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         return (
             <Collapsible
+                data-testid={TestID.card.container}
                 key={type + idx}
                 title={type + idx}
-                isChevron
+                chevron
                 expandedState={[breakpoint === Breakpoint.lg]}
                 collapsedContent={CollapsedContentSm}
                 classNameWrapper={cn(
@@ -316,14 +329,15 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
     const Switch: ReactElement[] = PLAN_TIME_RANGE.map((entry, idx) => (
         <div
-            key={entry + idx}
-            onClick={() => setSelectedRecurrency(entry)}
+            data-testid={entry.testID}
+            key={entry.recurrency + idx}
+            onClick={() => setRecurrency(entry.recurrency)}
             className={cn(
                 `cursor-pointer rounded-full px-[1.3rem] py-[0.7rem] font-bold capitalize`,
-                selectedRecurrency === entry ? 'bg-gray-l0' : 'text-secondary',
+                recurrency === entry.recurrency ? 'bg-gray-l0' : 'text-secondary',
             )}
         >
-            {entry}
+            {entry.recurrency}
         </div>
     ));
 

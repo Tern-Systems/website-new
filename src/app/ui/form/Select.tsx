@@ -120,7 +120,7 @@ const Select: FC<Props> = (props: Props) => {
             <input
                 {...selectPropsRest}
                 value={value}
-                onChange={() => {}}
+                onChange={(event) => onChangeCustom(event.target.value)}
                 placeholder={placeholder}
                 className={'absolute bottom-0 left-[34%] -z-10 [&&]:h-0 [&&]:w-1 [&&]:p-0'}
             />

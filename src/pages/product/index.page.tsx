@@ -81,7 +81,7 @@ const TILES: Tiles[] = [
 ];
 
 const RESOURCES: ResourceSectionData[] = [
-    { Node: <PageLink href={Route.TidalPricing}>Pricing</PageLink> },
+    { Node: <PageLink href={Route.TidalPlans}>Pricing</PageLink> },
     { Node: <PageLink href={Route.TidalFAQs}>Help & FAQs</PageLink> },
     { Node: <PageLink href={Route.Documentation} /> },
 ];

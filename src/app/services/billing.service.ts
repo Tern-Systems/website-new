@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from 'axios';
 import { DeepPartial } from '@/app/types/utils';
 import { Res } from '@/app/types/service';
 import { CardData, Invoice, SavedCard, SavedCardFull } from '@/app/types/billing';
-import { PlanName, PlanType, SubscriptionPreview } from '@/app/types/subscription';
+import { PlanName, PlanType, RecurrencyEnum, SubscriptionPreview } from '@/app/types/subscription';
 
 import { BaseService } from '@/app/services/base.service';
 import { Route } from '@/app/static';
@@ -317,7 +317,8 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                     }
 
                     if (plan?.priceUSD) {
-                        plan.priceUSD[subscription.Duration === 1 ? 'monthly' : 'annual'] = subscription.Price;
+                        plan.priceUSD[subscription.Duration === RecurrencyEnum.monthly ? 'monthly' : 'annual'] =
+                            subscription.Price;
                     }
                     return updatedResult;
                 }, previewResult);

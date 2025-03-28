@@ -40,14 +40,14 @@ interface Props extends PropsWithChildren {
     classNameIcon?: string;
     classNameHr?: string;
     className?: string;
-    isChevron?: boolean;
+    chevron?: boolean;
     collapsedContent?: ReactElement;
     expandedState?: [boolean] | [boolean, () => void];
 }
 
 const Collapsible: FC<Props> = (props: Props) => {
     const {
-        isChevron,
+        chevron,
         collapsedContent,
         title,
         icon,
@@ -59,17 +59,18 @@ const Collapsible: FC<Props> = (props: Props) => {
         classNameIcon,
         classNameHr,
         expandedState,
+        ...propsDiv
     } = props;
 
-    const [isExpanded, setExpandState] = useState<boolean>(expandedState?.[0] ?? true);
+    const [expanded, setExpand] = useState<boolean>(expandedState?.[0] ?? true);
 
-    const isExpandedFinal = isExpanded || expandedState?.[0] === true;
+    const expandedFinal = expanded || expandedState?.[0] === true;
     const titleFinal = getId(title ?? '');
 
     const handleToggle = () => {
         if (expandedState?.[1]) expandedState[1]();
-        else setExpandState((prevState) => !prevState);
-        if (!isExpandedFinal) {
+        else setExpand((prevState) => !prevState);
+        if (!expandedFinal) {
             setTimeout(
                 () => document.querySelector('#' + titleFinal)?.scrollIntoView({ behavior: 'smooth', block: 'end' }),
                 0,
@@ -85,17 +86,18 @@ const Collapsible: FC<Props> = (props: Props) => {
         />
     ) : null;
 
-    const CollapseIcon = isChevron ? SVG_CHEVRON : isExpandedFinal ? SVG_MINUS : SVG_PLUS;
+    const CollapseIcon = chevron ? SVG_CHEVRON : expandedFinal ? SVG_MINUS : SVG_PLUS;
 
-    const collapseCN = isChevron ? (isExpandedFinal ? 'rotate-180' : '') : isExpandedFinal ? '' : 'brightness-[300%]';
+    const collapseCN = chevron ? (expandedFinal ? 'rotate-180' : '') : expandedFinal ? '' : 'brightness-[300%]';
 
     if (collapsedContent) {
-        const Content = isExpandedFinal ? <div className={className}>{children}</div> : collapsedContent;
+        const Content = expandedFinal ? <div className={className}>{children}</div> : collapsedContent;
 
         return (
             <div
+                {...propsDiv}
                 id={titleFinal}
-                className={cn(`relative`, { ['lg:h-full [&]:h-fit']: !isExpanded }, WRAPPER_CN, classNameWrapper)}
+                className={cn(`relative`, { ['lg:h-full [&]:h-fit']: !expanded }, WRAPPER_CN, classNameWrapper)}
             >
                 <Image
                     src={CollapseIcon}
@@ -116,15 +118,16 @@ const Collapsible: FC<Props> = (props: Props) => {
 
     return (
         <div
+            {...propsDiv}
             id={titleFinal}
-            className={cn(WRAPPER_CN, { ['pb-0']: !isExpandedFinal }, classNameWrapper)}
+            className={cn(WRAPPER_CN, { ['pb-0']: !expandedFinal }, classNameWrapper)}
         >
             <div
                 onClick={() => handleToggle()}
                 className={cn(
                     classNameTitle,
                     `flex cursor-pointer items-center justify-between gap-x-[0.2rem] text-heading sm:text-section-s`,
-                    { ['mb-[min(16dvw,3.75rem)]']: isChevron },
+                    { ['mb-[min(16dvw,3.75rem)]']: chevron },
                 )}
             >
                 <h2 className={`flex items-center gap-[0.65rem] font-bold leading-none text-inherit`}>
@@ -139,14 +142,14 @@ const Collapsible: FC<Props> = (props: Props) => {
             </div>
             <hr
                 className={cn(
-                    { ['hidden']: isChevron },
+                    { ['hidden']: chevron },
                     `mb-[min(2.6dvw,1.54rem)] mt-[min(2.1dvw,1.25rem)] [&]:scale-[102%] ${classNameHr}`,
                 )}
             />
             <div
                 className={cn(
                     `grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] items-start gap-[min(4dvw,0.56rem)] whitespace-pre-wrap text-left text-basic ${className}`,
-                    { ['hidden']: !isExpandedFinal },
+                    { ['hidden']: !expandedFinal },
                 )}
             >
                 {children}

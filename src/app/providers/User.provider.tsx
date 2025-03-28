@@ -48,7 +48,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     );
 
     useEffect(() => {
-        const token = document.cookie.split(COOKIE_TOKEN_KEY_NAME).pop();
+        const token = document.cookie.split(COOKIE_TOKEN_KEY_NAME).pop()?.split(';').shift();
         if (token) setupSession(true, token);
         else setLoggedState(false);
     }, [setupSession]);

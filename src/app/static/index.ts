@@ -7,6 +7,8 @@ export { JOB_FUNCTION, INDUSTRY, SUB_INDUSTRY } from './company';
 
 export { FAQs } from './faqs';
 
+export { CARD_DATA_DEFAULT } from './form';
+
 export {
     Breakpoint,
     NavLink,

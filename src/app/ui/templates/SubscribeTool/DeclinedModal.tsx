@@ -7,8 +7,9 @@ import { BaseModal } from '@/app/ui/modals';
 
 import SVG_DECLINED from '@/assets/images/declined.svg';
 
-const DeclinedModal: FC = () => (
+const DeclinedModal: FC = (props) => (
     <BaseModal
+        {...props}
         simple
         title={'Payment Declined'}
         className={`bottom-[7.19rem] right-l max-w-[19.3125rem] border-gray-l0 [&_hr]:border-gray-l0`}

@@ -93,7 +93,7 @@ function AccountSection(props: SectionProps) {
                             if (!('passwordConfirm' in form) || !userData) throw 'Wrong request setup';
 
                             if (form.passwordConfirm !== form.newPassword) throw `Passwords don't match`;
-                            if (!REGEX.password.regex.test(form.newPassword)) throw REGEX.password.message;
+                            if (!REGEX.password.getRegex().test(form.newPassword)) throw REGEX.password.message;
 
                             await update(async () => {
                                 return await AuthService.postChangePassword(
@@ -135,8 +135,7 @@ function AccountSection(props: SectionProps) {
                             if (!('value' in form) || !form.value) throw 'Wrong request setup';
 
                             const phone = form.value.trim();
-                            if (!REGEX.phone.test(phone))
-                                throw `Entered phone number should be in the format '+1234567890'`;
+                            if (!REGEX.phone.getRegex().test(phone)) throw REGEX.phone.message;
 
                             const numericPhone = phone.startsWith('+') ? phone.slice(1) : phone;
                             if (numericPhone.length < 10 || numericPhone.length > 15)

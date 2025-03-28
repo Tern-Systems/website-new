@@ -4,13 +4,12 @@ import { FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CardData, SavedCardFull } from '@/app/types/billing';
-import { COUNTRY, STATE_PROVINCE } from '@/app/static';
+import { CARD_DATA_DEFAULT, COUNTRY, STATE_PROVINCE } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
 import { mapSavedCard } from '@/app/utils';
-import { useForm } from '@/app/hooks';
-import { useModal, useUser } from '@/app/hooks';
+import { useForm, useModal, useUser } from '@/app/hooks';
 
 import { ScrollEnd } from '@/app/ui/organisms';
 import { Button, Input, Select } from '@/app/ui/form';
@@ -30,25 +29,6 @@ const INPUT_CN =
     'bg-[#444444] w-full h-[2.25rem] border border-gray-l0 px-xxs  md:x-[h-[3.125rem],px-xs]  lg:x-[h-[3.125rem],px-xs]';
 const FIELD_CN = 'text-section-xs grid grid-auto-rows gap-y-3xs  md:text-section-s  lg:text-section-s';
 const BUTTON_CN = 'md:x-[text-section-s,h-[3.125rem]]  lg:x-[text-section-s,h-[3.125rem]]';
-
-const FORM_DATA_DEFAULT: CardData = {
-    profileId: '',
-    id: '',
-    type: '',
-    cardNumber: '',
-    expirationDate: '',
-    cvc: '',
-    cardholderName: '',
-    country: '',
-    billingAddress: '',
-    addressLine1: '',
-    addressLine2: '',
-    city: '',
-    zip: '',
-    state: '',
-    nickName: '',
-    isPreferred: false,
-};
 
 const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string = '') => (
     <Button
@@ -76,7 +56,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
 
-    const [formData, setFormData, setFormDataState] = useForm<CardData>(FORM_DATA_DEFAULT);
+    const [formData, setFormData, setFormDataState] = useForm<CardData>(CARD_DATA_DEFAULT);
 
     const fetchEditCards = useCallback(async () => {
         if (!userData) return;

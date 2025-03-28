@@ -59,8 +59,9 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 const { payload } = await AuthService.postLogin(formValue.email, formValue.password);
                 await userCtx.setupSession(true, payload.token);
                 modalCtx.closeModal();
-            } else if (!REGEX.email.test(formValue.email)) setMessage(`Entered email doesn't match the email format`);
-            else if (!REGEX.password.regex.test(formValue.password)) {
+            } else if (!REGEX.email.getRegex().test(formValue.email))
+                setMessage(`Entered email doesn't match the email format`);
+            else if (!REGEX.password.getRegex().test(formValue.password)) {
                 setMessage(REGEX.password.message);
             } else if (formValue.password !== formValue.passwordConfirm) setMessage("Passwords don't match");
             else {

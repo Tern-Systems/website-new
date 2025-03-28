@@ -1,6 +1,11 @@
 import { Route } from '@/app/static';
 import { DeepPartial } from '@/app/types/utils';
 
+enum RecurrencyEnum {
+    monthly = 1,
+    annual = 12,
+}
+
 type SubscriptionRecurrency = 'annual' | 'monthly';
 type PlanName = 'Tidal' | 'trial';
 type PlanType = 'Basic' | 'Pro';
@@ -36,6 +41,7 @@ type SubscriptionPreview = DeepPartial<
     }
 >;
 
+export { RecurrencyEnum };
 export type {
     PlanName,
     PlanType,

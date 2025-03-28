@@ -52,7 +52,7 @@ interface UserData {
     email: string;
     registrationDate: number;
     phones: UserPhone;
-    tidalPurchased: boolean;
+    ternKeyPurchased: boolean;
     subscriptions: Subscription[];
     lastLogin: number;
     connectedApps: {

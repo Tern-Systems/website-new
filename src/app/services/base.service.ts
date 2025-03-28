@@ -66,12 +66,14 @@ abstract class BaseService {
         const url = config.url + ':';
 
         try {
-            debug('REQUEST', url, config);
+            debug('REQUEST', url);
+            debug(config);
             // if (config.data) debug('REQUEST DATA', url, config.data);
 
             const response = await axios(config);
 
-            debug('RESPONSE', url, response);
+            debug('RESPONSE', url);
+            debug(response);
             // if (response.data) debug('RESPONSE DATA', url, response.data);
 
             if (schemaCheck !== null && !schemaCheck?.(response.data)?.every((check) => check))
@@ -92,7 +94,7 @@ abstract class BaseService {
     // eslint-disable-next-line
     private debug(...data: any[]): void {
         // eslint-disable-next-line no-console
-        if (BaseService.NodeEnv !== 'production') console.debug('DEBUG', ...data);
+        if (BaseService.NodeEnv !== 'production') console.log('DEBUG', ...data);
     }
 
     private error(error: unknown) {

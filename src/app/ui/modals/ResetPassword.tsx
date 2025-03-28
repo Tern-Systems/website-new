@@ -69,12 +69,10 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
 
         try {
             if (!token) {
-                if (!REGEX.email.test(formValue.email))
-                    return setMessage(`Entered email doesn't match the email format`);
-
+                if (!REGEX.email.getRegex().test(formValue.email)) return setMessage(REGEX.email.message);
                 await AuthService.postForgotPassword(formValue.email);
                 modalCtx.openModal(<EmailSentModal />, { darkenBg: true });
-            } else if (!REGEX.password.regex.test(formValue.password)) setMessage(REGEX.password.message);
+            } else if (!REGEX.password.getRegex().test(formValue.password)) setMessage(REGEX.password.message);
             else if (formValue.password !== formValue.passwordConfirm) setMessage("Passwords don't match");
             else {
                 const { message } = await AuthService.postResetPassword(token, formValue.passwordConfirm);
