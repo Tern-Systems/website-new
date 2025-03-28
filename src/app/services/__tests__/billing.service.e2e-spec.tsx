@@ -23,6 +23,7 @@ import { BillingService, UserService } from '@/app/services';
 
 import PricingAndPlansPage from '@/pages/product/plans/index.page';
 import SubscribePage from '@/pages/subscribe/tidal/index.page';
+import { screen } from '@testing-library/dom';
 
 const { page, modal } = DataTestID;
 const { tidal, subscribe } = page;
@@ -171,6 +172,63 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
         it(
             `Should not subscribe for Pro Monthly plan (entering wrong full address)`,
             async () => await doSubscribe(true, false, dummyCard.fullAddress.wrong),
+            TIMEOUT.testMs,
+        );
+    });
+
+    describe(BillingService.getPlanDetails.name + ' ' + UserService.getUserActivePlans.name + ' - related', () => {
+        const { links } = card;
+
+        afterEach(async () => await BillingTestUtil.clean());
+
+        const checkCards = async (count: number, buttonsDisabled: boolean[], links: string[], extension?: true) => {
+            await waitFor(async () => await checkTextContent(card.name, '--', false, 'all'));
+
+            await checkToBeInDocument(card.container, count);
+
+            await checkTextContent(card.price, '--', false, 'all');
+            await checkTextContent(card.benefit, '--', false, 'all');
+
+            const SubscribeButtons = await findAllByTestId(card.subscribeButton);
+            SubscribeButtons.forEach((button, idx) => {
+                const matchers = expect(button);
+                if (buttonsDisabled[idx]) matchers.toBeDisabled();
+                else matchers.not.toBeDisabled();
+            });
+
+            if (extension) await checkTextContent(card.extension, 'Everything in --, and:', false);
+
+            for (const link of links) await checkToBeInDocument(link);
+        };
+
+        it(
+            `Should correctly render available plans on ${Route.TidalPlans} page for an unlogged user`,
+            async () => {
+                // Preparation
+                await render(<PricingAndPlansPage />);
+                // Tests
+                await checkCards(
+                    2,
+                    [true, false],
+                    [links.manage, links.brc.simple, links.limits, links.brc.related],
+                    true,
+                );
+            },
+            TIMEOUT.testMs,
+        );
+
+        it(
+            `Should correctly render available plans on ${Route.TidalPlans} page for a Pro user`,
+            async () => {
+                // Preparation
+                await BillingTestUtil.subscribePlan('Pro', RecurrencyEnum.annual);
+                await BillingTestUtil.renderLoggedIn(<PricingAndPlansPage />, false);
+
+                // Tests
+                await checkCards(1, [false], [links.limits]);
+                await click(plans.recurrencySwitch.annual);
+                await checkCards(1, [true], [links.manage, links.brc.simple]);
+            },
             TIMEOUT.testMs,
         );
     });

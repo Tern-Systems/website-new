@@ -117,6 +117,7 @@ class UserServiceImpl extends BaseService implements IUserService {
         const { payload } = await this.req<SubscriptionDTO[], false>(this.getUserActivePlans.name, config, (data) => [
             !data.length || typeof data[0].tax?.amount === 'number',
         ]);
+
         const subscriptions: Subscription[] = payload.map((subscription) => ({
             ...subscription,
             recurrency: subscription.recurrency === RecurrencyEnum.monthly ? 'monthly' : 'annual',

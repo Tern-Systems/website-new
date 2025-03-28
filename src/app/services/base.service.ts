@@ -41,9 +41,7 @@ abstract class BaseService {
     // Returns  - array of loggers (debug_logger, error_logger)
     // Args:
     //  method  - action name (e.g. - this.methodFunction.name)
-    protected getLoggers(method: string) {
-        // eslint-disable-next-line no-console
-        if (BaseService.NodeEnv !== 'production') console.log(this._serviceName + ' - ' + method + ':');
+    protected getLoggers() {
         return [this.debug, this.error];
     }
 
@@ -62,17 +60,17 @@ abstract class BaseService {
         config: AxiosRequestConfig,
         schemaCheck: P extends void ? null : (data: DeepPartial<P>) => boolean[],
     ): Promise<APIRes<P, M>> {
-        const [debug, error] = this.getLoggers(method);
+        const [debug, error] = this.getLoggers();
         const url = config.url + ':';
 
         try {
-            debug('REQUEST', url);
+            debug('REQUEST ->', this._serviceName + '.' + method + ':', url);
             debug(config);
             // if (config.data) debug('REQUEST DATA', url, config.data);
 
             const response = await axios(config);
 
-            debug('RESPONSE', url);
+            debug('RESPONSE <-', this._serviceName + '.' + method + ':', url);
             debug(response);
             // if (response.data) debug('RESPONSE DATA', url, response.data);
 

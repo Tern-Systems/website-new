@@ -130,7 +130,7 @@ class BlogServiceImpl extends BaseService implements IBlogService {
 
     // TODO API call
     async getTips(): Promise<Res<TipsDTO, false>> {
-        const [debug, error] = this.getLoggers(this.getArticles.name);
+        const [debug, error] = this.getLoggers();
 
         const config: AxiosRequestConfig = {
             method: 'GET',

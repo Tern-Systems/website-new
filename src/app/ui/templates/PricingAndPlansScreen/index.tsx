@@ -11,12 +11,10 @@ import {
     SubscriptionPreviewData,
     SubscriptionRecurrency,
 } from '@/app/types/subscription';
-import { Breakpoint } from '@/app/static';
-import { Route } from '@/app/static';
+import { Breakpoint, Route } from '@/app/static';
 
 import { generateFallbackEntries } from '@/app/utils';
-import { useBreakpointCheck, useNavigate } from '@/app/hooks';
-import { useModal, useUser } from '@/app/hooks';
+import { useBreakpointCheck, useModal, useNavigate, useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { AuthModal, HelpModal, MessageModal } from '@/app/ui/modals';
@@ -80,8 +78,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     // Elements
     const BillingResolution = (
         <span
-            className={'cursor-pointer underline'}
+            data-testid={TestID.card.links.brc.simple}
             onClick={() => modalCtx.openModal(<HelpModal type={'brc'} />, { darkenBg: true })}
+            className={cn(styles.clickable, `underline`)}
         >
             Billing Resolution Center
         </span>
@@ -97,11 +96,12 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         currentSubscription: boolean,
         cutBasicColumn: boolean,
     ): ReactElement => {
-        const annualRecurrency = recurrency.toLocaleLowerCase() === 'annual'.toLocaleLowerCase();
+        const annualRecurrency =
+            recurrency.toLocaleLowerCase() === ('annual' as SubscriptionRecurrency).toLocaleLowerCase();
         const currentRecurrency = userSubscription?.recurrency?.toLocaleLowerCase() === recurrency.toLocaleLowerCase();
         const currentType = userSubscription?.type?.toLocaleLowerCase() === type.toLocaleLowerCase();
         const { basicKind } = subscriptionData ?? {};
-        const basicPlan = type.toLocaleLowerCase() === 'Basic'.toLocaleLowerCase();
+        const basicPlan = type.toLocaleLowerCase() === ('Basic' as PlanType).toLocaleLowerCase();
 
         const buttonDisabled = (currentSubscription && currentRecurrency && currentType) || basicPlan;
 
@@ -139,19 +139,15 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 >
                     Limits apply
                 </span>
-                <span
-                    data-testid={TestID.card.links.brc.related}
-                    className={cn(userSubscription ? 'hidden' : 'whitespace-pre-wrap')}
-                >
-                    Have an existing plan? See the&nbsp;
+                {userSubscription ? null : (
                     <span
-                        data-testid={TestID.card.links.brc.simple}
-                        onClick={() => modalCtx.openModal(<HelpModal type={'brc'} />, { darkenBg: true })}
-                        className={`${styles.clickable} underline`}
+                        data-testid={TestID.card.links.brc.related}
+                        className={'whitespace-pre-wrap'}
                     >
-                        Billing Resolution Center
+                        Have an existing plan? See the&nbsp;
+                        {BillingResolution}
                     </span>
-                </span>
+                )}
             </>
         );
 
@@ -195,9 +191,8 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 );
         }
 
-        const showAsterisk = annualRecurrency && !basicPlan && !buttonDisabled;
-
-        if (showAsterisk) {
+        const annualPlan = annualRecurrency && !basicPlan && !buttonDisabled;
+        if (annualPlan) {
             Links = (
                 <>
                     <span data-testid={TestID.card.yearlyLabel}>*Price billed annually</span>
@@ -239,7 +234,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         'sm:landscape:text-section-s',
                     )}
                 >
-                    <span data-testid={TestID.card.price}>{pricing + (showAsterisk ? '*' : '')}</span>
+                    <span data-testid={TestID.card.price}>{pricing + (annualPlan ? '*' : '')}</span>
                 </div>
                 <Button
                     data-testid={TestID.card.subscribeButton}

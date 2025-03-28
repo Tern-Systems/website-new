@@ -7,7 +7,7 @@ import { DataTestID } from '@/__tests__/static';
 import { SavedCard } from '@/app/types/billing';
 import { Subscription, SubscriptionRecurrency } from '@/app/types/subscription';
 import { SubscribeData } from '@/app/services/billing.service';
-import { COUNTRY, CountryKey, Route, STATE_PROVINCE, StateKey } from '@/app/static';
+import { COUNTRY, CountryKey, MISC_LINKS, Route, STATE_PROVINCE, StateKey } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
@@ -67,7 +67,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
     const [billingExpanded, setBillingExpandedState] = useState(false);
 
-    const [paymentStatus, setPaymentStatus] = useState<boolean | string | null>(null);
+    const [paymentStatus, setPaymentStatus] = useState<false | string | null>(null);
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
 
     // Fetch saved cards
@@ -95,8 +95,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 const next = flowCtx.next();
                 if (next) next();
                 else {
-                    // window.open(MISC_LINKS.Tidal, '_blank');
-                    // await navigate(Route.Home);
+                    window.open(MISC_LINKS.Tidal, '_blank');
+                    await navigate(Route.Home);
                     modalCtx.openModal(<MessageModal data-testid={TestID.successModal}>{paymentStatus}</MessageModal>);
                 }
             }
@@ -128,6 +128,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 };
             }
 
+            let message: string;
             if (savedCards.length) {
                 const selectedCard: SavedCard = savedCards[+formData.savedCardIdx];
 
@@ -137,22 +138,25 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 formDataMapped.cvc = formData.cvc;
                 formDataMapped.state = selectedCard.billingAddress.state;
 
-                await BillingService.postProcessSavedPayment(
+                const { message: msg } = await BillingService.postProcessSavedPayment(
                     formDataMapped,
                     type,
                     recurrencyMapped,
                     priceUSD,
                     userCtx.userData.email,
                 );
-            } else
-                await BillingService.postProcessPayment(
+                message = msg;
+            } else {
+                const { message: msg } = await BillingService.postProcessPayment(
                     formDataMapped,
                     type,
                     recurrencyMapped,
                     priceUSD,
                     userCtx.userData.email,
                 );
-            setPaymentStatus(true);
+                message = msg;
+            }
+            setPaymentStatus(message);
         } catch (err: unknown) {
             if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
             setPaymentStatus(false);

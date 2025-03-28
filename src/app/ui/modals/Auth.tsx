@@ -68,7 +68,10 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 const { message } = await AuthService.postSignup(formValue.email, formValue.password);
                 modalCtx.openModal(<MessageModal data-testid={TestID.successModal}>{message}</MessageModal>);
             }
-            flowCtx.next()?.();
+            const next = flowCtx.next();
+
+            if (next) next();
+            else setLoginFormState(true);
         } catch (error: unknown) {
             if (typeof error === 'string') setMessage(error);
         }
