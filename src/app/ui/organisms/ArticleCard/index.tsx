@@ -108,7 +108,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
                 <Button
                     icon={(altIcon ?? altLink) ? faArrowRight : faReadme}
                     className={cn('mt-auto capitalize text-blue', { ['flex-row-reverse']: altLink })}
-                    classNameIcon={cn('[&_*]:w-[0.67rem] [&_path]:fill-blue mt-auto', { ['ml-5xs']: altLink })}
+                    classNameIcon={cn('w-[0.67rem] [&_path]:fill-blue mt-auto', { ['ml-5xs']: altLink })}
                 >
                     {altLink ?? 'Read'}
                 </Button>

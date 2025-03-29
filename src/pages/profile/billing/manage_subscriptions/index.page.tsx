@@ -125,7 +125,7 @@ function ManageSubscriptionsPage() {
                         <Button
                             icon={detailsExpanded ? faChevronDown : faChevronUp}
                             className={'col-start-1 mr-auto flex-row-reverse  text-12 sm:text-14'}
-                            classNameIcon={'[&_path]:fill-gray [&_*]:w-[0.4rem] [&_path]:fill-primary'}
+                            classNameIcon={'[&_path]:fill-gray w-[0.4rem] [&_path]:fill-primary'}
                             onClick={() => setDetailsExpanded((prevState) => !prevState)}
                         >
                             {detailsExpanded ? 'Hide' : 'Show'} Details
@@ -193,7 +193,7 @@ function ManageSubscriptionsPage() {
                                 <span className={'mr-4xs sm:hidden'}>Change</span>
                                 <ReactSVG
                                     src={SVG_PENCIL.src}
-                                    className={'[&_*]:size-6xs lg:[&_*]:size-3xs'}
+                                    className={'size-6xs lg:size-3xs'}
                                 />
                                 {editPaymentMethodVisible ? (
                                     <ChangePaymentMethod

@@ -11,13 +11,13 @@ import {
     MAPPED_NAV_ROUTES,
     NavLink,
     Route,
+    Breakpoint,
     ROUTES_WITH_INDEX,
     SPECIAL_NAV_ROUTES,
 } from '@/app/static';
 
 import { checkSubRoute, getIdName, getRouteRoot } from '@/app/utils';
-import { useOuterClickClose } from '@/app/hooks';
-import { useLayout } from '@/app/hooks';
+import { useBreakpointCheck, useLayout, useOuterClickClose } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { Button } from '@/app/ui/form';
@@ -34,6 +34,8 @@ import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
 const Header: FC = (): ReactElement => {
     const route = usePathname();
     const layoutCtx = useLayout();
+
+    const breakpoint = useBreakpointCheck();
 
     const [navExpanded, setNavExpanded] = useState(false);
     const [navDropdownExpanded, setNavDropdownExpanded] = useState<NavDropdown | null>(null);
@@ -65,6 +67,9 @@ const Header: FC = (): ReactElement => {
             <li
                 key={link + idx}
                 tabIndex={idx}
+                onClick={() => {
+                    if (breakpoint <= Breakpoint.xxs) setNavExpanded(false);
+                }}
                 className={cn(
                     'group',
                     stylesLayout.navLink,
@@ -113,7 +118,7 @@ const Header: FC = (): ReactElement => {
                     className={cn(`hidden border-s border-transparent rounded-none p-xs xxs:inline h-full mr-4xs`, {
                         ['!border-blue bg-gray-d1 ']: navExpanded,
                     })}
-                    classNameIcon={cn('!size-heading-icon min-w-xs h-xs')}
+                    classNameIcon={'!w-heading-icon h-auto'}
                 />
                 <div
                     className={cn(
@@ -121,7 +126,7 @@ const Header: FC = (): ReactElement => {
                         `z-[2] flex !h-heading items-center pr-xs`,
                         `relative`,
                         `sm:pr-0`,
-                        `xxs:x-[static,px-0]`,
+                        `xxs:x-[static,pl-xs]`,
                     )}
                 >
                     <Insignia />

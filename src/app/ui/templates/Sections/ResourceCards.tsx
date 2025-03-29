@@ -31,11 +31,7 @@ const ResourceCards: FC<Props> = (props: Props) => {
                 {icon ? (
                     <ReactSVG
                         src={icon.src}
-                        className={cn(
-                            `rotate-180 [&_path]:fill-blue`,
-                            `mt-5xl  [&_*]:size-xxs`,
-                            `sm:mt-l sm:[&_*]:size-3xs`,
-                        )}
+                        className={cn(`rotate-180 [&_path]:fill-blue`, `mt-5xl  size-xxs`, `sm:mt-l sm:size-3xs`)}
                     />
                 ) : null}
             </PageLink>

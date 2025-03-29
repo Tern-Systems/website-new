@@ -4,6 +4,8 @@ import { FC, FormEvent, ReactElement, useCallback, useEffect, useState } from 'r
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
+import { Breakpoint } from '@/app/static';
+
 import { AuthService } from '@/app/services';
 
 import { useForm } from '@/app/hooks';
@@ -13,7 +15,6 @@ import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
 import SVG_SAFE from '@/assets/images/safe.svg';
-import { Breakpoint } from '@/app/static';
 
 type FormData = { code: string };
 export type { FormData as AuthCodeFormData };

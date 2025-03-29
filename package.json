@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "test": "set NODE_ENV=test&& jest --no-cache --passWithNoTests --detectOpenHandles",
     "test:unit": "npm run test -- --testRegex='.*\\.spec\\.tsx?$'",
     "test:e2e": "npm run test -- --bail=1 --testRegex='.*\\.e2e-spec\\.tsx?$'",

@@ -46,7 +46,7 @@ const Input: FC<Props> = (props: Props) => {
                 >
                     <ReactSVG
                         src={SVG_UPLOAD.src}
-                        className={`mr-5xs [&_*]:size-l ${classNameIcon}`}
+                        className={`mr-5xs size-l ${classNameIcon}`}
                     />
                     <span
                         hidden={!children}

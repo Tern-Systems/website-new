@@ -71,7 +71,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
             >
                 <ReactSVG
                     src={SVG_CARD.src}
-                    className={`mr-4xs [&_*]:w-xs sm:[&_*]:w-xxs`}
+                    className={`mr-4xs w-xs sm:w-xxs`}
                 />
                 <span className={'max-w-[calc(100%-1.75rem)] overflow-hidden overflow-ellipsis text-nowrap'}>
                     {getCardName(card)}
@@ -99,7 +99,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                         setOpened(false);
                     }}
                     src={SVG_CROSS.src}
-                    className={cn('p-3xs hover:bg-black-l0 [&_path]:fill-primary', '[&_*]:size-6xs sm:[&_*]:size-7xs')}
+                    className={cn('p-3xs hover:bg-black-l0 [&_path]:fill-primary', 'size-6xs sm:size-7xs')}
                 />
             </div>
             <hr className={'border-gray'} />
@@ -109,7 +109,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                     icon={'plus'}
                     href={Route.EditPaymentMethod}
                     className={cn('w-full sm:justify-start', LI_P_CN)}
-                    iconClassName={'mr-3xs sm:mr-xxs  [&_*]:size-4xs sm:[&_*]:size-5xs'}
+                    iconClassName={'mr-3xs sm:mr-xxs  size-4xs sm:size-5xs'}
                 >
                     Add alternative payment method
                 </PageLink>
