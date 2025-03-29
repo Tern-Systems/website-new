@@ -13,7 +13,7 @@ import { CELL_FALLBACK, MD_SM_HIDDEN_CN, Route, SM_HIDDEN_CN } from '@/app/stati
 
 import { BillingService } from '@/app/services';
 
-import { useLoginCheck, useModal, useNavigate, useUser } from '@/app/hooks';
+import { useLoginCheck, useNavigate, useUser } from '@/app/hooks';
 
 import { formatDate } from '@/app/utils';
 import { Table } from '@/app/ui/organisms';
@@ -22,7 +22,7 @@ import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
-const TestID = DataTestID.page.billing;
+const TestID = DataTestID.page.profile.billing;
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.ManageSubscriptions} /> },
@@ -35,7 +35,7 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
     const [navigate] = useNavigate();
     return (
         <tr
-            data-testid={TestID.invoice.row}
+            data-testid={TestID.page.invoice.row}
             onClick={() => {
                 sessionStorage.setItem('invoice', JSON.stringify(row));
                 navigate(Route.Invoice);
@@ -48,28 +48,28 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
             )}
         >
             <td
-                data-testid={TestID.invoice.id}
+                data-testid={TestID.page.invoice.id}
                 className={'h-[2.25rem] pl-3xs  sm:h-[1.5625rem]'}
             >
                 {row?.id ?? CELL_FALLBACK}
             </td>
-            <td data-testid={TestID.invoice.date}>
+            <td data-testid={TestID.page.invoice.date}>
                 {row?.startDate ? formatDate(new Date(row?.startDate), 'short') : CELL_FALLBACK}
             </td>
             <td
-                data-testid={TestID.invoice.price}
+                data-testid={TestID.page.invoice.price}
                 className={MD_SM_HIDDEN_CN}
             >
                 {row?.paidUSD ? row.paidUSD.toFixed(2) : CELL_FALLBACK}
             </td>
             <td
-                data-testid={TestID.invoice.status}
+                data-testid={TestID.page.invoice.status}
                 className={MD_SM_HIDDEN_CN}
             >
                 {row?.status ?? CELL_FALLBACK}
             </td>
             <td
-                data-testid={TestID.invoice.name}
+                data-testid={TestID.page.invoice.name}
                 className={cn(SM_HIDDEN_CN, 'pr-3xs')}
             >
                 {row?.item?.name ?? CELL_FALLBACK}

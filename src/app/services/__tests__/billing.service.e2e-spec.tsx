@@ -10,25 +10,26 @@ import {
     checkToBeInDocument,
     click,
     findAllByTestId,
-    findByTestId,
     render,
     waitFor,
 } from '@/__tests__/utils';
 
 // App
 import { UserData } from '@/app/contexts/user.context';
+import { CardData } from '@/app/types/billing';
 import { PlanName, RecurrencyEnum } from '@/app/types/subscription';
 import { Route } from '@/app/static';
 
-import { BillingService, UserService } from '@/app/services';
+import { BillingService } from '@/app/services';
 
+import { PaymentMethodTool } from '@/app/ui/templates';
 import PricingAndPlansPage from '@/pages/product/plans/index.page';
 import SubscribePage from '@/pages/subscribe/tidal/index.page';
 import BillingPage from '@/pages/profile/billing/index.page';
-import { screen } from '@testing-library/dom';
+import PurchasingInformationPage from '@/pages/profile/billing/purchasing_information/index.page';
 
 const { page, modal } = DataTestID;
-const { tidal, subscribe, billing } = page;
+const { tidal, subscribe, profile } = page;
 const { plans } = tidal;
 const { card } = plans;
 
@@ -63,8 +64,115 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
     //     });
     // });
 
+    describe(PurchasingInformationPage.name + ' ' + PaymentMethodTool.name + ' - related', () => {
+        const { purchasingInformation } = profile.billing;
+        const { paymentMethodTool, page } = purchasingInformation;
+        const { input } = paymentMethodTool.form;
+
+        const submitForm = async (edit?: true) => {
+            if (edit) {
+                await checkToBeInDocument(input.nickname);
+                await change(input.nickname, dummyCard.misc.nickname.edit);
+            } else {
+                await change(input.cardNumber, dummyCard.general.cardNumber);
+                await change(input.expirationDate, dummyCard.general.expirationDate);
+                await change(input.nickname, dummyCard.misc.nickname.initial);
+
+                await change(input.cardholderName, dummyCard.general.cardholderName);
+                await change(input.addressLine1, dummyCard.address.addressLine1);
+                await change(input.addressLine2, dummyCard.address.addressLine2);
+                await change(input.city, dummyCard.address.city);
+                await change(input.zip, dummyCard.address.zip);
+                await change(input.state, dummyCard.address.state);
+                await change(input.country, dummyCard.address.country);
+            }
+
+            await change(input.cvc, dummyCard.general.cvc);
+            await click(input.preferredCheckbox);
+
+            await click(paymentMethodTool.form.submitButton);
+        };
+
+        const checkSavedCards = async (nickname: string, preferred: boolean) => {
+            await waitFor(async () => await checkToBeInDocument(page.savedCards.entry.nickname, 1));
+            await checkTextContent(page.savedCards.entry.nickname, nickname);
+            if (preferred) await checkToBeInDocument(page.savedCards.entry.preferred);
+            await checkTextContent(page.billing.name, '--', false);
+            await checkToBeInDocument(page.billing.address);
+        };
+
+        describe(BillingService.postSaveCard.name, () => {
+            afterEach(async () => await BillingTestUtil.clean());
+
+            it(
+                `Should save a new card on ${Route.AddPaymentMethod} page`,
+                async () => {
+                    // Preparation
+                    const { render: PurchasingInfoPage } = await BillingTestUtil.renderLoggedIn(
+                        <PurchasingInformationPage />,
+                    );
+                    await click(page.savedCards.addButton);
+
+                    PurchasingInfoPage.unmount();
+                    const { render: PaymentToolPage } = await BillingTestUtil.renderLoggedIn(
+                        <PaymentMethodTool creation />,
+                        false,
+                    );
+
+                    // Test
+                    await submitForm();
+                    await waitFor(async () => await checkToBeInDocument(paymentMethodTool.successModal));
+
+                    PaymentToolPage.unmount();
+                    await BillingTestUtil.renderLoggedIn(<PurchasingInformationPage />, false);
+                    await checkSavedCards(dummyCard.misc.nickname.initial, true);
+                },
+                TIMEOUT.testMs,
+            );
+        });
+
+        describe(BillingService.postUpdateCard.name, () => {
+            afterEach(async () => await BillingTestUtil.clean());
+
+            it(
+                `Should edit saved card on ${Route.EditPaymentMethod} page`,
+                async () => {
+                    // Preparation
+                    const card: CardData = {
+                        ...dummyCard.general,
+                        id: dummyCard.general.cardNumber,
+                        type: '',
+                        ...dummyCard.address,
+                        isPreferred: dummyCard.misc.preferred,
+                        nickName: dummyCard.misc.nickname.initial,
+                        billingAddress: '',
+                    };
+                    await BillingService.postSaveCard(card, dummyEmail);
+
+                    const { render: PurchasingInformation } = await BillingTestUtil.renderLoggedIn(
+                        <PurchasingInformationPage />,
+                    );
+                    await checkSavedCards(dummyCard.misc.nickname.initial, true);
+                    await click(page.savedCards.editButton);
+
+                    PurchasingInformation.unmount();
+                    const { render: PaymentTool } = await BillingTestUtil.renderLoggedIn(<PaymentMethodTool />, false);
+
+                    // Test
+                    await submitForm(true);
+                    await waitFor(async () => await checkToBeInDocument(paymentMethodTool.successModal));
+
+                    PaymentTool.unmount();
+                    await BillingTestUtil.renderLoggedIn(<PurchasingInformationPage />, false);
+                    await checkSavedCards(dummyCard.misc.nickname.edit, false);
+                },
+                TIMEOUT.testMs,
+            );
+        });
+    });
+
     describe(BillingService.getInvoices.name, () => {
-        const { invoice } = billing;
+        const { invoice } = profile.billing.page;
 
         afterEach(async () => await BillingTestUtil.clean());
 
@@ -115,8 +223,8 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
         const doSubscribe = async (loggedIn: boolean, success: boolean, fullAddress?: string) => {
             let Page: RenderResult;
             if (loggedIn) {
-                const { page } = await BillingTestUtil.renderLoggedIn(<PricingAndPlansPage />);
-                Page = page;
+                const { render } = await BillingTestUtil.renderLoggedIn(<PricingAndPlansPage />);
+                Page = render;
             } else Page = await render(<PricingAndPlansPage />);
 
             // Monthly Pro
@@ -198,15 +306,14 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
         );
     });
 
-    describe(BillingService.getPlanDetails.name + ' ' + UserService.getUserActivePlans.name + ' - related', () => {
+    describe(BillingService.getPlanDetails.name + ' ' + BillingService.getUserActivePlans.name + ' - related', () => {
         const { links } = card;
 
         afterEach(async () => await BillingTestUtil.clean());
 
         const checkCards = async (count: number, buttonsDisabled: boolean[], links: string[], extension?: true) => {
             await waitFor(async () => await checkTextContent(card.name, '--', false, 'all'));
-
-            await checkToBeInDocument(card.container, count);
+            await waitFor(async () => await checkToBeInDocument(card.container, count));
 
             await checkTextContent(card.price, '--', false, 'all');
             await checkTextContent(card.benefit, '--', false, 'all');

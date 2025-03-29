@@ -3,7 +3,7 @@ import { CountryKey, StateKey } from '@/app/static';
 
 const mapSavedCard = (card: SavedCardFull | undefined): CardData => {
     const billingInfo = card?.billingAddress;
-    const [addressLine1, addressLine2] = card?.billingAddress?.address?.split('|') ?? [];
+    const [addressLine1, addressLine2] = card?.billingAddress?.address?.split(',') ?? [];
     return {
         id: card?.paymentProfileId ?? '',
         profileId: card?.customerProfileId ?? '',

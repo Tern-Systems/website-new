@@ -4,12 +4,12 @@ import { FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CardData, SavedCardFull } from '@/app/types/billing';
-import { CARD_DATA_DEFAULT, COUNTRY, STATE_PROVINCE } from '@/app/static';
+import { CARD_DATA_DEFAULT, COUNTRY, Route, STATE_PROVINCE } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
 import { mapSavedCard } from '@/app/utils';
-import { useForm, useModal, useUser } from '@/app/hooks';
+import { useForm, useModal, useNavigate, useUser } from '@/app/hooks';
 
 import { ScrollEnd } from '@/app/ui/organisms';
 import { Button, Input, Select } from '@/app/ui/form';
@@ -21,6 +21,9 @@ import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';
 import SVG_AMEX from '@/assets/images/icons/card-amex.svg';
 import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
+import { DataTestID } from '@/__tests__/static';
+
+const TestID = DataTestID.page.profile.billing.purchasingInformation.paymentMethodTool;
 
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
 const LEGEND_CN =
@@ -30,28 +33,16 @@ const INPUT_CN =
 const FIELD_CN = 'text-section-xs grid grid-auto-rows gap-y-3xs  md:text-section-s  lg:text-section-s';
 const BUTTON_CN = 'md:x-[text-section-s,h-[3.125rem]]  lg:x-[text-section-s,h-[3.125rem]]';
 
-const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string = '') => (
-    <Button
-        type={'submit'}
-        className={cn(
-            'order-last h-[2.25rem] w-full bg-blue text-section-xs font-bold text-primary',
-            BUTTON_CN,
-            className,
-        )}
-    >
-        {paymentCreation ? 'Add' : 'Update'}
-    </Button>
-);
-
 interface Props {
-    paymentCreation?: boolean;
+    creation?: boolean;
 }
 
 const PaymentMethodTool: FC<Props> = (props: Props) => {
-    const { paymentCreation } = props;
+    const { creation } = props;
 
     const { userData } = useUser();
     const modalCtx = useModal();
+    const [navigate] = useNavigate(false);
 
     const [editCardIdx, setEditCardIdx] = useState(-1);
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
@@ -59,45 +50,47 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     const [formData, setFormData, setFormDataState] = useForm<CardData>(CARD_DATA_DEFAULT);
 
     const fetchEditCards = useCallback(async () => {
-        if (!userData) return;
+        if (!userData || creation) return;
         try {
-            setSavedCards([]);
             const { payload: cards } = await BillingService.getEditCards(userData.email);
+            if (cards.length === 1) setEditCardIdx(0);
             setSavedCards(cards);
-        } catch (error: unknown) {
-            if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+        } catch (_) {
+            // Empty block
         }
     }, [userData]);
 
     useEffect(() => {
-        if (paymentCreation) return;
         fetchEditCards();
-    }, [fetchEditCards, paymentCreation]);
-
-    const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (!userData || editCardIdx <= -1) return;
-        try {
-            let responseMsg: string;
-            if (paymentCreation) {
-                const { message } = await BillingService.postSaveCard(formData, userData?.email);
-                responseMsg = message;
-            } else {
-                const { message } = await BillingService.postUpdateCard(formData, userData?.email);
-                responseMsg = message;
-            }
-            modalCtx.openModal(<MessageModal>{responseMsg}</MessageModal>);
-            await fetchEditCards();
-        } catch (error: unknown) {
-            if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
-        }
-    };
+    }, [fetchEditCards, creation]);
 
     useEffect(() => {
         if (editCardIdx <= -1) return;
         const formData: CardData = mapSavedCard(savedCards[editCardIdx]);
         setFormDataState(formData);
     }, [savedCards, editCardIdx, setFormDataState]);
+
+    const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!userData || (!creation && editCardIdx <= -1)) return;
+        try {
+            let responseMsg: string;
+            if (creation) {
+                const { message } = await BillingService.postSaveCard(formData, userData?.email);
+                responseMsg = message;
+            } else {
+                const { message } = await BillingService.postUpdateCard(formData, userData?.email);
+                responseMsg = message;
+            }
+            modalCtx.openModal(<MessageModal data-testid={TestID.successModal}>{responseMsg}</MessageModal>);
+
+            if (!creation) await fetchEditCards();
+            else navigate(Route.PurchasingInformation);
+        } catch (error: unknown) {
+            if (typeof error === 'string')
+                modalCtx.openModal(<MessageModal data-testid={TestID.errorModal}>{error}</MessageModal>);
+        }
+    };
 
     // Elements
     const SavedCardOptions: Record<string, string> = Object.fromEntries(
@@ -109,8 +102,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
     const SelectMethod = (
         <Select
+            data-testid={TestID.form.input.cardSelect}
+            name={TestID.form.input.cardSelect}
             altIcon
-            hidden={paymentCreation}
+            hidden={creation}
             options={SavedCardOptions}
             value={editCardIdx.toString()}
             placeholder={'Select Payment Method'}
@@ -144,7 +139,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                 )}
                 onSubmit={handleFormSubmit}
             >
-                <fieldset className={`${FIELDSET_CN}  ${paymentCreation ? 'lg:col-span-2' : 'lg:col-span-1'}`}>
+                <fieldset className={`${FIELDSET_CN}  ${creation ? 'lg:col-span-2' : 'lg:col-span-1'}`}>
                     <h1
                         className={cn(
                             'mt-xxl text-heading font-[500] leading-tight',
@@ -152,37 +147,41 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             'lg:x-[text-[2rem],mt-[4.375rem]]',
                         )}
                     >
-                        {paymentCreation ? 'Add Payment Method' : 'Edit Payment Method Details'}
+                        {creation ? 'Add Payment Method' : 'Edit Payment Method Details'}
                     </h1>
-                    {!paymentCreation && SelectMethod}
+                    {!creation && SelectMethod}
                 </fieldset>
 
                 <fieldset className={`${FIELDSET_CN} order-3 lg:order-none lg:row-span-1 lg:row-start-2`}>
-                    {savedCards[+editCardIdx] || paymentCreation ? (
+                    {savedCards[+editCardIdx] || creation ? (
                         <>
-                            <h2 className={`${LEGEND_CN}`}>Card Information</h2>
+                            <h2 className={LEGEND_CN}>Card Information</h2>
 
                             <Input
-                                type={'text'}
+                                data-testid={TestID.form.input.cardNumber}
+                                name={TestID.form.input.cardNumber}
+                                type={creation ? 'number' : 'text'}
                                 value={
-                                    editCardIdx >= 0 && !paymentCreation
+                                    editCardIdx >= 0 && !creation
                                         ? savedCards[editCardIdx]?.cardType + ' **** ' + savedCards[editCardIdx]?.last4
-                                        : ''
+                                        : formData.cardNumber
                                 }
                                 maxLength={16}
                                 onChange={setFormData('cardNumber')}
                                 placeholder={'1234 1234 1234 1234'}
                                 icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
                                 classNameWrapper={cn(FIELD_CN, 'text-section-s', {
-                                    ['brightness-[0.9]']: !paymentCreation,
+                                    ['brightness-[0.9]']: !creation,
                                 })}
                                 className={INPUT_CN}
-                                disabled={!paymentCreation}
+                                disabled={!creation}
                             >
                                 Card Number
                             </Input>
                             <div className='flex flex-row gap-n'>
                                 <Input
+                                    data-testid={TestID.form.input.expirationDate}
+                                    name={TestID.form.input.expirationDate}
                                     type={'expiration'}
                                     value={formData.expirationDate}
                                     maxLength={5}
@@ -195,13 +194,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     Expiration
                                 </Input>
                                 <Input
+                                    data-testid={TestID.form.input.cvc}
+                                    name={TestID.form.input.cvc}
                                     value={formData.cvc}
-                                    maxLength={
-                                        formData.cardNumber &&
-                                        (formData.cardNumber.startsWith('34') || formData.cardNumber.startsWith('37'))
-                                            ? 4
-                                            : 3
-                                    }
+                                    maxLength={4}
                                     onChange={setFormData('cvc')}
                                     placeholder={'CVC'}
                                     icons={[SVG_CARD_NUM]}
@@ -214,17 +210,20 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             </div>
 
                             <Input
+                                data-testid={TestID.form.input.nickname}
+                                name={TestID.form.input.nickname}
                                 type={'text'}
                                 value={formData.nickName}
                                 onChange={setFormData('nickName')}
                                 classNameWrapper={`${FIELD_CN} `}
                                 className={INPUT_CN}
-                                required
                             >
                                 Nickname
                             </Input>
-                            <span className={''}>
+                            <span>
                                 <Input
+                                    data-testid={TestID.form.input.preferredCheckbox}
+                                    name={TestID.form.input.preferredCheckbox}
                                     type={'checkbox'}
                                     checked={formData.isPreferred}
                                     onChange={setFormData('isPreferred')}
@@ -238,17 +237,28 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 >
                                     Set as preferred payment method
                                 </Input>
-                                {renderSubmitBtn(paymentCreation)}
+                                <Button
+                                    data-testid={TestID.form.submitButton}
+                                    type={'submit'}
+                                    className={cn(
+                                        'order-last h-[2.25rem] w-full bg-blue text-section-xs font-bold text-primary',
+                                        BUTTON_CN,
+                                    )}
+                                >
+                                    {creation ? 'Add' : 'Update'}
+                                </Button>
                             </span>
                         </>
                     ) : null}
                 </fieldset>
 
-                {savedCards[+editCardIdx] || paymentCreation ? (
+                {savedCards[+editCardIdx] || creation ? (
                     <>
                         <fieldset className={` ${FIELDSET_CN} lg:row-span-2`}>
                             <h2 className={` ${LEGEND_CN}`}>Billing address</h2>
                             <Input
+                                data-testid={TestID.form.input.cardholderName}
+                                name={TestID.form.input.cardholderName}
                                 value={formData.cardholderName}
                                 onChange={setFormData('cardholderName')}
                                 classNameWrapper={`${FIELD_CN} `}
@@ -258,6 +268,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 Full Name
                             </Input>
                             <Input
+                                data-testid={TestID.form.input.addressLine1}
+                                name={TestID.form.input.addressLine1}
                                 value={formData.addressLine1}
                                 onChange={setFormData('addressLine1')}
                                 classNameWrapper={`${FIELD_CN} `}
@@ -267,6 +279,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 Street Address #1
                             </Input>
                             <Input
+                                data-testid={TestID.form.input.addressLine2}
+                                name={TestID.form.input.addressLine2}
                                 value={formData.addressLine2}
                                 onChange={setFormData('addressLine2')}
                                 classNameWrapper={`${FIELD_CN} `}
@@ -275,6 +289,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 Street Address #2
                             </Input>
                             <Input
+                                data-testid={TestID.form.input.city}
+                                name={TestID.form.input.city}
                                 value={formData.city}
                                 onChange={setFormData('city')}
                                 onKeyDown={(event) => {
@@ -289,6 +305,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                             </Input>
                             <div className='flex flex-row gap-n'>
                                 <Select
+                                    data-testid={TestID.form.input.state}
+                                    name={TestID.form.input.state}
                                     options={STATE_PROVINCE?.[formData.country ?? ''] ?? {}}
                                     value={formData.state ?? ''}
                                     onChangeCustom={(value) => setFormData('state')(value)}
@@ -297,17 +315,20 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameSelected={'w-full '}
                                     classNameChevron={cn('ml-auto')}
                                     className={cn(
-                                        `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                        `px-xs h-[3.1375rem] !border-0 !bg-[#444444] !border-s !border-gray-l0  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                     )}
                                     classNameOption={cn(
                                         'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
                                         'hover:!bg-[#979797]',
                                     )}
                                     required
+                                    disabled={!formData.country}
                                 >
                                     State / Province
                                 </Select>
                                 <Input
+                                    data-testid={TestID.form.input.zip}
+                                    name={TestID.form.input.zip}
                                     type={'number'}
                                     value={formData.zip}
                                     maxLength={5}
@@ -320,6 +341,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 </Input>
                             </div>
                             <Select
+                                data-testid={TestID.form.input.country}
+                                name={TestID.form.input.country}
                                 options={COUNTRY}
                                 value={formData.country ?? ''}
                                 onChangeCustom={(value) => setFormData('country')(value)}
@@ -328,7 +351,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 classNameSelected={'w-full '}
                                 classNameChevron={cn('ml-auto')}
                                 className={cn(
-                                    `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                    `px-xs h-[3.1375rem] !border-0 !bg-[#444444] !border-s !border-gray-l0  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                 )}
                                 classNameOption={cn(
                                     'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
@@ -342,12 +365,13 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </>
                 ) : null}
             </form>
-            {savedCards[+editCardIdx] || paymentCreation ? (
+            {savedCards[+editCardIdx] || creation ? (
                 <div
                     className={'mt-[9.375rem]'}
-                    hidden={paymentCreation}
+                    hidden={creation}
                 >
                     <span
+                        data-testid={TestID.removeCardButton}
                         className={'cursor-pointer text-section-xxs text-red'}
                         onClick={() => {
                             if (savedCards[+editCardIdx]) {

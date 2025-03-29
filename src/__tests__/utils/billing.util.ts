@@ -28,6 +28,13 @@ class BillingTestUtilImpl extends BaseUtilImpl {
                 zip: '11111',
                 state: 'NY' as StateKey,
             },
+            misc: {
+                nickname: {
+                    initial: 'Nickname',
+                    edit: 'Nickname-Edited',
+                },
+                preferred: true,
+            },
         },
     };
 
@@ -40,7 +47,7 @@ class BillingTestUtilImpl extends BaseUtilImpl {
             ...dummyCard.general,
             ...dummyCard.address,
             id: '',
-            type,
+            type: type,
             billingAddress: '',
             savedCardIdx: '0',
             acceptTerms: true,

@@ -111,14 +111,57 @@ const DataTestID = {
                 successModal: 'form-success-modal',
             },
         },
-        billing: {
-            invoice: {
-                row: 'billing-invoice-table-row',
-                id: 'billing-invoice-table-row-id',
-                date: 'billing-invoice-table-row-date',
-                price: 'billing-invoice-table-row-price',
-                status: 'billing-invoice-table-row-status',
-                name: 'billing-invoice-table-row-name',
+        profile: {
+            billing: {
+                page: {
+                    invoice: {
+                        row: 'billing-invoice-table-row',
+                        id: 'billing-invoice-table-row-id',
+                        date: 'billing-invoice-table-row-date',
+                        price: 'billing-invoice-table-row-price',
+                        status: 'billing-invoice-table-row-status',
+                        name: 'billing-invoice-table-row-name',
+                    },
+                },
+                purchasingInformation: {
+                    page: {
+                        savedCards: {
+                            addButton: 'purchasing-info-add-payment-method-button',
+                            editButton: 'purchasing-info-add-payment-method-button',
+                            entry: {
+                                nickname: 'purchasing-info-saved-card-nickname',
+                                preferred: 'purchasing-info-saved-card-preferred',
+                            },
+                        },
+                        billing: {
+                            name: 'purchasing-info-billing-name',
+                            address: 'purchasing-info-billing-address',
+                        },
+                    },
+                    paymentMethodTool: {
+                        form: {
+                            input: {
+                                cardSelect: 'payment-method-tool-card-select',
+                                cardNumber: 'payment-method-tool-card-number-input',
+                                expirationDate: 'payment-method-tool-expiration-date-input',
+                                cvc: 'payment-method-tool-cvc-input',
+                                nickname: 'payment-method-tool-nickname-input',
+                                cardholderName: 'payment-method-tool-fullName-input',
+                                addressLine1: 'payment-method-tool-address-1-input',
+                                addressLine2: 'payment-method-tool-address-2-input',
+                                city: 'payment-method-tool-city-input',
+                                state: 'payment-method-tool-state-input',
+                                zip: 'payment-method-tool-zip-input',
+                                country: 'payment-method-tool-country-input',
+                                preferredCheckbox: 'payment-method-tool-preferred-checkbox',
+                            },
+                            submitButton: 'payment-method-tool-submit-button',
+                        },
+                        successModal: 'payment-method-tool-success-modal',
+                        errorModal: 'payment-method-tool-error-modal',
+                        removeCardButton: 'payment-method-tool-remove-card-button',
+                    },
+                },
             },
         },
     },

@@ -12,7 +12,7 @@ import { BreadcrumbRoute } from '@/app/ui/atoms';
 
 function PurchasingMethodPage() {
     const { action } = (useParams() as { action: string }) ?? {};
-    return <PaymentMethodTool paymentCreation={action === 'add_payment_method'} />;
+    return <PaymentMethodTool creation={action === 'add_payment_method'} />;
 }
 
 PurchasingMethodPage.getLayout = (page: ReactElement) => (

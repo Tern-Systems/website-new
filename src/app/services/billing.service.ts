@@ -3,12 +3,14 @@ import { AxiosRequestConfig } from 'axios';
 import { DeepPartial } from '@/app/types/utils';
 import { Res } from '@/app/types/service';
 import { CardData, Invoice, SavedCard, SavedCardFull } from '@/app/types/billing';
-import { PlanName, PlanType, RecurrencyEnum, SubscriptionPreview } from '@/app/types/subscription';
+import { PlanName, PlanType, RecurrencyEnum, Subscription, SubscriptionPreview } from '@/app/types/subscription';
 
 import { BaseService } from '@/app/services/base.service';
 import { Route } from '@/app/static';
 
 import { copyObject } from '@/app/utils';
+
+type SubscriptionDTO = Omit<Subscription, 'recurrency'> & { recurrency: number };
 
 type PlanDetails = DeepPartial<{
     Details: string[];
@@ -25,8 +27,6 @@ type SubscribeData = FormCardData & {
 };
 
 interface IBillingService {
-    getCards(email: string): Promise<Res<SavedCard[], false>>;
-
     postProcessPayment(
         data: SubscribeData,
         planType: string,
@@ -43,15 +43,19 @@ interface IBillingService {
         email: string,
     ): Promise<Res>;
 
+    getUserActivePlans(email: string): Promise<Res<Subscription[], false>>;
+
     getPlanDetails(email: string): Promise<Res<SubscriptionPreview, false>>;
 
     getInvoices(email: string): Promise<Res<Invoice[], false>>;
 
     postExportTransaction(email: string): Promise<Res<string, false>>;
 
-    postSaveCard(formData: CardData, email: string): Promise<Res>;
+    getCards(email: string): Promise<Res<SavedCard[], false>>;
 
     getEditCards(email: string): Promise<Res<SavedCardFull[], false>>;
+
+    postSaveCard(formData: CardData, email: string): Promise<Res>;
 
     postUpdateCard(formData: CardData, email: string): Promise<Res>;
 
@@ -275,6 +279,25 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         };
         const { message } = await this.req(this.postProcessSavedPayment.name, config, null);
         return { message: message || BillingServiceImpl._MESSAGE.PAYMENT_PROCESSED };
+    }
+
+    async getUserActivePlans(email: string): Promise<Res<Subscription[], false>> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: this._API + `get-plan-details`,
+            params: { email },
+            withCredentials: true,
+        };
+        const { payload } = await this.req<SubscriptionDTO[], false>(this.getUserActivePlans.name, config, (data) => [
+            !data.length || typeof data[0].tax?.amount === 'number',
+        ]);
+
+        const subscriptions: Subscription[] = payload.map((subscription) => ({
+            ...subscription,
+            recurrency: subscription.recurrency === RecurrencyEnum.monthly ? 'monthly' : 'annual',
+        }));
+
+        return { payload: subscriptions };
     }
 
     async getPlanDetails(source: PlanName): Promise<Res<SubscriptionPreview, false>> {

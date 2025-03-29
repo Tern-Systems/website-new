@@ -4,25 +4,26 @@ import { ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import { DataTestID } from '@/__tests__/static';
+
 import { Invoice, SavedCard } from '@/app/types/billing';
 import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
-import { useLoginCheck } from '@/app/hooks';
-import { useModal, useUser } from '@/app/hooks';
+import { checkNumber, getCardName } from '@/app/utils';
+import { useLoginCheck, useModal, useUser } from '@/app/hooks';
 
 import { ScrollEnd } from '@/app/ui/organisms';
 import { FullScreenLayout, PageLink } from '@/app/ui/layout';
-import { MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 import { ExportInvoiceModal } from './ExportInvoiceModal';
 
 import SVG_CARD from '@/assets/images/icons/card.svg';
-import { checkNumber, getCardName } from '@/app/utils';
 
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+
+const TestID = DataTestID.page.profile.billing.purchasingInformation.page;
 
 function PurchasingInformationPage() {
     const userCtx = useUser();
@@ -39,14 +40,18 @@ function PurchasingInformationPage() {
         const fetchSubscriptionDetailsAndCards = async () => {
             if (!userCtx.userData) return;
             try {
-                const { payload: invoices } = await BillingService.getInvoices(userCtx.userData.email);
-                setInvoiceHistory(invoices);
-
                 const { payload: cards } = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
                 if (cards.length === 1) setDefaultCardIdx(0);
-            } catch (error) {
-                if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            } catch (_) {
+                // Empty block
+            }
+
+            try {
+                const { payload: invoices } = await BillingService.getInvoices(userCtx.userData.email);
+                setInvoiceHistory(invoices);
+            } catch (_) {
+                // Empty block
             }
         };
         fetchSubscriptionDetailsAndCards();
@@ -70,13 +75,17 @@ function PurchasingInformationPage() {
                     alt={'card'}
                     className={'h-auto w-[1.35419rem]'}
                 />
-                <span>{card.nickName ?? card.cardType + ' **** ' + card.last4}</span>
-                <span
-                    hidden={!card.preferred}
-                    className={'rounded-xxs bg-white-d0 px-[0.76rem] py-[0.28rem] text-basic'}
-                >
-                    Preferred
+                <span data-testid={TestID.savedCards.entry.nickname}>
+                    {card.nickName ?? card.cardType + ' **** ' + card.last4}
                 </span>
+                {card.preferred ? (
+                    <span
+                        data-testid={TestID.savedCards.entry.preferred}
+                        className={'rounded-xxs bg-white-d0 px-[0.76rem] py-[0.28rem] text-basic'}
+                    >
+                        Preferred
+                    </span>
+                ) : null}
             </li>
         );
     });
@@ -136,6 +145,7 @@ function PurchasingInformationPage() {
                         {Hr}
                         <ul className={`flex flex-col gap-xxs`}>{Cards}</ul>
                         <PageLink
+                            data-testid={TestID.savedCards.addButton}
                             href={Route.AddPaymentMethod}
                             className={'mt-[min(2.7dvw,1.5rem)] font-bold sm:landscape:mt-3xs'}
                         >
@@ -149,14 +159,14 @@ function PurchasingInformationPage() {
                             className={`grid grid-cols-[max-content,1fr] grid-rows-2 gap-x-[min(10dvw,3rem)] gap-y-xs sm:landscape:gap-y-3xs`}
                         >
                             <span>Name</span>
-                            <span>
+                            <span data-testid={TestID.billing.name}>
                                 {defaultCard
                                     ? defaultCard.billingAddress?.firstName + ' ' + defaultCard.billingAddress?.lastName
                                     : '--'}
                             </span>
                             <span>Billing Address</span>
                             {defaultCard ? (
-                                <ul>
+                                <ul data-testid={TestID.billing.address}>
                                     <li>{defaultCard.billingAddress?.address?.split('|')?.join('')}</li>
                                     <li>
                                         {defaultCard.billingAddress?.city}, {defaultCard.billingAddress?.state}&nbsp;

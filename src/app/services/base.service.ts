@@ -65,13 +65,13 @@ abstract class BaseService {
 
         try {
             debug('REQUEST ->', this._serviceName + '.' + method + ':', url);
-            debug(config);
+            // debug(config);
             // if (config.data) debug('REQUEST DATA', url, config.data);
 
             const response = await axios(config);
 
-            debug('RESPONSE <-', this._serviceName + '.' + method + ':', url);
-            debug(response);
+            // debug('RESPONSE <-', this._serviceName + '.' + method + ':', url);
+            // debug(response);
             // if (response.data) debug('RESPONSE DATA', url, response.data);
 
             if (schemaCheck !== null && !schemaCheck?.(response.data)?.every((check) => check))

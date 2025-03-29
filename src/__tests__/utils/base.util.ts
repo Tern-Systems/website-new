@@ -8,7 +8,7 @@ import { render, waitFor } from '@/__tests__/utils/jest.util';
 
 import { Subscription } from '@/app/types/subscription';
 
-import { BaseService, UserService } from '@/app/services';
+import { BaseService, BillingService } from '@/app/services';
 
 import { AuthService } from '@/app/services/auth.service';
 
@@ -35,7 +35,7 @@ class BaseUtilImpl extends BaseService {
         Element: ReactElement,
         createAccount: boolean = true,
         options: RenderOptions = {},
-    ): Promise<{ page: RenderResult; useUserSpy: jest.SpyInstance }> {
+    ): Promise<{ render: RenderResult; useUserSpy: jest.SpyInstance }> {
         if (createAccount) await this.signupUser();
 
         const { payload } = await AuthService.postLogin(BaseUtilImpl.DATA.dummyEmail, BaseUtilImpl.DATA.dummyPassword);
@@ -55,7 +55,7 @@ class BaseUtilImpl extends BaseService {
             expect(useUserSpy).not.toHaveLastReturnedWith(expect.objectContaining({ userData: null }));
         });
 
-        return { page, useUserSpy };
+        return { render: page, useUserSpy };
     }
 
     // Utils
@@ -73,7 +73,7 @@ class BaseUtilImpl extends BaseService {
     mockCookie = () => Object.defineProperty(document, 'cookie', { writable: true, value: '' });
 
     mockGetUserPlans = (subscriptions: Subscription[]) =>
-        jest.spyOn(UserService, 'getUserActivePlans').mockReturnValue(Promise.resolve({ payload: subscriptions }));
+        jest.spyOn(BillingService, 'getUserActivePlans').mockReturnValue(Promise.resolve({ payload: subscriptions }));
 
     mockRouter = () => jest.spyOn(NavigationMock, 'useRouter').mockReturnValue({ push: jest.fn() });
 
