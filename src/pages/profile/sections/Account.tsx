@@ -170,7 +170,7 @@ function AccountSection(props: SectionProps) {
                 }}
             >
                 <span className={`${styles.midCol} ${styles.ellipsis} [&&]:text-12 [&&]:md:text-16 [&&]:lg:text-16`}>
-                    Enable / disable your {isSm ? '2FA' : 'two-factor authentication'}
+                    Enable / disable your {sm ? '2FA' : 'two-factor authentication'}
                 </span>
             </Editable>
         </Collapsible>
