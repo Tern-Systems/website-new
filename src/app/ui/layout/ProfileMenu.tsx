@@ -130,4 +130,6 @@ const ProfileMenu: FC = () => {
     );
 };
 
+ProfileMenu.displayName = ProfileMenu.name;
+
 export { ProfileMenu };

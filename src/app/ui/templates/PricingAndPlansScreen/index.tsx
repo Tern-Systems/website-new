@@ -367,4 +367,6 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     );
 };
 
+PricingAndPlansScreen.displayName = PricingAndPlansScreen.name;
+
 export { PricingAndPlansScreen };

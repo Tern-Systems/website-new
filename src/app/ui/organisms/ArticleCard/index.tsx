@@ -19,6 +19,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faReadme } from '@fortawesome/free-brands-svg-icons';
 
 type ArticleCardType = 'default' | 'expand' | 'alt' | 'alt-vertical';
+export type { ArticleCardType };
 
 interface Props {
     type?: ArticleCardType;
@@ -116,5 +117,6 @@ const ArticleCard: FC<Props> = (props: Props) => {
     );
 };
 
-export type { ArticleCardType };
+ArticleCard.displayName = ArticleCard.name;
+
 export { ArticleCard };

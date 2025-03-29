@@ -45,4 +45,6 @@ const ResourceCards: FC<Props> = (props: Props) => {
     return <ul className={'mt-[2.88rem] grid grid-cols-2 gap-n  sm:grid-cols-1'}>{Links}</ul>;
 };
 
+ResourceCards.displayName = ResourceCards.name;
+
 export { ResourceCards };

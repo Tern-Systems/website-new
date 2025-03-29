@@ -80,7 +80,7 @@ const SideNav: FC<Props> = (props: Props) => {
                     )}
                     value={activeSection}
                     placeholder={'Select'}
-                    onChangeCustom={(id) => {
+                    onChangeCustom={(id: string) => {
                         setActiveSection(id);
                         document.querySelector('#' + id)?.scrollIntoView({ behavior: 'smooth' });
                     }}
@@ -109,5 +109,7 @@ const SideNav: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+SideNav.displayName = SideNav.name;
 
 export { SideNav };

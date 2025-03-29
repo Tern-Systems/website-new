@@ -88,4 +88,6 @@ const InfoSection: FC<Props> = (props: Props) => {
     );
 };
 
+InfoSection.displayName = InfoSection.name;
+
 export { InfoSection };

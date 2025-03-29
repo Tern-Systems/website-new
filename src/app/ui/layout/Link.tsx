@@ -20,6 +20,7 @@ import SVG_PLUS from '@/assets/images/icons/plus.svg';
 import styles from '@/app/common.module.css';
 
 type Icon = 'back' | 'forward' | 'arrow-right-long' | 'insignia' | 'plus' | 'calendar';
+export type { Icon as LinkIcon };
 
 const ICON: Record<Icon, { src: string }> = {
     back: SVG_ARROW,
@@ -77,4 +78,7 @@ const PageLink: FC<Props> = (props: Props) => {
         </Link>
     );
 };
+
+PageLink.displayName = 'PageLink';
+
 export { PageLink };
