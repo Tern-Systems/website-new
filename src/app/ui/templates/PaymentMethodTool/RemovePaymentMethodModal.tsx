@@ -14,7 +14,7 @@ import { Button } from '@/app/ui/form';
 
 import SVG_CARD from '@/assets/images/card-outline.svg';
 
-const BTN_CN = 'h-[1.4375rem] px-5xs text-white text-12  md:text-14  lg:text-14';
+const BTN_CN = 'h-xs px-5xs text-white text-12  md:text-14  lg:text-14';
 
 interface Props {
     card: CardData;
@@ -65,13 +65,13 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
                 </div>
                 <div className={'flex gap-xxs'}>
                     <Button
-                        className={`bg-[#F42200] font-bold ${BTN_CN} `}
+                        className={`bg-red font-bold ${BTN_CN} `}
                         onClick={() => handleRemove()}
                     >
                         Remove
                     </Button>
                     <Button
-                        className={`bg-[#000] font-[500] border border-gray-l0 ${BTN_CN} `}
+                        className={`bg-black font-[500] border border-gray-l0 ${BTN_CN} `}
                         onClick={() => modalCtx.closeModal()}
                     >
                         Cancel

@@ -81,8 +81,8 @@ const ArticleCard: FC<Props> = (props: Props) => {
                 className={cn(
                     'relative z-10 flex flex-grow flex-col items-start p-xs',
                     {
-                        ['px-xs lg:px-xl  sm:pt-xs pt-n  pb-s lg:pb-[2.88rem]']: expand,
-                        ['pt-[2.2rem]']: !alt,
+                        ['px-xs lg:px-xl  sm:pt-xs pt-n  pb-s lg:pb-xxl']: expand,
+                        ['pt-xl']: !alt,
                     },
                     classNameContent,
                 )}
@@ -94,7 +94,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
                 )}
                 <span
                     className={cn(
-                        'mb-[1.13rem] block leading-n',
+                        'mb-xs block leading-n',
                         isArticle ? { ['text-20 md:text-24 lg:text-36']: expand } : 'text-16',
                     )}
                 >

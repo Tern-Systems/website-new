@@ -46,7 +46,7 @@ const Input: FC<Props> = (props: Props) => {
                 >
                     <ReactSVG
                         src={SVG_UPLOAD.src}
-                        className={`mr-5xs size-[2rem] ${classNameIcon}`}
+                        className={`mr-5xs size-l ${classNameIcon}`}
                     />
                     <span
                         hidden={!children}
@@ -228,8 +228,8 @@ const Input: FC<Props> = (props: Props) => {
                             <>
                                 <div
                                     className={cn(
-                                        `mr-4xs flex h-[.9375rem] w-[.9375rem] items-center justify-center border-[0.5px] border-gray-l0 bg-[#444444] text-12`,
-                                        `peer-checked:bg-[#444444] peer-checked:text-primary peer-checked:before:text-primary peer-checked:before:content-['✔']`,
+                                        `flex h-5xs w-5xs mr-4xs items-center justify-center border-s border-gray-l0 bg-gray-d2 text-12`,
+                                        `peer-checked:bg-gray-d2 peer-checked:text-primary peer-checked:before:text-primary peer-checked:before:content-['✔']`,
                                         classNameCheckbox,
                                     )}
                                 />

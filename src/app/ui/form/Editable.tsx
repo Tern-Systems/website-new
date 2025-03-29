@@ -254,7 +254,7 @@ const Editable: FC<Props> = (props: Props) => {
     );
     const ControlBtns: FC = () => (
         <span
-            className={`mt-[min(1.3dvw,0.95rem)] flex h-button-n gap-x-[min(1dvw,0.75rem)] text-12  md:text-14 font-bold`}
+            className={`flex h-button-n mt-[min(1.3dvw,0.95rem)] gap-x-[min(1dvw,0.75rem)] text-12 font-bold  md:text-14`}
         >
             {CancelBtn}
             <Button
@@ -279,7 +279,7 @@ const Editable: FC<Props> = (props: Props) => {
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
-                className={`box-content rounded-xxs px-3xs py-[0.3rem] text-16 ${parentEditId ? '!bg-[#0C545C] !text-[#ECF0F3]' : ''} ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''} ${classNameToggle} ${editState ? '[&]:bg-blue' : 'text-gray [&]:bg-white-d0'}`}
+                className={`box-content rounded-xxs px-3xs py-5xs text-16 ${parentEditId ? '!bg-green !text-primary' : ''} ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''} ${classNameToggle} ${editState ? '[&]:bg-blue' : 'text-gray [&]:bg-white-d0'}`}
             >
                 {parentEditId ? 'Enabled' : editState ? 'Enable' : 'Disabled'}
             </Button>
@@ -292,7 +292,7 @@ const Editable: FC<Props> = (props: Props) => {
         ) : (
             <span
                 onClick={() => toggleEditState()}
-                className={`flex cursor-pointer items-center gap-[0.4rem] text-20 ${classNameToggle} place-self-end self-start ${editState ? 'hidden' : ''}`}
+                className={`flex cursor-pointer items-center gap-4xs-2 text-20 ${classNameToggle} place-self-end self-start ${editState ? 'hidden' : ''}`}
             >
                 <span className={`hidden lg:inline ${classNameToggleText}`}>Edit</span>
                 <ReactSVG
@@ -373,7 +373,7 @@ const Editable: FC<Props> = (props: Props) => {
                     </Input>
                     <span className={`mt-xxs block text-14 ${waring ? '' : 'hidden'}`}>{waring}</span>
                     <span
-                        className={`h-h-button-n mt-[min(1.3dvw,0.95rem)] flex gap-x-[min(1dvw,0.75rem)] text-20 font-bold`}
+                        className={`flex h-button-n mt-[min(1.3dvw,0.95rem)] gap-x-[min(1dvw,0.75rem)] text-20 font-bold`}
                     >
                         {CancelBtn}
                         <Button
@@ -385,7 +385,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 });
                             }}
                             className={
-                                'rounded-full border-s border-red px-xxs text-red disabled:x-[bg-gray-l0,border-none,text-gray]'
+                                'px-xxs rounded-full border-s border-red text-red disabled:x-[bg-gray-l0,border-none,text-gray]'
                             }
                         >
                             Remove
@@ -416,7 +416,7 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         {initial?.title}
                     </Select>
-                    <span className={`mt-xxs block ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span className={`block mt-xxs ${waring ? '' : 'hidden'}`}>{waring}</span>
                     <ControlBtns />
                 </>
             );
@@ -454,8 +454,8 @@ const Editable: FC<Props> = (props: Props) => {
                     </Input>
                     <ul
                         className={cn(
-                            'grid list-inside list-disc grid-cols-2 sm:portrait:grid-cols-1',
-                            'ml-3xs text-12',
+                            'grid ml-3xs text-12 list-inside list-disc grid-cols-2',
+                            'sm:portrait:grid-cols-1',
                             'marker:[&]:pr-5xs gap-1',
                         )}
                     >
@@ -754,7 +754,10 @@ const Editable: FC<Props> = (props: Props) => {
                     // gap-x is not used for sm breakpoints
                     <>
                         <span
-                            className={`mb-4xs grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-xs ${isPersonal ? 'mt-xs rounded-s bg-[#686868] p-3xs' : 'mt-[min(0.75dvw,0.94rem)]'}`}
+                            className={cn(
+                                `mb-4xs grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-4xs gap-y-xs`,
+                                `${isPersonal ? 'mt-xs rounded-s bg-gray-l3 p-3xs' : 'mt-[min(0.75dvw,0.94rem)]'}`,
+                            )}
                         >
                             <span className={`col-span-2 flex justify-between text-20 capitalize`}>
                                 <span>{key.slice(0, 'Address'.length + 1)} Address</span>
@@ -946,7 +949,7 @@ const Editable: FC<Props> = (props: Props) => {
     if (keepChildrenOnEdit) {
         return (
             <div className={'w-full overflow-x-hidden overflow-ellipsis'}>
-                <div className={`flex justify-between ${isFormShown ? 'mb-[0.94rem]' : ''}`}>
+                <div className={`flex justify-between ${isFormShown ? 'mb-xxs' : ''}`}>
                     {children}
                     {EditToggle}
                 </div>

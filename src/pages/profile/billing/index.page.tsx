@@ -44,7 +44,7 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
                 className,
             )}
         >
-            <td className={'h-[2.25rem] pl-3xs  sm:h-[1.5625rem]'}>{row?.id ?? CELL_FALLBACK}</td>
+            <td className={'h-xxl pl-3xs  sm:h-xs'}>{row?.id ?? CELL_FALLBACK}</td>
             <td>{row?.startDate ? formatDate(new Date(row?.startDate), 'short') : CELL_FALLBACK}</td>
             <td className={MD_SM_HIDDEN_CN}>{row?.paidUSD ? row.paidUSD.toFixed(2) : CELL_FALLBACK}</td>
             <td className={MD_SM_HIDDEN_CN}>{row?.status ?? CELL_FALLBACK}</td>
@@ -93,7 +93,7 @@ const BillingPage: FC = () => {
     };
 
     return (
-        <div className={cn(styles.section, `pt-[6.25rem]`)}>
+        <div className={cn(styles.section, `pt-6xl-1`)}>
             <section className={styles.content}>
                 <h1 className={`flex text-32 font-bold`}>Billing</h1>
             </section>
@@ -111,7 +111,7 @@ const BillingPage: FC = () => {
             </section>
             <ResourcesSection
                 data={RESOURCES}
-                className={'mb-[9.41rem] mt-[6.25rem]'}
+                className={'mb-7xl mt-6xl-1'}
             />
         </div>
     );

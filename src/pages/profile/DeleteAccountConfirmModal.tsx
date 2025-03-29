@@ -33,7 +33,7 @@ const FORM_DEFAULT: FormData = {
 };
 
 const INPUT_PROPS = {
-    classNameWrapper: 'flex-col [&]:items-start gap-4xs mt-[0.96rem]',
+    classNameWrapper: 'flex-col [&]:items-start gap-4xs mt-xxs',
     className: 'h-[min(5.9dvw,1.875rem)] w-full px-3xs bg-gray-l0 border-s b-control4 rounded-xs',
     classNameLabel: 'font-bold',
     required: true,
@@ -76,8 +76,8 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     type='password'
                     value={formData.password}
                     onChange={setFormValue('password')}
-                    classNameWrapper={'flex-col [&]:items-start gap-[0.63rem] mt-[1.9rem]'}
-                    className={'h-button-l w-full rounded-xs border-s bg-gray-l0 px-[0.73rem]'}
+                    classNameWrapper={'flex-col [&]:items-start gap-4xs mt-n'}
+                    className={'h-button-l w-full rounded-xs border-s bg-gray-l0 px-3xs'}
                     classNameLabel={'font-bold'}
                     required
                 >
@@ -112,7 +112,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     again, then return here to continue.
                 </span>
                 <Button
-                    className={`h-h-button-n mt-xs rounded-full bg-white px-[min(3dvw,1rem)] text-20 font-bold text-gray`}
+                    className={`h-button-n mt-xs rounded-full bg-white px-[min(3dvw,1rem)] text-20 font-bold text-gray`}
                     onClick={() => userCtx.removeSession()}
                 >
                     Restore Login

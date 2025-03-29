@@ -23,7 +23,7 @@ import PNG_ELECTRONS from '@/assets/images/electrons.png';
 
 const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 
-const P_CN = 'mb-s lg:mb-[2.88rem] sm:text-center  text-24 md:text-30 lg:text-40';
+const P_CN = 'mb-s lg:mb-xl sm:text-center  text-24 md:text-30 lg:text-40';
 
 interface Props {
     tag: ArticleTag | null;
@@ -80,24 +80,27 @@ const TagArticle: FC<Props> = (props: Props) => {
         <>
             <section className={styles.section}>
                 <MainBackground url={PNG_ELECTRONS} />
-                <div className={cn(styles.content, 'relative z-10 py-5xl')}>
-                    <h1 className={cn(`text-96 sm:heading-xl`)}>All Ways</h1>
-                    <h2 className={cn(`mt-[4.75rem]  text-36 sm:text-20`)}>Tech, news, education, events and more</h2>
+                <div className={cn(styles.content, 'relative z-10 py-5xl  sm:py-xxl')}>
+                    <h1 className={cn(`sm:text-40 text-96`)}>All Ways</h1>
+                    <h2 className={cn(`sm:mt-6xl mt-5xl  sm:text-20 text-36`)}>
+                        Tech, news, education, events and more
+                    </h2>
                 </div>
             </section>
 
             <section className={cn(styles.section)}>
                 <div
                     className={cn(
-                        'h-full w-full absolute left-0 top-0 z-0 bg-gradient-to-b from-blue to-transparent to-[5%] md:to-[15%] lg:to-[15%]',
+                        'absolute h-full w-full left-0 top-0 z-0',
+                        'bg-gradient-to-b from-blue to-transparent to-[5%] md:to-[15%] lg:to-[15%]',
                     )}
                 />
                 <div
                     className={cn(
                         styles.content,
                         'grid  grid-cols-[2fr,1fr] sm:grid-cols-1',
-                        'pt-4xl md:pt-[6.7rem] lg:pt-6xl',
-                        'gap-y-[2.88rem] md:gap-x-n lg:gap-x-xl',
+                        'pt-4xl md:pt-6xl-1 lg:pt-6xl',
+                        'gap-y-xxl md:gap-x-n lg:gap-x-xl',
                     )}
                 >
                     <div className={'flex flex-col'}>
@@ -119,7 +122,7 @@ const TagArticle: FC<Props> = (props: Props) => {
                 </div>
             </section>
             <section className={styles.section}>
-                <div className={cn(styles.content, 'py-[3.44rem] md:py-3xl lg:py-5xl')}>
+                <div className={cn(styles.content, 'py-3xl md:py-3xl lg:py-5xl')}>
                     <SubscribeCard />
                 </div>
             </section>
@@ -130,15 +133,15 @@ const TagArticle: FC<Props> = (props: Props) => {
                         <ul
                             className={cn(
                                 `grid auto-rows-max justify-items-center`,
-                                `mt-s lg:mt-[2.81rem]`,
-                                `gap-y-[3.44rem] md:x-[gap-x-n,gap-y-3xl] lg:x-[gap-x-xl,gap-y-5xl]`,
+                                `mt-s lg:mt-xxl`,
+                                `gap-y-3xl md:x-[gap-x-n,gap-y-3xl] lg:x-[gap-x-xl,gap-y-5xl]`,
                                 `grid-cols-[repeat(3,minmax(var(--w-card),1fr))] sm:grid-cols-1`,
                             )}
                         >
                             {CardsLi}
                         </ul>
                     ) : (
-                        <span className={'mt-[5rem] block text-12'}>
+                        <span className={'mt-5xl block text-12'}>
                             No articles found with tag &apos;{getIdName(tag ?? '--')}&apos;
                         </span>
                     )}
@@ -146,11 +149,12 @@ const TagArticle: FC<Props> = (props: Props) => {
             </section>
             <InsideTernSection
                 data={'alt0'}
-                className='bg-transparent pb-[9.375rem]'
+                className='bg-transparent pb-7xl'
             />
             <div
                 className={cn(
-                    'h-full w-full absolute left-0 top-0 z-0 bg-black bg-gradient-to-t from-blue from-[-1%] to-transparent to-[4%]  lg:to-10%',
+                    'absolute h-full w-full left-0 top-0 z-0',
+                    'bg-black bg-gradient-to-t from-blue from-[-1%] to-transparent to-[4%]  lg:to-10%',
                 )}
             />
         </>

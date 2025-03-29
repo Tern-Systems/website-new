@@ -9,7 +9,7 @@ import { checkNumber } from '@/app/utils';
 
 import SVG_INFO from '@/assets/images/icons/info.svg';
 
-const Hr = <hr className={'my-n border-gray-l0 sm:my-[0.94rem]'} />;
+const Hr = <hr className={'my-n border-gray-l0 sm:my-xxs'} />;
 
 interface Props {
     subscription: SubscriptionBase | null;
@@ -30,20 +30,20 @@ const PaymentInfo: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`relative h-full w-1/2 flex-1 overflow-y-scroll bg-white pt-[7.44rem] shadow-2xl sm:x-[overflow-y-visible,p-xs,w-full,shadow-none,border-s,border-gray-l0]`}
+            className={`relative h-full w-1/2 flex-1 overflow-y-scroll bg-white pt-6xl shadow-2xl sm:x-[overflow-y-visible,p-xs,w-full,shadow-none,border-s,border-gray-l0]`}
         >
             <div className={`mx-auto w-full max-w-[28rem] font-bold`}>
                 <h2 className={`mb-xs`}>Subscribe to {subscriptionName} Subscription</h2>
                 <div
-                    className={`mb-[3.75rem] grid grid-cols-[max-content,1fr] grid-rows-2 items-center gap-x-[0.4rem] sm:mb-xs`}
+                    className={`mb-3xl grid grid-cols-[max-content,1fr] grid-rows-2 items-center gap-x-4xs-2 sm:mb-xs`}
                 >
-                    <span className={`row-span-2 text-[3rem] sm:text-36`}>{price}</span>
+                    <span className={`row-span-2 text-48 sm:text-36`}>{price}</span>
                     <span className={'contents text-18 font-normal sm:text-12'}>
                         <span>per</span>
                         <span>month</span>
                     </span>
                 </div>
-                <div className={`grid grid-cols-[1fr,max-content] grid-rows-2 gap-y-[0.6rem] capitalize`}>
+                <div className={`grid grid-cols-[1fr,max-content] grid-rows-2 gap-y-4xs capitalize`}>
                     <span>
                         {subscriptionName} {subscription?.type ?? '-- missing type --'} Subscription
                     </span>
@@ -53,7 +53,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                     </span>
                 </div>
                 {Hr}
-                <div className={`grid auto-rows-min grid-cols-2 gap-y-[0.6rem]`}>
+                <div className={`grid auto-rows-min grid-cols-2 gap-y-4xs`}>
                     <span>Subtotal</span>
                     <span className={`justify-self-end`}>{subtotal}</span>
                     <span className={'sm:text-12 contents text-16 font-normal'}>
@@ -62,7 +62,7 @@ const PaymentInfo: FC<Props> = (props: Props) => {
                             <Image
                                 src={SVG_INFO}
                                 alt={'info'}
-                                className={'ml-[0.2rem] inline h-auto w-[0.6875rem]'}
+                                className={'ml-6xs inline h-auto w-[0.6875rem]'}
                             />
                         </span>
                         <span className={'justify-self-end'}>Calculated by address</span>

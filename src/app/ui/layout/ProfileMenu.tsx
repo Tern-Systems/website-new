@@ -123,7 +123,7 @@ const ProfileMenu: FC = () => {
     return (
         <div
             ref={ref}
-            className={'ml-auto flex h-full gap-[0.75rem]'}
+            className={'ml-auto flex h-full gap-3xs'}
         >
             {userBtns}
         </div>

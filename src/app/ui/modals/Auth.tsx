@@ -18,7 +18,7 @@ import { Button, Input } from '@/app/ui/form';
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png';
 
-const INPUT_CN = `h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
+const INPUT_CN = `h-button-l w-full px-3xs bg-gray-l0 border-s b-control4 rounded-xs
                     sm:text-primary placeholder:sm:text-primary`;
 
 type FormData = {

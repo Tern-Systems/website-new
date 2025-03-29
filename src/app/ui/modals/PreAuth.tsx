@@ -44,13 +44,13 @@ const PreAuthModal: FC = () => {
                 <div className={'w-full max-w-[19rem] place-self-center text-18 font-bold sm:portrait:w-[85%]'}>
                     <Button
                         onClick={() => modalCtx.openModal(<AuthModal />)}
-                        className={'mb-xxs h-[2.7rem] w-full rounded-full bg-blue text-primary'}
+                        className={'mb-xxs h-4xl w-full rounded-full bg-blue text-primary'}
                     >
                         Login
                     </Button>
                     <Button
                         onClick={() => modalCtx.openModal(<AuthModal registration />)}
-                        className={'h-[2.7rem] w-full rounded-full border-s border-blue'}
+                        className={'h-4xl w-full rounded-full border-s border-blue'}
                     >
                         Sign Up
                     </Button>

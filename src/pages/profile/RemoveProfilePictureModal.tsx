@@ -9,7 +9,7 @@ import { useModal, useUser } from '@/app/hooks';
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 
-const BTN_CN = 'px-[min(2.7dvw,1rem)] h-h-button-n rounded-full';
+const BTN_CN = 'px-[min(2.7dvw,1rem)] h-button-n rounded-full';
 
 interface Props {
     onRemove: () => void;

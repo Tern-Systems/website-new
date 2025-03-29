@@ -74,7 +74,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               }}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
                               className={'flex-row-reverse'}
-                              iconClassName={cn('ml-4xs  !size-[1.6rem]  xxs:h-[0.8rem]')}
+                              iconClassName={cn('ml-4xs  !size-xs  xxs:h-6xs')}
                           >
                               {title}
                           </PageLink>
@@ -109,7 +109,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                     onClick={() => setDropdownColumns(null)}
                     icon={faChevronLeft}
                     className={'!justify-start border-b-s p-s font-bold'}
-                    classNameIcon={'!size-[0.5625rem] !min-w-fit'}
+                    classNameIcon={'!size-8xs !min-w-fit'}
                 >
                     <span>Back</span>
                 </Button>
@@ -149,7 +149,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                   className={'!w-full !border-0 !bg-transparent'}
                                   classNameUl={'top-[calc(100%+2px)] py-4xs !rounded-none bg-black-l0'}
                                   classNameOption={cn(styles.clickable, '!bg-black-l0 !border-0 text-12 !py-5xs')}
-                                  classNameChevron={'w-[0.5625rem]'}
+                                  classNameChevron={'w-8xs'}
                               />
                           ) : (
                               <PageLink href={link}>{getIdName(mapRoute ? mappedLink : link)}</PageLink>

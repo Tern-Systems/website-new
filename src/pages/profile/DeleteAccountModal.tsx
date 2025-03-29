@@ -11,7 +11,7 @@ import { Button } from '@/app/ui/form';
 
 import { DeleteAccountConfirmModal } from './DeleteAccountConfirmModal';
 
-const BTN_CN = 'h-h-button-n px-xxs rounded-full';
+const BTN_CN = 'h-button-n px-xxs rounded-full';
 
 interface Props {
     userData: UserData | null;

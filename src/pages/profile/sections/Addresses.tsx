@@ -65,8 +65,8 @@ function AddressesSection(props: SectionProps) {
                     <span
                         className={cn(
                             `mb-5xs ${idx !== 0 && 'mt-3xs md:mt-xs lg:mt-xs'} block text-10 capitalize`,
-                            `md:x-[mb-[.5rem],text-14]`,
-                            `lg:x-[mb-[.5rem],text-14]`,
+                            `md:x-[mb-4xs-1,text-14]`,
+                            `lg:x-[mb-4xs-1,text-14]`,
                         )}
                     >
                         {type.slice(0, 'Address'.length + 1)} Address
@@ -83,7 +83,7 @@ function AddressesSection(props: SectionProps) {
             className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
             classNameTitle={`text-18  md:text-27  lg:text-27`}
-            classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
+            classNameTitleIcon={`[&]:max-w-5xs  [&]:md:max-w-n  [&]:lg:max-w-n`}
             classNameHr={`border-gray-l0`}
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>

@@ -5,17 +5,12 @@ import Link from 'next/link';
 const AboutPrivacy: FC = () => {
     return (
         <section
-            className={cn(
-                `mt-[5.625rem] mb-[6.25rem] w-full max-w-[62rem] text-nowrap place-self-center`,
-                `md:px-0`,
-                `lg:px-l`,
-            )}
+            className={cn(`mt-6xl-1 mb-6xl-1 w-full max-w-[62rem] text-nowrap place-self-center`, `md:px-0`, `lg:px-l`)}
         >
             <div
                 className={cn(
-                    `grid grid-cols-1 gap-[min(4dvw,0.56rem)] text-left
-                    items-start text-16 whitespace-pre-wrap`,
-                    `md:grid-cols-[minmax(0,4fr),minmax(0,6fr)]  lg:grid-cols-[minmax(0,4fr),minmax(0,6fr)]`,
+                    `grid gap-[min(4dvw,0.56rem)] text-left items-start text-16 whitespace-pre-wrap`,
+                    `grid-cols-1 md:grid-cols-[minmax(0,4fr),minmax(0,6fr)] lg:grid-cols-[minmax(0,4fr),minmax(0,6fr)]`,
                 )}
             >
                 <span className={'mb-l'}>

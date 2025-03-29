@@ -141,7 +141,7 @@ const HomePage: FC = () => {
                                 className={cn(
                                     `text-center leading-n`,
                                     `mb-n text-64`,
-                                    `md:text-[2.8125rem]`,
+                                    `md:text-48`,
                                     `sm:x-[mb-xs,text-36]`,
                                 )}
                             >
@@ -171,18 +171,12 @@ const HomePage: FC = () => {
                     </div>
                 </section>
                 <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <div
-                        className={cn(
-                            styles.content,
-                            'flex flex-col gap-y-[3.75rem] pt-[5rem]',
-                            'sm:x-[gap-y-xl,pt-xl]',
-                        )}
-                    >
+                    <div className={cn(styles.content, 'flex flex-col gap-y-3xl pt-5xl', 'sm:x-[gap-y-xl,pt-xl]')}>
                         <h2
                             className={cn(
                                 'text-center text-40 font-bold',
-                                'text-[3.1875rem] leading-xl',
-                                'sm:x-[text-[1.5625rem],leading-l]',
+                                'text-48  lg:text-64 leading-xl',
+                                'sm:x-[text-27,leading-l]',
                             )}
                         >
                             <span>There’s Always a Better Way</span>
@@ -203,7 +197,7 @@ const HomePage: FC = () => {
                             className={cn(
                                 'mt-auto w-[82%] text-left font-bold leading-n',
                                 'text-32',
-                                'md:text-[1.5rem]',
+                                'md:text-24',
                                 'sm:x-[mt-[10.5rem],text-20]',
                             )}
                         >
@@ -222,15 +216,15 @@ const HomePage: FC = () => {
                     <div className={styles.content}>
                         <h2
                             className={cn(
-                                'my-[3.75rem] text-center font-arial font-bold italic',
-                                'text-[5rem]',
-                                'md:text-[4.5rem]',
-                                'sm:text-[1.9375rem]',
+                                'my-3xl text-center font-arial font-bold italic',
+                                'text-80',
+                                'md:text-64',
+                                'sm:text-30',
                             )}
                         >
                             the world is not binary
                         </h2>
-                        <p className={'text-right text-32 font-bold sm:text-[1.25rem] md:text-[1.5rem]'}>
+                        <p className={'text-right text-32 font-bold sm:text-20 md:text-24'}>
                             and neither is the future.
                         </p>
                     </div>
