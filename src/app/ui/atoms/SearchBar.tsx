@@ -4,9 +4,9 @@ import cn from 'classnames';
 
 import { Input, Select } from '../form';
 
-import SVG_ARROW_DOWN from '/public/images/icons/arrow-down.svg';
-import SVG_SEARCH from '/public/images/icons/search.svg';
-import SVG_CALENDAR from '/public/images/icons/calendar.svg';
+import SVG_ARROW_DOWN from '@/assets/images/icons/arrow-down.svg';
+import SVG_SEARCH from '@/assets/images/icons/search.svg';
+import SVG_CALENDAR from '@/assets/images/icons/calendar.svg';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
     contentTypes: Record<string, string>;
