@@ -43,7 +43,7 @@ function OffboardingSection() {
                 className={'flex-row-reverse [&]:place-content-end'}
                 onClick={() => modalCtx.openModal(<DeleteAccountModal userData={userData} />, { darkenBg: true })}
             >
-                <span className={`${isSm || isMd ? 'hidden' : ''} text-14`}>Delete</span>
+                <span className={`${sm || md ? 'hidden' : ''} text-14`}>Delete</span>
             </Button>
         </Collapsible>
     );
