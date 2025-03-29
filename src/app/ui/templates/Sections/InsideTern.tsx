@@ -143,4 +143,6 @@ const InsideTernSection: FC<Props> = (props: Props) => {
     );
 };
 
+InsideTernSection.displayName = 'InsideTernSection';
+
 export { InsideTernSection };

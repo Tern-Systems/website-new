@@ -141,7 +141,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               <Select
                                   value={link}
                                   options={dropdownLinks}
-                                  onChangeCustom={(_) => {
+                                  onChangeCustom={(_: string) => {
                                       // TODO handle links
                                   }}
                                   classNameWrapper={'!static left-0 size-full'}
@@ -213,5 +213,9 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     );
 };
 
+SubNavElement.displayName = 'SubNavElement';
+
 const SubNav = forwardRef(SubNavElement);
+SubNav.displayName = 'SubNav';
+
 export { SubNav };

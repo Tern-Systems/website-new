@@ -78,4 +78,6 @@ const PaymentInfo: FC<Props> = (props: Props) => {
     );
 };
 
+PaymentInfo.displayName = 'PaymentInfo';
+
 export { PaymentInfo };

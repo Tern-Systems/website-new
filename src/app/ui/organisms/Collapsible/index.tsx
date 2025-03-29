@@ -16,6 +16,7 @@ import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
 import { getId } from '@/app/utils';
 
 type Icon = 'key' | 'book' | 'building' | 'geo' | 'blocks';
+export type { Icon };
 
 const ICON: Record<Icon, string> = {
     key: SVG_KEY,
@@ -154,5 +155,7 @@ const Collapsible: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+Collapsible.displayName = 'Collapsible';
 
 export { Collapsible };

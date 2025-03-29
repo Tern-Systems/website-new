@@ -52,4 +52,6 @@ const AllWaysCard: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+AllWaysCard.displayName = 'AllWaysCard';
 export { AllWaysCard };

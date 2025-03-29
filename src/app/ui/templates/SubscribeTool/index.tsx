@@ -31,4 +31,6 @@ const SubscribeTool: FC = () => {
     );
 };
 
+SubscribeTool.displayName = 'SubscribeTool';
+
 export { SubscribeTool };
