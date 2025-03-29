@@ -83,7 +83,7 @@ const SubscriptionRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) 
                 <PageLink
                     icon={'arrow-right-long'}
                     className={'mr-1'}
-                    iconClassName={`[&_path]:fill-blue [&_*]:w-3xs  sm:[&_*]:w-6xs`}
+                    iconClassName={`[&_path]:fill-blue w-3xs  sm:w-6xs`}
                 />
             </td>
         </tr>
@@ -108,7 +108,7 @@ const EventRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
                 <PageLink
                     icon={'arrow-right-long'}
                     className={'mr-1'}
-                    iconClassName={`[&_path]:fill-blue [&_*]:w-3xs  sm:[&_*]:w-6xs`}
+                    iconClassName={`[&_path]:fill-blue w-3xs  sm:w-6xs`}
                 />
             </td>
         </tr>
@@ -178,7 +178,7 @@ function MyTernPage() {
             <Button
                 icon={faChevronDown}
                 className={cn(`flex-row-reverse bg-blue`, `p-4xs text-16`, `xxs:x-[p-4xs-1,text-14]`)}
-                classNameIcon={cn(`[&_path]:fill-primary -rotate-90 ml-n [&_*]:w-[0.6rem]`, `sm:[&_*]:w-8xs`)}
+                classNameIcon={cn(`[&_path]:fill-primary -rotate-90 ml-n w-[0.6rem]`, `sm:w-8xs`)}
             >
                 {btn.title}
             </Button>

@@ -10,6 +10,8 @@ import { Breakpoint } from '@/app/static';
 import { Article } from '@/app/types/blog';
 import { CONTACT_LINKS, Route } from '@/app/static';
 
+import { BlogService } from '@/app/services/blog.service';
+
 import { useBreakpointCheck } from '@/app/hooks';
 import { useModal } from '@/app/hooks';
 
@@ -31,7 +33,6 @@ import PNG_CARD_2 from '@/assets/images/community-card-1.png';
 import PNG_CARD_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-1.png';
 import PNG_CARD_4 from '@/assets/images/community-card-2.png';
 import PNG_CARD_5 from '@/assets/images/community-card-3.png';
-import { BlogService } from '@/app/services/blog.service';
 
 type Event = {
     date: number;
@@ -191,7 +192,7 @@ function CommunityPage() {
                     <span className={'flex items-center  sm:col-span-2'}>
                         <ReactSVG
                             src={SVG_CLOCK.src}
-                            className={'[&_*]:size-7xs [&_*]:sm:size-8xs'}
+                            className={'size-7xs sm:size-8xs'}
                         />
                         <span className={'ml-5xs sm:ml-6xs'}>
                             {new Date(event.time.start).getHours()} - {new Date(event.time.start).getHours()} hrs&nbsp;
@@ -358,7 +359,7 @@ function CommunityPage() {
                         href={Route.CommunityEvents}
                         icon={'arrow-right-long'}
                         className={'flex-row-reverse text-blue  mt-xs md:mt-xl lg:mt-l'}
-                        iconClassName={'[&_path]:fill-blue [&_*]:size-6xs  ml-4xs lg:ml-xxs'}
+                        iconClassName={'[&_path]:fill-blue size-6xs  ml-4xs lg:ml-xxs'}
                     >
                         See all
                     </PageLink>

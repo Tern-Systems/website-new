@@ -297,7 +297,7 @@ const Editable: FC<Props> = (props: Props) => {
                 <span className={`hidden lg:inline ${classNameToggleText}`}>Edit</span>
                 <ReactSVG
                     src={SVG_PENCIL.src}
-                    className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}
+                    className={'w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}
                 />
             </span>
         );
@@ -367,7 +367,7 @@ const Editable: FC<Props> = (props: Props) => {
                         }}
                         classNameWrapper={initial.className}
                         className={'w-fit'}
-                        classNameIcon={'[&&_*]:size-3xs  sm:[&_*]:size-4xs'}
+                        classNameIcon={'[&&_*]:size-3xs  sm:size-4xs'}
                     >
                         {(form.fileName ?? initValue.fileName) || 'Upload media'}
                     </Input>

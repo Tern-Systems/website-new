@@ -59,7 +59,7 @@ const PageLink: FC<Props> = (props: Props) => {
     const Icon: ReactElement | null = icon ? (
         <ReactSVG
             src={ICON[icon].src}
-            className={cn(`inline-block size-5xs`, { ['rotate-180']: icon === 'forward' }, iconClassName)}
+            className={cn(`inline-block !size-5xs`, { ['rotate-180']: icon === 'forward' }, iconClassName)}
         />
     ) : null;
 

@@ -86,7 +86,7 @@ const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Documentation} /> },
 ];
 
-const BTN_ICON = 'ml-xl [&_*]:size-5xs';
+const BTN_ICON = 'ml-xl size-5xs';
 
 const BTN_CN = 'px-n  h-button-l  md:h-button-xl  lg:h-button-xxl';
 const BTN_BLUE_CN = BTN_CN + ' bg-blue';
@@ -109,14 +109,12 @@ function TidalPage() {
         >
             <ReactSVG
                 src={tile.image.src}
-                className={'[&_*]:x-[mx-auto,size-3xl] md:[&_*]:size-8xl lg:[&_*]:size-10xl'}
+                className={'mx-auto sm:!size-3xl md:!size-8xl !size-10xl'}
             />
             <span className={'mb-5xs mt-s block font-bold'}>{tile.title}</span>
             <span className={'leading-n'}>{tile.description}</span>
         </li>
     ));
-
-    const TidalUrl = MISC_LINKS.Tidal + (userCtx.token ? `/?website_login=${encodeURIComponent(userCtx.token)}` : '');
 
     return (
         <>

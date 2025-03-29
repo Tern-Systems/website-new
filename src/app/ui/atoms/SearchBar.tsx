@@ -76,6 +76,7 @@ const SearchBar: FC<Props> = (props: Props) => {
                 className={cn(
                     'flex my-auto [&_*]:size-3xs  mr-xs text-white',
                     'transition-all duration-500 ease-in-out group-focus-within:text-white-d0',
+                    'size-3xs mr-xs',
                 )}
             />
             <div

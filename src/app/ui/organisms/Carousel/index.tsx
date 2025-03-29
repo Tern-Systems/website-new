@@ -67,7 +67,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         carouselRef.current.scrollLeft + (right ? 0.5 : -0.5) * window.outerWidth;
             }}
             className={cn(
-                'absolute top-1/2 z-50 !-translate-y-1/2 [&_*]:size-5xl',
+                'absolute top-1/2 z-50 !-translate-y-1/2 size-5xl',
                 right ? 'right-0 -rotate-90' : 'left-0 rotate-90',
                 classNameArrow,
             )}
