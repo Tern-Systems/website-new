@@ -46,6 +46,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     const [isLoginForm, setLoginFormState] = useState(!registration);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setWarningMsg(null);
@@ -53,28 +54,39 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setWarningMsg(null);
+        setIsLoading(true);
+
         try {
             if (isLoginForm) {
                 const { payload } = await AuthService.postLogin(formValue.email, formValue.password);
                 await userCtx.setupSession(true, payload.token);
                 modalCtx.closeModal();
-            } else if (!REGEX.email.test(formValue.email))
+                flowCtx.next()?.();
+            } else if (!REGEX.email.test(formValue.email)) {
                 setWarningMsg(`Entered email doesn't match the email format`);
-            else if (!REGEX.password.test(formValue.password)) {
+            } else if (!REGEX.password.test(formValue.password)) {
                 setWarningMsg(
                     `Entered password should consist of minimum 9 characters, one uppercase letter, one lowercase letter and one number`,
                 );
-            } else if (formValue.password !== formValue.passwordConfirm) setWarningMsg("Passwords don't match");
-            else {
+            } else if (formValue.password !== formValue.passwordConfirm) {
+                setWarningMsg("Passwords don't match");
+            } else {
                 const { message } = await AuthService.postSignup(formValue.email, formValue.password);
+                // Only close modal and show success message on successful signup
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+                flowCtx.next()?.();
             }
-            flowCtx.next()?.();
         } catch (error: unknown) {
-            let message: string = 'Unknown error';
-            if (axios.isAxiosError(error)) message = error.cause?.message ?? message;
-            else if (typeof error === 'string') message = error;
-            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+            let errorMessage: string = 'Unknown error';
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.error || error.message || errorMessage;
+            } else if (typeof error === 'string') {
+                errorMessage = error;
+            }
+            setWarningMsg(errorMessage);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -152,16 +164,24 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     <div className={'flex flex-col items-center sm:landscape:w-full'}>
                         <Button
                             type={'submit'}
+                            disabled={isLoading}
                             className={cn(
                                 `border-control mt-s w-[60%] place-self-center rounded-full border-s py-xxs`,
                                 `text-section-s font-bold`,
                                 `sm:w-[90%]`,
+                                isLoading ? 'opacity-70 cursor-not-allowed' : '',
                                 isLoginForm
                                     ? 'bg-white text-gray sm:x-[bg-blue,text-primary] sm:landscape:mt-auto'
                                     : 'sm:x-[border-b-s,border-blue] sm:landscape:mt-xl',
                             )}
                         >
-                            {!isLoginForm ? 'Sign Up' : 'Login'}
+                            {isLoading
+                                ? isLoginForm
+                                    ? 'Logging in...'
+                                    : 'Signing up...'
+                                : !isLoginForm
+                                  ? 'Sign Up'
+                                  : 'Login'}
                         </Button>
                         <div className={'mt-s text-center'}>
                             <span>
