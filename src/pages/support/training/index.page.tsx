@@ -1,3 +1,5 @@
+'use client';
+
 function TrainingPage() {
     return <>No content yet...</>;
 }

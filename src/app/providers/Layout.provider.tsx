@@ -1,40 +1,18 @@
 'use client';
 
-import React, {
-    createContext,
-    Dispatch,
-    FC,
-    PropsWithChildren,
-    SetStateAction,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
+import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { LAYOUT, NavLink, Route } from '@/app/static';
 
+import { LayoutContext, NavigationState, NavLinks, ScrollState } from '@/app/contexts/layout.context';
+
 import { checkSubRoute, getRouteLeave } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks';
-import { useUser } from '@/app/context/User.context';
-
-type ScrollState = { scrollTop: number; scrollHeight: number; autoScroll: boolean };
-
-type SetState<T> = Dispatch<SetStateAction<T>>;
-
-enum NavigationState {
-    FREE,
-    BLOCKED,
-    TRY_NAVIGATE,
-}
-
-// Main links, sub links, sub sub links
-type NavLinks = [Route[], Route[] | null, Route[] | null];
+import { useBreakpointCheck, useUser } from '@/app/hooks';
 
 const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Route[] | null, Route[] | null] => {
-    const isSm = breakpoint <= Breakpoint.sm;
+    const sm = breakpoint <= Breakpoint.sm;
 
     let navLinks: Route[] = LAYOUT.navLinks;
     let breadCrumbLinks: Route[] | null = [];
@@ -45,15 +23,15 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
         switch (true) {
             case checkSubRoute(route, Route.MyDocumentation, true):
                 navLinks = [Route.Billing, Route.MyDocumentation, Route.Resources, Route.Training];
-                breadCrumbLinks = isSm ? [Route.MyDocumentation] : null;
+                breadCrumbLinks = sm ? [Route.MyDocumentation] : null;
                 break;
             case checkSubRoute(route, Route.Profile):
                 navLinks = LAYOUT.profileLinks;
-                breadCrumbLinks = isSm ? null : LAYOUT.profileLinks;
+                breadCrumbLinks = sm ? null : LAYOUT.profileLinks;
                 break;
             case checkSubRoute(route, Route.Documentation):
                 breadCrumbLinks = [Route.MyDocumentation];
-                subNavLinks = isSm
+                subNavLinks = sm
                     ? [route as Route]
                     : [Route.BTMCDoc, Route.GDoc, Route.TernDoc, Route.TidalDoc, Route.TernKitDoc];
                 break;
@@ -71,19 +49,6 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
     }
     return [navLinks, breadCrumbLinks, subNavLinks];
 };
-
-interface ILayoutContext {
-    toggleFullscreen: () => void;
-    isNoLayout: boolean;
-    setFadeState: Dispatch<SetStateAction<boolean>>;
-    isFade: boolean;
-    scrollState: [ScrollState, Dispatch<SetStateAction<ScrollState>>];
-    navLinks: NavLinks;
-    getSubNavs: (route: Route, breakpoint: Breakpoint) => [Route[], Route[] | null, Route[] | null];
-    navigateState: [NavigationState, SetState<NavigationState>, Route | null, SetState<Route | null>];
-}
-
-const LayoutContext = createContext<ILayoutContext | null>(null);
 
 const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const route = usePathname();
@@ -182,11 +147,4 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     );
 };
 
-const useLayout = (): ILayoutContext => {
-    const context = useContext(LayoutContext);
-    if (!context) throw new Error('useLayout must be used within a ModalProvider!');
-    return context;
-};
-
-export type { NavLinks };
-export { NavigationState, LayoutProvider, useLayout };
+export { LayoutProvider };

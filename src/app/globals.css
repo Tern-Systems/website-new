@@ -74,22 +74,22 @@
   --bg-green: #0c545c;
 
   /* Text */
-  --fz-heading-4xl: 6rem;
-  --fz-heading-3xl: 4rem;
-  --fz-heading-xxl: 3rem;
-  --fz-heading-xl: 2.5rem;
-  --fz-heading-l: 2.25rem;
-  --fz-section-xl: 2rem;
-  --fz-section-l: 1.875rem;
-  --fz-heading: 1.6875rem;
-  --fz-heading-s: 1.3125rem;
-  --fz-documentation: 1.5rem;
-  --fz-section: 1.25rem;
-  --fz-section-s: 1.125rem;
-  --fz-basic: 1rem;
-  --fz-section-xs: 0.875rem;
-  --fz-section-xxs: 0.75rem;
-  --fz-section-3xs: 0.625rem;
+  --fz-96: 6rem;
+  --fz-64: 4rem;
+  --fz-48: 3rem;
+  --fz-40: 2.5rem;
+  --fz-36: 2.25rem;
+  --fz-32: 2rem;
+  --fz-30: 1.875rem;
+  --fz-27: 1.6875rem;
+  --fz-24: 1.5rem;
+  --fz-21: 1.3125rem;
+  --fz-20: 1.25rem;
+  --fz-18: 1.125rem;
+  --fz-16: 1rem;
+  --fz-14: 0.875rem;
+  --fz-12: 0.75rem;
+  --fz-10: 0.625rem;
 
   --lh-xl: 5rem;
   --lh-l: 1.3;
@@ -112,7 +112,7 @@
 
 body {
   background: var(--bg-main);
-  font-family: "Abode Gothic Standard", sans-serif;
+  font-family: "Franklin Gothic ATF", sans-serif;
   overflow: hidden;
 
   -ms-overflow-style: none;
@@ -131,7 +131,6 @@ h1 {
 svg, path, g {
   display: block;
   width: 100%;
-  min-width: 100%;
   max-width: 100%;
   height: 100%;
   min-height: 100%;
@@ -153,29 +152,44 @@ body ::-webkit-scrollbar {
 }
 
 @font-face {
-  font-family: "Abode Gothic Standard";
-  src: url("../../public/fonts/AdobeGothic-Light.otf") format("opentype");
-  font-weight: normal;
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF.otf") format("embedded-opentype");
+  font-weight: bold;
   font-style: normal;
 }
 
+
 @font-face {
-  font-family: "Adobe Gothic Standard";
-  src: url("../../public/fonts/AdobeGothic-Bold.otf") format("opentype");
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF-Bold.otf") format("embedded-opentype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF-Med.otf") format("embedded-opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF-Light.otf") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'Oxygen';
-  src: url('../../public/fonts/Oxygen-Regular.ttf') format('truetype');
+  src: url('/public/assets/fonts/Oxygen-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Old English Five';
-  src: url('../../public/fonts/OldEnglishFive.ttf') format('truetype');
+  src: url('/public/assets/fonts/OldEnglishFive.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }

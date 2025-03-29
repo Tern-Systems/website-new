@@ -1,32 +1,36 @@
-import React, { FC, ReactElement } from 'react';
+'use client';
+
+import { ReactElement } from 'react';
 import cn from 'classnames';
 
+import { Breakpoint } from '@/app/static';
+import { UserData } from '@/app/contexts/user.context';
 import { FormInit, FormType } from '@/app/ui/form/Editable';
+import { SectionProps } from '../index.page';
 
 import { COUNTRY, STATE_PROVINCE } from '@/app/static';
 
 import { getId } from '@/app/utils';
-import { UserData, useUser } from '@/app/context/User.context';
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
+import { useBreakpointCheck, useUser } from '@/app/hooks';
+import { getSimpleToggleProps } from '../getSimpleToggleProps';
 
 import { PrimaryLabel } from '@/app/ui/atoms';
 import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
-import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
 
 const ADDRESSES = 'Addresses';
 
-const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
+function AddressesSection(props: SectionProps) {
     const { update, setEditId, editId } = props;
     const { userData } = useUser();
     const breakpoint = useBreakpointCheck();
 
     if (!userData) return null;
 
-    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
-    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-basic  [&&]:lg:text-basic`;
+    const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
+    const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-16  [&&]:lg:text-16`;
 
     const Addresses: (ReactElement | null)[] = Object.entries(userData.address)
         .filter((address) => address[1]?.country)
@@ -60,9 +64,9 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
                 >
                     <span
                         className={cn(
-                            `mb-5xs ${idx !== 0 && 'mt-3xs md:mt-xs lg:mt-xs'} block text-section-3xs capitalize`,
-                            `md:x-[mb-[.5rem],text-section-xs]`,
-                            `lg:x-[mb-[.5rem],text-section-xs]`,
+                            `mb-5xs ${idx !== 0 && 'mt-3xs md:mt-xs lg:mt-xs'} block text-10 capitalize`,
+                            `md:x-[mb-[.5rem],text-14]`,
+                            `lg:x-[mb-[.5rem],text-14]`,
                         )}
                     >
                         {type.slice(0, 'Address'.length + 1)} Address
@@ -78,7 +82,7 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             icon={'geo'}
             className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
-            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitle={`text-18  md:text-27  lg:text-27`}
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
             classNameHr={`border-gray-l0`}
         >
@@ -90,7 +94,7 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             </span>
             <Editable
                 type={'address'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -98,7 +102,7 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInputBase,
                             styles.common,
                             styles.roundedWFull,
-                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                            `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
                         value: userData.address as FormInit<T>,
                         onSave: async (formData) => {
@@ -113,7 +117,8 @@ const AddressesSection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
         </Collapsible>
     );
-};
+}
 
-const ADDRESSES_ID = getId(ADDRESSES);
-export { AddressesSection, ADDRESSES_ID };
+AddressesSection.ID = getId(ADDRESSES);
+
+export { AddressesSection };

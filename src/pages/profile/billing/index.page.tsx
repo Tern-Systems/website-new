@@ -1,15 +1,18 @@
-import React, { FC, useEffect, useState } from 'react';
+'use client';
+
+import { FC, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { CELL_FALLBACK, MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
+import { RowProps } from '@/app/ui/organisms/Table';
 import { ResourceSectionData, TableSection } from '@/app/types/layout';
 import { Invoice } from '@/app/types/billing';
-import { Route } from '@/app/static';
+
+import { CELL_FALLBACK, MD_SM_HIDDEN_CN, Route, SM_HIDDEN_CN } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
 import { useLoginCheck, useNavigate } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { formatDate } from '@/app/utils';
 import { Table } from '@/app/ui/organisms';
@@ -37,7 +40,7 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
             className={cn(
                 styles.clickable,
                 `cursor-pointer text-nowrap align-middle odd:bg-gray-d0  hover:!bg-gray-l0`,
-                `text-heading-s  sm:text-section-xxs`,
+                `text-21  sm:text-12`,
                 className,
             )}
         >
@@ -92,7 +95,7 @@ const BillingPage: FC = () => {
     return (
         <div className={cn(styles.section, `pt-[6.25rem]`)}>
             <section className={styles.content}>
-                <h1 className={`flex text-section-xl font-bold`}>Billing</h1>
+                <h1 className={`flex text-32 font-bold`}>Billing</h1>
             </section>
             <section className={cn(styles.content, styles.contentHighlight, 'mt-xl  lg:mt-xxl')}>
                 <Table

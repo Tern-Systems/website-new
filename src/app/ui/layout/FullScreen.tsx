@@ -1,10 +1,12 @@
-import React, { FC, PropsWithChildren } from 'react';
+'use client';
+
+import { FC, PropsWithChildren } from 'react';
 
 import { Route } from '@/app/static';
 
 import { PageLink } from '@/app/ui/layout/Link';
 import { useNavigate } from '@/app/hooks';
-import { useLayout, useModal } from '@/app/context';
+import { useLayout, useModal } from '@/app/hooks';
 
 import { Insignia } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
@@ -24,14 +26,14 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`relative h-dvh max-h-dvh bg-white text-heading-s text-gray ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}
+            className={`relative h-dvh max-h-dvh bg-white text-21 text-gray ${modalCtx.darkenBg ? 'brightness-[60%]' : 'brightness-100'}`}
         >
             <div className={`flex h-heading items-center justify-between p-[1.25rem] md:hidden lg:hidden`}>
-                <Insignia />
+                <Insignia className={'[&_path]:fill-black'} />
                 <Button
                     icon={faX}
                     onClick={() => navigate(backButtonSection)}
-                    classNameIcon={'[&_path]:fill-blue [&&_*]:w-[1.125rem] h-auto'}
+                    classNameIcon={'[&_path]:fill-blue [&_*]:w-[1.125rem] sm:[&_*]:w-[0.75rem]'}
                 />
             </div>
             <hr className={`md:hidden lg:hidden`} />
@@ -49,5 +51,7 @@ const FullScreenLayout: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+FullScreenLayout.displayName = FullScreenLayout.name;
 
 export { FullScreenLayout };

@@ -1,4 +1,6 @@
-import React, { FC, InputHTMLAttributes, MutableRefObject, PropsWithChildren, ReactElement, useRef } from 'react';
+'use client';
+
+import { FC, InputHTMLAttributes, MutableRefObject, PropsWithChildren, ReactElement, useRef } from 'react';
 import Image from 'next/image';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
@@ -226,7 +228,7 @@ const Input: FC<Props> = (props: Props) => {
                             <>
                                 <div
                                     className={cn(
-                                        `mr-4xs flex h-[.9375rem] w-[.9375rem] items-center justify-center border-[0.5px] border-gray-l0 bg-[#444444] text-section-xxs`,
+                                        `mr-4xs flex h-[.9375rem] w-[.9375rem] items-center justify-center border-[0.5px] border-gray-l0 bg-[#444444] text-12`,
                                         `peer-checked:bg-[#444444] peer-checked:text-primary peer-checked:before:text-primary peer-checked:before:content-['✔']`,
                                         classNameCheckbox,
                                     )}
@@ -244,5 +246,7 @@ const Input: FC<Props> = (props: Props) => {
             );
     }
 };
+
+Input.displayName = Input.name;
 
 export { Input };

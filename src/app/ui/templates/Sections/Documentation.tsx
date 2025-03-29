@@ -1,17 +1,18 @@
-import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useEffect, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
 import { ContentAnchors, DocumentationContent } from '@/app/types/documentation';
-import { useOuterClickClose } from '@/app/hooks';
-import { useLayout } from '@/app/context';
+import { useLayout, useOuterClickClose } from '@/app/hooks';
 
 import { BreadcrumbRoute } from '@/app/ui/atoms';
 import { Button } from '@/app/ui/form';
 
 import styles from '@/app/common.module.css';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpand, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const PIP_MODE_PARENT = 'pip-mode-parent';
@@ -182,10 +183,10 @@ const DocumentationSection: FC<Props> = (props: Props) => {
             >
                 <div className={`flex h-[2rem] items-center`}>
                     {MenuBtn}
-                    {menuOpened ? <span className={`ml-3xs text-nowrap text-section-s`}>Table of Contents</span> : null}
+                    {menuOpened ? <span className={`ml-3xs text-nowrap text-18`}>Table of Contents</span> : null}
                 </div>
                 {menuOpened ? (
-                    <div className={cn(`h-[calc(100%-2rem)] pt-s text-section-s  sm:mt-0`)}>
+                    <div className={cn(`h-[calc(100%-2rem)] pt-s text-18  sm:mt-0`)}>
                         <ul className={'flex flex-col h-full overflow-y-scroll  gap-y-4xs sm:gap-y-5xs'}>
                             {renderAnchorList(content?.anchors, content?.isChapter)}
                         </ul>
@@ -200,9 +201,9 @@ const DocumentationSection: FC<Props> = (props: Props) => {
                         `size-full sm:h-[calc(100%-2rem-2*var(--p-4xs))]`,
                     )}
                 >
-                    <div className={`size-full select-text overflow-y-scroll text-documentation leading-l`}>
+                    <div className={`size-full select-text overflow-y-scroll text-24 leading-l`}>
                         {pipMode ? (
-                            <span className={'block size-full content-center text-center text-heading-l'}>
+                            <span className={'block size-full content-center text-center text-36'}>
                                 Picture in picture mode
                             </span>
                         ) : (
@@ -230,4 +231,5 @@ const DocumentationSection: FC<Props> = (props: Props) => {
     );
 };
 
+DocumentationSection.displayName = DocumentationSection.name;
 export { DocumentationSection };

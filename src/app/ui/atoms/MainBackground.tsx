@@ -1,4 +1,6 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
@@ -24,5 +26,7 @@ const MainBackground: FC<Props> = (props: Props) => {
         </>
     );
 };
+
+MainBackground.displayName = MainBackground.name;
 
 export { MainBackground };

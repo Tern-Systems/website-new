@@ -1,11 +1,13 @@
-import React, { FC, FormEvent } from 'react';
+'use client';
+
+import { FC, FormEvent } from 'react';
 
 import { useForm } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Select } from '@/app/ui/form';
 import { BillingService } from '@/app/services';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 type FormData = { timeRange: number };
 
@@ -67,7 +69,7 @@ const ExportInvoiceModal: FC = () => {
                 </Select>
                 <Button
                     className={
-                        'h-h-button-n mt-[min(6.5dvw,2.5rem)] rounded-full border-s border-white-d0 px-[1rem] text-section font-bold'
+                        'h-h-button-n mt-[min(6.5dvw,2.5rem)] rounded-full border-s border-white-d0 px-[1rem] text-20 font-bold'
                     }
                 >
                     Export

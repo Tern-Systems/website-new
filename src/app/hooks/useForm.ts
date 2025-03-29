@@ -1,3 +1,5 @@
+'use client';
+
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 
 type FormElement = Pick<HTMLInputElement, 'type' | 'value'> & Partial<Pick<HTMLInputElement, 'checked'>>;

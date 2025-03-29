@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
@@ -9,12 +11,12 @@ import {
     SubscriptionPreviewData,
     SubscriptionRecurrency,
 } from '@/app/types/subscription';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { Route } from '@/app/static';
 
 import { generateFallbackEntries } from '@/app/utils';
 import { useBreakpointCheck, useNavigate } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { AuthModal, HelpModal, MessageModal } from '@/app/ui/modals';
@@ -61,7 +63,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const subscription: SubscriptionBase = {
             subscription: subscriptionData.subscription,
             type,
-            isBasicKind: subscriptionData.isBasicKind,
+            basicKind: subscriptionData.basicKind,
             priceUSD: subscriptionData.type?.[type]?.priceUSD?.[selectedRecurrency],
             recurrency: selectedRecurrency,
         };
@@ -93,7 +95,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const isCurrentRecurrency =
             userSubscription?.recurrency?.toLocaleLowerCase() === selectedRecurrency.toLocaleLowerCase();
         const isCurrentType = userSubscription?.type?.toLocaleLowerCase() === type.toLocaleLowerCase();
-        const { isBasicKind } = subscriptionData ?? {};
+        const { basicKind } = subscriptionData ?? {};
         const isBasicPlan = type.toLocaleLowerCase() === 'Basic'.toLocaleLowerCase();
 
         const isBtnDisabled = (isCurrentSubscription && isCurrentRecurrency && isCurrentType) || isBasicPlan;
@@ -103,7 +105,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
             <li
                 key={type + subIndex}
-                className={'flex items-start gap-x-4xs whitespace-pre-wrap leading-[120%]'}
+                className={'flex items-center gap-x-4xs whitespace-pre-wrap'}
             >
                 <Image
                     src={benefitsIcon}
@@ -144,7 +146,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         );
 
         let subscribeBtnText: string | ReactElement =
-            userSubscription && isBasicKind && !isProUser ? 'Upgrade to Pro' : 'Subscribe';
+            userSubscription && basicKind && !isProUser ? 'Upgrade to Pro' : 'Subscribe';
         let Links: ReactElement = Limits;
 
         if (isBtnDisabled || isBasicPlan) {
@@ -171,7 +173,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             );
         } else if (!isCurrentRecurrency) {
             subscribeBtnText =
-                (isBasicKind && !isProUser) || !isCurrentSubscription ? (
+                (basicKind && !isProUser) || !isCurrentSubscription ? (
                     subscribeBtnText
                 ) : (
                     <>
@@ -204,9 +206,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <h2
                     className={cn(
                         `flex items-center font-bold capitalize`,
-                        `mb-4xs text-heading-s`,
-                        `lg:x-[mb-xxs,text-heading]`,
-                        `md:text-heading`,
+                        `mb-4xs text-21`,
+                        `lg:x-[mb-xxs,text-27]`,
+                        `md:text-27`,
                     )}
                 >
                     <Image
@@ -219,11 +221,11 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <div
                     className={cn(
                         'text-secondary',
-                        'text-section',
+                        'text-20',
                         'lg:mb-[2.2rem]',
                         'md:mb-n',
                         'sm:mb-4xs',
-                        'sm:landscape:text-section-s',
+                        'sm:landscape:text-18',
                     )}
                 >
                     <span>{pricing + (showAsterisk ? '*' : '')}</span>
@@ -231,9 +233,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <Button
                     onClick={() => handleSubscribeClick(type)}
                     className={cn(
-                        `w-full rounded-full bg-blue text-section-s font-bold`,
+                        `w-full rounded-full bg-blue text-18 font-bold`,
                         `py-[1.12rem]`,
-                        `sm:x-[py-xxs,text-basic]`,
+                        `sm:x-[py-xxs,text-16]`,
                         `disabled:x-[bg-inherit,border-s,border-gray-l0,text-secondary]`,
                     )}
                     disabled={isBtnDisabled}
@@ -264,18 +266,13 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <ul
                     className={cn(
                         `mt-[1.57rem] flex flex-col items-start gap-y-[1.57rem]`,
-                        `text-basic`,
-                        `sm:x-[gap-xxs,text-section-xs]`,
+                        `text-16`,
+                        `sm:x-[gap-xxs,text-14]`,
                     )}
                 >
                     {Benefits}
                 </ul>
-                <div
-                    className={cn(
-                        `mt-auto flex flex-grow flex-col text-section-xxs text-secondary`,
-                        `sm:landscape:text-section-3xs`,
-                    )}
-                >
+                <div className={cn(`mt-auto flex flex-grow flex-col text-12 text-secondary`, `sm:landscape:text-10`)}>
                     <span className={'mt-auto flex flex-col gap-y-5xs'}>{Links}</span>
                 </div>
             </Collapsible>
@@ -292,7 +289,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const isCurrentSubscription =
             userSubscription?.subscription?.toLocaleLowerCase() === subscriptionData?.subscription?.toLocaleLowerCase();
 
-        const cutBasicColumn = subscriptionData?.isBasicKind === true && isCurrentSubscription && isProUser;
+        const cutBasicColumn = subscriptionData?.basicKind === true && isCurrentSubscription && isProUser;
 
         const columnsData = subscriptionData?.type
             ? Object.entries(subscriptionData.type).slice(+cutBasicColumn)
@@ -345,7 +342,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     `sm:portrait:h-[6.75rem]`,
                 )}
             >
-                <div className={cn(`flex h-fit w-fit rounded-full border-s p-[0.2rem] text-section-xs`)}>{Switch}</div>
+                <div className={cn(`flex h-fit w-fit rounded-full border-s p-[0.2rem] text-14`)}>{Switch}</div>
             </div>
             <div
                 className={cn(
@@ -364,5 +361,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+PricingAndPlansScreen.displayName = PricingAndPlansScreen.name;
 
 export { PricingAndPlansScreen };

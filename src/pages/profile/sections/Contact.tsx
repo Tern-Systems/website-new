@@ -1,33 +1,34 @@
-import React, { FC } from 'react';
+'use client';
+
 import cn from 'classnames';
 
-import { DEFAULT_ADDRESS, FormData, FormInit, FormType } from '@/app/ui/form/Editable';
-
-import { COUNTRY, CountryKey, LANGUAGE, LanguageKey, REGEX, SALUTATION } from '@/app/static';
+import { Breakpoint } from '@/app/static';
+import { UserData } from '@/app/contexts/user.context';
+import { FormData, FormInit, FormType } from '@/app/ui/form/Editable';
+import { SectionProps } from '../index.page';
+import { DEFAULT_ADDRESS, COUNTRY, CountryKey, LANGUAGE, LanguageKey, REGEX, SALUTATION } from '@/app/static';
 
 import { UserService } from '@/app/services';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 import { getId } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
-import { UserData, useUser } from '@/app/context/User.context';
+import { getSimpleToggleProps } from '../getSimpleToggleProps';
+import { useBreakpointCheck, useUser } from '@/app/hooks';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { PrimaryLabel } from '@/app/ui/atoms';
-import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
 
 const CONTACT = 'Contact Information';
 
-const ContactSection: FC<SectionProps> = (props: SectionProps) => {
+function ContactSection(props: SectionProps) {
     const { update, setEditId, editId } = props;
 
     const { userData } = useUser();
 
-    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
-    const isMd = useBreakpointCheck() === Breakpoint.md;
+    const sm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
+    const md = useBreakpointCheck() === Breakpoint.md;
 
     if (!userData) return null;
 
@@ -49,10 +50,8 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
                 className={`block ${idx !== 0 && 'mt-4xs'}`}
                 key={type + idx}
             >
-                <span className={'mb-5xs block text-section-3xs capitalize md:text-section-xs lg:text-section-xs'}>
-                    {type}
-                </span>
-                <span className={`text-section-xxs md:text-basic lg:text-basic`}>
+                <span className={'mb-5xs block text-10 capitalize md:text-14 lg:text-14'}>{type}</span>
+                <span className={`text-12 md:text-16 lg:text-16`}>
                     {phone.number + ('ext' in phone ? ' - ' + phone.ext : '')}
                 </span>
                 {!phone.isPrimary ? (
@@ -66,8 +65,8 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
         ) : null,
     );
 
-    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
-    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-s  [&&]:lg:text-section-s`;
+    const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
+    const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-18  [&&]:lg:text-18`;
 
     return (
         <Collapsible
@@ -75,7 +74,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             icon={'book'}
             className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
-            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitle={`text-18  md:text-27  lg:text-27`}
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
             classNameHr={`border-gray-l0`}
         >
@@ -83,7 +82,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             <Editable
                 key={'name-' + userData.name.firstName}
                 type={'name'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -91,7 +90,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInputBase,
                             styles.common,
                             styles.roundedWFull,
-                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                            `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
                         value: {
                             firstName: userData.name.firstName ?? '',
@@ -113,7 +112,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             {userData.username ? (
                 <Editable
                     key={'username-' + userData.username}
-                    classNameToggleText={`text-section-xs`}
+                    classNameToggleText={`text-14`}
                     {...getSimpleToggleProps(setEditId, editId)}
                     initialize={function <T extends FormType>() {
                         return {
@@ -121,7 +120,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
                                 styles.singleInput,
                                 styles.singleInputBase,
                                 styles.common,
-                                `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                                `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                             ),
                             title: 'Update your Display Name',
                             value: { value: userData.username } as FormInit<T>,
@@ -150,7 +149,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             <Editable
                 key={'phone-' + userData.phones}
                 type={'phone'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -158,7 +157,7 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInput,
                             styles.singleInputBase,
                             styles.common,
-                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                            `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
                         value: userData.phones as FormInit<T>,
                         onSave: async (form) => {
@@ -179,16 +178,16 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
 
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                Country or Region <span className={isSm || isMd ? 'hidden' : 'block'}>of Residence</span>
+                Country or Region <span className={sm || md ? 'hidden' : 'block'}>of Residence</span>
             </span>
             <Editable
                 key={'country-' + country}
                 type={'select'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
-                        className: `${styles.singleInputBase} ${styles.common} [&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                        className: `${styles.singleInputBase} ${styles.common} [&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         title: 'Country / Region',
                         value: { value: userData.address.personalAddress?.country ?? '' } as FormInit<T>,
                         options: COUNTRY,
@@ -210,16 +209,16 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
 
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                <span className={isSm || isMd ? 'hidden' : 'block'}>Preferred </span>Language
+                <span className={sm || md ? 'hidden' : 'block'}>Preferred </span>Language
             </span>
             <Editable
                 key={'language-' + language}
                 type={'select'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
-                        className: `${styles.singleInputBase} ${styles.common} [&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                        className: `${styles.singleInputBase} ${styles.common} [&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         title: 'Language',
                         value: { value: userData.language } as FormInit<T>,
                         options: LANGUAGE,
@@ -234,7 +233,8 @@ const ContactSection: FC<SectionProps> = (props: SectionProps) => {
             </Editable>
         </Collapsible>
     );
-};
+}
 
-const CONTACT_ID = getId(CONTACT);
-export { ContactSection, CONTACT_ID };
+ContactSection.ID = getId(CONTACT);
+
+export { ContactSection };

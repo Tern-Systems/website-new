@@ -1,6 +1,7 @@
-import React, { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
+'use client';
 
-import { FlowQueue } from '@/app/context/Flow.context';
+import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
+
 import { SavedCard } from '@/app/types/billing';
 import { Subscription, SubscriptionRecurrency } from '@/app/types/subscription';
 import { SubscribeData } from '@/app/services/billing.service';
@@ -8,8 +9,7 @@ import { COUNTRY, CountryKey, MISC_LINKS, Route, STATE_PROVINCE, StateKey } from
 
 import { BillingService } from '@/app/services';
 
-import { useForm, useNavigate } from '@/app/hooks';
-import { useFlow, useModal, useUser } from '@/app/context';
+import { useFlow, useForm, useModal, useNavigate, useUser } from '@/app/hooks';
 
 import { ScrollEnd } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
@@ -47,14 +47,13 @@ const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0 bg-[#fff]';
 const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 interface Props {
-    name: Subscription['subscription'] | undefined;
     type: Subscription['type'] | undefined;
     recurrency: SubscriptionRecurrency | undefined;
     priceUSD: number | undefined;
 }
 
 const PaymentForm: FC<Props> = (props: Props) => {
-    const { name, type, recurrency, priceUSD } = props;
+    const { type, recurrency, priceUSD } = props;
 
     const flowCtx = useFlow();
     const modalCtx = useModal();
@@ -74,7 +73,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             try {
                 const { payload: cards } = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
-            } catch (error: unknown) {
+            } catch (_: unknown) {
                 // Empty block
             }
         };
@@ -93,7 +92,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 if (next) next();
                 else {
                     window.open(MISC_LINKS.Tidal, '_blank');
-                    navigate(Route.Home);
+                    await navigate(Route.Home);
+                    modalCtx.openModal(<MessageModal>{paymentStatus}</MessageModal>);
                 }
             }
         };
@@ -307,7 +307,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 </fieldset>
                 <span
                     hidden={isBillingExpanded}
-                    className={'mt-[0.65rem] block cursor-pointer text-section-xs underline'}
+                    className={'mt-[0.65rem] block cursor-pointer text-14 underline'}
                     onClick={() => toggleBillingDetails()}
                 >
                     Enter address manually
@@ -336,7 +336,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         className={'max-h-xxs max-w-xxs'}
                         required
                     >
-                        <span className={'text-section-xs leading-normal'}>
+                        <span className={'text-14 leading-normal'}>
                             You will be charged the amount and at the frequency listed above until you cancel. We may
                             charge our prices as described in our&nbsp;
                             <PageLink
@@ -371,7 +371,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        className={`mt-[min(4dvw,--p-n)] h-[4.4rem] w-full rounded-full bg-gray text-section-s font-bold text-primary sm:h-[3.125rem]`}
+                        className={`mt-[min(4dvw,--p-n)] h-[4.4rem] w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-[3.125rem]`}
                     >
                         Subscribe
                     </Button>
@@ -381,5 +381,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+PaymentForm.displayName = PaymentForm.name;
 
 export { PaymentForm };

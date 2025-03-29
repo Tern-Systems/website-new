@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import cn from 'classnames';
 
@@ -16,7 +18,7 @@ const Switch: FC<Props> = (props: Props) => {
             onClick={() => handleSwitch()}
         >
             <div
-                className={`w-h-button-n flex h-[min(2.4dvw,0.8rem)] rounded-full border-[0.1rem] border-gray-l0 text-section`}
+                className={`w-h-button-n flex h-[min(2.4dvw,0.8rem)] rounded-full border-[0.1rem] border-gray-l0 text-20`}
             >
                 <div
                     className={cn(
@@ -29,5 +31,7 @@ const Switch: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+Switch.displayName = Switch.name;
 
 export { Switch };

@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import Image from 'next/image';
 
@@ -23,5 +25,7 @@ const DeclinedModal: FC = () => (
         </span>
     </BaseModal>
 );
+
+DeclinedModal.displayName = DeclinedModal.name;
 
 export { DeclinedModal };

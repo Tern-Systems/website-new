@@ -1,8 +1,9 @@
 'use client';
 
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { Margin, Resolution, usePDF } from 'react-to-pdf';
 import Image from 'next/image';
+import cn from 'classnames';
 
 import { Invoice } from '@/app/types/billing';
 
@@ -16,7 +17,8 @@ import SVG_DOCUMENT from '@/assets/images/document.svg';
 
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
-const BTN_CN = 'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)]';
+const BTN_CN =
+    'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)] sm:landscape:x-[h-[1.875rem],py-0]';
 
 interface Props {
     invoice: Invoice;
@@ -42,11 +44,16 @@ const OrderPreview: FC<Props> = (props: Props) => {
     const status: string = invoice?.status ? 'Invoice ' + invoice.status : '-- missing status --';
 
     return (
-        <div className={`relative shadow-2xl ${className}`}>
-            <div className={'min-w-[min(100%,53rem)] place-self-center px-[min(5.3dvw,6.6rem)]'}>
+        <div className={`relative md:landscape:shadow-2xl lg:shadow-2xl ${className}`}>
+            <div
+                className={cn(
+                    'relative place-self-center mx-[min(5.3dvw,6.6rem)] py-n max-w-[43.75rem]',
+                    'sm:landscape:x-[grid,py-0,pt-xs] sm:landscape:[&]:w-[90dvw]  sm:landscape:grid-cols-2',
+                )}
+            >
                 <div ref={targetRef}>
                     <h2
-                        className={`mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-heading-l font-bold`}
+                        className={`mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-36 font-bold`}
                     >
                         <Image
                             src={SVG_TERN_LOGO}
@@ -61,16 +68,17 @@ const OrderPreview: FC<Props> = (props: Props) => {
                             alt={'document'}
                             className={'h-auto w-[min(24.7dvw,5.4rem)] place-self-center'}
                         />
-                        <span className={'my-s block text-heading-s'}>{status}</span>
+                        <span className={'my-s block text-21'}>{status}</span>
                         <span className={'block text-[3rem]'}>{subtotal}</span>
                     </div>
-
+                </div>
+                <div>
                     <div
-                        className={`grid grid-cols-[minmax(0,1fr),minmax(0,max-content)] gap-y-[min(5.3dvw,1.9rem)] text-[min(4.8dvw,var(--fz-content-))]`}
+                        className={`grid grid-cols-[1fr,1fr] gap-y-xs text-basic  sm:landscape:gap-y-xxs md:text-heading-s  lg:text-heading-s`}
                     >
-                        <span>Status</span>
-                        <span className={'text-right capitalize'}>{status}</span>
-                        <span>Order (invoice) number</span>
+                        <span className='md:hidden  lg:hidden'>Status</span>
+                        <span className={'text-right capitalize  md:hidden  lg:hidden'}>{status}</span>
+                        <span>Order number</span>
                         <span className={'text-right'}>{invoice?.id ?? '-- missing id --'}</span>
                         <span>Payment date</span>
                         <span className={'text-right'}>{invoiceDate}</span>
@@ -80,7 +88,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
                 </div>
 
                 <div
-                    className={`mt-xl flex items-center justify-center gap-x-[0.75rem] text-heading-s font-bold sm:flex-col sm:gap-y-[4dvw]`}
+                    className={`mt-xl flex items-center justify-center gap-x-[0.75rem] text-21 font-bold sm:flex-col sm:gap-y-[4dvw]`}
                 >
                     <Button
                         icon={faDownload}

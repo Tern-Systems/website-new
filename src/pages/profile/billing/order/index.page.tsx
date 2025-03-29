@@ -1,4 +1,6 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { ReactElement, useEffect, useState } from 'react';
 import { Margin, Resolution, usePDF } from 'react-to-pdf';
 import cn from 'classnames';
 
@@ -6,15 +8,13 @@ import { Invoice } from '@/app/types/billing';
 import { Route } from '@/app/static';
 
 import { formatDate, getCardName } from '@/app/utils';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { FullScreenLayout } from '@/app/ui/layout';
 import { Button } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
 import { OrderDetails } from './OrderDetails';
 import { OrderPreview } from './OrderPreview';
-
-import styles from './Order.module.css';
 
 function OrderPage() {
     const modalCtx = useModal();
@@ -41,10 +41,10 @@ function OrderPage() {
 
     // Elements
     const ToggleDetailsBtn = (
-        <div className={'text-center sm:mt-[13dvw]'}>
+        <div className={'mt-3xl text-center text-section-xs sm:landscape:mt-xs md:text-section-s  lg:text-section-s'}>
             <Button
                 onClick={() => setDetailsToggleState((prevState) => !prevState)}
-                className={'justify-self-center underline md:hidden lg:hidden'}
+                className={'justify-self-center underline md:landscape:hidden lg:hidden'}
             >
                 {isDetailsToggled ? 'Hide' : 'See'} Details
             </Button>
@@ -65,7 +65,11 @@ function OrderPage() {
     const card: string = getCardName(invoice?.card);
 
     return (
-        <div className={'flex h-full sm:flex-col'}>
+        <div
+            className={
+                'grid h-full w-full flex-col bg-white mx-auto  lg:x-[grid-cols-2,gap-6] md:landscape:grid-cols-2'
+            }
+        >
             {invoice ? (
                 <>
                     <OrderPreview
@@ -73,7 +77,11 @@ function OrderPage() {
                         invoice={invoice}
                         card={card}
                         invoiceDate={invoiceDateStr}
-                        className={cn(styles.column, isDetailsToggled ? 'sm:hidden' : '')}
+                        className={cn(
+                            'md:pt-5xl lg:pt-5xl',
+                            isDetailsToggled ? 'sm:hidden' : '',
+                            isDetailsToggled ? 'md:hidden' : '',
+                        )}
                         VisibilityToggle={ToggleDetailsBtn}
                     />
                     <OrderDetails
@@ -82,7 +90,11 @@ function OrderPage() {
                         card={card}
                         invoiceDate={invoiceDateStr}
                         renewDate={renewDateStr}
-                        className={cn(styles.column, isDetailsToggled ? '' : styles.hidden)}
+                        className={cn(
+                            'md:pt-5xl lg:pt-5xl',
+                            isDetailsToggled ? '' : 'hidden  md:landscape:block',
+                            'lg:block',
+                        )}
                         VisibilityToggle={ToggleDetailsBtn}
                     />
                 </>

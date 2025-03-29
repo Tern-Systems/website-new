@@ -1,4 +1,6 @@
-import React, { FC, ReactElement, useRef, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useRef, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
@@ -9,12 +11,13 @@ import {
     MAPPED_NAV_ROUTES,
     NavLink,
     Route,
+    Breakpoint,
     ROUTES_WITH_INDEX,
     SPECIAL_NAV_ROUTES,
 } from '@/app/static';
 
 import { checkSubRoute, getIdName, getRouteRoot } from '@/app/utils';
-import { useLayout } from '@/app/context';
+import { useBreakpointCheck, useLayout, useOuterClickClose } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { Button } from '@/app/ui/form';
@@ -26,10 +29,7 @@ import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 
 import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
-import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
-import { useBreakpointCheck } from '@/app/hooks';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 const Header: FC = (): ReactElement => {
     const route = usePathname();
@@ -109,7 +109,7 @@ const Header: FC = (): ReactElement => {
     return (
         <header
             id={'header'}
-            className={cn('z-10 bg-black text-section-xs leading-none', navExpanded ? 'sticky top-0' : 'relative')}
+            className={cn('z-10 bg-black text-14 leading-none', navExpanded ? 'sticky top-0' : 'relative')}
         >
             <div className={'flex border-b-s border-gray'}>
                 <Button
@@ -156,5 +156,7 @@ const Header: FC = (): ReactElement => {
         </header>
     );
 };
+
+Header.displayName = Header.name;
 
 export { Header };

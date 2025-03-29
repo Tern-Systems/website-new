@@ -1,4 +1,5 @@
 import { KeysOfUnion } from '@/app/types/utils';
+import { Address, Phone } from '@/app/contexts/user.context';
 
 const COUNTRY = {
     '': '',
@@ -3831,5 +3832,17 @@ const REGEX = {
     email: /^\w+@\w+\.\w+$/g,
 };
 
+const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };
+
+const DEFAULT_ADDRESS: Address = {
+    line1: '',
+    line2: '',
+    city: '',
+    zip: '',
+    state: '',
+    isPrimary: false,
+    country: '',
+};
+
 export type { StateKey, CountryKey, SalutationKey, LanguageKey };
-export { COUNTRY, STATE_PROVINCE, LANGUAGE, REGEX, SALUTATION };
+export { COUNTRY, STATE_PROVINCE, LANGUAGE, REGEX, SALUTATION, DEFAULT_PHONE, DEFAULT_ADDRESS };

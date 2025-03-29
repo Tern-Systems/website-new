@@ -1,9 +1,11 @@
-import React, { FC, PropsWithChildren, ReactElement } from 'react';
+'use client';
+
+import { FC, PropsWithChildren, ReactElement } from 'react';
 import cn from 'classnames';
 
 import { TableSection } from '@/app/types/layout';
 
-const CELL_FALLBACK = <span className={'text-section-xs'}>No data</span>;
+const CELL_FALLBACK = <span className={'text-14'}>No data</span>;
 
 const SM_HIDDEN_CN = 'sm:hidden';
 const MD_SM_HIDDEN_CN = cn(SM_HIDDEN_CN, ' md:hidden');
@@ -32,7 +34,7 @@ const Table = <T extends object>(props: Props<T>) => {
 
     return (
         <div className={`bg-gray p-l sm:p-s`}>
-            <h3 className={`text-heading font-bold`}>{table.title}</h3>
+            <h3 className={`text-27 font-bold`}>{table.title}</h3>
             <hr
                 className={cn(
                     `relative border-white-d0`,
@@ -44,13 +46,11 @@ const Table = <T extends object>(props: Props<T>) => {
                 {!TableRows.length ? (
                     table.fallback
                 ) : (
-                    <table className={`w-full text-heading-s  sm:text-section-xs`}>
-                        <thead className={`sticky top-0 z-10 bg-gray text-heading-s  sm:text-section-s`}>
-                            <tr className={'[&_td]:x-[pb-4xs,text-section-xs]  sm:[&_td]:x-[pb-5xs,text-section-xxs]'}>
-                                {children}
-                            </tr>
+                    <table className={`w-full text-21  sm:text-14`}>
+                        <thead className={`sticky top-0 z-10 bg-gray text-21  sm:text-18`}>
+                            <tr className={'[&_td]:x-[pb-4xs,text-14]  sm:[&_td]:x-[pb-5xs,text-12]'}>{children}</tr>
                         </thead>
-                        <tbody className={'text-heading-s  capitalize sm:text-section-xs'}>{TableRows}</tbody>
+                        <tbody className={'text-21  capitalize sm:text-14'}>{TableRows}</tbody>
                     </table>
                 )}
             </div>
@@ -58,5 +58,7 @@ const Table = <T extends object>(props: Props<T>) => {
     );
 };
 
+Table.displayName = Table.name;
+
 export type { RowProps };
-export { Table, CELL_FALLBACK, MD_SM_HIDDEN_CN, SM_HIDDEN_CN };
+export { Table };

@@ -1,4 +1,6 @@
-import React, { FC, ReactElement } from 'react';
+'use client';
+
+import { FC, ReactElement } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
@@ -24,8 +26,8 @@ const ResourceCards: FC<Props> = (props: Props) => {
                 href={link.href}
                 className={`h-full w-full flex-col !items-start bg-gray px-xs py-l  sm:py-n`}
             >
-                <span className={'block text-heading  font-bold  sm:text-documentation'}>{link.title}</span>
-                <span className={'mt-3xl sm:mt-l  leading-n  sm:text-section-xs'}>{link.description}</span>
+                <span className={'block text-27  font-bold  sm:text-24'}>{link.title}</span>
+                <span className={'mt-3xl sm:mt-l  leading-n  sm:text-14'}>{link.description}</span>
                 {icon ? (
                     <ReactSVG
                         src={icon.src}
@@ -42,5 +44,7 @@ const ResourceCards: FC<Props> = (props: Props) => {
 
     return <ul className={'mt-[2.88rem] grid grid-cols-2 gap-n  sm:grid-cols-1'}>{Links}</ul>;
 };
+
+ResourceCards.displayName = ResourceCards.name;
 
 export { ResourceCards };

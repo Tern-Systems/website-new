@@ -1,9 +1,11 @@
-import React, { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
+'use client';
+
+import { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
 import { useBreakpointCheck } from '@/app/hooks';
@@ -83,9 +85,9 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         const Heading = title ? (
             <h2
                 className={cn(
-                    ` text-heading font-bold text-inherit`,
-                    `sm:portrait:text-heading-s`,
-                    `sm:landscape:text-section-s`,
+                    ` text-27 font-bold text-inherit`,
+                    `sm:portrait:text-21`,
+                    `sm:landscape:text-18`,
                     classNameTitle,
                     { ['mb-n']: adaptApplied },
                 )}
@@ -143,5 +145,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         );
     }
 };
+
+BaseModal.displayName = BaseModal.name;
 
 export { BaseModal };

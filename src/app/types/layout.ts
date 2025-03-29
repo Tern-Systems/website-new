@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { StaticImageData } from 'next/image';
 
 import { ButtonIcon } from '@/app/ui/form/Button';
-import { IModalContext } from '@/app/context/Modal.context';
+import { IModalContext } from '@/app/contexts/modal.context';
 import { Route } from '@/app/static';
 import { PlanName } from '@/app/types/subscription';
 
@@ -43,7 +43,7 @@ type SectionCard = {
 
 type ResourceSectionData = {
     Node: ReactNode;
-    action?: (props: { isSm: boolean; navigate: (link: Route) => void; modalCtx: IModalContext }) => void;
+    action?: (props: { sm: boolean; navigate: (link: Route) => void; modalCtx: IModalContext }) => void;
 };
 
 type NavDropdown = {

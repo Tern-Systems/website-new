@@ -1,22 +1,16 @@
-import React, {
-    Dispatch,
-    ForwardedRef,
-    forwardRef,
-    ReactElement,
-    SetStateAction,
-    useImperativeHandle,
-    useRef,
-} from 'react';
+'use client';
+
+import { Dispatch, ForwardedRef, forwardRef, ReactElement, SetStateAction, useImperativeHandle, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
 import { NavDropdown } from '@/app/types/layout';
 import { ALWAYS_MAPPED_ROUTES, DROPDOWN_SUB_NAV_ROUTES, MAPPED_SUB_NAV_ROUTES, NavLink, Route } from '@/app/static';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { checkSubRoute, getIdName, getRouteLeave } from '@/app/utils';
 import { useBreakpointCheck, useNavigate, useOuterClickClose } from '@/app/hooks';
-import { useLayout, useModal } from '@/app/context';
+import { useLayout, useModal } from '@/app/hooks';
 
 import { Button, Select } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
@@ -65,7 +59,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                       <li
                           key={title + idx + entryIdx}
                           className={cn(
-                              'first-letter:uppercase first-of-type:x-[mb-5xs,text-documentation]',
+                              'first-letter:uppercase first-of-type:x-[mb-5xs,text-24]',
                               'xxs:px-s xxs:first-of-type:font-bold',
                           )}
                       >
@@ -148,16 +142,13 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               <Select
                                   value={link}
                                   options={dropdownLinks}
-                                  onChangeCustom={(_) => {
+                                  onChangeCustom={(_: string) => {
                                       // TODO handle links
                                   }}
                                   classNameWrapper={'!static left-0 size-full'}
                                   className={'!w-full !border-0 !bg-transparent'}
                                   classNameUl={'top-[calc(100%+2px)] py-4xs !rounded-none bg-black-l0'}
-                                  classNameOption={cn(
-                                      styles.clickable,
-                                      '!bg-black-l0 !border-0 text-section-xxs !py-5xs',
-                                  )}
+                                  classNameOption={cn(styles.clickable, '!bg-black-l0 !border-0 text-12 !py-5xs')}
                                   classNameChevron={'w-[0.5625rem]'}
                               />
                           ) : (
@@ -186,7 +177,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                             styles.content,
                             'flex min-h-fit',
                             'flex-wrap justify-between gap-xs',
-                            'xxs:x-[flex-col,gap-y-s,!px-0,text-section-xxs]',
+                            'xxs:x-[flex-col,gap-y-s,!px-0,text-12]',
                         )}
                     >
                         {DropdownLi}
@@ -198,7 +189,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                     <ul
                         className={cn(
                             styles.content,
-                            `flex text-nowrap !pl-s text-section-xxs`,
+                            `flex text-nowrap !pl-s text-12`,
                             'sm:!pl-xs',
                             SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
                         )}
@@ -212,4 +203,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
 };
 
 const SubNav = forwardRef(SubNavElement);
+
+SubNav.displayName = 'SubNav';
+
 export { SubNav };

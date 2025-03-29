@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, PropsWithChildren, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
@@ -14,6 +16,7 @@ import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
 import { getId } from '@/app/utils';
 
 type Icon = 'key' | 'book' | 'building' | 'geo' | 'blocks';
+export type { Icon };
 
 const ICON: Record<Icon, string> = {
     key: SVG_KEY,
@@ -121,7 +124,7 @@ const Collapsible: FC<Props> = (props: Props) => {
                 onClick={() => handleToggle()}
                 className={cn(
                     classNameTitle,
-                    `flex cursor-pointer items-center justify-between gap-x-[0.2rem] text-heading sm:text-section-s`,
+                    `flex cursor-pointer items-center justify-between gap-x-[0.2rem] text-27 sm:text-18`,
                     { ['mb-[min(16dvw,3.75rem)]']: isChevron },
                 )}
             >
@@ -143,7 +146,7 @@ const Collapsible: FC<Props> = (props: Props) => {
             />
             <div
                 className={cn(
-                    `grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] items-start gap-[min(4dvw,0.56rem)] whitespace-pre-wrap text-left text-basic ${className}`,
+                    `grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] items-start gap-[min(4dvw,0.56rem)] whitespace-pre-wrap text-left text-16 ${className}`,
                     { ['hidden']: !isExpandedFinal },
                 )}
             >
@@ -152,5 +155,7 @@ const Collapsible: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+Collapsible.displayName = Collapsible.name;
 
 export { Collapsible };

@@ -1,4 +1,6 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
@@ -51,23 +53,18 @@ const InfoSection: FC<Props> = (props: Props) => {
                 </h2>
                 <div className={'flex items-center justify-between sm:x-[gap-y-xxl,flex-col-reverse]'}>
                     <span className={'w-[40%] text-left sm:x-[w-full,text-center]'}>
-                        <span
-                            className={cn(
-                                'mb-4xs block text-section-xl sm:text-section-xs md:text-[1.5rem]',
-                                classNameSubTitle,
-                            )}
-                        >
+                        <span className={cn('mb-4xs block text-32 sm:text-14 md:text-[1.5rem]', classNameSubTitle)}>
                             {subTitle}
                         </span>
-                        <span className={cn('block text-[0.9375rem] leading-n lg:text-section', classNameDescription)}>
+                        <span className={cn('block text-[0.9375rem] leading-n lg:text-20', classNameDescription)}>
                             {description}
                         </span>
                         <PageLink
                             href={link}
                             className={cn(
                                 'bg-blue px-n',
-                                'mt-xl h-button-l text-basic',
-                                'lg:x-[h-button-xl,text-heading-s]',
+                                'mt-xl h-button-l text-16',
+                                'lg:x-[h-button-xl,text-21]',
                                 'sm:mt-s',
                                 classNamePageLink,
                             )}
@@ -85,5 +82,7 @@ const InfoSection: FC<Props> = (props: Props) => {
         </section>
     );
 };
+
+InfoSection.displayName = InfoSection.name;
 
 export { InfoSection };

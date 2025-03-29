@@ -1,16 +1,17 @@
-import React, { FC, FormEvent, ReactElement } from 'react';
+'use client';
 
-import { UserData } from '@/app/context/User.context';
+import { FC, FormEvent, ReactElement } from 'react';
+
+import { UserData } from '@/app/contexts/user.context';
+
+import { useForm, useModal, useUser } from '@/app/hooks';
 
 import { AuthService } from '@/app/services';
-
-import { useForm } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
-import { faTriangleExclamation, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 const LIST: string[] = [
     'Account deletion is permanent and cannot be reversed.',
@@ -93,7 +94,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                     type={'submit'}
                     disabled={!isAllowedToDelete}
                     icon={isAllowedToDelete ? faTriangleExclamation : faLock}
-                    className={`mt-xs h-[min(5.9dvw,2.1rem)] w-full place-self-center rounded-full text-section font-bold ${isAllowedToDelete ? 'bg-red' : 'text-secondary'}`}
+                    className={`mt-xs h-[min(5.9dvw,2.1rem)] w-full place-self-center rounded-full text-20 font-bold ${isAllowedToDelete ? 'bg-red' : 'text-secondary'}`}
                 >
                     {isAllowedToDelete ? 'Permanently Delete My Account' : 'Locked'}
                 </Button>
@@ -106,12 +107,12 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
 
         return !isAllowedToDelete ? (
             <div className={'flex flex-col place-items-center'}>
-                <span className={'mt-[min(4dvw,--p-n)] inline-block w-[80%] text-center text-basic'}>
+                <span className={'mt-[min(4dvw,--p-n)] inline-block w-[80%] text-center text-16'}>
                     You may only delete your account if you have logged in within the last 5 minutes. Please login
                     again, then return here to continue.
                 </span>
                 <Button
-                    className={`h-h-button-n mt-xs rounded-full bg-white px-[min(3dvw,1rem)] text-section font-bold text-gray`}
+                    className={`h-h-button-n mt-xs rounded-full bg-white px-[min(3dvw,1rem)] text-20 font-bold text-gray`}
                     onClick={() => userCtx.removeSession()}
                 >
                     Restore Login

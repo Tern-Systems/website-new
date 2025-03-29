@@ -1,4 +1,6 @@
-import React, { FC, ReactElement } from 'react';
+'use client';
+
+import { FC, ReactElement } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
@@ -97,7 +99,7 @@ const InsideTernSection: FC<Props> = (props: Props) => {
             key={entry.title + idx}
             className={'flex w-full flex-col gap-y-3xs text-left'}
         >
-            <h4 className={'text-[0.9375rem] sm:text-section-3xs'}>{entry.title}</h4>
+            <h4 className={'text-[0.9375rem] sm:text-10'}>{entry.title}</h4>
             <p className={'mt-xxs'}>{entry.description}</p>
             <div className={'relative mt-3xs h-full w-full justify-end'}>
                 <div className={'absolute inset-0 hidden  md:block'} />
@@ -122,11 +124,11 @@ const InsideTernSection: FC<Props> = (props: Props) => {
             <div
                 className={cn(
                     styles.content,
-                    'text-section  pt-[6.25rem] md:pt-[5rem]  pb-xxl lg:pb-[9.44rem]  sm:max-w-card',
+                    'text-20  pt-[6.25rem] md:pt-[5rem]  pb-xxl lg:pb-[9.44rem]  sm:max-w-card',
                     classNameContent,
                 )}
             >
-                <h2 className={'text-left text-heading-xl font-bold '}>Inside Tern</h2>
+                <h2 className={'text-left text-40 font-bold '}>Inside Tern</h2>
                 <ul
                     className={cn(
                         'mt-[3.75rem] grid grid-cols-1 gap-xxl',
@@ -140,5 +142,7 @@ const InsideTernSection: FC<Props> = (props: Props) => {
         </section>
     );
 };
+
+InsideTernSection.displayName = InsideTernSection.name;
 
 export { InsideTernSection };

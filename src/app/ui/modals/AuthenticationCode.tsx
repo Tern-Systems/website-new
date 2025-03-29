@@ -1,18 +1,22 @@
-import React, { FC, FormEvent, ReactElement, useCallback, useEffect, useState } from 'react';
+'use client';
+
+import { FC, FormEvent, ReactElement, useCallback, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
+
+import { Breakpoint } from '@/app/static';
 
 import { AuthService } from '@/app/services';
 
 import { useForm } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
 
 import SVG_SAFE from '@/assets/images/safe.svg';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
 
 type FormData = { code: string };
+export type { FormData as AuthCodeFormData };
 
 const FORM_DEFAULT: FormData = { code: '' };
 
@@ -112,7 +116,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                             placeholder={'Code'}
                             maxLength={6}
                             value={formValue.code}
-                            onChange={(event) => {
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                 setFormValue('code')(event);
                                 setWarningMsg(null);
                             }}
@@ -122,14 +126,14 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         />
                         {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
                         <Button
-                            className={`mt-n w-[9.38563rem] place-self-center rounded-full border-s border-blue py-[0.37rem] text-section font-bold ${isDisabling ? 'border-red text-red' : 'border-blue'}`}
+                            className={`mt-n w-[9.38563rem] place-self-center rounded-full border-s border-blue py-[0.37rem] text-20 font-bold ${isDisabling ? 'border-red text-red' : 'border-blue'}`}
                         >
                             {isDisabling ? 'Disable' : 'Submit and Login'}
                         </Button>
                     </form>
-                    <div className={'mt-[2.51rem] text-section sm:portrait:w-[14.75rem]'}>
+                    <div className={'mt-[2.51rem] text-20 sm:portrait:w-[14.75rem]'}>
                         <span>
-                            It may take a minute to receive your code. Haven’t received it?&nbsp;
+                            It may take a minute to receive your code. Haven&apos;t received it?&nbsp;
                             <span
                                 className={'cursor-pointer font-bold text-blue'}
                                 onClick={() => handleSendNewCode()}
@@ -143,5 +147,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         </BaseModal>
     );
 };
+
+AuthenticationCode.displayName = AuthenticationCode.name;
 
 export { AuthenticationCode };

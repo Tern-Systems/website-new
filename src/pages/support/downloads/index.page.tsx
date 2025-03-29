@@ -1,13 +1,15 @@
+'use client';
+
 import React from 'react';
 import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
 import { DocumentationLink, ResourceLink, ResourceSectionData } from '@/app/types/layout';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { Route } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
-import { useUser } from '@/app/context';
+import { useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { BreadcrumbRoute } from '@/app/ui/atoms';
@@ -75,7 +77,7 @@ function DocumentationPage(props: Props) {
         <div className={'pb-[8.16rem]'}>
             <section className={styles.content}>
                 <BreadcrumbRoute />
-                <h1 className={`mt-3xl font-oxygen text-section-xl font-bold  sm:text-section-l`}>Downloads</h1>
+                <h1 className={`mt-3xl font-oxygen text-32 font-bold  sm:text-30`}>Downloads</h1>
             </section>
             <section className={cn(styles.content, styles.contentHighlight)}>
                 <ResourceCards

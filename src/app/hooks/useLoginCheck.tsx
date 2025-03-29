@@ -1,10 +1,11 @@
+'use client';
+
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { Route } from '@/app/static';
 
-import { useNavigate } from '@/app/hooks/useNavigate';
-import { useLayout, useModal, useUser } from '@/app/context';
+import { useLayout, useModal, useNavigate, useUser } from '@/app/hooks';
 
 import { AuthModal } from '@/app/ui/modals';
 

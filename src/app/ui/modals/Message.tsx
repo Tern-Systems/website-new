@@ -1,7 +1,9 @@
+'use client';
+
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import { BaseModal } from '@/app/ui/modals/Base';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 import cn from 'classnames';
 
 const TIMER_INTERVAL = 50;
@@ -55,5 +57,7 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         </BaseModal>
     );
 };
+
+MessageModal.displayName = MessageModal.name;
 
 export { MessageModal };

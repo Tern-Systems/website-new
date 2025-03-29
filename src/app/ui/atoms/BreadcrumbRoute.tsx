@@ -1,10 +1,12 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import cn from 'classnames';
 
 import { NavLink } from '@/app/static';
 
 import { getIdName } from '@/app/utils';
-import { useLayout } from '@/app/context';
+import { useLayout } from '@/app/hooks';
 
 interface Props {
     length?: number;
@@ -26,10 +28,12 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
         })
         .join(' / ');
     return (
-        <p className={cn('mt-n overflow-hidden overflow-ellipsis text-nowrap text-section-xxs leading-s', className)}>
+        <p className={cn('mt-n overflow-hidden overflow-ellipsis text-nowrap text-12 leading-s', className)}>
             {breadcrumbs}
         </p>
     );
 };
+
+BreadcrumbRoute.displayName = BreadcrumbRoute.name;
 
 export { BreadcrumbRoute };

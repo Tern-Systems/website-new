@@ -1,38 +1,39 @@
-import React, { FC } from 'react';
+'use client';
+
 import cn from 'classnames';
 
+import { Breakpoint } from '@/app/static';
 import { FormInit, FormType } from '@/app/ui/form/Editable';
+import { SectionProps } from '../index.page';
 
 import { REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services';
 
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
+import { useBreakpointCheck, useModal, useUser } from '@/app/hooks';
 
 import { formatDate, getId } from '@/app/utils';
-import { useUser } from '@/app/context/User.context';
-import { useModal } from '@/app/context';
+import { getSimpleToggleProps } from '../getSimpleToggleProps';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
 import { AuthenticationCode } from '@/app/ui/modals';
-import { getSimpleToggleProps, SectionProps } from '../index.page';
 
 import styles from '@/pages/profile/Profile.module.css';
 
 const ACCOUNT = 'Account Credentials';
 
-const AccountSection: FC<SectionProps> = (props: SectionProps) => {
+function AccountSection(props: SectionProps) {
     const { update, setEditId, editId } = props;
 
     const { userData, token } = useUser();
     const modalCtx = useModal();
-    const isSm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
+    const sm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
 
     if (!userData || !token) return null;
 
-    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
-    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-s  [&&]:lg:text-section-s`;
+    const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
+    const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-18  [&&]:lg:text-18`;
 
     return (
         <Collapsible
@@ -40,13 +41,13 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
             icon={'key'}
             className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
-            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitle={`text-18  md:text-27  lg:text-27`}
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
             classNameHr={`border-gray-l0`}
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>TernID</span>
             <Editable
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
                     return {
@@ -54,7 +55,7 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInput,
                             styles.singleInputBase,
                             styles.common,
-                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                            `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
                         title: 'Update your TernID',
                         value: { value: userData.email } as FormInit<T>,
@@ -75,7 +76,7 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Password</span>
             <Editable
                 type={'password'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 classNameWrapper={getSimpleToggleProps(setEditId, editId).classNameWrapper + ' gap-y-3xs'}
                 initialize={function () {
@@ -84,7 +85,7 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                             styles.singleInput,
                             styles.singleInputBase,
                             styles.common,
-                            `[&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-basic`,
+                            `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
                         title: 'Update password',
                         value: null,
@@ -108,8 +109,8 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                 }}
             >
                 <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>
-                    <span className={'block text-section-xxs tracking-widest'}>•••••••••••••••</span>
-                    <span className={'text-section-3xs md:text-section-xs lg:text-section-xs'}>
+                    <span className={'block text-12 tracking-widest'}>•••••••••••••••</span>
+                    <span className={'text-10 md:text-14 lg:text-14'}>
                         Last updated&nbsp;
                         {userData.passwordUpdateDate
                             ? formatDate(new Date(userData.passwordUpdateDate), 'short')
@@ -121,7 +122,7 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Security</span>
             <Editable
                 type={'2FA'}
-                classNameToggleText={`text-section-xs`}
+                classNameToggleText={`text-14`}
                 {...getSimpleToggleProps()}
                 classNameWrapper={getSimpleToggleProps().classNameWrapper + ' gap-y-xxs'}
                 initialize={function <T extends FormType>() {
@@ -168,15 +169,14 @@ const AccountSection: FC<SectionProps> = (props: SectionProps) => {
                     };
                 }}
             >
-                <span
-                    className={`${styles.midCol} ${styles.ellipsis} [&&]:text-section-xxs [&&]:md:text-basic [&&]:lg:text-basic`}
-                >
-                    Enable / disable your {isSm ? '2FA' : 'two-factor authentication'}
+                <span className={`${styles.midCol} ${styles.ellipsis} [&&]:text-12 [&&]:md:text-16 [&&]:lg:text-16`}>
+                    Enable / disable your {sm ? '2FA' : 'two-factor authentication'}
                 </span>
             </Editable>
         </Collapsible>
     );
-};
+}
 
-const ACCOUNT_ID = getId(ACCOUNT);
-export { AccountSection, ACCOUNT_ID };
+AccountSection.ID = getId(ACCOUNT);
+
+export { AccountSection };

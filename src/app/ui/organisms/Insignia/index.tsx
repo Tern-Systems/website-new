@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
@@ -27,5 +27,7 @@ const Insignia: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+Insignia.displayName = Insignia.name;
 
 export { Insignia };

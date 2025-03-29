@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import cn from 'classnames';
 
 import { ResourceCard } from '@/app/ui/organisms';

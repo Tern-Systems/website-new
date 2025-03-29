@@ -1,3 +1,5 @@
+'use client';
+
 import { ButtonHTMLAttributes, ForwardedRef, forwardRef, ReactNode } from 'react';
 import { StaticImageData } from 'next/dist/shared/lib/get-img-props';
 import { IconDefinition, IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -92,7 +94,6 @@ const ButtonComponent = (props: Props, ref: ForwardedRef<HTMLButtonElement>) => 
     );
 };
 
-const Button = forwardRef(ButtonComponent);
+ButtonComponent.displayName = 'Button';
 
-export type { Props as ButtonProps };
-export { Button };
+export const Button = forwardRef(ButtonComponent);

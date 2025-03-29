@@ -1,7 +1,9 @@
-import React, { FC, PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
+'use client';
+
+import { FC, PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { Route } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
@@ -84,7 +86,7 @@ const Carousel: FC<Props> = (props: Props) => {
             >
                 ◀
             </Button>
-            <span className={'mx-xxs sm:mx-5xs  text-basic sm:text-section-3xs'}>
+            <span className={'mx-xxs sm:mx-5xs  text-16 sm:text-10'}>
                 {page + 1} / {maxPage}
             </span>
             <Button
@@ -116,7 +118,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         defaultSpinner ? 'sm:flex  mx-auto max-w-card' : 'md:flex',
                     )}
                 >
-                    <h3 className={'sm:text-center  text-heading-xl sm:text-heading'}>{altData?.title}</h3>
+                    <h3 className={'sm:text-center  text-40 sm:text-27'}>{altData?.title}</h3>
                     <Spinner className={cn('hidden', defaultSpinner ? 'sm:inline' : 'md:inline')} />
                 </div>
             ) : (
@@ -138,8 +140,8 @@ const Carousel: FC<Props> = (props: Props) => {
                     <div className={'flex items-center sm:mt-0 md:mt-s lg:mt-n'}>
                         <PageLink
                             icon={'arrow-right-long'}
-                            className={'flex-row-reverse text-blue text-basic  hidden lg:flex'}
-                            iconClassName={'ml-xxs size-[1.06rem] [&_path]:fill-blue'}
+                            className={'flex-row-reverse text-blue text-16  hidden lg:flex'}
+                            iconClassName={'ml-xxs [&_*]:size-[1.06rem] [&_path]:fill-blue'}
                         >
                             See All
                         </PageLink>
@@ -152,5 +154,7 @@ const Carousel: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+Carousel.displayName = Carousel.name;
 
 export { Carousel };

@@ -17,7 +17,10 @@
   },
   "testRegex": ".*\\.(e2e-)?(int-)?spec\\.tsx?$",
   "setupFiles": [
-    "<rootDir>/setupTests.js"
+    "<rootDir>/jest.setup.env.js"
+  ],
+  "setupFilesAfterEnv": [
+    "<rootDir>/jest.setup.js"
   ],
   "transform": {
     "^.+\\.tsx?$": "babel-jest",

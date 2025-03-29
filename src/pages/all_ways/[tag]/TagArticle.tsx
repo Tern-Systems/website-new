@@ -1,13 +1,15 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 import { Article, ArticleTag } from '@/app/types/blog';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { BlogService } from '@/app/services/blog.service';
 
 import { getIdName } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { MainBackground } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
@@ -21,7 +23,7 @@ import PNG_ELECTRONS from '@/assets/images/electrons.png';
 
 const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 
-const P_CN = 'mb-s lg:mb-[2.88rem] sm:text-center  text-documentation md:text-section-l lg:text-heading-xl';
+const P_CN = 'mb-s lg:mb-[2.88rem] sm:text-center  text-24 md:text-30 lg:text-40';
 
 interface Props {
     tag: ArticleTag | null;
@@ -79,10 +81,8 @@ const TagArticle: FC<Props> = (props: Props) => {
             <section className={styles.section}>
                 <MainBackground url={PNG_ELECTRONS} />
                 <div className={cn(styles.content, 'relative z-10 py-5xl')}>
-                    <h1 className={cn(`text-heading-4xl sm:heading-xl`)}>All Ways</h1>
-                    <h2 className={cn(`mt-[4.75rem]  text-heading-l sm:text-section`)}>
-                        Tech, news, education, events and more
-                    </h2>
+                    <h1 className={cn(`text-96 sm:heading-xl`)}>All Ways</h1>
+                    <h2 className={cn(`mt-[4.75rem]  text-36 sm:text-20`)}>Tech, news, education, events and more</h2>
                 </div>
             </section>
 
@@ -138,7 +138,7 @@ const TagArticle: FC<Props> = (props: Props) => {
                             {CardsLi}
                         </ul>
                     ) : (
-                        <span className={'mt-[5rem] block text-section-xxs'}>
+                        <span className={'mt-[5rem] block text-12'}>
                             No articles found with tag &apos;{getIdName(tag ?? '--')}&apos;
                         </span>
                     )}

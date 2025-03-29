@@ -1,16 +1,17 @@
+'use client';
+
 import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { SignUpData } from '@/app/services/auth.service';
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 import { REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services';
 
 import { useForm } from '@/app/hooks';
-import { useFlow, useModal, useUser } from '@/app/context';
+import { useFlow, useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal, ResetPasswordModal } from '@/app/ui/modals';
 import { Button, Input } from '@/app/ui/form';
@@ -20,7 +21,12 @@ import SVG_INSIGNIA from '@/assets/images/insignia-logo.png';
 const INPUT_CN = `h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
                     sm:text-primary placeholder:sm:text-primary`;
 
-type FormData = SignUpData;
+type FormData = {
+    email: string;
+    password: string;
+    passwordConfirm: string;
+};
+
 const FORM_DEFAULT: FormData = { email: '', password: '', passwordConfirm: '' };
 
 interface Props {
@@ -40,6 +46,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     const [isLoginForm, setLoginFormState] = useState(!registration);
     const [warningMsg, setWarningMsg] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setWarningMsg(null);
@@ -47,28 +54,39 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setWarningMsg(null);
+        setIsLoading(true);
+
         try {
             if (isLoginForm) {
-                const { payload: token } = await AuthService.postLogIn(formValue);
-                await userCtx.setupSession(true, token);
+                const { payload } = await AuthService.postLogin(formValue.email, formValue.password);
+                await userCtx.setupSession(true, payload.token);
                 modalCtx.closeModal();
-            } else if (!REGEX.email.test(formValue.email))
+                flowCtx.next()?.();
+            } else if (!REGEX.email.test(formValue.email)) {
                 setWarningMsg(`Entered email doesn't match the email format`);
-            else if (!REGEX.password.test(formValue.password)) {
+            } else if (!REGEX.password.test(formValue.password)) {
                 setWarningMsg(
                     `Entered password should consist of minimum 9 characters, one uppercase letter, one lowercase letter and one number`,
                 );
-            } else if (formValue.password !== formValue.passwordConfirm) setWarningMsg("Passwords don't match");
-            else {
-                const { message } = await AuthService.postSignUp(formValue);
+            } else if (formValue.password !== formValue.passwordConfirm) {
+                setWarningMsg("Passwords don't match");
+            } else {
+                const { message } = await AuthService.postSignup(formValue.email, formValue.password);
+                // Only close modal and show success message on successful signup
                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+                flowCtx.next()?.();
             }
-            flowCtx.next()?.();
         } catch (error: unknown) {
-            let message: string = 'Unknown error';
-            if (axios.isAxiosError(error)) message = error.cause?.message ?? message;
-            else if (typeof error === 'string') message = error;
-            modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+            let errorMessage: string = 'Unknown error';
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.error || error.message || errorMessage;
+            } else if (typeof error === 'string') {
+                errorMessage = error;
+            }
+            setWarningMsg(errorMessage);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -78,10 +96,10 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             preventClose={preventClose}
             title={isLoginForm ? 'Login to Tern Account' : 'Create Tern Account'}
             onClose={() => onClose?.()}
-            classNameTitle={'justify-self-start text-heading   sm:[&]:mb-xs   sm:landscape:ml-0 '}
+            classNameTitle={'justify-self-start text-27   sm:[&]:mb-xs   sm:landscape:ml-0 '}
             className={'sm:bg-white'}
             classNameContent={cn(
-                'w-[30rem] items-start mx-auto place-items-center text-basic',
+                'w-[30rem] items-start mx-auto place-items-center text-16',
                 '[&]:overflow-y-visible',
                 'sm:[&]:x-[px-xs,py-n,w-full,overflow-y-scroll]',
                 'sm:landscape:x-[max-w-[73rem],px-xxl]',
@@ -96,7 +114,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             alt={'insignia'}
                             className={`my-xs h-[9rem] w-[10rem]`}
                         />
-                        {isLoginForm ? null : <span className={' text-heading'}>Tern</span>}
+                        {isLoginForm ? null : <span className={' text-27'}>Tern</span>}
                     </div>
                 </div>
                 <form
@@ -146,16 +164,24 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     <div className={'flex flex-col items-center sm:landscape:w-full'}>
                         <Button
                             type={'submit'}
+                            disabled={isLoading}
                             className={cn(
                                 `border-control mt-s w-[60%] place-self-center rounded-full border-s py-xxs`,
-                                `text-section-s font-bold`,
+                                `text-18 font-bold`,
                                 `sm:w-[90%]`,
+                                isLoading ? 'opacity-70 cursor-not-allowed' : '',
                                 isLoginForm
                                     ? 'bg-white text-gray sm:x-[bg-blue,text-primary] sm:landscape:mt-auto'
                                     : 'sm:x-[border-b-s,border-blue] sm:landscape:mt-xl',
                             )}
                         >
-                            {!isLoginForm ? 'Sign Up' : 'Login'}
+                            {isLoading
+                                ? isLoginForm
+                                    ? 'Logging in...'
+                                    : 'Signing up...'
+                                : !isLoginForm
+                                  ? 'Sign Up'
+                                  : 'Login'}
                         </Button>
                         <div className={'mt-s text-center'}>
                             <span>
@@ -174,5 +200,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         </BaseModal>
     );
 };
+
+AuthModal.displayName = AuthModal.name;
 
 export { AuthModal };

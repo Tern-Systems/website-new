@@ -1,4 +1,6 @@
-import React, { FC, PropsWithChildren, useState } from 'react';
+'use client';
+
+import { FC, PropsWithChildren, useState } from 'react';
 import cn from 'classnames';
 
 interface Tab {

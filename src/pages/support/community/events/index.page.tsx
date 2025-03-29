@@ -1,11 +1,13 @@
+'use client';
+
 import { ReactElement, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/hooks/useBreakpointCheck';
+import { Breakpoint } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { BreadcrumbRoute, SearchBar } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
@@ -141,7 +143,7 @@ function CommunityEventsPage() {
     const modalCtx = useModal();
     const breakpoint = useBreakpointCheck();
 
-    const isSm = breakpoint <= Breakpoint.sm;
+    const sm = breakpoint <= Breakpoint.sm;
 
     const [events, setEvents] = useState<Event[]>([]);
     const [pageNos, setPageNos] = useState<number>(1);
@@ -171,7 +173,7 @@ function CommunityEventsPage() {
                         'grid',
                         'sm:gap-x-0 gap-x-xxs',
                         'sm:grid-cols-[1fr,min-content] grid-cols-[min-content,1fr]',
-                        'text-section-xxs',
+                        'text-12',
                     )}
                 >
                     <span
@@ -183,19 +185,17 @@ function CommunityEventsPage() {
                             'w-[7.1875rem] h-[7.875rem]',
                         )}
                     >
-                        <span className={'text-center text-heading-3xl sm:x-[text-[2.5rem]]'}>{day}</span>
-                        <span className={'sm:x-[ml-[0.3125rem],text-section-3xs] text-section-xxs'}>
-                            {DAY_NAMES[day]}
-                        </span>
+                        <span className={'text-center text-64 sm:x-[text-[2.5rem]]'}>{day}</span>
+                        <span className={'sm:x-[ml-[0.3125rem],text-10] text-12'}>{DAY_NAMES[day]}</span>
                     </span>
                     <span
                         className={
-                            'col-start-2 flex items-center size-fit text-basic text-primary mt-[0.875rem] sm:x-[col-span-2,mt-[0.4375rem],!mr-auto]'
+                            'col-start-2 flex items-center size-fit text-16 text-primary mt-[0.875rem] sm:x-[col-span-2,mt-[0.4375rem],!mr-auto]'
                         }
                     >
                         {event.tag}
                     </span>
-                    <span className={'leading-n sm:x-[text-section-3xs,row-start-3,col-span-3] text-xs'}>
+                    <span className={'leading-n sm:x-[text-10,row-start-3,col-span-3] text-xs'}>
                         {event.description}
                     </span>
                     <span
@@ -210,9 +210,9 @@ function CommunityEventsPage() {
                         <span className={'ml-[0.3125rem]'}>
                             {new Date(event.time.start).toLocaleString('en-US', {
                                 weekday: 'short',
-                                month: isSm ? undefined : 'short',
-                                day: isSm ? undefined : '2-digit',
-                                year: isSm ? undefined : 'numeric',
+                                month: sm ? undefined : 'short',
+                                day: sm ? undefined : '2-digit',
+                                year: sm ? undefined : 'numeric',
                             })}
                             | {`${String(new Date(event.time.start).getHours()).padStart(2, '0')}00`} -&nbsp;
                             {`${String(new Date(event.time.start).getHours() + 1).padStart(2, '0')}00`} hrs&nbsp; (
@@ -292,9 +292,7 @@ function CommunityEventsPage() {
                 )}
             >
                 <BreadcrumbRoute />
-                <h1 className={cn('text-heading-xxl sm:x-[text-documentation,mb-[10px],mt-[10px]]')}>
-                    All Tern Community Events
-                </h1>
+                <h1 className={cn('text-48 sm:x-[text-24,mb-[10px],mt-[10px]]')}>All Tern Community Events</h1>
                 <SearchBar contentTypes={CONTENT_TYPES} />
                 <ul className={cn('grid grid-cols-1', 'gap-y-xxs gap-x-xs md:x-[gap-y-s,gap-x-n] lg:x-[gap-y-l]')}>
                     {EventsLi}

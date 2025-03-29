@@ -1,11 +1,13 @@
-import React, { FC, ReactElement } from 'react';
+'use client';
+
+import { ReactElement } from 'react';
 import cn from 'classnames';
 
 import { ButtonIcon } from '@/app/ui/form/Button';
+import { Breakpoint } from '@/app/static';
 
 import { getId } from '@/app/utils';
-import { Breakpoint, useBreakpointCheck } from '@/app/hooks/useBreakpointCheck';
-import { useUser } from '@/app/context';
+import { useBreakpointCheck, useUser } from '@/app/hooks';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
@@ -13,7 +15,7 @@ import { Button } from '@/app/ui/form';
 import styles from '@/pages/profile/Profile.module.css';
 
 import { faCircleXmark, faSquarePlus } from '@fortawesome/free-regular-svg-icons';
-import { faSquareXmark, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 
 const APPS = 'Third-Party Applications';
 
@@ -30,17 +32,17 @@ const SOCIAL_MEDIA: string[] = [
     'Facebook',
 ];
 
-const AppsSection: FC = () => {
+function AppsSection() {
     const { userData } = useUser();
     const breakpoint = useBreakpointCheck();
 
     if (!userData) return null;
 
-    const isSm = breakpoint <= Breakpoint.sm;
-    const isMd = breakpoint === Breakpoint.md;
+    const sm = breakpoint <= Breakpoint.sm;
+    const md = breakpoint === Breakpoint.md;
 
-    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
-    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-xs  [&&]:lg:text-section-xs`;
+    const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
+    const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-14  [&&]:lg:text-14`;
 
     const renderConnectedApps = (apps: string[], userApps: { name: string; link: string }[]): ReactElement[] => {
         return apps.map((app, idx) => {
@@ -71,18 +73,18 @@ const AppsSection: FC = () => {
                         icon={icon}
                         hover={{
                             icon: isFound ? faSquareXmark : icon,
-                            text: isSm || isMd ? '' : isFound ? 'Disconnect' : 'Connect',
+                            text: sm || md ? '' : isFound ? 'Disconnect' : 'Connect',
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
                         className={cn(
-                            `col-start-3 flex-row-reverse gap-[5px] place-self-end text-section-xs font-bold`,
+                            `col-start-3 flex-row-reverse gap-[5px] place-self-end text-14 font-bold`,
                             styles.ellipsis,
                         )}
                         onClick={() => {
                             // TODO
                         }}
                     >
-                        {isSm || isMd ? null : <span>{text}</span>}
+                        {sm || md ? null : <span>{text}</span>}
                     </Button>
                 </span>
             );
@@ -95,7 +97,7 @@ const AppsSection: FC = () => {
             icon={'blocks'}
             className={`${styles.collapsible} [&&]:gap-y-5xs [&&]:md:gap-y-4xs [&&]:lg:gap-y-4xs`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
-            classNameTitle={`text-section-s  md:text-heading  lg:text-heading`}
+            classNameTitle={`text-18  md:text-27  lg:text-27`}
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
             classNameHr={`border-gray-l0`}
         >
@@ -118,7 +120,7 @@ const AppsSection: FC = () => {
                 icon={userData.personalDomain?.isVerified ? faCircleXmark : faCirclePlus}
                 className={'col-start-3 flex-row-reverse place-self-end'}
             >
-                <span className={`${isSm || isMd ? 'hidden' : ''} ${label_CN}`}>
+                <span className={`${sm || md ? 'hidden' : ''} ${label_CN}`}>
                     Verif{userData.personalDomain?.isVerified ? 'ied' : 'y'}
                 </span>
             </Button>
@@ -126,17 +128,18 @@ const AppsSection: FC = () => {
             <span className={`mt-xxs md:mt-xs lg:mt-xs ${styles.leftCol} ${styles.ellipsis} ${title_CN} `}>
                 Data Storage
             </span>
-            <span className={`col-start-2 self-end text-section-xs ${styles.ellipsis} ${label_CN}`}>Applications</span>
+            <span className={`col-start-2 self-end text-14 ${styles.ellipsis} ${label_CN}`}>Applications</span>
             {renderConnectedApps(DATA_STORAGE, userData.connectedApps.data)}
 
             <span className={`mt-xxs md:mt-xs lg:mt-xs ${styles.leftCol} ${styles.ellipsis} ${title_CN} `}>
                 Social Media
             </span>
-            <span className={`col-start-2 self-end text-section-xs ${label_CN}`}>Applications</span>
+            <span className={`col-start-2 self-end text-14 ${label_CN}`}>Applications</span>
             {renderConnectedApps(SOCIAL_MEDIA, userData.connectedApps.social)}
         </Collapsible>
     );
-};
+}
 
-const APPS_ID = getId(APPS);
-export { AppsSection, APPS_ID };
+AppsSection.ID = getId(APPS);
+
+export { AppsSection };

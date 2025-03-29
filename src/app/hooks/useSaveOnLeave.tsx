@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+'use client';
 
-import { NavigationState } from '@/app/context/Layout.context';
+import { useEffect } from 'react';
 
-import { useLayout, useModal } from '@/app/context';
+import { NavigationState } from '@/app/contexts/layout.context';
+
+import { useLayout, useModal } from '@/app/hooks';
 
 import { SaveChangesModal } from '@/app/ui/modals';
-import { useNavigate } from '@/app/hooks/useNavigate';
+import { useNavigate } from '@/app/hooks';
 
 type Args = {
     editId?: string;

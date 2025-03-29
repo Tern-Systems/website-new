@@ -1,4 +1,6 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CardLink } from '@/app/types/layout';
@@ -8,7 +10,7 @@ import { Route } from '@/app/static';
 
 import { BlogService, TipsDTO } from '@/app/services/blog.service';
 
-import { useModal } from '@/app/context';
+import { useModal } from '@/app/hooks';
 
 import { MainBackground } from '@/app/ui/atoms';
 import { ArticleCard, ResourceCard, Carousel } from '@/app/ui/organisms';
@@ -28,7 +30,7 @@ const HIGHLIGHTED_CARD: CardLink = {
     action: { title: 'Subscribe today', href: '' },
 };
 
-const UL_H_CN = ' mb-xs md:mb-n lg:mb-[2.75rem]  sm:x-[mx-auto,w-card]  sm:text-heading text-heading-xl';
+const UL_H_CN = ' mb-xs md:mb-n lg:mb-[2.75rem]  sm:x-[mx-auto,w-card]  sm:text-27 text-40';
 const CAROUSEL_UL_CN = 'mx-0 min-h-[27.0625rem]  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3  w-full sm:w-fit';
 
 const renderTips = (type: ArticleCardType, tips: Tip[] = []) =>
@@ -76,8 +78,8 @@ function TipsPage() {
                     className={'translate-y-0 max-h-full'}
                 />
                 <div className={cn(styles.content, 'relative z-10 flex flex-col justify-between', 'py-xxl md:pb-4xl')}>
-                    <h1 className={'text-[3.375rem] md:text-[4.5rem] lg;text-heading-4xl'}>Tips</h1>
-                    <h2 className={'w-full lg:w-2/3  leading-n  text-section md:text-heading-l lg:text-heading-l'}>
+                    <h1 className={'text-[3.375rem] md:text-[4.5rem] lg;text-96'}>Tips</h1>
+                    <h2 className={'w-full lg:w-2/3  leading-n  text-20 md:text-36 lg:text-36'}>
                         Learn how to manage your Tern products, services, and accounts like a professional
                     </h2>
                 </div>

@@ -1,3 +1,5 @@
-export { AuthService } from './auth.service';
-export { BillingService } from './billing.service';
-export { UserService } from './user.service';
+export { BaseService } from './base.service';
+
+export { AuthServiceImpl, AuthService } from './auth.service';
+export { BillingServiceImpl, BillingService } from './billing.service';
+export { UserServiceImpl, UserService } from './user.service';

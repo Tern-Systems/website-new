@@ -1,13 +1,15 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { FC, ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { ResourceSectionData, TableSection } from '@/app/types/layout';
 import { PlanName, Subscription } from '@/app/types/subscription';
-import { MD_SM_HIDDEN_CN, RowProps, SM_HIDDEN_CN } from '@/app/ui/organisms/Table';
-import { MISC_LINKS, Route } from '@/app/static';
+import { RowProps } from '@/app/ui/organisms/Table';
+import { MD_SM_HIDDEN_CN, MISC_LINKS, Route, SM_HIDDEN_CN } from '@/app/static';
 
 import { capitalize, copyObject } from '@/app/utils';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 import { useLoginCheck, useNavigate } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
@@ -175,7 +177,7 @@ function MyTernPage() {
         >
             <Button
                 icon={faChevronDown}
-                className={cn(`flex-row-reverse bg-blue`, `p-4xs text-basic`, `xxs:x-[p-[0.56rem],text-section-xs]`)}
+                className={cn(`flex-row-reverse bg-blue`, `p-4xs text-16`, `xxs:x-[p-[0.56rem],text-14]`)}
                 classNameIcon={cn(`[&_path]:fill-primary -rotate-90 ml-n w-[0.6rem]`, `sm:w-[0.525rem]`)}
             >
                 {btn.title}
@@ -186,7 +188,7 @@ function MyTernPage() {
     return (
         <div className={cn(styles.section, `pt-[6.25rem]`)}>
             <section className={styles.content}>
-                <h1 className={`flex text-section-xl font-bold`}>Dashboard</h1>
+                <h1 className={`flex text-32 font-bold`}>Dashboard</h1>
                 <p className={'text-xxs mt-xxs'}>{renderSinceDate(userCtx.userData?.registrationDate)}</p>
             </section>
             <section className={cn(styles.content, 'mt-n flex flex-wrap gap-xs xxs:gap-x-xxs')}>{LinksLi}</section>

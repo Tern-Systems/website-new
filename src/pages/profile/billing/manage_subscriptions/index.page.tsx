@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
@@ -9,7 +11,7 @@ import { BillingService } from '@/app/services';
 
 import { checkNumber, formatDate } from '@/app/utils';
 import { useLoginCheck } from '@/app/hooks';
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { BreadcrumbRoute } from '@/app/ui/atoms';
 import { Button, Select } from '@/app/ui/form';
@@ -67,7 +69,7 @@ function ManageSubscriptionsPage() {
         ]) ?? [],
     );
 
-    const taxUSD: number | undefined = checkNumber(selectedPlan?.tax) ? selectedPlan?.tax : undefined;
+    const taxUSD: number | undefined = checkNumber(selectedPlan?.tax?.amount) ? selectedPlan?.tax?.amount : undefined;
     const priceUSD: number | undefined = checkNumber(selectedPlan?.priceUSD) ? selectedPlan.priceUSD : undefined;
 
     const price: string = priceUSD ? '$' + priceUSD.toFixed(2) : '-- missing price --';
@@ -80,12 +82,12 @@ function ManageSubscriptionsPage() {
         const preferredCard: SavedCardFull | undefined = savedCards[preferredCardIdx];
 
         return (
-            <div className={`mb-[24.75rem] mt-[6rem] text-basic sm:x-[grid-cols-1,gap-y-l,mt-l]  [&>div>div>*]:px-5xs`}>
+            <div className={`mb-[24.75rem] mt-[6rem] text-16 sm:x-[grid-cols-1,gap-y-l,mt-l]  [&>div>div>*]:px-5xs`}>
                 <div>
                     <div className={'flex items-center justify-between'}>
-                        <h2 className={`text-basic md:text-section-s lg:text-section`}>Current Plan</h2>
+                        <h2 className={`text-16 md:text-18 lg:text-20`}>Current Plan</h2>
                         <Button
-                            className={'h-button-s border-s border-white-d0 px-5xs text-section-xxs font-bold'}
+                            className={'h-button-s border-s border-white-d0 px-5xs text-12 font-bold'}
                             onClick={() =>
                                 modalCtx.openModal(<CancelModal plan={selectedPlan?.subscription} />, {
                                     darkenBg: true,
@@ -100,14 +102,14 @@ function ManageSubscriptionsPage() {
                         className={cn(
                             `mb-xxs grid auto-rows-min`,
                             `grid-cols-[1fr,min-content] sm:grid-cols-1`,
-                            `text-basic sm:text-section-xs`,
+                            `text-16 sm:text-14`,
                             `gap-y-xxs sm:gap-y-xs`,
                         )}
                     >
                         <span className={'capitalize'}>
                             {selectedPlan.subscription} {selectedPlan.type} Plan
                         </span>
-                        <span className={cn('text-nowrap sm:row-start-3', 'text-basic sm:text-section-xs')}>
+                        <span className={cn('text-nowrap sm:row-start-3', 'text-16 sm:text-14')}>
                             {selectedPlan.renewDate
                                 ? 'Your plan renews on ' + formatDate(new Date(selectedPlan.renewDate))
                                 : '-- missing renew date --'}
@@ -122,7 +124,7 @@ function ManageSubscriptionsPage() {
                         </span>
                         <Button
                             icon={detailsExpanded ? faChevronDown : faChevronUp}
-                            className={'col-start-1 mr-auto flex-row-reverse  text-section-xxs sm:text-section-xs'}
+                            className={'col-start-1 mr-auto flex-row-reverse  text-12 sm:text-14'}
                             classNameIcon={'[&_path]:fill-gray w-[0.4rem] [&_path]:fill-primary'}
                             onClick={() => setDetailsExpanded((prevState) => !prevState)}
                         >
@@ -136,7 +138,7 @@ function ManageSubscriptionsPage() {
                                 `gap-y-xxs md:gap-y-[1rem] lg:gap-y-xs`,
                                 `w-[16rem] min-w-fit max-w-[70%]`,
                                 'mt-4xs lg:mt-3xs',
-                                'text-section-xxs sm:text-section-3xs',
+                                'text-12 sm:text-10',
                             )}
                         >
                             <span className={'capitalize'}>
@@ -161,10 +163,10 @@ function ManageSubscriptionsPage() {
                     ) : null}
                 </div>
                 <div className={'mt-[6rem]'}>
-                    <h2 className={`text-basic md:text-section-s lg:text-section`}>Payment Method</h2>
+                    <h2 className={`text-16 md:text-18 lg:text-20`}>Payment Method</h2>
                     {Hr}
                     {!preferredCard ? (
-                        <span className={'text-section-xs'}>Error retrieving payment method</span>
+                        <span className={'text-14'}>Error retrieving payment method</span>
                     ) : (
                         <div
                             className={cn(
@@ -180,7 +182,7 @@ function ManageSubscriptionsPage() {
                                     src={SVG_CARD.src}
                                     className={'h-auto w-[1.35rem]'}
                                 />
-                                <span className={cn('mx-5xs block text-basic sm:text-section-xs')}>
+                                <span className={cn('mx-5xs block text-16 sm:text-14')}>
                                     {preferredCard.nickName ?? preferredCard.cardType + ' **** ' + preferredCard.last4}
                                 </span>
                             </span>
@@ -221,7 +223,7 @@ function ManageSubscriptionsPage() {
                 <h1
                     className={cn(
                         `overflow-ellipsis text-nowrap`,
-                        `text-heading sm:leading-s lg:text-section-xl`,
+                        `text-27 sm:leading-s lg:text-32`,
                         `mt-4xl md:mt-3xl lg:mt-xxl`,
                     )}
                 >
@@ -236,7 +238,7 @@ function ManageSubscriptionsPage() {
                         onChangeCustom={(value) => setSelectedSubscriptionsIdx(parseInt(value) ?? -1)}
                         classNameWrapper={cn(
                             `flex-col gap-y-xxs`,
-                            `text-section-xs md:text-basic lg:text-section-s`,
+                            `text-14 md:text-16 lg:text-18`,
                             `w-full md:w-1/2 lg:w-1/3`,
                         )}
                         classNameLabel={'mr-auto'}

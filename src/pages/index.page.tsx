@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, ReactElement, useEffect } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image, { StaticImageData } from 'next/image';
 import cn from 'classnames';
@@ -9,8 +9,7 @@ import { InfoSectionData } from '@/app/types/layout';
 
 import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
 
-import { useBackground, useLoginCheck } from '@/app/hooks';
-import { useFlow, useModal } from '@/app/context';
+import { useBackground, useFlow, useLoginCheck, useModal } from '@/app/hooks';
 
 import { ResetPasswordModal } from '@/app/ui/modals';
 import { MainBackground } from '@/app/ui/atoms';
@@ -110,15 +109,15 @@ const HomePage: FC = () => {
                     'sm:pb-n',
                 )}
             >
-                <h4 className={cn('text-heading font-bold')}>{card.title}</h4>
+                <h4 className={cn('text-27 font-bold')}>{card.title}</h4>
                 <p className={'mt-n'}>{card.info}</p>
                 <PageLink
                     href={card.link.href}
                     isExternal={card.link.href.startsWith('https://')}
                     className={cn(
                         'mt-xs  h-button-xl w-fit text-nowrap border-s border-gray-l0 px-xs text-blue',
-                        'text-section-s',
-                        'md:text-basic',
+                        'text-18',
+                        'md:text-16',
                         'sm:mt-xl',
                     )}
                 >
@@ -141,16 +140,16 @@ const HomePage: FC = () => {
                             <h1
                                 className={cn(
                                     `text-center leading-n`,
-                                    `mb-n text-heading-3xl`,
+                                    `mb-n text-64`,
                                     `md:text-[2.8125rem]`,
-                                    `sm:x-[mb-xs,text-heading-l]`,
+                                    `sm:x-[mb-xs,text-36]`,
                                 )}
                             >
                                 We Design Advanced Semiconductors
                             </h1>
                             <p
                                 className={
-                                    'flex flex-wrap justify-center gap-s text-nowrap text-basic lg:x-[gap-x-xl,text-heading-s]'
+                                    'flex flex-wrap justify-center gap-s text-nowrap text-16 lg:x-[gap-x-xl,text-21]'
                                 }
                             >
                                 <PageLink
@@ -181,7 +180,7 @@ const HomePage: FC = () => {
                     >
                         <h2
                             className={cn(
-                                'text-center text-heading-xl font-bold',
+                                'text-center text-40 font-bold',
                                 'text-[3.1875rem] leading-xl',
                                 'sm:x-[text-[1.5625rem],leading-l]',
                             )}
@@ -203,9 +202,9 @@ const HomePage: FC = () => {
                         <p
                             className={cn(
                                 'mt-auto w-[82%] text-left font-bold leading-n',
-                                'text-section-xl',
+                                'text-32',
                                 'md:text-[1.5rem]',
-                                'sm:x-[mt-[10.5rem],text-section]',
+                                'sm:x-[mt-[10.5rem],text-20]',
                             )}
                         >
                             Amidst the most demanding era of computational energy in history, we are reminded,
@@ -231,7 +230,7 @@ const HomePage: FC = () => {
                         >
                             the world is not binary
                         </h2>
-                        <p className={'text-right text-section-xl font-bold sm:text-[1.25rem] md:text-[1.5rem]'}>
+                        <p className={'text-right text-32 font-bold sm:text-[1.25rem] md:text-[1.5rem]'}>
                             and neither is the future.
                         </p>
                     </div>

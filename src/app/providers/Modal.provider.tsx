@@ -1,25 +1,15 @@
 'use client';
 
-import React, { createContext, FC, PropsWithChildren, ReactElement, useContext, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { useLayout } from '@/app/context/Layout.context';
+import { ModalConfig } from '@/app/contexts/modal.context';
+
+import { ModalContext } from '@/app/contexts';
+
+import { useLayout } from '@/app/hooks';
 
 import styles from '@/app/common.module.css';
-
-type ModalConfig = { hideContent?: boolean; darkenBg?: boolean; doFading?: boolean };
-
-type OpenModal = (Component: ReactElement, config?: ModalConfig) => void;
-
-interface IModalContext {
-    hideContent: boolean;
-    darkenBg: boolean;
-    isOpened: boolean;
-    closeModal: () => void;
-    openModal: OpenModal;
-}
-
-const ModalContext = createContext<IModalContext | null>(null);
 
 const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const layoutCtx = useLayout();
@@ -73,11 +63,4 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     );
 };
 
-const useModal = (): IModalContext => {
-    const context = useContext(ModalContext);
-    if (!context) throw new Error('useModal must be used within a ModalProvider!');
-    return context;
-};
-
-export { ModalProvider, useModal };
-export type { IModalContext, OpenModal };
+export { ModalProvider };

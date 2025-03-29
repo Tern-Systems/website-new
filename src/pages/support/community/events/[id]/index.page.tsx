@@ -1,4 +1,6 @@
-import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
+'use client';
+
+import { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
@@ -51,7 +53,7 @@ const EVENTS_TEMPLATE: Event[] = [
 ];
 
 const INFO_CN = 'border-t-s border-gray-l0 py-xxs px-4xs  md:p-xs  lg:x-[px-xs,py-n]';
-const BUTTON_CN = 'flex justify-between items-center px-3xs py-xxs text-left text-section-xs lg:text-basic';
+const BUTTON_CN = 'flex justify-between items-center px-3xs py-xxs text-left text-14 lg:text-16';
 
 function EventPage() {
     const { id } = useParams() ?? ({} as { id: string });
@@ -92,13 +94,11 @@ function EventPage() {
                 <BreadcrumbRoute className='[&]:mt-0' />
                 <div className={'flex flex-col gap-x-xs mt-n md:mt-[3.125rem] lg:mt-[3.125rem]'}>
                     <div className={' w-full'}>
-                        <h1 className={'leading-n  text-section md:text-section-xl lg:text-heading-l'}>
-                            {event?.title}
-                        </h1>
+                        <h1 className={'leading-n  text-20 md:text-32 lg:text-36'}>{event?.title}</h1>
                     </div>
                     <div className={'contents lg:block'}>
                         <div className={cn(INFO_CN, 'mt-n md:mt-[3.125rem] lg:mt-[3.125rem]')}>
-                            <span className={'text-section-xxs  md:text-section-xs  lg:text-basic'}>
+                            <span className={'text-12  md:text-14  lg:text-16'}>
                                 {event?.date ? formatDate(new Date(event.date), 'long') : '-- date is not provided --'}
                             </span>
                         </div>
@@ -119,16 +119,16 @@ function EventPage() {
                     <div className='md:col-span-2 lg:col-span-2 mt-xs  md:mt-n  lg:mt-n'>
                         <span
                             className={cn(
-                                'bg-gray-l2 py-1 px-5xs text-black text-section-3xs',
+                                'bg-gray-l2 py-1 px-5xs text-black text-10',
                                 'md:x-[py-1,px-[.375rem],text-[.6875rem]]',
-                                'lg:x-[py-[.2813rem],px-2,text-section-xxs]',
+                                'lg:x-[py-[.2813rem],px-2,text-12]',
                             )}
                         >
                             {event?.tag ?? 'Webinar'}
                         </span>
                     </div>
                     <div className=''>
-                        <div className='leading-tight text-section-s  md:text-heading-s  lg:text-documentation'>
+                        <div className='leading-tight text-18  md:text-21  lg:text-24'>
                             {event?.description ?? 'Event description is not provided'}
                         </div>
                     </div>
@@ -154,9 +154,9 @@ function EventPage() {
                         </div>
 
                         <div className='flex flex-col gap-y-xs text-primary '>
-                            <h6 className='leading-none font-bold text-documentation'>Contact</h6>
-                            <span className='ml-4xs text-section-xs'>Andrew Lee</span>
-                            <span className='ml-4xs text-section-xs'>andrewlee@tern.ac</span>
+                            <h6 className='leading-none font-bold text-24'>Contact</h6>
+                            <span className='ml-4xs text-14'>Andrew Lee</span>
+                            <span className='ml-4xs text-14'>andrewlee@tern.ac</span>
                         </div>
                     </div>
                 </div>

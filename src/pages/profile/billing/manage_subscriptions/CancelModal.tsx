@@ -1,9 +1,11 @@
-import React, { FC } from 'react';
+'use client';
+
+import { FC } from 'react';
 import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
-import { useModal, useUser } from '@/app/context';
+import { useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
@@ -39,7 +41,7 @@ const CancelModal: FC<Props> = (props: Props) => {
             className={
                 'w-[90dvw] max-w-[33rem] bg-white [&_h2+button]:brightness-50 [&_h2]:text-gray [&_hr]:border-gray-l0'
             }
-            classNameContent={'text-gray text-center text-basic'}
+            classNameContent={'text-gray text-center text-16'}
         >
             <div className={'inline-block max-w-[25rem]'}>
                 <p className={'mb-xxs place-self-center text-nowrap sm:max-w-[70%] sm:whitespace-pre-wrap'}>
@@ -52,7 +54,7 @@ const CancelModal: FC<Props> = (props: Props) => {
                     {plan ?? '-- missing name --'}
                     subscription billing settings.
                 </p>
-                <span className={'mt-s flex justify-center gap-4xs text-section font-bold text-[#FFFFFF]'}>
+                <span className={'mt-s flex justify-center gap-4xs text-20 font-bold text-[#FFFFFF]'}>
                     <Button
                         onClick={() => handleDelete()}
                         className={`bg-red ${BTN_CN}`}
