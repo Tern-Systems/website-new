@@ -3,6 +3,8 @@
 import { FC, useEffect, useState } from 'react';
 import cn from 'classnames';
 
+import { DataTestID } from '@/__tests__/static';
+
 import { RowProps } from '@/app/ui/organisms/Table';
 import { ResourceSectionData, TableSection } from '@/app/types/layout';
 import { Invoice } from '@/app/types/billing';
@@ -11,16 +13,16 @@ import { CELL_FALLBACK, MD_SM_HIDDEN_CN, Route, SM_HIDDEN_CN } from '@/app/stati
 
 import { BillingService } from '@/app/services';
 
-import { useLoginCheck, useNavigate } from '@/app/hooks';
-import { useModal, useUser } from '@/app/hooks';
+import { useLoginCheck, useModal, useNavigate, useUser } from '@/app/hooks';
 
 import { formatDate } from '@/app/utils';
 import { Table } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
-import { MessageModal } from '@/app/ui/modals';
 import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
+
+const TestID = DataTestID.page.billing;
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.ManageSubscriptions} /> },
@@ -33,6 +35,7 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
     const [navigate] = useNavigate();
     return (
         <tr
+            data-testid={TestID.invoice.row}
             onClick={() => {
                 sessionStorage.setItem('invoice', JSON.stringify(row));
                 navigate(Route.Invoice);
@@ -44,19 +47,40 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
                 className,
             )}
         >
-            <td className={'h-[2.25rem] pl-3xs  sm:h-[1.5625rem]'}>{row?.id ?? CELL_FALLBACK}</td>
-            <td>{row?.startDate ? formatDate(new Date(row?.startDate), 'short') : CELL_FALLBACK}</td>
-            <td className={MD_SM_HIDDEN_CN}>{row?.paidUSD ? row.paidUSD.toFixed(2) : CELL_FALLBACK}</td>
-            <td className={MD_SM_HIDDEN_CN}>{row?.status ?? CELL_FALLBACK}</td>
-            <td className={cn(SM_HIDDEN_CN, 'pr-3xs')}>{row?.item?.name ?? CELL_FALLBACK}</td>
+            <td
+                data-testid={TestID.invoice.id}
+                className={'h-[2.25rem] pl-3xs  sm:h-[1.5625rem]'}
+            >
+                {row?.id ?? CELL_FALLBACK}
+            </td>
+            <td data-testid={TestID.invoice.date}>
+                {row?.startDate ? formatDate(new Date(row?.startDate), 'short') : CELL_FALLBACK}
+            </td>
+            <td
+                data-testid={TestID.invoice.price}
+                className={MD_SM_HIDDEN_CN}
+            >
+                {row?.paidUSD ? row.paidUSD.toFixed(2) : CELL_FALLBACK}
+            </td>
+            <td
+                data-testid={TestID.invoice.status}
+                className={MD_SM_HIDDEN_CN}
+            >
+                {row?.status ?? CELL_FALLBACK}
+            </td>
+            <td
+                data-testid={TestID.invoice.name}
+                className={cn(SM_HIDDEN_CN, 'pr-3xs')}
+            >
+                {row?.item?.name ?? CELL_FALLBACK}
+            </td>
         </tr>
     );
 };
 
 const BillingPage: FC = () => {
     const userContext = useUser();
-    const modalCtx = useModal();
-    const isLoggedIn = useLoginCheck();
+    const loggedIn = useLoginCheck();
 
     const [invoices, setInvoices] = useState<Invoice[]>([]);
 
@@ -66,14 +90,14 @@ const BillingPage: FC = () => {
             try {
                 const { payload: invoices } = await BillingService.getInvoices(userContext.userData.email);
                 setInvoices(invoices);
-            } catch (error: unknown) {
-                if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            } catch (_: unknown) {
+                // Empty block
             }
         };
         fetchInvoices();
     }, [userContext.isLoggedIn]);
 
-    if (!isLoggedIn) return null;
+    if (!loggedIn) return null;
 
     const table: TableSection<Invoice> = {
         title: 'Order Information',

@@ -35,7 +35,7 @@ type Invoice = DeepPartial<{
     paidUSD: number;
     country: CountryKey;
     state: StateKey;
-    status: 'paid' | 'unpaid';
+    status: 'active' | 'inactive';
     type: SubscriptionRecurrency;
 }>;
 

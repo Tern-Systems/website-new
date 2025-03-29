@@ -111,6 +111,16 @@ const DataTestID = {
                 successModal: 'form-success-modal',
             },
         },
+        billing: {
+            invoice: {
+                row: 'billing-invoice-table-row',
+                id: 'billing-invoice-table-row-id',
+                date: 'billing-invoice-table-row-date',
+                price: 'billing-invoice-table-row-price',
+                status: 'billing-invoice-table-row-status',
+                name: 'billing-invoice-table-row-name',
+            },
+        },
     },
     modal,
 } as const;

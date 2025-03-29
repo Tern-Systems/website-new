@@ -10,23 +10,25 @@ import {
     checkToBeInDocument,
     click,
     findAllByTestId,
+    findByTestId,
     render,
     waitFor,
 } from '@/__tests__/utils';
 
 // App
 import { UserData } from '@/app/contexts/user.context';
-import { RecurrencyEnum } from '@/app/types/subscription';
+import { PlanName, RecurrencyEnum } from '@/app/types/subscription';
 import { Route } from '@/app/static';
 
 import { BillingService, UserService } from '@/app/services';
 
 import PricingAndPlansPage from '@/pages/product/plans/index.page';
 import SubscribePage from '@/pages/subscribe/tidal/index.page';
+import BillingPage from '@/pages/profile/billing/index.page';
 import { screen } from '@testing-library/dom';
 
 const { page, modal } = DataTestID;
-const { tidal, subscribe } = page;
+const { tidal, subscribe, billing } = page;
 const { plans } = tidal;
 const { card } = plans;
 
@@ -60,6 +62,26 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
     //
     //     });
     // });
+
+    describe(BillingService.getInvoices.name, () => {
+        const { invoice } = billing;
+
+        afterEach(async () => await BillingTestUtil.clean());
+
+        it(
+            `Should show payments history on ${Route.Billing} page`,
+            async () => {
+                // Preparation
+                await BillingTestUtil.subscribePlan('Pro', RecurrencyEnum.monthly);
+                await BillingTestUtil.renderLoggedIn(<BillingPage />, false);
+
+                // Test
+                await waitFor(async () => await checkToBeInDocument(invoice.row, 1));
+                await checkTextContent(invoice.name, 'Tidal' as PlanName);
+            },
+            TIMEOUT.testMs,
+        );
+    });
 
     describe(BillingService.postProcessPayment.name, () => {
         afterEach(async () => await BillingTestUtil.clean());

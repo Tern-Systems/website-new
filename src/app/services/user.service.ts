@@ -133,7 +133,7 @@ class UserServiceImpl extends BaseService implements IUserService {
             headers: BaseService._HEADER.AUTHORIZATION(token),
             withCredentials: true,
         };
-        const { payload: userData } = await this.req<UserData, false>(this.getUserActivePlans.name, config, (data) => [
+        const { payload: userData } = await this.req<UserData, false>(this.getUser.name, config, (data) => [
             typeof data.email === 'string',
         ]);
 

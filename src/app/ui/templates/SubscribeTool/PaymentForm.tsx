@@ -188,7 +188,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     name={TestID.input.cvc}
                     type={'number'}
                     value={formData.cvc}
-                    maxLength={3}
+                    maxLength={4}
                     onChange={setFormData('cvc')}
                     placeholder={'CVC'}
                     icons={[SVG_CARD_NUM]}
@@ -231,7 +231,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         name={TestID.input.cvc}
                         type={'number'}
                         value={formData.cvc}
-                        maxLength={3}
+                        maxLength={4}
                         onChange={setFormData('cvc')}
                         placeholder={'CVC'}
                         className={`[&&]:rounded-t-none [&&]:rounded-bl-none ${CONTROL_H_CN}`}

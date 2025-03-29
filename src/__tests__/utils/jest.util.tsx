@@ -42,8 +42,10 @@ const waitForCustom = async (handler: () => Promise<any> | any) =>
 
 const checkToBeInDocument = async (testID: string, amount?: number) => {
     const elements = await findAllByTestId(testID);
-    if (amount) expect(elements).toHaveLength(amount);
-    else expect(elements[0]).toBeInTheDocument();
+    if (amount !== undefined) {
+        if (amount === 0) expect(elements).toHaveLength(amount);
+        expect(elements).toHaveLength(amount);
+    } else expect(elements[0]).toBeInTheDocument();
 };
 
 const checkTextContentHelper = (element: HTMLElement, content: string, be: boolean) => {

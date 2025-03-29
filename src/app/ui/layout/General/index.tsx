@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import cn from 'classnames';
 
@@ -75,8 +74,6 @@ const SCROLL_CHECK_INTERVAL_MS = 50;
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
     const modalCtx = useModal();
-    const params = useSearchParams();
-    const router = useRouter();
     const layoutCtx = useLayout();
     const userCtx = useUser();
 
@@ -84,11 +81,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 
     const ref = useRef<HTMLDivElement>(null);
     const scrollIntervalRef = useRef<null | NodeJS.Timeout>(null);
-
-    useEffect(() => {
-        const token = params?.get('resetToken');
-        if (token) router.push(Route.Home + '?resetToken=' + token);
-    }, [params?.size]);
 
     useEffect(() => {
         const handleScroll = () => {

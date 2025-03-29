@@ -180,8 +180,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `get-subscription-details`,
-            headers: BaseService._HEADER.CONTENT_JSON,
-            params: JSON.stringify({ email }),
+            params: { email },
             withCredentials: true,
         };
 
