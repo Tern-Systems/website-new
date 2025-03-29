@@ -1,4 +1,6 @@
-import React, { FC, InputHTMLAttributes, ReactElement, useState } from 'react';
+'use client';
+
+import { FC, InputHTMLAttributes, ReactElement, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
@@ -21,35 +23,35 @@ const SearchBar: FC<Props> = (props: Props) => {
     const toggleFilterExpand = () => setFilterExpanded((prevState) => !prevState);
 
     const Dropdown: ReactElement = (
-        <div className={cn('w-full p-xs flex gap-x-n relative')}>
+        <div className={cn('relative flex w-full p-xs gap-x-n')}>
             <div>
-                <h3 className={cn('text-14 text-primary flex-col leading-[0.6125rem] mb-4xs')}>Content Types</h3>
+                <h3 className={cn('flex-col mb-4xs text-14 text-primary leading-[0.6125rem]')}>Content Types</h3>
                 <Select
                     options={contentTypes}
                     value={contentType}
-                    onChangeCustom={(value: string) => {
+                    onChangeCustom={(value) => {
                         setContentType(value);
                     }}
-                    className='!bg-gray h-[1.8125rem] border-s !border-gray-l0 pl-5xs min-w-[7.4375rem]'
-                    classNameUl='flex flex-col border-s border-gray-l0 max-h-[7.5rem] w-[7.4375rem] !gap-y-[0.125rem] pt-5xs pb-5xs'
-                    classNameOption='!bg-gray border-none h-[1.25rem] overflow-hidden hover:x-[!bg-white-d0,text-black]'
-                    placeholder=''
-                    classNameSelected='!w-full'
-                    classNameChevron='ml-auto mr-[0.5rem]'
+                    className={'h-n min-w-[7.5] pl-5xs !bg-gray border-s !border-gray-l0'}
+                    classNameUl={'flex flex-col max-h-12xl w-12xl !gap-y-6xs pt-5xs pb-5xs border-s border-gray-l0'}
+                    classNameOption={'h-3xs !bg-gray border-none overflow-hidden hover:x-[!bg-white-d0,text-black]'}
+                    placeholder={''}
+                    classNameSelected={'!w-full'}
+                    classNameChevron={'ml-auto mr-4xs-1'}
                 />
             </div>
-            <div className={'flex flex-col relative'}>
-                <h3 className={cn('text-14 text-primary flex-col leading-[0.6125rem] mb-4xs')}>Date Range</h3>
+            <div className={'relative flex flex-col'}>
+                <h3 className={cn('flex-col mb-4xs text-14 text-primary leading-[0.6125rem]')}>Date Range</h3>
                 <Input
                     icons={[SVG_CALENDAR]}
-                    className={'bg-gray border-s border-gray-l0 w-[7.5625rem] h-[1.8125rem] pl-5xs'}
-                    classNameIconSpan={'bg-[#979797] h-full !pr-0 w-[2.023125rem] justify-center'}
+                    className={'w-12xl h-n pl-5xs bg-gray border-s border-gray-l0'}
+                    classNameIconSpan={'h-full w-l !pr-0 bg-gray-l2 justify-center'}
                 ></Input>
                 <span className='h-[0.625rem]'></span>
                 <Input
                     icons={[SVG_CALENDAR]}
-                    className={'bg-gray border-s border-gray-l0 w-[7.5625rem] h-[1.8125rem] pl-5xs'}
-                    classNameIconSpan={'bg-[#979797] h-full !pr-0 w-[2.023125rem] justify-center'}
+                    className={'w-12xl h-n pl-5xs bg-gray border-s border-gray-l0'}
+                    classNameIconSpan={'h-full w-l !pr-0 bg-gray-l2 justify-center'}
                 />
             </div>
         </div>
@@ -58,25 +60,22 @@ const SearchBar: FC<Props> = (props: Props) => {
     return (
         <label
             className={cn(
-                `cursor-white group flex cursor-text border-gray-l0`,
+                `relative flex h-6xl group bg-gray-d2 border-gray-l0 cursor-white cursor-text`,
                 `transition-all duration-500 ease-in-out focus-within:x-[border-white-d0,shadow-lg]`,
-                'h-[3.125rem]',
-                'bg-gray-d2',
-                'relative',
                 className,
             )}
         >
             <input
                 {...inputProps}
-                className={`w-full bg-inherit py-5xs pl-3xs text-18 outline-none sm:pl-5xs`}
+                className={`w-full bg-inherit py-5xs pl-3xs text-18 outline-none  sm:pl-5xs`}
                 tabIndex={0}
                 autoFocus
             />
             <ReactSVG
                 src={SVG_SEARCH.src}
                 className={cn(
-                    'my-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
-                    '[&_*]:size-[1.3125rem] mr-[1.25rem]',
+                    'flex my-auto [&_*]:size-3xs  mr-xs text-white',
+                    'transition-all duration-500 ease-in-out group-focus-within:text-white-d0',
                 )}
             />
             <div
@@ -84,14 +83,14 @@ const SearchBar: FC<Props> = (props: Props) => {
                     toggleFilterExpand();
                 }}
                 className={cn(
-                    'flex place-items-center justify-center size-[3.125rem] cursor-pointer',
+                    'flex size-6xl place-items-center justify-center cursor-pointer',
                     filterExpanded ? 'bg-gray' : 'bg-inherit',
                 )}
             >
                 <ReactSVG
                     src={SVG_ARROW_DOWN.src}
                     className={cn(
-                        'my-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
+                        'flex my-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0',
                         filterExpanded && '[&_*]:scale-y-[-1] [&_*]:translate-y-full',
                     )}
                 />
@@ -99,8 +98,8 @@ const SearchBar: FC<Props> = (props: Props) => {
             {filterExpanded ? (
                 <div
                     className={cn(
-                        `absolute right-0 top-full z-30 h-[12.5rem] w-[19.375rem] overflow-y-scroll`,
-                        `pointer-events-auto bg-gray border-s border-gray-l0`,
+                        `absolute z-30 h-[12.5rem] w-[19.375rem] right-0 top-full bg-gray border-s border-gray-l0`,
+                        `pointer-events-auto overflow-y-scroll`,
                     )}
                 >
                     {Dropdown}
@@ -109,7 +108,5 @@ const SearchBar: FC<Props> = (props: Props) => {
         </label>
     );
 };
-
-SearchBar.displayName = SearchBar.name;
 
 export { SearchBar };

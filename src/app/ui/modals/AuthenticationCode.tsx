@@ -2,6 +2,7 @@
 
 import { FC, FormEvent, ReactElement, useCallback, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
+import cn from 'classnames';
 
 import { AuthService } from '@/app/services';
 
@@ -79,29 +80,30 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
         <BaseModal
             adaptBreakpoint={Breakpoint.sm}
             title={isDisabling ? 'Disable Authentication' : 'Account Authentication'}
-            className={`border-control relative mx-auto place-self-center border-s bg-gray`}
+            className={`border-control relative mx-auto place-self-center [&]:border-n bg-gray`}
             classNameContent={
-                'max-w-[26rem] sm:px-[1.25rem] sm:max-w-[21rem] sm:place-self-center mt-[1.9rem]  sm:landscape:max-w-full  sm:landscape:w-full'
+                'max-w-[30rem] sm:px-xs sm:max-w-[21rem] sm:place-self-center mt-n  sm:landscape:max-w-full  sm:landscape:w-full'
             }
+            classNameHr={`[&]:my-xxs`}
         >
             <div className={'sm:landscape:flex sm:landscape:justify-between'}>
-                <div className={'mb-[1.875rem] flex flex-col items-center text-center leading-[120%]'}>
+                <div className={'mb-n flex flex-col items-center text-center leading-[120%]'}>
                     <ReactSVG
                         src={SVG_SAFE.src}
-                        className={'mb-[1.875rem] size-[9.9rem] sm:[&_path]:fill-gray'}
+                        className={'size-[9.9rem] sm:[&_path]:fill-gray'}
                     />
                 </div>
                 <div className={'sm:landscape:max-w-[21rem]'}>
                     <div
                         className={
-                            'mb-[1.875rem] flex flex-col items-center text-center leading-[120%] sm:landscape:text-left'
+                            'px-n mb-n flex flex-col items-center text-center leading-[120%] sm:landscape:text-left'
                         }
                     >
                         <span>
                             {isDisabling
                                 ? 'You are about to disable two-factor authentication for your account. To proceed, please confirm your identity by entering the authorization code sent to '
                                 : 'Please confirm your account by entering the authorization code sent to '}
-                            &nbsp; &nbsp;
+                            &nbsp;
                             <span className={'font-bond'}>***-***-{phone.slice(-4)}</span>.
                         </span>
                     </div>
@@ -120,17 +122,17 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                                 setWarningMsg(null);
                             }}
                             classNameWrapper={'flex-col [&]:items-start'}
-                            className={'h-button-l w-full rounded-xs border-s bg-gray-l0 px-[0.73rem]'}
+                            className={'h-button-l w-full rounded-xs border-s bg-gray-l0 px-3xs'}
                             required
                         />
-                        {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
+                        {warningMsg && <span className={'mt-xxs text-center'}>{warningMsg}</span>}
                         <Button
-                            className={`mt-n w-[9.38563rem] place-self-center rounded-full border-s border-blue py-[0.37rem] text-20 font-bold ${isDisabling ? 'border-red text-red' : 'border-blue'}`}
+                            className={`mt-n px-xs py-4xs-2 place-self-center border-s border-blue rounded-full text-16 font-bold ${isDisabling ? 'border-red text-red' : 'border-blue'}`}
                         >
                             {isDisabling ? 'Disable' : 'Submit and Login'}
                         </Button>
                     </form>
-                    <div className={'mt-[2.51rem] text-20 sm:portrait:w-[14.75rem]'}>
+                    <div className={cn('mt-xl text-14 leading-n', 'w-[14.75rem] md:w-8/12 lg:w-8/12')}>
                         <span>
                             It may take a minute to receive your code. Haven&apos;t received it?&nbsp;
                             <span

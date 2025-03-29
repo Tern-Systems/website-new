@@ -43,7 +43,7 @@ const FORM_DEFAULT: SubscribeData = {
     acceptTerms: false,
 };
 
-const CONTROL_H_CN = 'h-[3rem] sm:h-[1.7rem] sm:landscape:[&&]:py-0 bg-[#fff]';
+const CONTROL_H_CN = 'h-[3rem] sm:h-s sm:landscape:[&&]:py-0 bg-white-l0';
 const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 interface Props {
@@ -307,7 +307,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 </fieldset>
                 <span
                     hidden={isBillingExpanded}
-                    className={'mt-[0.65rem] block cursor-pointer text-14 underline'}
+                    className={'mt-4xs block cursor-pointer text-14 underline'}
                     onClick={() => toggleBillingDetails()}
                 >
                     Enter address manually
@@ -318,7 +318,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
     return (
         <div
-            className={`h-full w-1/2 flex-1 overflow-y-scroll bg-white pt-[7.44rem] sm:x-[overflow-y-visible,p-xs,w-full,max-h-fit,shadow-none]`}
+            className={`h-full w-1/2 flex-1 overflow-y-scroll bg-white pt-6xl sm:x-[overflow-y-visible,p-xs,w-full,max-h-fit,shadow-none]`}
         >
             <div className={'mx-auto w-full max-w-[29rem]'}>
                 <form
@@ -331,7 +331,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         type={'checkbox'}
                         checked={formData.acceptTerms}
                         onChange={setFormData('acceptTerms')}
-                        classNameWrapper={'flex-row-reverse mt-[min(4dvw,1.46rem)] [&&]:items-start gap-[0.47rem]'}
+                        classNameWrapper={'flex-row-reverse mt-[min(4dvw,1.46rem)] [&&]:items-start gap-4xs-1'}
                         classNameLabel={'flex'}
                         className={'max-h-xxs max-w-xxs'}
                         required
@@ -371,7 +371,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     </Input>
                     <Button
                         type={'submit'}
-                        className={`mt-[min(4dvw,--p-n)] h-[4.4rem] w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-[3.125rem]`}
+                        className={`mt-[min(4dvw,--p-n)] h-8xl w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-6xl`}
                     >
                         Subscribe
                     </Button>

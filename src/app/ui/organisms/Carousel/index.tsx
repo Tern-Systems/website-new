@@ -19,8 +19,8 @@ enum CardsPerPage {
 }
 
 const getAltSpinnerBtnCn = (alt?: true) =>
-    cn('border-s   border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-[1.375rem] sm:p-[0.4375rem]', {
-        ['md:p-[0.6875rem]']: alt,
+    cn('border-s   border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-xs sm:p-4xs-1', {
+        ['md:p-4xs']: alt,
     });
 
 interface Props extends PropsWithChildren {
@@ -67,7 +67,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         carouselRef.current.scrollLeft + (right ? 0.5 : -0.5) * window.outerWidth;
             }}
             className={cn(
-                'absolute top-1/2 z-50 !-translate-y-1/2 [&_*]:size-[2.875rem]',
+                'absolute top-1/2 z-50 !-translate-y-1/2 [&_*]:size-5xl',
                 right ? 'right-0 -rotate-90' : 'left-0 rotate-90',
                 classNameArrow,
             )}
@@ -141,7 +141,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         <PageLink
                             icon={'arrow-right-long'}
                             className={'flex-row-reverse text-blue text-16  hidden lg:flex'}
-                            iconClassName={'ml-xxs [&_*]:size-[1.06rem] [&_path]:fill-blue'}
+                            iconClassName={'ml-xxs [&_*]:size-5xs [&_path]:fill-blue'}
                         >
                             See All
                         </PageLink>

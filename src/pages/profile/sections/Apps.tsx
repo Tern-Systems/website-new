@@ -77,7 +77,7 @@ function AppsSection() {
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
                         className={cn(
-                            `col-start-3 flex-row-reverse gap-[5px] place-self-end text-14 font-bold`,
+                            `col-start-3 flex-row-reverse gap-5xs place-self-end text-14 font-bold`,
                             styles.ellipsis,
                         )}
                         onClick={() => {
@@ -98,7 +98,7 @@ function AppsSection() {
             className={`${styles.collapsible} [&&]:gap-y-5xs [&&]:md:gap-y-4xs [&&]:lg:gap-y-4xs`}
             classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
             classNameTitle={`text-18  md:text-27  lg:text-27`}
-            classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
+            classNameTitleIcon={`[&]:max-w-5xs  [&]:md:max-w-n  [&]:lg:max-w-n`}
             classNameHr={`border-gray-l0`}
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Domain</span>

@@ -26,7 +26,7 @@ import SVG_PENCIL from '@/assets/images/icons/edit.svg';
 
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-const SELECT_CN = 'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl';
+const SELECT_CN = 'h-6xl !border-0 !bg-gray  sm:h-button-xl';
 
 const Hr = <hr className={'mb-xs mt-3xs border-white-d0'} />;
 
@@ -82,7 +82,7 @@ function ManageSubscriptionsPage() {
         const preferredCard: SavedCardFull | undefined = savedCards[preferredCardIdx];
 
         return (
-            <div className={`mb-[24.75rem] mt-[6rem] text-16 sm:x-[grid-cols-1,gap-y-l,mt-l]  [&>div>div>*]:px-5xs`}>
+            <div className={`mb-[24.75rem] mt-6xl-1 text-16 sm:x-[grid-cols-1,gap-y-l,mt-l]  [&>div>div>*]:px-5xs`}>
                 <div>
                     <div className={'flex items-center justify-between'}>
                         <h2 className={`text-16 md:text-18 lg:text-20`}>Current Plan</h2>
@@ -135,7 +135,7 @@ function ManageSubscriptionsPage() {
                         <div
                             className={cn(
                                 `grid grid-cols-[1fr,min-content] grid-rows-5 text-nowrap bg-gray px-4xs py-xxs`,
-                                `gap-y-xxs md:gap-y-[1rem] lg:gap-y-xs`,
+                                `gap-y-xxs md:gap-y-xxs lg:gap-y-xs`,
                                 `w-[16rem] min-w-fit max-w-[70%]`,
                                 'mt-4xs lg:mt-3xs',
                                 'text-12 sm:text-10',
@@ -162,7 +162,7 @@ function ManageSubscriptionsPage() {
                         </div>
                     ) : null}
                 </div>
-                <div className={'mt-[6rem]'}>
+                <div className={'mt-6xl-1'}>
                     <h2 className={`text-16 md:text-18 lg:text-20`}>Payment Method</h2>
                     {Hr}
                     {!preferredCard ? (
@@ -180,7 +180,7 @@ function ManageSubscriptionsPage() {
                             >
                                 <ReactSVG
                                     src={SVG_CARD.src}
-                                    className={'h-auto w-[1.35rem]'}
+                                    className={'h-auto w-xxs'}
                                 />
                                 <span className={cn('mx-5xs block text-16 sm:text-14')}>
                                     {preferredCard.nickName ?? preferredCard.cardType + ' **** ' + preferredCard.last4}
@@ -193,7 +193,7 @@ function ManageSubscriptionsPage() {
                                 <span className={'mr-4xs sm:hidden'}>Change</span>
                                 <ReactSVG
                                     src={SVG_PENCIL.src}
-                                    className={'[&_*]:size-[0.8rem] lg:[&_*]:size-[1.3rem]'}
+                                    className={'[&_*]:size-6xs lg:[&_*]:size-3xs'}
                                 />
                                 {editPaymentMethodVisible ? (
                                     <ChangePaymentMethod

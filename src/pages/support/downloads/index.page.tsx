@@ -74,7 +74,7 @@ function DocumentationPage(props: Props) {
         breakpoint === Breakpoint.lg ? SVG_DOWNLOAD_ARROW : breakpoint <= Breakpoint.sm ? SVG_ARROW : null;
 
     return (
-        <div className={'pb-[8.16rem]'}>
+        <div className={'pb-6xl'}>
             <section className={styles.content}>
                 <BreadcrumbRoute />
                 <h1 className={`mt-3xl font-oxygen text-32 font-bold  sm:text-30`}>Downloads</h1>
@@ -87,7 +87,7 @@ function DocumentationPage(props: Props) {
             </section>
             <ResourcesSection
                 data={RESOURCES}
-                className={'mt-[6.25rem]'}
+                className={'mt-6xl-1'}
             />
         </div>
     );

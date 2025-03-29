@@ -24,11 +24,10 @@ import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
-const LEGEND_CN = 'text-24 font-[500] mt-[3.75rem] mb-3xs  md:x-[text-27,mt-[70px]]  lg:x-[text-27,mt-[4.375rem]]';
-const INPUT_CN =
-    'bg-[#444444] w-full h-[2.25rem] border border-gray-l0 px-xxs  md:x-[h-[3.125rem],px-xs]  lg:x-[h-[3.125rem],px-xs]';
+const LEGEND_CN = 'text-24 font-[500] mt-3xl mb-3xs  md:x-[text-27,mt-5xl]  lg:x-[text-27,mt-5xl]';
+const INPUT_CN = 'bg-gray-d2 w-full h-xxl border border-gray-l0 px-xxs  md:x-[h-6xl,px-xs]  lg:x-[h-6xl,px-xs]';
 const FIELD_CN = 'text-14 grid grid-auto-rows gap-y-3xs  md:text-18  lg:text-18';
-const BUTTON_CN = 'md:x-[text-18,h-[3.125rem]]  lg:x-[text-18,h-[3.125rem]]';
+const BUTTON_CN = 'md:x-[text-18,h-6xl]  lg:x-[text-18,h-6xl]';
 
 const FORM_DATA_DEFAULT: CardData = {
     profileId: '',
@@ -52,7 +51,7 @@ const FORM_DATA_DEFAULT: CardData = {
 const renderSubmitBtn = (paymentCreation: boolean | undefined, className: string = '') => (
     <Button
         type={'submit'}
-        className={cn('order-last h-[2.25rem] w-full bg-blue text-14 font-bold text-primary', BUTTON_CN, className)}
+        className={cn('order-last h-xxl w-full bg-blue text-14 font-bold text-primary', BUTTON_CN, className)}
     >
         {paymentCreation ? 'Add' : 'Update'}
     </Button>
@@ -138,10 +137,10 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             classNameLabel={'mr-auto'}
             classNameSelected={'w-full '}
             classNameChevron={cn('ml-auto')}
-            className={cn(`px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
+            className={cn(`px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
             classNameOption={cn(
-                'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                'hover:!bg-[#979797]',
+                'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                'hover:!bg-gray-l2',
             )}
         >
             Choose Payment Method
@@ -163,8 +162,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     <h1
                         className={cn(
                             'mt-xxl text-27 font-[500] leading-tight',
-                            'md:x-[text-[2rem],mt-[4.375rem]]',
-                            'lg:x-[text-[2rem],mt-[4.375rem]]',
+                            'md:x-[text-32,mt-5xl]',
+                            'lg:x-[text-32,mt-5xl]',
                         )}
                     >
                         {paymentCreation ? 'Add Payment Method' : 'Edit Payment Method Details'}
@@ -245,8 +244,8 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     onChange={setFormData('isPreferred')}
                                     classNameWrapper={`[&&]:mb-s w-fit`}
                                     classNameLabel={'text-10 [&&]:mb-0  md:text-12  lg:text-12'}
-                                    className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-[#444444]'}
-                                    classNameCheckbox={`h-[.75rem] w-[.75rem]  md:x-[h-[.9375rem],w-[.9375rem]]  lg:x-[h-[.9375rem],w-[.9375rem]]`}
+                                    className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-gray-d2'}
+                                    classNameCheckbox={`h-7xs w-7xs  md:x-[h-5xs,w-5xs]  lg:x-[h-5xs,w-5xs]`}
                                     isCustomCheckbox
                                 >
                                     Set as preferred payment method
@@ -310,11 +309,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameSelected={'w-full '}
                                     classNameChevron={cn('ml-auto')}
                                     className={cn(
-                                        `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                        `px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                     )}
                                     classNameOption={cn(
-                                        'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                        'hover:!bg-[#979797]',
+                                        'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                        'hover:!bg-gray-l2',
                                     )}
                                     required
                                 >
@@ -341,11 +340,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 classNameSelected={'w-full '}
                                 classNameChevron={cn('ml-auto')}
                                 className={cn(
-                                    `px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                    `px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                 )}
                                 classNameOption={cn(
-                                    'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                    'hover:!bg-[#979797]',
+                                    'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                    'hover:!bg-gray-l2',
                                 )}
                                 required
                             >
@@ -357,7 +356,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             </form>
             {savedCards[+editCardIdx] || paymentCreation ? (
                 <div
-                    className={'mt-[9.375rem]'}
+                    className={'mt-7xl'}
                     hidden={paymentCreation}
                 >
                     <span

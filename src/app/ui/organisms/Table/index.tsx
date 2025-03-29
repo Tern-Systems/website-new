@@ -5,11 +5,6 @@ import cn from 'classnames';
 
 import { TableSection } from '@/app/types/layout';
 
-const CELL_FALLBACK = <span className={'text-14'}>No data</span>;
-
-const SM_HIDDEN_CN = 'sm:hidden';
-const MD_SM_HIDDEN_CN = cn(SM_HIDDEN_CN, ' md:hidden');
-
 interface RowProps<T extends object> {
     className?: string;
     row: T;

@@ -110,7 +110,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <Image
                     src={benefitsIcon}
                     alt={'list-icon'}
-                    className={'inline [&]:size-[1rem]'}
+                    className={'inline [&]:size-5xs'}
                 />
                 <span>{benefit}</span>
             </li>
@@ -214,7 +214,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     <Image
                         src={idx ? SVG_DIAMOND : SVG_DIAMOND_ACE}
                         alt={type + ' icon'}
-                        className={`mr-5xs h-auto w-[1.375rem] sm:w-[0.9375rem]`}
+                        className={`mr-5xs h-auto w-xxs sm:w-5xs`}
                     />
                     <span>{type}</span>
                 </h2>
@@ -222,7 +222,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     className={cn(
                         'text-secondary',
                         'text-20',
-                        'lg:mb-[2.2rem]',
+                        'lg:mb-xl',
                         'md:mb-n',
                         'sm:mb-4xs',
                         'sm:landscape:text-18',
@@ -234,7 +234,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     onClick={() => handleSubscribeClick(type)}
                     className={cn(
                         `w-full rounded-full bg-blue text-18 font-bold`,
-                        `py-[1.12rem]`,
+                        `py-xs`,
                         `sm:x-[py-xxs,text-16]`,
                         `disabled:x-[bg-inherit,border-s,border-gray-l0,text-secondary]`,
                     )}
@@ -259,17 +259,11 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     `md:landscape:h-[35.5rem]`,
                     `sm:x-[p-xxs,border-none]`,
                 )}
-                classNameIcon={'[&]:w-[0.8125rem]  md:right-s md:top-[calc(var(--p-s)+0.5*var(--fz-heading))]'}
+                classNameIcon={'[&]:w-6xs  md:right-s md:top-[calc(var(--p-s)+0.5*var(--fz-heading))]'}
                 className={'flex h-full flex-col'}
             >
                 {CollapsedContentSm}
-                <ul
-                    className={cn(
-                        `mt-[1.57rem] flex flex-col items-start gap-y-[1.57rem]`,
-                        `text-16`,
-                        `sm:x-[gap-xxs,text-14]`,
-                    )}
-                >
+                <ul className={cn(`mt-s flex flex-col items-start gap-y-s`, `text-16`, `sm:x-[gap-xxs,text-14]`)}>
                     {Benefits}
                 </ul>
                 <div className={cn(`mt-auto flex flex-grow flex-col text-12 text-secondary`, `sm:landscape:text-10`)}>
@@ -314,7 +308,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             key={entry + idx}
             onClick={() => setSelectedRecurrency(entry)}
             className={cn(
-                `cursor-pointer rounded-full px-[1.3rem] py-[0.7rem] font-bold capitalize`,
+                `cursor-pointer rounded-full px-xs py-3xs font-bold capitalize`,
                 selectedRecurrency === entry ? 'bg-gray-l0' : 'text-secondary',
             )}
         >
@@ -323,31 +317,23 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <div
-            className={cn(
-                `flex h-full flex-col`,
-                `md:pb-l`,
-                `sm:px-xs`,
-                `sm:portrait:pb-xxl`,
-                `sm:landscape:mt-[1.81rem]`,
-            )}
-        >
+        <div className={cn(`flex h-full flex-col`, `md:pb-l`, `sm:px-xs`, `sm:portrait:pb-xxl`, `sm:landscape:mt-n`)}>
             <div
                 className={cn(
                     'flex items-end justify-center',
                     `lg:x-[mb-n,h-[11rem]]`,
                     `md:pb-xxs`,
-                    `md:min-h-[6.75rem]`,
+                    `md:min-h-10xl`,
                     `sm:pb-xxs`,
-                    `sm:portrait:h-[6.75rem]`,
+                    `sm:portrait:h-10xl`,
                 )}
             >
-                <div className={cn(`flex h-fit w-fit rounded-full border-s p-[0.2rem] text-14`)}>{Switch}</div>
+                <div className={cn(`flex h-fit w-fit rounded-full border-s p-6xs text-14`)}>{Switch}</div>
             </div>
             <div
                 className={cn(
                     'grid w-full auto-rows-min justify-center self-center overflow-scroll',
-                    'lg:gap-x-[4.13rem]',
+                    'lg:gap-x-3xl',
                     'lg:h-[calc(100%-2.5rem)] lg:flex',
                     'md:portrait:h-[calc(100%-6.75rem)] md:portrait:grid-cols-[minmax(0,24rem)] md:landscape:grid-cols-[repeat(2,minmax(0,24rem))]',
                     'md:gap-xxs',

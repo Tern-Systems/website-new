@@ -63,17 +63,17 @@ function PurchasingInformationPage() {
         return (
             <li
                 key={card.last4 ?? 'card-' + idx}
-                className={'flex items-center gap-[0.65rem] text-21'}
+                className={'flex items-center gap-4xs text-21'}
             >
                 <Image
                     src={SVG_CARD}
                     alt={'card'}
-                    className={'h-auto w-[1.35419rem]'}
+                    className={'h-auto w-xxs'}
                 />
                 <span>{card.nickName ?? card.cardType + ' **** ' + card.last4}</span>
                 <span
                     hidden={!card.preferred}
-                    className={'rounded-xxs bg-white-d0 px-[0.76rem] py-[0.28rem] text-16'}
+                    className={'rounded-xxs bg-white-d0 px-3xs py-5xs text-16'}
                 >
                     Preferred
                 </span>
@@ -126,7 +126,7 @@ function PurchasingInformationPage() {
                             >
                                 <Button
                                     icon={faPen}
-                                    className={'flex-row-reverse text-20'}
+                                    className={'flex-row-reverse text-16'}
                                     onClick={() => router.push(Route.EditPaymentMethod)}
                                 >
                                     <span className={'sm:hidden'}>Edit</span>
@@ -173,9 +173,7 @@ function PurchasingInformationPage() {
                 <div className={`flex items-center justify-between`}>
                     <h2 className={'text-left text-27 font-bold sm:landscape:text-21'}>Invoice History</h2>
                     <Button
-                        className={
-                            'h-h-button-n rounded-full border-s border-white-d0 px-[min(2.1dvw,1rem)] text-20 font-bold'
-                        }
+                        className={'rounded-full border-s border-white-d0 px-xs py-6xs text-16 font-bold '}
                         onClick={() => modalCtx.openModal(<ExportInvoiceModal />, { darkenBg: true })}
                     >
                         Export

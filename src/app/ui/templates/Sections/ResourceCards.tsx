@@ -33,8 +33,8 @@ const ResourceCards: FC<Props> = (props: Props) => {
                         src={icon.src}
                         className={cn(
                             `rotate-180 [&_path]:fill-blue`,
-                            `mt-5xl  [&_*]:size-[1.41rem]`,
-                            `sm:mt-l sm:[&_*]:size-[1.23rem]`,
+                            `mt-5xl  [&_*]:size-xxs`,
+                            `sm:mt-l sm:[&_*]:size-3xs`,
                         )}
                     />
                 ) : null}
@@ -42,7 +42,7 @@ const ResourceCards: FC<Props> = (props: Props) => {
         </li>
     ));
 
-    return <ul className={'mt-[2.88rem] grid grid-cols-2 gap-n  sm:grid-cols-1'}>{Links}</ul>;
+    return <ul className={'mt-xxl grid grid-cols-2 gap-n  sm:grid-cols-1'}>{Links}</ul>;
 };
 
 ResourceCards.displayName = ResourceCards.name;
