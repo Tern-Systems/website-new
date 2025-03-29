@@ -52,7 +52,7 @@ const RESOURCES: ResourceSectionData[] = [
 ];
 
 const INPUT_PROPS = {
-    classNameWrapper: 'flex-col [&]:items-start gap-4xs text-section-s',
+    classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
     classNameLabel: 'font-[400]   ',
     className: cn('h-[3.125rem] w-full px-xxs ', 'bg-gray-d2 border-[.0313rem] border-gray-l0', 'text-primary'),
 };
@@ -82,9 +82,9 @@ const ContactsPage: FC = () => {
                             <h1
                                 className={cn(
                                     `w-min text-left leading-n`,
-                                    `mb-n text-heading-4xl`,
+                                    `mb-n text-96`,
                                     `lg:x-[w-full,mt-[6.25rem]]`,
-                                    `md:x-[mt-xl,text-heading-4xl]`,
+                                    `md:x-[mt-xl,text-96]`,
                                     `sm:x-[flex,mt-xs,text-[3.9375rem]]`,
                                 )}
                             >
@@ -113,7 +113,7 @@ const ContactsPage: FC = () => {
                 >
                     <div className={cn('lg:w-1/2 md:w-[65%]')}>
                         <div className={cn('')}>
-                            <h2 className={cn('mb-[6.25rem] text-left text-heading-xxl font-[500]', 'sm:mb-xl')}>
+                            <h2 className={cn('mb-[6.25rem] text-left text-48 font-[500]', 'sm:mb-xl')}>
                                 Get in Touch
                             </h2>
                             <form
@@ -181,7 +181,7 @@ const ContactsPage: FC = () => {
                                         type={'checkbox'}
                                         checked={formData.isAllowedUpdate}
                                         onChange={setFormValue('isAllowedUpdate')}
-                                        classNameLabel={'text-section-xxs leading-normal'}
+                                        classNameLabel={'text-12 leading-normal'}
                                         className={'border-gray-l0 bg-gray-d2'}
                                         classNameCheckbox={'h-[.9375rem] w-[.9375rem] flex-shrink-0'}
                                         classNameWrapper={'flex [&_div]:items-start'}
@@ -192,7 +192,7 @@ const ContactsPage: FC = () => {
                                     </Input>
                                     <Button
                                         type={'submit'}
-                                        className='border-control-gray-l0 max-w-[7.9375rem] border bg-black px-6 py-3 text-heading-s'
+                                        className='border-control-gray-l0 max-w-[7.9375rem] border bg-black px-6 py-3 text-21'
                                     >
                                         Submit
                                     </Button>
@@ -223,8 +223,8 @@ const ContactsPage: FC = () => {
                     )}
                 >
                     <div className='grid gap-3xs  md:gap-s  lg:order-last'>
-                        <h3 className='font-thin text-section-xl sm:text-documentation'>Office</h3>
-                        <address className='not-italic leading-tight text-documentation sm:text-section-s'>
+                        <h3 className='font-thin text-32 sm:text-24'>Office</h3>
+                        <address className='not-italic leading-tight text-24 sm:text-18'>
                             1120 Avenue of the Americas
                             <br />
                             New York, New York
@@ -236,13 +236,13 @@ const ContactsPage: FC = () => {
                     </div>
 
                     <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
-                        <h3 className='font-thin text-section-xl sm:text-documentation'>Email</h3>
-                        <p className='text-documentation sm:text-section-s'>info@tern.ac</p>
+                        <h3 className='font-thin text-32 sm:text-24'>Email</h3>
+                        <p className='text-24 sm:text-18'>info@tern.ac</p>
                     </div>
 
                     <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
-                        <h3 className='font-thin text-section-xl sm:text-documentation'>Phone</h3>
-                        <p className='text-documentation sm:text-section-s'>(973) 590-8753</p>
+                        <h3 className='font-thin text-32 sm:text-24'>Phone</h3>
+                        <p className='text-24 sm:text-18'>(973) 590-8753</p>
                     </div>
                 </section>
 

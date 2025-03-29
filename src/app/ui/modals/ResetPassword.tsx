@@ -130,7 +130,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                     alt={'insignia'}
                     className={'my-[1.25rem] h-[9rem] w-[10.42rem]'}
                 />
-                <span className={'mb-n text-heading'}>Tern</span>
+                <span className={'mb-n text-27'}>Tern</span>
             </div>
             <form
                 className={'flex flex-col'}
@@ -145,7 +145,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 {warningMsg && <span className={'my-[0.63rem] text-center'}>{warningMsg}</span>}
                 <Button
                     className={cn(
-                        `mt-[1.56rem] rounded-full py-[0.92rem] text-section-s font-bold`,
+                        `mt-[1.56rem] rounded-full py-[0.92rem] text-18 font-bold`,
                         `w-full max-w-[18.93rem] place-self-center bg-white text-gray sm:w-[90%]`,
                     )}
                 >

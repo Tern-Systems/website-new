@@ -58,7 +58,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                       <li
                           key={title + idx + entryIdx}
                           className={cn(
-                              'first-letter:uppercase first-of-type:x-[mb-5xs,text-documentation]',
+                              'first-letter:uppercase first-of-type:x-[mb-5xs,text-24]',
                               'xxs:px-s xxs:first-of-type:font-bold',
                           )}
                       >
@@ -147,10 +147,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                   classNameWrapper={'!static left-0 size-full'}
                                   className={'!w-full !border-0 !bg-transparent'}
                                   classNameUl={'top-[calc(100%+2px)] py-4xs !rounded-none bg-black-l0'}
-                                  classNameOption={cn(
-                                      styles.clickable,
-                                      '!bg-black-l0 !border-0 text-section-xxs !py-5xs',
-                                  )}
+                                  classNameOption={cn(styles.clickable, '!bg-black-l0 !border-0 text-12 !py-5xs')}
                                   classNameChevron={'[&_*]:w-[0.5625rem]'}
                               />
                           ) : (
@@ -188,7 +185,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                             styles.content,
                             'flex',
                             'flex-wrap justify-between gap-xs',
-                            'xxs:x-[flex-col,gap-y-s,!px-0,text-section-xxs]',
+                            'xxs:x-[flex-col,gap-y-s,!px-0,text-12]',
                         )}
                     >
                         {DropdownLi}
@@ -200,7 +197,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                     <ul
                         className={cn(
                             styles.content,
-                            `flex text-nowrap !pl-s text-section-xxs`,
+                            `flex text-nowrap !pl-s text-12`,
                             'sm:!pl-xs',
                             SubNavItems?.length ? 'h-sub-heading ' + styles.slideIn : styles.slideOut,
                         )}

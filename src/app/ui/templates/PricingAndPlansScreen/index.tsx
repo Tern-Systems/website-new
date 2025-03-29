@@ -206,9 +206,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <h2
                     className={cn(
                         `flex items-center font-bold capitalize`,
-                        `mb-4xs text-heading-s`,
-                        `lg:x-[mb-xxs,text-heading]`,
-                        `md:text-heading`,
+                        `mb-4xs text-21`,
+                        `lg:x-[mb-xxs,text-27]`,
+                        `md:text-27`,
                     )}
                 >
                     <Image
@@ -221,11 +221,11 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <div
                     className={cn(
                         'text-secondary',
-                        'text-section',
+                        'text-20',
                         'lg:mb-[2.2rem]',
                         'md:mb-n',
                         'sm:mb-4xs',
-                        'sm:landscape:text-section-s',
+                        'sm:landscape:text-18',
                     )}
                 >
                     <span>{pricing + (showAsterisk ? '*' : '')}</span>
@@ -233,9 +233,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <Button
                     onClick={() => handleSubscribeClick(type)}
                     className={cn(
-                        `w-full rounded-full bg-blue text-section-s font-bold`,
+                        `w-full rounded-full bg-blue text-18 font-bold`,
                         `py-[1.12rem]`,
-                        `sm:x-[py-xxs,text-basic]`,
+                        `sm:x-[py-xxs,text-16]`,
                         `disabled:x-[bg-inherit,border-s,border-gray-l0,text-secondary]`,
                     )}
                     disabled={isBtnDisabled}
@@ -266,18 +266,13 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <ul
                     className={cn(
                         `mt-[1.57rem] flex flex-col items-start gap-y-[1.57rem]`,
-                        `text-basic`,
-                        `sm:x-[gap-xxs,text-section-xs]`,
+                        `text-16`,
+                        `sm:x-[gap-xxs,text-14]`,
                     )}
                 >
                     {Benefits}
                 </ul>
-                <div
-                    className={cn(
-                        `mt-auto flex flex-grow flex-col text-section-xxs text-secondary`,
-                        `sm:landscape:text-section-3xs`,
-                    )}
-                >
+                <div className={cn(`mt-auto flex flex-grow flex-col text-12 text-secondary`, `sm:landscape:text-10`)}>
                     <span className={'mt-auto flex flex-col gap-y-5xs'}>{Links}</span>
                 </div>
             </Collapsible>
@@ -347,7 +342,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     `sm:portrait:h-[6.75rem]`,
                 )}
             >
-                <div className={cn(`flex h-fit w-fit rounded-full border-s p-[0.2rem] text-section-xs`)}>{Switch}</div>
+                <div className={cn(`flex h-fit w-fit rounded-full border-s p-[0.2rem] text-14`)}>{Switch}</div>
             </div>
             <div
                 className={cn(

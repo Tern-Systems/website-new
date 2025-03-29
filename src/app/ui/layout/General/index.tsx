@@ -157,7 +157,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                 className={'w-fit'}
             >
                 <ul className={'flex flex-col gap-y-xs'}>
-                    <li className={'text-section-s font-bold capitalize'}>{section.title}</li>
+                    <li className={'text-18 font-bold capitalize'}>{section.title}</li>
                     {LinksLi}
                 </ul>
             </li>

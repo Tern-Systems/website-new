@@ -125,12 +125,12 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                         />
                         {warningMsg && <span className={'mt-[1rem] text-center'}>{warningMsg}</span>}
                         <Button
-                            className={`mt-n w-[9.38563rem] place-self-center rounded-full border-s border-blue py-[0.37rem] text-section font-bold ${isDisabling ? 'border-red text-red' : 'border-blue'}`}
+                            className={`mt-n w-[9.38563rem] place-self-center rounded-full border-s border-blue py-[0.37rem] text-20 font-bold ${isDisabling ? 'border-red text-red' : 'border-blue'}`}
                         >
                             {isDisabling ? 'Disable' : 'Submit and Login'}
                         </Button>
                     </form>
-                    <div className={'mt-[2.51rem] text-section sm:portrait:w-[14.75rem]'}>
+                    <div className={'mt-[2.51rem] text-20 sm:portrait:w-[14.75rem]'}>
                         <span>
                             It may take a minute to receive your code. Haven&apos;t received it?&nbsp;
                             <span
