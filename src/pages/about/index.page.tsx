@@ -28,7 +28,10 @@ const AboutPage: FC = () => {
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={SVG_ROCKET} />
+                <MainBackground
+                    url={SVG_ROCKET}
+                    fixedAtTop={true}
+                />
                 <div
                     className={cn(
                         styles.content,

@@ -8,15 +8,20 @@ import cn from 'classnames';
 interface Props {
     url: StaticImageData | string;
     className?: string;
+    fixedAtTop?: boolean;
 }
 
 const MainBackground: FC<Props> = (props: Props) => {
-    const { className } = props;
+    const { className, fixedAtTop = false } = props;
     const url = typeof props.url === 'string' ? props.url : props.url.src;
     return (
         <>
             <div
-                style={{ backgroundImage: `url("${url}")` }}
+                style={{
+                    backgroundImage: `url("${url}")`,
+                    backgroundAttachment: fixedAtTop ? 'fixed' : 'scroll',
+                    backgroundPosition: fixedAtTop ? '50% 0' : 'center',
+                }}
                 className={cn(
                     'absolute max-w-dwv min-h-full h-screen max-h-[100rem] w-dvw',
                     'bg-fixed bg-cover bg-center bottom-0 right-0 top-0',
