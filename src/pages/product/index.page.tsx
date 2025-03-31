@@ -119,10 +119,7 @@ function TidalPage() {
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection, styles.sectionShadowBlue, 'relative')}>
-                <MainBackground
-                    url={PNG_BACKGROUND_MAIN}
-                    fixedAtTop={true}
-                />
+                <MainBackground url={PNG_BACKGROUND_MAIN} />
                 <div className={cn(styles.content, 'relative z-10 content-center')}>
                     <div className={'sm:x-[pt-l,pb-5xl] pt-5xl pb-6xl'}>
                         <h1 className={'text-64  lg:text-96'}>TIDAL</h1>
