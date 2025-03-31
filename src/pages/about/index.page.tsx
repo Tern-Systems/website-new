@@ -42,7 +42,7 @@ const AboutPage: FC = () => {
                                 'flex mb-n text-right font-bold leading-n',
                                 'sm:mt-n',
                                 'w-[20rem] md:w-min lg:w-min',
-                                'text-40 md:[&]:text-96 md:[&]:landscape:text-40 lg:text-128',
+                                'text-40 md:text-96 lg:text-128',
                             )}
                         >
                             Reaching New Heights
