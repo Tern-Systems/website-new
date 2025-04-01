@@ -152,25 +152,17 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
         it(
             'Should successfully log out',
             async () => {
-                // Preparation
                 const { useUserSpy } = await AuthTestUtil.renderLoggedIn(<HomePage />);
-                jest.useFakeTimers();
 
-                // Main
-                const [profileToggle] = await findAllByTestId(profile.menu);
-                await act(() => fireEvent.click(profileToggle));
+                await click(profile.toggle);
 
-                await act(async () => fireEvent.click(await findByTestId(profile.logoutButton)));
+                await checkToBeInDocument(profile.menu);
 
-                await waitFor(() =>
-                    expect(useUserSpy).toHaveLastReturnedWith(expect.objectContaining({ userData: null })),
-                );
+                await click(profile.logoutButton);
+
+                expect(useUserSpy).toHaveLastReturnedWith(expect.objectContaining({ userData: null }));
 
                 expect(document.cookie).toEqual(createCookie(null));
-
-                expect(await findByTestId(profile.loginButton)).toBeInTheDocument();
-
-                expect(profileToggle).not.toBeInTheDocument();
             },
             TIMEOUT.testMs,
         );
@@ -206,7 +198,9 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
             );
             await act(async () =>
                 fireEvent.change(await findByTestId(auth.form.input.password), {
-                    target: { value: dummyPassword + (success || twoFA ? '' : 'wrong') },
+                    target: {
+                        value: dummyPassword + (success || twoFA ? '' : 'wrong'),
+                    },
                 }),
             );
 

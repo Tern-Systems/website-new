@@ -2,14 +2,14 @@
 
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 
+import { COOKIE_TOKEN_KEY_PREFIX } from '@/app/utils/auth';
+
 import { UserData } from '@/app/contexts/user.context';
 
 import { UserService } from '@/app/services';
 
+import { createCookie } from '@/app/utils';
 import { UserContext } from '@/app/contexts';
-
-const COOKIE_TOKEN_KEY_NAME = 'bearer-token=';
-const COOKIE_TOKEN_EXPIRE_S = 900; // 15 mins
 
 const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const [isLoggedIn, setLoggedState] = useState<boolean | null>(null);
@@ -20,15 +20,14 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         if (userData) setUserDataHelper(userData);
         setLoggedState(true);
 
-        document.cookie = `${COOKIE_TOKEN_KEY_NAME}${token}; path=/; max-age=${COOKIE_TOKEN_EXPIRE_S}; secure; SameSite=Strict`;
+        document.cookie = createCookie(token);
 
         setToken(token);
-        localStorage.setItem('token', token);
     };
     const removeSession = () => {
         setUserDataHelper(null);
         setLoggedState(false);
-        localStorage.removeItem('token');
+        document.cookie = createCookie(null);
     };
 
     const setupSession = useCallback(
@@ -48,7 +47,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     );
 
     useEffect(() => {
-        const token = document.cookie.split(COOKIE_TOKEN_KEY_NAME).pop()?.split(';').shift();
+        const token = document.cookie.split(COOKIE_TOKEN_KEY_PREFIX).pop()?.split(';').shift();
         if (token) setupSession(true, token);
         else setLoggedState(false);
     }, [setupSession]);
