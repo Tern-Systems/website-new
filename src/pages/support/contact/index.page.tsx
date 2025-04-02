@@ -154,6 +154,7 @@ const ContactsPage: FC = () => {
                                             Phone
                                         </Input>
                                     </div>
+
                                     <div className='grid grid-cols-1'>
                                         <Input
                                             type={'textarea'}
@@ -178,6 +179,7 @@ const ContactsPage: FC = () => {
                                         May Tern provide you with personalized communications about Tern and select
                                         Tern-partner products, services, offers and events?
                                     </Input>
+
                                     <Button
                                         type={'submit'}
                                         className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
