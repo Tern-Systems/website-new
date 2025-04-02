@@ -2,6 +2,9 @@
 
 import { FC } from 'react';
 import cn from 'classnames';
+import { useModal } from '@/app/hooks';
+import { ContactService } from '@/app/services/contact.service';
+import { MessageModal } from '@/app/ui/modals';
 
 import MapEmbed from './Map';
 import { useForm } from '@/app/hooks';
@@ -59,10 +62,34 @@ const INPUT_PROPS = {
 
 const ContactsPage: FC = () => {
     const [formData, setFormValue] = useForm<FormData>(FORM_DEFAULT);
+    const { openModal } = useModal();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO
+        try {
+            const result = await ContactService.postSubmitContact({
+                ...formData,
+                isAllowedUpdate: formData.isAllowedUpdate ?? false,
+            });
+            openModal(<MessageModal>{result.message}</MessageModal>);
+            // Reset form
+            setFormValue('firstName')('');
+            setFormValue('lastName')('');
+            setFormValue('company')('');
+            setFormValue('email')('');
+            setFormValue('phone')('');
+            setFormValue('message')('');
+            // Create synthetic event for checkbox
+            const checkboxEvent = {
+                target: {
+                    type: 'checkbox',
+                    checked: false,
+                },
+            } as React.ChangeEvent<HTMLInputElement>;
+            setFormValue('isAllowedUpdate')(checkboxEvent);
+        } catch (error) {
+            openModal(<MessageModal>Failed to submit form. Please try again.</MessageModal>);
+        }
     };
 
     return (
@@ -92,13 +119,13 @@ const ContactsPage: FC = () => {
                             </h1>
                         </div>
                     </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
+                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-0' />
+                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-1' />
                 </div>
             </section>
 
             <div
-                className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
+                className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10%')}
             >
                 <section
                     className={cn(
