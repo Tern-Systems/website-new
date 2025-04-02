@@ -68,10 +68,12 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
+            <section className={cn(styles.section, styles.fullHeightSection)}>
                 {/* Used seperate component to render the background image instead of the direct image source */}
                 <MainBackground url={OFFICE_GIRL_3.src} />
-                <div className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-center bg-fixed')}>
+                <div
+                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem] mx-auto', 'relative bg-center bg-fixed')}
+                >
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                         <div>
                             <h1
@@ -87,8 +89,8 @@ const ContactsPage: FC = () => {
                             </h1>
                         </div>
                     </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
+                    <div className='absolute inset-0 z-0 bg-gradient-to-r from-black via-black to-transparent lg:via-20% sm:to-60% md:to-40% lg:to-50%' />
+                    <div className='absolute inset-0 z-0 bg-gradient-to-l from-black via-black to-transparent lg:via-20% lg:to-30%' />
                 </div>
             </section>
 
