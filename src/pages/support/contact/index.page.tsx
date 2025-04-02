@@ -89,8 +89,6 @@ const ContactsPage: FC = () => {
                             </h1>
                         </div>
                     </div>
-                    <div className='absolute inset-0 z-0 bg-gradient-to-r from-black via-black to-transparent lg:via-20% sm:to-60% md:to-40% lg:to-50%' />
-                    <div className='absolute inset-0 z-0 bg-gradient-to-l from-black via-black to-transparent lg:via-20% lg:to-30%' />
                 </div>
             </section>
 
