@@ -71,6 +71,7 @@ const ContactsPage: FC = () => {
             <section className={cn(styles.section, styles.fullHeightSection)}>
                 {/* Used seperate component to render the background image instead of the direct image source */}
                 <MainBackground url={OFFICE_GIRL_3.src} />
+                <div className='absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent' />
                 <div
                     className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem] mx-auto', 'relative bg-center bg-fixed')}
                 >
