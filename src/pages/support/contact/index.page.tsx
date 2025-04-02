@@ -68,27 +68,23 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={cn(styles.section, styles.fullHeightSection)}>
+            <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
                 {/* Used seperate component to render the background image instead of the direct image source */}
                 <MainBackground url={OFFICE_GIRL_3.src} />
-                <div className='absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent' />
-                <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem] mx-auto', 'relative bg-center bg-fixed')}
-                >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `w-min text-left leading-n`,
-                                    `mb-n text-96`,
-                                    `lg:x-[w-full,mt-6xl-1]`,
-                                    `md:x-[mt-xl,text-96]`,
-                                    `sm:x-[flex,mt-xs,text-64]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
+                <div className='absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent z-0 bg-center' />
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start h-full')}>
+                    <div>
+                        <h1
+                            className={cn(
+                                `w-min text-left leading-n`,
+                                `mb-n text-96`,
+                                `lg:x-[w-full,mt-6xl-1]`,
+                                `md:x-[mt-xl,text-96]`,
+                                `sm:x-[flex,mt-xs,text-64]`,
+                            )}
+                        >
+                            Contact Tern
+                        </h1>
                     </div>
                 </div>
             </section>
