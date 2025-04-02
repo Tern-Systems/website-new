@@ -8,6 +8,8 @@ import { NavLink } from '@/app/static';
 import { getIdName } from '@/app/utils';
 import { useLayout } from '@/app/hooks';
 
+import { MAPPED_SUB_NAV_ROUTES } from '@/app/static';
+
 interface Props {
     length?: number;
     className?: string;
@@ -21,6 +23,9 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
     const breadcrumbs = layoutCtx.navLinks[NavLink.Breadcrumbs]
         ?.slice(-length)
         .map((path: string) => {
+            if (MAPPED_SUB_NAV_ROUTES[path]) {
+                return MAPPED_SUB_NAV_ROUTES[path];
+            }
             const parts = path.split('/');
             const lastPart = parts[parts.length - 1];
             const idName = getIdName(lastPart);
