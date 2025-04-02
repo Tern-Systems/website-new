@@ -69,7 +69,11 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={OFFICE_GIRL_3} />
+            <MainBackground 
+                url={OFFICE_GIRL_3} 
+                className="lg:!left-0 lg:!right-0 lg:!bottom-auto lg:bg-center"
+            />
+
                 <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                     <div>
                         <h1
