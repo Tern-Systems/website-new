@@ -15,7 +15,7 @@ import { Route } from '@/app/static';
 import { MainBackground } from '@/app/ui/atoms';
 
 import styles from '@/app/common.module.css';
-
+// import OFFICE_GIRL_2 from '@/assets/images/office-girl-2.png';
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
 import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
 
@@ -69,9 +69,13 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection, 'relative overflow-hidden')}>
-                <div className='absolute inset-0 lg:bg-center lg:bg-cover'>
-                    <MainBackground url={OFFICE_GIRL_3} />
+                <div className='absolute inset-0'>
+                    <MainBackground
+                        url={OFFICE_GIRL_3}
+                        className='object-cover w-full h-full bg-top'
+                    />
                 </div>
+
                 <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                     <div>
                         <h1
@@ -87,8 +91,7 @@ const ContactsPage: FC = () => {
                         </h1>
                     </div>
                 </div>
-                <div className='absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent' />
-                <div className='absolute inset-0 bg-gradient-to-r from-black via-transparent to-black' />
+                <div className='absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80' />
             </section>
 
             <div
