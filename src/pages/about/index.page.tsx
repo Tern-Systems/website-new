@@ -61,7 +61,7 @@ const AboutPage: FC = () => {
                         'to-transparent to-60% lg:to-40%',
                     )}
                 />
-           import     <div
+                <div
                     className={cn(
                         styles.fullHeightSection,
                         'absolute w-dvw max-w-dwv left-0 top-0 z-10',
