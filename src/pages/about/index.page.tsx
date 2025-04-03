@@ -1,189 +1,278 @@
+'use client';
+
 import { FC } from 'react';
 import cn from 'classnames';
 
-import { InfoSectionData } from '@/app/types/layout';
-import { Route } from '@/app/static';
+import MapEmbed from './Map';
+import { useForm } from '@/app/hooks';
 
+import { Button, Input } from '@/app/ui/form';
+import { CardLink, ResourceSectionData } from '@/app/types/layout';
+import { ResourceCard } from '@/app/ui/organisms';
+import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
-import { MainBackground } from '@/app/ui/atoms';
-import { InfoSection, InsideTernSection } from '@/app/ui/templates';
+import { Route } from '@/app/static';
 
 import styles from '@/app/common.module.css';
 
-import SVG_COMPUTER from '@/assets/images/old-computer.svg';
-import SVG_ROCKET from '@/assets/images/rocket.png';
-import SVG_NATURE from '@/assets/images/nature-section.png';
+import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
+import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
+import { MainBackground } from '@/app/ui/atoms';
 
-const INFO: InfoSectionData = {
-    title: 'Enabling Efficient Computing',
-    image: SVG_COMPUTER,
-    subTitle: 'Leading the Next Wave',
-    link: Route.Documentation,
-    linkTitle: 'Go Deeper',
-    description:
-        'The successive era of computing is not speed or scale, it is optimization. Tern is focused on allowing computer systems to reach their full potential today rather than tomorrow.',
+type FormData = {
+    isAllowedUpdate: boolean | undefined;
+    firstName: string;
+    lastName: string;
+    company: string;
+    email: string;
+    phone: string;
+    message: string;
 };
 
-const AboutPage: FC = () => {
+const FORM_DEFAULT: FormData = {
+    firstName: '',
+    lastName: '',
+    company: '',
+    email: '',
+    phone: '',
+    message: '',
+    isAllowedUpdate: false,
+};
+
+const HIGHLIGHTED_CARD: CardLink = {
+    icon: PNG_HIGHLIGHTEDTIPS,
+    title: 'Get help with tips from our experts',
+    description: 'Our experts share how to best manage and operate your Tern products, services and accounts.',
+    action: { title: 'Learn more', href: '' },
+};
+
+const RESOURCES: ResourceSectionData[] = [
+    { Node: <PageLink href={Route.Community} /> },
+    { Node: <PageLink href={Route.SupportHub}>Support hub</PageLink> },
+    { Node: <PageLink href={Route.Billing}>Billing resolution center</PageLink> },
+];
+
+const INPUT_PROPS = {
+    classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
+    classNameLabel: 'font-[400]   ',
+    className: cn('h-6xl w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
+};
+
+const ContactsPage: FC = () => {
+    const [formData, setFormValue] = useForm<FormData>(FORM_DEFAULT);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // TODO
+    };
+
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={SVG_ROCKET} />
-                <div
-                    className={cn(
-                        styles.content,
-                        'relative flex justify-end z-10',
-                        'items-start md:items-center lg:items-center',
-                    )}
-                >
-                    <div>
-                        <h1
-                            className={cn(
-                                'flex mb-n text-right font-bold leading-n',
-                                'sm:mt-n',
-                                'w-[20rem] md:w-min lg:w-min',
-                                'text-40 md:[&]:text-96 md:[&]:landscape:text-40 lg:text-128',
-                            )}
-                        >
-                            Reaching New Heights
-                        </h1>
+                <MainBackground url={OFFICE_GIRL_3}/>
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                    
+                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                        <div>
+                            <h1
+                                className={cn(
+                                    `w-min text-left leading-n`,
+                                    `mb-n text-96`,
+                                    `lg:x-[w-full,mt-6xl-1]`,
+                                    `md:x-[mt-xl,text-96]`,
+                                    `sm:x-[flex,mt-xs,text-64]`,
+                                )}
+                            >
+                                Contact Tern
+                            </h1>
+                        </div>
                     </div>
+                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
+                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
                 </div>
             </section>
 
-            <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
-                <div
-                    className={cn(
-                        styles.fullHeightSection,
-                        'absolute w-dvw max-w-dwv left-0 top-0 z-10',
-                        'bg-gradient-to-b bg-cover bg-center bg-no-repeat',
-                        'from-blue md:from-[-10%] lg:from-[-15%]',
-                        'to-transparent to-60% lg:to-40%',
-                    )}
-                />
-                <div
-                    className={cn(
-                        styles.fullHeightSection,
-                        'absolute w-dvw max-w-dwv left-0 top-0 z-10',
-                        'bg-gradient-to-t bg-cover bg-center bg-no-repeat',
-                        'from-blue md:from-[-15%] lg:from-[-15%]',
-                        'to-transparent to-60%  md:to-30% lg:to-35%',
-                    )}
-                />
-                <div
+            <div
+                className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
+            >
+                <section
                     className={cn(
                         styles.content,
-                        'relative flex h-full z-20 items-center justify-center',
-                        'bg-cover bg-center bg-no-repeat',
-                        'md:x-[max-w-[62rem],mx-auto]',
+                        'relative z-10',
+                        'flex flex-col lg:flex-row',
+                        'pb-6xl pt-7xl',
+                        'sm:pb-5xl',
+                        'md:pb-6xl-1',
+                        'gap-3xl md:gap-6xl-1 lg:gap-7xl',
                     )}
                 >
-                    <div
-                        className={cn(
-                            'flex flex-col gap-[12rem]',
-                            'md:gap-[min(23dvh,13rem)]',
-                            'sm:gap-[min(25dvh,15rem)] sm:landscape:gap-[min(15dvh,6.25rem)]',
-                        )}
-                    >
-                        <div>
-                            <h2
-                                className={cn(
-                                    'mb-xs md:mb-n md:landscape:mb-xs lg:mb-xl',
-                                    'text-27 md:text-48 md:landscape:text-27 lg:text-64',
-                                )}
+                    <div className={cn('lg:w-1/2 md:w-[65%]')}>
+                        <div className={cn('')}>
+                            <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
+                            <form
+                                onSubmit={handleSubmit}
+                                className='relative z-10 [&_*]:tracking-wide'
                             >
-                                Mission
-                            </h2>
-                            <p className={cn('leading-tight', 'text-18 md:text-36 md:landscape:text-18 lg:text-40')}>
-                                Revolutionize computing by harnessing the power of ternary microprocessors.
-                            </p>
-                        </div>
-                        <div>
-                            <h2
-                                className={cn(
-                                    'mb-xs md:mb-n md:landscape:mb-xs lg:mb-xl',
-                                    'text-27 md:text-48 md:landscape:text-27 lg:text-64',
-                                )}
-                            >
-                                Vision
-                            </h2>
-                            <p className={cn('leading-tight', 'text-18 md:text-36 md:landscape:text-18 lg:text-40')}>
-                                Ushering in the era of efficient computing, equipping all legacy devices with advanced
-                                microprocessors.
-                            </p>
+                                <div className='grid gap-n'>
+                                    <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
+                                        <Input
+                                            value={formData.firstName}
+                                            onChange={setFormValue('firstName')}
+                                            required
+                                            {...INPUT_PROPS}
+                                        >
+                                            First Name*
+                                        </Input>
+                                        <Input
+                                            value={formData.lastName}
+                                            onChange={setFormValue('lastName')}
+                                            required
+                                            {...INPUT_PROPS}
+                                        >
+                                            Last Name*
+                                        </Input>
+                                    </div>
+                                    <div className='grid grid-cols-1'>
+                                        <Input
+                                            value={formData.company}
+                                            onChange={setFormValue('company')}
+                                            {...INPUT_PROPS}
+                                        >
+                                            Company
+                                        </Input>
+                                    </div>
+                                    <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
+                                        <Input
+                                            type={'email'}
+                                            value={formData.email}
+                                            onChange={setFormValue('email')}
+                                            {...INPUT_PROPS}
+                                        >
+                                            Email*
+                                        </Input>
+                                        <Input
+                                            type={'phone'}
+                                            value={formData.phone}
+                                            onChange={setFormValue('phone')}
+                                            {...INPUT_PROPS}
+                                        >
+                                            Phone
+                                        </Input>
+                                    </div>
+                                    <div className='grid grid-cols-1'>
+                                        <Input
+                                            type={'textarea'}
+                                            value={formData.message}
+                                            onChange={setFormValue('message')}
+                                            required
+                                            {...INPUT_PROPS}
+                                        >
+                                            Message*
+                                        </Input>
+                                    </div>
+                                    <Input
+                                        type={'checkbox'}
+                                        checked={formData.isAllowedUpdate}
+                                        onChange={setFormValue('isAllowedUpdate')}
+                                        classNameLabel={'text-12 leading-normal'}
+                                        className={'border-gray-l0 bg-gray-d2'}
+                                        classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
+                                        classNameWrapper={'flex [&_div]:items-start'}
+                                        isCustomCheckbox
+                                    >
+                                        May Tern provide you with personalized communications about Tern and select
+                                        Tern-partner products, services, offers and events?
+                                    </Input>
+                                    <Button
+                                        type={'submit'}
+                                        className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
+                                    >
+                                        Submit
+                                    </Button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-            </section>
-            <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
-                <div
-                    className={cn(
-                        styles.content,
-                        'flex w-full flex-col justify-between py-[7rem]',
-                        'sm:landscape:py-n md:landscape:py-n',
-                    )}
-                >
-                    <div
-                        style={{ backgroundImage: `url("${SVG_NATURE.src}")` }}
-                        className={cn(
-                            styles.fullHeightSection,
-                            'absolute w-dvw max-w-dwv left-0 top-0 -z-10',
-                            'bg-cover bg-center bg-no-repeat',
-                        )}
-                    />
-                    <h1
-                        className={cn(
-                            `w-min ml-auto text-right font-bold leading-n text-black`,
-                            `text-48 md:text-64 md:landscape:text-48 lg:text-96`,
-                            `sm:mb-xs mb-n`,
-                        )}
-                    >
-                        Understand Our Why
-                    </h1>
-                    <div>
-                        <PageLink
-                            href={Route.Credo}
-                            className={
-                                'flex h-button-xl w-full max-w-[10.5rem] justify-center bg-white text-18 text-black'
-                            }
+                    <div className='lg:w-1/2  md:w-[65%] flex'>
+                        <div
+                            className={cn(
+                                'h-full w-full',
+                                'md:h-[60dvh] md:max-h-[43.5rem]',
+                                'sm:h-[70dvh] sm:max-h-[29.75rem]',
+                            )}
                         >
-                            Read Our Credo
-                        </PageLink>
+                            <MapEmbed />
+                        </div>
                     </div>
-                </div>
-            </section>
-            <div className='relative h-full'>
-                <div className='relative z-10 bg-black bg-gradient-to-b from-blue to-transparent to-60% md:to-35%  lg:x-[from-[-15%],to-20%]'>
-                    <div
-                        className={cn(
-                            'hidden lg:block',
-                            'h-full w-full absolute left-0 top-0 z-10',
-                            'bg-gradient-to-t from-green to-transparent to-30%',
-                        )}
+                </section>
+
+                <section
+                    className={cn(
+                        styles.content,
+                        'relative z-10',
+                        'grid grid-cols-1 gap-xl mb-3xl',
+                        'md:x-[mb-6xl-1]',
+                        'lg:x-[grid-cols-3,mb-6xl]',
+                    )}
+                >
+                    <div className='grid gap-3xs  md:gap-s  lg:order-last'>
+                        <h3 className='font-thin text-32 sm:text-24'>Office</h3>
+                        <address className='not-italic leading-tight text-24 sm:text-18'>
+                            1120 Avenue of the Americas
+                            <br />
+                            New York, New York
+                            <br />
+                            10036-6700
+                            <br />
+                            United States
+                        </address>
+                    </div>
+
+                    <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
+                        <h3 className='font-thin text-32 sm:text-24'>Email</h3>
+                        <p className='text-24 sm:text-18'>info@tern.ac</p>
+                    </div>
+
+                    <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
+                        <h3 className='font-thin text-32 sm:text-24'>Phone</h3>
+                        <p className='text-24 sm:text-18'>(973) 590-8753</p>
+                    </div>
+                </section>
+
+                <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
+                    <ResourceCard
+                        type={'highlighted'}
+                        icon={HIGHLIGHTED_CARD.icon}
+                        title={HIGHLIGHTED_CARD.title}
+                        action={HIGHLIGHTED_CARD.action}
+                        className={{
+                            wrapper: cn(
+                                'text-black',
+                                'lg:x-[!grid-cols-2,gap-x-0] lg:col-span-2',
+                                'md:x-[!grid-cols-2,gap-x-0] md:[&]:x-[col-span-2,px-xl]',
+                                'sm:x-[mx-auto,w-full]',
+                            ),
+                            image: '!size-full object-cover',
+                            content: 'lg:pl-l  md:pl-l md:flex',
+                            title: 'text-20  md:text-24  lg:text-27',
+                            children: 'text-12  sm:text-10',
+                            link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]',
+                        }}
+                    >
+                        {HIGHLIGHTED_CARD.description}
+                    </ResourceCard>
+                </section>
+
+                <section className='relative z-10'>
+                    <ResourcesSection
+                        data={RESOURCES}
+                        className={'mb-[22.125rem] mt-6xl-1'}
                     />
-                    <InfoSection
-                        data={INFO}
-                        className={cn('pt-[12rem] bg-transparent')}
-                        classNameTitle={'sm:x-[text-30,mb-xl,leading-n]  md:text-36'}
-                        classNameSubTitle={'mb-4xs [&]:text-24 lg:[&]:text-32'}
-                        classNameContent={'md:x-[max-w-[62rem],mx-auto]'}
-                        classNameDescription={'[&]:leading-l text-16 lg:text-20'}
-                        classNamePageLink={cn(
-                            'flex w-full [&]:p-0 items-center justify-center rounded-none',
-                            'text-16 md:text-18 lg:[&]:text-18',
-                            'sm:max-w-11xl max-w-[8.4375rem]',
-                            'sm:h-button-l h-button-xl',
-                            'mt-n md:mt-xl lg:mt-xxl',
-                        )}
-                    />
-                    <InsideTernSection
-                        data={'alt1'}
-                        className={'bg-transparent'}
-                    />
-                </div>
+                </section>
+
+                <div className='absolute bottom-0 inset-0 bg-gradient-to-t from-blue to-transparent to-10% lg:to-[16%] z-0' />
             </div>
         </>
     );
 };
-
-export default AboutPage;
+export default ContactsPage;
