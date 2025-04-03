@@ -77,6 +77,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             try {
                 const { payload: cards } = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
+                if (cards.length === 1) setFormData('savedCardIdx')('0');
             } catch (_: unknown) {
                 // Empty block
             }
@@ -137,6 +138,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 formDataMapped.id = selectedCard.id;
                 formDataMapped.cvc = formData.cvc;
                 formDataMapped.state = selectedCard.billingAddress.state;
+                formDataMapped.country = selectedCard.billingAddress.country;
 
                 const { message: msg } = await BillingService.postProcessSavedPayment(
                     formDataMapped,
@@ -158,6 +160,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             }
             setPaymentStatus(message);
         } catch (err: unknown) {
+            console.info(err);
             if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
             setPaymentStatus(false);
         }
@@ -172,8 +175,6 @@ const PaymentForm: FC<Props> = (props: Props) => {
         FormInputs = (
             <>
                 <Select
-                    data-testid={TestID.input.savedCardIdx}
-                    name={TestID.input.savedCardIdx}
                     options={SavedCards}
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
@@ -410,7 +411,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     <Button
                         data-testid={TestID.submitButton}
                         type={'submit'}
-                        className={`mt-[min(4dvw,--p-n)] h-[4.4rem] w-full rounded-full bg-gray text-section-s font-bold text-primary sm:h-[3.125rem]`}
+                        className={`mt-n h-[4.4rem] w-full rounded-full bg-gray text-section-s font-bold text-primary sm:h-[3.125rem]`}
                     >
                         Subscribe
                     </Button>

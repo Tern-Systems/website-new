@@ -5,13 +5,14 @@ import { PlanType, RecurrencyEnum } from '@/app/types/subscription';
 import { SubscribeData } from '@/app/services/billing.service';
 
 import { BillingService } from '@/app/services';
+import { CardData } from '@/app/types/billing';
 
 class BillingTestUtilImpl extends BaseUtilImpl {
     public static readonly DATA = {
         ...BaseUtilImpl.DATA,
         dummyCard: {
             general: {
-                cardholderName: 'Name Surname',
+                cardholderName: 'Firstname Lastname',
                 cardNumber: '370000000000002',
                 cvc: '1111',
                 expirationDate: '01/30',
@@ -53,6 +54,20 @@ class BillingTestUtilImpl extends BaseUtilImpl {
             acceptTerms: true,
         };
         await BillingService.postProcessPayment(card, type, recurrency, 0, dummyEmail);
+    }
+
+    async saveCard(email: string = BillingTestUtilImpl.DATA.dummyEmail) {
+        const { dummyCard } = BillingTestUtilImpl.DATA;
+        const card: CardData = {
+            ...dummyCard.general,
+            id: dummyCard.general.cardNumber,
+            type: '',
+            ...dummyCard.address,
+            isPreferred: dummyCard.misc.preferred,
+            nickName: dummyCard.misc.nickname.initial,
+            billingAddress: '',
+        };
+        await BillingService.postSaveCard(card, email);
     }
 }
 

@@ -25,6 +25,8 @@ import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const TestID = DataTestID.page.profile.billing.purchasingInformation.page;
 
+const Hr = <hr className={'mb-s mt-3xs border-white-d0'} />;
+
 function PurchasingInformationPage() {
     const userCtx = useUser();
     const modalCtx = useModal();
@@ -90,7 +92,15 @@ function PurchasingInformationPage() {
         );
     });
 
-    if (!Cards.length) Cards = [<span key={0}>No saved cards</span>];
+    if (!Cards.length)
+        Cards = [
+            <span
+                data-testid={TestID.savedCards.noEntries}
+                key={0}
+            >
+                No saved cards
+            </span>,
+        ];
 
     const InvoiceRows: ReactElement[] = invoiceHistory.map((order, idx) => {
         const { card } = order;
@@ -114,8 +124,6 @@ function PurchasingInformationPage() {
             </tr>
         );
     });
-
-    const Hr = <hr className={'mb-s mt-3xs border-white-d0'} />;
 
     return (
         <div className={`mt-[min(8dvw,9rem)] px-[min(5.3dvw,1.83rem)] sm:x-[mt-l]`}>

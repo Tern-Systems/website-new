@@ -8,16 +8,17 @@ import {
     change,
     checkTextContent,
     checkToBeInDocument,
+    checkToHaveValue,
     click,
     findAllByTestId,
+    findByTestId,
     render,
     waitFor,
 } from '@/__tests__/utils';
 
 // App
 import { UserData } from '@/app/contexts/user.context';
-import { CardData } from '@/app/types/billing';
-import { PlanName, RecurrencyEnum } from '@/app/types/subscription';
+import { PlanName, RecurrencyEnum, Subscription } from '@/app/types/subscription';
 import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
@@ -36,7 +37,7 @@ const { card } = plans;
 const UseUserMock = jest.requireMock('@/app/hooks/context/useUser');
 
 describe('E2E related to ' + BillingTestUtilImpl.name, () => {
-    const { dummyCard, dummyEmail } = BillingTestUtilImpl.DATA;
+    const { dummyCard } = BillingTestUtilImpl.DATA;
 
     beforeAll(async () => await BillingTestUtil.clean());
     beforeEach(() => {
@@ -44,25 +45,6 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
         BillingTestUtil.mockPathName('/');
     });
     afterAll(async () => await BillingTestUtil.clean());
-
-    // describe(BillingService.getCards.name, () => {
-    //     it('Should render card cards', async () => {
-    //         // Preparation
-    //         await AuthTestUtil.signupUser();
-    //
-    //         const card: CardData = {
-    //             ...CARD_DATA_DEFAULT,
-    //             ...dummyCard.general,
-    //             ...dummyCard.address,
-    //         };
-    //         await BillingService.postSaveCard(card, dummyEmail);
-    //
-    //         await BillingTestUtil.renderLoggedIn(<PurchasingInformationPage />);
-    //
-    //         // Test
-    //
-    //     });
-    // });
 
     describe(PurchasingInformationPage.name + ' ' + PaymentMethodTool.name + ' - related', () => {
         const { purchasingInformation } = profile.billing;
@@ -93,15 +75,51 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
             await click(paymentMethodTool.form.submitButton);
         };
 
-        const checkSavedCards = async (nickname: string, preferred: boolean) => {
-            await waitFor(async () => await checkToBeInDocument(page.savedCards.entry.nickname, 1));
-            await checkTextContent(page.savedCards.entry.nickname, nickname);
-            if (preferred) await checkToBeInDocument(page.savedCards.entry.preferred);
-            await checkTextContent(page.billing.name, '--', false);
-            await checkToBeInDocument(page.billing.address);
+        const checkSavedCards = async <T extends boolean = true>(
+            be: T,
+            nickname: T extends true ? string : null,
+            preferred: T extends true ? boolean : null,
+        ) => {
+            await waitFor(
+                async () =>
+                    await checkToBeInDocument(be ? page.savedCards.entry.nickname : page.savedCards.noEntries, 1),
+            );
+
+            if (be && nickname) {
+                await checkTextContent(page.savedCards.entry.nickname, nickname);
+                if (preferred) await checkToBeInDocument(page.savedCards.entry.preferred);
+                await checkTextContent(page.billing.name, '--', false);
+                await checkToBeInDocument(page.billing.address);
+            }
         };
 
-        describe(BillingService.postSaveCard.name, () => {
+        describe(BillingService.postDeleteCard.name, () => {
+            it(
+                'Should successfully delete saved card',
+                async () => {
+                    // Preparation
+                    await BillingTestUtil.saveCard();
+                    const { render: PaymentTool } = await BillingTestUtil.renderLoggedIn(<PaymentMethodTool />);
+
+                    // Test
+                    await click(paymentMethodTool.removeCard.toggle);
+
+                    const RemoveCardModal = await checkToBeInDocument(paymentMethodTool.removeCard.modal);
+                    if (!RemoveCardModal) throw 'No modal found';
+
+                    await click(paymentMethodTool.removeCard.submitButton);
+
+                    await waitFor(async () => await checkToBeInDocument(RemoveCardModal, 1, false));
+
+                    PaymentTool.unmount();
+                    await BillingTestUtil.renderLoggedIn(<PurchasingInformationPage />, false);
+                    await checkSavedCards(false, null, null);
+                },
+                TIMEOUT.testMs,
+            );
+        });
+
+        describe(BillingService.postSaveCard.name + ' ' + BillingService.getCards.name + ' - related', () => {
             afterEach(async () => await BillingTestUtil.clean());
 
             it(
@@ -125,38 +143,46 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
 
                     PaymentToolPage.unmount();
                     await BillingTestUtil.renderLoggedIn(<PurchasingInformationPage />, false);
-                    await checkSavedCards(dummyCard.misc.nickname.initial, true);
+                    await checkSavedCards(true, dummyCard.misc.nickname.initial, true);
                 },
                 TIMEOUT.testMs,
             );
         });
 
-        describe(BillingService.postUpdateCard.name, () => {
+        describe(BillingService.postUpdateCard.name + ' ' + BillingService.getEditCards.name + ' - related', () => {
             afterEach(async () => await BillingTestUtil.clean());
 
             it(
                 `Should edit saved card on ${Route.EditPaymentMethod} page`,
                 async () => {
                     // Preparation
-                    const card: CardData = {
-                        ...dummyCard.general,
-                        id: dummyCard.general.cardNumber,
-                        type: '',
-                        ...dummyCard.address,
-                        isPreferred: dummyCard.misc.preferred,
-                        nickName: dummyCard.misc.nickname.initial,
-                        billingAddress: '',
-                    };
-                    await BillingService.postSaveCard(card, dummyEmail);
-
-                    const { render: PurchasingInformation } = await BillingTestUtil.renderLoggedIn(
+                    await BillingTestUtil.saveCard();
+                    const { render: PurchasingInfoPage } = await BillingTestUtil.renderLoggedIn(
                         <PurchasingInformationPage />,
                     );
-                    await checkSavedCards(dummyCard.misc.nickname.initial, true);
+                    await checkSavedCards(true, dummyCard.misc.nickname.initial, true);
                     await click(page.savedCards.editButton);
 
-                    PurchasingInformation.unmount();
+                    PurchasingInfoPage.unmount();
                     const { render: PaymentTool } = await BillingTestUtil.renderLoggedIn(<PaymentMethodTool />, false);
+
+                    await checkToHaveValue(input.cardNumber, dummyCard.general.cardNumber, false);
+                    await checkToHaveValue(input.expirationDate, dummyCard.general.expirationDate);
+                    await checkToHaveValue(input.nickname, dummyCard.misc.nickname.initial);
+
+                    await checkToHaveValue(input.cardholderName, dummyCard.general.cardholderName);
+                    await checkToHaveValue(input.addressLine1, dummyCard.address.addressLine1);
+                    await checkToHaveValue(input.addressLine2, dummyCard.address.addressLine2);
+                    await checkToHaveValue(input.city, dummyCard.address.city);
+                    await checkToHaveValue(input.zip, +dummyCard.address.zip);
+                    await checkToHaveValue(input.state, dummyCard.address.state);
+                    await checkToHaveValue(input.country, dummyCard.address.country);
+
+                    await checkToHaveValue(input.cvc, '');
+
+                    const checkboxMatchers = expect(await findByTestId(input.preferredCheckbox));
+                    if (dummyCard.misc.preferred) checkboxMatchers.toBeChecked();
+                    else checkboxMatchers.not.toBeChecked();
 
                     // Test
                     await submitForm(true);
@@ -164,7 +190,7 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
 
                     PaymentTool.unmount();
                     await BillingTestUtil.renderLoggedIn(<PurchasingInformationPage />, false);
-                    await checkSavedCards(dummyCard.misc.nickname.edit, false);
+                    await checkSavedCards(true, dummyCard.misc.nickname.edit, false);
                 },
                 TIMEOUT.testMs,
             );
@@ -191,9 +217,7 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
         );
     });
 
-    describe(BillingService.postProcessPayment.name, () => {
-        afterEach(async () => await BillingTestUtil.clean());
-
+    describe(SubscribePage.name, () => {
         const { paymentForm, paymentInfo } = subscribe;
 
         const requireCheckSubscription = () => {
@@ -211,7 +235,7 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
                                         recurrency: 'monthly',
                                         type: 'Pro',
                                         basicKind: true,
-                                    }),
+                                    } as Subscription),
                                 ]),
                             } as Pick<UserData, 'subscriptions' | 'ternKeyPurchased'>),
                         }),
@@ -220,7 +244,13 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
             };
         };
 
-        const doSubscribe = async (loggedIn: boolean, success: boolean, fullAddress?: string) => {
+        const doSubscribe = async (
+            loggedIn: boolean,
+            success: boolean,
+            config?: { savedCard?: true; fullAddress?: string },
+        ) => {
+            const { savedCard, fullAddress } = config || {};
+
             let Page: RenderResult;
             if (loggedIn) {
                 const { render } = await BillingTestUtil.renderLoggedIn(<PricingAndPlansPage />);
@@ -255,55 +285,80 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
             await checkTextContent(paymentInfo.due, '-- unable to calculate subtotal --', false);
 
             // Form
-            await change(paymentForm.input.cardNumber, dummyCard.general.cardNumber);
-            await change(paymentForm.input.expirationDate, dummyCard.general.expirationDate);
-            await change(paymentForm.input.cvc, dummyCard.general.cvc);
-            await change(paymentForm.input.cardholderName, dummyCard.general.cardholderName);
 
-            await change(paymentForm.input.country, dummyCard.address.country);
+            if (!savedCard) {
+                await change(paymentForm.input.cardNumber, dummyCard.general.cardNumber);
+                await change(paymentForm.input.expirationDate, dummyCard.general.expirationDate);
+                await change(paymentForm.input.cardholderName, dummyCard.general.cardholderName);
 
-            if (fullAddress) await change(paymentForm.input.billingAddress, fullAddress);
-            else {
-                await click(paymentForm.expandButton);
-                await change(paymentForm.input.addressLine1, dummyCard.address.addressLine1);
-                await change(paymentForm.input.addressLine2, dummyCard.address.addressLine2);
-                await change(paymentForm.input.city, dummyCard.address.city);
-                await change(paymentForm.input.zip, dummyCard.address.zip);
-                await change(paymentForm.input.state, dummyCard.address.state);
+                await change(paymentForm.input.country, dummyCard.address.country);
+
+                if (fullAddress) await change(paymentForm.input.billingAddress, fullAddress);
+                else {
+                    await click(paymentForm.expandButton);
+                    await change(paymentForm.input.addressLine1, dummyCard.address.addressLine1);
+                    await change(paymentForm.input.addressLine2, dummyCard.address.addressLine2);
+                    await change(paymentForm.input.city, dummyCard.address.city);
+                    await change(paymentForm.input.zip, dummyCard.address.zip);
+                    await change(paymentForm.input.state, dummyCard.address.state);
+                }
             }
+
+            await change(paymentForm.input.cvc, dummyCard.general.cvc);
 
             await click(paymentForm.input.termsCheckbox);
 
             await click(paymentForm.submitButton);
 
-            await checkToBeInDocument(success ? paymentForm.successModal : paymentForm.errorModal);
+            await waitFor(
+                async () => await checkToBeInDocument(success ? paymentForm.successModal : paymentForm.errorModal),
+            );
 
             await check(success);
         };
 
-        it(
-            `Should show registration modal if a user is unlogged`,
-            async () => await doSubscribe(false, false),
-            TIMEOUT.testMs,
-        );
+        describe(BillingService.postProcessSavedPayment.name, () => {
+            afterEach(async () => await BillingTestUtil.clean());
 
-        it(
-            `Should subscribe for Pro Monthly plan (entering address manually)`,
-            async () => await doSubscribe(true, true),
-            TIMEOUT.testMs,
-        );
+            it(
+                `Should subscribe for Pro Monthly plan (using saved card)`,
+                async () => {
+                    // Preparation
+                    await BillingTestUtil.saveCard();
+                    // Test
+                    await doSubscribe(true, true, { savedCard: true });
+                },
+                TIMEOUT.testMs,
+            );
+        });
 
-        it(
-            `Should subscribe for Pro Monthly plan (entering correct full address)`,
-            async () => await doSubscribe(true, true, dummyCard.fullAddress.normal),
-            TIMEOUT.testMs,
-        );
+        describe(BillingService.postProcessPayment.name, () => {
+            afterEach(async () => await BillingTestUtil.clean());
 
-        it(
-            `Should not subscribe for Pro Monthly plan (entering wrong full address)`,
-            async () => await doSubscribe(true, false, dummyCard.fullAddress.wrong),
-            TIMEOUT.testMs,
-        );
+            it(
+                `Should show registration modal if a user is unlogged`,
+                async () => await doSubscribe(false, false),
+                TIMEOUT.testMs,
+            );
+
+            it(
+                `Should subscribe for Pro Monthly plan (entering address manually)`,
+                async () => await doSubscribe(true, true),
+                TIMEOUT.testMs,
+            );
+
+            it(
+                `Should subscribe for Pro Monthly plan (entering correct full address)`,
+                async () => await doSubscribe(true, true, { fullAddress: dummyCard.fullAddress.normal }),
+                TIMEOUT.testMs,
+            );
+
+            it(
+                `Should not subscribe for Pro Monthly plan (entering wrong full address)`,
+                async () => await doSubscribe(true, false, { fullAddress: dummyCard.fullAddress.wrong }),
+                TIMEOUT.testMs,
+            );
+        });
     });
 
     describe(BillingService.getPlanDetails.name + ' ' + BillingService.getUserActivePlans.name + ' - related', () => {

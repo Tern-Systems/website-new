@@ -87,8 +87,6 @@ const DataTestID = {
             },
             paymentForm: {
                 input: {
-                    savedCardIdx: 'form-saved-card-index',
-
                     cardNumber: 'form-card-number',
                     expirationDate: 'form-expiration-date',
                     cvc: 'form-cvc',
@@ -132,6 +130,7 @@ const DataTestID = {
                                 nickname: 'purchasing-info-saved-card-nickname',
                                 preferred: 'purchasing-info-saved-card-preferred',
                             },
+                            noEntries: 'purchasing-info-no-saved-cards',
                         },
                         billing: {
                             name: 'purchasing-info-billing-name',
@@ -159,7 +158,11 @@ const DataTestID = {
                         },
                         successModal: 'payment-method-tool-success-modal',
                         errorModal: 'payment-method-tool-error-modal',
-                        removeCardButton: 'payment-method-tool-remove-card-button',
+                        removeCard: {
+                            toggle: 'payment-method-tool-remove-card-toggle',
+                            modal: 'payment-method-tool-remove-card-modal',
+                            submitButton: 'payment-method-tool-remove-card-button',
+                        },
                     },
                 },
             },

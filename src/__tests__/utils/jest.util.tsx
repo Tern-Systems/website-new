@@ -32,6 +32,16 @@ const appRender = async (element: ReactNode, options?: RenderOptions) => {
     return result;
 };
 
+const getElements = async (ElementOrID: string | HTMLElement): Promise<HTMLElement[]> => {
+    if (typeof ElementOrID === 'string') return (await findAllByTestId(ElementOrID)) as any;
+    else return [ElementOrID] as any;
+};
+
+const getMatchers = (element: HTMLElement, be: boolean) => {
+    const matchers = expect(element);
+    return be ? matchers : matchers.not;
+};
+
 const conditionExpect = <T = any,>(elem?: T, be?: boolean) => (be ? expect(elem) : expect(elem).not);
 const findByTestId = async (id: string) => await screen.findByTestId(id, {}, { timeout: TIMEOUT.requestMs });
 const findAllByTestId = async (id: string) => await screen.findAllByTestId(id, {}, { timeout: TIMEOUT.requestMs });
@@ -40,30 +50,34 @@ const findAllByText = async (text: string) => await screen.findAllByText(text, {
 const waitForCustom = async (handler: () => Promise<any> | any) =>
     await waitFor(handler, { timeout: TIMEOUT.requestMs });
 
-const checkToBeInDocument = async (testID: string, amount?: number) => {
-    const elements = await findAllByTestId(testID);
-    if (amount !== undefined) expect(elements).toHaveLength(amount);
-    else expect(elements[0]).toBeInTheDocument();
-};
-
-const checkTextContentHelper = (element: HTMLElement, content: string, be: boolean) => {
-    const matchers = expect(element);
-    if (be) return matchers.toHaveTextContent(content);
-    else return matchers.not.toHaveTextContent(content);
+const checkToBeInDocument = async (ElementOrID: string | HTMLElement, amount?: number, be: boolean = true) => {
+    const elements = await getElements(ElementOrID);
+    if (amount !== undefined && be) expect(elements).toHaveLength(amount);
+    else {
+        const element = elements[0];
+        getMatchers(element, be).toBeInTheDocument();
+        return element;
+    }
 };
 
 const checkTextContent = async (testID: string, content: string, be: boolean = true, idx?: 'all' | number) => {
     const elements = await findAllByTestId(testID);
-    if (idx === 'all') return elements.forEach((element) => checkTextContentHelper(element, content, be));
-    checkTextContentHelper(elements[idx ?? 0], content, be);
+    if (idx === 'all') elements.forEach((element) => getMatchers(element, be).toHaveTextContent(content));
+    else getMatchers(elements[idx ?? 0], be).toHaveTextContent(content);
+};
+
+const checkToHaveValue = async (testID: string, value: string | number, be: boolean = true) => {
+    const matchers = expect(await findByTestId(testID));
+    if (be) matchers.toHaveValue(value);
+    else matchers.not.toHaveValue(value);
 };
 
 const click = async (ElementOrID: HTMLElement | string) => {
-    const Element = typeof ElementOrID === 'string' ? await findByTestId(ElementOrID) : ElementOrID;
+    const [Element] = await getElements(ElementOrID);
     await act(async () => fireEvent.click(Element));
 };
 
-const change = async (testID: string, value: string, options?: Record<string, string | number>) =>
+const change = async (testID: string, value: string | number, options?: Record<string, string | number>) =>
     await act(async () => fireEvent.change(await findByTestId(testID), { target: { value, ...options } }));
 
 export * from '@testing-library/react';
@@ -77,6 +91,7 @@ export {
     findAllByText,
     waitForCustom as waitFor,
     checkTextContent,
+    checkToHaveValue,
     checkToBeInDocument,
     click,
     change,

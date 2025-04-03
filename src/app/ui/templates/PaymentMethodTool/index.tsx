@@ -371,7 +371,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     hidden={creation}
                 >
                     <span
-                        data-testid={TestID.removeCardButton}
+                        data-testid={TestID.removeCard.toggle}
                         className={'cursor-pointer text-section-xxs text-red'}
                         onClick={() => {
                             if (savedCards[+editCardIdx]) {
