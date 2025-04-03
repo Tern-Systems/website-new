@@ -17,7 +17,6 @@ import styles from '@/app/common.module.css';
 
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
 import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
-import { MainBackground } from '@/app/ui/atoms';
 
 type FormData = {
     isAllowedUpdate: boolean | undefined;
@@ -68,7 +67,7 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
+            <section className={'flex justify-center w-full h-full'}>
                 <div
                     className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-center bg-fixed')}
                     style={{
