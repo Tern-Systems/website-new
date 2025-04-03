@@ -154,7 +154,7 @@ function TidalPage() {
             </section>
             <section
                 style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
-                className={styles.section}
+                className={cn(styles.section, 'relative z-50')}
             >
                 <div
                     className={cn(
@@ -179,7 +179,7 @@ function TidalPage() {
                     >
                         Tidal is the World’s First Ternary Software Stack
                     </h2>
-                    <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40'}>
+                    <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40 relative z-50 bg-opacity-100'}>
                         We are driving the evolution from binary to ternary computing. By harnessing the superior data
                         density and efficiency of ternary logic, Tidal provides developers with an innovative platform
                         to redefine programming paradigms and unlock new computational possibilities.
@@ -202,7 +202,7 @@ function TidalPage() {
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl relative  bg-opacity-80'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
                             className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
