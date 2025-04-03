@@ -17,6 +17,7 @@ import styles from '@/app/common.module.css';
 
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
 import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
+import { MainBackground } from '@/app/ui/atoms';
 
 type FormData = {
     isAllowedUpdate: boolean | undefined;
@@ -68,10 +69,13 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={'flex justify-center w-full h-full'}>
+                <MainBackground
+                    url={OFFICE_GIRL_3.src}
+                    className='bg-[center_top] bg-cover bg-no-repeat'
+                />
                 <div
                     className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-center bg-fixed')}
                     style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
                         position: 'relative',
                         backgroundSize: 'cover',
                         backgroundPosition: '50% top',
@@ -81,7 +85,7 @@ const ContactsPage: FC = () => {
                         <div>
                             <h1
                                 className={cn(
-                                    `w-min text-left leading-n`,
+                                `w-min text-left leading-n`,
                                     `mb-n text-96`,
                                     `lg:x-[w-full,mt-6xl-1]`,
                                     `md:x-[mt-xl,text-96]`,
@@ -96,7 +100,6 @@ const ContactsPage: FC = () => {
                     <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
                 </div>
             </section>
-
 
             <div
                 className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
