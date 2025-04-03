@@ -76,10 +76,7 @@ function AppsSection() {
                             text: sm || md ? '' : isFound ? 'Disconnect' : 'Connect',
                             className: isFound ? 'bg-red' : 'bg-blue',
                         }}
-                        className={cn(
-                            `col-start-3 flex-row-reverse gap-5xs place-self-end text-14 font-bold`,
-                            styles.ellipsis,
-                        )}
+                        className={cn(`col-start-3 flex-row-reverse place-self-end text-14 font-bold`, styles.ellipsis)}
                         onClick={() => {
                             // TODO
                         }}

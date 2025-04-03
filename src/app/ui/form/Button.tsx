@@ -80,8 +80,8 @@ const ButtonComponent = (props: Props, ref: ForwardedRef<HTMLButtonElement>) => 
                 ['gap-x-5xs']: children && (Icon ?? HoverIcon),
             })}
         >
-            {Icon}
-            {HoverIcon}
+            {Icon && <span className={cn(classNameIcon)}>{Icon}</span>}
+            {HoverIcon && <span className={cn(classNameIcon)}>{HoverIcon}</span>}
             {children ? (
                 <>
                     <span className={cn({ ['group-hover:hidden']: hover?.elem })}>{children}</span>

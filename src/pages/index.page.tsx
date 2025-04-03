@@ -104,12 +104,12 @@ const HomePage: FC = () => {
             </div>
             <div
                 className={cn(
-                    'flex flex-grow flex-col items-center justify-between p-s pt-n leading-n',
+                    'flex flex-grow flex-col items-center justify-between p-xs pt-n leading-n',
                     'pb-xl',
                     'sm:pb-n',
                 )}
             >
-                <h4 className={cn('text-27 font-bold')}>{card.title}</h4>
+                <h4 className={cn('sm:text-24 text-27 font-bold')}>{card.title}</h4>
                 <p className={'mt-n'}>{card.info}</p>
                 <PageLink
                     href={card.link.href}
@@ -171,12 +171,19 @@ const HomePage: FC = () => {
                     </div>
                 </section>
                 <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <div className={cn(styles.content, 'flex flex-col gap-y-3xl pt-5xl', 'sm:x-[gap-y-xl,pt-xl]')}>
+                    <div
+                        className={cn(
+                            styles.content,
+                            'flex flex-col',
+                            'sm:pt-xl pt-5xl',
+                            'pb-7xl md:pb-[16rem] lg:pb-[20rem]',
+                        )}
+                    >
                         <h2
                             className={cn(
-                                'text-center text-40 font-bold',
-                                'text-48  lg:text-64 leading-xl',
-                                'sm:x-[text-27,leading-l]',
+                                'text-center font-[500]',
+                                'sm:leading-l leading-relaxed',
+                                'text-24 md:text-48 lg:text-48',
                             )}
                         >
                             <span>There’s Always a Better Way</span>
@@ -193,27 +200,26 @@ const HomePage: FC = () => {
                         >
                             {CardsLi}
                         </Carousel>
-                        <p
-                            className={cn(
-                                'mt-auto w-[82%] text-left font-bold leading-n',
-                                'text-32',
-                                'md:text-24',
-                                'sm:x-[mt-[10.5rem],text-20]',
-                            )}
-                        >
-                            Amidst the most demanding era of computational energy in history, we are reminded,
-                        </p>
                     </div>
                 </section>
                 <section
                     className={cn(
                         styles.section,
                         'from-green bg-gradient-to-t via-[#0a313a] to-transparent',
-                        'pb-[28rem]',
-                        'md:pb-[23rem]',
+                        'pb-[19rem] md:pb-[21rem] lg:pb-[24rem]',
                     )}
                 >
                     <div className={styles.content}>
+                        <p
+                            className={cn(
+                                'text-left font-bold leading-n',
+                                'text-20 md:text-24 lg:text-32',
+                                'sm:mt-[10.5rem] mt-auto',
+                                'sm:w-full w-[82%]',
+                            )}
+                        >
+                            Amidst the most demanding era of computational energy in history, we are reminded,
+                        </p>
                         <h2
                             className={cn(
                                 'my-3xl text-center font-arial font-bold italic',
@@ -232,6 +238,7 @@ const HomePage: FC = () => {
                 <InfoSection
                     blur
                     data={INFO}
+                    classNameContent='mb-[15rem]'
                 />
                 <InsideTernSection className={'!bg-transparent'} />
             </div>
