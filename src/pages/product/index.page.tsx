@@ -179,7 +179,7 @@ function TidalPage() {
                     >
                         Tidal is the World’s First Ternary Software Stack
                     </h2>
-                    <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40 relative z-50 bg-opacity-100'}>
+                    <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40'}>
                         We are driving the evolution from binary to ternary computing. By harnessing the superior data
                         density and efficiency of ternary logic, Tidal provides developers with an innovative platform
                         to redefine programming paradigms and unlock new computational possibilities.
@@ -196,13 +196,13 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl relative z-50 bg-opacity-100'}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl relative  bg-opacity-80'}>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl relative bg-opacity-80'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
                             className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
