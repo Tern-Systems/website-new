@@ -12,6 +12,7 @@ import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
 import { Route } from '@/app/static';
+import { MainBackground } from '@/app/ui/atoms';
 
 import styles from '@/app/common.module.css';
 
@@ -68,16 +69,8 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={'flex justify-center w-full'}>
-                <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]')}
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        position: 'relative',
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
-                        backgroundAttachment: 'fixed',
-                    }}
-                >
+                <div className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]')}>
+                    <MainBackground url={OFFICE_GIRL_3} />
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                         <div>
                             <h1
