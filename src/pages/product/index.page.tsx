@@ -174,7 +174,6 @@ function TidalPage() {
                         className={cn(
                             'mx-auto text-center font-bold leading-n  w-2/3 sm:w-full',
                             'text-27 md:text-48 lg:text-64',
-                            'pt-6xl-1 md:pt-[12.55rem] lg:pt-[17rem]',
                         )}
                     >
                         Tidal is the World’s First Ternary Software Stack
