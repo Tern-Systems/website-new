@@ -38,6 +38,10 @@ const modal = {
     emailSent: {
         modal: 'email-sent-modal',
     },
+    cancelSubscription: {
+        modal: 'cancel-subscription-modal',
+        submitButton: 'cancel-subscription-submit-button',
+    },
 } as const;
 
 const DataTestID = {
@@ -119,6 +123,27 @@ const DataTestID = {
                         price: 'billing-invoice-table-row-price',
                         status: 'billing-invoice-table-row-status',
                         name: 'billing-invoice-table-row-name',
+                    },
+                },
+                manageSubscription: {
+                    subscriptionIdxSelect: 'manage-subscription-subscription-select',
+                    info: {
+                        currentPlan: {
+                            cancel: {
+                                toggle: 'manage-subscription-cancel-toggle',
+                                modal: modal.cancelSubscription,
+                            },
+                            details: {
+                                block: 'manage-subscription-details-block',
+                                toggle: 'manage-subscription-details-toggle',
+                            },
+                        },
+                        paymentMethod: {
+                            entry: {
+                                row: 'manage-subscription-payment-entry-row',
+                                nickname: 'manage-subscription-payment-entry-nickname',
+                            },
+                        },
                     },
                 },
                 purchasingInformation: {

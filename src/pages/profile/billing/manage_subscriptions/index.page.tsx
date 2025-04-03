@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
+import { DataTestID } from '@/__tests__/static';
+
 import { SavedCardFull } from '@/app/types/billing';
 import { Subscription } from '@/app/types/subscription';
 
@@ -26,6 +28,8 @@ import SVG_PENCIL from '@/assets/images/icons/edit.svg';
 
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
+const TestID = DataTestID.page.profile.billing.manageSubscription;
+
 const SELECT_CN = 'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl';
 
 const Hr = <hr className={'mb-xs mt-3xs border-white-d0'} />;
@@ -35,7 +39,7 @@ function ManageSubscriptionsPage() {
     const { userData } = useUser();
     const isLoggedIn = useLoginCheck();
 
-    const [selectedSubscriptionIdx, setSelectedSubscriptionsIdx] = useState(-1);
+    const [selectedIdx, setSelectedIdx] = useState(-1);
     const [detailsExpanded, setDetailsExpanded] = useState(false);
     const [editPaymentMethodVisible, setEditPaymentMethodVisible] = useState(false);
     const [updateCards, setUpdateCards] = useState(true);
@@ -55,13 +59,17 @@ function ManageSubscriptionsPage() {
         fetchCards();
     }, [setSavedCards, userData, updateCards]);
 
+    useEffect(() => {
+        if (userData?.subscriptions.length === 1) setSelectedIdx(0);
+    }, [userData?.subscriptions]);
+
     if (!isLoggedIn) return null;
 
     const subscriptions = userData?.subscriptions?.filter(
         (subscription) => !subscription.type?.toLowerCase().includes('basic'),
     );
 
-    const selectedPlan: Subscription | undefined = subscriptions?.[+selectedSubscriptionIdx];
+    const selectedPlan: Subscription | undefined = subscriptions?.[+selectedIdx];
     const subscriptionOptions: Record<string, string> = Object.fromEntries(
         subscriptions?.map((subscription, idx) => [
             idx,
@@ -78,7 +86,7 @@ function ManageSubscriptionsPage() {
     const RenderPlanInfo = () => {
         if (!selectedPlan) return null;
 
-        const preferredCardIdx = savedCards.findIndex((card) => card.preferred);
+        const preferredCardIdx = savedCards.length === 1 ? 0 : savedCards.findIndex((card) => card.preferred);
         const preferredCard: SavedCardFull | undefined = savedCards[preferredCardIdx];
 
         return (
@@ -87,6 +95,7 @@ function ManageSubscriptionsPage() {
                     <div className={'flex items-center justify-between'}>
                         <h2 className={`text-basic md:text-section-s lg:text-section`}>Current Plan</h2>
                         <Button
+                            data-testid={TestID.info.currentPlan.cancel.toggle}
                             className={'h-button-s border-s border-white-d0 px-5xs text-section-xxs font-bold'}
                             onClick={() =>
                                 modalCtx.openModal(<CancelModal plan={selectedPlan?.subscription} />, {
@@ -115,7 +124,7 @@ function ManageSubscriptionsPage() {
                                 : '-- missing renew date --'}
                         </span>
                         <span className={'font-bold'}>
-                            ${price} per&nbsp;
+                            {price} per&nbsp;
                             {selectedPlan.recurrency
                                 ? selectedPlan.recurrency === 'monthly'
                                     ? 'month'
@@ -123,7 +132,8 @@ function ManageSubscriptionsPage() {
                                 : '-- missing recurrency --'}
                         </span>
                         <Button
-                            icon={detailsExpanded ? faChevronDown : faChevronUp}
+                            data-testid={TestID.info.currentPlan.details.toggle}
+                            icon={detailsExpanded ? faChevronUp : faChevronDown}
                             className={'col-start-1 mr-auto flex-row-reverse  text-section-xxs sm:text-section-xs'}
                             classNameIcon={'[&_path]:fill-gray [&_*]:w-[0.4rem] [&_path]:fill-primary'}
                             onClick={() => setDetailsExpanded((prevState) => !prevState)}
@@ -133,6 +143,7 @@ function ManageSubscriptionsPage() {
                     </div>
                     {detailsExpanded ? (
                         <div
+                            data-testid={TestID.info.currentPlan.details.block}
                             className={cn(
                                 `grid grid-cols-[1fr,min-content] grid-rows-5 text-nowrap bg-gray px-4xs py-xxs`,
                                 `gap-y-xxs md:gap-y-[1rem] lg:gap-y-xs`,
@@ -169,6 +180,7 @@ function ManageSubscriptionsPage() {
                         <span className={'text-section-xs'}>Error retrieving payment method</span>
                     ) : (
                         <div
+                            data-testid={TestID.info.paymentMethod.entry.row}
                             className={cn(
                                 'relative grid grid-cols-[1fr,max-content] items-center [&_path]:fill-primary',
                             )}
@@ -182,7 +194,10 @@ function ManageSubscriptionsPage() {
                                     src={SVG_CARD.src}
                                     className={'h-auto w-[1.35rem]'}
                                 />
-                                <span className={cn('mx-5xs block text-basic sm:text-section-xs')}>
+                                <span
+                                    data-testid={TestID.info.paymentMethod.entry.nickname}
+                                    className={cn('mx-5xs block text-basic sm:text-section-xs')}
+                                >
                                     {preferredCard.nickName ?? preferredCard.cardType + ' **** ' + preferredCard.last4}
                                 </span>
                             </span>
@@ -233,9 +248,9 @@ function ManageSubscriptionsPage() {
                     <Select
                         altIcon
                         options={subscriptionOptions}
-                        value={selectedSubscriptionIdx.toString()}
+                        value={selectedIdx.toString()}
                         placeholder={'Select'}
-                        onChangeCustom={(value) => setSelectedSubscriptionsIdx(parseInt(value) ?? -1)}
+                        onChangeCustom={(value) => setSelectedIdx(parseInt(value) ?? -1)}
                         classNameWrapper={cn(
                             `flex-col gap-y-xxs`,
                             `text-section-xs md:text-basic lg:text-section-s`,

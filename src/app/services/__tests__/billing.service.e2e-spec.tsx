@@ -28,6 +28,7 @@ import PricingAndPlansPage from '@/pages/product/plans/index.page';
 import SubscribePage from '@/pages/subscribe/tidal/index.page';
 import BillingPage from '@/pages/profile/billing/index.page';
 import PurchasingInformationPage from '@/pages/profile/billing/purchasing_information/index.page';
+import ManageSubscriptionsPage from '@/pages/profile/billing/manage_subscriptions/index.page';
 
 const { page, modal } = DataTestID;
 const { tidal, subscribe, profile } = page;
@@ -45,6 +46,46 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
         BillingTestUtil.mockPathName('/');
     });
     afterAll(async () => await BillingTestUtil.clean());
+
+    describe(BillingService.postCancelSubscription.name, () => {
+        afterEach(async () => await BillingTestUtil.clean());
+
+        const { manageSubscription } = profile.billing;
+        const { currentPlan, paymentMethod } = manageSubscription.info;
+        const { cancel } = currentPlan;
+
+        it(
+            'Should successfully cancel a subscription',
+            async () => {
+                // Preparation
+                await BillingTestUtil.subscribePlan('Pro', RecurrencyEnum.monthly);
+                await BillingTestUtil.renderLoggedIn(<ManageSubscriptionsPage />, false);
+
+                await click(currentPlan.details.toggle);
+                const PlanDetailsBlock = await checkToBeInDocument(currentPlan.details.block);
+                if (!PlanDetailsBlock) throw 'No details found';
+
+                const PaymentMethodEntry = await checkToBeInDocument(paymentMethod.entry.row);
+                if (!PaymentMethodEntry) throw 'No entry found';
+
+                await checkTextContent(paymentMethod.entry.nickname, '', false);
+
+                // Test
+                await click(cancel.toggle);
+
+                const CancelSubscriptionModal = await checkToBeInDocument(cancel.modal.modal);
+                if (!CancelSubscriptionModal) throw 'No modal found';
+
+                await click(cancel.modal.submitButton);
+
+                await waitFor(async () => await checkToBeInDocument(PaymentMethodEntry, 1, false));
+
+                await checkToBeInDocument(CancelSubscriptionModal, 1, false);
+                await checkToBeInDocument(PlanDetailsBlock, 1, false);
+            },
+            TIMEOUT.testMs,
+        );
+    });
 
     describe(PurchasingInformationPage.name + ' ' + PaymentMethodTool.name + ' - related', () => {
         const { purchasingInformation } = profile.billing;
@@ -94,6 +135,8 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
         };
 
         describe(BillingService.postDeleteCard.name, () => {
+            afterEach(async () => await BillingTestUtil.clean());
+
             it(
                 'Should successfully delete saved card',
                 async () => {

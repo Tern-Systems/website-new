@@ -1,6 +1,10 @@
 'use client';
 
 import { FC } from 'react';
+
+import { DataTestID } from '@/__tests__/static';
+
+import { PlanName } from '@/app/types/subscription';
 import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
@@ -10,9 +14,10 @@ import { useModal, useUser } from '@/app/hooks';
 import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
-import { PlanName } from '@/app/types/subscription';
 
-const BTN_CN = 'px-[min(2.7dvw,1rem)] h-h-button-n rounded-full';
+const TestID = DataTestID.modal.cancelSubscription;
+
+const BTN_CN = 'px-[min(2.7dvw,1rem)] h-button-n rounded-full text-section-s';
 
 interface Props {
     plan: PlanName | undefined;
@@ -37,6 +42,7 @@ const CancelModal: FC<Props> = (props: Props) => {
 
     return (
         <BaseModal
+            data-testid={TestID.modal}
             title={'Cancel Plan'}
             className={
                 'w-[90dvw] max-w-[33rem] bg-white [&_h2+button]:brightness-50 [&_h2]:text-gray [&_hr]:border-gray-l0'
@@ -54,8 +60,9 @@ const CancelModal: FC<Props> = (props: Props) => {
                     {plan ?? '-- missing name --'}
                     subscription billing settings.
                 </p>
-                <span className={'mt-s flex justify-center gap-4xs text-section font-bold text-[#FFFFFF]'}>
+                <span className={'mt-s flex justify-center gap-4xs text-section font-bold text-primary'}>
                     <Button
+                        data-testid={TestID.submitButton}
                         onClick={() => handleDelete()}
                         className={`bg-red ${BTN_CN}`}
                     >
