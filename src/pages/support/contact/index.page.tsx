@@ -68,8 +68,10 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={OFFICE_GIRL_3} />
+            <section className={cn(styles.section, styles.fullHeightSection, 'relative overflow-hidden')}>
+                <div className='absolute inset-0 lg:bg-center lg:bg-cover'>
+                    <MainBackground url={OFFICE_GIRL_3} />
+                </div>
                 <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                     <div>
                         <h1
@@ -85,6 +87,8 @@ const ContactsPage: FC = () => {
                         </h1>
                     </div>
                 </div>
+                <div className='absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent' />
+                <div className='absolute inset-0 bg-gradient-to-r from-black via-transparent to-black' />
             </section>
 
             <div
