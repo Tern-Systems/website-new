@@ -43,7 +43,7 @@
     "react-player": "^2.16.0",
     "react-share": "^5.1.2",
     "react-svg": "^16.2.0",
-    "react-to-pdf": "^2.0.0",
+    "react-to-pdf": "^1.0.1",
     "uuid": "^11.0.5"
   },
   "devDependencies": {
