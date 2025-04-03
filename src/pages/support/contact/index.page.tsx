@@ -68,26 +68,36 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
-                {/* Used seperate component to render the background image instead of the direct image source */}
-                <MainBackground url={OFFICE_GIRL_3.src} />
-                <div className='absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent z-0 bg-center' />
-                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start h-full')}>
-                    <div>
-                        <h1
-                            className={cn(
-                                `w-min text-left leading-n`,
-                                `mb-n text-96`,
-                                `lg:x-[w-full,mt-6xl-1]`,
-                                `md:x-[mt-xl,text-96]`,
-                                `sm:x-[flex,mt-xs,text-64]`,
-                            )}
-                        >
-                            Contact Tern
-                        </h1>
+            <section className={'flex justify-center w-full'}>
+                <div
+                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-center bg-fixed')}
+                    style={{
+                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
+                        position: 'relative',
+                        backgroundSize: 'cover',
+                        backgroundPosition: '50% top',
+                    }}
+                >
+                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                        <div>
+                            <h1
+                                className={cn(
+                                    `w-min text-left leading-n`,
+                                    `mb-n text-96`,
+                                    `lg:x-[w-full,mt-6xl-1]`,
+                                    `md:x-[mt-xl,text-96]`,
+                                    `sm:x-[flex,mt-xs,text-64]`,
+                                )}
+                            >
+                                Contact Tern
+                            </h1>
+                        </div>
                     </div>
+                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
+                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
                 </div>
             </section>
+
 
             <div
                 className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
