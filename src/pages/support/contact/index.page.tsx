@@ -18,6 +18,9 @@ import styles from '@/app/common.module.css';
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
 import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
 
+
+
+
 type FormData = {
     isAllowedUpdate: boolean | undefined;
     firstName: string;
@@ -67,17 +70,22 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
+
+        
+            <section className={"relative w-full h-dvh max-h-[62.5rem] overflow-hidden"}> 
+                {/* Fixed background image */}
                 <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
+                    className={cn('absolute inset-0 z-0 bg-cover bg-center')}
                     style={{
                         backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        position: 'relative',
+                        backgroundAttachment: 'fixed',
                         backgroundSize: 'cover',
                         backgroundPosition: '50% top',
                     }}
                 >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                    {/* Fixed Banner content */}
+                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start h-full')}>
+                        <div className="flex flex-col justify-center"></div>
                         <div>
                             <h1
                                 className={cn(
