@@ -153,15 +153,20 @@ function TidalPage() {
                 </div>
             </section>
             <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
-                className={'relative'}
+                style={{
+                    backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")`,
+                    position: 'relative',
+                    zIndex: 'unset',
+                }}
+                className={cn(styles.section, 'relative')}
             >
                 <div
                     className={cn(
-                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
-                        'bg-gradient-to-b from-blue to-transparent to-50%',
+                        'pointer-events-none absolute left-0 top-0 w-full h-[30%] z-0',
+                        'bg-gradient-to-b from-blue/60 via-transparent to-transparent',
                     )}
                 />
+
                 <div
                     className={cn(
                         styles.content,
@@ -202,10 +207,10 @@ function TidalPage() {
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl z-50'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
+                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16 relative z-50')}
                         >
                             G Handbook
                         </Button>
