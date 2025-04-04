@@ -5,6 +5,7 @@ const downloadFile = (data: string) => {
     element.style.display = 'none';
 
     document.body.appendChild(element);
+    element.addEventListener('click', (event) => event.preventDefault());
     element.click();
     document.body.removeChild(element);
 };

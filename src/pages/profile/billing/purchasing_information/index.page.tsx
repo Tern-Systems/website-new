@@ -2,7 +2,6 @@
 
 import { ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 import { DataTestID } from '@/__tests__/static';
 
@@ -30,16 +29,14 @@ const Hr = <hr className={'mb-s mt-3xs border-white-d0'} />;
 function PurchasingInformationPage() {
     const userCtx = useUser();
     const modalCtx = useModal();
-    const isLoggedIn = useLoginCheck();
+    const loggedIn = useLoginCheck();
 
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
-    const [defaultCardIdx, setDefaultCardIdx] = useState<number>(-1);
+    const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     const [invoiceHistory, setInvoiceHistory] = useState<Invoice[]>([]);
 
-    const router = useRouter();
-
     useEffect(() => {
-        const fetchSubscriptionDetailsAndCards = async () => {
+        const fetchData = async () => {
             if (!userCtx.userData) return;
             try {
                 const { payload: cards } = await BillingService.getCards(userCtx.userData.email);
@@ -56,10 +53,10 @@ function PurchasingInformationPage() {
                 // Empty block
             }
         };
-        fetchSubscriptionDetailsAndCards();
+        fetchData();
     }, [userCtx.userData]);
 
-    if (!isLoggedIn) return null;
+    if (!loggedIn) return null;
 
     const defaultCard: SavedCard | null = savedCards[defaultCardIdx] ?? null;
 
@@ -92,7 +89,7 @@ function PurchasingInformationPage() {
         );
     });
 
-    if (!Cards.length)
+    if (!Cards.length) {
         Cards = [
             <span
                 data-testid={TestID.savedCards.noEntries}
@@ -101,6 +98,7 @@ function PurchasingInformationPage() {
                 No saved cards
             </span>,
         ];
+    }
 
     const InvoiceRows: ReactElement[] = invoiceHistory.map((order, idx) => {
         const { card } = order;
@@ -175,7 +173,6 @@ function PurchasingInformationPage() {
                                 <Button
                                     icon={faPen}
                                     className={'flex-row-reverse text-section'}
-                                    onClick={() => router.push(Route.EditPaymentMethod)}
                                 >
                                     <span className={'sm:hidden'}>Edit</span>
                                 </Button>

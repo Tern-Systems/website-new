@@ -10,7 +10,6 @@ import {
     checkToBeInDocument,
     click,
     conditionExpect,
-    findAllByTestId,
     findByTestId,
     render,
     waitFor,

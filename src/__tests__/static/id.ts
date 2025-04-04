@@ -96,6 +96,8 @@ const DataTestID = {
             },
             paymentForm: {
                 input: {
+                    savedCardIdx: 'form-saved-card-idx',
+
                     cardNumber: 'form-card-number',
                     expirationDate: 'form-expiration-date',
                     cvc: 'form-cvc',

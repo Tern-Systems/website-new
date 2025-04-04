@@ -35,8 +35,8 @@ const CancelModal: FC<Props> = (props: Props) => {
             const { message } = await BillingService.postCancelSubscription(userData.email, plan);
             modalCtx.openModal(<MessageModal>{message}</MessageModal>);
             await setupSession(true);
-        } catch (error: unknown) {
-            if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+        } catch (err: unknown) {
+            if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
         }
     };
 

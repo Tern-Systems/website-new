@@ -67,7 +67,6 @@ const PaymentForm: FC<Props> = (props: Props) => {
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
     const [billingExpanded, setBillingExpandedState] = useState(false);
 
-    const [paymentStatus, setPaymentStatus] = useState<false | string | null>(null);
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
 
     // Fetch saved cards
@@ -85,25 +84,16 @@ const PaymentForm: FC<Props> = (props: Props) => {
         fetchCards();
     }, [setSavedCards, userCtx.userData]);
 
-    // Flow / payment status
-    useEffect(() => {
-        const finishPayment = async () => {
-            if (paymentStatus === false) {
-                modalCtx.openModal(<DeclinedModal data-testid={TestID.errorModal} />);
-                setPaymentStatus(null);
-            } else if (paymentStatus) {
-                await userCtx.setupSession(true);
-                const next = flowCtx.next();
-                if (next) next();
-                else {
-                    window.open(MISC_LINKS.Tidal, '_blank');
-                    await navigate(Route.Home);
-                    modalCtx.openModal(<MessageModal data-testid={TestID.successModal}>{paymentStatus}</MessageModal>);
-                }
-            }
-        };
-        finishPayment();
-    }, [paymentStatus]);
+    const finishPayment = async (message: string) => {
+        await userCtx.setupSession(true);
+        const next = flowCtx.next();
+        if (next) next();
+        else {
+            window.open(MISC_LINKS.Tidal, '_blank');
+            modalCtx.openModal(<MessageModal data-testid={TestID.successModal}>{message}</MessageModal>);
+            await navigate(Route.Home);
+        }
+    };
 
     const toggleBillingDetails = () => setBillingExpandedState((prev) => !prev);
 
@@ -158,11 +148,9 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 );
                 message = msg;
             }
-            setPaymentStatus(message);
-        } catch (err: unknown) {
-            console.info(err);
-            if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
-            setPaymentStatus(false);
+            finishPayment(message);
+        } catch (_: unknown) {
+            modalCtx.openModal(<DeclinedModal data-testid={TestID.errorModal} />);
         }
     };
 
@@ -175,6 +163,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
         FormInputs = (
             <>
                 <Select
+                    data-testid={TestID.input.savedCardIdx}
                     options={SavedCards}
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
