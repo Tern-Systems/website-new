@@ -36,16 +36,18 @@
 }
 
 
-.sectionShadowBlack::after {
+.sectionBlueShadowBelow::after {
   content: "";
   position: absolute;
   z-index: -10;
-  top: 0;
+  bottom: 0;
   left: 0;
 
-  height: 100%;
+  height: var(--section-shadow-shift);
   width: 100%;
   
+  background: var(--bg-blue);
+  filter: blur(12.5rem);
   box-shadow: 0 calc(var(--section-shadow-shift)) var(--section-shadow-blur-radius) #000000;
 }
 
