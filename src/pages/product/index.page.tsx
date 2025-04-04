@@ -138,7 +138,7 @@ function TidalPage() {
                             <PageLink
                                 isExternal
                                 href={MISC_LINKS.Tidal}
-                                className={cn(BTN_BLUE_CN, ' !h-button-xxl text-black')}
+                                className={cn(BTN_BLUE_CN, '!h-button-xxl text-black')}
                             >
                                 Try it Free
                             </PageLink>
@@ -153,7 +153,9 @@ function TidalPage() {
                 </div>
             </section>
             <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
+                style={{
+                    backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")`,
+                }}
                 className={styles.section}
             >
                 <div
@@ -184,9 +186,14 @@ function TidalPage() {
                         density and efficiency of ternary logic, Tidal provides developers with an innovative platform
                         to redefine programming paradigms and unlock new computational possibilities.
                     </p>
-                    <div className={'relative'}>
+                    <div className={cn('relative')}>
                         <ReactSVG
-                            onClick={() => videoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                            onClick={() =>
+                                videoRef.current?.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center',
+                                })
+                            }
                             src={SVG_PLAY.src}
                             className={'absolute left-1/2 -translate-x-1/2 bottom-[31.5%] cursor-pointer'}
                         />
@@ -196,16 +203,22 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
+                    <p className={cn('mt-xxl md:mt-6xl-1 lg:mt-6xl')}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
+                    <div
+                        className={cn(
+                            'mt-xl md:mt-4xl lg:mt-5xl pb-12',
+                            styles.contentHighlight,
+                            styles.contentGradientBlue,
+                        )}
+                    >
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
+                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16', styles.contentHighlight)}
                         >
                             G Handbook
                         </Button>
@@ -214,7 +227,7 @@ function TidalPage() {
             </section>
             <section
                 ref={demoSectionRef}
-                className={cn(styles.section, styles.sectionShadowBlack)}
+                className={cn(styles.section)}
             >
                 <div
                     className={cn(
