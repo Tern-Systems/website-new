@@ -18,6 +18,8 @@ import styles from '@/app/common.module.css';
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
 import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
 
+import { MainBackground } from '@/app/ui/atoms';
+
 type FormData = {
     isAllowedUpdate: boolean | undefined;
     firstName: string;
@@ -67,39 +69,29 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
-                <div
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        backgroundSize: 'cover',
-                        backgroundAttachment: 'fixed',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                    }}
-                >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `w-min text-left leading-n`,
-                                    `mb-n text-96`,
-                                    `lg:x-[w-full,mt-6xl-1]`,
-                                    `md:x-[mt-xl,text-96]`,
-                                    `sm:x-[flex,mt-xs,text-64]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
+            <section className={cn(styles.section, styles.fullHeightSection)}>
+                <MainBackground
+                    className='bg-top lg:bg-[center_top-150px]'
+                    url={OFFICE_GIRL_3}
+                />
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                    <div>
+                        <h1
+                            className={cn(
+                                `w-min text-left leading-n`,
+                                `mb-n text-96`,
+                                `lg:x-[w-full,mt-6xl-1]`,
+                                `md:x-[mt-xl,text-96]`,
+                                `sm:x-[flex,mt-xs,text-64]`,
+                            )}
+                        >
+                            Contact Tern
+                        </h1>
                     </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-1' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-2' />
                 </div>
+                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-0' />
+                <div className='absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-1' />
             </section>
-
             <div
                 className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
             >
