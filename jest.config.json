@@ -1,0 +1,37 @@
+{
+  "displayName": "Website",
+  "rootDir": ".",
+  "moduleDirectories": [
+    "node_modules/",
+    "src/"
+  ],
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx"
+  ],
+  "moduleNameMapper": {
+    ".+\\.(svg|png|jpg)$": "jest-transform-stub",
+    "^@/(.+)": "<rootDir>/src/$1"
+  },
+  "testRegex": ".*\\.(e2e-)?(int-)?spec\\.tsx?$",
+  "setupFiles": [
+    "<rootDir>/jest.setup.env.js"
+  ],
+  "setupFilesAfterEnv": [
+    "<rootDir>/jest.setup.js"
+  ],
+  "transform": {
+    "^.+\\.tsx?$": "babel-jest",
+    "^.+\\.module.css$": "jest-css-modules-transform"
+  },
+  "collectCoverageFrom": [
+    "src/**/*.tsx",
+    "src/**/*.ts"
+  ],
+  "coverageDirectory": "coverage/",
+  "testEnvironment": "jest-environment-jsdom",
+  "verbose": true,
+  "clearMocks": true
+}
