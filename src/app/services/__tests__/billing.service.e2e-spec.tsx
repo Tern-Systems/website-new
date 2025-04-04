@@ -23,6 +23,8 @@ import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
+import { downloadFile } from '@/app/utils';
+
 import { PaymentMethodTool } from '@/app/ui/templates';
 import PricingAndPlansPage from '@/pages/product/plans/index.page';
 import SubscribePage from '@/pages/subscribe/tidal/index.page';
@@ -36,6 +38,7 @@ const { plans } = tidal;
 const { card } = plans;
 
 const UseUserMock = jest.requireMock('@/app/hooks/context/useUser');
+const UIUtilsMock = jest.requireMock('@/app/utils/ui');
 
 describe('E2E related to ' + BillingTestUtilImpl.name, () => {
     const { dummyCard } = BillingTestUtilImpl.DATA;
@@ -46,6 +49,48 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
         BillingTestUtil.mockPathName('/');
     });
     afterAll(async () => await BillingTestUtil.clean());
+
+    describe(BillingService.postExportTransaction.name, () => {
+        afterEach(async () => await BillingTestUtil.clean());
+
+        const { purchasingInformation } = profile.billing;
+        const { entry, exporting } = purchasingInformation.page.history;
+
+        it(
+            'Should successfully export transactions history',
+            async () => {
+                // Preparation
+                await BillingTestUtil.subscribePlan('Pro', RecurrencyEnum.monthly);
+                await BillingTestUtil.renderLoggedIn(<PurchasingInformationPage />, false);
+
+                await checkToBeInDocument(entry.row);
+                await checkTextContent(entry.id, '', false);
+                await checkTextContent(entry.date, '', false);
+                await checkTextContent(entry.price, '', false);
+                await checkTextContent(entry.status, '', false);
+                await checkTextContent(entry.card, '', false);
+                await checkTextContent(entry.plan, '', false);
+
+                // Test
+                await click(exporting.toggle);
+                const ExportHistoryModal = await checkToBeInDocument(exporting.modal.modal);
+                if (!ExportHistoryModal) throw 'No modal found';
+
+                const downloadFileSpy = jest.spyOn(UIUtilsMock, downloadFile.name);
+
+                await change(exporting.modal.rangeSelect, '1'); // TODO
+                await click(exporting.modal.exportButton);
+
+                await waitFor(async () => expect(downloadFileSpy).toHaveBeenCalledTimes(1));
+                expect(downloadFileSpy).toHaveBeenLastCalledWith(
+                    expect.stringContaining('data:application/octet-stream;charset=utf-8,'),
+                );
+
+                await checkToBeInDocument(ExportHistoryModal, 1, false);
+            },
+            TIMEOUT.testMs,
+        );
+    });
 
     describe(BillingService.postCancelSubscription.name, () => {
         afterEach(async () => await BillingTestUtil.clean());

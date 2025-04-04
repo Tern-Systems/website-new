@@ -10,6 +10,10 @@ global.console = {
 };
 
 Object.defineProperty(window, 'innerWidth', { value: 2000 });
+Object.defineProperty(window, 'location', {
+    value: { href: '', assign: jest.fn() },
+    configurable: true,
+});
 
 window.open = jest.fn();
 window.HTMLElement.prototype.scrollIntoView = jest.fn();

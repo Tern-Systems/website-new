@@ -42,6 +42,11 @@ const modal = {
         modal: 'cancel-subscription-modal',
         submitButton: 'cancel-subscription-submit-button',
     },
+    exportHistory: {
+        modal: 'export-invoice-history-modal',
+        rangeSelect: 'export-invoice-history-range-select',
+        exportButton: 'export-invoice-history-export-button',
+    },
 } as const;
 
 const DataTestID = {
@@ -160,6 +165,21 @@ const DataTestID = {
                         billing: {
                             name: 'purchasing-info-billing-name',
                             address: 'purchasing-info-billing-address',
+                        },
+                        history: {
+                            exporting: {
+                                toggle: 'purchasing-info-invoice-history-export-toggle',
+                                modal: modal.exportHistory,
+                            },
+                            entry: {
+                                row: 'purchasing-info-invoice-history-entry-row',
+                                id: 'purchasing-info-invoice-history-entry-id',
+                                date: 'purchasing-info-invoice-history-entry-date',
+                                price: 'purchasing-info-invoice-history-entry-price',
+                                status: 'purchasing-info-invoice-history-entry-status',
+                                card: 'purchasing-info-invoice-history-entry-card',
+                                plan: 'purchasing-info-invoice-history-entry-plan',
+                            },
                         },
                     },
                     paymentMethodTool: {

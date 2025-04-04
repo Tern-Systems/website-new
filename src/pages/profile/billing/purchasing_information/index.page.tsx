@@ -105,22 +105,53 @@ function PurchasingInformationPage() {
     const InvoiceRows: ReactElement[] = invoiceHistory.map((order, idx) => {
         const { card } = order;
 
-        const invoiceDate: Date | undefined = order.startDate ? new Date(order.startDate) : undefined;
-        const localDate: string = invoiceDate
-            ? `${invoiceDate.toLocaleString('default', { month: 'long' })}} ${invoiceDate.getDate()}th, ` +
-              invoiceDate.getFullYear()
-            : '-- missing date --';
-
+        const invoiceDate: Date | undefined = order.startDate !== undefined ? new Date(order.startDate) : undefined;
+        const localDate: string =
+            invoiceDate === undefined
+                ? '-- missing date --'
+                : `${invoiceDate.toLocaleString('default', { month: 'long' })} ${invoiceDate.getDate()}th, ` +
+                  invoiceDate.getFullYear();
         return (
-            <tr key={idx}>
-                <td className={'leading-[1.5rem] md:w-[31%] lg:w-[15%]'}> {order.id}</td>
-                <td className={'md:hidden lg:w-[15%]'}>{localDate}</td>
-                <td className={'md:w-[21%] lg:w-[11%]'}>
-                    {checkNumber(order.paidUSD) ? order.paidUSD : '-- missing price --'}
+            <tr
+                data-testid={TestID.history.entry.row}
+                key={idx}
+            >
+                <td
+                    data-testid={TestID.history.entry.id}
+                    className={'leading-[1.5rem] md:w-[31%] lg:w-[15%]'}
+                >
+                    {order.id}
                 </td>
-                <td className={'md:hidden lg:w-[11%]'}>{order.status ?? '-- missing status --'}</td>
-                <td className={'lg:table-cell lg:w-[22%]'}>{getCardName(card)}</td>
-                <td className={'sm:hidden'}>{order.item?.name}</td>
+                <td
+                    data-testid={TestID.history.entry.date}
+                    className={'md:hidden lg:w-[15%]'}
+                >
+                    {localDate}
+                </td>
+                <td
+                    data-testid={TestID.history.entry.price}
+                    className={'md:w-[21%] lg:w-[11%]'}
+                >
+                    {checkNumber(order.paidUSD) ? '$' + order.paidUSD : '-- missing price --'}
+                </td>
+                <td
+                    data-testid={TestID.history.entry.status}
+                    className={'md:hidden lg:w-[11%]'}
+                >
+                    {order.status ?? '-- missing status --'}
+                </td>
+                <td
+                    data-testid={TestID.history.entry.card}
+                    className={'lg:table-cell lg:w-[22%]'}
+                >
+                    {getCardName(card)}
+                </td>
+                <td
+                    data-testid={TestID.history.entry.plan}
+                    className={'sm:hidden'}
+                >
+                    {order.item?.name}
+                </td>
             </tr>
         );
     });
@@ -191,6 +222,7 @@ function PurchasingInformationPage() {
                 <div className={`flex items-center justify-between`}>
                     <h2 className={'text-left text-heading font-bold sm:landscape:text-heading-s'}>Invoice History</h2>
                     <Button
+                        data-testid={TestID.history.exporting.toggle}
                         className={
                             'h-h-button-n rounded-full border-s border-white-d0 px-[min(2.1dvw,1rem)] text-section font-bold'
                         }
