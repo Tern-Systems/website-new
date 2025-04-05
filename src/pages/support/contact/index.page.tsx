@@ -70,10 +70,20 @@ const ContactsPage: FC = () => {
         <>
             {/* Banner Section */}
             <section className="relative w-full h-dvh max-h-[62.5rem] overflow-hidden">
-                <MainBackground
-                    url={OFFICE_GIRL_3.src}
-                />
-                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start h-full')}>
+                <div
+                    style={{
+                        position: 'relative',
+                        backgroundPosition: 'center 20%',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
+                    }}
+                    className="h-dvh max-h-[62.5rem] w-full max-w-[120rem]"
+                >
+                    <MainBackground url={OFFICE_GIRL_3.src} className="opacity-0" />
+                </div>
+                {/* Ensure the content is above the background */}
+                <div className={cn(styles.content, 'absolute inset-0 z-10 flex items-start justify-start')}>
                     <div>
                         <h1
                             className={cn(
