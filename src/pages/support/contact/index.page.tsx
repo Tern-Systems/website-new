@@ -71,8 +71,8 @@ const ContactsPage: FC = () => {
             {/* Banner Section */}
             <section className="relative justify-center w-full h-dvh max-h-[62.5rem] overflow-hidden">
                     <MainBackground
-                        url={OFFICE_GIRL_3.src}
-                        className="bg-top h-dvh max-h-[62.5rem] w-full bg-cover"
+                    url={OFFICE_GIRL_3.src}
+                    className="bg-top"
                     />
                 
                 <div className={cn(styles.content, 'absolute inset-0 z-10 flex items-start justify-start')}>
