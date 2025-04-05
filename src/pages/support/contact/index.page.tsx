@@ -209,6 +209,39 @@ const ContactsPage: FC = () => {
                     </div>
                 </section>
 
+                <section
+                    className={cn(
+                        styles.content,
+                        'relative z-10',
+                        'grid grid-cols-1 gap-xl mb-3xl',
+                        'md:x-[mb-6xl-1]',
+                        'lg:x-[grid-cols-3,mb-6xl]',
+                    )}
+                >
+                    <div className='grid gap-3xs  md:gap-s  lg:order-last'>
+                        <h3 className='font-thin text-32 sm:text-24'>Office</h3>
+                        <address className='not-italic leading-tight text-24 sm:text-18'>
+                            1120 Avenue of the Americas
+                            <br />
+                            New York, New York
+                            <br />
+                            10036-6700
+                            <br />
+                            United States
+                        </address>
+                    </div>
+
+                    <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
+                        <h3 className='font-thin text-32 sm:text-24'>Email</h3>
+                        <p className='text-24 sm:text-18'>info@tern.ac</p>
+                    </div>
+
+                    <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
+                        <h3 className='font-thin text-32 sm:text-24'>Phone</h3>
+                        <p className='text-24 sm:text-18'>(973) 590-8753</p>
+                    </div>
+                </section>
+
                 <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
                     <ResourceCard
                         type={'highlighted'}
