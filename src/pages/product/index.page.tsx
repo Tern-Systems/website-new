@@ -120,19 +120,26 @@ function TidalPage() {
         <>
             <section className={cn(styles.section, styles.fullHeightSection, styles.sectionShadowBlue, 'relative')}>
                 <MainBackground url={PNG_BACKGROUND_MAIN} />
-                <div className={cn(styles.content, 'relative z-10 content-center')}>
-                    <div className={'sm:x-[pt-l,pb-5xl] pt-5xl pb-6xl'}>
+                <div
+                    className={cn(
+                        styles.content,
+                        'relative z-10 content-center',
+                        'sm:pt-3xl pt-5xl',
+                        'sm:pb-6xl-1 pb-6xl',
+                    )}
+                >
+                    <div>
                         <h1 className={'text-64  lg:text-96'}>TIDAL</h1>
                         <Image
                             src={SVG_TIDAL}
                             alt={'logo'}
-                            className={'h-auto w-[20.4%] lg:w-[15.2%]  sm:my-4xl my-3xl'}
+                            className={cn('h-auto min-w-[189px]', 'w-[20.4%] lg:w-[15.2%]', 'sm:my-6xl-1 my-3xl')}
                         />
-                        <p className={'text-32  lg:text-40'}>Unlocking the potential of ternary programming</p>
+                        <p className={'text-32  lg:text-40'}>Do more with more</p>
                         <div
                             className={cn(
                                 'flex flex-wrap gap-x-l gap-y-xs text-nowrap text-21',
-                                'mt-xxl md:mt-xxl lg:mt-xl',
+                                'mt-n md:mt-xxl lg:mt-xl',
                             )}
                         >
                             <PageLink
