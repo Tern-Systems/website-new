@@ -39,19 +39,6 @@ const FORM_DEFAULT: FormData = {
     isAllowedUpdate: false,
 };
 
-const HIGHLIGHTED_CARD: CardLink = {
-    icon: PNG_HIGHLIGHTEDTIPS,
-    title: 'Get help with tips from our experts',
-    description: 'Our experts share how to best manage and operate your Tern products, services and accounts.',
-    action: { title: 'Learn more', href: '' },
-};
-
-const RESOURCES: ResourceSectionData[] = [
-    { Node: <PageLink href={Route.Community} /> },
-    { Node: <PageLink href={Route.SupportHub}>Support hub</PageLink> },
-    { Node: <PageLink href={Route.Billing}>Billing resolution center</PageLink> },
-];
-
 const INPUT_PROPS = {
     classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
     classNameLabel: 'font-[400]   ',
@@ -69,20 +56,12 @@ const ContactsPage: FC = () => {
     return (
         <>
             {/* Banner Section */}
-            <section className="relative w-full h-dvh max-h-[62.5rem] overflow-hidden">
-                <div
-                    style={{
-                        position: 'relative',
-                        backgroundPosition: 'center 20%',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                    }}
-                    className="h-dvh max-h-[62.5rem] w-full max-w-[120rem]"
-                >
-                    <MainBackground url={OFFICE_GIRL_3.src} className="opacity-0" />
-                </div>
-                {/* Ensure the content is above the background */}
+            <section className="relative justify-center w-full h-dvh max-h-[62.5rem] overflow-hidden">
+                    <MainBackground
+                        url={OFFICE_GIRL_3.src}
+                        className="bg-top h-dvh max-h-[62.5rem] w-full max-w-[120rem] bg-cover bg-center"
+                    />
+                
                 <div className={cn(styles.content, 'absolute inset-0 z-10 flex items-start justify-start')}>
                     <div>
                         <h1
