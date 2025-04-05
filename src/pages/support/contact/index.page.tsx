@@ -39,6 +39,19 @@ const FORM_DEFAULT: FormData = {
     isAllowedUpdate: false,
 };
 
+const HIGHLIGHTED_CARD: CardLink = {
+    icon: PNG_HIGHLIGHTEDTIPS,
+    title: 'Get help with tips from our experts',
+    description: 'Our experts share how to best manage and operate your Tern products, services and accounts.',
+    action: { title: 'Learn more', href: '' },
+};
+
+const RESOURCES: ResourceSectionData[] = [
+    { Node: <PageLink href={Route.Community} /> },
+    { Node: <PageLink href={Route.SupportHub}>Support hub</PageLink> },
+    { Node: <PageLink href={Route.Billing}>Billing resolution center</PageLink> },
+];
+
 const INPUT_PROPS = {
     classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
     classNameLabel: 'font-[400]   ',
@@ -59,7 +72,7 @@ const ContactsPage: FC = () => {
             <section className="relative justify-center w-full h-dvh max-h-[62.5rem] overflow-hidden">
                     <MainBackground
                         url={OFFICE_GIRL_3.src}
-                        className="bg-top h-dvh max-h-[62.5rem] w-full max-w-[120rem] bg-cover bg-center"
+                        className="bg-top h-dvh max-h-[62.5rem] w-full bg-cover"
                     />
                 
                 <div className={cn(styles.content, 'absolute inset-0 z-10 flex items-start justify-start')}>
@@ -195,6 +208,38 @@ const ContactsPage: FC = () => {
                         </div>
                     </div>
                 </section>
+
+                <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
+                    <ResourceCard
+                        type={'highlighted'}
+                        icon={HIGHLIGHTED_CARD.icon}
+                        title={HIGHLIGHTED_CARD.title}
+                        action={HIGHLIGHTED_CARD.action}
+                        className={{
+                            wrapper: cn(
+                                'text-black',
+                                'lg:x-[!grid-cols-2,gap-x-0] lg:col-span-2',
+                                'md:x-[!grid-cols-2,gap-x-0] md:[&]:x-[col-span-2,px-xl]',
+                                'sm:x-[mx-auto,w-full]',
+                            ),
+                            image: '!size-full object-cover',
+                            content: 'lg:pl-l  md:pl-l md:flex',
+                            title: 'text-20  md:text-24  lg:text-27',
+                            children: 'text-12  sm:text-10',
+                            link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]',
+                        }}
+                    >
+                        {HIGHLIGHTED_CARD.description}
+                    </ResourceCard>
+                </section>
+
+                <section className='relative z-10'>
+                    <ResourcesSection
+                        data={RESOURCES}
+                        className={'mb-[22.125rem] mt-6xl-1'}
+                    />
+                </section>
+                <div className='absolute bottom-0 inset-0 bg-gradient-to-t from-blue to-transparent to-10% lg:to-[16%] z-0' />
             </div>
         </>
     );
