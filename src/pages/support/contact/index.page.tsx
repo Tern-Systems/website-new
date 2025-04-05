@@ -74,7 +74,7 @@ const ContactsPage: FC = () => {
 
         
             <section className={"relative w-full h-dvh max-h-[62.5rem] overflow-hidden"}>
-                {/* Reuse MainBackground component */}
+                
                 <MainBackground url = {OFFICE_GIRL_3.src}></MainBackground>
 
                     
