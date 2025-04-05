@@ -76,16 +76,8 @@ const ContactsPage: FC = () => {
             <section className={"relative w-full h-dvh max-h-[62.5rem] overflow-hidden"}>
                 {/* Reuse MainBackground component */}
                 <MainBackground url = {OFFICE_GIRL_3.src}></MainBackground>
-                {/* <div
-                    className={cn('absolute inset-0 z-0 bg-cover bg-center')}
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        backgroundAttachment: 'fixed',
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
-                    }}
-                > */}
-                    {/* Fixed Banner content */}
+
+                    
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start h-full')}>
                         <div className="flex flex-col justify-center"></div>
                         <div>
