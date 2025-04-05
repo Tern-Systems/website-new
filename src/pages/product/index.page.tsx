@@ -155,15 +155,14 @@ function TidalPage() {
             <section
                 style={{
                     backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")`,
-                    position: 'relative',
-                    zIndex: 'unset',
+                    zIndex: 'auto',
                 }}
                 className={cn(styles.section, 'relative')}
             >
                 <div
                     className={cn(
-                        'pointer-events-none absolute left-0 top-0 w-full h-[30%] z-0',
-                        'bg-gradient-to-b from-blue/60 via-transparent to-transparent',
+                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
+                        'bg-gradient-to-b from-blue to-transparent to-50%',
                     )}
                 />
 
