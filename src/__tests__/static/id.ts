@@ -121,6 +121,16 @@ const DataTestID = {
             },
         },
         profile: {
+            page: {
+                section: {
+                    account: {
+                        twoFA: {
+                            toggle: 'profile-section-account-2fa-toggle',
+                            input: 'profile-section-account-2fa-input',
+                        },
+                    },
+                },
+            },
             billing: {
                 page: {
                     invoice: {

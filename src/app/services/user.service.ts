@@ -16,8 +16,6 @@ interface IUserService {
     postUpdateUser(email: string, data: UpdateUserData): Promise<Res>;
 
     postUpdateUserName(email: string, username: string): Promise<Res>;
-
-    postRemoveProfilePicture(email: string): Promise<Res>;
 }
 
 class UserServiceImpl extends BaseService implements IUserService {
@@ -27,18 +25,6 @@ class UserServiceImpl extends BaseService implements IUserService {
 
     constructor() {
         super(UserServiceImpl.name);
-    }
-
-    async postRemoveProfilePicture(email: string): Promise<Res> {
-        const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: this._API + `remove-photo`,
-            headers: BaseService._HEADER.CONTENT_JSON,
-            data: JSON.stringify({ userEmail: email }),
-            withCredentials: true,
-        };
-        const { message } = await this.req<undefined, false>(this.postRemoveProfilePicture.name, config, null);
-        return { message: message || UserServiceImpl._MESSAGE.PROFILE_UPDATED };
     }
 
     async postUpdateUserName(email: string, username: string): Promise<Res> {

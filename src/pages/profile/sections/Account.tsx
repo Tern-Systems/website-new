@@ -2,11 +2,11 @@
 
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/static';
+import { DataTestID } from '@/__tests__/static';
+
+import { Breakpoint, REGEX } from '@/app/static';
 import { FormInit, FormType } from '@/app/ui/form/Editable';
 import { SectionProps } from '../index.page';
-
-import { REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services';
 
@@ -21,19 +21,21 @@ import { AuthenticationCode } from '@/app/ui/modals';
 
 import styles from '@/pages/profile/Profile.module.css';
 
+const TestID = DataTestID.page.profile.page.section.account;
+
 const ACCOUNT = 'Account Credentials';
+
+const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
+const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-s  [&&]:lg:text-section-s`;
 
 function AccountSection(props: SectionProps) {
     const { update, setEditId, editId } = props;
 
     const { userData, token } = useUser();
     const modalCtx = useModal();
-    const sm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
+    const sm = useBreakpointCheck() <= Breakpoint.sm;
 
     if (!userData || !token) return null;
-
-    const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
-    const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-s  [&&]:lg:text-section-s`;
 
     return (
         <Collapsible
@@ -45,7 +47,7 @@ function AccountSection(props: SectionProps) {
             classNameTitleIcon={`[&]:max-w-[1rem]  [&]:md:max-w-[1.8125rem]  [&]:lg:max-w-[1.8125rem]`}
             classNameHr={`border-gray-l0`}
         >
-            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>TernID</span>
+            <span className={cn(styles.leftCol, styles.ellipsis, title_CN)}>TernID</span>
             <Editable
                 classNameToggleText={`text-section-xs`}
                 {...getSimpleToggleProps(setEditId, editId)}
@@ -68,12 +70,12 @@ function AccountSection(props: SectionProps) {
                     };
                 }}
             >
-                <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>
+                <span className={cn(styles.midCol, styles.ellipsis, label_CN)}>
                     {userData.ternID ?? userData.email}
                 </span>
             </Editable>
 
-            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Password</span>
+            <span className={cn(styles.leftCol, styles.ellipsis, title_CN)}>Password</span>
             <Editable
                 type={'password'}
                 classNameToggleText={`text-section-xs`}
@@ -107,7 +109,7 @@ function AccountSection(props: SectionProps) {
                     };
                 }}
             >
-                <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>
+                <span className={cn(styles.midCol, styles.ellipsis, label_CN)}>
                     <span className={'block text-section-xxs tracking-widest'}>•••••••••••••••</span>
                     <span className={'text-section-3xs md:text-section-xs lg:text-section-xs'}>
                         Last updated&nbsp;
@@ -118,7 +120,7 @@ function AccountSection(props: SectionProps) {
                 </span>
             </Editable>
 
-            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Security</span>
+            <span className={cn(styles.leftCol, styles.ellipsis, title_CN)}>Security</span>
             <Editable
                 type={'2FA'}
                 classNameToggleText={`text-section-xs`}
@@ -168,7 +170,11 @@ function AccountSection(props: SectionProps) {
                 }}
             >
                 <span
-                    className={`${styles.midCol} ${styles.ellipsis} [&&]:text-section-xxs [&&]:md:text-basic [&&]:lg:text-basic`}
+                    className={cn(
+                        styles.midCol,
+                        styles.ellipsis,
+                        `[&&]:text-section-xxs [&&]:md:text-basic [&&]:lg:text-basic`,
+                    )}
                 >
                     Enable / disable your {sm ? '2FA' : 'two-factor authentication'}
                 </span>
