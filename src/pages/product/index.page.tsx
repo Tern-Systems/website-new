@@ -267,20 +267,20 @@ function TidalPage() {
                         <Image
                             src={PNG_GIRL}
                             alt={'emulator sample'}
-                            className={'m-auto w-2/3'}
+                            className={'m-auto w-[20.9375rem] md:w-[22.0625rem] lg:w-[38.6875rem]'}
                         />
                     </div>
                     <div className={'sm:contents'}>
                         <h2
                             className={cn(
                                 'font-bold leading-n',
-                                'sm:x-[row-start-1,mb-xs,text-center]',
+                                'sm:x-[row-start-1,mb-xs]',
                                 'text-24 md:text-40 lg:text-64',
                             )}
                         >
                             Turning Heads
                         </h2>
-                        <p className={cn('mt-xxl  sm:x-[mx-auto,mt-xs,w-2/3]', 'text-16 md:text-27 lg:text-40')}>
+                        <p className={cn('mt-xxl  sm:x-[mx-auto,mt-xs]', 'text-16 md:text-27 lg:text-40')}>
                             Users can write code using the Tidal software and run that code within our online emulator,
                             enabling software developers from any experience level to explore this untapped scape of
                             programming.
