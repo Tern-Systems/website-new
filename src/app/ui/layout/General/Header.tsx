@@ -118,7 +118,7 @@ const Header: FC = (): ReactElement => {
                     className={cn(`hidden border-s border-transparent rounded-none p-xs xxs:inline h-full mr-4xs`, {
                         ['!border-blue bg-gray-d1 ']: navExpanded,
                     })}
-                    classNameIcon={'!w-heading-icon h-auto'}
+                    classNameIcon={'w-xxs h-xxs'}
                 />
                 <div
                     className={cn(
@@ -126,7 +126,7 @@ const Header: FC = (): ReactElement => {
                         `z-[2] flex !h-heading items-center pr-xs`,
                         `relative`,
                         `sm:pr-0`,
-                        `xxs:x-[static,pl-xs]`,
+                        `xxs:x-[static,pl-0]`,
                     )}
                 >
                     <Insignia />

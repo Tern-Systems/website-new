@@ -19,10 +19,7 @@ const Insignia: FC<Props> = (props: Props) => {
             <ReactSVG
                 src={SVG_LOGO.src}
                 onClick={() => navigate(Route.Home)}
-                className={cn(
-                    'cursor-pointer [&_*]:x-[block,!max-w-fit,!min-w-fit,!w-fit,!h-insignia]',
-                    props.className,
-                )}
+                className={cn('cursor-pointer [&_*]:x-[block,w-auto,!h-insignia]', props.className)}
             />
         </div>
     );
