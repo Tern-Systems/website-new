@@ -89,12 +89,12 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             data-testid={TestID.modal}
             adaptBreakpoint={Breakpoint.sm}
             preventClose={preventClose}
-            title={login ? 'Login to Tern Account' : 'Create Tern Account'}
+            title={login ? 'Login to Account' : 'Create Account'}
             onClose={() => onClose?.()}
-            classNameTitle={'justify-self-start text-27   sm:[&]:mb-xs   sm:landscape:ml-0 '}
-            className={'sm:bg-white'}
+            classNameTitle={'w-full flex-1 justify-self-start text-27 sm:[&]:mb-xs sm:landscape:ml-0 '}
+            className={'sm:bg-white w-[30rem] flex flex-col !rounded-lg'}
             classNameContent={cn(
-                'w-[30rem] items-start mx-auto place-items-center text-16',
+                'w-full items-center place-items-center text-16',
                 '[&]:overflow-y-visible',
                 'sm:[&]:x-[px-xs,py-n,w-full,overflow-y-scroll]',
                 'sm:landscape:x-[max-w-[73rem],px-xxl]',
@@ -107,9 +107,9 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         <Image
                             src={SVG_INSIGNIA}
                             alt={'insignia'}
-                            className={`my-xs h-[9rem] w-[10rem]`}
+                            className={`mb-xxs h-[9rem] w-[10rem]`}
                         />
-                        {login ? null : <span className={' text-27'}>Tern</span>}
+                        <span className={'text-27'}>Tern</span>
                     </div>
                 </div>
                 <form
@@ -179,7 +179,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             type={'submit'}
                             disabled={isLoading}
                             className={cn(
-                                `border-control mt-s w-[60%] place-self-center rounded-full border-s py-xxs`,
+                                `border-control mt-s w-[75%] place-self-center rounded-full border-s py-xxs`,
                                 `text-18 font-bold`,
                                 `sm:w-[90%]`,
                                 isLoading ? 'opacity-70 cursor-not-allowed' : '',
