@@ -21,19 +21,16 @@ enum Route {
     Cookies = '/cookies',
     Privacy = '/privacy',
 
-    // /product
+    // /products
     // Products = '/products/all',
-    Product = '/product',
-    TidalPlans = '/product/plans',
-    TidalProductManual = '/product/manual',
+    Products = '/product',
+    TidalPlans = '/products/plans',
+    TidalProductManual = '/products/manual',
     TidalSubscribe = '/subscribe/tidal',
-    TidalFAQs = '/product/faqs',
-    Cyrus = '/product/cyrus',
-    Tidal = '/product/tidal',
-    Ternact = '/product/ternact',
-    // Dot = '/products/dot',
-    // DotPricing = '/products/dot/pricing',
-    // DotProductManual = '/products/dot/user_manual',
+    TidalFAQs = '/products/faqs',
+    Cyrus = '/products/cyrus',
+    Tidal = '/products/tidal',
+    Ternact = '/products/ternact',
 
     // /profile
     Profile = '/profile',
