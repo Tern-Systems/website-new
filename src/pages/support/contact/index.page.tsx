@@ -70,7 +70,7 @@ const ContactsPage: FC = () => {
         <>
             <section className={cn(styles.section, styles.fullHeightSection)}>
                 <MainBackground
-                     className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem] bg-top')}
+                     className={cn('h-dvh max-h-section w-full max-w-section bg-top')}
                      url={OFFICE_GIRL_3}
                 />
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
