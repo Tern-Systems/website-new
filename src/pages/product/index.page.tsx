@@ -21,7 +21,6 @@ import { ResourcesSection } from '@/app/ui/templates';
 import styles from '@/app/common.module.css';
 
 import PNG_BACKGROUND_MAIN from '@/assets/images/tidal-bg-main.png';
-import PNG_BACKGROUND_CIRCUIT from '@/assets/images/tidal-bg-circuit.png';
 
 import SVG_TIDAL from '@/assets/images/tidal-logo.svg';
 import PNG_EMULATOR_SAMPLE from '@/assets/images/emulator-sample.png';
@@ -159,13 +158,10 @@ function TidalPage() {
                     </div>
                 </div>
             </section>
-            <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
-                className={styles.section}
-            >
+            <section className={cn(styles.section, '!bg-transparent', 'relative z-[100]')}>
                 <div
                     className={cn(
-                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
+                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full',
                         'bg-gradient-to-b from-blue to-transparent to-50%',
                     )}
                 />
@@ -179,7 +175,7 @@ function TidalPage() {
                 >
                     <h2
                         className={cn(
-                            'mx-auto text-center font-bold leading-n  w-2/3 sm:w-full',
+                            'mx-auto text-center font-bold leading-n w-2/3 sm:w-full',
                             'text-27 md:text-48 lg:text-64',
                         )}
                     >
