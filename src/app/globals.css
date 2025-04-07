@@ -38,6 +38,8 @@
   --h-footer-lg: 28.5rem;
   --w-card: 22rem;
   /* Heights / Widths / Size */
+  --h-14xl : 10.9375rem; /* 175px */
+  --h-13xl : 9.375rem; /* 150px */
   --h-12xl : 7.5rem;   /* 120px */
   --h-11xl : 7.1875rem;/* 115px */
   --h-10xl : 6.25rem;  /* 100px */
