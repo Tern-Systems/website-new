@@ -380,7 +380,7 @@ function CommunityPage() {
                         'pb-[33rem] md:pb-[27rem] lg:pb-[29.5rem]',
                     )}
                 >
-                    <h3>Community News</h3>
+                    <h3 className={'text-32 sm:text-27'}>Community News</h3>
                     <ul
                         className={cn(
                             `grid auto-rows-max justify-items-center`,
