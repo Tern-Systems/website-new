@@ -214,7 +214,7 @@ function TidalPage() {
             </section>
             <section
                 ref={demoSectionRef}
-                className={cn(styles.section, styles.sectionShadowBlack)}
+                className={cn(styles.section, styles.sectionShadowBlack, '-z-10')}
             >
                 <div
                     className={cn(
