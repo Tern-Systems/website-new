@@ -237,6 +237,7 @@ function CommunityPage() {
                 article={article}
                 hideTag
                 altLink={'Enter support hub'}
+                className={'max-w-full'}
                 classNameContent={'bg-white-d2 text-black'}
             />
         </li>
@@ -326,8 +327,8 @@ function CommunityPage() {
                         <p
                             className={cn(
                                 'w-min break-words content-center font-bold leading-[2]',
-                                'px-n lg:px-3xl',
-                                'text-48 md:text-64 lg:text-96',
+                                'px-xxs md:px-n lg:px-3xl',
+                                'text-40 md:text-64 lg:text-96',
                             )}
                         >
                             Culture. Drives. Markets.
