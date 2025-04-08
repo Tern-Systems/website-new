@@ -12,6 +12,7 @@ import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
 import { Route } from '@/app/static';
+import { MainBackground } from '@/app/ui/atoms/MainBackground';
 
 import styles from '@/app/common.module.css';
 
@@ -67,36 +68,35 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
+            <section className='relative flex justify-center w-full'>
+                <MainBackground
+                    url={OFFICE_GIRL_3}
+                    className='h-[90vh] sm:h-[80vh] md:h-[75vh] lg:h-dvh max-h-[62.5rem] w-full max-w-[120rem]'
+                />
                 <div
                     className={cn(
-                        'h-dvh max-h-[62.5rem] w-full max-w-[120rem]',
-                        'relative bg-cover bg-center bg-fixed',
+                        styles.content,
+                        'relative z-10 flex flex-col justify-center h-full',
+                        'items-center sm:items-center md:items-start',
                     )}
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
-                    }}
                 >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `w-min text-left leading-n`,
-                                    `mb-n text-96`,
-                                    `lg:x-[w-full,mt-6xl-1]`,
-                                    `md:x-[mt-xl,text-96]`,
-                                    `sm:x-[flex,mt-xs,text-64]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
+                    <div className='pt-[14rem] sm:pt-[12rem] md:pt-[6rem]'>
+                        <h1
+                            className={cn(
+                                `w-min leading-n`,
+                                `mb-n text-96`,
+                                `text-center sm:text-center md:text-left`,
+                                `lg:x-[w-full,mt-6xl-1]`,
+                                `md:x-[mt-xl,text-96]`,
+                                `sm:x-[flex,mt-xs,text-64]`,
+                            )}
+                        >
+                            Contact Tern
+                        </h1>
                     </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
                 </div>
+                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-0' />
+                <div className='absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-1' />
             </section>
 
             <div
