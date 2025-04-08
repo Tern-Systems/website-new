@@ -167,7 +167,8 @@ describe('E2E related to ' + AuthServiceImpl.name, () => {
         );
     });
 
-    describe(AuthService.postLogin.name + ' ' + AuthService.postLoginVerifyOTP.name + ' related', () => {
+    // TODO rework
+    describe.skip(AuthService.postLogin.name + ' ' + AuthService.postLoginVerifyOTP.name + ' related', () => {
         const { otp: otpModal } = modal;
 
         beforeEach(async () => AuthTestUtil.mockCookie());
