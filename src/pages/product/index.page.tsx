@@ -196,13 +196,16 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl text-white'}>
+                    <div className="relative z-20">
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl text-white opacity-100'}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl opacity-100'}
+                        style={{position:'relative',zIndex:50,}}
+                    >
                         
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
@@ -213,12 +216,17 @@ function TidalPage() {
                         </Button>
                     </div>
                 </div>
+                </div>
             </section>
+            
             <section
                 ref={demoSectionRef}
                 className={cn(styles.section, styles.sectionShadowBlack)}
-                style={{zIndex:-1}}
+                style={{boxShadow: 'inset 0 calc(-1 * var(--section-shadow-shift)) var(--section-shadow-blur-radius) rgba(0, 0, 0, 0.5)',
+                position:'relative',
+                }}
             >
+                
                 <div
                     className={cn(
                         styles.content,
