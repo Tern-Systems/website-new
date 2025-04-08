@@ -10,6 +10,8 @@ import { Breakpoint } from '@/app/static';
 import { Article } from '@/app/types/blog';
 import { CONTACT_LINKS, Route } from '@/app/static';
 
+import { BlogService } from '@/app/services/blog.service';
+
 import { useBreakpointCheck } from '@/app/hooks';
 import { useModal } from '@/app/hooks';
 
@@ -31,7 +33,6 @@ import PNG_CARD_2 from '@/assets/images/community-card-1.png';
 import PNG_CARD_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-1.png';
 import PNG_CARD_4 from '@/assets/images/community-card-2.png';
 import PNG_CARD_5 from '@/assets/images/community-card-3.png';
-import { BlogService } from '@/app/services/blog.service';
 
 type Event = {
     date: number;
@@ -170,7 +171,7 @@ function CommunityPage() {
                         'sm:gap-x-0 gap-x-xxs',
                         'sm:grid-cols-[1fr,min-content] grid-cols-[min-content,1fr]',
                         'sm:p-5xs p-xxs',
-                        'sm:text-section-3xs text-section-xxs',
+                        'sm:text-10 text-12',
                     )}
                 >
                     <span
@@ -178,24 +179,22 @@ function CommunityPage() {
                             'bg-blue',
                             'sm:x-[inline,p-0] flex  flex-col justify-center px-xs py-n',
                             'sm:row-span-1 row-span-3',
-                            'size-[7.1875rem] sm:size-fit',
+                            'size-11xl sm:size-fit',
                         )}
                     >
-                        <span className={'text-center sm:text-documentation text-heading-3xl'}>{day}</span>
-                        <span className={'sm:ml-5xs  sm:text-section-3xs text-section-xxs'}>{DAY_NAMES[day]}</span>
+                        <span className={'text-center sm:text-24 text-64'}>{day}</span>
+                        <span className={'sm:ml-5xs  sm:text-10 text-12'}>{DAY_NAMES[day]}</span>
                     </span>
-                    <span className={'col-start-2 flex items-center p-[0.19rem] size-fit bg-gray-l1 text-black'}>
+                    <span className={'col-start-2 flex items-center p-6xs size-fit bg-gray-l1 text-black'}>
                         {event.tag}
                     </span>
-                    <span className={'leading-n  sm:col-span-2  sm:text-section-3xs text-basic'}>
-                        {event.description}
-                    </span>
+                    <span className={'leading-n  sm:col-span-2  sm:text-10 text-16'}>{event.description}</span>
                     <span className={'flex items-center  sm:col-span-2'}>
                         <ReactSVG
                             src={SVG_CLOCK.src}
-                            className={'[&_*]:size-[0.75rem] [&_*]:sm:size-[0.55rem]'}
+                            className={'size-7xs sm:size-8xs'}
                         />
-                        <span className={'ml-5xs sm:ml-[0.2rem]'}>
+                        <span className={'ml-5xs sm:ml-6xs'}>
                             {new Date(event.time.start).getHours()} - {new Date(event.time.start).getHours()} hrs&nbsp;
                             {event.timeZone}
                         </span>
@@ -215,7 +214,7 @@ function CommunityPage() {
                     title={card.title}
                     action={card.action}
                     className={{
-                        wrapper: 'mt-[9.38rem] md:mt-5xl sm:mt-3xl',
+                        wrapper: 'mt-7xl md:mt-5xl sm:mt-3xl',
                         image: cn({ ['lg:col-start-2']: swap }),
                         content: cn({ ['lg:x-[row-start-1,col-start-1]']: swap }),
                     }}
@@ -238,18 +237,19 @@ function CommunityPage() {
                 article={article}
                 hideTag
                 altLink={'Enter support hub'}
+                className={'max-w-full'}
                 classNameContent={'bg-white-d2 text-black'}
             />
         </li>
     ));
 
     const RC_Wrapper = '!p-0 !bg-white-d2 from-transparent !gap-0  sm:!grid-cols-1 !grid-cols-2';
-    const RC_Title = '[&]:text-documentation leading-l  md:[&]:text-heading-l  lg:[&]:text-heading-xl';
+    const RC_Title = '[&]:text-24 leading-l  md:[&]:text-36  lg:[&]:text-40';
     const RC_IMG = '!object-cover object-right h-[25.5rem]  md:h-[31.25rem]  lg:h-[39.1875rem]';
     const RC_Content =
-        '[&]:flex row-start-1 text-black p-xxs gap-y-xxs  sm:row-start-2  md:x-[p-n,gap-y-3xl]  lg:x-[p-xxl,gap-y-[5rem]]';
-    const RC_Children = '!w-full tracking-wide text-section-xxs  md:text-section-xs  lg:text-basic';
-    const RC_Link = 'sm:mt-xs !mt-auto text-section-xxs  md:text-section-xs  lg:text-basic';
+        '[&]:flex row-start-1 text-black p-xxs gap-y-xxs  sm:row-start-2  md:x-[p-n,gap-y-3xl]  lg:x-[p-xxl,gap-y-5xl]';
+    const RC_Children = '!w-full tracking-wide text-12  md:text-14  lg:text-16';
+    const RC_Link = 'sm:mt-xs !mt-auto text-12  md:text-14  lg:text-16';
 
     const tabs = [
         {
@@ -266,7 +266,7 @@ function CommunityPage() {
                         image: RC_IMG,
                         content: RC_Content,
                         children: RC_Children,
-                        link: cn(RC_Link, 'bg-transparent text-blue text-section-xxs [&_path]:fill-blue p-0 '),
+                        link: cn(RC_Link, 'bg-transparent text-blue text-12 [&_path]:fill-blue p-0 '),
                     }}
                 >
                     Find out more about our unique strategic approach to cultivating lasting professional relationships.
@@ -306,17 +306,17 @@ function CommunityPage() {
                     className={'translate-y-0 max-h-full'}
                 />
                 <div className={cn(styles.content, 'relative z-10 pt-xxl')}>
-                    <h1 className={'md:w-[83%] lg:w-1/2  leading-l text-heading-3xl'}>Welcome to the Tern Community</h1>
+                    <h1 className={'md:w-[83%] lg:w-1/2  leading-l text-64'}>Welcome to the Tern Community</h1>
                 </div>
             </section>
             <section className={cn(styles.section, 'bg-gradient-to-b from-blue to-transparent to-10%')}>
-                <div className={cn(styles.content, 'pt-[7.3rem] md:pt-[6.7rem] lg:pt-[7.5rem]')}>
-                    <h3 className={'text-heading lg:text-heading-xl'}>Get plugged in with like minded individuals</h3>
-                    <p className={'mt-xxl leading-l  text-section md:text-heading-s lg:text-heading'}>
+                <div className={cn(styles.content, 'pt-6xl md:pt-6xl-1 lg:pt-6xl')}>
+                    <h3 className={'text-27 lg:text-40'}>Get plugged in with like minded individuals</h3>
+                    <p className={'mt-xxl leading-l  text-20 md:text-21 lg:text-27'}>
                         Tern is dedicated to fostering a strong community around it’s products and services to cultivate
                         a sustainable business mode built on trust.
                     </p>
-                    <div className={'grid grid-cols-2  mt-xxl md:mt-[6.25rem] lg:mt-[9.37rem]'}>
+                    <div className={'grid grid-cols-2  mt-xxl md:mt-6xl-1 lg:mt-7xl'}>
                         <div className={'contents'}>
                             <Image
                                 src={PNG_ABOUT}
@@ -327,8 +327,8 @@ function CommunityPage() {
                         <p
                             className={cn(
                                 'w-min break-words content-center font-bold leading-[2]',
-                                'px-n lg:px-[3.5rem]',
-                                'text-heading-xxl md:text-heading-3xl lg:text-heading-4xl',
+                                'px-xxs md:px-n lg:px-3xl',
+                                'text-40 md:text-64 lg:text-96',
                             )}
                         >
                             Culture. Drives. Markets.
@@ -337,7 +337,7 @@ function CommunityPage() {
                 </div>
             </section>
             <section className={styles.section}>
-                <div className={cn(styles.content, 'pt-5xl md:pt-[6.25rem] lg:pt-[9.3rem]')}>
+                <div className={cn(styles.content, 'pt-5xl md:pt-6xl-1 lg:pt-7xl')}>
                     <Tabs
                         title='What Drives You?'
                         description='Join the conversation'
@@ -346,8 +346,8 @@ function CommunityPage() {
                 </div>
             </section>
             <section className={styles.section}>
-                <div className={cn(styles.content, 'pt-5xl md:pt-[6.25rem] lg:pt-[9.3rem]')}>
-                    <h3 className={'text-heading lg:text-heading-xl'}>Events</h3>
+                <div className={cn(styles.content, 'pt-5xl md:pt-6xl-1 lg:pt-7xl')}>
+                    <h3 className={cn('text-27 lg:text-40', `mb-xs md:mb-xl lg:mb-xl`)}>Events</h3>
                     <ul
                         className={cn(
                             'grid grid-cols-2',
@@ -360,7 +360,7 @@ function CommunityPage() {
                         href={Route.CommunityEvents}
                         icon={'arrow-right-long'}
                         className={'flex-row-reverse text-blue  mt-xs md:mt-xl lg:mt-l'}
-                        iconClassName={'[&_path]:fill-blue [&_*]:size-[0.79rem]  ml-4xs lg:ml-xxs'}
+                        iconClassName={'[&_path]:fill-blue size-6xs  ml-4xs lg:ml-xxs'}
                     >
                         See all
                     </PageLink>
@@ -374,14 +374,20 @@ function CommunityPage() {
             </section>
             {/* TODO create ArticleCards*/}
             <section className={cn(styles.section, 'bg-gradient-to-t from-blue to-transparent to-60%')}>
-                <div className={cn(styles.content, 'pb-[33rem] md:pb-[27rem] lg:pb-[29.5rem]')}>
-                    <h3>Community News</h3>
+                <div
+                    className={cn(
+                        styles.content,
+                        'pt-5xl md:pt-6xl-1 lg:pt-7xl',
+                        'pb-[33rem] sm:landscape:pb-[12.5rem] md:pb-[27rem] lg:pb-[29.5rem]',
+                    )}
+                >
+                    <h3 className={'text-32 sm:text-27'}>Community News</h3>
                     <ul
                         className={cn(
                             `grid auto-rows-max justify-items-center`,
                             `md:x-[mx-auto,w-fit,grid-cols-2] lg:grid-cols-[repeat(3,minmax(var(--w-card),1fr))]`,
                             `gap-y-l md:gap-n lg:gap-x-xl`,
-                            `mt-[2.31rem] md:mt-xxl lg:mt-xl`,
+                            `mt-xs md:mt-xl lg:mt-xl`,
                         )}
                     >
                         {ArticleCardsLi}

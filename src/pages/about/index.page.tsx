@@ -29,14 +29,20 @@ const AboutPage: FC = () => {
         <>
             <section className={cn(styles.section, styles.fullHeightSection)}>
                 <MainBackground url={SVG_ROCKET} />
-                <div className={cn(styles.content, 'relative z-10 flex items-center justify-end sm:items-start')}>
+                <div
+                    className={cn(
+                        styles.content,
+                        'relative flex justify-end z-10',
+                        'items-start md:items-center lg:items-center',
+                    )}
+                >
                     <div>
                         <h1
                             className={cn(
-                                `w-min text-right font-bold leading-n`,
-                                `mb-n text-[8rem]`,
-                                `md:text-heading-4xl md:landscape:text-[2.5rem]`,
-                                `sm:x-[flex,w-[20rem],mt-n,text-[2.5rem]]`,
+                                'flex mb-n text-right font-bold leading-n',
+                                'sm:mt-n',
+                                'w-[20rem] md:w-min lg:w-min',
+                                'text-40 md:text-96 lg:text-128',
                             )}
                         >
                             Reaching New Heights
@@ -49,21 +55,27 @@ const AboutPage: FC = () => {
                 <div
                     className={cn(
                         styles.fullHeightSection,
-                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw bg-cover bg-center bg-no-repeat',
-                        'bg-gradient-to-b from-blue to-transparent to-60% md:from-[-10%] lg:to-40% lg:from-[-15%]',
+                        'absolute w-dvw max-w-dwv left-0 top-0 z-10',
+                        'bg-gradient-to-b bg-cover bg-center bg-no-repeat',
+                        'from-blue md:from-[-10%] lg:from-[-15%]',
+                        'to-transparent to-60% lg:to-40%',
                     )}
                 />
                 <div
                     className={cn(
                         styles.fullHeightSection,
-                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw bg-cover bg-center bg-no-repeat',
-                        'bg-gradient-to-t from-blue to-transparent to-60% md:from-[-15%] md:to-30% lg:to-35% lg:from-[-15%]',
+                        'absolute w-dvw max-w-dwv left-0 top-0 z-10',
+                        'bg-gradient-to-t bg-cover bg-center bg-no-repeat',
+                        'from-blue md:from-[-15%] lg:from-[-15%]',
+                        'to-transparent to-60%  md:to-30% lg:to-35%',
                     )}
                 />
                 <div
                     className={cn(
                         styles.content,
-                        'relative z-20 flex h-full items-center justify-center bg-cover bg-center bg-no-repeat md:x-[max-w-[62rem],mx-auto]',
+                        'relative flex h-full z-20 items-center justify-center',
+                        'bg-cover bg-center bg-no-repeat',
+                        'md:x-[max-w-[62rem],mx-auto]',
                     )}
                 >
                     <div
@@ -76,36 +88,26 @@ const AboutPage: FC = () => {
                         <div>
                             <h2
                                 className={cn(
-                                    'mb-xl text-heading-3xl sm:x-[mb-xs,text-heading]',
-                                    'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]',
+                                    'mb-xs md:mb-n md:landscape:mb-xs lg:mb-xl',
+                                    'text-27 md:text-48 md:landscape:text-27 lg:text-64',
                                 )}
                             >
                                 Mission
                             </h2>
-                            <p
-                                className={cn(
-                                    'text-[2.5rem] leading-tight sm:text-[1.1875rem]',
-                                    'md:text-heading-l md:landscape:text-[1.1875rem]',
-                                )}
-                            >
+                            <p className={cn('leading-tight', 'text-18 md:text-36 md:landscape:text-18 lg:text-40')}>
                                 Revolutionize computing by harnessing the power of ternary microprocessors.
                             </p>
                         </div>
                         <div>
                             <h2
                                 className={cn(
-                                    'mb-xl text-heading-3xl sm:x-[mb-xs,text-heading]',
-                                    'md:text-[3rem] md:landscape:x-[text-heading,mb-xs]',
+                                    'mb-xs md:mb-n md:landscape:mb-xs lg:mb-xl',
+                                    'text-27 md:text-48 md:landscape:text-27 lg:text-64',
                                 )}
                             >
                                 Vision
                             </h2>
-                            <p
-                                className={cn(
-                                    'text-[2.5rem] leading-tight sm:text-[1.1875rem]',
-                                    'md:text-heading-l md:landscape:text-[1.1875rem]',
-                                )}
-                            >
+                            <p className={cn('leading-tight', 'text-18 md:text-36 md:landscape:text-18 lg:text-40')}>
                                 Ushering in the era of efficient computing, equipping all legacy devices with advanced
                                 microprocessors.
                             </p>
@@ -117,22 +119,23 @@ const AboutPage: FC = () => {
                 <div
                     className={cn(
                         styles.content,
-                        'flex w-full flex-col justify-between py-[7rem] sm:landscape:py-[1.875rem] md:landscape:py-[1.875rem]',
+                        'flex w-full flex-col justify-between py-[7rem]',
+                        'sm:landscape:py-n md:landscape:py-n',
                     )}
                 >
                     <div
                         style={{ backgroundImage: `url("${SVG_NATURE.src}")` }}
                         className={cn(
                             styles.fullHeightSection,
-                            'max-w-dwv absolute left-0 top-0 -z-10 w-dvw bg-cover bg-center bg-no-repeat',
+                            'absolute w-dvw max-w-dwv left-0 top-0 -z-10',
+                            'bg-cover bg-center bg-no-repeat',
                         )}
                     />
                     <h1
                         className={cn(
-                            `ml-auto w-min text-right font-bold leading-n text-black`,
-                            `mb-n text-heading-4xl`,
-                            `md:text-heading-3xl md:landscape:text-[3rem]`,
-                            `sm:x-[mb-xs,text-[3rem]]`,
+                            `w-min ml-auto text-right font-bold leading-n text-black`,
+                            `text-48 md:text-64 md:landscape:text-48 lg:text-96`,
+                            `sm:mb-xs mb-n`,
                         )}
                     >
                         Understand Our Why
@@ -141,7 +144,7 @@ const AboutPage: FC = () => {
                         <PageLink
                             href={Route.Credo}
                             className={
-                                'flex h-button-xl w-full max-w-[10.5rem] justify-center bg-white text-section-s text-black'
+                                'flex h-button-xl w-full max-w-[10.5rem] justify-center bg-white text-18 text-black'
                             }
                         >
                             Read Our Credo
@@ -161,21 +164,21 @@ const AboutPage: FC = () => {
                     <InfoSection
                         data={INFO}
                         className={cn('pt-[12rem] bg-transparent')}
-                        classNameTitle={'md:text-heading-l  sm:x-[text-[1.75rem],mb-xl]'}
-                        classNameSubTitle={'mb-4xs text-documentation  lg:text-[2.5rem]  sm:text-documentation'}
+                        classNameTitle={'sm:x-[text-30,mb-xl,leading-n]  md:text-36'}
+                        classNameSubTitle={'mb-4xs [&]:text-24 lg:[&]:text-32'}
                         classNameContent={'md:x-[max-w-[62rem],mx-auto]'}
-                        classNameDescription={'text-basic  lg:text-section'}
+                        classNameDescription={'[&]:leading-l text-16 lg:text-20'}
                         classNamePageLink={cn(
-                            'flex items-center justify-center rounded-none',
-                            'w-full max-w-[8.4375rem] h-button-xl mt-n [&]:p-0 ',
-                            '[&]:text-section-s  [&]:sm:text-basic',
-                            'md:mt-n',
-                            'sm:x-[mt-n,h-button-l,max-w-[7.3125rem],text-basic] ',
+                            'flex w-full [&]:p-0 items-center justify-center rounded-none',
+                            'text-16 md:text-18 lg:[&]:text-18',
+                            'sm:max-w-11xl max-w-[8.4375rem]',
+                            'sm:h-button-l h-button-xl',
+                            'mt-n md:mt-xl lg:mt-xxl',
                         )}
                     />
                     <InsideTernSection
                         data={'alt1'}
-                        className='bg-transparent'
+                        className={'bg-transparent'}
                     />
                 </div>
             </div>

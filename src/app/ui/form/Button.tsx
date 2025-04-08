@@ -75,18 +75,13 @@ const ButtonComponent = (props: Props, ref: ForwardedRef<HTMLButtonElement>) => 
         <button
             ref={ref}
             {...btnProps}
-            className={cn(
-                `group cursor-pointer text-nowrap rounded-full disabled:cursor-default`,
-                className,
-                styles.clickable,
-                {
-                    ['flex items-center justify-center']: Icon ?? HoverIcon,
-                    ['gap-x-5xs']: children && (Icon ?? HoverIcon),
-                },
-            )}
+            className={cn(`group cursor-pointer text-nowrap  disabled:cursor-default`, className, styles.clickable, {
+                ['flex items-center justify-center']: Icon ?? HoverIcon,
+                ['gap-x-5xs']: children && (Icon ?? HoverIcon),
+            })}
         >
-            {Icon}
-            {HoverIcon}
+            {Icon && <span className={cn(classNameIcon)}>{Icon}</span>}
+            {HoverIcon && <span className={cn(classNameIcon)}>{HoverIcon}</span>}
             {children ? (
                 <>
                     <span className={cn({ ['group-hover:hidden']: hover?.elem })}>{children}</span>
@@ -99,7 +94,6 @@ const ButtonComponent = (props: Props, ref: ForwardedRef<HTMLButtonElement>) => 
     );
 };
 
-const Button = forwardRef(ButtonComponent);
+ButtonComponent.displayName = 'Button';
 
-export type { Props as ButtonProps };
-export { Button };
+export const Button = forwardRef(ButtonComponent);

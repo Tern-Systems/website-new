@@ -99,7 +99,7 @@ const Select: FC<Props> = (props: Props) => {
                 `border-s border-white-d0 bg-white [&:not(:last-of-type)]:border-b-0`,
                 `overflow-ellipsis text-nowrap`,
                 classNameOption,
-                { ['!text-section-3xs']: EMPTY_KEY === key },
+                { ['!text-10']: EMPTY_KEY === key },
             )}
         >
             {value}
@@ -147,7 +147,7 @@ const Select: FC<Props> = (props: Props) => {
                     </span>
                     <ReactSVG
                         src={altIcon ? SVG_BULLET_LIST.src : SVG_CHEVRON.src}
-                        className={cn(`group ml-5xs h-auto w-xxs brightness-[85%]`, classNameChevron, {
+                        className={cn(`group ml-5xs h-auto brightness-[85%]`, classNameChevron, {
                             ['rotate-180']: !altIcon && expanded,
                         })}
                     />
@@ -167,5 +167,7 @@ const Select: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+Select.displayName = Select.name;
 
 export { Select };

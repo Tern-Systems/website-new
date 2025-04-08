@@ -17,6 +17,7 @@ import styles from '@/app/common.module.css';
 
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
 import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
+import { MainBackground } from '@/app/ui/atoms';
 
 type FormData = {
     isAllowedUpdate: boolean | undefined;
@@ -52,9 +53,9 @@ const RESOURCES: ResourceSectionData[] = [
 ];
 
 const INPUT_PROPS = {
-    classNameWrapper: 'flex-col [&]:items-start gap-4xs text-section-s',
+    classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
     classNameLabel: 'font-[400]   ',
-    className: cn('h-[3.125rem] w-full px-xxs ', 'bg-gray-d2 border-[.0313rem] border-gray-l0', 'text-primary'),
+    className: cn('h-6xl w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
 };
 
 const ContactsPage: FC = () => {
@@ -67,34 +68,30 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
-                <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        position: 'relative',
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
-                    }}
-                >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `w-min text-left leading-n`,
-                                    `mb-n text-heading-4xl`,
-                                    `lg:x-[w-full,mt-[6.25rem]]`,
-                                    `md:x-[mt-xl,text-heading-4xl]`,
-                                    `sm:x-[flex,mt-xs,text-[3.9375rem]]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
-                    </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
+            <section className={cn(styles.section, styles.fullHeightSection)}>
+                <div className='absolute inset-0 w-full h-full lg:pt-10 lg:pb-20'>
+                    <MainBackground
+                        url={OFFICE_GIRL_3}
+                        className='lg:bg-top'
+                    />
                 </div>
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start lg:to-40%')}>
+                    <div>
+                        <h1
+                            className={cn(
+                                `w-min text-left leading-n`,
+                                `mb-n text-96`,
+                                `lg:x-[w-full,mt-6xl-1]`,
+                                `md:x-[mt-xl,text-96]`,
+                                `sm:x-[flex,mt-xs,text-64]`,
+                            )}
+                        >
+                            Contact Tern
+                        </h1>
+                    </div>
+                </div>
+                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
+                <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
             </section>
 
             <div
@@ -105,17 +102,15 @@ const ContactsPage: FC = () => {
                         styles.content,
                         'relative z-10',
                         'flex flex-col lg:flex-row',
-                        'pb-[8.125rem] pt-[10.25rem]',
-                        'sm:pb-[4.375rem]',
-                        'md:pb-[6.875rem]',
-                        'gap-[3.75rem] md:gap-[6.25rem] lg:gap-[9.875rem]',
+                        'pb-6xl pt-7xl',
+                        'sm:pb-5xl',
+                        'md:pb-6xl-1',
+                        'gap-3xl md:gap-6xl-1 lg:gap-7xl',
                     )}
                 >
                     <div className={cn('lg:w-1/2 md:w-[65%]')}>
                         <div className={cn('')}>
-                            <h2 className={cn('mb-[6.25rem] text-left text-heading-xxl font-[500]', 'sm:mb-xl')}>
-                                Get in Touch
-                            </h2>
+                            <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
                             <form
                                 onSubmit={handleSubmit}
                                 className='relative z-10 [&_*]:tracking-wide'
@@ -181,9 +176,9 @@ const ContactsPage: FC = () => {
                                         type={'checkbox'}
                                         checked={formData.isAllowedUpdate}
                                         onChange={setFormValue('isAllowedUpdate')}
-                                        classNameLabel={'text-section-xxs leading-normal'}
+                                        classNameLabel={'text-12 leading-normal'}
                                         className={'border-gray-l0 bg-gray-d2'}
-                                        classNameCheckbox={'h-[.9375rem] w-[.9375rem] flex-shrink-0'}
+                                        classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
                                         classNameWrapper={'flex [&_div]:items-start'}
                                         isCustomCheckbox
                                     >
@@ -192,7 +187,7 @@ const ContactsPage: FC = () => {
                                     </Input>
                                     <Button
                                         type={'submit'}
-                                        className='border-control-gray-l0 max-w-[7.9375rem] border bg-black px-6 py-3 text-heading-s'
+                                        className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
                                     >
                                         Submit
                                     </Button>
@@ -218,13 +213,13 @@ const ContactsPage: FC = () => {
                         styles.content,
                         'relative z-10',
                         'grid grid-cols-1 gap-xl mb-3xl',
-                        'md:x-[mb-[6.25rem]]',
-                        'lg:x-[grid-cols-3,mb-[7.5rem]]',
+                        'md:x-[mb-6xl-1]',
+                        'lg:x-[grid-cols-3,mb-6xl]',
                     )}
                 >
                     <div className='grid gap-3xs  md:gap-s  lg:order-last'>
-                        <h3 className='font-thin text-section-xl sm:text-documentation'>Office</h3>
-                        <address className='not-italic leading-tight text-documentation sm:text-section-s'>
+                        <h3 className='font-thin text-32 sm:text-24'>Office</h3>
+                        <address className='not-italic leading-tight text-24 sm:text-18'>
                             1120 Avenue of the Americas
                             <br />
                             New York, New York
@@ -236,17 +231,17 @@ const ContactsPage: FC = () => {
                     </div>
 
                     <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
-                        <h3 className='font-thin text-section-xl sm:text-documentation'>Email</h3>
-                        <p className='text-documentation sm:text-section-s'>info@tern.ac</p>
+                        <h3 className='font-thin text-32 sm:text-24'>Email</h3>
+                        <p className='text-24 sm:text-18'>info@tern.ac</p>
                     </div>
 
                     <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
-                        <h3 className='font-thin text-section-xl sm:text-documentation'>Phone</h3>
-                        <p className='text-documentation sm:text-section-s'>(973) 590-8753</p>
+                        <h3 className='font-thin text-32 sm:text-24'>Phone</h3>
+                        <p className='text-24 sm:text-18'>(973) 590-8753</p>
                     </div>
                 </section>
 
-                <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-[6.25rem] lg:mb-[7.5rem]')}>
+                <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
                     <ResourceCard
                         type={'highlighted'}
                         icon={HIGHLIGHTED_CARD.icon}
@@ -261,9 +256,9 @@ const ContactsPage: FC = () => {
                             ),
                             image: '!size-full object-cover',
                             content: 'lg:pl-l  md:pl-l md:flex',
-                            title: 'text-[20px]  md:text-[24px]  lg:text-[27px]',
-                            children: 'text-[12px]  sm:text-[10px]',
-                            link: 'text-primary text-[12px] [&]:py-4xs md:x-[text-[14px],mt-auto,!py-4xs]  lg:x-[text-[18px],!py-xxs]',
+                            title: 'text-20  md:text-24  lg:text-27',
+                            children: 'text-12  sm:text-10',
+                            link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]',
                         }}
                     >
                         {HIGHLIGHTED_CARD.description}
@@ -273,7 +268,7 @@ const ContactsPage: FC = () => {
                 <section className='relative z-10'>
                     <ResourcesSection
                         data={RESOURCES}
-                        className={'mb-[22.125rem] mt-[6.25rem]'}
+                        className={'mb-[22.125rem] mt-6xl-1'}
                     />
                 </section>
 

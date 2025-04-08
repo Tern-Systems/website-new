@@ -77,7 +77,7 @@ const ProfilePage: FC = () => {
             )}
         >
             <div className={styles.content}>
-                <div className={`lg:flex  pt-xs md:pt-n lg:pt-[6.25rem]  justify-center lg:justify-between`}>
+                <div className={cn('lg:flex', 'pt-xs md:pt-n lg:pt-6xl-1', 'justify-center lg:justify-between')}>
                     <aside
                         className={cn(
                             `lg:sticky self-start text-nowrap text-left`,
@@ -88,9 +88,10 @@ const ProfilePage: FC = () => {
                         <SideNav
                             sectionIDs={SECTION_IDS}
                             sectionNames={SECTIONS}
+                            className={cn('w-full max-w-[62rem] place-self-center', 'mb-xxs md:mb-xs')}
                         />
                     </aside>
-                    <div className={cn(`relative flex flex-col gap-y-xxs  md:gap-y-xs  lg:gap-y-4xs`)}>
+                    <div className={cn(`relative flex flex-col`, `gap-y-xxs md:gap-y-xs lg:gap-y-4xs`)}>
                         <AccountSection
                             setEditId={setEditId}
                             editId={editId}

@@ -11,7 +11,7 @@
 }
 
 .activeNavLink:before {
-  @apply absolute left-5xs h-[2px] -bottom-[1px] bg-blue;
+  @apply absolute left-5xs h-[0.125rem] -bottom-[0.0625rem] bg-blue;
   content: "";
   width: calc(100% - 2 * var(--p-5xs));
 }

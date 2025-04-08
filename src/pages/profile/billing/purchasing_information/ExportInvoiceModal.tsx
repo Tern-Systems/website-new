@@ -53,7 +53,7 @@ const ExportInvoiceModal: FC = () => {
         >
             <form
                 onSubmit={handleFormSubmit}
-                className={'flex items-center gap-[2.04rem] text-gray'}
+                className={'flex items-center gap-l text-gray'}
             >
                 <Select
                     data-testid={TestID.rangeSelect}
@@ -72,7 +72,7 @@ const ExportInvoiceModal: FC = () => {
                 <Button
                     data-testid={TestID.exportButton}
                     className={
-                        'h-button-n mt-[min(6.5dvw,2.5rem)] border-s border-white-d0 px-[1rem] text-section-s font-bold'
+                        'h-button-n mt-[min(6.5dvw,2.5rem)] rounded-full border-s border-white-d0 px-xxs text-20 font-bold'
                     }
                     disabled={formData.timeRange < 0}
                 >

@@ -12,13 +12,13 @@ const DeclinedModal: FC = (props) => (
         {...props}
         simple
         title={'Payment Declined'}
-        className={`bottom-[7.19rem] right-l max-w-[19.3125rem] border-gray-l0 [&_hr]:border-gray-l0`}
-        classNameContent={'flex px-[1rem] gap-[0.69rem]'}
+        className={`bottom-[7.1875rem] right-l max-w-[19.3125rem] border-gray-l0 [&_hr]:border-gray-l0`}
+        classNameContent={'flex px-xxs gap-4xs'}
     >
         <Image
             src={SVG_DECLINED}
             alt={'declined'}
-            className={'mb-[1.76rem] h-auto w-[1.6875rem]'}
+            className={'mb-s h-auto w-s'}
         />
         <span>
             There was an issue processing your payment. Please review your card and billing information, or try an
@@ -26,5 +26,7 @@ const DeclinedModal: FC = (props) => (
         </span>
     </BaseModal>
 );
+
+DeclinedModal.displayName = DeclinedModal.name;
 
 export { DeclinedModal };

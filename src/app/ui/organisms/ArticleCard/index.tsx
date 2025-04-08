@@ -19,6 +19,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faReadme } from '@fortawesome/free-brands-svg-icons';
 
 type ArticleCardType = 'default' | 'expand' | 'alt' | 'alt-vertical';
+export type { ArticleCardType };
 
 interface Props {
     type?: ArticleCardType;
@@ -80,34 +81,34 @@ const ArticleCard: FC<Props> = (props: Props) => {
                 className={cn(
                     'relative z-10 flex flex-grow flex-col items-start p-xs',
                     {
-                        ['px-xs lg:px-xl  sm:pt-xs pt-n  pb-s lg:pb-[2.88rem]']: expand,
-                        ['pt-[2.2rem]']: !alt,
+                        ['px-xs lg:px-xl  sm:pt-xs pt-n  pb-s lg:pb-xxl']: expand,
+                        ['pt-xl']: !alt,
                     },
                     classNameContent,
                 )}
             >
                 {alt || hideTag || !isArticle ? null : (
-                    <span className={'mb-n block text-section-3xs text-secondary'}>
+                    <span className={'mb-n block text-10 text-secondary'}>
                         {article.tag ?? 'There will be a tag...'}
                     </span>
                 )}
                 <span
                     className={cn(
-                        'mb-[1.13rem] block leading-n',
-                        isArticle ? { ['text-section md:text-documentation lg:text-heading-l']: expand } : 'text-basic',
+                        'mb-xs block leading-n',
+                        isArticle ? { ['text-20 md:text-24 lg:text-36']: expand } : 'text-16',
                     )}
                 >
                     {article?.title ?? 'There will be a title...'}
                 </span>
                 {alt || !article ? null : (
-                    <span className={'mb-n block leading-n  sm:text-section-3xs text-section-xxs'}>
+                    <span className={'mb-n block leading-n  sm:text-10 text-12'}>
                         {article.description ?? 'There will be a description...'}
                     </span>
                 )}
                 <Button
                     icon={(altIcon ?? altLink) ? faArrowRight : faReadme}
                     className={cn('mt-auto capitalize text-blue', { ['flex-row-reverse']: altLink })}
-                    classNameIcon={cn('[&_*]:w-[0.67rem] [&_path]:fill-blue mt-auto', { ['ml-5xs']: altLink })}
+                    classNameIcon={cn('w-[0.67rem] [&_path]:fill-blue mt-auto', { ['ml-5xs']: altLink })}
                 >
                     {altLink ?? 'Read'}
                 </Button>
@@ -116,5 +117,6 @@ const ArticleCard: FC<Props> = (props: Props) => {
     );
 };
 
-export type { ArticleCardType };
+ArticleCard.displayName = ArticleCard.name;
+
 export { ArticleCard };

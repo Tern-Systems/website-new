@@ -31,22 +31,15 @@ const Tabs: FC<Props> = (props: Props) => {
         <section className={cn(className?.wrapper)}>
             <h3
                 className={cn(
-                    'mb-xs text-section-xl tracking-wide',
-                    'md:mb-n md:text-heading-xxl',
-                    'lg:mb-l lg:text-heading-3xl',
+                    'mb-xs text-32 tracking-wide',
+                    'md:mb-n md:text-48',
+                    'lg:mb-l lg:text-64',
                     className?.title,
                 )}
             >
                 {title}
             </h3>
-            <p
-                className={cn(
-                    'mb-n text-section ',
-                    'md:mb-xl md:text-heading',
-                    'lg:mb-4xl lg:text-section-xl',
-                    className?.description,
-                )}
-            >
+            <p className={cn('mb-n text-20 ', 'md:mb-xl md:text-27', 'lg:mb-4xl lg:text-32', className?.description)}>
                 {description}
             </p>
             <div className={cn('relative mb-4xs', className?.tabContainer)}>
@@ -56,14 +49,14 @@ const Tabs: FC<Props> = (props: Props) => {
                             key={index}
                             onClick={() => setActiveTab(index)}
                             className={cn(
-                                'relative px-[.4375rem] py-4xs text-basic font-bold',
+                                'relative px-4xs-1 py-4xs text-16 font-bold',
                                 className?.tabButton,
                                 activeTab === index && cn(className?.activeTab),
                             )}
                         >
                             {tab.name}
                             {activeTab === index && (
-                                <div className='absolute bottom-0 left-0 w-full h-[.0625rem] bg-[#178AB7] z-10' />
+                                <div className='absolute bottom-0 left-0 w-full h-[0.0625rem] bg-blue z-10' />
                             )}
                         </button>
                     ))}

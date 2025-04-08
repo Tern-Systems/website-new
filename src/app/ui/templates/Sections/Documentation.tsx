@@ -134,7 +134,7 @@ const DocumentationSection: FC<Props> = (props: Props) => {
     const MenuBtn = pipMode ? null : (
         <Button
             onClick={() => toggleMenuOpen()}
-            className={`h-button-l min-w-button-l rounded-xs border-n border-white p-[0.2rem]`}
+            className={`h-button-l min-w-button-l rounded-xs border-n border-white p-6xs`}
         >
             <div className={`box-border h-full rounded-s-[0.125rem] bg-white ${menuOpened ? 'w-[10%]' : 'w-[40%]'}`} />
         </Button>
@@ -145,7 +145,7 @@ const DocumentationSection: FC<Props> = (props: Props) => {
             <>
                 <Button
                     onClick={() => layoutCtx.toggleFullscreen()}
-                    className={'size-[1.81rem]'}
+                    className={'size-n'}
                 >
                     <FontAwesomeIcon icon={faExpand} />
                 </Button>
@@ -164,11 +164,8 @@ const DocumentationSection: FC<Props> = (props: Props) => {
                 layoutCtx.isNoLayout
                     ? 'absolute inset-0'
                     : cn({
-                          [cn(
-                              'mb-[6.28rem] md:mb-[7.84rem] lg:mb-[9.46rem]',
-                              'mt-xxl md:mt-3xl lg:mt-4xl',
-                              'h-[75dvh]',
-                          )]: !pipModeChild,
+                          [cn('mb-6xl-1 md:mb-6xl lg:mb-7xl', 'mt-xxl md:mt-3xl lg:mt-4xl', 'h-[75dvh]')]:
+                              !pipModeChild,
                       }),
             )}
         >
@@ -181,12 +178,12 @@ const DocumentationSection: FC<Props> = (props: Props) => {
                     { ['h-screen']: menuOpened && pipModeChild },
                 )}
             >
-                <div className={`flex h-[2rem] items-center`}>
+                <div className={`flex h-l items-center`}>
                     {MenuBtn}
-                    {menuOpened ? <span className={`ml-3xs text-nowrap text-section-s`}>Table of Contents</span> : null}
+                    {menuOpened ? <span className={`ml-3xs text-nowrap text-18`}>Table of Contents</span> : null}
                 </div>
                 {menuOpened ? (
-                    <div className={cn(`h-[calc(100%-2rem)] pt-s text-section-s  sm:mt-0`)}>
+                    <div className={cn(`h-[calc(100%-2rem)] pt-s text-18  sm:mt-0`)}>
                         <ul className={'flex flex-col h-full overflow-y-scroll  gap-y-4xs sm:gap-y-5xs'}>
                             {renderAnchorList(content?.anchors, content?.isChapter)}
                         </ul>
@@ -201,9 +198,9 @@ const DocumentationSection: FC<Props> = (props: Props) => {
                         `size-full sm:h-[calc(100%-2rem-2*var(--p-4xs))]`,
                     )}
                 >
-                    <div className={`size-full select-text overflow-y-scroll text-documentation leading-l`}>
+                    <div className={`size-full select-text overflow-y-scroll text-24 leading-l`}>
                         {pipMode ? (
-                            <span className={'block size-full content-center text-center text-heading-l'}>
+                            <span className={'block size-full content-center text-center text-36'}>
                                 Picture in picture mode
                             </span>
                         ) : (
@@ -231,4 +228,5 @@ const DocumentationSection: FC<Props> = (props: Props) => {
     );
 };
 
+DocumentationSection.displayName = DocumentationSection.name;
 export { DocumentationSection };

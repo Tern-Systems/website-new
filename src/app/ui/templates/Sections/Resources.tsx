@@ -40,17 +40,19 @@ const ResourcesSection: FC<Props> = (props: Props) => {
             {entry.Node}
             <ReactSVG
                 src={SVG_ARROW_LONG.src}
-                className={'[&_*]:w-[1.41rem] [&_path]:fill-blue'}
+                className={'w-xxs [&_path]:fill-blue'}
             />
         </li>
     ));
 
     return (
-        <section className={cn(styles.content, className, 'text-section-xs')}>
+        <section className={cn(styles.content, className, 'text-14')}>
             <p className={'pl-n font-bold'}>{children ?? 'Additional resources'}</p>
             <ul className={'mt-xxs border-t-s border-white-d0  [&>li]:x-[px-n,py-xs,text-blue]'}>{ResourcesLi}</ul>
         </section>
     );
 };
+
+ResourcesSection.displayName = ResourcesSection.name;
 
 export { ResourcesSection };

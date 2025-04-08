@@ -97,11 +97,11 @@ const InsideTernSection: FC<Props> = (props: Props) => {
     const CompanyLi: ReactElement[] = DATA[data ?? 'default'].map((entry, idx) => (
         <li
             key={entry.title + idx}
-            className={'flex w-full flex-col gap-y-3xs text-left'}
+            className={'flex w-full flex-col gap-0 text-left'}
         >
-            <h4 className={'text-[0.9375rem] sm:text-section-3xs'}>{entry.title}</h4>
-            <p className={'mt-xxs'}>{entry.description}</p>
-            <div className={'relative mt-3xs h-full w-full justify-end'}>
+            <h4 className={'sm:text-14 text-16'}>{entry.title}</h4>
+            <p className={'mt-xs sm:text-18 text-20'}>{entry.description}</p>
+            <div className={'relative mt-xxs h-full w-full justify-end'}>
                 <div className={'absolute inset-0 hidden  md:block'} />
                 <Image
                     src={entry.icon}
@@ -112,7 +112,7 @@ const InsideTernSection: FC<Props> = (props: Props) => {
             <Button
                 icon={entry.btnIcon}
                 onClick={() => window.open(entry.href, '_blank')}
-                className={'mt-s flex-row-reverse !gap-x-4xs self-start text-blue'}
+                className={'mt-s flex-row-reverse !gap-x-4xs self-start text-blue sm:text-18 text-20'}
             >
                 {entry.action}
             </Button>
@@ -124,23 +124,22 @@ const InsideTernSection: FC<Props> = (props: Props) => {
             <div
                 className={cn(
                     styles.content,
-                    'text-section  pt-[6.25rem] md:pt-[5rem]  pb-xxl lg:pb-[9.44rem]  sm:max-w-card',
+                    'text-20',
+                    'sm:w-full sm:max-w-[37.5rem]',
+                    'md:w-[80dvw] md:max-w-[50rem] md:ml-0',
+                    'pt-6xl-1 md:pt-5xl  pb-xxl lg:pb-7xl ',
                     classNameContent,
                 )}
             >
-                <h2 className={'text-left text-heading-xl font-bold '}>Inside Tern</h2>
-                <ul
-                    className={cn(
-                        'mt-[3.75rem] grid grid-cols-1 gap-xxl',
-                        'lg:x-[grid-cols-2,gap-3xl]',
-                        classNameCompanyLi,
-                    )}
-                >
+                <h2 className={'text-left text-40 font-bold '}>Inside Tern</h2>
+                <ul className={cn('mt-3xl grid grid-cols-1 gap-xxl', 'lg:x-[grid-cols-2,gap-3xl]', classNameCompanyLi)}>
                     {CompanyLi}
                 </ul>
             </div>
         </section>
     );
 };
+
+InsideTernSection.displayName = InsideTernSection.name;
 
 export { InsideTernSection };

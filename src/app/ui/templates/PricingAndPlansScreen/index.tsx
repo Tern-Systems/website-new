@@ -110,12 +110,12 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         const Benefits: ReactElement[] = benefitsData.map((benefit, subIndex) => (
             <li
                 key={type + subIndex}
-                className={'flex items-start gap-x-4xs whitespace-pre-wrap leading-[120%]'}
+                className={'flex items-center gap-x-4xs whitespace-pre-wrap'}
             >
                 <Image
                     src={benefitsIcon}
                     alt={'list-icon'}
-                    className={'inline [&]:size-[1rem]'}
+                    className={'inline [&]:size-5xs'}
                 />
                 <span data-testid={TestID.card.benefit}>{benefit}</span>
             </li>
@@ -212,26 +212,26 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 <h2
                     className={cn(
                         `flex items-center font-bold capitalize`,
-                        `mb-4xs text-heading-s`,
-                        `lg:x-[mb-xxs,text-heading]`,
-                        `md:text-heading`,
+                        `mb-4xs text-21`,
+                        `lg:x-[mb-xxs,text-27]`,
+                        `md:text-27`,
                     )}
                 >
                     <Image
                         src={idx ? SVG_DIAMOND : SVG_DIAMOND_ACE}
                         alt={type + ' icon'}
-                        className={`mr-5xs h-auto w-[1.375rem] sm:w-[0.9375rem]`}
+                        className={`mr-5xs h-auto w-xxs sm:w-5xs`}
                     />
                     <span data-testid={TestID.card.name}>{type}</span>
                 </h2>
                 <div
                     className={cn(
                         'text-secondary',
-                        'text-section',
-                        'lg:mb-[2.2rem]',
+                        'text-20',
+                        'lg:mb-xl',
                         'md:mb-n',
                         'sm:mb-4xs',
-                        'sm:landscape:text-section-s',
+                        'sm:landscape:text-18',
                     )}
                 >
                     <span data-testid={TestID.card.price}>{pricing + (annualPlan ? '*' : '')}</span>
@@ -240,9 +240,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     data-testid={TestID.card.subscribeButton}
                     onClick={() => handleSubscribeClick(type)}
                     className={cn(
-                        `w-full rounded-full bg-blue text-section-s font-bold`,
-                        `py-[1.12rem]`,
-                        `sm:x-[py-xxs,text-basic]`,
+                        `w-full rounded-full bg-blue text-18 font-bold`,
+                        `py-xs`,
+                        `sm:x-[py-xxs,text-16]`,
                         `disabled:x-[bg-inherit,border-s,border-gray-l0,text-secondary]`,
                     )}
                     disabled={buttonDisabled}
@@ -267,25 +267,14 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                     `md:landscape:h-[35.5rem]`,
                     `sm:x-[p-xxs,border-none]`,
                 )}
-                classNameIcon={'[&]:w-[0.8125rem]  md:right-s md:top-[calc(var(--p-s)+0.5*var(--fz-heading))]'}
+                classNameIcon={'[&]:w-6xs  md:right-s md:top-[calc(var(--p-s)+0.5*var(--fz-heading))]'}
                 className={'flex h-full flex-col'}
             >
                 {CollapsedContentSm}
-                <ul
-                    className={cn(
-                        `mt-[1.57rem] flex flex-col items-start gap-y-[1.57rem]`,
-                        `text-basic`,
-                        `sm:x-[gap-xxs,text-section-xs]`,
-                    )}
-                >
+                <ul className={cn(`mt-s flex flex-col items-start gap-y-s`, `text-16`, `sm:x-[gap-xxs,text-14]`)}>
                     {Benefits}
                 </ul>
-                <div
-                    className={cn(
-                        `mt-auto flex flex-grow flex-col text-section-xxs text-secondary`,
-                        `sm:landscape:text-section-3xs`,
-                    )}
-                >
+                <div className={cn(`mt-auto flex flex-grow flex-col text-12 text-secondary`, `sm:landscape:text-10`)}>
                     <span className={'mt-auto flex flex-col gap-y-5xs'}>{Links}</span>
                 </div>
             </Collapsible>
@@ -328,7 +317,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             key={entry.recurrency + idx}
             onClick={() => setRecurrency(entry.recurrency)}
             className={cn(
-                `cursor-pointer rounded-full px-[1.3rem] py-[0.7rem] font-bold capitalize`,
+                `cursor-pointer rounded-full px-xs py-3xs font-bold capitalize`,
                 recurrency === entry.recurrency ? 'bg-gray-l0' : 'text-secondary',
             )}
         >
@@ -337,31 +326,23 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <div
-            className={cn(
-                `flex h-full flex-col`,
-                `md:pb-l`,
-                `sm:px-xs`,
-                `sm:portrait:pb-xxl`,
-                `sm:landscape:mt-[1.81rem]`,
-            )}
-        >
+        <div className={cn(`flex h-full flex-col`, `md:pb-l`, `sm:px-xs`, `sm:portrait:pb-xxl`, `sm:landscape:mt-n`)}>
             <div
                 className={cn(
                     'flex items-end justify-center',
                     `lg:x-[mb-n,h-[11rem]]`,
                     `md:pb-xxs`,
-                    `md:min-h-[6.75rem]`,
+                    `md:min-h-10xl`,
                     `sm:pb-xxs`,
-                    `sm:portrait:h-[6.75rem]`,
+                    `sm:portrait:h-10xl`,
                 )}
             >
-                <div className={cn(`flex h-fit w-fit rounded-full border-s p-[0.2rem] text-section-xs`)}>{Switch}</div>
+                <div className={cn(`flex h-fit w-fit rounded-full border-s p-6xs text-14`)}>{Switch}</div>
             </div>
             <div
                 className={cn(
                     'grid w-full auto-rows-min justify-center self-center overflow-scroll',
-                    'lg:gap-x-[4.13rem]',
+                    'lg:gap-x-3xl',
                     'lg:h-[calc(100%-2.5rem)] lg:flex',
                     'md:portrait:h-[calc(100%-6.75rem)] md:portrait:grid-cols-[minmax(0,24rem)] md:landscape:grid-cols-[repeat(2,minmax(0,24rem))]',
                     'md:gap-xxs',
@@ -375,5 +356,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+PricingAndPlansScreen.displayName = PricingAndPlansScreen.name;
 
 export { PricingAndPlansScreen };

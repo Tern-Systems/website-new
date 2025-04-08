@@ -104,20 +104,20 @@ function HomePage() {
             </div>
             <div
                 className={cn(
-                    'flex flex-grow flex-col items-center justify-between p-s pt-n leading-n',
+                    'flex flex-grow flex-col items-center justify-between p-xs pt-n leading-n',
                     'pb-xl',
                     'sm:pb-n',
                 )}
             >
-                <h4 className={cn('text-heading font-bold')}>{card.title}</h4>
+                <h4 className={cn('sm:text-24 text-27 font-bold')}>{card.title}</h4>
                 <p className={'mt-n'}>{card.info}</p>
                 <PageLink
                     href={card.link.href}
                     isExternal={card.link.href.startsWith('https://')}
                     className={cn(
                         'mt-xs  h-button-xl w-fit text-nowrap border-s border-gray-l0 px-xs text-blue',
-                        'text-section-s',
-                        'md:text-basic',
+                        'text-18',
+                        'md:text-16',
                         'sm:mt-xl',
                     )}
                 >
@@ -140,16 +140,16 @@ function HomePage() {
                             <h1
                                 className={cn(
                                     `text-center leading-n`,
-                                    `mb-n text-heading-3xl`,
-                                    `md:text-[2.8125rem]`,
-                                    `sm:x-[mb-xs,text-heading-l]`,
+                                    `mb-n text-64`,
+                                    `md:text-48`,
+                                    `sm:x-[mb-xs,text-36]`,
                                 )}
                             >
                                 We Design Advanced Semiconductors
                             </h1>
                             <p
                                 className={
-                                    'flex flex-wrap justify-center gap-s text-nowrap text-basic lg:x-[gap-x-xl,text-heading-s]'
+                                    'flex flex-wrap justify-center gap-s text-nowrap text-16 lg:x-[gap-x-xl,text-21]'
                                 }
                             >
                                 <PageLink
@@ -174,15 +174,16 @@ function HomePage() {
                     <div
                         className={cn(
                             styles.content,
-                            'flex flex-col gap-y-[3.75rem] pt-[5rem]',
-                            'sm:x-[gap-y-xl,pt-xl]',
+                            'flex flex-col',
+                            'sm:pt-xl pt-5xl',
+                            'pb-7xl md:pb-[16rem] lg:pb-[20rem]',
                         )}
                     >
                         <h2
                             className={cn(
-                                'text-center text-heading-xl font-bold',
-                                'text-[3.1875rem] leading-xl',
-                                'sm:x-[text-[1.5625rem],leading-l]',
+                                'text-center font-[500]',
+                                'sm:leading-l leading-relaxed',
+                                'text-24 md:text-48 lg:text-48',
                             )}
                         >
                             <span>There’s Always a Better Way</span>
@@ -199,38 +200,37 @@ function HomePage() {
                         >
                             {CardsLi}
                         </Carousel>
-                        <p
-                            className={cn(
-                                'mt-auto w-[82%] text-left font-bold leading-n',
-                                'text-section-xl',
-                                'md:text-[1.5rem]',
-                                'sm:x-[mt-[10.5rem],text-section]',
-                            )}
-                        >
-                            Amidst the most demanding era of computational energy in history, we are reminded,
-                        </p>
                     </div>
                 </section>
                 <section
                     className={cn(
                         styles.section,
                         'from-green bg-gradient-to-t via-[#0a313a] to-transparent',
-                        'pb-[28rem]',
-                        'md:pb-[23rem]',
+                        'pb-[19rem] md:pb-[21rem] lg:pb-[24rem]',
                     )}
                 >
                     <div className={styles.content}>
+                        <p
+                            className={cn(
+                                'text-left font-bold leading-n',
+                                'text-20 md:text-24 lg:text-32',
+                                'sm:mt-[10.5rem] mt-auto',
+                                'sm:w-full w-[82%]',
+                            )}
+                        >
+                            Amidst the most demanding era of computational energy in history, we are reminded,
+                        </p>
                         <h2
                             className={cn(
-                                'my-[3.75rem] text-center font-arial font-bold italic',
-                                'text-[5rem]',
-                                'md:text-[4.5rem]',
-                                'sm:text-[1.9375rem]',
+                                'my-3xl text-center font-arial font-bold italic',
+                                'text-80',
+                                'md:text-64',
+                                'sm:text-30',
                             )}
                         >
                             the world is not binary
                         </h2>
-                        <p className={'text-right text-section-xl font-bold sm:text-[1.25rem] md:text-[1.5rem]'}>
+                        <p className={'text-right text-32 font-bold sm:text-20 md:text-24'}>
                             and neither is the future.
                         </p>
                     </div>
@@ -238,6 +238,7 @@ function HomePage() {
                 <InfoSection
                     blur
                     data={INFO}
+                    classNameContent='mb-[15rem]'
                 />
                 <InsideTernSection className={'!bg-transparent'} />
             </div>

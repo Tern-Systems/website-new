@@ -37,39 +37,25 @@ const InfoSection: FC<Props> = (props: Props) => {
     return (
         <section className={cn(styles.section, className)}>
             <div
-                className={cn(styles.content, 'mb-[12.25rem] pt-[3.5rem] ', classNameContent, {
+                className={cn(styles.content, 'mb-[12.25rem] pt-3xl ', classNameContent, {
                     [styles.contentGradientBlue]: blur,
                 })}
             >
-                <h2
-                    className={cn(
-                        'mb-[4.62rem] text-center font-bold',
-                        'text-[1.75rem]',
-                        'lg:text-[2.5rem]',
-                        classNameTitle,
-                    )}
-                >
-                    {title}
-                </h2>
+                <h2 className={cn('mb-5xl text-center font-bold', 'text-30', 'lg:text-40', classNameTitle)}>{title}</h2>
                 <div className={'flex items-center justify-between sm:x-[gap-y-xxl,flex-col-reverse]'}>
                     <span className={'w-[40%] text-left sm:x-[w-full,text-center]'}>
-                        <span
-                            className={cn(
-                                'mb-4xs block text-section-xl sm:text-section-xs md:text-[1.5rem]',
-                                classNameSubTitle,
-                            )}
-                        >
+                        <span className={cn('mb-4xs block text-32 sm:text-14 md:text-24', classNameSubTitle)}>
                             {subTitle}
                         </span>
-                        <span className={cn('block text-[0.9375rem] leading-n lg:text-section', classNameDescription)}>
+                        <span className={cn('block text-16 leading-n lg:text-20', classNameDescription)}>
                             {description}
                         </span>
                         <PageLink
                             href={link}
                             className={cn(
                                 'bg-blue px-n',
-                                'mt-xl h-button-l text-basic',
-                                'lg:x-[h-button-xl,text-heading-s]',
+                                'mt-xl h-button-l text-16',
+                                'lg:x-[h-button-xl,text-21]',
                                 'sm:mt-s',
                                 classNamePageLink,
                             )}
@@ -87,5 +73,7 @@ const InfoSection: FC<Props> = (props: Props) => {
         </section>
     );
 };
+
+InfoSection.displayName = InfoSection.name;
 
 export { InfoSection };

@@ -70,38 +70,37 @@ const SideNav: FC<Props> = (props: Props) => {
     return (
         <div className={cn(className, 'h-fit')}>
             <div className={'hidden lg:block  relative'}>
-                <ul className={`flex flex-col gap-y-l text-section-xs`}>{SectionsNavLi}</ul>
+                <ul className={`flex flex-col gap-y-l text-14`}>{SectionsNavLi}</ul>
             </div>
             {sideOnly ? null : (
                 <Select
                     altIcon
                     options={Object.fromEntries(
-                        sectionIDs.map((_, idx) => [sectionIDs[idx], sectionNames?.[idx] ?? sectionIDs?.[idx]]),
+                        sectionIDs
+                            .filter((id): id is string => id !== undefined)
+                            .map((id) => [id, sectionNames?.[id] ?? id]),
                     )}
                     value={activeSection}
                     placeholder={'Select'}
-                    onChangeCustom={(id) => {
+                    onChangeCustom={(id: string) => {
                         setActiveSection(id);
                         document.querySelector('#' + id)?.scrollIntoView({ behavior: 'smooth' });
                     }}
                     classNameWrapper={cn(
                         `lg:hidden  w-full mb-4xs`,
-                        `flex-col gap-y-xxs text-section-s`,
+                        `flex-col gap-y-xxs text-18`,
                         `border-b [&]:border-gray-l0`,
                     )}
                     classNameLabel={'mr-auto'}
                     classNameSelected={'w-full '}
                     classNameChevron={'ml-auto'}
-                    className={cn(
-                        `!border-0 !bg-gray-d2 [&]:h-[2.7681rem]  md:h-[3.3875rem]  sm:h-button-xl`,
-                        `px-xxs  md:px-xs `,
-                    )}
+                    className={cn(`!border-0 !bg-gray-d2 [&]:h-4xl  md:h-7xl  sm:h-button-xl`, `px-xxs  md:px-xs `)}
                     classNameUl={`border border-gray-l0`}
                     classNameOption={cn(
-                        `h-[3.1375rem] sm:h-button-xl`,
+                        `h-6xl sm:h-button-xl`,
                         `[&]:x-[bg-gray,border-transparent,py-4xs]`,
-                        `hover:bg-[#979797]`,
-                        `text-section-s  md:text-section`,
+                        `hover:bg-gray-l2`,
+                        `text-18  md:text-20`,
                         `px-xxs  md:px-xs`,
                     )}
                 />
@@ -109,5 +108,7 @@ const SideNav: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+SideNav.displayName = SideNav.name;
 
 export { SideNav };

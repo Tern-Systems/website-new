@@ -149,7 +149,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                 className={'w-fit'}
             >
                 <ul className={'flex flex-col gap-y-xs'}>
-                    <li className={'text-section-s font-bold capitalize'}>{section.title}</li>
+                    <li className={'text-18 font-bold capitalize'}>{section.title}</li>
                     {LinksLi}
                 </ul>
             </li>
@@ -164,7 +164,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     ].map((link, idx) => (
         <li
             key={link.href + idx}
-            className={`size-[2.5rem] ${styles.clickable}`}
+            className={`size-3xl ${styles.clickable}`}
         >
             <a
                 href={link.href}
@@ -206,8 +206,8 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                     className={cn(
                         styles.content,
                         `pt-xxl pb-n leading-none tracking-wide`,
-                        `xs:x-[flex,flex-col,gap-y-[6.25rem]]`,
-                        `sm:x-[flex,flex-col,gap-y-[6.25rem]]`,
+                        `xs:x-[flex,flex-col,gap-y-6xl-1]`,
+                        `sm:x-[flex,flex-col,gap-y-6xl-1]`,
                     )}
                 >
                     <div
@@ -217,7 +217,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                             `sm:x-[flex,flex-col,gap-y-xxl]`,
                         )}
                     >
-                        <Insignia className={'[&&_*]:!h-[2.125rem] self-start'} />
+                        <Insignia className={'[&&_*]:!h-xl self-start'} />
                         <ul
                             className={cn(
                                 'flex w-full  md:justify-items-end  lg:justify-items-end',
@@ -231,14 +231,14 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                     </div>
                     <div
                         className={cn(
-                            'col-span-2 flex w-full items-center justify-between  md:mt-[10.9375rem]  lg:mt-[10rem] ',
+                            'col-span-2 flex w-full items-center justify-between  md:mt-[10.9375rem]  lg:mt-7xl ',
                             `xs:x-[flex,flex-col-reverse,gap-y-xxl,mt-0,items-start]`,
                         )}
                     >
                         <p className={'leading-n  xs:self-start  sm:self-end  md:self-end  lg:self-end'}>
                             Copyright © 2025 Tern Inc.{' '}
                         </p>
-                        <ul className={cn('col-span-3 flex flex-wrap gap-3xs')}>{ContactLinks}</ul>
+                        <ul className={cn('flex flex-wrap gap-3xs col-span-3')}>{ContactLinks}</ul>
                     </div>
                 </div>
             </footer>
@@ -250,7 +250,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     ) : (
         <div
             ref={ref}
-            className={`flex min-h-full flex-grow select-none flex-col justify-between`}
+            className={`flex min-h-full flex-grow flex-col select-none justify-between`}
         >
             {Layout}
         </div>

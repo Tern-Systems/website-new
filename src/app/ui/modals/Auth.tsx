@@ -19,7 +19,7 @@ import SVG_INSIGNIA from '@/assets/images/insignia-logo.png';
 
 const TestID = DataTestID.modal.auth;
 
-const INPUT_CN = `h-button-l w-full px-[0.73rem] bg-gray-l0 border-s b-control4 rounded-xs
+const INPUT_CN = `h-button-l w-full px-3xs bg-gray-l0 border-s b-control4 rounded-xs
                     sm:text-primary placeholder:sm:text-primary`;
 
 type FormData = {
@@ -47,6 +47,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
     const [login, setLoginFormState] = useState(!registration);
     const [message, setMessage] = useState<string | null>(null);
     const [formValue, setFormValue] = useForm<FormData>(FORM_DEFAULT);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setMessage(null);
@@ -54,11 +55,14 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setIsLoading(true);
+
         try {
             if (login) {
                 const { payload } = await AuthService.postLogin(formValue.email, formValue.password);
                 await userCtx.setupSession(true, payload.token);
                 modalCtx.closeModal();
+                flowCtx.next()?.();
             } else if (!REGEX.email.getRegex().test(formValue.email))
                 setMessage(`Entered email doesn't match the email format`);
             else if (!REGEX.password.getRegex().test(formValue.password)) {
@@ -68,12 +72,15 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 const { message } = await AuthService.postSignup(formValue.email, formValue.password);
                 modalCtx.openModal(<MessageModal data-testid={TestID.successModal}>{message}</MessageModal>);
             }
+
             const next = flowCtx.next();
 
             if (next) next();
             else setLoginFormState(true);
         } catch (error: unknown) {
             if (typeof error === 'string') setMessage(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -84,10 +91,10 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
             preventClose={preventClose}
             title={login ? 'Login to Tern Account' : 'Create Tern Account'}
             onClose={() => onClose?.()}
-            classNameTitle={'justify-self-start text-heading   sm:[&]:mb-xs   sm:landscape:ml-0 '}
+            classNameTitle={'justify-self-start text-27   sm:[&]:mb-xs   sm:landscape:ml-0 '}
             className={'sm:bg-white'}
             classNameContent={cn(
-                'w-[30rem] items-start mx-auto place-items-center text-basic',
+                'w-[30rem] items-start mx-auto place-items-center text-16',
                 '[&]:overflow-y-visible',
                 'sm:[&]:x-[px-xs,py-n,w-full,overflow-y-scroll]',
                 'sm:landscape:x-[max-w-[73rem],px-xxl]',
@@ -102,7 +109,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             alt={'insignia'}
                             className={`my-xs h-[9rem] w-[10rem]`}
                         />
-                        {login ? null : <span className={' text-heading'}>Tern</span>}
+                        {login ? null : <span className={' text-27'}>Tern</span>}
                     </div>
                 </div>
                 <form
@@ -170,16 +177,18 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                         <Button
                             data-testid={TestID.form.submitButton}
                             type={'submit'}
+                            disabled={isLoading}
                             className={cn(
                                 `border-control mt-s w-[60%] place-self-center rounded-full border-s py-xxs`,
-                                `text-section-s font-bold`,
+                                `text-18 font-bold`,
                                 `sm:w-[90%]`,
+                                isLoading ? 'opacity-70 cursor-not-allowed' : '',
                                 login
                                     ? 'bg-white text-gray sm:x-[bg-blue,text-primary] sm:landscape:mt-auto'
                                     : 'sm:x-[border-b-s,border-blue] sm:landscape:mt-xl',
                             )}
                         >
-                            {!login ? 'Sign Up' : 'Login'}
+                            {isLoading ? (login ? 'Logging in...' : 'Signing up...') : !login ? 'Sign Up' : 'Login'}
                         </Button>
                         <div className={'mt-s text-center'}>
                             <span>
@@ -198,5 +207,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         </BaseModal>
     );
 };
+
+AuthModal.displayName = AuthModal.name;
 
 export { AuthModal };

@@ -7,7 +7,7 @@ import { useModal } from '@/app/hooks';
 import { BaseModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 
-const BTN_CN = 'h-h-button-n px-xxs rounded-full';
+const BTN_CN = 'h-button-n px-xxs rounded-full';
 
 interface Props {
     onSave: () => Promise<void>;
@@ -27,7 +27,7 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
             className={`w-[min(90dvw,30rem)] border-s border-white text-center sm:landscape:w-[50dvw]`}
         >
             <span>Do you want to save your changes before returning to the previous page?</span>
-            <span className={'mt-xs flex justify-center gap-[min(1.1dvw,0.625rem)] text-section font-bold'}>
+            <span className={'mt-xs flex justify-center gap-[min(1.1dvw,0.625rem)] text-16 font-bold'}>
                 <Button
                     className={`bg-white text-gray ${BTN_CN}`}
                     onClick={async () => {
@@ -59,5 +59,7 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
         </BaseModal>
     );
 };
+
+SaveChangesModal.displayName = SaveChangesModal.name;
 
 export { SaveChangesModal };

@@ -20,6 +20,7 @@ import SVG_PLUS from '@/assets/images/icons/plus.svg';
 import styles from '@/app/common.module.css';
 
 type Icon = 'back' | 'forward' | 'arrow-right-long' | 'insignia' | 'plus' | 'calendar';
+export type { Icon as LinkIcon };
 
 const ICON: Record<Icon, { src: string }> = {
     back: SVG_ARROW,
@@ -58,7 +59,7 @@ const PageLink: FC<Props> = (props: Props) => {
     const Icon: ReactElement | null = icon ? (
         <ReactSVG
             src={ICON[icon].src}
-            className={cn(`inline-block size-[1rem]`, { ['rotate-180']: icon === 'forward' }, iconClassName)}
+            className={cn(`inline-block !size-5xs`, { ['rotate-180']: icon === 'forward' }, iconClassName)}
         />
     ) : null;
 
@@ -77,4 +78,7 @@ const PageLink: FC<Props> = (props: Props) => {
         </Link>
     );
 };
+
+PageLink.displayName = 'PageLink';
+
 export { PageLink };

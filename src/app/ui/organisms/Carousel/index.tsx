@@ -19,8 +19,8 @@ enum CardsPerPage {
 }
 
 const getAltSpinnerBtnCn = (alt?: true) =>
-    cn('border-s   border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-[1.375rem] sm:p-[0.4375rem]', {
-        ['md:p-[0.6875rem]']: alt,
+    cn('border-s   border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-xs sm:p-4xs-1', {
+        ['md:p-4xs']: alt,
     });
 
 interface Props extends PropsWithChildren {
@@ -67,7 +67,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         carouselRef.current.scrollLeft + (right ? 0.5 : -0.5) * window.outerWidth;
             }}
             className={cn(
-                'absolute top-1/2 z-50 !-translate-y-1/2 [&_*]:size-[2.875rem]',
+                'absolute top-1/2 z-50 !-translate-y-1/2 size-5xl',
                 right ? 'right-0 -rotate-90' : 'left-0 rotate-90',
                 classNameArrow,
             )}
@@ -86,7 +86,7 @@ const Carousel: FC<Props> = (props: Props) => {
             >
                 ◀
             </Button>
-            <span className={'mx-xxs sm:mx-5xs  text-basic sm:text-section-3xs'}>
+            <span className={'mx-xxs sm:mx-5xs  text-16 sm:text-10'}>
                 {page + 1} / {maxPage}
             </span>
             <Button
@@ -118,7 +118,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         defaultSpinner ? 'sm:flex  mx-auto max-w-card' : 'md:flex',
                     )}
                 >
-                    <h3 className={'sm:text-center  text-heading-xl sm:text-heading'}>{altData?.title}</h3>
+                    <h3 className={'sm:text-center  text-40 sm:text-27'}>{altData?.title}</h3>
                     <Spinner className={cn('hidden', defaultSpinner ? 'sm:inline' : 'md:inline')} />
                 </div>
             ) : (
@@ -140,8 +140,8 @@ const Carousel: FC<Props> = (props: Props) => {
                     <div className={'flex items-center sm:mt-0 md:mt-s lg:mt-n'}>
                         <PageLink
                             icon={'arrow-right-long'}
-                            className={'flex-row-reverse text-blue text-basic  hidden lg:flex'}
-                            iconClassName={'ml-xxs [&_*]:size-[1.06rem] [&_path]:fill-blue'}
+                            className={'flex-row-reverse text-blue text-16  hidden lg:flex'}
+                            iconClassName={'ml-xxs [&_*]:size-5xs [&_path]:fill-blue'}
                         >
                             See All
                         </PageLink>
@@ -154,5 +154,7 @@ const Carousel: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+Carousel.displayName = Carousel.name;
 
 export { Carousel };

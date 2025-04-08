@@ -9,12 +9,11 @@ import { Breakpoint } from '@/app/static';
 import { useBreakpointCheck } from '@/app/hooks';
 import { useModal } from '@/app/hooks';
 
-import SVG_DOUBLE_ARROW from '@/assets/images/icons/double-arrow.svg';
-
 import { BreadcrumbRoute, SearchBar } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
 
-import SVG_CLOCK from '@/assets/images/icons/clock.svg';
+import CLOCK_ICON from '@/assets/images/icons/clock.svg';
+import DOUBLE_ARROW_ICON from '@/assets/images/icons/double-arrow.svg';
 
 type Event = {
     date: number;
@@ -174,49 +173,47 @@ function CommunityEventsPage() {
                         'grid',
                         'sm:gap-x-0 gap-x-xxs',
                         'sm:grid-cols-[1fr,min-content] grid-cols-[min-content,1fr]',
-                        'text-section-xxs',
+                        'text-12',
                     )}
                 >
                     <span
                         className={cn(
-                            'bg-[#979797]',
+                            'bg-gray-l2',
                             'flex  flex-col justify-center px-xs py-n',
-                            'sm:x-[row-span-2,w-[4.1875rem],h-[3.9375rem],mr-[0.625rem],mb-[0.625rem]] row-span-3',
-                            'size-[4.6875rem]',
-                            'w-[7.1875rem] h-[7.875rem]',
+                            'sm:x-[row-span-2,w-8xl,h-[3.9375rem],mr-4xs,mb-4xs] row-span-3',
+                            'size-9xl',
+                            'w-11xl h-[7.875rem]',
                         )}
                     >
-                        <span className={'text-center text-heading-3xl sm:x-[text-[2.5rem]]'}>{day}</span>
-                        <span className={'sm:x-[ml-[0.3125rem],text-section-3xs] text-section-xxs'}>
-                            {DAY_NAMES[day]}
-                        </span>
+                        <span className={'text-center text-64 sm:x-[text-40]'}>{day}</span>
+                        <span className={'sm:x-[ml-5xs,text-10] text-12'}>{DAY_NAMES[day]}</span>
                     </span>
                     <span
                         className={
-                            'col-start-2 flex items-center size-fit text-basic text-primary mt-[0.875rem] sm:x-[col-span-2,mt-[0.4375rem],!mr-auto]'
+                            'col-start-2 flex items-center size-fit text-16 text-primary mt-xxs sm:x-[col-span-2,mt-4xs-1,!mr-auto]'
                         }
                     >
                         {event.tag}
                     </span>
-                    <span className={'leading-n sm:x-[text-section-3xs,row-start-3,col-span-3] text-xs'}>
+                    <span className={'leading-n sm:x-[text-10,row-start-3,col-span-3] text-xs'}>
                         {event.description}
                     </span>
                     <span
                         className={
-                            'flex sm:x-[row-start-2,col-start-2,col-span-4,place-self-start,mb-0] items-center mb-[0.875rem]'
+                            'flex sm:x-[row-start-2,col-start-2,col-span-4,place-self-start,mb-0] items-center mb-xxs'
                         }
                     >
                         <ReactSVG
-                            src={SVG_CLOCK.src}
-                            className='sm:x-[[&_*]:size-[0.4375rem]] [&_path]:fill-blue'
+                            src={CLOCK_ICON.src}
+                            className={'size-8xs size-[0.5625rem] sm:size-[0.55rem]  [&_path]:fill-blue'}
                         />
-                        <span className={'ml-[0.3125rem]'}>
+                        <span className={'ml-5xs'}>
                             {new Date(event.time.start).toLocaleString('en-US', {
                                 weekday: 'short',
                                 month: sm ? undefined : 'short',
                                 day: sm ? undefined : '2-digit',
                                 year: sm ? undefined : 'numeric',
-                            })}{' '}
+                            })}
                             | {`${String(new Date(event.time.start).getHours()).padStart(2, '0')}00`} -&nbsp;
                             {`${String(new Date(event.time.start).getHours() + 1).padStart(2, '0')}00`} hrs&nbsp; (
                             {event.timeZone})
@@ -244,15 +241,15 @@ function CommunityEventsPage() {
     const Pages: ReactElement = (
         <div className={'flex justify-between h-full'}>
             <button
-                className='size-[3.4375rem] flex place-items-center'
+                className='size-7xl flex place-items-center'
                 onClick={() => handlePageChange(pageNos - 1)}
                 disabled={pageNos === 1}
             >
                 <ReactSVG
-                    src={SVG_DOUBLE_ARROW.src}
+                    src={DOUBLE_ARROW_ICON.src}
                     className={cn(
                         'my-auto mx-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
-                        '[&_*]:size-[0.75rem]',
+                        'size-7xs',
                         '[&_*]:scale-x-[-1] [&_*]:translate-x-full',
                     )}
                 />
@@ -262,7 +259,7 @@ function CommunityEventsPage() {
                 <button
                     key={i}
                     className={cn(
-                        'w-[2.8125rem] h-full border-l-s border-[#808080] transition-colors duration-300',
+                        'w-5xl h-full border-l-s border-gray-l0 transition-colors duration-300',
                         pageNos === i + 1 ? 'bg-blue text-white' : 'text-blue hover:bg-blue hover:text-white',
                     )}
                     onClick={() => handlePageChange(i + 1)}
@@ -272,15 +269,15 @@ function CommunityEventsPage() {
             ))}
 
             <button
-                className='border-l-s border-[#808080] size-[3.4375rem] flex place-items-center'
+                className='border-l-s border-gray-l0 size-7xl flex place-items-center'
                 onClick={() => handlePageChange(pageNos + 1)}
                 disabled={pageNos === totalPages}
             >
                 <ReactSVG
-                    src={SVG_DOUBLE_ARROW.src}
+                    src={DOUBLE_ARROW_ICON.src}
                     className={cn(
-                        'my-auto mx-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
-                        '[&_*]:size-[0.75rem]',
+                        'my-auto mx-auto text-white stransition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
+                        'size-7xs',
                     )}
                 />
             </button>
@@ -291,18 +288,16 @@ function CommunityEventsPage() {
         <div className={'bg-gradient-to-t from-blue to-20% w-full'}>
             <div
                 className={cn(
-                    'max-w-[71.125rem] w-full min-h-dvh place-self-center flex flex-col gap-y-[3.125rem] pt-[1.25rem] md:p-[1.875rem] sm:x-[p-[1.25rem],gap-y-[1.25rem]]',
+                    'max-w-[71.125rem] w-full min-h-dvh place-self-center flex flex-col gap-y-xxl pt-xs md:p-n sm:x-[p-xs,gap-y-xs]',
                 )}
             >
                 <BreadcrumbRoute />
-                <h1 className={cn('text-heading-xxl sm:x-[text-documentation,mb-[10px],mt-[10px]]')}>
-                    All Tern Community Events
-                </h1>
+                <h1 className={cn('text-48 sm:x-[text-24,mb-4xs,mt-4xs]')}>All Tern Community Events</h1>
                 <SearchBar contentTypes={CONTENT_TYPES} />
                 <ul className={cn('grid grid-cols-1', 'gap-y-xxs gap-x-xs md:x-[gap-y-s,gap-x-n] lg:x-[gap-y-l]')}>
                     {EventsLi}
                 </ul>
-                <div className={cn('w-[18rem] h-[3.4375rem] border-s border-[#979797] mb-[21.75rem]')}>{Pages}</div>
+                <div className={cn('w-[18rem] h-7xl border-s border-gray-l2 mb-[21.75rem]')}>{Pages}</div>
             </div>
         </div>
     );

@@ -20,7 +20,7 @@ const SubscribeTool: FC = () => {
     if (!isLoggedIn) return null;
 
     return (
-        <div className={`flex h-full text-heading-s text-gray sm:x-[text-basic,flex-col]`}>
+        <div className={`flex h-full text-21 text-gray sm:x-[text-16,flex-col]`}>
             <PaymentInfo subscription={subscription} />
             <PaymentForm
                 type={subscription?.type}
@@ -30,5 +30,7 @@ const SubscribeTool: FC = () => {
         </div>
     );
 };
+
+SubscribeTool.displayName = SubscribeTool.name;
 
 export { SubscribeTool };

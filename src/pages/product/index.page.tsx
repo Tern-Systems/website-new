@@ -5,13 +5,8 @@ import Image, { StaticImageData } from 'next/image';
 import { ReactSVG } from 'react-svg';
 import dynamic from 'next/dynamic';
 import cn from 'classnames';
-
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
-
 import { ResourceSectionData } from '@/app/types/layout';
 import { MISC_LINKS, Route } from '@/app/static';
-
-import { useUser } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
@@ -21,7 +16,6 @@ import { ResourcesSection } from '@/app/ui/templates';
 import styles from '@/app/common.module.css';
 
 import PNG_BACKGROUND_MAIN from '@/assets/images/tidal-bg-main.png';
-import PNG_BACKGROUND_CIRCUIT from '@/assets/images/tidal-bg-circuit.png';
 
 import SVG_TIDAL from '@/assets/images/tidal-logo.svg';
 import PNG_EMULATOR_SAMPLE from '@/assets/images/emulator-sample.png';
@@ -34,6 +28,8 @@ import SVG_TILE_SHARE from '@/assets/images/icons/share.svg';
 import SVG_TILE_SAVE from '@/assets/images/icons/save.svg';
 import SVG_TILE_HEART from '@/assets/images/icons/heart.svg';
 import SVG_PLAY from '@/assets/images/icons/play.svg';
+
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 type Tiles = {
     title: string;
@@ -86,15 +82,13 @@ const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Documentation} /> },
 ];
 
-const BTN_ICON = 'ml-xl [&_*]:size-[1.06rem]';
+const BTN_ICON = 'ml-xl size-5xs';
 
-const BTN_CN = 'px-n  h-button-xxl  md:h-button-xl  sm:h-button-l';
+const BTN_CN = 'px-n  h-button-l  md:h-button-xl  lg:h-button-xxl';
 const BTN_BLUE_CN = BTN_CN + ' bg-blue';
 const BTN_BLACK_CN = BTN_CN + ' border-s border-gray-l0 bg-black text-blue';
 
 function TidalPage() {
-    const userCtx = useUser();
-
     const [videoStarted, setVideoStarted] = useState(false);
 
     const demoSectionRef = useRef<HTMLDivElement | null>(null);
@@ -105,42 +99,46 @@ function TidalPage() {
     const TilesLi: ReactElement[] = TILES.map((tile, idx) => (
         <li
             key={tile.title + idx}
-            className={'flex flex-col mx-auto sm:w-2/3  text-section-xxs md:text-basic lg:text-section'}
+            className={cn('flex flex-col mx-auto  sm:w-2/3', 'text-12 md:text-16 lg:text-20')}
         >
             <ReactSVG
                 src={tile.image.src}
-                className={'sm:[&_*]:x-[mx-auto,size-[2.5rem]] md:[&_*]:size-[4.375rem] [&_*]:size-[6.25rem]'}
+                className={'mx-auto sm:!size-3xl md:!size-8xl !size-10xl'}
             />
             <span className={'mb-5xs mt-s block font-bold'}>{tile.title}</span>
             <span className={'leading-n'}>{tile.description}</span>
         </li>
     ));
 
-    const TidalUrl = MISC_LINKS.Tidal + (userCtx.token ? `/?website_login=${encodeURIComponent(userCtx.token)}` : '');
-
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection, styles.sectionShadowBlue, 'relative')}>
                 <MainBackground url={PNG_BACKGROUND_MAIN} />
-                <div className={cn(styles.content, 'relative z-10 content-center')}>
-                    <div className={'pb-6xl pt-5xl  sm:x-[pt-l,pb-5xl]'}>
-                        <h1 className={'text-heading-3xl  lg:text-heading-4xl'}>TIDAL</h1>
+                <div
+                    className={cn(
+                        styles.content,
+                        'relative z-10 content-center',
+                        'sm:pt-3xl pt-5xl',
+                        'sm:pb-6xl-1 pb-6xl',
+                    )}
+                >
+                    <div>
+                        <h1 className={'text-64  lg:text-96'}>TIDAL</h1>
                         <Image
                             src={SVG_TIDAL}
                             alt={'logo'}
-                            className={'h-auto  my-3xl sm:my-4xl  w-[20.4%] lg:w-[15.2%]'}
+                            className={cn('h-auto min-w-[189px]', 'w-[20.4%] lg:w-[15.2%]', 'sm:my-6xl-1 my-3xl')}
                         />
-                        <p className={'text-section-xl  lg:text-heading-xl'}>
-                            Unlocking the potential of ternary programming
-                        </p>
+                        <p className={'text-32  lg:text-40'}>Do more with more</p>
                         <div
-                            className={
-                                'flex flex-wrap gap-x-l gap-y-xs text-nowrap text-heading-s  mt-[2.81rem] md:mt-[2.71rem] lg:mt-[2.31rem]'
-                            }
+                            className={cn(
+                                'flex flex-wrap gap-x-l gap-y-xs text-nowrap text-21',
+                                'mt-n md:mt-xxl lg:mt-xl',
+                            )}
                         >
                             <PageLink
                                 isExternal
-                                href={TidalUrl}
+                                href={MISC_LINKS.Tidal}
                                 className={cn(BTN_BLUE_CN, ' !h-button-xxl text-black')}
                             >
                                 Try it Free
@@ -155,13 +153,10 @@ function TidalPage() {
                     </div>
                 </div>
             </section>
-            <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
-                className={styles.section}
-            >
+            <section className={cn(styles.section, '!bg-transparent', 'relative z-[100]')}>
                 <div
                     className={cn(
-                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
+                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full',
                         'bg-gradient-to-b from-blue to-transparent to-50%',
                     )}
                 />
@@ -170,19 +165,18 @@ function TidalPage() {
                         styles.content,
                         'relative z-50 leading-n',
                         'pt-4xl md:pt-[7.81em] lg:pt-6xl',
-                        'text-basic md:text-section-xs lg:text-heading-xl',
+                        'text-16 md:text-14 lg:text-40',
                     )}
                 >
                     <h2
                         className={cn(
-                            'mx-auto text-center font-bold leading-n  w-2/3 sm:w-full',
-                            'text-heading md:text-heading-xxl lg:text-heading-3xl',
-                            'pt-[6.63rem] md:pt-[12.55rem] lg:pt-[17rem]',
+                            'mx-auto text-center font-bold leading-n w-2/3 sm:w-full',
+                            'text-27 md:text-48 lg:text-64',
                         )}
                     >
                         Tidal is the World’s First Ternary Software Stack
                     </h2>
-                    <p className={'mt-[6rem] sm:mt-xxl  text-basic md:text-section-l lg:text-heading-xl'}>
+                    <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40'}>
                         We are driving the evolution from binary to ternary computing. By harnessing the superior data
                         density and efficiency of ternary logic, Tidal provides developers with an innovative platform
                         to redefine programming paradigms and unlock new computational possibilities.
@@ -196,19 +190,19 @@ function TidalPage() {
                         <Image
                             src={PNG_EMULATOR_SAMPLE}
                             alt={'emulator sample'}
-                            className={'h-auto w-full  mt-[4.5rem] md:mt-[6rem] lg:mt-[7.56rem]'}
+                            className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-[6rem] lg:mt-[7.59rem]'}>
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-[2.25rem] md:mt-4xl lg:mt-[4.75rem]'}>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                            className={cn(BTN_BLACK_CN, 'text-heading-s sm:text-basic')}
+                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
                         >
                             G Handbook
                         </Button>
@@ -223,8 +217,9 @@ function TidalPage() {
                     className={cn(
                         styles.content,
                         styles.contentHighlight,
-                        'text-heading-xl leading-n',
-                        'pt-[6.62rem] pb-[7rem] md:x-[pt-[12.55rem],pb-[13rem]] lg:x-[pt-[16rem],pb-[19.5rem]]',
+                        'text-40 leading-n',
+                        'pt-6xl-1 md:pt-[12.55rem] lg:pt-[16rem]',
+                        'pb-6xl-1 md:pb-[13rem] lg:pb-[19.5rem]',
                     )}
                 >
                     <div
@@ -242,7 +237,7 @@ function TidalPage() {
                             src={SVG_PLAY.src}
                             className={cn(
                                 'absolute z-50 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2',
-                                '[&_*]:!size-[2.0625rem] md:[&_*]:!size-[4.75rem] lg:[&_*]:!size-[5.75rem]',
+                                '[&_*]:!size-l md:[&_*]:!size-9xl lg:[&_*]:!size-[5.75rem]',
                                 { ['hidden']: videoStarted },
                             )}
                         />
@@ -263,25 +258,20 @@ function TidalPage() {
                         <Image
                             src={PNG_GIRL}
                             alt={'emulator sample'}
-                            className={'m-auto w-2/3'}
+                            className={'m-auto w-[20.9375rem] md:w-[22.0625rem] lg:w-[38.6875rem]'}
                         />
                     </div>
                     <div className={'sm:contents'}>
                         <h2
                             className={cn(
                                 'font-bold leading-n',
-                                'sm:x-[row-start-1,mb-xs,text-center]',
-                                'text-documentation md:text-heading-xl lg:text-heading-3xl',
+                                'sm:x-[row-start-1,mb-xs]',
+                                'text-24 md:text-40 lg:text-64',
                             )}
                         >
                             Turning Heads
                         </h2>
-                        <p
-                            className={cn(
-                                'mt-xxl  sm:x-[mx-auto,mt-xs,w-2/3]',
-                                'text-basic md:text-heading lg:text-heading-xl',
-                            )}
-                        >
+                        <p className={cn('mt-xxl  sm:x-[mx-auto,mt-xs]', 'text-16 md:text-27 lg:text-40')}>
                             Users can write code using the Tidal software and run that code within our online emulator,
                             enabling software developers from any experience level to explore this untapped scape of
                             programming.
@@ -297,19 +287,19 @@ function TidalPage() {
                         'grid max-h-min grid-cols-[1fr,1fr,max-content] gap-y-5xl leading-n',
                         'sm:x-[grid-cols-1,w-2/3,justify-items-center]',
                         'py-6xl md:x-[pt-[16.81rem],pb-[20.69rem]] lg:x-[pt-[19.25rem],pb-[21.56rem]]',
-                        'text-basic lg:text-section-s',
+                        'text-16 lg:text-18',
                     )}
                 >
                     <h2
                         className={cn(
                             'text-center font-bold leading-n  col-span-3 sm:col-span-1',
-                            'text-heading md:text-heading-l lg:text-heading-3xl',
+                            'text-27 md:text-36 lg:text-64',
                         )}
                     >
                         Learning Together
                     </h2>
                     <p className={'sm:text-center'}>
-                        <span className={'block  text-heading  lg:text-section-xl'}>Fostering Collaboration</span>
+                        <span className={'block  text-27  lg:text-32'}>Fostering Collaboration</span>
                         <span className={'mt-5xs block'}>
                             Tidal enhances developer collaboration through Explore Keys, a comprehensive database of
                             Tidal programs, known as Keys. This platform connects users with software developers
@@ -337,14 +327,12 @@ function TidalPage() {
             </section>
             <section className={cn(styles.section, 'bg-transparent')}>
                 <div className={cn(styles.content, 'py-6xl')}>
-                    <h2 className={'font-bold sm:x-[text-center,text-heading] md:text-heading-l lg:text-heading-xl'}>
-                        Features
-                    </h2>
+                    <h2 className={'font-bold sm:x-[text-center,text-27] md:text-36 lg:text-40'}>Features</h2>
                     <ul
                         className={cn(
                             'grid gap-3xl mx-auto  grid-cols-3 sm:grid-cols-1',
                             'w-fit lg:w-full',
-                            'mt-3xl md:mt-[4.75rem] lg:mt-5xl',
+                            'mt-3xl md:mt-5xl lg:mt-5xl',
                         )}
                     >
                         {TilesLi}
@@ -353,8 +341,8 @@ function TidalPage() {
             </section>
             <section className={styles.section}>
                 <div className={cn(styles.content, 'py-5xl')}>
-                    <h2 className={'text-heading-3xl  font-bold  sm:text-heading  md:text-heading-xl'}>Get Started</h2>
-                    <div className={'flex flex-wrap gap-xl text-basic  mt-3xl sm:mt-xl'}>
+                    <h2 className={'text-64  font-bold  sm:text-27  md:text-40'}>Get Started</h2>
+                    <div className={'flex flex-wrap gap-xl text-16  mt-3xl sm:mt-xl'}>
                         {/*TODO links*/}
                         <PageLink
                             isExternal
@@ -377,7 +365,7 @@ function TidalPage() {
             </section>
             <ResourcesSection
                 data={RESOURCES}
-                className={'mb-7xl md:mb-[9.34rem] lg:mb-[12.51rem]'}
+                className={'mb-7xl md:mb-7xl lg:mb-[12.51rem]'}
             >
                 More ways to explore
             </ResourcesSection>

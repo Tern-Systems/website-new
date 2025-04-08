@@ -17,7 +17,7 @@ import { PageLink } from '@/app/ui/layout';
 
 const TestID = DataTestID.modal.cancelSubscription;
 
-const BTN_CN = 'px-[min(2.7dvw,1rem)] h-button-n rounded-full text-section-s';
+const BTN_CN = 'px-[min(2.7dvw,1rem)] h-button-n rounded-full';
 
 interface Props {
     plan: PlanName | undefined;
@@ -47,7 +47,7 @@ const CancelModal: FC<Props> = (props: Props) => {
             className={
                 'w-[90dvw] max-w-[33rem] bg-white [&_h2+button]:brightness-50 [&_h2]:text-gray [&_hr]:border-gray-l0'
             }
-            classNameContent={'text-gray text-center text-basic'}
+            classNameContent={'text-gray text-center text-16'}
         >
             <div className={'inline-block max-w-[25rem]'}>
                 <p className={'mb-xxs place-self-center text-nowrap sm:max-w-[70%] sm:whitespace-pre-wrap'}>
@@ -60,7 +60,7 @@ const CancelModal: FC<Props> = (props: Props) => {
                     {plan ?? '-- missing name --'}
                     subscription billing settings.
                 </p>
-                <span className={'mt-s flex justify-center gap-4xs text-section font-bold text-primary'}>
+                <span className={'mt-s flex justify-center gap-4xs text-20 font-bold text-primary'}>
                     <Button
                         data-testid={TestID.submitButton}
                         onClick={() => handleDelete()}

@@ -18,7 +18,7 @@ import SVG_CARD from '@/assets/images/card-outline.svg';
 
 const TestID = DataTestID.page.profile.billing.purchasingInformation.paymentMethodTool.removeCard;
 
-const BTN_CN = 'h-[1.4375rem] px-5xs text-white text-section-xxs  md:text-section-xs  lg:text-section-xs';
+const BTN_CN = 'h-xs px-5xs text-white text-12  md:text-14  lg:text-14';
 
 interface Props {
     card: CardData;
@@ -49,13 +49,13 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
         <BaseModal
             data-testid={TestID.modal}
             title={'Remove Payment Method'}
-            classNameTitle={`text-section  md:text-heading  lg:text-heading`}
+            classNameTitle={`text-20  md:text-27  lg:text-27`}
             className={`w-[min(90dvw,33rem)] [&]:rounded-none bg-gray [&_h2+button]:brightness-50 text-primary border-gray-l1`}
             classNameContent={'text-primary '}
             classNameHr='[&]:mt-5xs [&]:mb-s border-white'
         >
             <div>
-                <span className='text-section-xs  md:text-basic  lg:text-basic'>
+                <span className='text-14  md:text-16  lg:text-16'>
                     Remove {card.nickName ? card.nickName : cardStr}
                 </span>
                 <div className={`w-full flex gap-xs bg-gray-d0 mt-xs mb-xl px-n py-s border border-gray-l1`}>
@@ -64,20 +64,20 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
                         alt={'card'}
                         className={'h-auto w-[min(16dvw,8.3362rem)]'}
                     />
-                    <span className='w-full flex items-center justify-center text-section-xs  md:text-section-s  lg:text-section-s'>
+                    <span className='w-full flex items-center justify-center text-14  md:text-18  lg:text-18'>
                         <span>{cardStr}</span>
                     </span>
                 </div>
                 <div className={'flex gap-xxs'}>
                     <Button
                         data-testid={TestID.submitButton}
-                        className={`bg-[#F42200] font-bold ${BTN_CN} `}
+                        className={`bg-red font-bold ${BTN_CN} `}
                         onClick={() => handleRemove()}
                     >
                         Remove
                     </Button>
                     <Button
-                        className={`bg-[#000] font-[500] border border-gray-l0 ${BTN_CN} `}
+                        className={`bg-black font-[500] border border-gray-l0 ${BTN_CN} `}
                         onClick={() => modalCtx.closeModal()}
                     >
                         Cancel
@@ -87,5 +87,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
         </BaseModal>
     );
 };
+
+RemovePaymentMethodModal.displayName = RemovePaymentMethodModal.name;
 
 export { RemovePaymentMethodModal };

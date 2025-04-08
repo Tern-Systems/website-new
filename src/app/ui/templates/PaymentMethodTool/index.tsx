@@ -26,12 +26,10 @@ import { DataTestID } from '@/__tests__/static';
 const TestID = DataTestID.page.profile.billing.purchasingInformation.paymentMethodTool;
 
 const FIELDSET_CN = 'flex flex-col w-full gap-n';
-const LEGEND_CN =
-    'text-documentation font-[500] mt-[3.75rem] mb-3xs  md:x-[text-heading,mt-[70px]]  lg:x-[text-heading,mt-[4.375rem]]';
-const INPUT_CN =
-    'bg-[#444444] w-full h-[2.25rem] border border-gray-l0 px-xxs  md:x-[h-[3.125rem],px-xs]  lg:x-[h-[3.125rem],px-xs]';
-const FIELD_CN = 'text-section-xs grid grid-auto-rows gap-y-3xs  md:text-section-s  lg:text-section-s';
-const BUTTON_CN = 'md:x-[text-section-s,h-[3.125rem]]  lg:x-[text-section-s,h-[3.125rem]]';
+const LEGEND_CN = 'text-24 font-[500] mt-3xl mb-3xs  md:x-[text-27,mt-5xl]  lg:x-[text-27,mt-5xl]';
+const INPUT_CN = 'bg-gray-d2 w-full h-xxl border border-gray-l0 px-xxs  md:x-[h-6xl,px-xs]  lg:x-[h-6xl,px-xs]';
+const FIELD_CN = 'text-14 grid grid-auto-rows gap-y-3xs  md:text-18  lg:text-18';
+const BUTTON_CN = 'md:x-[text-18,h-6xl]  lg:x-[text-18,h-6xl]';
 
 interface Props {
     creation?: boolean;
@@ -112,16 +110,16 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             onChangeCustom={(value) => setEditCardIdx(parseInt(value) ?? -1)}
             classNameWrapper={cn(
                 `flex-col gap-y-xxs`,
-                `text-section-xs md:text-basic lg:text-section-s`,
+                `text-14 md:text-16 lg:text-18`,
                 `w-full border-b border-gray-l0`,
             )}
             classNameLabel={'mr-auto'}
             classNameSelected={'w-full '}
             classNameChevron={cn('ml-auto')}
-            className={cn(`px-xs h-[3.1375rem] !border-0 !bg-[#444444]  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
+            className={cn(`px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
             classNameOption={cn(
-                'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                'hover:!bg-[#979797]',
+                'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                'hover:!bg-gray-l2',
             )}
         >
             Choose Payment Method
@@ -142,9 +140,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                 <fieldset className={`${FIELDSET_CN}  ${creation ? 'lg:col-span-2' : 'lg:col-span-1'}`}>
                     <h1
                         className={cn(
-                            'mt-xxl text-heading font-[500] leading-tight',
-                            'md:x-[text-[2rem],mt-[4.375rem]]',
-                            'lg:x-[text-[2rem],mt-[4.375rem]]',
+                            'mt-xxl text-27 font-[500] leading-tight',
+                            'md:x-[text-32,mt-5xl]',
+                            'lg:x-[text-32,mt-5xl]',
                         )}
                     >
                         {creation ? 'Add Payment Method' : 'Edit Payment Method Details'}
@@ -170,7 +168,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 onChange={setFormData('cardNumber')}
                                 placeholder={'1234 1234 1234 1234'}
                                 icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
-                                classNameWrapper={cn(FIELD_CN, 'text-section-s', {
+                                classNameWrapper={cn(FIELD_CN, 'text-18', {
                                     ['brightness-[0.9]']: !creation,
                                 })}
                                 className={INPUT_CN}
@@ -228,11 +226,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     checked={formData.isPreferred}
                                     onChange={setFormData('isPreferred')}
                                     classNameWrapper={`[&&]:mb-s w-fit`}
-                                    classNameLabel={
-                                        'text-section-3xs [&&]:mb-0  md:text-section-xxs  lg:text-section-xxs'
-                                    }
-                                    className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-[#444444]'}
-                                    classNameCheckbox={`h-[.75rem] w-[.75rem]  md:x-[h-[.9375rem],w-[.9375rem]]  lg:x-[h-[.9375rem],w-[.9375rem]]`}
+                                    classNameLabel={'text-10 [&&]:mb-0  md:text-12  lg:text-12'}
+                                    className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-gray-d2'}
+                                    classNameCheckbox={`h-7xs w-7xs  md:x-[h-5xs,w-5xs]  lg:x-[h-5xs,w-5xs]`}
                                     isCustomCheckbox
                                 >
                                     Set as preferred payment method
@@ -315,11 +311,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     classNameSelected={'w-full '}
                                     classNameChevron={cn('ml-auto')}
                                     className={cn(
-                                        `px-xs h-[3.1375rem] !border-0 !bg-[#444444] !border-s !border-gray-l0  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                        `px-xs h-6xl !border-0 !bg-gray-d2 !border-s !border-gray-l0   sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                     )}
                                     classNameOption={cn(
-                                        'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                        'hover:!bg-[#979797]',
+                                        'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                        'hover:!bg-gray-l2',
                                     )}
                                     required
                                     disabled={!formData.country}
@@ -351,11 +347,11 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 classNameSelected={'w-full '}
                                 classNameChevron={cn('ml-auto')}
                                 className={cn(
-                                    `px-xs h-[3.1375rem] !border-0 !bg-[#444444] !border-s !border-gray-l0  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                    `px-xs h-6xl !border-0 !bg-gray-d2 !border-s !border-gray-l0  sm:h-button-xl marker:px-xxs sm:px-3xs`,
                                 )}
                                 classNameOption={cn(
-                                    'h-[3.1375rem] !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                    'hover:!bg-[#979797]',
+                                    'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                    'hover:!bg-gray-l2',
                                 )}
                                 required
                             >
@@ -367,12 +363,12 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             </form>
             {savedCards[+editCardIdx] || creation ? (
                 <div
-                    className={'mt-[9.375rem]'}
+                    className={'mt-7xl'}
                     hidden={creation}
                 >
                     <span
                         data-testid={TestID.removeCard.toggle}
-                        className={'cursor-pointer text-section-xxs text-red'}
+                        className={'cursor-pointer text-12 text-red'}
                         onClick={() => {
                             if (savedCards[+editCardIdx]) {
                                 modalCtx.openModal(
@@ -390,5 +386,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+PaymentMethodTool.displayName = PaymentMethodTool.name;
 
 export { PaymentMethodTool };

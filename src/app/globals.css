@@ -4,21 +4,25 @@
 
 :root {
   /* Paddings */
-  --p-7xl: 10.5rem;
-  --p-6xl: 8.25rem;
-  --p-5xl: 5.15rem;
-  --p-4xl: 4.13rem;
-  --p-3xl: 3.75rem;
-  --p-xxl: 3.06rem;
-  --p-xl: 2.5rem;
-  --p-l: 2.06rem;
-  --p-n: 1.88rem;
-  --p-s: 1.56rem;
-  --p-xs: 1.25rem;
-  --p-xxs: 0.94rem;
-  --p-3xs: 0.81rem;
-  --p-4xs: 0.62rem;
-  --p-5xs: 0.31rem;
+  --p-7xl: 10rem;     /* 160px */ 
+  --p-6xl: 7.5rem;    /* 120px */
+  --p-6xl-1: 6.25rem; /* 100px */
+  --p-5xl: 5rem;      /* 80px */
+  --p-4xl: 4.13rem;   /* 66.08px */
+  --p-3xl: 3.75rem;   /* 60px */
+  --p-xxl: 3.06rem;   /* 48.96px */
+  --p-xl: 2.5rem;     /* 40px */
+  --p-l: 2.06rem;     /* 32.96px */
+  --p-n: 1.88rem;     /* 30.08px */
+  --p-s: 1.56rem;     /* 24.96px */
+  --p-xs: 1.25rem;    /* 20px */
+  --p-xxs: 0.94rem;   /* 15.04px */
+  --p-3xs: 0.81rem;   /* 12.96px */
+  --p-4xs: 0.62rem;   /* 9.92px */
+  --p-4xs-1: 0.5rem;  /* 8px */
+  --p-4xs-2: 0.375rem;/* 6px */
+  --p-5xs: 0.31rem;   /* 4.96px */
+  --p-6xs: 0.19rem;   /* 3.04px */
 
   /* Heights / Widths */
   --h-button-xxl: 2.88rem;
@@ -33,10 +37,37 @@
   --insignia-h: 1.25rem;
   --h-footer-lg: 28.5rem;
   --w-card: 22rem;
+  /* Heights / Widths / Size */
+  --h-14xl : 10.9375rem; /* 175px */
+  --h-13xl : 9.375rem; /* 150px */
+  --h-12xl : 7.5rem;   /* 120px */
+  --h-11xl : 7.1875rem;/* 115px */
+  --h-10xl : 6.25rem;  /* 100px */
+  --h-9xl : 4.75rem;   /* 76px */
+  --h-8xl : 4.375rem;  /* 70px */
+  --h-7xl : 3.4375rem; /* 55px */
+  --h-6xl : 3.125rem;  /* 50px */
+  --h-5xl : 2.875rem;  /* 46px */
+  --h-4xl : 2.75rem;   /* 44px */
+  --h-3xl : 2.5rem;    /* 40px */
+  --h-xxl : 2.25rem;   /* 36px */
+  --h-xl : 2.125rem;   /* 34px */
+  --h-l : 2rem;        /* 32px */
+  --h-n : 1.8125rem;   /* 29px */
+  --h-s : 1.6875rem;   /* 27px */
+  --h-xs : 1.5rem;     /* 24px */
+  --h-xxs : 1.375rem;  /* 22px */
+  --h-3xs : 1.25rem;   /* 20px */
+  --h-4xs : 1.125rem;  /* 18px */
+  --h-5xs : 1rem;      /* 16px */
+  --h-6xs : 0.875rem;  /* 14px */
+  --h-7xs : 0.75rem;   /* 12px */
+  --h-8xs : 0.5625rem; /* 9px */
+  --h-10xs : 0.0625rem;/* 1px */
 
   /* Borders */
-  --b-s: 0.0625rem;
-  --b-n: 0.125rem;
+  --b-s: 0.0625rem; /* 1px */
+  --b-n: 0.125rem;  /* 2px */
 
   --br-xxs-1: 0.25rem;
   --br-xs: 0.375rem;
@@ -48,6 +79,7 @@
   --b-gray: var(--bg-gray);
   --b-gray-l0: var(--bg-gray-l0);
   --b-white-d0: var(--bg-white-d2);
+  --b-gray-l2: var(--bg-gray-l2);
   --b-gray-l1: var(--bg-gray-l1);
   --b-white: var(--bg-white);
   --b-blue: var(--bg-blue);
@@ -57,13 +89,15 @@
   /* Backgrounds */
   --bg-main: #000000;
   --bg-black-l0: #111111;
-  --bg-gray-d2: #444444;
-  --bg-gray-d1: #0b0b0b;
-  --bg-gray-d0: #272727;
-  --bg-gray: #4d4d4d;
-  --bg-gray-l0: #808080;
-  --bg-gray-l1: #999999;
+  --bg-gray-l3: #686868;
   --bg-gray-l2: #979797;
+  --bg-gray-l1: #999999;
+  --bg-gray-l0: #808080;
+  --bg-gray: #4d4d4d;
+  --bg-gray-d0: #272727;
+  --bg-gray-d1: #0b0b0b;
+  --bg-gray-d2: #444444;
+  --bg-white-l0: #ffffff;
   --bg-white: #f2f2f2;
   --bg-white-d2: #b3b3b3;
   --bg-red: #f42200;
@@ -72,24 +106,30 @@
   --bg-navy: #00397f;
   --bg-navy-d0: #001125;
   --bg-green: #0c545c;
+  --bg-green-d0: #23af7a;
+  
+
 
   /* Text */
-  --fz-heading-4xl: 6rem;
-  --fz-heading-3xl: 4rem;
-  --fz-heading-xxl: 3rem;
-  --fz-heading-xl: 2.5rem;
-  --fz-heading-l: 2.25rem;
-  --fz-section-xl: 2rem;
-  --fz-section-l: 1.875rem;
-  --fz-heading: 1.6875rem;
-  --fz-heading-s: 1.3125rem;
-  --fz-documentation: 1.5rem;
-  --fz-section: 1.25rem;
-  --fz-section-s: 1.125rem;
-  --fz-basic: 1rem;
-  --fz-section-xs: 0.875rem;
-  --fz-section-xxs: 0.75rem;
-  --fz-section-3xs: 0.625rem;
+  --fz-128: 128px;
+  --fz-96 : 6rem;
+  --fz-80 : 5rem;
+  --fz-64 : 4rem;
+  --fz-48 : 3rem;
+  --fz-40 : 2.5rem;
+  --fz-36 : 2.25rem;
+  --fz-32 : 2rem;
+  --fz-30 : 1.875rem;
+  --fz-27 : 1.6875rem;
+  --fz-24 : 1.5rem;
+  --fz-21 : 1.3125rem;
+  --fz-20 : 1.25rem;
+  --fz-18 : 1.125rem;
+  --fz-16 : 1rem;
+  --fz-14 : 0.875rem;
+  --fz-12 : 0.75rem;
+  --fz-10 : 0.625rem;
+  --fz-8  : 0.5rem;  
 
   --lh-xl: 5rem;
   --lh-l: 1.3;
@@ -112,7 +152,7 @@
 
 body {
   background: var(--bg-main);
-  font-family: "Abode Gothic Standard", sans-serif;
+  font-family: "Franklin Gothic ATF", sans-serif;
   overflow: hidden;
 
   -ms-overflow-style: none;
@@ -126,6 +166,15 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   line-height: 0.75;
+}
+
+svg, path, g {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
 }
 
 input::-webkit-outer-spin-button,
@@ -143,16 +192,31 @@ body ::-webkit-scrollbar {
 }
 
 @font-face {
-  font-family: "Abode Gothic";
-  src: url("/public/assets/fonts/AdobeGothic-Light.otf") format("opentype");
-  font-weight: normal;
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF.otf") format("embedded-opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF-Bold.otf") format("embedded-opentype");
+  font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Adobe Gothic";
-  src: url("/public/assets/fonts/AdobeGothic-Bold.otf") format("opentype");
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF-Med.otf") format("embedded-opentype");
   font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Franklin Gothic ATF";
+  src: url("/public/assets/fonts/FranklinGothicATF-Light.otf") format("embedded-opentype");
+  font-weight: normal;
   font-style: normal;
 }
 

@@ -41,13 +41,13 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         className={cn('w-full h-auto', className?.image)}
                     />
                     <span className={cn('contents lg:flex  flex-col gap-y-n', className?.content)}>
-                        <span className={'row-start-1  text-section-xl md:text-heading sm:text-section'}>{title}</span>
+                        <span className={'row-start-1  text-32 md:text-27 sm:text-20'}>{title}</span>
                         <span className={cn('leading-l', className?.children)}>{children}</span>
                         <PageLink
                             icon={'arrow-right-long'}
                             href={action.href}
                             className={cn('flex-row-reverse p-xxs w-fit bg-blue', className?.link)}
-                            iconClassName={'ml-xs [&_*]:size-[1.06rem]'}
+                            iconClassName={'ml-xs size-5xs'}
                         >
                             {action.title}
                         </PageLink>
@@ -61,7 +61,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         'grid items-center from-gray to-[--bg-white-d2]  bg-gradient-to-r sm:bg-gradient-to-b',
                         'lg:justify-items-center lg:grid-cols-[2fr,3fr]',
                         'gap-y-xs md:gap-y-n lg:gap-x-xl',
-                        'p-xxs md:x-[px-xxl,p-[2.31rem]] lg:p-[3.25rem]',
+                        'p-xxs md:x-[px-xxl,p-xl] lg:p-xxl',
                         className?.wrapper,
                     )}
                 >
@@ -71,17 +71,13 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         className={cn('w-full h-auto', className?.image)}
                     />
                     <span className={cn('contents lg:flex flex-col gap-y-n h-full', className?.content)}>
-                        <span
-                            className={cn('block text-section  md:text-heading  lg:text-section-xl', className?.title)}
-                        >
-                            {title}
-                        </span>
+                        <span className={cn('block text-20  md:text-27  lg:text-32', className?.title)}>{title}</span>
                         <span className={cn('block leading-l  lg:w-1/2', className?.children)}>{children}</span>
                         <PageLink
                             icon={'arrow-right-long'}
                             href={action.href}
                             className={cn('flex-row-reverse p-xxs w-fit bg-blue lg:mt-auto', className?.link)}
-                            iconClassName={'ml-xs [&_*]:size-[1.06rem]'}
+                            iconClassName={'ml-xs size-5xs'}
                         >
                             {action.title}
                         </PageLink>
@@ -92,5 +88,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
             return <></>;
     }
 };
+
+ResourceCard.displayName = ResourceCard.name;
 
 export { ResourceCard };

@@ -64,14 +64,14 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                 onClick={() => updateCard(idx)}
                 className={cn(
                     `grid grid-cols-[min-content,1fr,min-content] items-center justify-between rounded-s [&_path]:fill-primary`,
-                    `sm:text-heading-xs text-basic`,
+                    `sm:text-27-xs text-16`,
                     LI_P_CN,
                     { ['brightness-[0.6]']: preferred },
                 )}
             >
                 <ReactSVG
                     src={SVG_CARD.src}
-                    className={`mr-4xs [&_*]:w-[1.55rem] sm:[&_*]:w-[1.375rem]`}
+                    className={`mr-4xs w-xs sm:w-xxs`}
                 />
                 <span className={'max-w-[calc(100%-1.75rem)] overflow-hidden overflow-ellipsis text-nowrap'}>
                     {getCardName(card)}
@@ -79,7 +79,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                 {preferred ? (
                     <ReactSVG
                         src={SVG_MARK.src}
-                        className={'ml-5xs h-auto w-[1rem] sm:w-[0.875rem]'}
+                        className={'ml-5xs h-auto w-5xs sm:w-6xs'}
                     />
                 ) : null}
             </li>
@@ -92,17 +92,14 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
             className={'absolute -top-xs right-0 z-10 w-[27.5625rem] max-w-full bg-black'}
         >
             <div className={'flex items-center justify-between'}>
-                <h1 className={'pl-xxs text-basic lg:text-section-s'}>Change Payment Method</h1>
+                <h1 className={'pl-xxs text-16 lg:text-18'}>Change Payment Method</h1>
                 <ReactSVG
                     onClick={(event) => {
                         event.stopPropagation();
                         setOpened(false);
                     }}
                     src={SVG_CROSS.src}
-                    className={cn(
-                        'p-3xs hover:bg-black-l0 [&_path]:fill-primary',
-                        '[&_*]:size-[0.875rem] sm:[&_*]:size-[0.75rem]',
-                    )}
+                    className={cn('p-3xs hover:bg-black-l0 [&_path]:fill-primary', 'size-6xs sm:size-7xs')}
                 />
             </div>
             <hr className={'border-gray'} />
@@ -112,7 +109,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
                     icon={'plus'}
                     href={Route.EditPaymentMethod}
                     className={cn('w-full sm:justify-start', LI_P_CN)}
-                    iconClassName={'mr-3xs sm:mr-[1rem]  [&_*]:size-[1.125rem] sm:[&_*]:size-[1rem]'}
+                    iconClassName={'mr-3xs sm:mr-xxs  size-4xs sm:size-5xs'}
                 >
                     Add alternative payment method
                 </PageLink>

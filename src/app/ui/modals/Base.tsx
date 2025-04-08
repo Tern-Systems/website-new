@@ -65,7 +65,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                 onMouseEnter={() => setHoverState?.(true)}
                 onMouseLeave={() => setHoverState?.(false)}
                 className={cn(
-                    `pointer-events-auto absolute flex items-center gap-[1rem] px-[0.6rem] py-[0.8rem]`,
+                    `pointer-events-auto absolute flex items-center gap-xxs px-4xs py-3xs`,
                     adaptApplied ? 'h-dvh w-dvw bg-white-d0 text-gray' : 'rounded-xs bg-gray-l0',
                     className,
                 )}
@@ -75,8 +75,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     icon={faX}
                     onClick={() => handleClose()}
                     className={cn(
-                        `inline-block min-w-[0.55rem] place-self-start`,
-                        { ['ml-auto [&_*]:size-[1.125rem] [&_path]:fill-blue']: adaptApplied },
+                        `inline-block min-w-8xs place-self-start`,
+                        { ['ml-auto size-4xs [&_path]:fill-blue']: adaptApplied },
                         classNameTitle,
                     )}
                 />
@@ -86,9 +86,9 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         const Heading = title ? (
             <h2
                 className={cn(
-                    ` text-heading font-bold text-inherit`,
-                    `sm:portrait:text-heading-s`,
-                    `sm:landscape:text-section-s`,
+                    ` text-27 font-bold text-inherit`,
+                    `sm:portrait:text-21`,
+                    `sm:landscape:text-18`,
                     classNameTitle,
                     { ['mb-n']: adaptApplied },
                 )}
@@ -123,8 +123,8 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
                     <Button
                         icon={faX}
                         onClick={() => handleClose()}
-                        classNameIcon={cn('sm:[&_*]:w-[0.75rem]', {
-                            ['[&_path]:fill-blue [&_*]:w-[1.125rem]']: adaptApplied,
+                        classNameIcon={cn('sm:w-7xs', {
+                            ['[&_path]:fill-blue w-4xs']: adaptApplied,
                         })}
                     />
                 </div>
@@ -147,5 +147,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         );
     }
 };
+
+BaseModal.displayName = BaseModal.name;
 
 export { BaseModal };

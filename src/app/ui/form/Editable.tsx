@@ -47,7 +47,7 @@ const FA2_INPUT_CN =
     'bg-gray-l0 py-[min(1.7dvw,0.35rem)] w-full rounded-xs px-[min(16dvw,0.76rem)] border-s border-white';
 const CHECKBOX_CN = {
     classNameWrapper: 'flex-row-reverse place-self-start',
-    classNameLabel: 'text-section-xxs  md:text-section-xs  lg:text-basic',
+    classNameLabel: 'text-12  md:text-14  lg:text-16',
 };
 
 type FormType = 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'address' | 'image' | 'company';
@@ -249,7 +249,7 @@ const Editable: FC<Props> = (props: Props) => {
     const CancelBtn = (
         <Button
             type={'reset'}
-            className={'h-full rounded-full bg-gray-l0 px-xxs text-section-xxs  md:text-section-xs'}
+            className={'h-full rounded-full bg-gray-l0 px-xxs text-12  md:text-14'}
             onClick={() => toggleEditState()}
         >
             Cancel
@@ -257,7 +257,7 @@ const Editable: FC<Props> = (props: Props) => {
     );
     const ControlBtns: FC = () => (
         <span
-            className={`mt-[min(1.3dvw,0.95rem)] flex h-button-n gap-x-[min(1dvw,0.75rem)] text-section-xxs  md:text-section-xs font-bold`}
+            className={`flex h-button-n mt-[min(1.3dvw,0.95rem)] gap-x-[min(1dvw,0.75rem)] text-12 font-bold  md:text-14`}
         >
             {CancelBtn}
             <Button
@@ -282,7 +282,7 @@ const Editable: FC<Props> = (props: Props) => {
                 }}
                 onMouseEnter={(event) => !isDisabled && (event.currentTarget.innerText = 'Enable')}
                 onMouseLeave={(event) => !isDisabled && (event.currentTarget.innerText = 'Disabled')}
-                className={`box-content rounded-xxs px-3xs py-[0.3rem] text-basic ${parentEditId ? '!bg-[#0C545C] !text-[#ECF0F3]' : ''} ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''} ${classNameToggle} ${editState ? '[&]:bg-blue' : 'text-gray [&]:bg-white-d0'}`}
+                className={`box-content rounded-xxs px-3xs py-5xs text-16 ${parentEditId ? '!bg-green !text-primary' : ''} ${!isDisabled ? 'hover:bg-blue hover:text-primary' : ''} ${classNameToggle} ${editState ? '[&]:bg-blue' : 'text-gray [&]:bg-white-d0'}`}
             >
                 {parentEditId ? 'Enabled' : editState ? 'Enable' : 'Disabled'}
             </Button>
@@ -296,12 +296,12 @@ const Editable: FC<Props> = (props: Props) => {
             <span
                 data-testid={TestID?.toggle}
                 onClick={() => toggleEditState()}
-                className={`flex cursor-pointer items-center gap-[0.4rem] text-section ${classNameToggle} place-self-end self-start ${editState ? 'hidden' : ''}`}
+                className={`flex cursor-pointer items-center gap-4xs-2 text-20 ${classNameToggle} place-self-end self-start ${editState ? 'hidden' : ''}`}
             >
                 <span className={`hidden lg:inline ${classNameToggleText}`}>Edit</span>
                 <ReactSVG
                     src={SVG_PENCIL.src}
-                    className={'[&_*]:w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}
+                    className={'w-[min(3.4dvw,0.8rem)] [&_path]:fill-primary'}
                 />
             </span>
         );
@@ -309,7 +309,7 @@ const Editable: FC<Props> = (props: Props) => {
     // Styles
     const SELECT_CN = {
         classNameWrapper: `flex-col gap-y-4xs`,
-        classNameLabel: `self-start text-section-xxs  md:text-section-xs  lg:text-basic`,
+        classNameLabel: `self-start text-12  md:text-14  lg:text-16`,
         className: `${initial?.className} px-3xs py-5xs [&]:bg-gray-l0`,
         classNameOption: `${initial?.className} [&&]:rounded-none`,
         classNameSelected: `w-full `,
@@ -317,8 +317,8 @@ const Editable: FC<Props> = (props: Props) => {
     };
     const INPUT_CN = {
         className: `${initial?.className}`,
-        classNameWrapper: 'flex-col gap-y-4xs w-full text-section-xxs  md:text-section-xs  lg:text-basic',
-        classNameLabel: `first-letter:capitalize place-self-start text-section-xxs  md:text-section-xs  lg:text-basic`,
+        classNameWrapper: 'flex-col gap-y-4xs w-full text-12  md:text-14  lg:text-16',
+        classNameLabel: `first-letter:capitalize place-self-start text-12  md:text-14  lg:text-16`,
     };
 
     // Form controls
@@ -345,12 +345,12 @@ const Editable: FC<Props> = (props: Props) => {
                         <span
                             hidden={!initValue || !('verify' in initValue) || initValue.verify === undefined}
                             onClick={() => initValue && 'verify' in initValue && initValue.verify?.(form)}
-                            className={`ml-[min(1.7dvw,0.8rem)] mt-[min(4.3dvw,1.5rem)] cursor-pointer text-section underline`}
+                            className={`ml-[min(1.7dvw,0.8rem)] mt-[min(4.3dvw,1.5rem)] cursor-pointer text-20 underline`}
                         >
                             Verify
                         </span>
                     </span>
-                    <span className={`mt-xxs block text-section-xs ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span className={`mt-xxs block text-14 ${waring ? '' : 'hidden'}`}>{waring}</span>
                     <ControlBtns />
                 </>
             );
@@ -370,7 +370,7 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         {initial?.title}
                     </Select>
-                    <span className={`mt-xxs block ${waring ? '' : 'hidden'}`}>{waring}</span>
+                    <span className={`block mt-xxs ${waring ? '' : 'hidden'}`}>{waring}</span>
                     <ControlBtns />
                 </>
             );
@@ -408,8 +408,8 @@ const Editable: FC<Props> = (props: Props) => {
                     </Input>
                     <ul
                         className={cn(
-                            'grid list-inside list-disc grid-cols-2 sm:portrait:grid-cols-1',
-                            'ml-3xs text-section-xxs',
+                            'grid ml-3xs text-12 list-inside list-disc grid-cols-2',
+                            'sm:portrait:grid-cols-1',
                             'marker:[&]:pr-5xs gap-1',
                         )}
                     >
@@ -445,7 +445,7 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         Confirm New Password
                     </Input>
-                    <span className={waring ? 'text-section-xs' : 'hidden'}>{waring}</span>
+                    <span className={waring ? 'text-14' : 'hidden'}>{waring}</span>
                     <ControlBtns />
                 </>
             );
@@ -491,7 +491,7 @@ const Editable: FC<Props> = (props: Props) => {
                             </span>
                         </Editable>
                     </div>
-                    <span className={waring ? 'mt-xxs block text-section-xs' : 'hidden'}>{waring}</span>
+                    <span className={waring ? 'mt-xxs block text-14' : 'hidden'}>{waring}</span>
                 </>
             );
 
@@ -610,9 +610,7 @@ const Editable: FC<Props> = (props: Props) => {
                         {renderPhoneFieldset('business', 'ext' in form.business ? form.business?.ext : '')}
                         {renderPhoneFieldset('mobile')}
                         {renderPhoneFieldset('personal')}
-                        <span className={waring ? 'block text-section-xs first-letter:capitalize' : 'hidden'}>
-                            {waring}
-                        </span>
+                        <span className={waring ? 'block text-14 first-letter:capitalize' : 'hidden'}>{waring}</span>
                     </div>
                     <ControlBtns />
                 </>
@@ -677,7 +675,7 @@ const Editable: FC<Props> = (props: Props) => {
                     >
                         Last Name
                     </Input>
-                    <span className={waring ? 'mt-xxs block text-section-xs' : 'hidden'}>{waring}</span>
+                    <span className={waring ? 'mt-xxs block text-14' : 'hidden'}>{waring}</span>
                     <ControlBtns />
                 </div>
             );
@@ -710,9 +708,12 @@ const Editable: FC<Props> = (props: Props) => {
                     // gap-x is not used for sm breakpoints
                     <>
                         <span
-                            className={`mb-4xs grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-[0.62rem] gap-y-xs ${isPersonal ? 'mt-xs rounded-s bg-[#686868] p-3xs' : 'mt-[min(0.75dvw,0.94rem)]'}`}
+                            className={cn(
+                                `mb-4xs grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-4xs gap-y-xs`,
+                                `${isPersonal ? 'mt-xs rounded-s bg-gray-l3 p-3xs' : 'mt-[min(0.75dvw,0.94rem)]'}`,
+                            )}
                         >
-                            <span className={`col-span-2 flex justify-between text-section capitalize`}>
+                            <span className={`col-span-2 flex justify-between text-20 capitalize`}>
                                 <span>{key.slice(0, 'Address'.length + 1)} Address</span>
                                 <span
                                     onClick={() =>
@@ -805,7 +806,7 @@ const Editable: FC<Props> = (props: Props) => {
                                         }) as FormData<'address'>,
                                 )
                             }
-                            className={`mt-xs cursor-pointer text-section underline ${isPersonal || form.personalAddress !== null ? 'hidden' : ''}`}
+                            className={`mt-xs cursor-pointer text-20 underline ${isPersonal || form.personalAddress !== null ? 'hidden' : ''}`}
                         >
                             Add a Personal Address
                         </span>
@@ -816,7 +817,7 @@ const Editable: FC<Props> = (props: Props) => {
                 <>
                     {renderAddressForm('businessAddress')}
                     {form.personalAddress ? renderAddressForm('personalAddress') : null}
-                    <span className={waring ? 'mt-xxs block text-section-xs' : 'hidden'}>{waring}</span>
+                    <span className={waring ? 'mt-xxs block text-14' : 'hidden'}>{waring}</span>
                     <ControlBtns />
                 </>
             );
@@ -902,7 +903,7 @@ const Editable: FC<Props> = (props: Props) => {
     if (keepChildrenOnEdit) {
         return (
             <div className={'w-full overflow-x-hidden overflow-ellipsis'}>
-                <div className={`flex justify-between ${isFormShown ? 'mb-[0.94rem]' : ''}`}>
+                <div className={`flex justify-between ${isFormShown ? 'mb-xxs' : ''}`}>
                     {children}
                     {EditToggle}
                 </div>
@@ -925,6 +926,8 @@ const Editable: FC<Props> = (props: Props) => {
         );
     }
 };
+
+Editable.displayName = Editable.name;
 
 export type { Props as EditableProps, FormData, FormInit, FormType };
 export { Editable };

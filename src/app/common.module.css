@@ -38,6 +38,7 @@
 
 .sectionShadowBlack {
   box-shadow: 0 calc(-1 * var(--section-shadow-shift)) var(--section-shadow-blur-radius) #000000;
+  z-index: -5;
 }
 
 .sectionInsetShadowBlack {
@@ -121,7 +122,7 @@
 }
 
 .clickable {
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 
 .clickable:hover:not(:disabled) {

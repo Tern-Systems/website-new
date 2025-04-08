@@ -28,10 +28,12 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
         })
         .join(' / ');
     return (
-        <p className={cn('mt-n overflow-hidden overflow-ellipsis text-nowrap text-section-xxs leading-s', className)}>
+        <p className={cn('mt-n overflow-hidden overflow-ellipsis text-nowrap text-12 leading-relaxed', className)}>
             {breadcrumbs}
         </p>
     );
 };
+
+BreadcrumbRoute.displayName = BreadcrumbRoute.name;
 
 export { BreadcrumbRoute };

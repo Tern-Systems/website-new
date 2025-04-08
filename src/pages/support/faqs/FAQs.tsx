@@ -22,7 +22,7 @@ const FAQsContent = () => {
         const FAQsLi: ReactElement[] = section.faqs.map((faq, faqIdx) => (
             <li key={faq.question.slice(5) + idx + faqIdx}>
                 <p className={'inline'}>{faq.question}</p>
-                <p className={'leading-l  mt-n sm:mt-s  text-basic sm:text-section-xs'}>{faq.answer}</p>
+                <p className={'leading-l  mt-n sm:mt-s  text-16 sm:text-14'}>{faq.answer}</p>
             </li>
         ));
 
@@ -31,13 +31,13 @@ const FAQsContent = () => {
                 key={section.heading + idx}
                 id={id}
             >
-                <h3 className={'text-[2.625rem] sm:text-heading-l'}>{section.heading}</h3>
+                <h3 className={'text-40 sm:text-36'}>{section.heading}</h3>
                 <ol
                     className={cn(
                         'list-decimal list-inside flex flex-col',
                         'gap-y-xl sm:gap-y-n',
                         'mt-xxl sm:mt-l',
-                        'text-[1.75rem] sm:text-documentation',
+                        'text-27 sm:text-24',
                     )}
                 >
                     {FAQsLi}
@@ -48,13 +48,13 @@ const FAQsContent = () => {
 
     return (
         <section className={cn(styles.section, styles.radialGradientBlueRight)}>
-            <div className={cn(styles.content, 'pb-[7.87rem] md:pb-[8.66rem] lg:pb-[14.5rem]')}>
+            <div className={cn(styles.content, 'pb-6xl md:pb-7xl lg:pb-[14.5rem]')}>
                 <BreadcrumbRoute className={'hidden lg:block'} />
-                <div className={'lg:grid  grid-cols-[min-content,1fr] gap-x-[6.37rem]  pt-xs md:pt-n lg:pt-4xl'}>
+                <div className={'lg:grid  grid-cols-[min-content,1fr] gap-x-6xl-1  pt-xs md:pt-n lg:pt-4xl'}>
                     <aside className={cn(`lg:sticky top-[min(25.3dvw,3.88rem)] self-start text-nowrap text-left`)}>
                         <SideNav sectionIDs={sectionIDs} />
                     </aside>
-                    <ul className={'flex flex-col  gap-y-xxl sm:gap-y-l  sm:mt-[4.5rem] md:mt-xxl'}>{SectionsLi}</ul>
+                    <ul className={'flex flex-col  gap-y-xxl sm:gap-y-l  sm:mt-5xl md:mt-xxl'}>{SectionsLi}</ul>
                 </div>
             </div>
         </section>

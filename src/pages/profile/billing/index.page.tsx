@@ -43,13 +43,13 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
             className={cn(
                 styles.clickable,
                 `cursor-pointer text-nowrap align-middle odd:bg-gray-d0  hover:!bg-gray-l0`,
-                `text-heading-s  sm:text-section-xxs`,
+                `text-21  sm:text-12`,
                 className,
             )}
         >
             <td
                 data-testid={TestID.page.invoice.id}
-                className={'h-[2.25rem] pl-3xs  sm:h-[1.5625rem]'}
+                className={'h-xxl pl-3xs  sm:h-xs'}
             >
                 {row?.id ?? CELL_FALLBACK}
             </td>
@@ -117,9 +117,9 @@ const BillingPage: FC = () => {
     };
 
     return (
-        <div className={cn(styles.section, `pt-[6.25rem]`)}>
+        <div className={cn(styles.section, `pt-6xl-1`)}>
             <section className={styles.content}>
-                <h1 className={`flex text-section-xl font-bold`}>Billing</h1>
+                <h1 className={`flex text-32 font-bold`}>Billing</h1>
             </section>
             <section className={cn(styles.content, styles.contentHighlight, 'mt-xl  lg:mt-xxl')}>
                 <Table
@@ -135,7 +135,7 @@ const BillingPage: FC = () => {
             </section>
             <ResourcesSection
                 data={RESOURCES}
-                className={'mb-[9.41rem] mt-[6.25rem]'}
+                className={'mb-7xl mt-6xl-1'}
             />
         </div>
     );

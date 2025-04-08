@@ -52,13 +52,13 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 adaptBreakpoint={Breakpoint.sm}
                 title={'Email Sent'}
                 className={'w-[30rem] border-s border-white text-center'}
-                classNameContent={`sm:px-[1.25rem] sm:mt-[1.9rem] sm:max-w-[21rem] sm:place-self-center sm:text-left
+                classNameContent={`sm:px-xs sm:mt-n sm:max-w-[21rem] sm:place-self-center sm:text-left
                                     sm:landscape:place-self-start`}
             >
                 <Image
                     src={SVG_INSIGNIA}
                     alt={'insignia'}
-                    className={`mb-[1.25rem] h-[9rem] w-[10rem] place-self-center sm:hidden`}
+                    className={`mb-xs h-[9rem] w-[10rem] place-self-center sm:hidden`}
                 />
                 <span data-testid={TestID.emailSent.message}>
                     To reset your password, please click the link provided in the email sent to your registered email
@@ -93,7 +93,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 placeholder={'Password'}
                 value={formValue.password}
                 onChange={setFormValue('password')}
-                className={`b-control4 h-button-l w-full rounded-xs border-s bg-gray-l0 px-[0.73rem] text-primary placeholder:sm:text-primary`}
+                className={`b-control4 h-button-l w-full rounded-xs border-s bg-gray-l0 px-3xs text-primary placeholder:sm:text-primary`}
                 required
             />
             <Input
@@ -103,7 +103,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 placeholder={'Confirm Password'}
                 value={formValue.passwordConfirm}
                 onChange={setFormValue('passwordConfirm')}
-                className={`b-control4 h-button-l w-full rounded-xs border-s bg-gray-l0 px-[0.73rem] text-primary placeholder:sm:text-primary`}
+                className={`b-control4 h-button-l w-full rounded-xs border-s bg-gray-l0 px-3xs text-primary placeholder:sm:text-primary`}
                 icons={[SVG_EYE]}
                 required={!!token}
             />
@@ -116,7 +116,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
             value={formValue.email}
             onChange={setFormValue('email')}
             classNameWrapper={'flex-col [&]:items-start'}
-            className={`b-control4 h-button-l w-full rounded-xs border-s bg-gray-l0 px-[0.73rem] text-primary placeholder:sm:text-primary`}
+            className={`b-control4 h-button-l w-full rounded-xs border-s bg-gray-l0 px-3xs text-primary placeholder:sm:text-primary`}
             required
         />
     );
@@ -128,23 +128,23 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
             title={sm ? 'Tern' : ''}
             simple={!sm}
             className={`border-control relative mx-auto w-[30rem] place-self-center border-s sm:border-none md:bg-gray lg:bg-gray`}
-            classNameContent={`py-[1.5rem] pl-[1.7rem] pr-0     sm:px-[1.25rem] sm:max-w-[23rem] sm:place-self-center
+            classNameContent={`py-s pl-s pr-0     sm:px-xs sm:max-w-[23rem] sm:place-self-center
                                 sm:landscape:min-w-[21rem]`}
         >
             <div className={`flex max-w-[26rem] flex-col items-center sm:hidden`}>
                 <Image
                     src={SVG_INSIGNIA}
                     alt={'insignia'}
-                    className={'my-[1.25rem] h-[9rem] w-[10.42rem]'}
+                    className={'my-xs h-[9rem] w-[10.42rem]'}
                 />
-                <span className={'mb-n text-heading'}>Tern</span>
+                <span className={'mb-n text-27'}>Tern</span>
             </div>
             <form
                 className={'flex flex-col'}
                 onSubmit={handleFormSubmit}
             >
-                <fieldset className={'flex flex-col gap-[0.94rem]'}>
-                    <legend className={'mb-[0.63rem]'}>
+                <fieldset className={'flex flex-col gap-xxs'}>
+                    <legend className={'mb-4xs'}>
                         Please {token ? 'create your new password' : 'enter email to reset your password'}
                     </legend>
                     {Controls}
@@ -152,7 +152,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 {message ? (
                     <span
                         data-testid={TestID.message}
-                        className={'my-[0.63rem] text-center'}
+                        className={'my-4xs text-center'}
                     >
                         {message}
                     </span>
@@ -160,7 +160,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
                 <Button
                     data-testid={TestID.form.submitButton}
                     className={cn(
-                        `mt-[1.56rem] rounded-full py-[0.92rem] text-section-s font-bold`,
+                        `mt-s rounded-full py-xxs text-18 font-bold`,
                         `w-full max-w-[18.93rem] place-self-center bg-white text-gray sm:w-[90%]`,
                     )}
                 >
@@ -170,5 +170,7 @@ const ResetPasswordModal: FC<Props> = (props: Props): ReactElement => {
         </BaseModal>
     );
 };
+
+ResetPasswordModal.displayName = ResetPasswordModal.name;
 
 export { ResetPasswordModal };

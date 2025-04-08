@@ -18,7 +18,7 @@ import SVG_DOCUMENT from '@/assets/images/document.svg';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const BTN_CN =
-    'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)] sm:landscape:x-[h-[1.875rem],py-0]';
+    'flex-grow px-[min(4.5dvw,1rem)] w-full max-w-[21rem] rounded-full py-[min(4.5dvw,1rem)] sm:landscape:x-[h-n,py-0]';
 
 interface Props {
     invoice: Invoice;
@@ -55,14 +55,14 @@ const OrderPreview: FC<Props> = (props: Props) => {
                     <div>
                         <h2
                             className={cn(
-                                `mb-[min(10.7dvw,5.25rem)] flex items-center gap-[0.92rem] text-nowrap text-heading font-bold`,
-                                `sm:landscape:mb-xs md:text-heading-xl md:landscape:text-heading-l lg:text-heading-xl`,
+                                `mb-[min(10.7dvw,5.25rem)] flex items-center gap-xxs text-nowrap text-27 font-bold`,
+                                `sm:landscape:mb-xs md:text-40 md:landscape:text-36 lg:text-40`,
                             )}
                         >
                             <Image
                                 src={SVG_TERN_LOGO}
                                 alt={'tern-logo'}
-                                className={'h-auto w-[2.48rem] sm:hidden'}
+                                className={'h-auto w-3xl sm:hidden'}
                             />
                             Tern Systems, LLC
                         </h2>
@@ -72,16 +72,14 @@ const OrderPreview: FC<Props> = (props: Props) => {
                                 alt={'document'}
                                 className={'h-auto w-[min(24.7dvw,5.4rem)] place-self-center'}
                             />
-                            <span className={'my-s block text-heading-s  sm:landscape:my-xs'}>{status}</span>
-                            <span className={'block text-heading-l  md:text-heading-xxl  lg:text-heading-xxl'}>
-                                {subtotal}
-                            </span>
+                            <span className={'my-s block text-21  sm:landscape:my-xs'}>{status}</span>
+                            <span className={'block text-36  md:text-48  lg:text-48'}>{subtotal}</span>
                         </div>
                     </div>
                 </div>
                 <div>
                     <div
-                        className={`grid grid-cols-[1fr,1fr] gap-y-xs text-basic  sm:landscape:gap-y-xxs md:text-heading-s  lg:text-heading-s`}
+                        className={`grid grid-cols-[1fr,1fr] gap-y-xs text-16  sm:landscape:gap-y-xxs md:text-21  lg:text-21`}
                     >
                         <span className='md:hidden  lg:hidden'>Status</span>
                         <span className={'text-right capitalize  md:hidden  lg:hidden'}>{status}</span>
@@ -92,29 +90,30 @@ const OrderPreview: FC<Props> = (props: Props) => {
                         <span>Payment methods</span>
                         <span className={`text-right capitalize`}>{card}</span>
                     </div>
-                    <div
-                        className={cn(
-                            `mt-xl flex items-center justify-center gap-y-xxs gap-x-[0.75rem] text-heading-s font-bold sm:flex-col md:landscape:flex-col lg:flex-col`,
-                            `sm:landscape:x-[mt-xs,text-basic] md:text-heading-s  lg:text-heading-s`,
-                        )}
-                    >
-                        <Button
-                            icon={faDownload}
-                            className={`border-s border-gray [&_path]:fill-gray ${BTN_CN}`}
-                            onClick={() => toPDF({})}
-                        >
-                            Download Invoice
-                        </Button>
-                        <Button
-                            icon={faDownload}
-                            className={`bg-gray text-primary [&_path]:fill-primary ${BTN_CN}`}
-                            onClick={() => toPDFReceipt()}
-                        >
-                            Download Receipt
-                        </Button>
-                    </div>
-                    {VisibilityToggle}
                 </div>
+
+                <div
+                    className={cn(
+                        `mt-xl flex items-center justify-center gap-y-xxs gap-x-[0.75rem] text-21 font-bold sm:flex-col md:landscape:flex-col lg:flex-col`,
+                        `sm:landscape:x-[mt-xs,text-16] md:text-21  lg:text-21`,
+                    )}
+                >
+                    <Button
+                        icon={faDownload}
+                        className={`border-s border-gray [&_path]:fill-gray ${BTN_CN}`}
+                        onClick={() => toPDF({})}
+                    >
+                        Download Invoice
+                    </Button>
+                    <Button
+                        icon={faDownload}
+                        className={`bg-gray text-primary [&_path]:fill-primary ${BTN_CN}`}
+                        onClick={() => toPDFReceipt()}
+                    >
+                        Download Receipt
+                    </Button>
+                </div>
+                {VisibilityToggle}
             </div>
             <ScrollEnd />
         </div>
