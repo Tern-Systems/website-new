@@ -45,37 +45,37 @@ const TILES: Tiles[] = [
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
         image: SVG_TILE_PROFILE,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
         image: SVG_TILE_STAR,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
         image: SVG_TILE_GLASS,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
         image: SVG_TILE_SHARE,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
         image: SVG_TILE_SAVE,
     },
     {
         title: 'Universal Login',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
         image: SVG_TILE_HEART,
     },
 ];
@@ -160,6 +160,7 @@ function TidalPage() {
                     className={cn(
                         'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
                         'bg-gradient-to-b from-blue to-transparent to-50%',
+                        'opacity-20'
                     )}
                 />
                 <div
@@ -177,7 +178,7 @@ function TidalPage() {
                             'pt-6xl-1 md:pt-[12.55rem] lg:pt-[17rem]',
                         )}
                     >
-                        Tidal is the World’s First Ternary Software Stack
+                        Tidal is the World's First Ternary Software Stack
                     </h2>
                     <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40'}>
                         We are driving the evolution from binary to ternary computing. By harnessing the superior data
@@ -196,19 +197,21 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
-                        This specialized sandbox environment is designed to support languages engineered specifically
-                        for ternary logic computation. At its core is G, a sophisticated high-level language
-                        structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
-                        conventional programming.
-                    </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
-                        <Button
-                            onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
-                        >
-                            G Handbook
-                        </Button>
+                    <div className="relative z-50">
+                        <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl opacity-100'}>
+                            This specialized sandbox environment is designed to support languages engineered specifically
+                            for ternary logic computation. At its core is G, a sophisticated high-level language
+                            structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
+                            conventional programming.
+                        </p>
+                        <div className={'mt-xl md:mt-4xl lg:mt-5xl opacity-100'}>
+                            <Button
+                                onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                                className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
+                            >
+                                G Handbook
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </section>
