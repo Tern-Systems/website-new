@@ -77,8 +77,8 @@ const Header: FC = (): ReactElement => {
                     {
                         [cn(stylesLayout.activeNavLink, 'xxs:before:hidden')]: active,
                         ['before:bg-gray']: subNavLinks?.length,
-                        ['!static border-blue bg-black-l0']: navDropdown && dropdownExpanded,
-                        ['!border-s !border-b-0 border-black xxs:border-none']: navDropdown,
+                        ['!static !border-s  border-blue bg-black-l0']: navDropdown && dropdownExpanded,
+                        ['!border-b-0 border-black xxs:border-none']: navDropdown,
                     },
                 )}
             >

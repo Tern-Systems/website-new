@@ -27,7 +27,7 @@ abstract class BaseService {
             this.debug('No ENV set, continuing in development mode...');
         BaseService.NodeEnv = (env as NodeEnv) ?? 'development';
 
-        const api: string | undefined = process.env.NEXT_PUBLIC_BACKEND_URL;
+        const api: string | undefined = process.env.NEXT_PUBLIC_API_URL;
 
         this.debug('ENV:', BaseService.NodeEnv + ',', 'API url:', api);
         if (!api) throw 'API URL is not defined!';
@@ -41,9 +41,7 @@ abstract class BaseService {
     // Returns  - array of loggers (debug_logger, error_logger)
     // Args:
     //  method  - action name (e.g. - this.methodFunction.name)
-    protected getLoggers(method: string) {
-        // eslint-disable-next-line no-console
-        if (BaseService.NodeEnv !== 'production') console.log(this._serviceName + ' - ' + method + ':');
+    protected getLoggers() {
         return [this.debug, this.error];
     }
 
@@ -62,16 +60,18 @@ abstract class BaseService {
         config: AxiosRequestConfig,
         schemaCheck: P extends void ? null : (data: DeepPartial<P>) => boolean[],
     ): Promise<APIRes<P, M>> {
-        const [debug, error] = this.getLoggers(method);
+        const [debug, error] = this.getLoggers();
         const url = config.url + ':';
 
         try {
-            debug('REQUEST', url, config);
+            debug('REQUEST ->', this._serviceName + '.' + method + ':', url);
+            // debug(config);
             // if (config.data) debug('REQUEST DATA', url, config.data);
 
             const response = await axios(config);
 
-            debug('RESPONSE', url, response);
+            // debug('RESPONSE <-', this._serviceName + '.' + method + ':', url);
+            // debug(response);
             // if (response.data) debug('RESPONSE DATA', url, response.data);
 
             if (schemaCheck !== null && !schemaCheck?.(response.data)?.every((check) => check))
@@ -92,7 +92,7 @@ abstract class BaseService {
     // eslint-disable-next-line
     private debug(...data: any[]): void {
         // eslint-disable-next-line no-console
-        if (BaseService.NodeEnv !== 'production') console.debug('DEBUG', ...data);
+        if (BaseService.NodeEnv !== 'production') console.log('DEBUG', ...data);
     }
 
     private error(error: unknown) {

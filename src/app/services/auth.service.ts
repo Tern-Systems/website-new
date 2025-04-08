@@ -5,8 +5,9 @@ import { Res } from '@/app/types/service';
 
 import { BaseService } from './base.service';
 
-type AuthDTO = { token: string };
-type LoginDTO = AuthDTO;
+type TokenDTO = { token: string };
+type LoginDTO = TokenDTO;
+type ResetPasswordDTO = Partial<TokenDTO>;
 
 type OTP_DTO = { otp: string };
 
@@ -14,6 +15,8 @@ interface IAuthService {
     postSignup(email: string, password: string): Promise<Res>;
 
     postLogin(email: string, password: string): Promise<Res<LoginDTO, false>>;
+
+    postLogout(): Promise<Res>;
 
     postForgotPassword(email: string): Promise<Res>;
 
@@ -54,6 +57,16 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         return [BaseService.NodeEnv !== 'test' || 'otp' in data];
     }
 
+    async postLogout(): Promise<Res> {
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: this._API + `logout`,
+            withCredentials: true,
+        };
+        const { message } = await this.req(this.postLogout.name, config, null);
+        return { message: message ?? AuthServiceImpl._MESSAGE.LOGGED_OUT };
+    }
+
     async postSignup(email: string, password: string): Promise<Res> {
         const salt = await genSalt(10);
         const config: AxiosRequestConfig = {
@@ -81,7 +94,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         return { payload };
     }
 
-    async postForgotPassword(email: string): Promise<Res> {
+    async postForgotPassword(email: string): Promise<Res<ResetPasswordDTO>> {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `forgot-password`,
@@ -89,8 +102,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             data: JSON.stringify({ email }),
             withCredentials: true,
         };
-        const { message } = await this.req(this.postForgotPassword.name, config, null);
-        return { message: message ?? AuthServiceImpl._MESSAGE.RESET_PASSWORD_EMAIL_SENT };
+        const { payload, message } = await this.req<ResetPasswordDTO>(this.postForgotPassword.name, config, (data) => [
+            BaseService.NodeEnv !== 'test' || typeof data.token === 'string',
+        ]);
+        return { payload, message: message ?? AuthServiceImpl._MESSAGE.RESET_PASSWORD_EMAIL_SENT };
     }
 
     async postResetPassword(token: string, newPassword: string): Promise<Res> {

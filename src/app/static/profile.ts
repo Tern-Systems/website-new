@@ -3827,9 +3827,18 @@ type State = (typeof STATE_PROVINCE)[keyof typeof STATE_PROVINCE];
 type StateKey = KeysOfUnion<State>;
 
 const REGEX = {
-    password: /^(?=.*\d)(?=.*[A-Z])([\w\W\S]{9,})$/g,
-    phone: /^\+\d{11,15}$/g,
-    email: /^\w+@\w+\.\w+$/g,
+    password: {
+        getRegex: () => /^(?=.*\d)(?=.*[A-Z])([\w\W\S]{9,})$/g,
+        message: `Entered password should consist of minimum 9 characters, one uppercase letter, one lowercase letter and one number`,
+    },
+    phone: {
+        getRegex: () => /^\+\d{11,15}$/g,
+        message: `Entered phone number should be in the format '+1234567890'`,
+    },
+    email: {
+        getRegex: () => /^[\w-.]+@\w+\.\w+$/g,
+        message: `Entered email doesn't match the email format`,
+    },
 };
 
 const DEFAULT_PHONE: Phone = { number: '', isPrimary: false };

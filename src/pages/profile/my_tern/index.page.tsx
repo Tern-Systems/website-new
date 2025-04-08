@@ -124,7 +124,7 @@ function MyTernPage() {
 
     const navBtns = copyObject(NAV_BTNS_DEFAULT);
     if (userCtx.userData?.subscriptions?.find((plan) => plan.subscription === 'trial'))
-        navBtns.splice(1, 0, { title: 'Try Tidal Pro', href: Route.TidalPricing });
+        navBtns.splice(1, 0, { title: 'Try Tidal Pro', href: Route.TidalPlans });
 
     const subscriptionTable: TableSection<TableEntry> = {
         title: 'My Product',
@@ -147,7 +147,7 @@ function MyTernPage() {
             <span>
                 You don&apos;t have any products purchased. You could explore the plans on&nbsp;
                 <PageLink
-                    href={Route.TidalPricing}
+                    href={Route.TidalPlans}
                     className={'underline'}
                 >
                     Pricing page

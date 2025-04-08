@@ -164,9 +164,9 @@ function ContactSection(props: SectionProps) {
                             if (!('mobile' in form)) throw 'Incorrect request setup';
 
                             const invalid = Object.values(form as NonNullable<FormData<'phone'>>).some(
-                                (phone) => phone.number && !REGEX.phone.test('+' + phone.number),
+                                (phone) => phone.number && !REGEX.phone.getRegex().test('+' + phone.number),
                             );
-                            if (invalid) throw `Entered phone number(s) should be in the format '+1234567890'`;
+                            if (invalid) throw REGEX.phone.message;
 
                             const newPhones: UserData['phones'] = { ...(userData?.phones ?? {}), ...form };
                             await update({ phones: newPhones });

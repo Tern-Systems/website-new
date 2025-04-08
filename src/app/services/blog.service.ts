@@ -103,6 +103,8 @@ const TIPS_DTO_TEMPLATE: TipsDTO = {
 
 interface IBlogService {
     getArticles(): Promise<Res<ArticlesDTO, false>>;
+
+    getTips(): Promise<Res<TipsDTO, false>>;
 }
 
 class BlogServiceImpl extends BaseService implements IBlogService {
@@ -128,7 +130,7 @@ class BlogServiceImpl extends BaseService implements IBlogService {
 
     // TODO API call
     async getTips(): Promise<Res<TipsDTO, false>> {
-        const [debug, error] = this.getLoggers(this.getArticles.name);
+        const [debug, error] = this.getLoggers();
 
         const config: AxiosRequestConfig = {
             method: 'GET',

@@ -37,10 +37,9 @@ import {
 import { Address, Company, FullName, Phone, UserAddress, UserPhone } from '@/app/contexts/user.context';
 
 import { copyObject } from '@/app/utils';
-import { useModal, useSaveOnLeave } from '@/app/hooks';
+import { useSaveOnLeave } from '@/app/hooks';
 
 import { Button, Input, Select, Switch } from '@/app/ui/form';
-import { RemoveProfilePictureModal } from '@/pages/profile/RemoveProfilePictureModal';
 
 import SVG_PENCIL from '@/assets/images/icons/edit-line.svg';
 
@@ -94,6 +93,11 @@ type DataBase<T extends FormType> = {
 };
 
 interface Props extends PropsWithChildren {
+    TestID?: {
+        toggle: string;
+        input?: string;
+    };
+
     type?: FormType;
     toggleType?: 'icon' | 'button';
     initialize: <T extends FormType>() => DataBase<T> | (DataBase<T> & { options: Record<string, string> });
@@ -112,6 +116,7 @@ interface Props extends PropsWithChildren {
 
 const Editable: FC<Props> = (props: Props) => {
     const {
+        TestID,
         type = 'input',
         toggleType,
         keepChildrenOnEdit,
@@ -134,8 +139,6 @@ const Editable: FC<Props> = (props: Props) => {
     const [editState, setEditState] = useState<boolean>(
         initValue !== null && 'isPhoneAdded' in initValue && initValue.isPhoneAdded,
     );
-
-    const modalCtx = useModal();
 
     const [waring, setWarning] = useState<string | null>(null);
 
@@ -291,6 +294,7 @@ const Editable: FC<Props> = (props: Props) => {
             renderToggle()
         ) : (
             <span
+                data-testid={TestID?.toggle}
                 onClick={() => toggleEditState()}
                 className={`flex cursor-pointer items-center gap-4xs-2 text-20 ${classNameToggle} place-self-end self-start ${editState ? 'hidden' : ''}`}
             >
@@ -327,6 +331,7 @@ const Editable: FC<Props> = (props: Props) => {
                 <>
                     <span className={'flex items-center'}>
                         <Input
+                            data-testid={TestID?.input}
                             value={form.value ?? ''}
                             onChange={(event) => {
                                 setWarning(null);
@@ -347,57 +352,6 @@ const Editable: FC<Props> = (props: Props) => {
                     </span>
                     <span className={`mt-xxs block text-14 ${waring ? '' : 'hidden'}`}>{waring}</span>
                     <ControlBtns />
-                </>
-            );
-            break;
-        case 'image':
-            if (!form || !('fileName' in form) || !initValue || !('fileName' in initValue)) break;
-            Form = (
-                <>
-                    <Input
-                        type={'file'}
-                        accept={'image/*'}
-                        onClick={(event) => {
-                            if (event.currentTarget) event.currentTarget.value = '';
-                        }}
-                        onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
-                            if (!('target' in event) || !event.target.files) return;
-                            const file = Array.from(event.target?.files)?.[0];
-                            if (file) setForm({ file, fileName: file.name });
-                        }}
-                        classNameWrapper={initial.className}
-                        className={'w-fit'}
-                        classNameIcon={'[&&_*]:size-3xs  sm:size-4xs'}
-                    >
-                        {(form.fileName ?? initValue.fileName) || 'Upload media'}
-                    </Input>
-                    <span className={`mt-xxs block text-14 ${waring ? '' : 'hidden'}`}>{waring}</span>
-                    <span
-                        className={`flex h-button-n mt-[min(1.3dvw,0.95rem)] gap-x-[min(1dvw,0.75rem)] text-20 font-bold`}
-                    >
-                        {CancelBtn}
-                        <Button
-                            type={'button'}
-                            disabled={!form.fileName || form.fileName !== initValue.fileName}
-                            onClick={() => {
-                                modalCtx.openModal(<RemoveProfilePictureModal onRemove={() => toggleEditState()} />, {
-                                    darkenBg: true,
-                                });
-                            }}
-                            className={
-                                'px-xxs rounded-full border-s border-red text-red disabled:x-[bg-gray-l0,border-none,text-gray]'
-                            }
-                        >
-                            Remove
-                        </Button>
-                        <Button
-                            type={'submit'}
-                            disabled={!form.fileName || form.fileName === initValue.fileName}
-                            className={'rounded-full bg-navy px-xxs disabled:x-[bg-gray-l0,border-none,text-gray]'}
-                        >
-                            Replace
-                        </Button>
-                    </span>
                 </>
             );
             break;

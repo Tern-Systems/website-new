@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';

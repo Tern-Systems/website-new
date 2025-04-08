@@ -1,13 +1,13 @@
 'use client';
 
-import { FC, ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image, { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
 import { InfoSectionData } from '@/app/types/layout';
 
-import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route } from '@/app/static';
+import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route, SearchParamsEnum } from '@/app/static';
 
 import { useBackground, useFlow, useLoginCheck, useModal } from '@/app/hooks';
 
@@ -70,7 +70,7 @@ const BTN_CN = 'px-s h-button-l  lg:h-button-xxl';
 //     "While our values may serve as a general guide for the characteristics sought by groups and individuals, our purpose encapsulates an exacting and eternal meaning for our company's existence.. The overarching perpetual driving purpose of Tern is to develop, manufacture, preserve, and enhance fundamental computer software and hardware, emphasizing universal efficiency across all processes. This ideology serves as our organization’s moral compass. We aim to pursue these values and purpose everlastingly.",
 // ];
 
-const HomePage: FC = () => {
+function HomePage() {
     const params = useSearchParams();
     const modalCtx = useModal();
     const flowCtx = useFlow();
@@ -78,7 +78,7 @@ const HomePage: FC = () => {
     useLoginCheck();
 
     useEffect(() => {
-        const token = params?.get('resetToken');
+        const token = params?.get(SearchParamsEnum.token);
         if (token && !modalCtx.isOpened) return modalCtx.openModal(<ResetPasswordModal token={token} />);
         flowCtx.next()?.();
     }, [params?.size]);
@@ -244,6 +244,6 @@ const HomePage: FC = () => {
             </div>
         </>
     );
-};
+}
 
 export default HomePage;

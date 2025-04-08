@@ -4,6 +4,8 @@ import { FC, ReactElement, useRef, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
+import { DataTestID } from '@/__tests__/static';
+
 import { Breakpoint } from '@/app/static';
 
 import { LAYOUT } from '@/app/static';
@@ -16,9 +18,21 @@ import { AuthModal } from '@/app/ui/modals';
 
 import SVG_PROFILE from '@/assets/images/icons/profile.svg';
 
-const AUTH_BTNS: { title: string; action: string; description: string }[] = [
-    { title: 'Tern Account', action: 'Login', description: 'Log in to access your Tern Account' },
-    { title: 'Register for an account', action: 'Sign Up', description: 'Create a Tern account for richer experience' },
+const TestID = DataTestID.layout.profile;
+
+const AUTH_BUTTONS: { testID: string; title: string; action: string; description: string }[] = [
+    {
+        testID: TestID.loginButton,
+        title: 'Tern Account',
+        action: 'Login',
+        description: 'Log in to access your Tern Account',
+    },
+    {
+        testID: TestID.signUpButton,
+        title: 'Register for an account',
+        action: 'Sign Up',
+        description: 'Create a Tern account for richer experience',
+    },
 ];
 
 const ProfileMenu: FC = () => {
@@ -49,6 +63,7 @@ const ProfileMenu: FC = () => {
 
             ProfileMenuLi.push(
                 <li
+                    data-testid={TestID.logoutButton}
                     key={'logout' + LAYOUT.profileLinks.length}
                     onClick={() => {
                         setOpened(false);
@@ -61,6 +76,7 @@ const ProfileMenu: FC = () => {
             );
             ProfileMenu = (
                 <ul
+                    data-testid={TestID.menu}
                     className={cn(
                         `absolute right-0 top-[calc(1px+var(--h-heading))] z-10 w-[9.1875rem] text-nowrap bg-gray-d1 text-16`,
                         `[&>li]:x-[px-xs,py-xxs]`,
@@ -70,7 +86,7 @@ const ProfileMenu: FC = () => {
                 </ul>
             );
         } else {
-            const ProfileMenuLi: ReactElement[] = AUTH_BTNS.map((entry, idx) => (
+            const ProfileMenuLi: ReactElement[] = AUTH_BUTTONS.map((entry, idx) => (
                 <li
                     key={entry.title + idx}
                     className={'flex flex-col gap-y-4xs'}
@@ -78,6 +94,7 @@ const ProfileMenu: FC = () => {
                     <p className={'text-18'}>{entry.title}</p>
                     <p className={'text-gray'}>{entry.description}</p>
                     <Button
+                        data-testid={entry.testID}
                         onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1} />, { darkenBg: !sm })}
                         className={cn(
                             `w-full rounded-full border-s border-gray py-5xs text-20 font-bold capitalize`,
@@ -90,6 +107,7 @@ const ProfileMenu: FC = () => {
             ));
             ProfileMenu = (
                 <div
+                    data-testid={TestID.menuUnlogged}
                     className={cn(
                         'absolute right-0 z-10 mt-5xs rounded-n border-s p-n',
                         'text-nowrap border-gray-l0 bg-black',
@@ -107,7 +125,10 @@ const ProfileMenu: FC = () => {
             onClick={() => setOpened((prevState) => !prevState)}
             className={'relative'}
         >
-            <div className={cn('flex items-center h-full px-s', { ['bg-gray-d1']: opened })}>
+            <div
+                data-testid={TestID.toggle}
+                className={cn('flex items-center h-full px-s', { ['bg-gray-d1']: opened })}
+            >
                 <Image
                     src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}
                     width={29}

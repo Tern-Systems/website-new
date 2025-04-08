@@ -41,7 +41,7 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                 subNavLinks = [Route.AllWays, ...routes];
                 break;
             case checkSubRoute(route, Route.Tidal):
-                subNavLinks = [Route.Tidal, Route.TidalPricing, Route.TidalProductManual];
+                subNavLinks = [Route.Tidal, Route.TidalPlans, Route.TidalProductManual];
                 break;
             default:
                 break;

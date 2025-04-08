@@ -5,13 +5,8 @@ import Image, { StaticImageData } from 'next/image';
 import { ReactSVG } from 'react-svg';
 import dynamic from 'next/dynamic';
 import cn from 'classnames';
-
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
-
 import { ResourceSectionData } from '@/app/types/layout';
 import { MISC_LINKS, Route } from '@/app/static';
-
-import { useUser } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
@@ -33,6 +28,8 @@ import SVG_TILE_SHARE from '@/assets/images/icons/share.svg';
 import SVG_TILE_SAVE from '@/assets/images/icons/save.svg';
 import SVG_TILE_HEART from '@/assets/images/icons/heart.svg';
 import SVG_PLAY from '@/assets/images/icons/play.svg';
+
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 type Tiles = {
     title: string;
@@ -80,7 +77,7 @@ const TILES: Tiles[] = [
 ];
 
 const RESOURCES: ResourceSectionData[] = [
-    { Node: <PageLink href={Route.TidalPricing}>Pricing</PageLink> },
+    { Node: <PageLink href={Route.TidalPlans}>Pricing</PageLink> },
     { Node: <PageLink href={Route.TidalFAQs}>Help & FAQs</PageLink> },
     { Node: <PageLink href={Route.Documentation} /> },
 ];
@@ -92,8 +89,6 @@ const BTN_BLUE_CN = BTN_CN + ' bg-blue';
 const BTN_BLACK_CN = BTN_CN + ' border-s border-gray-l0 bg-black text-blue';
 
 function TidalPage() {
-    const userCtx = useUser();
-
     const [videoStarted, setVideoStarted] = useState(false);
 
     const demoSectionRef = useRef<HTMLDivElement | null>(null);

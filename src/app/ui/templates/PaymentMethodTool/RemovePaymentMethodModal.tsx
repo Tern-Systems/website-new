@@ -3,6 +3,8 @@
 import { FC } from 'react';
 import Image from 'next/image';
 
+import { DataTestID } from '@/__tests__/static';
+
 import { CardData } from '@/app/types/billing';
 
 import { BillingService } from '@/app/services';
@@ -13,6 +15,8 @@ import { BaseModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 
 import SVG_CARD from '@/assets/images/card-outline.svg';
+
+const TestID = DataTestID.page.profile.billing.purchasingInformation.paymentMethodTool.removeCard;
 
 const BTN_CN = 'h-xs px-5xs text-white text-12  md:text-14  lg:text-14';
 
@@ -43,6 +47,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
 
     return (
         <BaseModal
+            data-testid={TestID.modal}
             title={'Remove Payment Method'}
             classNameTitle={`text-20  md:text-27  lg:text-27`}
             className={`w-[min(90dvw,33rem)] [&]:rounded-none bg-gray [&_h2+button]:brightness-50 text-primary border-gray-l1`}
@@ -65,6 +70,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
                 </div>
                 <div className={'flex gap-xxs'}>
                     <Button
+                        data-testid={TestID.submitButton}
                         className={`bg-red font-bold ${BTN_CN} `}
                         onClick={() => handleRemove()}
                     >

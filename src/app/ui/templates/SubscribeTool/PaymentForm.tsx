@@ -2,6 +2,8 @@
 
 import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
 
+import { DataTestID } from '@/__tests__/static';
+
 import { SavedCard } from '@/app/types/billing';
 import { Subscription, SubscriptionRecurrency } from '@/app/types/subscription';
 import { SubscribeData } from '@/app/services/billing.service';
@@ -24,6 +26,8 @@ import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
 
 import styles from './Subscribe.module.css';
+
+const TestID = DataTestID.page.subscribe.paymentForm;
 
 const FORM_DEFAULT: SubscribeData = {
     id: '',
@@ -61,9 +65,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
     const [navigate] = useNavigate(true);
 
     const [formData, setFormData] = useForm<SubscribeData>(FORM_DEFAULT);
-    const [isBillingExpanded, setBillingExpandedState] = useState(false);
+    const [billingExpanded, setBillingExpandedState] = useState(false);
 
-    const [paymentStatus, setPaymentStatus] = useState<boolean | string | null>(null);
     const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
 
     // Fetch saved cards
@@ -73,6 +76,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
             try {
                 const { payload: cards } = await BillingService.getCards(userCtx.userData.email);
                 setSavedCards(cards);
+                if (cards.length === 1) setFormData('savedCardIdx')('0');
             } catch (_: unknown) {
                 // Empty block
             }
@@ -80,25 +84,16 @@ const PaymentForm: FC<Props> = (props: Props) => {
         fetchCards();
     }, [setSavedCards, userCtx.userData]);
 
-    // Flow / payment status
-    useEffect(() => {
-        const finishPayment = async () => {
-            if (paymentStatus === false) {
-                modalCtx.openModal(<DeclinedModal />);
-                setPaymentStatus(null);
-            } else if (paymentStatus) {
-                await userCtx.setupSession(true);
-                const next = flowCtx.next();
-                if (next) next();
-                else {
-                    window.open(MISC_LINKS.Tidal, '_blank');
-                    await navigate(Route.Home);
-                    modalCtx.openModal(<MessageModal>{paymentStatus}</MessageModal>);
-                }
-            }
-        };
-        finishPayment();
-    }, [paymentStatus]);
+    const finishPayment = async (message: string) => {
+        await userCtx.setupSession(true);
+        const next = flowCtx.next();
+        if (next) next();
+        else {
+            window.open(MISC_LINKS.Tidal, '_blank');
+            modalCtx.openModal(<MessageModal data-testid={TestID.successModal}>{message}</MessageModal>);
+            await navigate(Route.Home);
+        }
+    };
 
     const toggleBillingDetails = () => setBillingExpandedState((prev) => !prev);
 
@@ -110,7 +105,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
 
             const recurrencyMapped = recurrency === 'monthly' ? 1 : 12;
             let formDataMapped: SubscribeData = formData;
-            if (!isBillingExpanded && !savedCards.length) {
+            if (!billingExpanded && !savedCards.length) {
                 if (!formData.billingAddress) return;
                 const billingAddress = formData.billingAddress.split(',');
                 formDataMapped = {
@@ -124,6 +119,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 };
             }
 
+            let message: string;
             if (savedCards.length) {
                 const selectedCard: SavedCard = savedCards[+formData.savedCardIdx];
 
@@ -132,26 +128,29 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 formDataMapped.id = selectedCard.id;
                 formDataMapped.cvc = formData.cvc;
                 formDataMapped.state = selectedCard.billingAddress.state;
+                formDataMapped.country = selectedCard.billingAddress.country;
 
-                await BillingService.postProcessSavedPayment(
+                const { message: msg } = await BillingService.postProcessSavedPayment(
                     formDataMapped,
                     type,
                     recurrencyMapped,
                     priceUSD,
                     userCtx.userData.email,
                 );
-            } else
-                await BillingService.postProcessPayment(
+                message = msg;
+            } else {
+                const { message: msg } = await BillingService.postProcessPayment(
                     formDataMapped,
                     type,
                     recurrencyMapped,
                     priceUSD,
                     userCtx.userData.email,
                 );
-            setPaymentStatus(true);
-        } catch (err: unknown) {
-            if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
-            setPaymentStatus(false);
+                message = msg;
+            }
+            finishPayment(message);
+        } catch (_: unknown) {
+            modalCtx.openModal(<DeclinedModal data-testid={TestID.errorModal} />);
         }
     };
 
@@ -164,6 +163,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
         FormInputs = (
             <>
                 <Select
+                    data-testid={TestID.input.savedCardIdx}
                     options={SavedCards}
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
@@ -174,9 +174,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     required
                 />
                 <Input
+                    data-testid={TestID.input.cvc}
+                    name={TestID.input.cvc}
                     type={'number'}
                     value={formData.cvc}
-                    maxLength={3}
+                    maxLength={4}
                     onChange={setFormData('cvc')}
                     placeholder={'CVC'}
                     icons={[SVG_CARD_NUM]}
@@ -191,6 +193,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 <fieldset className={'grid grid-cols-2 grid-rows-2'}>
                     <legend>Card Information</legend>
                     <Input
+                        data-testid={TestID.input.cardNumber}
+                        name={TestID.input.cardNumber}
                         type={'number'}
                         value={formData.cardNumber}
                         maxLength={16}
@@ -202,6 +206,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         required
                     />
                     <Input
+                        data-testid={TestID.input.expirationDate}
+                        name={TestID.input.expirationDate}
                         type={'expiration'}
                         value={formData.expirationDate}
                         maxLength={5}
@@ -211,9 +217,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         required
                     />
                     <Input
+                        data-testid={TestID.input.cvc}
+                        name={TestID.input.cvc}
                         type={'number'}
                         value={formData.cvc}
-                        maxLength={3}
+                        maxLength={4}
                         onChange={setFormData('cvc')}
                         placeholder={'CVC'}
                         className={`[&&]:rounded-t-none [&&]:rounded-bl-none ${CONTROL_H_CN}`}
@@ -224,6 +232,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 <fieldset>
                     <legend>Cardholder Name</legend>
                     <Input
+                        data-testid={TestID.input.cardholderName}
+                        name={TestID.input.cardholderName}
                         value={formData.cardholderName}
                         onChange={setFormData('cardholderName')}
                         onKeyDown={(event) => {
@@ -237,6 +247,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                 <fieldset>
                     <legend>Billing Address</legend>
                     <Select
+                        data-testid={TestID.input.country}
+                        name={TestID.input.country}
                         options={COUNTRY}
                         value={formData.country ?? ''}
                         placeholder={'Country / Region'}
@@ -246,16 +258,20 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         classNameUl={'min-w-0'}
                         required
                     />
-                    {isBillingExpanded ? (
+                    {billingExpanded ? (
                         <>
                             <Input
+                                data-testid={TestID.input.addressLine1}
+                                name={TestID.input.addressLine1}
                                 value={formData.addressLine1}
                                 onChange={setFormData('addressLine1')}
                                 placeholder={'Street Address #1'}
                                 className={`[&&]:rounded-none [&&]:border-y-0 ${CONTROL_H_CN}`}
-                                required={isBillingExpanded}
+                                required={billingExpanded}
                             />
                             <Input
+                                data-testid={TestID.input.addressLine2}
+                                name={TestID.input.addressLine2}
                                 value={formData.addressLine2}
                                 onChange={setFormData('addressLine2')}
                                 placeholder={'Street Address #2'}
@@ -263,6 +279,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                             />
                             <div className={'flex'}>
                                 <Input
+                                    data-testid={TestID.input.city}
+                                    name={TestID.input.city}
                                     value={formData.city}
                                     onChange={setFormData('city')}
                                     placeholder={'City / Locality'}
@@ -271,47 +289,55 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                             event.preventDefault();
                                     }}
                                     className={`[&&]:rounded-none [&&]:border-r-0 ${CONTROL_H_CN}`}
-                                    required={isBillingExpanded}
+                                    required={billingExpanded}
                                 />
                                 <Input
+                                    data-testid={TestID.input.zip}
+                                    name={TestID.input.zip}
                                     type={'number'}
                                     value={formData.zip}
                                     maxLength={5}
                                     onChange={setFormData('zip')}
                                     className={`[&&]:rounded-none ${CONTROL_H_CN}`}
                                     placeholder={'Postal / Zip Code'}
-                                    required={isBillingExpanded}
+                                    required={billingExpanded}
                                 />
                             </div>
-                            <Select
-                                options={STATE_PROVINCE?.[formData?.country ?? ''] ?? {}}
-                                hidden={!isBillingExpanded}
-                                value={formData.state ?? ''}
-                                placeholder={'State / Province'}
-                                onChangeCustom={(value) => setFormData('state')(value)}
-                                className={`${SELECT_CN} [&&]:rounded-t-none [&&]:border-t-0`}
-                                classNameOption={CONTROL_H_CN}
-                                required={isBillingExpanded}
-                            />
+                            {billingExpanded ? (
+                                <Select
+                                    data-testid={TestID.input.state}
+                                    name={TestID.input.state}
+                                    options={STATE_PROVINCE?.[formData?.country ?? ''] ?? {}}
+                                    value={formData.state ?? ''}
+                                    placeholder={'State / Province'}
+                                    onChangeCustom={(value) => setFormData('state')(value)}
+                                    className={`${SELECT_CN} [&&]:rounded-t-none [&&]:border-t-0`}
+                                    classNameOption={CONTROL_H_CN}
+                                    required={billingExpanded}
+                                />
+                            ) : null}
                         </>
-                    ) : (
+                    ) : billingExpanded ? null : (
                         <Input
-                            hidden={isBillingExpanded}
+                            data-testid={TestID.input.billingAddress}
+                            name={TestID.input.billingAddress}
                             value={formData.billingAddress}
                             onChange={setFormData('billingAddress')}
                             placeholder={'Address'}
                             className={`[&&]:rounded-t-none [&&]:border-t-0 ${CONTROL_H_CN}`}
-                            required={!isBillingExpanded}
+                            required={!billingExpanded}
                         />
                     )}
                 </fieldset>
-                <span
-                    hidden={isBillingExpanded}
-                    className={'mt-4xs block cursor-pointer text-14 underline'}
-                    onClick={() => toggleBillingDetails()}
-                >
-                    Enter address manually
-                </span>
+                {billingExpanded ? null : (
+                    <span
+                        data-testid={TestID.expandButton}
+                        className={'mt-4xs block cursor-pointer text-14 underline'}
+                        onClick={() => toggleBillingDetails()}
+                    >
+                        Enter address manually
+                    </span>
+                )}
             </>
         );
     }
@@ -328,6 +354,8 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     <h2 className={`mb-xs font-bold`}>{savedCards.length ? 'Choose' : ''} Payment Method</h2>
                     {FormInputs}
                     <Input
+                        data-testid={TestID.input.termsCheckbox}
+                        name={TestID.input.termsCheckbox}
                         type={'checkbox'}
                         checked={formData.acceptTerms}
                         onChange={setFormData('acceptTerms')}
@@ -370,8 +398,9 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         </span>
                     </Input>
                     <Button
+                        data-testid={TestID.submitButton}
                         type={'submit'}
-                        className={`mt-[min(4dvw,--p-n)] h-8xl w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-6xl`}
+                        className={`mt-n h-8xl w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-6xl`}
                     >
                         Subscribe
                     </Button>

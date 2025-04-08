@@ -35,7 +35,7 @@ type Invoice = DeepPartial<{
     paidUSD: number;
     country: CountryKey;
     state: StateKey;
-    status: 'paid' | 'unpaid';
+    status: 'active' | 'inactive';
     type: SubscriptionRecurrency;
 }>;
 
@@ -62,11 +62,12 @@ type SavedCardFull = DeepPartial<{
     paymentProfileId: string;
     billingAddress: {
         address: string;
+        address2: string;
         city: string;
-        country: string;
+        country: CountryKey;
         firstName: string;
         lastName: string;
-        state: string;
+        state: StateKey;
         zip: string;
     };
     cardNumber: string;

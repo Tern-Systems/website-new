@@ -2,11 +2,9 @@
 
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/static';
+import { Breakpoint, REGEX } from '@/app/static';
 import { FormInit, FormType } from '@/app/ui/form/Editable';
 import { SectionProps } from '../index.page';
-
-import { REGEX } from '@/app/static';
 
 import { AuthService } from '@/app/services';
 
@@ -23,17 +21,17 @@ import styles from '@/pages/profile/Profile.module.css';
 
 const ACCOUNT = 'Account Credentials';
 
+const title_CN = `[&&]:text-section-xs  [&&]:md:text-heading-s  [&&]:lg:text-heading-s`;
+const label_CN = `align-bottom [&&]:text-section-xxs  [&&]:md:text-section-s  [&&]:lg:text-section-s`;
+
 function AccountSection(props: SectionProps) {
     const { update, setEditId, editId } = props;
 
     const { userData, token } = useUser();
     const modalCtx = useModal();
-    const sm = [Breakpoint.sm, Breakpoint.xs, Breakpoint.xxs, Breakpoint.x3s].includes(useBreakpointCheck());
+    const sm = useBreakpointCheck() <= Breakpoint.sm;
 
     if (!userData || !token) return null;
-
-    const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
-    const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-18  [&&]:lg:text-18`;
 
     return (
         <Collapsible
@@ -45,7 +43,7 @@ function AccountSection(props: SectionProps) {
             classNameTitleIcon={`[&]:max-w-5xs  [&]:md:max-w-n  [&]:lg:max-w-n`}
             classNameHr={`border-gray-l0`}
         >
-            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>TernID</span>
+            <span className={cn(styles.leftCol, styles.ellipsis, title_CN)}>TernID</span>
             <Editable
                 classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
@@ -68,12 +66,12 @@ function AccountSection(props: SectionProps) {
                     };
                 }}
             >
-                <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>
+                <span className={cn(styles.midCol, styles.ellipsis, label_CN)}>
                     {userData.ternID ?? userData.email}
                 </span>
             </Editable>
 
-            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Password</span>
+            <span className={cn(styles.leftCol, styles.ellipsis, title_CN)}>Password</span>
             <Editable
                 type={'password'}
                 classNameToggleText={`text-14`}
@@ -93,8 +91,7 @@ function AccountSection(props: SectionProps) {
                             if (!('passwordConfirm' in form) || !userData) throw 'Wrong request setup';
 
                             if (form.passwordConfirm !== form.newPassword) throw `Passwords don't match`;
-                            if (!REGEX.password.test(form.newPassword))
-                                throw `Entered password doesn't meet the requirements`;
+                            if (!REGEX.password.getRegex().test(form.newPassword)) throw REGEX.password.message;
 
                             await update(async () => {
                                 return await AuthService.postChangePassword(
@@ -108,7 +105,7 @@ function AccountSection(props: SectionProps) {
                     };
                 }}
             >
-                <span className={`${styles.midCol} ${styles.ellipsis} ${label_CN}`}>
+                <span className={cn(styles.midCol, styles.ellipsis, label_CN)}>
                     <span className={'block text-12 tracking-widest'}>•••••••••••••••</span>
                     <span className={'text-10 md:text-14 lg:text-14'}>
                         Last updated&nbsp;
@@ -119,7 +116,7 @@ function AccountSection(props: SectionProps) {
                 </span>
             </Editable>
 
-            <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Security</span>
+            <span className={cn(styles.leftCol, styles.ellipsis, title_CN)}>Security</span>
             <Editable
                 type={'2FA'}
                 classNameToggleText={`text-14`}
@@ -136,8 +133,7 @@ function AccountSection(props: SectionProps) {
                             if (!('value' in form) || !form.value) throw 'Wrong request setup';
 
                             const phone = form.value.trim();
-                            if (!REGEX.phone.test(phone))
-                                throw `Entered phone number should be in the format '+1234567890'`;
+                            if (!REGEX.phone.getRegex().test(phone)) throw REGEX.phone.message;
 
                             const numericPhone = phone.startsWith('+') ? phone.slice(1) : phone;
                             if (numericPhone.length < 10 || numericPhone.length > 15)
@@ -169,7 +165,7 @@ function AccountSection(props: SectionProps) {
                     };
                 }}
             >
-                <span className={`${styles.midCol} ${styles.ellipsis} [&&]:text-12 [&&]:md:text-16 [&&]:lg:text-16`}>
+                <span className={cn(styles.midCol, styles.ellipsis, `sm:!text-12 text-16`)}>
                     Enable / disable your {sm ? '2FA' : 'two-factor authentication'}
                 </span>
             </Editable>

@@ -1,20 +1,19 @@
 'use client';
 
-import { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
+import { Dispatch, FC, HTMLAttributes, SetStateAction } from 'react';
 import cn from 'classnames';
 
 import { Breakpoint } from '@/app/static';
 
-import { useModal } from '@/app/hooks';
+import { useBreakpointCheck, useModal } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
-import { useBreakpointCheck } from '@/app/hooks';
 
 import { Insignia } from '@/app/ui/organisms';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 
-interface ModalConfig extends PropsWithChildren {
-    isSimple?: boolean | Breakpoint;
+interface ModalConfig extends HTMLAttributes<HTMLDivElement> {
+    simple?: boolean | Breakpoint;
     title?: string;
     onClose?: () => void;
     setHoverState?: Dispatch<SetStateAction<boolean>>;
@@ -30,7 +29,7 @@ interface ModalConfig extends PropsWithChildren {
 const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
     const {
         children,
-        isSimple,
+        simple,
         title,
         onClose,
         setHoverState,
@@ -41,6 +40,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         classNameHr,
         adaptBreakpoint,
         adaptedDefault,
+        ...divProps
     } = props;
 
     const modalCtx = useModal();
@@ -54,15 +54,16 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         if (!preventClose) modalCtx.closeModal();
     };
 
-    const simple = isSimple !== undefined && (typeof isSimple === 'boolean' ? isSimple : isSimple > breakpoint);
+    const simpleFinal = simple !== undefined && (typeof simple === 'boolean' ? simple : simple > breakpoint);
 
-    if (simple) {
+    if (simpleFinal) {
         return (
             <div
+                {...divProps}
                 id={'modal'}
+                onClick={(event) => event.stopPropagation()}
                 onMouseEnter={() => setHoverState?.(true)}
                 onMouseLeave={() => setHoverState?.(false)}
-                onClick={() => modalCtx.closeModal()}
                 className={cn(
                     `pointer-events-auto absolute flex items-center gap-xxs px-4xs py-3xs`,
                     adaptApplied ? 'h-dvh w-dvw bg-white-d0 text-gray' : 'rounded-xs bg-gray-l0',
@@ -97,6 +98,7 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
         ) : null;
         return (
             <div
+                {...divProps}
                 id={'modal'}
                 onClick={(event) => event.stopPropagation()}
                 className={cn(

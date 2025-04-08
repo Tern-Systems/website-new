@@ -22,7 +22,7 @@ enum Route {
     // /product
     // Products = '/products/all',
     Tidal = '/product',
-    TidalPricing = '/product/plans',
+    TidalPlans = '/product/plans',
     TidalProductManual = '/product/manual',
     TidalSubscribe = '/subscribe/tidal',
     TidalFAQs = '/product/faqs',
