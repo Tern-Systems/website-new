@@ -378,7 +378,7 @@ function CommunityPage() {
                     className={cn(
                         styles.content,
                         'pt-5xl md:pt-6xl-1 lg:pt-7xl',
-                        'pb-[33rem] md:pb-[27rem] lg:pb-[29.5rem]',
+                        'pb-[33rem] sm:landscape:pb-[12.5rem] md:pb-[27rem] lg:pb-[29.5rem]',
                     )}
                 >
                     <h3 className={'text-32 sm:text-27'}>Community News</h3>
