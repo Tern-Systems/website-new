@@ -36,9 +36,10 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                     : [Route.BTMCDoc, Route.GDoc, Route.TernDoc, Route.TidalDoc, Route.TernKitDoc];
                 break;
             case checkSubRoute(route, Route.AllWays):
-                let routes = LAYOUT.blogLinks;
-                if (breakpoint <= Breakpoint.sm) routes = [routes[0], routes[4], routes[2], routes[3]];
-                subNavLinks = [Route.AllWays, ...routes];
+                let routes = [Route.AllWays, ...LAYOUT.blogLinks];
+                if (breakpoint <= Breakpoint.sm) routes = routes.slice(0, -2);
+                else if (breakpoint <= Breakpoint.xxs) subNavLinks = [];
+                subNavLinks = routes;
                 break;
             case checkSubRoute(route, Route.Tidal):
                 subNavLinks = [Route.Tidal, Route.TidalPlans, Route.TidalProductManual];

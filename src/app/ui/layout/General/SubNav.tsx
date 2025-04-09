@@ -204,6 +204,6 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
 
 const SubNav = forwardRef(SubNavElement);
 
-SubNav.displayName = 'SubNav';
+SubNav.displayName = SubNav.name;
 
 export { SubNav };
