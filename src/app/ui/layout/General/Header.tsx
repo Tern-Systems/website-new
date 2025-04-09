@@ -91,9 +91,7 @@ const Header: FC = (): ReactElement => {
                             <p>{navDropdown.name}</p>
                             <ReactSVG
                                 src={SVG_CHEVRON.src}
-                                className={cn('xxs:-rotate-90 [&_*]:size-8xs', {
-                                    ['rotate-180']: dropdownExpanded,
-                                })}
+                                className={cn('xxs:-rotate-90 [&_*]:size-8xs', { ['rotate-180']: dropdownExpanded })}
                             />
                         </div>
                     </>

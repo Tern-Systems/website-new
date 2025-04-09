@@ -72,6 +72,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                   setDropdownColumns(null);
                                   setNavExpanded(false);
                               }}
+                              prevent={true}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
                               className={'flex-row-reverse'}
                               iconClassName={cn('ml-4xs  !size-xs  xxs:h-6xs')}
@@ -204,6 +205,6 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
 
 const SubNav = forwardRef(SubNavElement);
 
-SubNav.displayName = 'SubNav';
+SubNav.displayName = SubNav.name;
 
 export { SubNav };
