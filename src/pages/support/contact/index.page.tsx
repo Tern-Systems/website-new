@@ -69,7 +69,6 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={OFFICE_GIRL_3} />
                 <MainBackground
                     url={OFFICE_GIRL_3}
                     className='!bg-top'
