@@ -43,39 +43,39 @@ type Tiles = {
 
 const TILES: Tiles[] = [
     {
-        title: 'Universal Login',
+        title: "Universal Login",
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
+            "Use the same login for the website for all of our products and services including Tidal. One account and you're free to experiment.",
         image: SVG_TILE_PROFILE,
     },
     {
-        title: 'Universal Login',
+        title: "Universal Login",
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
+            "Use the same login for the website for all of our products and services including Tidal. One account and you're free to experiment.",
         image: SVG_TILE_STAR,
     },
     {
-        title: 'Universal Login',
+        title: "Universal Login",
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
+            "Use the same login for the website for all of our products and services including Tidal. One account and you're free to experiment.",
         image: SVG_TILE_GLASS,
     },
     {
-        title: 'Universal Login',
+        title: "Universal Login",
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
+            "Use the same login for the website for all of our products and services including Tidal. One account and you're free to experiment.",
         image: SVG_TILE_SHARE,
     },
     {
-        title: 'Universal Login',
+        title: "Universal Login",
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
+            "Use the same login for the website for all of our products and services including Tidal. One account and you're free to experiment.",
         image: SVG_TILE_SAVE,
     },
     {
-        title: 'Universal Login',
+        title: "Universal Login",
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you\'re free to experiment.',
+            "Use the same login for the website for all of our products and services including Tidal. One account and you're free to experiment.",
         image: SVG_TILE_HEART,
     },
 ];
@@ -160,7 +160,6 @@ function TidalPage() {
                     className={cn(
                         'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
                         'bg-gradient-to-b from-blue to-transparent to-50%',
-                        'opacity-15'
                     )}
                 />
                 <div
@@ -197,27 +196,25 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <div className="relative z-[60]">
-                        <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl opacity-100'}>
-                            This specialized sandbox environment is designed to support languages engineered specifically
-                            for ternary logic computation. At its core is G, a sophisticated high-level language
-                            structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
-                            conventional programming.
-                        </p>
-                        <div className={'mt-xl md:mt-4xl lg:mt-5xl opacity-100'}>
-                            <Button
-                                onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                                className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
-                            >
-                                G Handbook
-                            </Button>
-                        </div>
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl opacity-100'}>
+                        This specialized sandbox environment is designed to support languages engineered specifically
+                        for ternary logic computation. At its core is G, a sophisticated high-level language
+                        structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
+                        conventional programming.
+                    </p>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl opacity-100'}>
+                        <Button
+                            onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16 opacity-100')}
+                        >
+                            G Handbook
+                        </Button>
                     </div>
                 </div>
             </section>
             <section
                 ref={demoSectionRef}
-                className={cn(styles.section, styles.sectionShadowBlack)}
+                className={cn(styles.section, 'relative z-50')}
             >
                 <div
                     className={cn(
@@ -225,7 +222,7 @@ function TidalPage() {
                         styles.contentHighlight,
                         'text-40 leading-n',
                         'pt-6xl-1 md:pt-[12.55rem] lg:pt-[16rem]',
-                        'pb-6xl-1 md:pb-[13rem] lg:pb-[19.5rem]',
+                        'pb-6xl-1 md:pb-[13rem] lg:pb-[19.5rem]'
                     )}
                 >
                     <div
@@ -235,8 +232,8 @@ function TidalPage() {
                         }}
                         className={cn(
                             'relative h-[50dvw] max-h-[42.886rem] w-full cursor-pointer',
-                            'before:x-[absolute,size-full,bg-black]',
-                            { ['before:hidden']: videoStarted },
+                            'before:absolute before:size-full before:bg-black',
+                            videoStarted ? 'before:hidden' : 'before:block'
                         )}
                     >
                         <ReactSVG
@@ -244,13 +241,15 @@ function TidalPage() {
                             className={cn(
                                 'absolute z-50 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2',
                                 '[&_*]:!size-l md:[&_*]:!size-9xl lg:[&_*]:!size-[5.75rem]',
-                                { ['hidden']: videoStarted },
+                                videoStarted ? 'hidden' : 'block'
                             )}
                         />
-                        <div className={'[&_*]:!size-full size-full'}>
+                        <div className="[&_*]:!size-full size-full">
                             <ReactPlayer
                                 url={MISC_LINKS.TidalDemoEmbed}
                                 playing={videoStarted}
+                                width="100%"
+                                height="100%"
                             />
                         </div>
                     </div>
