@@ -154,7 +154,7 @@ function TidalPage() {
             </section>
             <section
                 style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
-                className={styles.section}
+                className={cn(styles.section,)}
             >
                 <div
                     className={cn(
@@ -205,7 +205,7 @@ function TidalPage() {
                     <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
+                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16 ')}
                         >
                             G Handbook
                         </Button>
@@ -214,7 +214,11 @@ function TidalPage() {
             </section>
             <section
                 ref={demoSectionRef}
-                className={cn(styles.section, styles.sectionShadowBlack)}
+                className={cn(
+                    styles.section, 
+                    styles.sectionShadowBlack,
+                    'z-0')
+                }
             >
                 <div
                     className={cn(
