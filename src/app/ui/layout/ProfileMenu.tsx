@@ -95,7 +95,11 @@ const ProfileMenu: FC = () => {
                     <p className={'text-gray'}>{entry.description}</p>
                     <Button
                         data-testid={entry.testID}
-                        onClick={() => modalCtx.openModal(<AuthModal registration={idx === 1} />, { darkenBg: !sm })}
+                        onClick={() =>
+                            modalCtx.openModal(<AuthModal registration={idx === 1} />, {
+                                darkenBg: !sm,
+                            })
+                        }
                         className={cn(
                             `w-full rounded-full border-s border-gray py-5xs text-20 font-bold capitalize`,
                             idx ? 'bg-black text-primary' : 'bg-white text-black',
@@ -127,7 +131,9 @@ const ProfileMenu: FC = () => {
         >
             <div
                 data-testid={TestID.toggle}
-                className={cn('flex items-center h-full px-s', { ['bg-gray-d1']: opened })}
+                className={cn('flex items-center h-full px-s', {
+                    ['bg-gray-d1']: opened,
+                })}
             >
                 <Image
                     src={userCtx.userData?.photo ? userCtx.userData?.photo : SVG_PROFILE}

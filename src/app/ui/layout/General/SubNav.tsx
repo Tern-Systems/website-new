@@ -21,15 +21,15 @@ import stylesLayout from './Layout.module.css';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
-    setNavExpanded: Dispatch<SetStateAction<boolean>>;
-    dropdownState: [NavDropdown | null, Dispatch<SetStateAction<NavDropdown | null>>];
+    setNav: Dispatch<SetStateAction<boolean>>;
+    nav: [NavDropdown | null, Dispatch<SetStateAction<NavDropdown | null>>];
     headerLinkCount: number | null;
 }
 
 const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
-    const { headerLinkCount, dropdownState, setNavExpanded } = props;
+    const { headerLinkCount, nav, setNav } = props;
 
-    const [navDropdown, setDropdownColumns] = dropdownState;
+    const [navDropdown, setDropdown] = nav;
 
     const route = usePathname();
     const breakpoint = useBreakpointCheck();
@@ -40,7 +40,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     const subNavRef = useRef<HTMLDivElement | null>(null);
     useImperativeHandle(ref, () => subNavRef.current as HTMLDivElement);
 
-    useOuterClickClose(subNavRef, !!subNavRef, () => setDropdownColumns(null));
+    useOuterClickClose(subNavRef, !!subNavRef, () => setDropdown(null));
 
     const subNavLinks = layoutCtx.navLinks[NavLink.SubNav];
 
@@ -52,8 +52,8 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
         : navDropdown.columns.map((column, idx) => {
               const entries = Object.entries(column);
               const LinksLi: ReactElement[] = entries.map(([title, action], entryIdx) => {
-                  const isString = typeof action === 'string';
-                  const isExternal = isString && action.startsWith('https://');
+                  const string = typeof action === 'string';
+                  const external = string && action.startsWith('https://');
 
                   return (
                       <li
@@ -65,12 +65,12 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                       >
                           <PageLink
                               onClick={async () => {
-                                  if (isString) {
-                                      if (isExternal) window.open(action, '_blank');
+                                  if (string) {
+                                      if (external) window.open(action, '_blank');
                                       else await navigate(action as Route);
                                   } else action(modalCtx);
-                                  setDropdownColumns(null);
-                                  setNavExpanded(false);
+                                  setDropdown(null);
+                                  setNav(false);
                               }}
                               prevent={true}
                               icon={!entryIdx ? 'arrow-right-long' : undefined}
@@ -107,7 +107,10 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                 className={'contents'}
             >
                 <Button
-                    onClick={() => setDropdownColumns(null)}
+                    onClick={() => {
+                        setNav(true);
+                        setDropdown(null);
+                    }}
                     icon={faChevronLeft}
                     className={'!justify-start border-b-s p-s font-bold'}
                     classNameIcon={'!size-8xs !min-w-fit'}
@@ -166,17 +169,17 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                     ref={subNavRef}
                     className={cn(
                         styles.section,
-                        'absolute left-0 z-[1000] h-fit bg-black-l0',
+                        'absolute left-0 z-[1000] bg-black-l0',
                         'py-4xl',
                         'sm:x-[min-w-0,w-[79%]] xxs:h-[calc(100vh-var(--h-heading))] xxs:overflow-y-scroll',
                         `xxs:top-[calc(1px+var(--h-heading))]`,
-                        `xxs:x-[gap-x-l,w-fit,max-w-fit,p-0,bg-gray-d1]`,
+                        `xxs:x-[gap-x-l,h-dvh,w-full,max-w-[18rem],p-0,bg-gray-d1]`,
                     )}
                 >
                     <ul
                         className={cn(
                             styles.content,
-                            'flex min-h-fit',
+                            'flex h-fit',
                             'flex-wrap justify-between gap-xs',
                             'xxs:x-[flex-col,gap-y-s,!px-0,text-12]',
                         )}
