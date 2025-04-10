@@ -153,7 +153,8 @@ function TidalPage() {
                 </div>
             </section>
             <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
+                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")`, 
+                zIndex:'initial' }}
                 className={styles.section}
             >
                 <div
@@ -222,9 +223,7 @@ function TidalPage() {
             <section
                 ref={demoSectionRef}
                 className={cn(styles.section, styles.sectionShadowBlack)}
-                style={{boxShadow: 'inset 0 calc(-1 * var(--section-shadow-shift)) var(--section-shadow-blur-radius) rgba(0, 0, 0, 0.5)',
-                position:'relative',
-                }}
+                
             >
                 
                 <div
