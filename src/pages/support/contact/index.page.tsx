@@ -68,8 +68,9 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
-            <MainBackground url={OFFICE_GIRL_3} />
+            <section className={cn('flex justify-center w-full')}>
+            <MainBackground url={OFFICE_GIRL_3} 
+                className='!bg-[center_0%]'/>
                 <div
                     className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
                 >
