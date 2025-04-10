@@ -153,22 +153,25 @@ function TidalPage() {
                 </div>
             </section>
             <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
-                className={styles.section}
+                style={{
+                    backgroundImage: [
+                        // 1) Gradient at the top: semi‑opaque blue → transparent
+                        'linear-gradient(to bottom, rgba(59,130,246,0.6) 0%, rgba(59,130,246,0) 50%)',
+                        // 2)image underneath
+                        `url("${PNG_BACKGROUND_CIRCUIT.src}")`,
+                    ].join(','),
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}
             >
                 <div
                     className={cn(
-                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
-                        'bg-gradient-to-b from-blue to-transparent to-50%',
-                    )}
-                />
-                <div
-                    className={cn(
                         styles.content,
-                        'relative z-50 leading-n',
-                        'pt-4xl md:pt-[7.81em] lg:pt-6xl',
+                        'relative z-[100] leading-n',
+                        'pt-4xl md:pt-[10em] lg:pt-[12em]',
                         'text-16 md:text-14 lg:text-40',
                     )}
+                    style={{ opacity: 1 }}
                 >
                     <h2
                         className={cn(
@@ -196,7 +199,7 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-5xl text-16 md:text-30 lg:text-40'}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
@@ -253,28 +256,25 @@ function TidalPage() {
                     </div>
                 </div>
             </section>
-            <section className={cn(styles.section, '!bg-transparent')}>
-                <div
-                    className={cn(styles.content, 'relative z-50 grid gap-x-5xl leading-n  grid-cols-2 sm:grid-cols-1')}
-                >
-                    <div className={'contents'}>
-                        <Image
-                            src={PNG_GIRL}
-                            alt={'emulator sample'}
-                            className={'m-auto w-2/3'}
-                        />
-                    </div>
-                    <div className={'sm:contents'}>
-                        <h2
-                            className={cn(
-                                'font-bold leading-n',
-                                'sm:x-[row-start-1,mb-xs,text-center]',
-                                'text-24 md:text-40 lg:text-64',
-                            )}
-                        >
+            <section
+                className='relative z-10 w-full h-fit bg-cover bg-center bg-no-repeat'
+                style={{
+                    backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")`,
+                }}
+            >
+                {/* Remove any overlay div here like bg-gradient-to-b from-blue/60 to-transparent */}
+
+                <div className='mx-auto grid max-w-screen-xl grid-cols-1 items-center gap-8 px-4 py-16 sm:grid-cols-2 sm:py-24 lg:grid-cols-2 lg:px-6 relative z-20'>
+                    <Image
+                        src={PNG_GIRL}
+                        className='h-auto w-full rounded-lg'
+                        alt='Turning Heads'
+                    />
+                    <div className='text-white text-16 md:text-27 lg:text-40'>
+                        <h2 className='mb-4 text-27 md:text-48 lg:text-64 font-extrabold tracking-tight'>
                             Turning Heads
                         </h2>
-                        <p className={cn('mt-xxl  sm:x-[mx-auto,mt-xs,w-2/3]', 'text-16 md:text-27 lg:text-40')}>
+                        <p className='opacity-100 text-white'>
                             Users can write code using the Tidal software and run that code within our online emulator,
                             enabling software developers from any experience level to explore this untapped scape of
                             programming.
@@ -282,6 +282,7 @@ function TidalPage() {
                     </div>
                 </div>
             </section>
+
             <section className={styles.section}>
                 <div
                     className={cn(
