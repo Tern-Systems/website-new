@@ -75,6 +75,7 @@ const ContactsPage: FC = () => {
                         position: 'relative',
                         backgroundSize: 'cover',
                         backgroundPosition: '50% top',
+                        backgroundAttachment: 'fixed',
                     }}
                 >
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
