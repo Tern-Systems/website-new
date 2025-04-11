@@ -6,14 +6,14 @@ import cn from 'classnames';
 import { CardLink } from '@/app/types/layout';
 import { Tip } from '@/app/types/blog';
 import { ArticleCardType } from '@/app/ui/organisms/ArticleCard';
-import { Route } from '@/app/static';
+import { Breakpoint, Route } from '@/app/static';
 
 import { BlogService, TipsDTO } from '@/app/services/blog.service';
 
-import { useModal } from '@/app/hooks';
+import { useBreakpointCheck, useModal } from '@/app/hooks';
 
 import { MainBackground } from '@/app/ui/atoms';
-import { ArticleCard, ResourceCard, Carousel } from '@/app/ui/organisms';
+import { ArticleCard, Carousel, ResourceCard } from '@/app/ui/organisms';
 import { AllWaysCard, InsideTernSection } from '@/app/ui/templates';
 import { MessageModal } from '@/app/ui/modals';
 
@@ -30,8 +30,8 @@ const HIGHLIGHTED_CARD: CardLink = {
     action: { title: 'Subscribe today', href: '' },
 };
 
-const UL_H_CN = ' mb-xs md:mb-n lg:mb-xxl  sm:x-[mx-auto,w-card]  sm:text-27 text-40';
-const CAROUSEL_UL_CN = 'mx-0 min-h-[27.0625rem]  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3  w-full sm:w-fit';
+const UL_H_CN = 'mb-xs md:mb-n lg:mb-s  sm:x-[mx-auto,w-card]  sm:text-27 text-40';
+const CAROUSEL_UL_CN = 'min-h-[27.0625rem]';
 
 const renderTips = (type: ArticleCardType, tips: Tip[] = []) =>
     tips.map((tip) => (
@@ -43,13 +43,14 @@ const renderTips = (type: ArticleCardType, tips: Tip[] = []) =>
                 type={type}
                 article={tip}
                 altLink={tip.type === 'video' ? 'watch' : undefined}
-                className={'[&:not(:first-of-type)]:border-t-0'}
+                className={'md:min-w-full [&:not(:first-of-type)]:border-t-0'}
             />
         </li>
     ));
 
 function TipsPage() {
     const modalCtx = useModal();
+    const breakpoint = useBreakpointCheck();
 
     const [tips, setTips] = useState<TipsDTO | null>(null);
 
@@ -104,9 +105,15 @@ function TipsPage() {
                                 title: 'Featured',
                                 link: Route.TipsVideos,
                                 cards: CardsFeaturedLi,
-                                altSpinner: true,
+                                altSpinner:
+                                    breakpoint > Breakpoint.sm
+                                        ? breakpoint === Breakpoint.md
+                                            ? 'alt'
+                                            : 'default'
+                                        : undefined,
                             }}
-                            classNameUl={'flex-grow grid grid-rows-2 gap-0  grid-cols-1 lg:grid-cols-2'}
+                            rowsCount={2}
+                            classNameUl={'grid-rows-2 !pt-s  !gap-0 sm:!gap-x-5xl  !my-0'}
                         />
                     </div>
                     <ResourceCard

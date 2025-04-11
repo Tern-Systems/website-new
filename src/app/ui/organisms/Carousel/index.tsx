@@ -3,8 +3,7 @@
 import { FC, PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
-import { Breakpoint } from '@/app/static';
-import { Route } from '@/app/static';
+import { Breakpoint, Route } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
 
@@ -12,40 +11,41 @@ import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
 
 enum CardsPerPage {
-    AltDefault = 4,
+    DefaultAlt = 4,
     Default = 3,
     MD = 2,
     SM = 1,
 }
 
-const getAltSpinnerBtnCn = (alt?: true) =>
-    cn('border-s   border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-xs sm:p-4xs-1', {
-        ['md:p-4xs']: alt,
-    });
+const getAltSpinnerBtnCn = (alt?: string) =>
+    cn('border-s  border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-xs sm:p-4xs-1', { ['md:p-4xs']: alt });
 
 interface Props extends PropsWithChildren {
-    altData?: { title: string; link: Route; cards: ReactElement[]; altSpinner?: true };
+    altData?: { title: string; link: Route; cards: ReactElement[]; altSpinner?: 'default' | 'alt' };
+    rowsCount?: number;
     className?: string;
     classNameUl?: string;
     classNameArrow?: string;
 }
 
 const Carousel: FC<Props> = (props: Props) => {
-    const { altData, className, classNameUl, classNameArrow, children } = props;
+    const { altData, rowsCount = 1, className, classNameUl, classNameArrow, children } = props;
 
     const breakpoint = useBreakpointCheck();
     const md = breakpoint <= Breakpoint.md;
 
     const defaultSpinner = !altData?.altSpinner;
-    const altCardsPerPage = defaultSpinner
+    const colsPerPage = defaultSpinner
         ? breakpoint <= Breakpoint.sm
             ? CardsPerPage.SM
             : md
               ? CardsPerPage.MD
               : CardsPerPage.Default
         : md
-          ? CardsPerPage.MD
-          : CardsPerPage.AltDefault;
+          ? altData?.altSpinner === 'alt'
+              ? CardsPerPage.SM
+              : CardsPerPage.MD
+          : CardsPerPage.DefaultAlt;
 
     const cardCount: number | undefined = altData?.cards.length;
 
@@ -55,16 +55,21 @@ const Carousel: FC<Props> = (props: Props) => {
     const carouselRef = useRef<HTMLUListElement | null>(null);
 
     useEffect(() => {
-        if (cardCount) setMaxPage(Math.ceil(cardCount / altCardsPerPage));
-    }, [cardCount, altCardsPerPage]);
+        if (cardCount) setMaxPage(Math.ceil(cardCount / rowsCount / colsPerPage));
+    }, [cardCount, colsPerPage]);
+
+    useEffect(() => {
+        if (carouselRef.current) carouselRef.current.scrollLeft = page * carouselRef.current.scrollWidth;
+    }, [page]);
 
     // Elements
     const renderCarouselBtn = (right?: true) => (
         <Button
             onClick={() => {
-                if (carouselRef.current)
+                if (carouselRef.current) {
                     carouselRef.current.scrollLeft =
                         carouselRef.current.scrollLeft + (right ? 0.5 : -0.5) * window.outerWidth;
+                }
             }}
             className={cn(
                 'absolute top-1/2 z-50 !-translate-y-1/2 size-5xl',
@@ -73,9 +78,6 @@ const Carousel: FC<Props> = (props: Props) => {
             )}
         />
     );
-
-    const startIdx: number = page * altCardsPerPage;
-    const AltCardsPage: ReactElement[] = altData?.cards.slice(startIdx, startIdx + altCardsPerPage) ?? [];
 
     const Spinner: FC<{ className: string }> = (props: { className: string }) => (
         <span className={cn('ml-auto', props.className)}>
@@ -126,14 +128,26 @@ const Carousel: FC<Props> = (props: Props) => {
             )}
             <ul
                 ref={carouselRef}
+                style={
+                    altData?.altSpinner === 'default' || !altData
+                        ? {}
+                        : {
+                              gridTemplateColumns: `repeat(${altData.cards.length / rowsCount}, calc(${100 / colsPerPage}% - ${altData.altSpinner === 'alt' || breakpoint <= Breakpoint.sm ? '0px' : 'var(--p-xl) + 0.75px'}))`,
+                          }
+                }
                 className={cn(
-                    'mx-auto grid w-fit max-w-full flex-grow grid-rows-1 gap-xl justify-items-center overflow-x-scroll',
+                    'mx-auto grid w-fit max-w-full !min-h-fit flex-grow justify-items-center',
+                    'sm:gap-x-5xl gap-xl',
                     'mt-s md:mt-n lg:mt-xl',
-                    altData?.altSpinner ? 'flex-grow' : 'h-full',
+                    altData
+                        ? cn('grid-flow-col overflow-x-hidden', defaultSpinner ? 'h-full' : 'flex-grow', {
+                              [!page ? 'sm:ml-0 ml-xl' : 'sm:mr-0 mr-xl']: defaultSpinner,
+                          })
+                        : 'overflow-scroll',
                     classNameUl,
                 )}
             >
-                {altData ? AltCardsPage : children}
+                {altData?.cards ?? children}
             </ul>
             {altData ? (
                 defaultSpinner ? (
