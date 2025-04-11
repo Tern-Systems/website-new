@@ -166,7 +166,6 @@ function TidalPage() {
                         'pt-4xl md:pt-[7.81em] lg:pt-6xl',
                         'text-16 md:text-14 lg:text-40',
                     )}
-                    style={{ opacity: 1 }}
                 >
                     <h2
                         className={cn(
