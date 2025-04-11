@@ -34,7 +34,6 @@ import SVG_TILE_SHARE from '@/assets/images/icons/share.svg';
 import SVG_TILE_SAVE from '@/assets/images/icons/save.svg';
 import SVG_TILE_HEART from '@/assets/images/icons/heart.svg';
 import SVG_PLAY from '@/assets/images/icons/play.svg';
-import { zIndex } from 'html2canvas/dist/types/css/property-descriptors/z-index';
 
 type Tiles = {
     title: string;
@@ -154,8 +153,7 @@ function TidalPage() {
                 </div>
             </section>
             <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")`,
-                    zIndex:'initial' }}
+                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")`,zIndex:'initial' }}
                 className={styles.section}
             >
                 <div
@@ -198,13 +196,13 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl z-50'}>
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl '} style={{zIndex:50, position: 'relative'}}>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
                             className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
