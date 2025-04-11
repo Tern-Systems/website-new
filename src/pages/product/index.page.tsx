@@ -152,23 +152,18 @@ function TidalPage() {
                     </div>
                 </div>
             </section>
-            <section
-                style={{
-                    backgroundImage: [
-                        // 1) Gradient at the top: semi‑opaque blue → transparent
-                        'linear-gradient(to bottom, rgba(59,130,246,0.6) 0%, rgba(59,130,246,0) 50%)',
-                        // 2)image underneath
-                        `url("${PNG_BACKGROUND_CIRCUIT.src}")`,
-                    ].join(','),
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                }}
-            >
+            <section style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}>
+                <div
+                    className={cn(
+                        'max-w-dwv absolute left-0 top-0 z-0 w-dvw h-[50%] bg-cover bg-center bg-no-repeat',
+                        'bg-gradient-to-b from-blue to-transparent to-50%',
+                    )}
+                />
                 <div
                     className={cn(
                         styles.content,
-                        'relative z-[100] leading-n',
-                        'pt-4xl md:pt-[10em] lg:pt-[12em]',
+                        'relative z-50 leading-n',
+                        'pt-4xl md:pt-[7.81em] lg:pt-6xl',
                         'text-16 md:text-14 lg:text-40',
                     )}
                     style={{ opacity: 1 }}
@@ -199,7 +194,7 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-5xl text-16 md:text-30 lg:text-40'}>
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
