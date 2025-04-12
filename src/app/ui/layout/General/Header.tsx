@@ -7,11 +7,11 @@ import cn from 'classnames';
 
 import { NavDropdown } from '@/app/types/layout';
 import {
+    Breakpoint,
     DROPDOWN_NAV_ROUTES,
     MAPPED_NAV_ROUTES,
     NavLink,
     Route,
-    Breakpoint,
     ROUTES_WITH_INDEX,
     SPECIAL_NAV_ROUTES,
 } from '@/app/static';
@@ -37,16 +37,20 @@ const Header: FC = (): ReactElement => {
 
     const breakpoint = useBreakpointCheck();
 
-    const [navExpanded, setNavExpanded] = useState(false);
-    const [navDropdownExpanded, setNavDropdownExpanded] = useState<NavDropdown | null>(null);
+    const [nav, setNav] = useState<boolean>(false);
+    const [navDropdown, setNavDropdown] = useState<NavDropdown | null>(null);
 
     const navRef = useRef<HTMLDivElement | null>(null);
     const subNavRef = useRef<HTMLDivElement | null>(null);
+    const MenuToggleRef = useRef<HTMLButtonElement | null>(null);
 
     useOuterClickClose(
         navRef,
-        (event) => navExpanded && !subNavRef.current?.contains(event.target as Node),
-        setNavExpanded,
+        (event) =>
+            nav &&
+            !subNavRef.current?.contains(event.target as Node) &&
+            !MenuToggleRef.current?.contains(event.target as Node),
+        setNav,
     );
 
     const navLinks = layoutCtx.navLinks[NavLink.Nav];
@@ -58,17 +62,38 @@ const Header: FC = (): ReactElement => {
             route !== Route.Home &&
             checkSubRoute(route, link, !subNavLinks?.length || ROUTES_WITH_INDEX[getRouteRoot(link) as Route]);
         const mappedLink = MAPPED_NAV_ROUTES[link];
-        const navDropdown = DROPDOWN_NAV_ROUTES[link];
-        const linkFinal = SPECIAL_NAV_ROUTES[link] ?? link;
 
-        const dropdownExpanded = navDropdown?.name === navDropdownExpanded?.name;
+        const linkFinal = mappedLink ? mappedLink : getIdName(SPECIAL_NAV_ROUTES[link] ?? link);
+
+        const dropdown: NavDropdown | null =
+            DROPDOWN_NAV_ROUTES[link] ??
+            (breakpoint > Breakpoint.xxs || !subNavLinks?.length || !active
+                ? null
+                : ({
+                      name: linkFinal,
+                      columns: [
+                          {
+                              ...Object.fromEntries(
+                                  subNavLinks.map((route) => {
+                                      const mappedLink = MAPPED_NAV_ROUTES[route];
+                                      const linkFinal = mappedLink
+                                          ? mappedLink
+                                          : getIdName(SPECIAL_NAV_ROUTES[route] ?? route);
+                                      return [linkFinal, route];
+                                  }),
+                              ),
+                          },
+                      ],
+                  } as NavDropdown));
+
+        const dropdownExpanded = navDropdown?.name === dropdown?.name;
 
         return (
             <li
                 key={link + idx}
                 tabIndex={idx}
                 onClick={() => {
-                    if (breakpoint <= Breakpoint.xxs) setNavExpanded(false);
+                    if (breakpoint <= Breakpoint.xxs) setNav(false);
                 }}
                 className={cn(
                     'group',
@@ -82,13 +107,13 @@ const Header: FC = (): ReactElement => {
                     },
                 )}
             >
-                {navDropdown ? (
+                {dropdown ? (
                     <>
                         <div
-                            onClick={() => setNavDropdownExpanded(navDropdown)}
+                            onClick={() => setNavDropdown(dropdown)}
                             className={cn(styles.clickable, 'flex h-full items-center gap-x-5xs xxs:justify-between')}
                         >
-                            <p>{navDropdown.name}</p>
+                            <p>{dropdown.name}</p>
                             <ReactSVG
                                 src={SVG_CHEVRON.src}
                                 className={cn('xxs:-rotate-90 [&_*]:size-8xs', { ['rotate-180']: dropdownExpanded })}
@@ -97,7 +122,7 @@ const Header: FC = (): ReactElement => {
                     </>
                 ) : (
                     <PageLink href={link}>
-                        <span>{mappedLink ? mappedLink : getIdName(linkFinal)}</span>
+                        <span>{linkFinal}</span>
                     </PageLink>
                 )}
             </li>
@@ -107,16 +132,20 @@ const Header: FC = (): ReactElement => {
     return (
         <header
             id={'header'}
-            className={cn('z-10 bg-black text-14 leading-none', navExpanded ? 'sticky top-0' : 'relative')}
+            className={cn('z-10 bg-black text-14 leading-none', nav || navDropdown ? 'sticky top-0' : 'relative')}
         >
             <div className={'flex border-b-s border-gray'}>
                 <Button
-                    onClick={() => setNavExpanded(true)}
-                    icon={navExpanded ? faX : faBars}
+                    ref={MenuToggleRef}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setNav((prev) => !prev);
+                    }}
+                    icon={nav ? faX : faBars}
                     className={cn(`hidden border-s border-transparent rounded-none p-xs xxs:inline h-full mr-4xs`, {
-                        ['!border-blue bg-gray-d1 ']: navExpanded,
+                        ['!border-blue ']: nav,
                     })}
-                    classNameIcon={'w-xxs h-xxs'}
+                    classNameIcon={'size-xxs scale-y-[90%]'}
                 />
                 <div
                     className={cn(
@@ -134,10 +163,10 @@ const Header: FC = (): ReactElement => {
                             `flex items-center`,
                             `relative ml-[calc(2*var(--p-n)-var(--p-xxs))] h-full`,
                             `before:x-[absolute,h-[64%],-left-xxs,border-r-s,border-gray]`,
-                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,ml-0,w-full,max-w-[14.5625rem],bg-gray-d1]`,
+                            `xxs:x-[absolute,z-[1000],left-0,gap-x-l,ml-0,w-full,max-w-[18rem],bg-gray-d1]`,
                             `xxs:top-[calc(1px+var(--h-heading))] xxs:h-[calc(100dvh-var(--h-heading))]`,
                             `xxs:before:hidden`,
-                            { ['xxs:hidden']: !navExpanded },
+                            { ['xxs:hidden']: !nav },
                         )}
                     >
                         <ul className={`flex h-full cursor-pointer  xxs:x-[flex,flex-col,w-full]`}>{NavLinks}</ul>
@@ -148,8 +177,8 @@ const Header: FC = (): ReactElement => {
             <SubNav
                 ref={subNavRef}
                 headerLinkCount={navLinks?.length ?? null}
-                setNavExpanded={setNavExpanded}
-                dropdownState={[navDropdownExpanded, setNavDropdownExpanded]}
+                setNav={setNav}
+                nav={[navDropdown, setNavDropdown]}
             />
         </header>
     );

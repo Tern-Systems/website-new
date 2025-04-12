@@ -28,7 +28,7 @@ const DATA: Record<Data, SectionCard[]> = {
     default: [
         {
             title: 'Tern Careers',
-            description: 'Become a ternster',
+            description: 'Become a Ternster',
             action: 'Explore Jobs',
             href: MISC_LINKS.Careers,
             icon: SVG_OFFICE_GIRL_1,
