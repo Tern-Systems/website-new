@@ -5,6 +5,12 @@
   background-color: #000;
 }
 
+.handbookSection {
+  position: relative;
+  min-width: 100dvw;
+  background-color: #000;
+}
+
 .fullHeightSection {
   min-height: min(100dvh, 100rem);
   height: fit-content;
@@ -34,7 +40,6 @@
     padding-right: var(--p-xs);
   }
 }
-
 
 .sectionShadowBlack {
   box-shadow: 0 calc(-1 * var(--section-shadow-shift)) var(--section-shadow-blur-radius) #000000;
