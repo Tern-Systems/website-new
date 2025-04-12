@@ -77,8 +77,9 @@ const ContactsPage: FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-0" />
                 <div className="absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-1" />
 
-                <div className="absolute inset-0 z-10 flex items-start justify-start">
-                    <div className="mt-[5vh] ml-[4vw]">
+
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                    <div className="mt-[5vh] ml-[-5vw]">
                         <h1
                             className={cn(
                                 'text-white text-left leading-n text-96',
@@ -92,6 +93,7 @@ const ContactsPage: FC = () => {
                     </div>
                 </div>
             </section>
+
 
             <div
                 className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
