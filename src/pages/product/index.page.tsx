@@ -60,7 +60,7 @@ const TILES: Tiles[] = [
         image: SVG_TILE_GLASS,
     },
     {
-        title: 'Share Beyond the Scope of TernKey',
+        title: 'Share Beyond the Scope of Tidal',
         description:
             'Don’t limit yourself to merely the users of the application. Expand the audience of your Keys by sharing toward your social media accounts.',
         image: SVG_TILE_SHARE,
@@ -68,7 +68,7 @@ const TILES: Tiles[] = [
     {
         title: 'Save Your Keys for Later Use',
         description:
-            'With TernKey Pro users have the ability to save their Keys for later use. Access the Key editor to edit previously saved Keys.',
+            'With Tidal Pro users have the ability to save their Keys for later use. Access the Key editor to edit previously saved Keys.',
         image: SVG_TILE_SAVE,
     },
     {
