@@ -66,36 +66,39 @@ const ContactsPage: FC = () => {
     };
 
     return (
-        <>
-            <section className={'flex justify-center w-full'}>
+        <>      {/*Update contact banner page task -> priya-roy*/}
+                <section className={cn('relative h-dvh overflow-hidden', styles.fullHeightSection)}>
                 <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
+                    className={cn(
+                    'absolute top-0 left-0 w-full h-full z-0',
+                    'bg-cover bg-center bg-no-repeat'
+                    )}
                     style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        position: 'relative',
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
+                    backgroundImage: `url(${OFFICE_GIRL_3.src})`,
+                    backgroundAttachment: 'fixed',
                     }}
-                >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `w-min text-left leading-n`,
-                                    `mb-n text-96`,
-                                    `lg:x-[w-full,mt-6xl-1]`,
-                                    `md:x-[mt-xl,text-96]`,
-                                    `sm:x-[flex,mt-xs,text-64]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
+                />
+
+                <div className='absolute inset-0 z-10 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50%' />
+                <div className='absolute inset-0 z-10 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20%' />
+
+                <div className={cn(styles.content, 'relative z-20 flex items-start justify-start h-full')}>
+                    <div>
+                    <h1
+                        className={cn(
+                        `w-min text-left leading-n`,
+                        `mb-n text-96`,
+                        `lg:x-[w-full,mt-6xl-1]`,
+                        `md:x-[mt-xl,text-96]`,
+                        `sm:x-[flex,mt-xs,text-64]`,
+                        )}
+                    >
+                        Contact Tern
+                    </h1>
                     </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
                 </div>
-            </section>
+                </section>
+            {/*Update contact banner page task -> priya-roy*/}
 
             <div
                 className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
