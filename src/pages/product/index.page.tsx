@@ -45,33 +45,33 @@ const TILES: Tiles[] = [
         image: SVG_TILE_PROFILE,
     },
     {
-        title: 'Universal Login',
+        title: 'Earn Stars from Other Users',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'With Explore Keys you can publish your own Keys to be enjoyed by other developers and see how the community rates your creations.',
         image: SVG_TILE_STAR,
     },
     {
-        title: 'Universal Login',
+        title: 'Experiment with Other Keys',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Explore Keys allows users to discover and tinker with Keys created by other users. Publish your own Keys to show the world what you can make.',
         image: SVG_TILE_GLASS,
     },
     {
-        title: 'Universal Login',
+        title: 'Share Beyond the Scope of Tidal',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Don’t limit yourself to merely the users of the application. Expand the audience of your Keys by sharing toward your social media accounts.',
         image: SVG_TILE_SHARE,
     },
     {
-        title: 'Universal Login',
+        title: 'Save Your Keys for Later Use',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'With Tidal Pro users have the ability to save their Keys for later use. Access the Key editor to edit previously saved Keys.',
         image: SVG_TILE_SAVE,
     },
     {
-        title: 'Universal Login',
+        title: 'Keeping Track of Explore Keys',
         description:
-            'Use the same login for the website for all of our products and services including Tidal. One account and you’re free to experiment.',
+            'Find an Explore Key you love? Show that love by adding it to your Favorites. Favorited Keys rank higher on global Top Picks list.',
         image: SVG_TILE_HEART,
     },
 ];
@@ -103,7 +103,7 @@ function TidalPage() {
         >
             <ReactSVG
                 src={tile.image.src}
-                className={'mx-auto sm:!size-3xl md:!size-8xl !size-10xl'}
+                className={'sm:!size-3xl md:!size-8xl !size-10xl'}
             />
             <span className={'mb-5xs mt-s block font-bold'}>{tile.title}</span>
             <span className={'leading-n'}>{tile.description}</span>
@@ -183,7 +183,12 @@ function TidalPage() {
                     </p>
                     <div className={'relative'}>
                         <ReactSVG
-                            onClick={() => videoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                            onClick={() =>
+                                videoRef.current?.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center',
+                                })
+                            }
                             src={SVG_PLAY.src}
                             className={'absolute left-1/2 -translate-x-1/2 bottom-[31.5%] cursor-pointer'}
                         />
