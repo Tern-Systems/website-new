@@ -1,14 +1,6 @@
 import { DeepPartial } from '@/app/types/utils';
 
-type ArticleTag =
-    | 'Artificial Intelligence'
-    | 'Batteries'
-    | 'Cloud'
-    | 'Cybersecurity'
-    | 'Data'
-    | 'Centers'
-    | 'Robotics'
-    | 'Semiconductors';
+type ArticleTag = 'Artificial Intelligence' | 'Cloud' | 'Data' | 'Security';
 
 type Article = DeepPartial<{
     id: string;
