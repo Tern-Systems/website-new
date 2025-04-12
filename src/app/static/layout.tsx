@@ -53,9 +53,14 @@ const SPECIAL_NAV_ROUTES: Record<string, string> = {
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.Tidal]: 'Home',
     [Route.BTMCDoc]: 'BTMC',
+    [Route.TrainingFAQs]: 'FAQs',
+    [Route.Training]: 'Training',
+    [Route.Courses]: 'Courses',
+    [Route.ProfessionalCertifications]: 'Professional Certifications',
+    [Route.Subscriptions]: 'Subscriptions',
 };
 
-const ALWAYS_MAPPED_ROUTES: string[] = ['TBD'];
+const ALWAYS_MAPPED_ROUTES: string[] = ['TBD', 'FAQs'];
 
 const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
     [Route.SupportHub]: {
@@ -115,6 +120,9 @@ const DROPDOWN_SUB_NAV_ROUTES: Record<string, Record<string, string>> = {
         Todo0: 'Insights',
         Todo1: 'News',
         Todo2: 'Newsletter',
+    },
+    [Route.Courses]: {
+        [Route.Courses]: 'All Courses',
     },
 };
 

@@ -35,6 +35,17 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                     ? [route as Route]
                     : [Route.BTMCDoc, Route.GDoc, Route.TernDoc, Route.TidalDoc, Route.TernKitDoc];
                 break;
+            case checkSubRoute(route, Route.Training):
+                navLinks = [Route.Billing, Route.Documentation, Route.Resources, Route.Training];
+                subNavLinks = [
+                    Route.Training,
+                    Route.Courses,
+                    Route.ProfessionalCertifications,
+                    Route.Subscriptions,
+                    Route.TrainingFAQs,
+                ];
+                breadCrumbLinks = [Route.Training];
+                break;
             case checkSubRoute(route, Route.AllWays):
                 let routes = [Route.AllWays, ...LAYOUT.blogLinks];
                 if (breakpoint <= Breakpoint.sm) routes = routes.slice(0, -2);
@@ -58,7 +69,11 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     const [isNoLayout, setNoLayoutState] = useState(false);
     const [isFade, setFadeState] = useState(false);
-    const scrollState = useState<ScrollState>({ scrollTop: 0, scrollHeight: 0, autoScroll: false });
+    const scrollState = useState<ScrollState>({
+        scrollTop: 0,
+        scrollHeight: 0,
+        autoScroll: false,
+    });
 
     const [navigationState, setNavigationState] = useState<NavigationState>(NavigationState.FREE);
     const [blockedRoute, setBlockedRoute] = useState<Route | null>(null);
@@ -73,11 +88,15 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 getRouteLeave(route) as Route,
             ];
             break;
+
         case checkSubRoute(route, Route.Credo):
             navLinks[NavLink.Breadcrumbs] = [Route.About, Route.Credo];
             break;
         case checkSubRoute(route, Route.ManageSubscriptions):
             navLinks[NavLink.Breadcrumbs] = [Route.Billing, Route.ManageSubscriptions];
+            break;
+        case checkSubRoute(route, Route.TrainingFAQs):
+            navLinks[NavLink.Breadcrumbs] = [Route.Training, Route.TrainingFAQs];
             break;
         case checkSubRoute(route, Route.EditPaymentMethod):
             navLinks[NavLink.Breadcrumbs] = [
