@@ -4,6 +4,11 @@
   min-width: 100dvw;
   background-color: #000;
 }
+.section1{
+  position: relative;
+  min-width: 100dvw;
+  background-color: #000;
+}
 
 .fullHeightSection {
   min-height: min(100dvh, 100rem);
