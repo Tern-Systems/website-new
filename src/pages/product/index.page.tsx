@@ -154,7 +154,7 @@ function TidalPage() {
             </section>
             <section
                 style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
-                className={cn(styles.conten, 'relative')}
+                className={cn(styles, 'relative')}
             >
                 <div
                     className={cn(
