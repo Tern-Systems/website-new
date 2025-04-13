@@ -35,6 +35,8 @@ function PurchasingInformationPage() {
     const [defaultCardIdx, setDefaultCardIdx] = useState(-1);
     const [invoiceHistory, setInvoiceHistory] = useState<Invoice[]>([]);
 
+    const handleOpenModal = () => modalCtx.openModal(<ExportInvoiceModal />, { darkenBg: true });
+
     useEffect(() => {
         const fetchData = async () => {
             if (!userCtx.userData) return;
@@ -221,7 +223,7 @@ function PurchasingInformationPage() {
                     <Button
                         data-testid={TestID.history.exporting.toggle}
                         className={'rounded-full border-s border-white-d0 px-xs py-6xs text-16 font-bold '}
-                        onClick={() => modalCtx.openModal(<ExportInvoiceModal />, { darkenBg: true })}
+                        onClick={handleOpenModal}
                     >
                         Export
                     </Button>

@@ -43,6 +43,11 @@ const OrderPreview: FC<Props> = (props: Props) => {
         : '-- missing price --';
     const status: string = invoice?.status ? 'Invoice ' + invoice.status : '-- missing status --';
 
+    // Event handlers
+    const handleDownloadInvoice = () => toPDF({});
+
+    const handleDownloadReceipt = () => toPDFReceipt();
+    
     return (
         <div className={`relative md:landscape:shadow-2xl lg:shadow-2xl ${className}`}>
             <div
@@ -101,14 +106,14 @@ const OrderPreview: FC<Props> = (props: Props) => {
                     <Button
                         icon={faDownload}
                         className={`border-s border-gray [&_path]:fill-gray ${BTN_CN}`}
-                        onClick={() => toPDF({})}
+                        onClick={handleDownloadInvoice}
                     >
                         Download Invoice
                     </Button>
                     <Button
                         icon={faDownload}
                         className={`bg-gray text-primary [&_path]:fill-primary ${BTN_CN}`}
-                        onClick={() => toPDFReceipt()}
+                        onClick={handleDownloadReceipt}
                     >
                         Download Receipt
                     </Button>

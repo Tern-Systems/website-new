@@ -61,6 +61,8 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
         }
     };
 
+    const handleRemoveSession = () => userCtx.removeSession();
+
     const renderDeleteForm = () => {
         const isAllowedToDelete = formData.confirm === 'DELETE' && formData.email === userCtx.userData?.email;
         return (
@@ -113,7 +115,7 @@ const DeleteAccountConfirmModal: FC<Props> = (props: Props) => {
                 </span>
                 <Button
                     className={`h-button-n mt-xs rounded-full bg-white px-[min(3dvw,1rem)] text-20 font-bold text-gray`}
-                    onClick={() => userCtx.removeSession()}
+                    onClick={handleRemoveSession}
                 >
                     Restore Login
                 </Button>

@@ -95,6 +95,18 @@ function TidalPage() {
 
     const videoRef = useRef<HTMLDivElement | null>(null);
 
+    // Event Handlers
+    const handleScrollToDemo = () => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+    const handleScrollToVideo = () => { videoRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+    })}
+
+    const handleStartVideo = () => {
+        if (!videoStarted) setVideoStarted(true);
+    }
+
     // Elements
     const TilesLi: ReactElement[] = TILES.map((tile, idx) => (
         <li
@@ -144,7 +156,7 @@ function TidalPage() {
                                 Try it Free
                             </PageLink>
                             <Button
-                                onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                                onClick={handleScrollToDemo}
                                 className={cn(BTN_BLACK_CN, '!h-button-xxl')}
                             >
                                 Watch Demo
@@ -183,12 +195,7 @@ function TidalPage() {
                     </p>
                     <div className={'relative'}>
                         <ReactSVG
-                            onClick={() =>
-                                videoRef.current?.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'center',
-                                })
-                            }
+                            onClick={handleScrollToVideo}
                             src={SVG_PLAY.src}
                             className={'absolute left-1/2 -translate-x-1/2 bottom-[31.5%] cursor-pointer'}
                         />
@@ -206,7 +213,7 @@ function TidalPage() {
                     </p>
                     <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
                         <Button
-                            onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                            onClick={handleScrollToDemo}
                             className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
                         >
                             G Handbook
@@ -229,9 +236,7 @@ function TidalPage() {
                 >
                     <div
                         ref={videoRef}
-                        onClick={() => {
-                            if (!videoStarted) setVideoStarted(true);
-                        }}
+                        onClick={handleStartVideo}
                         className={cn(
                             'relative h-[50dvw] max-h-[42.886rem] w-full cursor-pointer',
                             'before:x-[absolute,size-full,bg-black]',

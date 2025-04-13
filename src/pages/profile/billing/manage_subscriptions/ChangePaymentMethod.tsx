@@ -55,13 +55,21 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
         }
     };
 
+    // Event Handlers
+    const handleUpdateCard = (idx: number) => () => updateCard(idx);
+
+    const handleClosePayment = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        setOpened(false);
+    };
+
     // Elements
     const SavedCards = savedCards.map((card, idx) => {
         const { preferred } = card;
         return (
             <li
                 key={(card.nickName ?? 'card-') + idx}
-                onClick={() => updateCard(idx)}
+                onClick={handleUpdateCard(idx)}
                 className={cn(
                     `grid grid-cols-[min-content,1fr,min-content] items-center justify-between rounded-s [&_path]:fill-primary`,
                     `sm:text-27-xs text-16`,
@@ -94,10 +102,7 @@ const ChangePaymentMethod: FC<Props> = (props: Props) => {
             <div className={'flex items-center justify-between'}>
                 <h1 className={'pl-xxs text-16 lg:text-18'}>Change Payment Method</h1>
                 <ReactSVG
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        setOpened(false);
-                    }}
+                    onClick={handleClosePayment}
                     src={SVG_CROSS.src}
                     className={cn('p-3xs hover:bg-black-l0 [&_path]:fill-primary', 'size-6xs sm:size-7xs')}
                 />
