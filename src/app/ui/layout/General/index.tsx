@@ -213,11 +213,10 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                     <div
                         className={cn(
                             `h-footer-lg grid grid-cols-[min-content,minmax(0,2fr)] `,
-                            `xs:x-[flex,flex-col,gap-y-xxl]`,
                             `sm:x-[flex,flex-col,gap-y-xxl]`,
                         )}
                     >
-                        <Insignia className={'[&&_*]:!h-xl self-start'} />
+                        <Insignia className={'[&&_*]:!h-xl [&_*]:[max-width:unset] self-start'} />
                         <ul
                             className={cn(
                                 'flex w-full  md:justify-items-end  lg:justify-items-end',
