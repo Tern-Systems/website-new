@@ -165,7 +165,7 @@ function TidalPage() {
                 <div
                     className={cn(
                         styles.content,
-                        'relative z-50 leading-n',
+                        'relative z-50 leading-n', "pb-32",
                         'pt-4xl md:pt-[7.81em] lg:pt-6xl',
                         'text-16 md:text-14 lg:text-40',
                     )}
@@ -196,19 +196,21 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
+                    <p className={cn('mt-xxl md:mt-6xl-1 lg:mt-6xl')}>
+
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
-                        <Button
-                            onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
-                        >
-                            G Handbook
-                        </Button>
+                    <div className={cn('mt-xl md:mt-4xl lg:mt-5xl z-index: 9999;')}>
+                    <button
+                        onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                        className="mt-10 px-6 py-3 border border-white text-white bg-black bg-opacity-80 hover:bg-white hover:text-[#001f2d] transition-all font-semibold text-lg z-20 relative">
+                        G Handbook
+                    </button>
+
+
                     </div>
                 </div>
             </section>
