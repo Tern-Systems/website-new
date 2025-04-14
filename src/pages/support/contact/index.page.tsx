@@ -220,13 +220,18 @@ const ContactsPage: FC = () => {
                     <div className='grid gap-3xs  md:gap-s  lg:order-last'>
                         <h3 className='font-thin text-32 sm:text-24'>Office</h3>
                         <address className='not-italic leading-tight text-24 sm:text-18'>
-                            1120 Avenue of the Americas
-                            <br />
-                            New York, New York
-                            <br />
-                            10036-6700
-                            <br />
-                            United States
+                            <PageLink
+                                isExternal
+                                href='https://maps.app.goo.gl/aq3baVuq5kX9JzEC6'
+                            >
+                                1120 Avenue of the Americas
+                                <br />
+                                New York, New York
+                                <br />
+                                10036-6700
+                                <br />
+                                United States
+                            </PageLink>
                         </address>
                     </div>
 
