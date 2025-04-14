@@ -12,7 +12,6 @@ import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
 import { Route } from '@/app/static';
-import { MainBackground } from '@/app/ui/atoms';
 
 import styles from '@/app/common.module.css';
 
@@ -68,12 +67,15 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground
-                    url={OFFICE_GIRL_3}
-                    className={cn('bg-[position:50%_top]')}
-                />
+            <section className={'flex justify-center w-full'}>
                 <div
+                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
+                    style={{
+                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
+                        position: 'relative',
+                        backgroundSize: 'cover',
+                        backgroundPosition: '50% top',
+                    }}
                 >
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                         <div>
@@ -93,7 +95,7 @@ const ContactsPage: FC = () => {
                     <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
                     <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
                 </div>
-            </section >
+            </section>
 
             <div
                 className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
