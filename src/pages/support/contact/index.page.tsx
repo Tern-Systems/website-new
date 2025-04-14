@@ -77,7 +77,7 @@ const ContactsPage: FC = () => {
                         backgroundPosition: '50% top',
                     }}
                 >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                    <div className={cn(styles.content, 'z-10 flex items-start justify-start sticky top-0')}>
                         <div>
                             <h1
                                 className={cn(
