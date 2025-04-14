@@ -119,6 +119,8 @@ function ArticlePage() {
             </li>
         ));
 
+    console.log('content: ', content);
+
     return (
         <>
             <section className={styles.section}>
