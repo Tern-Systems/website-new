@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import cn from 'classnames';
 
 import MapEmbed from './Map';
@@ -10,7 +10,7 @@ import { Button, Input } from '@/app/ui/form';
 import { CardLink, ResourceSectionData } from '@/app/types/layout';
 import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
-import { PageLink } from '@/app/ui/layout';
+import { PageLink, FullScreenLayout } from '@/app/ui/layout';
 import { Route } from '@/app/static';
 
 import styles from '@/app/common.module.css';
@@ -53,8 +53,8 @@ const RESOURCES: ResourceSectionData[] = [
 
 const INPUT_PROPS = {
     classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
-    classNameLabel: 'font-[400]   ',
-    className: cn('h-6xl w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
+    classNameLabel: 'font-[400]',
+    className: cn('h-6xl w-full px-xxs', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
 };
 
 const ContactsPage: FC = () => {
@@ -62,44 +62,40 @@ const ContactsPage: FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO
+        // TODO: Add form submit logic
     };
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
-                <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        position: 'relative',
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
-                    }}
-                >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `w-min text-left leading-n`,
-                                    `mb-n text-96`,
-                                    `lg:x-[w-full,mt-6xl-1]`,
-                                    `md:x-[mt-xl,text-96]`,
-                                    `sm:x-[flex,mt-xs,text-64]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
-                    </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
+            {/* ✅ Fixed Banner Section */}
+            <section
+                className={cn(
+                    'h-screen w-full bg-cover bg-center bg-no-repeat',
+                    'sticky top-0 z-[-1]',
+                )}
+                style={{
+                    backgroundImage: `url(${OFFICE_GIRL_3.src})`,
+                    backgroundAttachment: 'fixed',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}
+            >
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start h-full')}>
+                    <h1
+                        className={cn(
+                            `text-left leading-n`,
+                            `mb-n text-96`,
+                            `sm:text-64 sm:mt-xs`,
+                            `md:text-96 md:mt-xl`,
+                            `lg:text-96 lg:mt-[6rem]`
+                        )}
+                    >
+                        Contact Tern
+                    </h1>
                 </div>
             </section>
 
-            <div
-                className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
-            >
+            <div className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10%')}>
                 <section
                     className={cn(
                         styles.content,
@@ -111,93 +107,94 @@ const ContactsPage: FC = () => {
                         'gap-3xl md:gap-6xl-1 lg:gap-7xl',
                     )}
                 >
+                    {/* Contact Form */}
                     <div className={cn('lg:w-1/2 md:w-[65%]')}>
-                        <div className={cn('')}>
-                            <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
-                            <form
-                                onSubmit={handleSubmit}
-                                className='relative z-10 [&_*]:tracking-wide'
-                            >
-                                <div className='grid gap-n'>
-                                    <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
-                                        <Input
-                                            value={formData.firstName}
-                                            onChange={setFormValue('firstName')}
-                                            required
-                                            {...INPUT_PROPS}
-                                        >
-                                            First Name*
-                                        </Input>
-                                        <Input
-                                            value={formData.lastName}
-                                            onChange={setFormValue('lastName')}
-                                            required
-                                            {...INPUT_PROPS}
-                                        >
-                                            Last Name*
-                                        </Input>
-                                    </div>
-                                    <div className='grid grid-cols-1'>
-                                        <Input
-                                            value={formData.company}
-                                            onChange={setFormValue('company')}
-                                            {...INPUT_PROPS}
-                                        >
-                                            Company
-                                        </Input>
-                                    </div>
-                                    <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
-                                        <Input
-                                            type={'email'}
-                                            value={formData.email}
-                                            onChange={setFormValue('email')}
-                                            {...INPUT_PROPS}
-                                        >
-                                            Email*
-                                        </Input>
-                                        <Input
-                                            type={'phone'}
-                                            value={formData.phone}
-                                            onChange={setFormValue('phone')}
-                                            {...INPUT_PROPS}
-                                        >
-                                            Phone
-                                        </Input>
-                                    </div>
-                                    <div className='grid grid-cols-1'>
-                                        <Input
-                                            type={'textarea'}
-                                            value={formData.message}
-                                            onChange={setFormValue('message')}
-                                            required
-                                            {...INPUT_PROPS}
-                                        >
-                                            Message*
-                                        </Input>
-                                    </div>
+                        <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
+                        <form
+                            onSubmit={handleSubmit}
+                            className='relative z-10 [&_*]:tracking-wide'
+                        >
+                            <div className='grid gap-n'>
+                                <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
                                     <Input
-                                        type={'checkbox'}
-                                        checked={formData.isAllowedUpdate}
-                                        onChange={setFormValue('isAllowedUpdate')}
-                                        classNameLabel={'text-12 leading-normal'}
-                                        className={'border-gray-l0 bg-gray-d2'}
-                                        classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
-                                        classNameWrapper={'flex [&_div]:items-start'}
-                                        isCustomCheckbox
+                                        value={formData.firstName}
+                                        onChange={setFormValue('firstName')}
+                                        required
+                                        {...INPUT_PROPS}
                                     >
-                                        May Tern provide you with personalized communications about Tern and select
-                                        Tern-partner products, services, offers and events?
+                                        First Name*
                                     </Input>
-                                    <Button
-                                        type={'submit'}
-                                        className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
+                                    <Input
+                                        value={formData.lastName}
+                                        onChange={setFormValue('lastName')}
+                                        required
+                                        {...INPUT_PROPS}
                                     >
-                                        Submit
-                                    </Button>
+                                        Last Name*
+                                    </Input>
                                 </div>
-                            </form>
-                        </div>
+                                <div className='grid grid-cols-1'>
+                                    <Input
+                                        value={formData.company}
+                                        onChange={setFormValue('company')}
+                                        {...INPUT_PROPS}
+                                    >
+                                        Company
+                                    </Input>
+                                </div>
+                                <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
+                                    <Input
+                                        type={'email'}
+                                        value={formData.email}
+                                        onChange={setFormValue('email')}
+                                        {...INPUT_PROPS}
+                                    >
+                                        Email*
+                                    </Input>
+                                    <Input
+                                        type={'phone'}
+                                        value={formData.phone}
+                                        onChange={setFormValue('phone')}
+                                        {...INPUT_PROPS}
+                                    >
+                                        Phone
+                                    </Input>
+                                </div>
+                                <div className='grid grid-cols-1'>
+                                    <Input
+                                        type={'textarea'}
+                                        value={formData.message}
+                                        onChange={setFormValue('message')}
+                                        required
+                                        {...INPUT_PROPS}
+                                    >
+                                        Message*
+                                    </Input>
+                                </div>
+                                <Input
+                                    type={'checkbox'}
+                                    checked={formData.isAllowedUpdate}
+                                    onChange={setFormValue('isAllowedUpdate')}
+                                    classNameLabel={'text-12 leading-normal'}
+                                    className={'border-gray-l0 bg-gray-d2'}
+                                    classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
+                                    classNameWrapper={'flex [&_div]:items-start'}
+                                    isCustomCheckbox
+                                >
+                                    May Tern provide you with personalized communications about Tern and select
+                                    Tern-partner products, services, offers and events?
+                                </Input>
+                                <Button
+                                    type={'submit'}
+                                    className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
+                                >
+                                    Submit
+                                </Button>
+                            </div>
+                        </form>
                     </div>
+
+                    {/* Map Embed */}
                     <div className='lg:w-1/2  md:w-[65%] flex'>
                         <div
                             className={cn(
@@ -211,6 +208,7 @@ const ContactsPage: FC = () => {
                     </div>
                 </section>
 
+                {/* Office Info */}
                 <section
                     className={cn(
                         styles.content,
@@ -244,6 +242,7 @@ const ContactsPage: FC = () => {
                     </div>
                 </section>
 
+                {/* Resource Tips */}
                 <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
                     <ResourceCard
                         type={'highlighted'}
@@ -280,4 +279,5 @@ const ContactsPage: FC = () => {
         </>
     );
 };
+
 export default ContactsPage;
