@@ -68,15 +68,29 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={'flex justify-center w-full'}>
-                <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        position: 'relative',
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
-                    }}
+            {/* <div
+                className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
+                style={{
+                    backgroundImage: `url(${OFFICE_GIRL_3.src})`,
+                    position: 'relative',
+                    backgroundSize: 'cover',
+                    backgroundPosition: '50% top',
+                }}
+                > */}
+            // Fixed scroll behavior for WB-126
+            <div
+                className={cn(
+                    'h-dvh max-h-[62.5rem] w-full max-w-[120rem]',
+                    'relative bg-fixed bg-cover bg-center',
+                )}
+                style={{
+                    backgroundImage: `url(${OFFICE_GIRL_3.src})`,
+                    backgroundAttachment: 'fixed',
+                    backgroundSize: 'cover',
+                    backgroundPosition: '50% top',
+                }}
                 >
+
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                         <div>
                             <h1
