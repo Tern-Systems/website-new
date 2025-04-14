@@ -17,7 +17,7 @@ import styles from '@/app/common.module.css';
 
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
 import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
-import { MainBackground } from '@/app/ui/atoms';
+import { MainBackground } from '@/app/ui/atoms/MainBackground';
 
 type FormData = {
     isAllowedUpdate: boolean | undefined;
@@ -63,27 +63,36 @@ const ContactsPage: FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // TODO
     };
 
     return (
         <>
-            {/* Updated banner using MainBackground component - priya-roy */}
             <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={OFFICE_GIRL_3} />
+                <MainBackground
+                    url={OFFICE_GIRL_3}
+                    className={cn('bg-[position:50%_top]')}
+                />
 
-                <div className={cn(styles.content, 
-                        'relative z-10 flex-col text-left',
-                        'lg:x-[w-full,mt-6xl-1]',
-                        'lg:pl-xs pt-5xl'
-                        
-                    )}>
-
-                    <h1 className={'text-40  lg:text-96'}>Contact Tern</h1>
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                    <div>
+                        <h1
+                            className={cn(
+                                ` w-min text-left leading-n`,
+                                `mb-n text-96`,
+                                `lg:x-[w-full,mt-6xl-1]`,
+                                `md:x-[mt-xl,text-96]`,
+                                `sm:x-[flex,mt-xs,text-64]`,
+                            )}
+                        >
+                            Contact Tern
+                        </h1>
+                    </div>
                 </div>
+                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
+                <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
+                {/* </div> */}
             </section>
-            {/* Updated banner using MainBackground component - priya-roy */}
-                     
-
 
             <div
                 className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
@@ -96,93 +105,102 @@ const ContactsPage: FC = () => {
                         'pb-6xl pt-7xl',
                         'sm:pb-5xl',
                         'md:pb-6xl-1',
-                        'gap-3xl md:gap-6xl-1 lg:gap-7xl'
+                        'gap-3xl md:gap-6xl-1 lg:gap-7xl',
                     )}
                 >
                     <div className={cn('lg:w-1/2 md:w-[65%]')}>
-                        <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
-                        <form onSubmit={handleSubmit} className='relative z-10 [&_*]:tracking-wide'>
-                            <div className='grid gap-n'>
-                                <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
+                        <div className={cn('')}>
+                            <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
+                            <form
+                                onSubmit={handleSubmit}
+                                className='relative z-10 [&_*]:tracking-wide'
+                            >
+                                <div className='grid gap-n'>
+                                    <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
+                                        <Input
+                                            value={formData.firstName}
+                                            onChange={setFormValue('firstName')}
+                                            required
+                                            {...INPUT_PROPS}
+                                        >
+                                            First Name*
+                                        </Input>
+                                        <Input
+                                            value={formData.lastName}
+                                            onChange={setFormValue('lastName')}
+                                            required
+                                            {...INPUT_PROPS}
+                                        >
+                                            Last Name*
+                                        </Input>
+                                    </div>
+                                    <div className='grid grid-cols-1'>
+                                        <Input
+                                            value={formData.company}
+                                            onChange={setFormValue('company')}
+                                            {...INPUT_PROPS}
+                                        >
+                                            Company
+                                        </Input>
+                                    </div>
+                                    <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
+                                        <Input
+                                            type={'email'}
+                                            value={formData.email}
+                                            onChange={setFormValue('email')}
+                                            {...INPUT_PROPS}
+                                        >
+                                            Email*
+                                        </Input>
+                                        <Input
+                                            type={'phone'}
+                                            value={formData.phone}
+                                            onChange={setFormValue('phone')}
+                                            {...INPUT_PROPS}
+                                        >
+                                            Phone
+                                        </Input>
+                                    </div>
+                                    <div className='grid grid-cols-1'>
+                                        <Input
+                                            type={'textarea'}
+                                            value={formData.message}
+                                            onChange={setFormValue('message')}
+                                            required
+                                            {...INPUT_PROPS}
+                                        >
+                                            Message*
+                                        </Input>
+                                    </div>
                                     <Input
-                                        value={formData.firstName}
-                                        onChange={setFormValue('firstName')}
-                                        required
-                                        {...INPUT_PROPS}
+                                        type={'checkbox'}
+                                        checked={formData.isAllowedUpdate}
+                                        onChange={setFormValue('isAllowedUpdate')}
+                                        classNameLabel={'text-12 leading-normal'}
+                                        className={'border-gray-l0 bg-gray-d2'}
+                                        classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
+                                        classNameWrapper={'flex [&_div]:items-start'}
+                                        isCustomCheckbox
                                     >
-                                        First Name*
+                                        May Tern provide you with personalized communications about Tern and select
+                                        Tern-partner products, services, offers and events?
                                     </Input>
-                                    <Input
-                                        value={formData.lastName}
-                                        onChange={setFormValue('lastName')}
-                                        required
-                                        {...INPUT_PROPS}
+                                    <Button
+                                        type={'submit'}
+                                        className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
                                     >
-                                        Last Name*
-                                    </Input>
+                                        Submit
+                                    </Button>
                                 </div>
-                                <Input
-                                    value={formData.company}
-                                    onChange={setFormValue('company')}
-                                    {...INPUT_PROPS}
-                                >
-                                    Company
-                                </Input>
-                                <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
-                                    <Input
-                                        type='email'
-                                        value={formData.email}
-                                        onChange={setFormValue('email')}
-                                        {...INPUT_PROPS}
-                                    >
-                                        Email*
-                                    </Input>
-                                    <Input
-                                        type='phone'
-                                        value={formData.phone}
-                                        onChange={setFormValue('phone')}
-                                        {...INPUT_PROPS}
-                                    >
-                                        Phone
-                                    </Input>
-                                </div>
-                                <Input
-                                    type='textarea'
-                                    value={formData.message}
-                                    onChange={setFormValue('message')}
-                                    required
-                                    {...INPUT_PROPS}
-                                >
-                                    Message*
-                                </Input>
-                                <Input
-                                    type='checkbox'
-                                    checked={formData.isAllowedUpdate}
-                                    onChange={setFormValue('isAllowedUpdate')}
-                                    classNameLabel='text-12 leading-normal'
-                                    className='border-gray-l0 bg-gray-d2'
-                                    classNameCheckbox='h-5xs w-5xs flex-shrink-0'
-                                    classNameWrapper='flex [&_div]:items-start'
-                                    isCustomCheckbox
-                                >
-                                    May Tern provide you with personalized communications about Tern and select
-                                    Tern-partner products, services, offers and events?
-                                </Input>
-                                <Button
-                                    type='submit'
-                                    className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
-                                >
-                                    Submit
-                                </Button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                     <div className='lg:w-1/2  md:w-[65%] flex'>
                         <div
                             className={cn(
                                 'h-full w-full',
                                 'md:h-[60dvh] md:max-h-[43.5rem]',
-                                'sm:h-[70dvh] sm:max-h-[29.75rem]'
+                                'sm:h-[70dvh] sm:max-h-[29.75rem]',
                             )}
                         >
                             <MapEmbed />
@@ -196,7 +214,7 @@ const ContactsPage: FC = () => {
                         'relative z-10',
                         'grid grid-cols-1 gap-xl mb-3xl',
                         'md:x-[mb-6xl-1]',
-                        'lg:x-[grid-cols-3,mb-6xl]'
+                        'lg:x-[grid-cols-3,mb-6xl]',
                     )}
                 >
                     <div className='grid gap-3xs  md:gap-s  lg:order-last'>
@@ -225,7 +243,7 @@ const ContactsPage: FC = () => {
 
                 <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
                     <ResourceCard
-                        type='highlighted'
+                        type={'highlighted'}
                         icon={HIGHLIGHTED_CARD.icon}
                         title={HIGHLIGHTED_CARD.title}
                         action={HIGHLIGHTED_CARD.action}
@@ -234,13 +252,13 @@ const ContactsPage: FC = () => {
                                 'text-black',
                                 'lg:x-[!grid-cols-2,gap-x-0] lg:col-span-2',
                                 'md:x-[!grid-cols-2,gap-x-0] md:[&]:x-[col-span-2,px-xl]',
-                                'sm:x-[mx-auto,w-full]'
+                                'sm:x-[mx-auto,w-full]',
                             ),
                             image: '!size-full object-cover',
                             content: 'lg:pl-l  md:pl-l md:flex',
                             title: 'text-20  md:text-24  lg:text-27',
                             children: 'text-12  sm:text-10',
-                            link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]'
+                            link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]',
                         }}
                     >
                         {HIGHLIGHTED_CARD.description}
@@ -248,7 +266,10 @@ const ContactsPage: FC = () => {
                 </section>
 
                 <section className='relative z-10'>
-                    <ResourcesSection data={RESOURCES} className='mb-[22.125rem] mt-6xl-1' />
+                    <ResourcesSection
+                        data={RESOURCES}
+                        className={'mb-[22.125rem] mt-6xl-1'}
+                    />
                 </section>
 
                 <div className='absolute bottom-0 inset-0 bg-gradient-to-t from-blue to-transparent to-10% lg:to-[16%] z-0' />
@@ -256,5 +277,4 @@ const ContactsPage: FC = () => {
         </>
     );
 };
-
 export default ContactsPage;
