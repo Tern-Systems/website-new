@@ -6,6 +6,7 @@ import cn from 'classnames';
 import MapEmbed from './Map';
 import { useForm } from '@/app/hooks';
 
+import { MainBackground } from '@/app/ui/atoms';
 import { Button, Input } from '@/app/ui/form';
 import { CardLink, ResourceSectionData } from '@/app/types/layout';
 import { ResourceCard } from '@/app/ui/organisms';
@@ -67,41 +68,29 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className="relative h-screen w-full z-0 overflow-hidden">
-                <div
-                    className="absolute top-0 left-0 w-full h-screen z-0 bg-cover bg-center"
-                    style={{
-                    backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                    backgroundAttachment: 'fixed',
-                    backgroundPosition: 'center top',
-                    backgroundSize: 'cover',
-                    }}
-                >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start h-full')}>
+            <section className={cn(styles.section, styles.fullHeightSection)}>
+                <MainBackground url={OFFICE_GIRL_3} />
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                     <div>
                         <h1
-                        className={cn(
-                            `w-min text-left leading-n`,
-                            `mb-n text-96`,
-                            `lg:x-[w-full,mt-6xl-1]`,
-                            `md:x-[mt-xl,text-96]`,
-                            `sm:x-[flex,mt-xs,text-64]`
-                        )}
+                            className={cn(
+                                `w-min text-left leading-n`,
+                                `mb-n text-96`,
+                                `lg:x-[w-full,mt-6xl-1]`,
+                                `md:x-[mt-xl,text-96]`,
+                                `sm:x-[flex,mt-xs,text-64]`,
+                            )}
                         >
-                        Contact Tern
+                            Contact Tern
                         </h1>
                     </div>
-                    </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-1' />
                 </div>
+                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-0' />
+                <div className='absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-1' />
             </section>
 
             <div
-            className={cn(
-                'relative z-10',
-                'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10%'
-            )}
+                className={cn('relative z-10', 'bg-black bg-gradient-to-b from-blue from-0% to-black to-5% lg:to-10% ')}
             >
                 <section
                     className={cn(
