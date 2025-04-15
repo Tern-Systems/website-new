@@ -11,6 +11,7 @@ import { CardLink, ResourceSectionData } from '@/app/types/layout';
 import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
+import { MainBackground } from '@/app/ui/atoms';
 import { Route } from '@/app/static';
 
 import styles from '@/app/common.module.css';
@@ -53,8 +54,8 @@ const RESOURCES: ResourceSectionData[] = [
 
 const INPUT_PROPS = {
     classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
-    classNameLabel: 'font-[400]   ',
-    className: cn('h-6xl w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
+    classNameLabel: 'font-[400]',
+    className: cn('h-6xl w-full px-xxs', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
 };
 
 const ContactsPage: FC = () => {
@@ -68,34 +69,26 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection)}>
+                <MainBackground url={OFFICE_GIRL_3} />
                 <div
-                    style={{ 
-                        backgroundImage: `url("${OFFICE_GIRL_3.src}")`,
-                        backgroundAttachment: 'fixed'
-                    }}
                     className={cn(
-                        'absolute w-full h-full inset-0',
-                        'bg-cover bg-center bg-no-repeat',
-                        'z-0'
+                        styles.content,
+                        'relative flex justify-start z-10',
+                        'items-start md:items-start lg:items-start',
                     )}
-                />
-                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                >
                     <div>
                         <h1
                             className={cn(
-                                `w-min text-left leading-n`,
-                                `mb-n text-96`,
-                                `lg:x-[w-full,mt-6xl-1]`,
-                                `md:x-[mt-xl,text-96]`,
-                                `sm:x-[flex,mt-xs,text-64]`,
+                                'text-left font-bold leading-n',
+                                'sm:mt-n',
+                                'text-40 md:text-96 md:landscape:text-40 lg:text-96',
                             )}
                         >
                             Contact Tern
                         </h1>
                     </div>
                 </div>
-                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-1' />
-                <div className='absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-2' />
             </section>
 
             <div
@@ -103,6 +96,7 @@ const ContactsPage: FC = () => {
             >
                 <section
                     className={cn(
+                        styles.section,
                         styles.content,
                         'relative z-10',
                         'flex flex-col lg:flex-row',
@@ -214,6 +208,7 @@ const ContactsPage: FC = () => {
 
                 <section
                     className={cn(
+                        styles.section,
                         styles.content,
                         'relative z-10',
                         'grid grid-cols-1 gap-xl mb-3xl',
@@ -245,7 +240,7 @@ const ContactsPage: FC = () => {
                     </div>
                 </section>
 
-                <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
+                <section className={cn(styles.section, styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
                     <ResourceCard
                         type={'highlighted'}
                         icon={HIGHLIGHTED_CARD.icon}
@@ -269,7 +264,7 @@ const ContactsPage: FC = () => {
                     </ResourceCard>
                 </section>
 
-                <section className='relative z-10'>
+                <section className={cn(styles.section, 'relative z-10')}>
                     <ResourcesSection
                         data={RESOURCES}
                         className={'mb-[22.125rem] mt-6xl-1'}
