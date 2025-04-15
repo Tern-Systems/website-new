@@ -39,11 +39,13 @@ function OrderPage() {
         }
     }, []);
 
+    const handleToggleDetails = () => setDetailsToggleState((prevState) => !prevState);
+
     // Elements
     const ToggleDetailsBtn = (
         <div className={'mt-3xl text-center text-14 sm:landscape:mt-xs md:text-18  lg:text-18'}>
             <Button
-                onClick={() => setDetailsToggleState((prevState) => !prevState)}
+                onClick={handleToggleDetails}
                 className={'justify-self-center underline md:landscape:hidden lg:hidden'}
             >
                 {isDetailsToggled ? 'Hide' : 'See'} Details

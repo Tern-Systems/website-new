@@ -68,12 +68,15 @@ const renderTd = (data: string | number) => (typeof data === 'string' ? data : n
 const SubscriptionRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
     const { row, className } = props;
     const [navigate] = useNavigate();
+
+    const handlRowNavigation = () => {
+        if (row.href.startsWith('https://')) window.open(row.href, '_blank');
+        else navigate(row.href as Route);
+    };
+
     return (
         <tr
-            onClick={() => {
-                if (row.href.startsWith('https://')) window.open(row.href, '_blank');
-                else navigate(row.href as Route);
-            }}
+            onClick={handlRowNavigation}
             className={cn('cursor-pointer', className)}
         >
             <td className={'w-[40%] py-3xs sm:x-[w-full,py-4xs] md:w-[50%]'}>{row.name}</td>
@@ -93,12 +96,15 @@ const SubscriptionRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) 
 const EventRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
     const { row, className } = props;
     const [navigate] = useNavigate();
+
+    const handlRowNavigation = () => {
+        if (row.href.startsWith('https://')) window.open(row.href, '_blank');
+        else navigate(row.href as Route);
+    };
+
     return (
         <tr
-            onClick={() => {
-                if (row.href.startsWith('https://')) window.open(row.href, '_blank');
-                else navigate(row.href as Route);
-            }}
+            onClick={handlRowNavigation}
             className={cn('cursor-pointer', className)}
         >
             <td className={'w-[40%] py-3xs sm:x-[w-full,py-4xs] md:w-[50%]'}>{row.name}</td>

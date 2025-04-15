@@ -33,13 +33,16 @@ const RESOURCES: ResourceSectionData[] = [
 const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
     const { row, className } = props;
     const [navigate] = useNavigate();
+
+    const handleNavigate = () => {
+        sessionStorage.setItem('invoice', JSON.stringify(row));
+        navigate(Route.Invoice);
+    };
+
     return (
         <tr
             data-testid={TestID.page.invoice.row}
-            onClick={() => {
-                sessionStorage.setItem('invoice', JSON.stringify(row));
-                navigate(Route.Invoice);
-            }}
+            onClick={handleNavigate}
             className={cn(
                 styles.clickable,
                 `cursor-pointer text-nowrap align-middle odd:bg-gray-d0  hover:!bg-gray-l0`,

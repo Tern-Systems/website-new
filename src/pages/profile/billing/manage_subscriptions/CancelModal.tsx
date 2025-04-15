@@ -63,7 +63,7 @@ const CancelModal: FC<Props> = (props: Props) => {
                 <span className={'mt-s flex justify-center gap-4xs text-20 font-bold text-primary'}>
                     <Button
                         data-testid={TestID.submitButton}
-                        onClick={() => handleDelete()}
+                        onClick={handleDelete}
                         className={`bg-red ${BTN_CN}`}
                     >
                         Cancel Subscription

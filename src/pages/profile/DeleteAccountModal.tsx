@@ -24,6 +24,11 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
 
     if (!userData) return null;
 
+    // Event Handlers
+    const handleOpenModal = () => modalCtx.openModal(<DeleteAccountConfirmModal userData={userData} />, { darkenBg: true });
+    
+    const handleCloseModal = () => modalCtx.closeModal();
+
     return (
         <BaseModal
             title={'Account Offboarding'}
@@ -37,15 +42,13 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
             <span className={'mt-xs flex justify-center gap-4xs'}>
                 <Button
                     className={`border-s border-red text-red ${BTN_CN}`}
-                    onClick={() =>
-                        modalCtx.openModal(<DeleteAccountConfirmModal userData={userData} />, { darkenBg: true })
-                    }
+                    onClick={handleOpenModal}
                 >
                     Continue
                 </Button>
                 <Button
                     className={`bg-gray-l0 ${BTN_CN}`}
-                    onClick={() => modalCtx.closeModal()}
+                    onClick={handleCloseModal}
                 >
                     Cancel
                 </Button>

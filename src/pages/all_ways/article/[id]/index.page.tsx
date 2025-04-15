@@ -29,9 +29,10 @@ import SVG_FACEBOOK from '@/assets/images/icons/facebook.svg';
 const SHARE_BTNS = [
     {
         icon: SVG_LINK,
-        Element: (props: PropsWithChildren & { url: string }) => (
-            <Button onClick={() => navigator?.clipboard?.writeText?.(props.url)}>{props.children}</Button>
-        ),
+        Element: (props: PropsWithChildren & { url: string }) => {
+            const handleCopyUrlToClipboard = () => navigator?.clipboard?.writeText?.(props.url);
+            return <Button onClick={handleCopyUrlToClipboard}>{props.children}</Button>;
+        },
     },
     { icon: SVG_EMAIL, Element: EmailShareButton },
     { icon: SVG_X, Element: TwitterShareButton },

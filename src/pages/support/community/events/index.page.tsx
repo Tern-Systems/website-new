@@ -238,11 +238,14 @@ function CommunityEventsPage() {
         }
     };
 
+    const createPageHandleEvent = (targetPage: number) => () => handlePageChange(targetPage);
+
+
     const Pages: ReactElement = (
         <div className={'flex justify-between h-full'}>
             <button
                 className='size-7xl flex place-items-center'
-                onClick={() => handlePageChange(pageNos - 1)}
+                onClick={createPageHandleEvent(pageNos - 1)}
                 disabled={pageNos === 1}
             >
                 <ReactSVG
@@ -262,7 +265,7 @@ function CommunityEventsPage() {
                         'w-5xl h-full border-l-s border-gray-l0 transition-colors duration-300',
                         pageNos === i + 1 ? 'bg-blue text-white' : 'text-blue hover:bg-blue hover:text-white',
                     )}
-                    onClick={() => handlePageChange(i + 1)}
+                    onClick={createPageHandleEvent(i + 1)}
                 >
                     {i + 1}
                 </button>
@@ -270,13 +273,13 @@ function CommunityEventsPage() {
 
             <button
                 className='border-l-s border-gray-l0 size-7xl flex place-items-center'
-                onClick={() => handlePageChange(pageNos + 1)}
+                onClick={createPageHandleEvent(pageNos + 1)}
                 disabled={pageNos === totalPages}
             >
                 <ReactSVG
                     src={DOUBLE_ARROW_ICON.src}
                     className={cn(
-                        'my-auto mx-auto text-white stransition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
+                        'my-auto mx-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
                         'size-7xs',
                     )}
                 />

@@ -82,6 +82,19 @@ function ManageSubscriptionsPage() {
 
     const price: string = priceUSD ? '$' + priceUSD.toFixed(2) : '-- missing price --';
 
+    // Event Handlers
+    const handleOpenModal = () => {
+        modalCtx.openModal(<CancelModal plan={selectedPlan?.subscription} />, {
+            darkenBg: true,
+        });
+    };
+
+    const handleToggleDetails = () => setDetailsExpanded((prevState) => !prevState);
+
+    const handlePaymentMethodVisibility = () => setEditPaymentMethodVisible(true);
+
+    const handleSelectChange = (value: string) => setSelectedIdx(parseInt(value) ?? -1);
+
     // Elements
     const RenderPlanInfo = () => {
         if (!selectedPlan) return null;
@@ -97,11 +110,7 @@ function ManageSubscriptionsPage() {
                         <Button
                             data-testid={TestID.info.currentPlan.cancel.toggle}
                             className={'h-button-s border-s border-white-d0 px-5xs text-12 font-bold'}
-                            onClick={() =>
-                                modalCtx.openModal(<CancelModal plan={selectedPlan?.subscription} />, {
-                                    darkenBg: true,
-                                })
-                            }
+                            onClick={handleOpenModal}
                         >
                             Cancel
                         </Button>
@@ -136,7 +145,7 @@ function ManageSubscriptionsPage() {
                             icon={detailsExpanded ? faChevronUp : faChevronDown}
                             className={'col-start-1 mr-auto flex-row-reverse  text-12 sm:text-14'}
                             classNameIcon={'[&_path]:fill-gray w-[0.4rem] [&_path]:fill-primary'}
-                            onClick={() => setDetailsExpanded((prevState) => !prevState)}
+                            onClick={handleToggleDetails}
                         >
                             {detailsExpanded ? 'Hide' : 'Show'} Details
                         </Button>
@@ -202,7 +211,7 @@ function ManageSubscriptionsPage() {
                                 </span>
                             </span>
                             <span
-                                onClick={() => setEditPaymentMethodVisible(true)}
+                                onClick={handlePaymentMethodVisibility}
                                 className={'flex cursor-pointer items-center'}
                             >
                                 <span className={'mr-4xs sm:hidden'}>Change</span>
@@ -250,7 +259,7 @@ function ManageSubscriptionsPage() {
                         options={subscriptionOptions}
                         value={selectedIdx.toString()}
                         placeholder={'Select'}
-                        onChangeCustom={(value) => setSelectedIdx(parseInt(value) ?? -1)}
+                        onChangeCustom={handleSelectChange}
                         classNameWrapper={cn(
                             `flex-col gap-y-xxs`,
                             `text-14 md:text-16 lg:text-18`,
