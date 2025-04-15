@@ -12,6 +12,7 @@ import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
 import { Route } from '@/app/static';
+import { MainBackground } from '@/app/ui/atoms';
 
 import styles from '@/app/common.module.css';
 
@@ -67,33 +68,30 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
+            {/* The first section has the Hero banner with MainBackground component for scroll effect*/}
+            <section className={cn(styles.section, styles.fullHeightSection)}>
+                <MainBackground url={OFFICE_GIRL_3} 
+                />
                 <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        position: 'relative',
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
-                    }}
+                    className={cn(
+                        styles.content,
+                        'relative flex justify-start z-10',
+                        'items-start md:items-center lg:items-center',
+                    )}
                 >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `w-min text-left leading-n`,
-                                    `mb-n text-96`,
-                                    `lg:x-[w-full,mt-6xl-1]`,
-                                    `md:x-[mt-xl,text-96]`,
-                                    `sm:x-[flex,mt-xs,text-64]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
-                    </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
+        <div>
+            <h1
+                className={cn(
+                    'mb-n text-left font-bold leading-none whitespace-nowrap',
+                    'sm:mt-n',
+                    'w-auto md:w-auto lg:w-auto',
+                    'text-64 md:text-128 md:landscape:text-64 lg:text-166',
+                    'mt-[-45vh] md:mt-[-50vh] lg:mt-[-45vh]' 
+                )}
+            >
+                Contact Tern
+            </h1>
+        </div>
                 </div>
             </section>
 
@@ -164,7 +162,7 @@ const ContactsPage: FC = () => {
                                             Phone
                                         </Input>
                                     </div>
-                                    <div className='grid grid-cols-1'>
+                    <div className='grid grid-cols-1'>
                                         <Input
                                             type={'textarea'}
                                             value={formData.message}
@@ -173,9 +171,9 @@ const ContactsPage: FC = () => {
                                             {...INPUT_PROPS}
                                         >
                                             Message*
-                                        </Input>
+                               </Input>
                                     </div>
-                                    <Input
+                         <Input
                                         type={'checkbox'}
                                         checked={formData.isAllowedUpdate}
                                         onChange={setFormValue('isAllowedUpdate')}
@@ -198,7 +196,7 @@ const ContactsPage: FC = () => {
                             </form>
                         </div>
                     </div>
-                    <div className='lg:w-1/2  md:w-[65%] flex'>
+                    <div className='lg:w-1/2 md:w-[65%] flex'>
                         <div
                             className={cn(
                                 'h-full w-full',
@@ -259,7 +257,7 @@ const ContactsPage: FC = () => {
                             ),
                             image: '!size-full object-cover',
                             content: 'lg:pl-l  md:pl-l md:flex',
-                            title: 'text-20  md:text-24  lg:text-27',
+                               title: 'text-20  md:text-24  lg:text-27',
                             children: 'text-12  sm:text-10',
                             link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]',
                         }}
