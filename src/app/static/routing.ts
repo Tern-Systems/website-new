@@ -26,6 +26,7 @@ enum Route {
     TidalProductManual = '/product/manual',
     TidalSubscribe = '/subscribe/tidal',
     TidalFAQs = '/product/faqs',
+    TidalCyrus = '/product/cyrus',
     // Dot = '/products/dot',
     // DotPricing = '/products/dot/pricing',
     // DotProductManual = '/products/dot/user_manual',
