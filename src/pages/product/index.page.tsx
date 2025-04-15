@@ -165,7 +165,7 @@ function TidalPage() {
                 <div
                     className={cn(
                         styles.content,
-                        'relative z-50 leading-n',
+                        'relative z-50 leading-n pb-32',
                         'pt-4xl md:pt-[7.81em] lg:pt-6xl',
                         'text-16 md:text-14 lg:text-40',
                     )}
@@ -202,7 +202,7 @@ function TidalPage() {
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
                         conventional programming.
                     </p>
-                    <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
+                    <div className={'mt-xl md:mt-4xl lg:mt-5xl pb-32'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
                             className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
