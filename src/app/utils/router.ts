@@ -13,7 +13,7 @@ const getRouteLeave = (route: string | null): string => '/' + route?.split('/')?
 
 const checkSubRoute = (route: string | null, subRoute: string, checkLeaves = false): boolean =>
     checkLeaves
-        ? getRouteLeave(subRoute).toLowerCase().includes(getRouteLeave(route).toLowerCase())
+        ? getRouteLeave(subRoute).toLowerCase() === getRouteLeave(route).toLowerCase()
         : route?.toLowerCase().includes(subRoute?.toLowerCase()) === true;
 
 const sliceRoute = (route: string | null, partsCount: number): string =>
