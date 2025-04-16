@@ -16,7 +16,7 @@ import {
     AboutPrivacy,
     AccountSection,
     AddressesSection,
-    AppsSection,
+    // AppsSection,
     CompanySection,
     ContactSection,
     OffboardingSection,
@@ -31,11 +31,11 @@ interface SectionProps {
 }
 
 const SECTIONS: Record<string, string> = {
-    [AppsSection.ID]: 'Credentials',
-    [AddressesSection.ID]: 'Contact',
+    [AccountSection.ID]: 'Credentials',
+    [ContactSection.ID]: 'Contact',
     [CompanySection.ID]: 'Organization',
-    [ContactSection.ID]: 'Addresses',
-    [AccountSection.ID]: 'Applications',
+    [AddressesSection.ID]: 'Addresses',
+    // [AccountSection.ID]: 'Applications',
     [OffboardingSection.ID]: 'Offboarding',
 };
 const SECTION_IDS: string[] = Object.keys(SECTIONS);
