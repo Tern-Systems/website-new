@@ -54,8 +54,8 @@ const RESOURCES: ResourceSectionData[] = [
 
 const INPUT_PROPS = {
     classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
-    classNameLabel: 'font-[400]',
-    className: cn('h-6xl w-full px-xxs', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
+    classNameLabel: 'font-[400]   ',
+    className: cn('h-6xl w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
 };
 
 const ContactsPage: FC = () => {
@@ -69,26 +69,29 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={OFFICE_GIRL_3} />
-                <div
-                    className={cn(
-                        styles.content,
-                        'relative flex justify-start z-10',
-                        'items-start md:items-start lg:items-start',
-                    )}
-                >
+                <div className='absolute inset-0 w-full h-full lg:pt-10 lg:pb-20'>
+                    <MainBackground
+                        url={OFFICE_GIRL_3}
+                        className='lg:bg-top'
+                    />
+                </div>
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start lg:to-40%')}>
                     <div>
                         <h1
                             className={cn(
-                                'text-left font-bold leading-n',
-                                'sm:mt-n',
-                                'text-40 md:text-96 md:landscape:text-40 lg:text-96',
+                                `w-min text-left leading-n`,
+                                `mb-n text-96`,
+                                `lg:x-[w-full,mt-6xl-1]`,
+                                `md:x-[mt-xl,text-96]`,
+                                `sm:x-[flex,mt-xs,text-64]`,
                             )}
                         >
                             Contact Tern
                         </h1>
                     </div>
                 </div>
+                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
+                <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
             </section>
 
             <div
@@ -96,7 +99,6 @@ const ContactsPage: FC = () => {
             >
                 <section
                     className={cn(
-                        styles.section,
                         styles.content,
                         'relative z-10',
                         'flex flex-col lg:flex-row',
@@ -208,7 +210,6 @@ const ContactsPage: FC = () => {
 
                 <section
                     className={cn(
-                        styles.section,
                         styles.content,
                         'relative z-10',
                         'grid grid-cols-1 gap-xl mb-3xl',
@@ -219,13 +220,18 @@ const ContactsPage: FC = () => {
                     <div className='grid gap-3xs  md:gap-s  lg:order-last'>
                         <h3 className='font-thin text-32 sm:text-24'>Office</h3>
                         <address className='not-italic leading-tight text-24 sm:text-18'>
-                            1120 Avenue of the Americas
-                            <br />
-                            New York, New York
-                            <br />
-                            10036-6700
-                            <br />
-                            United States
+                            <PageLink
+                                isExternal
+                                href='https://maps.app.goo.gl/aq3baVuq5kX9JzEC6'
+                            >
+                                1120 Avenue of the Americas
+                                <br />
+                                New York, New York
+                                <br />
+                                10036-6700
+                                <br />
+                                United States
+                            </PageLink>
                         </address>
                     </div>
 
@@ -240,7 +246,7 @@ const ContactsPage: FC = () => {
                     </div>
                 </section>
 
-                <section className={cn(styles.section, styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
+                <section className={cn(styles.content, 'relative z-10', 'mb-3xl md:mb-6xl-1 lg:mb-6xl')}>
                     <ResourceCard
                         type={'highlighted'}
                         icon={HIGHLIGHTED_CARD.icon}
@@ -264,7 +270,7 @@ const ContactsPage: FC = () => {
                     </ResourceCard>
                 </section>
 
-                <section className={cn(styles.section, 'relative z-10')}>
+                <section className='relative z-10'>
                     <ResourcesSection
                         data={RESOURCES}
                         className={'mb-[22.125rem] mt-6xl-1'}
@@ -276,4 +282,5 @@ const ContactsPage: FC = () => {
         </>
     );
 };
+
 export default ContactsPage;
