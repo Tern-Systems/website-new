@@ -112,7 +112,7 @@ const ProfilePage: FC = () => {
                             editId={editId}
                             update={handleUpdate}
                         />
-                        <AppsSection />
+                        {/* <AppsSection /> */}
                         <OffboardingSection />
                         <AboutPrivacy />
                     </div>
