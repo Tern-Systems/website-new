@@ -17,6 +17,7 @@ import styles from '@/app/common.module.css';
 
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
 import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
+import { MainBackground } from '@/app/ui/atoms';
 
 type FormData = {
     isAllowedUpdate: boolean | undefined;
@@ -77,6 +78,7 @@ const ContactsPage: FC = () => {
                         backgroundPosition: '50% top',
                     }}
                 >
+                    <MainBackground url={OFFICE_GIRL_3} />
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                         <div>
                             <h1
