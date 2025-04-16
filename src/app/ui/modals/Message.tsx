@@ -14,7 +14,7 @@ const MessageModal: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     const modalCtx = useModal();
 
-    const [_, setTimer] = useState(100);
+    const [_, setTimer] = useState(60);
     const [hovered, setHoveredState] = useState(false);
     const [animate, setAnimate] = useState<boolean>(false);
 
