@@ -153,13 +153,14 @@ function TidalPage() {
                 </div>
             </section>
             <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
+                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")`, zIndex: 'auto' }}
                 className={styles.section}
             >
                 <div
                     className={cn(
                         'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
                         'bg-gradient-to-b from-blue to-transparent to-50%',
+
                     )}
                 />
                 <div
@@ -196,7 +197,7 @@ function TidalPage() {
                             className={'h-auto w-full  mt-5xl md:mt-6xl-1 lg:mt-6xl'}
                         />
                     </div>
-                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl relative z-50 opacity-100'}>
+                    <p className={'mt-xxl md:mt-6xl-1 lg:mt-6xl'}>
                         This specialized sandbox environment is designed to support languages engineered specifically
                         for ternary logic computation. At its core is G, a sophisticated high-level language
                         structurally reminiscent of C, enabling a seamless adaptation for developers familiar with
@@ -205,7 +206,7 @@ function TidalPage() {
                     <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
                         <Button
                             onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16 relative z-50 opacity-100')}
+                            className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
                         >
                             G Handbook
                         </Button>
@@ -214,7 +215,7 @@ function TidalPage() {
             </section>
             <section
                 ref={demoSectionRef}
-                className={cn(styles.fadeIn, styles.sectionShadowBlack)}
+                className={cn(styles.section, styles.sectionShadowBlack)}
             >
                 <div
                     className={cn(
