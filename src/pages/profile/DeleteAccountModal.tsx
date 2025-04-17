@@ -25,8 +25,9 @@ const DeleteAccountModal: FC<Props> = (props: Props) => {
     if (!userData) return null;
 
     // Event Handlers
-    const handleOpenModal = () => modalCtx.openModal(<DeleteAccountConfirmModal userData={userData} />, { darkenBg: true });
-    
+    const handleOpenModal = () =>
+        modalCtx.openModal(<DeleteAccountConfirmModal userData={userData} />, { darkenBg: true });
+
     const handleCloseModal = () => modalCtx.closeModal();
 
     return (

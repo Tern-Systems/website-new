@@ -95,8 +95,8 @@ function HomePage() {
             <div className={'relative -z-10 h-[14.125rem] w-full'}>
                 <div className={'absolute bg-gradient-to-t from-black to-transparent to-30%'} />
                 <Image
-                    width={150}
-                    height={150}
+                    width={500}
+                    height={500}
                     src={card.image.src}
                     alt={card.image.src}
                     className={'h-full w-full object-cover'}

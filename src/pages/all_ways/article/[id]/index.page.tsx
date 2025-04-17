@@ -120,8 +120,6 @@ function ArticlePage() {
             </li>
         ));
 
-    console.log('content: ', content);
-
     return (
         <>
             <section className={styles.section}>
@@ -132,8 +130,8 @@ function ArticlePage() {
                             <Image
                                 src={content?.poster ?? PNG_NATURE}
                                 alt={'article-image'}
-                                width={200}
-                                height={200}
+                                width={500}
+                                height={500}
                                 className={'flex-grow size-full  mt-xl md:mt-3xl lg:mt-[4.44rem]'}
                             />
                         </div>
@@ -168,8 +166,8 @@ function ArticlePage() {
                             <Image
                                 src={content?.author?.image ?? SVG_PROFILE}
                                 alt={'author-image'}
-                                width={50}
-                                height={50}
+                                width={150}
+                                height={150}
                                 className={'size-full'}
                             />
                         </span>

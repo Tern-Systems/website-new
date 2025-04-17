@@ -98,14 +98,16 @@ function TidalPage() {
     // Event Handlers
     const handleScrollToDemo = () => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
 
-    const handleScrollToVideo = () => { videoRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-    })}
+    const handleScrollToVideo = () => {
+        videoRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
+    };
 
     const handleStartVideo = () => {
         if (!videoStarted) setVideoStarted(true);
-    }
+    };
 
     // Elements
     const TilesLi: ReactElement[] = TILES.map((tile, idx) => (
