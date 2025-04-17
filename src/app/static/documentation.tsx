@@ -41,7 +41,7 @@ const DOCUMENTATION_LINKS: DocumentationLink[] = [
 const COMING_SOON_DOC: DocumentationContent = {
     children: (
         <span
-            className={`block h-full content-center text-nowrap text-center text-48 sm:portrait:x-[-rotate-[75deg],w-full]`}
+            className={`block h-full content-center text-nowrap text-center text-48 sm:flex sm:justify-center w-full]`}
         >
             Coming soon...
         </span>
