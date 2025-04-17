@@ -12,7 +12,7 @@ import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
 import { Route } from '@/app/static';
-
+import { MainBackground } from '@/app/ui/atoms';
 import styles from '@/app/common.module.css';
 
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
@@ -68,13 +68,11 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={'flex justify-center w-full'}>
+                <MainBackground url={OFFICE_GIRL_3} />
                 <div
                     className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
                     style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
                         position: 'relative',
-                        backgroundSize: 'cover',
-                        backgroundPosition: '50% top',
                     }}
                 >
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
@@ -114,10 +112,7 @@ const ContactsPage: FC = () => {
                     <div className={cn('lg:w-1/2 md:w-[65%]')}>
                         <div className={cn('')}>
                             <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
-                            <form
-                                onSubmit={handleSubmit}
-                                className='relative z-10 [&_*]:tracking-wide'
-                            >
+                            <form onSubmit={handleSubmit} className='relative z-10 [&_*]:tracking-wide'>
                                 <div className='grid gap-n'>
                                     <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
                                         <Input
@@ -269,10 +264,7 @@ const ContactsPage: FC = () => {
                 </section>
 
                 <section className='relative z-10'>
-                    <ResourcesSection
-                        data={RESOURCES}
-                        className={'mb-[22.125rem] mt-6xl-1'}
-                    />
+                    <ResourcesSection data={RESOURCES} className={'mb-[22.125rem] mt-6xl-1'} />
                 </section>
 
                 <div className='absolute bottom-0 inset-0 bg-gradient-to-t from-blue to-transparent to-10% lg:to-[16%] z-0' />
