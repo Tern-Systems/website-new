@@ -12,7 +12,7 @@ import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 import { PageLink } from '@/app/ui/layout';
 import { Route } from '@/app/static';
-import { MainBackground } from '@/app/ui/atoms';
+import { MainBackground } from '@/app/ui/atoms'; //This is to import the MainBackground component
 
 import styles from '@/app/common.module.css';
 
@@ -68,10 +68,9 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            {/* The first section has the Hero banner with MainBackground component for scroll effect*/}
+            {/*The Hero banner with MainBackground component that allows the scroll effect */}
             <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={OFFICE_GIRL_3} 
-                />
+                <MainBackground url={OFFICE_GIRL_3} />
                 <div
                     className={cn(
                         styles.content,
@@ -79,19 +78,19 @@ const ContactsPage: FC = () => {
                         'items-start md:items-center lg:items-center',
                     )}
                 >
-        <div>
-            <h1
-                className={cn(
-                    'mb-n text-left font-bold leading-none whitespace-nowrap',
-                    'sm:mt-n',
-                    'w-auto md:w-auto lg:w-auto',
-                    'text-64 md:text-128 md:landscape:text-64 lg:text-166',
-                    'mt-[-45vh] md:mt-[-50vh] lg:mt-[-45vh]' 
-                )}
-            >
-                Contact Tern
-            </h1>
-        </div>
+                    <div>
+                        <h1
+                            className={cn(
+                                'mb-n text-left font-bold leading-none whitespace-nowrap',
+                                'sm:mt-n',
+                                'w-auto md:w-auto lg:w-auto',
+                                'text-64 md:text-128 md:landscape:text-64 lg:text-166',
+                                'mt-[-45vh] md:mt-[-50vh] lg:mt-[-45vh]' 
+                            )}
+                        >
+                            Contact Tern
+                        </h1>
+                    </div>
                 </div>
             </section>
 
@@ -162,7 +161,7 @@ const ContactsPage: FC = () => {
                                             Phone
                                         </Input>
                                     </div>
-                    <div className='grid grid-cols-1'>
+                                    <div className='grid grid-cols-1'>
                                         <Input
                                             type={'textarea'}
                                             value={formData.message}
@@ -171,9 +170,9 @@ const ContactsPage: FC = () => {
                                             {...INPUT_PROPS}
                                         >
                                             Message*
-                               </Input>
+                                        </Input>
                                     </div>
-                         <Input
+                                    <Input
                                         type={'checkbox'}
                                         checked={formData.isAllowedUpdate}
                                         onChange={setFormValue('isAllowedUpdate')}
@@ -196,7 +195,7 @@ const ContactsPage: FC = () => {
                             </form>
                         </div>
                     </div>
-                    <div className='lg:w-1/2 md:w-[65%] flex'>
+                    <div className='lg:w-1/2  md:w-[65%] flex'>
                         <div
                             className={cn(
                                 'h-full w-full',
@@ -257,7 +256,7 @@ const ContactsPage: FC = () => {
                             ),
                             image: '!size-full object-cover',
                             content: 'lg:pl-l  md:pl-l md:flex',
-                               title: 'text-20  md:text-24  lg:text-27',
+                            title: 'text-20  md:text-24  lg:text-27',
                             children: 'text-12  sm:text-10',
                             link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]',
                         }}
