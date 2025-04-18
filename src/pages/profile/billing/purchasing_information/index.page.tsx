@@ -3,7 +3,7 @@
 import { ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 import { Fallback } from '@/app/static';
 
 import { Invoice, SavedCard } from '@/app/types/billing';

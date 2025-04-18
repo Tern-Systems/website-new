@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 import { SavedCardFull } from '@/app/types/billing';
 import { Subscription } from '@/app/types/subscription';

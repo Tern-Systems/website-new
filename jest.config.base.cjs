@@ -5,6 +5,7 @@ module.exports = {
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
     moduleNameMapper: {
         '.+\\.(svg|png|jpg|gif)$': 'jest-transform-stub',
+        '^@/tests/(.+)': '<rootDir>/tests/$1',
         '^@/(.+)': '<rootDir>/src/$1',
     },
     testRegex: '.*\\.(e2e-)?(int-)?(reg-)?spec\\.tsx?$',

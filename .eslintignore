@@ -1,2 +1,2 @@
-jest.setup*.cjs
-jest.config*.cjs
+*setup*
+*config*

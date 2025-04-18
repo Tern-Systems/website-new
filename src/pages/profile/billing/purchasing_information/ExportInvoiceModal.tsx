@@ -2,7 +2,7 @@
 
 import { FC, FormEvent } from 'react';
 
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 import { BillingService } from '@/app/services';
 

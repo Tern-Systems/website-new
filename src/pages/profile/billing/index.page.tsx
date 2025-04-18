@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 import { RowProps } from '@/app/ui/organisms/Table';
 import { ResourceSectionData, TableSection } from '@/app/types/layout';

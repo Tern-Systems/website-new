@@ -2,7 +2,7 @@
 
 import { FC, FormEvent, ReactElement, useEffect, useState } from 'react';
 
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 import { SavedCard } from '@/app/types/billing';
 import { Subscription, SubscriptionRecurrency } from '@/app/types/subscription';

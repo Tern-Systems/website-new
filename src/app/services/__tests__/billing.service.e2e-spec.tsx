@@ -1,6 +1,6 @@
 import { RenderResult } from '@testing-library/react';
 
-import { DataTestID, TIMEOUT } from '@/__tests__/static';
+import { DataTestID, TIMEOUT } from '@/tests/static';
 
 import {
     BillingTestUtil,
@@ -14,7 +14,7 @@ import {
     findByTestId,
     render,
     waitFor,
-} from '@/__tests__/utils';
+} from '@/tests/utils';
 
 // App
 import { UserData } from '@/app/contexts/user.context';

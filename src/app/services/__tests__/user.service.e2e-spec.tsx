@@ -1,4 +1,4 @@
-import { UserTestUtil } from '@/__tests__/utils';
+import { UserTestUtil } from '@/tests/utils';
 
 // App
 import { UserService, UserServiceImpl } from '@/app/services';
