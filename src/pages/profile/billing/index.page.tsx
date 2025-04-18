@@ -63,7 +63,7 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
                 data-testid={TestID.page.invoice.price}
                 className={MD_SM_HIDDEN_CN}
             >
-                {row?.paidUSD ? row.paidUSD.toFixed(2) : CELL_FALLBACK}
+                {row?.item.priceUSD ? row.item.priceUSD.toFixed(2) : CELL_FALLBACK}
             </td>
             <td
                 data-testid={TestID.page.invoice.status}
