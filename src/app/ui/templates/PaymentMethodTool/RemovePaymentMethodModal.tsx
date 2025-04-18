@@ -9,6 +9,8 @@ import { CardData } from '@/app/types/billing';
 
 import { BillingService } from '@/app/services';
 
+import { Fallback } from '@/app/static/fallback';
+
 import { useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
@@ -41,9 +43,7 @@ const RemovePaymentMethodModal: FC<Props> = (props: Props) => {
     };
 
     const cardStr =
-        (card.type ?? '-- missing type --') +
-        ' ' +
-        (card.cardNumber ? 'Ending in • • • ' + card.cardNumber?.slice(-4) : '-- missing number --');
+        (card.type ?? Fallback) + ' ' + (card.cardNumber ? 'Ending in • • • ' + card.cardNumber?.slice(-4) : Fallback);
 
     return (
         <BaseModal
