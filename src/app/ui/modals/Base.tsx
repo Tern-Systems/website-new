@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, FC, HTMLAttributes, SetStateAction } from 'react';
+import { Dispatch, FC, HTMLAttributes, SetStateAction, useEffect } from 'react';
 import cn from 'classnames';
 
 import { Breakpoint } from '@/app/static';
@@ -49,9 +49,19 @@ const BaseModal: FC<ModalConfig> = (props: ModalConfig) => {
 
     const adaptApplied = adapt || adaptedDefault;
 
+    // Only update the modal context for preventing *outside* clicks
+    // Don't affect the X button behavior
+    useEffect(() => {
+        if (title === 'Save Changes?' && preventClose) {
+            modalCtx.setPreventClose(true);
+        }
+    }, [preventClose, title, modalCtx]);
+
     const handleClose = () => {
         onClose?.();
-        if (!preventClose) modalCtx.closeModal();
+        // Always allow X button to close the modal
+        // preventClose now only affects outside clicks via the modal provider
+        modalCtx.closeModal();
     };
 
     const simpleFinal = simple !== undefined && (typeof simple === 'boolean' ? simple : simple > breakpoint);
