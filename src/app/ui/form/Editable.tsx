@@ -15,7 +15,7 @@ import {
 } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
-import { isEqual } from 'lodash';
+import lodash from 'lodash';
 import { v4 } from 'uuid';
 
 import { KeysOfUnion, NonNullableKeys } from '@/app/types/utils';
@@ -177,7 +177,7 @@ const Editable: FC<Props> = (props: Props) => {
         }
     }, [submitRef.current]);
 
-    const checkPreventUpdate = () => isEqual(form, initValue);
+    const checkPreventUpdate = () => lodash.isEqual(form, initValue);
 
     const setPreventState = useSaveOnLeave({
         editId,

@@ -1,4 +1,4 @@
-import { genSalt, hashSync } from 'bcryptjs';
+import bcryptjs from 'bcryptjs';
 import { AxiosRequestConfig } from 'axios';
 
 import { Res } from '@/app/types/service';
@@ -68,12 +68,12 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     }
 
     async postSignup(email: string, password: string): Promise<Res> {
-        const salt = await genSalt(10);
+        const salt = await bcryptjs.genSalt(10);
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + 'arch-signup',
             headers: BaseService._HEADER.CONTENT_JSON,
-            data: JSON.stringify({ email, password: hashSync(password, salt) }),
+            data: JSON.stringify({ email, password: bcryptjs.hashSync(password, salt) }),
             withCredentials: false,
         };
         const { message } = await this.req(this.postSignup.name, config, null);
