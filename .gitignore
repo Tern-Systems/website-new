@@ -38,7 +38,3 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Ignore environment files
-.env
-[.env.local](http://_vscodecontentref_/4)
-.env.local
