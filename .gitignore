@@ -8,6 +8,8 @@
 
 # testing
 /coverage
+*.diff.png
+*.out.png
 
 # next.js
 /.next/

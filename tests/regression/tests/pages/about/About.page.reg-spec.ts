@@ -1,53 +1,37 @@
-import fs from 'fs';
-
-import puppeteer, { Browser, Page } from 'puppeteer';
-import pixelmatch from 'pixelmatch';
-
-import { PNG, PNGWithMetadata } from 'pngjs';
+import { Browser, Page } from 'puppeteer';
 
 import { TIMEOUT } from '@/tests/static';
-import { resolve, ResolvedFile } from '@/tests/regression/utils/path';
+import { RegressionUtil, CheckFunction } from '@/tests/regression/utils/regression.util';
 
 import { Route } from '@/app/static';
 
-describe('Visual Regression Tests', () => {
+describe(`Visual Regression Tests for ${Route.About} page`, () => {
     let browser: Browser;
     let page: Page;
+    let check: CheckFunction;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch();
-        page = await browser.newPage();
+        [browser, page] = await RegressionUtil.prepare(import.meta);
+        check = RegressionUtil.requireCheck(page, Route.About);
     });
 
     afterAll(async () => await browser.close());
 
     it(
-        'should match the visual appearance of the page',
-        async () => {
-            const baseline: ResolvedFile = resolve(import.meta, 'about-lg.png');
-            const baselinePNG: PNGWithMetadata = PNG.sync.read(fs.readFileSync(baseline.path));
-            const { width, height } = baselinePNG;
+        `Should check the visual appearance of the lg: breakpoint`,
+        async () => await check('about-lg.png'),
+        TIMEOUT.testMs,
+    );
 
-            await page.setViewport({ width, height });
-            await page.goto('http://localhost:3000' + Route.About, { waitUntil: 'networkidle2' });
+    it(
+        `Should check the visual appearance of the md: breakpoint`,
+        async () => await check('about-md.png'),
+        TIMEOUT.testMs,
+    );
 
-            const screenshot = await page.screenshot();
-
-            const diff = new PNG({ width, height });
-
-            fs.writeFileSync(baseline.insertSuffix('out'), screenshot);
-
-            const currentPNG: PNGWithMetadata = PNG.sync.read(Buffer.from(screenshot));
-
-            const numDiffPixels = pixelmatch(currentPNG.data, baselinePNG.data, diff.data, width, height, {
-                threshold: 0.1,
-            });
-
-            // Write difference only after pixelmatch call
-            fs.writeFileSync(baseline.insertSuffix('diff'), PNG.sync.write(diff));
-
-            expect(0).toBe(0);
-        },
+    it(
+        `Should check the visual appearance of the sm: breakpoint`,
+        async () => await check('about-sm.png'),
         TIMEOUT.testMs,
     );
 });

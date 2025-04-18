@@ -1,1 +1,1 @@
-export { resolve } from './path';
+export { RegressionUtil } from './regression.util';
