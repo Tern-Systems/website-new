@@ -69,27 +69,23 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className='relative isolate h-[100vh] max-h-[62.5rem] w-full overflow-hidden'>
-                <MainBackground url={OFFICE_GIRL_3} />
+              <MainBackground url={OFFICE_GIRL_3} />
 
-                {/* ✅ Brighter gradient overlays */}
-                <div className='absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-0' />
-                <div className='absolute inset-0 bg-gradient-to-l from-black/50 via-black/20 to-transparent z-0' />
+              <div className='absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-0' />
+              <div className='absolute inset-0 bg-gradient-to-l from-black/50 via-black/20 to-transparent z-0' />
 
-                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start h-full')}>
-                    <div className='self-end pb-xl'>
-                        <h1
-                            className={cn(
-                                `w-min text-left leading-n`,
-                                `mb-n text-96`,
-                                `lg:x-[w-full,mt-6xl-1]`,
-                                `md:x-[mt-xl,text-96]`,
-                                `sm:x-[flex,mt-xs,text-64]`,
-                            )}
-                        >
-                            Contact Tern
-                        </h1>
-                    </div>
-                </div>
+              <div className={cn(styles.content, 'relative z-10 flex items-center justify-center h-full')}>
+                <h1
+                  className={cn(
+                    'text-96 text-center leading-n',
+                    'lg:x-[w-full,mt-6xl-1]',
+                    'md:x-[mt-xl,text-96]',
+                    'sm:x-[flex,mt-xs,text-64]',
+                  )}
+                >
+                  Contact Tern
+                </h1>
+              </div>
             </section>
 
             <div
