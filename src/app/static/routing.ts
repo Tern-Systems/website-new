@@ -1,3 +1,5 @@
+'use client';
+
 import SVG_DISCORD from '@/assets/images/icons/discord.svg';
 import SVG_STACKOVERFLOW from '@/assets/images/icons/stack-overflow.svg';
 import SVG_GITHUB from '@/assets/images/icons/github.svg';
@@ -95,7 +97,8 @@ const MEDIA_LINKS = {
     Twitch: { svg: SVG_TWITCH, href: 'https://www.twitch.tv/tern_systems' },
 };
 
-const Tidal = 'https://tern.ac/tidal';
+const Tidal = typeof window !== 'undefined' ? `${window.location.origin}/tidal` : 'https://tern.ac/tidal';
+
 const MISC_LINKS = {
     Careers: 'https://www.linkedin.com/company/tern-sys/jobs/',
     Events: 'https://www.eventbrite.com/o/tern-103937850401',
