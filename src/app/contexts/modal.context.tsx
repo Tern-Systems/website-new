@@ -12,6 +12,7 @@ interface IModalContext {
     isOpened: boolean;
     closeModal: () => void;
     openModal: OpenModal;
+    setPreventClose: (value: boolean) => void;
 }
 
 const ModalContext = createContext<IModalContext | null>(null);

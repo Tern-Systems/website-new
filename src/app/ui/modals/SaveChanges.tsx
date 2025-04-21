@@ -24,6 +24,7 @@ const SaveChangesModal: FC<Props> = (props: Props) => {
         <BaseModal
             title={'Save Changes?'}
             onClose={() => onCancel()}
+            preventClose={true}
             className={`w-[min(90dvw,30rem)] border-s border-white text-center sm:landscape:w-[50dvw]`}
         >
             <span>Do you want to save your changes before returning to the previous page?</span>

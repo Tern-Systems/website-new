@@ -16,9 +16,12 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     const [config, setConfig] = useState<ModalConfig>({});
     const [Modal, setModal] = useState<ReactElement | null>(null);
+    // Track whether to prevent closing on outside clicks
+    const [preventOutsideClose, setPreventOutsideClose] = useState<boolean>(false);
 
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
+            // Still allow Escape to close the modal regardless of preventOutsideClose setting
             if (event.key === 'Escape') closeModal();
         };
 
@@ -29,6 +32,8 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const handleModalChange = (Component: ReactElement | null, config: ModalConfig) => {
         setModal(Component);
         setConfig({ ...config, doFading: config.doFading ?? true });
+        // Reset preventOutsideClose when modal changes
+        setPreventOutsideClose(false);
     };
 
     const closeModal = () => {
@@ -36,6 +41,11 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     };
 
     const openModal = (ModalElem: ReactElement, config?: ModalConfig) => handleModalChange(ModalElem, config ?? {});
+
+    // Function to set whether to prevent outside clicks from closing the modal
+    const setModalPreventOutsideClose = (value: boolean) => {
+        setPreventOutsideClose(value);
+    };
 
     return (
         <ModalContext.Provider
@@ -45,11 +55,14 @@ const ModalProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
                 darkenBg: config.darkenBg == true,
                 openModal,
                 closeModal,
+                // Rename function to be more specific about its purpose
+                setPreventClose: setModalPreventOutsideClose,
             }}
         >
             {Modal ? (
                 <div
-                    onClick={() => closeModal()}
+                    // Only check preventOutsideClose when clicking the background overlay
+                    onClick={() => !preventOutsideClose && closeModal()}
                     className={cn(
                         `absolute pointer-events-none z-50 flex h-full w-full select-none overflow-hidden text-primary`,
                         layoutCtx.isFade && config.doFading ? styles.fadeOut : styles.fadeIn,
