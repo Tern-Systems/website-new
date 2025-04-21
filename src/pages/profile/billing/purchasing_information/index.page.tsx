@@ -4,6 +4,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { DataTestID } from '@/__tests__/static';
+import { Fallback } from '@/app/static';
 
 import { Invoice, SavedCard } from '@/app/types/billing';
 import { Route } from '@/app/static';
@@ -108,8 +109,8 @@ function PurchasingInformationPage() {
         const invoiceDate: Date | undefined = order.startDate !== undefined ? new Date(order.startDate) : undefined;
         const localDate: string =
             invoiceDate === undefined
-                ? '-- missing date --'
-                : `${invoiceDate.toLocaleString('default', { month: 'long' })} ${invoiceDate.getDate()}th, ` +
+                ? Fallback
+                : `${invoiceDate.toLocaleString('default', { month: 'long' })} ${invoiceDate.getDate()}, ` +
                   invoiceDate.getFullYear();
         return (
             <tr
@@ -132,13 +133,13 @@ function PurchasingInformationPage() {
                     data-testid={TestID.history.entry.price}
                     className={'md:w-[21%] lg:w-[11%]'}
                 >
-                    {checkNumber(order.paidUSD) ? '$' + order.paidUSD : '-- missing price --'}
+                    {checkNumber(order.paidUSD) ? '$' + order.paidUSD : Fallback}
                 </td>
                 <td
                     data-testid={TestID.history.entry.status}
                     className={'md:hidden lg:w-[11%]'}
                 >
-                    {order.status ?? '-- missing status --'}
+                    {order.status ?? Fallback}
                 </td>
                 <td
                     data-testid={TestID.history.entry.card}

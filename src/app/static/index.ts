@@ -9,6 +9,8 @@ export { FAQs } from './faqs';
 
 export { CARD_DATA_DEFAULT } from './form';
 
+export { Fallback } from './fallback';
+
 export {
     Breakpoint,
     NavLink,

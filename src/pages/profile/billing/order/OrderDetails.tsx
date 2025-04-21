@@ -5,6 +5,8 @@ import { ForwardedRef, forwardRef, ForwardRefRenderFunction, PropsWithoutRef, Re
 import { Invoice } from '@/app/types/billing';
 import { Route, STATE_PROVINCE } from '@/app/static';
 
+import { Fallback } from '@/app/static';
+
 import { checkNumber } from '@/app/utils';
 
 import { PageLink } from '@/app/ui/layout';
@@ -34,13 +36,12 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
     const paidUSD: number | undefined = checkNumber(invoice?.paidUSD) ? invoice.paidUSD : undefined;
     const totalDue: number | undefined = checkNumber(invoice?.totalDue) ? invoice.totalDue : undefined;
 
-    const price: string = paidUSD ? '$' + paidUSD : '-- missing amount --';
+    const price: string = paidUSD ? '$' + paidUSD : Fallback;
     const state: string =
-        invoice?.country && invoice?.state ? STATE_PROVINCE[invoice.country]?.[invoice.state] : '-- missing state --';
-    const subtotal: string = subtotalUSD ? '$' + subtotalUSD.toFixed(2) : '-- missing subtotal --';
-    const taxAmount: string = taxPercent && subtotalUSD ? '$' + taxPercent * subtotalUSD : '-- missing tax --';
-    const remainingUSD: string =
-        totalDue && paidUSD ? '$' + (totalDue - paidUSD) : '-- unable to calculate remaining price --';
+        invoice?.country && invoice?.state ? STATE_PROVINCE[invoice.country]?.[invoice.state] : Fallback;
+    const subtotal: string = subtotalUSD ? '$' + subtotalUSD.toFixed(2) : Fallback;
+    const taxAmount: string = taxPercent && subtotalUSD ? '$' + taxPercent * subtotalUSD : Fallback;
+    const remainingUSD: string = totalDue && paidUSD ? '$' + (totalDue - paidUSD) : Fallback;
 
     return (
         <div className={`${className} bg-white px-s min-w-[min(100%,53rem)]`}>
@@ -57,11 +58,11 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                     {<Hr className='mt-4xs  md:mt-3xs  lg:mt-3xs ' />}
                     <div className={`grid grid-cols-2 gap-y-4xs text-12  md:text-16  lg:text-16`}>
                         <span className='text-secondary'>To</span>
-                        <span>{invoice?.to ?? '-- missing receiver --'}</span>
+                        <span>{invoice?.to ?? Fallback}</span>
                         <span className='text-secondary'>From</span>
-                        <span>{invoice?.from ?? '-- missing sender --'}</span>
+                        <span>{invoice?.from ?? Fallback}</span>
                         <span className='text-secondary'>Order (invoice)</span>
-                        <span>{invoice?.id ? '#' + invoice.id : '-- missing id --'}</span>
+                        <span>{invoice?.id ? '#' + invoice.id : Fallback}</span>
                     </div>
                 </div>
                 <div className='sm:landscape:x-[max-h-[70dvh],overflow-y-scroll]'>
@@ -75,16 +76,16 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                         </span>
                         <span className={'font-bold'}>
                             <span className={'flex justify-between'}>
-                                <span>{invoice?.item?.name ?? '-- missing name --'}</span>
+                                <span>{invoice?.item?.name ?? Fallback}</span>
                                 <span>
                                     {checkNumber(invoice?.item?.priceUSD)
                                         ? '$' + invoice.item.priceUSD.toFixed(2)
-                                        : '-- missing price --'}
+                                        : Fallback}
                                 </span>
                             </span>
                         </span>
                         <span className={'text-12  md:text-14  lg:text-14'}>
-                            {invoice?.item ? 'Qty ' + 1 : '-- missing quantity --'}
+                            {invoice?.item ? 'Qty ' + 1 : Fallback}
                         </span>
                     </div>
 
@@ -100,7 +101,7 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                         <span className={'text-right'}>{subtotal}</span>
                         <span className={'text-secondary'}>
                             Sales tax - {state}
-                            &nbsp;({taxPercent?.toFixed(0) ?? '-- missing tax --'}%)
+                            &nbsp;({taxPercent?.toFixed(0) ?? Fallback}%)
                         </span>
                         <span className={'text-right text-14 text-secondary  md:text-16  lg:text-16'}>{taxAmount}</span>
                     </div>
@@ -108,7 +109,7 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
                     {<Hr />}
                     <div className={'flex text-14 justify-between font-bold  md:text-16  lg:text-16'}>
                         <span>Total due</span>
-                        <span>{totalDue ? '$' + totalDue.toFixed(2) : '-- missing total due --'}</span>
+                        <span>{totalDue ? '$' + totalDue.toFixed(2) : Fallback}</span>
                     </div>
 
                     {<Hr />}
