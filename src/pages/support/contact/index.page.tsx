@@ -69,28 +69,24 @@ const ContactsPage: FC = () => {
     return (
         <>
             <section className={'relative h-dvh w-full overflow-hidden'}>
-                <MainBackground
-                    url={OFFICE_GIRL_3.src}
-                    className={cn('absolute insert-0 h-full w-full bg-cover bg-center bg-no-repeat', 'z-0')}
-                >
-                    <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `w-min text-left leading-n`,
-                                    `mb-n text-96`,
-                                    `lg:x-[w-full,mt-6xl-1]`,
-                                    `md:x-[mt-xl,text-96]`,
-                                    `sm:x-[flex,mt-xs,text-64]`,
-                                )}
-                            >
-                                Contact Tern
-                            </h1>
-                        </div>
+                <MainBackground url={OFFICE_GIRL_3.src} />
+                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                    <div>
+                        <h1
+                            className={cn(
+                                `w-min text-left leading-n`,
+                                `mb-n text-96`,
+                                `lg:x-[w-full,mt-6xl-1]`,
+                                `md:x-[mt-xl,text-96]`,
+                                `sm:x-[flex,mt-xs,text-64]`,
+                            )}
+                        >
+                            Contact Tern
+                        </h1>
                     </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
-                </MainBackground>
+                </div>
+                <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
+                <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
             </section>
 
             <div
