@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
@@ -8,10 +8,11 @@ import cn from 'classnames';
 interface Props {
     url: StaticImageData | string;
     className?: string;
+    children?: ReactNode;
 }
 
 const MainBackground: FC<Props> = (props: Props) => {
-    const { className } = props;
+    const { className, children } = props;
     const url = typeof props.url === 'string' ? props.url : props.url.src;
     return (
         <>
@@ -23,6 +24,7 @@ const MainBackground: FC<Props> = (props: Props) => {
                     className,
                 )}
             />
+            {children}
         </>
     );
 };

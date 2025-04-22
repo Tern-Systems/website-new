@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 import cn from 'classnames';
+import { MainBackground } from '@/app/ui/atoms/MainBackground';
 
 import MapEmbed from './Map';
 import { useForm } from '@/app/hooks';
@@ -60,31 +61,17 @@ const INPUT_PROPS = {
 const ContactsPage: FC = () => {
     const [formData, setFormValue] = useForm<FormData>(FORM_DEFAULT);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) throw new Error('Failed to submit');
-
-            console.log('Success!');
-        } catch (error) {
-            console.error('Submission error:', error);
-        }
+        // TODO
     };
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
-                <div
-                    className={cn('w-full max-w-[120rem] h-[100vh]', 'bg-fixed bg-cover bg-center relative')}
-                    style={{
-                        backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                    }}
+            <section className={'relative h-dvh w-full overflow-hidden'}>
+                <MainBackground
+                    url={OFFICE_GIRL_3.src}
+                    className={cn('absolute insert-0 h-full w-full bg-cover bg-center bg-no-repeat', 'z-0')}
                 >
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                         <div>
@@ -103,7 +90,7 @@ const ContactsPage: FC = () => {
                     </div>
                     <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
                     <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
-                </div>
+                </MainBackground>
             </section>
 
             <div
