@@ -6,19 +6,22 @@ import cn from 'classnames';
 import { useLayout } from '@/app/hooks';
 
 import { Select } from '@/app/ui/form';
+import { getId } from '@/app/utils';
 
 interface Props {
     sideOnly?: true;
-    sectionIDs: (string | undefined)[];
-    sectionNames?: Record<string, string>;
+    section: Record<string, string>;
     className?: string;
 }
 
 const SideNav: FC<Props> = (props: Props) => {
-    const { sideOnly, sectionIDs, sectionNames, className } = props;
+    const { sideOnly, section, className } = props;
 
     const { scrollState } = useLayout();
     const [scrollValue] = scrollState;
+
+    const sectionIDs: string[] = Object.keys(section ?? {}).map((key) => getId(key));
+    const sections: string[] = Object.values(section);
 
     const [activeSection, setActiveSection] = useState<string>(sectionIDs[0] ?? '');
 
@@ -40,32 +43,30 @@ const SideNav: FC<Props> = (props: Props) => {
         });
     }, [scrollValue]);
 
-    const activeSectionIdx = sectionIDs.findIndex((section) => section === activeSection);
+    const activeIdx = sectionIDs.findIndex((section) => section === activeSection);
 
-    const SectionsNavLi: ReactNode = sectionIDs.map((section, idx) =>
-        section ? (
-            <li
-                key={section + idx}
-                className={cn(
-                    'relative pl-xs',
-                    'before:x-[absolute,left-0,border-l-[0.30rem],border-white] before:top-[calc(-0.5*var(--p-l))] before:h-[calc(100%+var(--p-l))]',
-                    { ['before:!border-blue']: idx === activeSectionIdx },
-                )}
+    const SectionsNavLi: ReactNode = sectionIDs.map((id, idx) => (
+        <li
+            key={id + idx}
+            className={cn(
+                'relative pl-xs',
+                'before:x-[absolute,left-0,border-l-[0.30rem],border-white] before:top-[calc(-0.5*var(--p-l))] before:h-[calc(100%+var(--p-l))]',
+                { ['before:!border-blue']: idx === activeIdx },
+            )}
+        >
+            <span
+                onClick={() => {
+                    const id = sectionIDs[idx];
+                    if (!id) return;
+                    setActiveSection(id);
+                    document.querySelector('#' + id)?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={'capitalize cursor-pointer text-nowrap'}
             >
-                <span
-                    onClick={() => {
-                        const id = sectionIDs[idx];
-                        if (!id) return;
-                        setActiveSection(id);
-                        document.querySelector('#' + id)?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className={'capitalize cursor-pointer'}
-                >
-                    {sectionNames?.[section] ?? section}
-                </span>
-            </li>
-        ) : null,
-    );
+                {sections[idx]}
+            </span>
+        </li>
+    ));
 
     return (
         <div className={cn(className, 'h-fit')}>
@@ -78,7 +79,7 @@ const SideNav: FC<Props> = (props: Props) => {
                     options={Object.fromEntries(
                         sectionIDs
                             .filter((id): id is string => id !== undefined)
-                            .map((id) => [id, sectionNames?.[id] ?? id]),
+                            .map((id) => [id, section?.[id] ?? id]),
                     )}
                     value={activeSection}
                     placeholder={'Select'}

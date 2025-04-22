@@ -258,7 +258,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 key={type + idx}
                 title={type + idx}
                 chevron
-                expandedState={[breakpoint === Breakpoint.lg]}
+                expandedInit={[breakpoint === Breakpoint.lg]}
                 collapsedContent={CollapsedContentSm}
                 classNameWrapper={cn(
                     `[&]:self-start [&]:max-w-[25rem] w-full h-full border-s border-white-d0 text-left`,

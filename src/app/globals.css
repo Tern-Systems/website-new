@@ -83,7 +83,7 @@
   --b-gray-l1: var(--bg-gray-l1);
   --b-white: var(--bg-white);
   --b-blue: var(--bg-blue);
-  --b-blue-d0: #192131;
+  --b-blue-d0: var(--bg-blue-d0);
   --b-red: var(--bg-red);
 
   /* Backgrounds */
@@ -103,6 +103,7 @@
   --bg-red: #f42200;
   --bg-blue-l0: #08132d;
   --bg-blue: #178ab7;
+  --bg-blue-d0: #192131;
   --bg-navy: #00397f;
   --bg-navy-d0: #001125;
   --bg-green: #0c545c;
@@ -129,9 +130,9 @@
   --fz-14 : 0.875rem;
   --fz-12 : 0.75rem;
   --fz-10 : 0.625rem;
-  --fz-8  : 0.5rem;  
+  --fz-8  : 0.5rem;
 
-  --lh-xl: 5rem;
+  --lh-xl: 1.4;
   --lh-l: 1.3;
   --lh-n: 1.2;
   --lh-s: 1.1;

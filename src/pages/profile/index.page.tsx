@@ -38,7 +38,6 @@ const SECTIONS: Record<string, string> = {
     // [AccountSection.ID]: 'Applications',
     [OffboardingSection.ID]: 'Offboarding',
 };
-const SECTION_IDS: string[] = Object.keys(SECTIONS);
 
 const ProfilePage: FC = () => {
     const modalCtx = useModal();
@@ -86,8 +85,7 @@ const ProfilePage: FC = () => {
                         )}
                     >
                         <SideNav
-                            sectionIDs={SECTION_IDS}
-                            sectionNames={SECTIONS}
+                            section={SECTIONS}
                             className={cn('w-full max-w-[62rem] place-self-center', 'mb-xxs md:mb-xs')}
                         />
                     </aside>

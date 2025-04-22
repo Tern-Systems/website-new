@@ -60,10 +60,10 @@ const Select: FC<Props> = (props: Props) => {
     let optionsEntries = Object.entries(optionsFinal ?? {});
 
     const hasEmptyOption = optionsEntries.find(([key]) => key === EMPTY_KEY) !== undefined;
-    const isValueNullish = [EMPTY_KEY, -1].includes(value);
+    const valueNullish = [EMPTY_KEY, -1].includes(value);
 
     if (
-        (optionsEntries.length === 1 + +hasEmptyOption && !isValueNullish && options[value]) ||
+        (optionsEntries.length === 1 + +hasEmptyOption && !valueNullish && options[value]) ||
         optionsEntries.length === 0
     )
         optionsFinal[EMPTY_KEY] = 'Empty list';
@@ -130,6 +130,7 @@ const Select: FC<Props> = (props: Props) => {
                 className={cn(
                     `group flex w-full cursor-pointer select-none items-center capitalize`,
                     `border-s border-white-d0 bg-white`,
+                    { ['border-b-0']: expanded },
                     className,
                 )}
             >
