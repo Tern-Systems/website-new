@@ -4,7 +4,7 @@ import { FC, ReactElement, useRef, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 import { Breakpoint } from '@/app/static';
 

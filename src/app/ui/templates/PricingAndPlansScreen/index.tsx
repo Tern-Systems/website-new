@@ -29,7 +29,7 @@ import SVG_BULLET from '@/assets/images/icons/bullet.svg';
 import SVG_STAR from '@/assets/images/icons/star.svg';
 import SVG_DIAMOND from '@/assets/images/icons/diamond.svg';
 import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg';
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 const TestID = DataTestID.page.tidal.plans;
 

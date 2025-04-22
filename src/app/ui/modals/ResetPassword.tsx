@@ -4,7 +4,7 @@ import { FC, FormEvent, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 import { Breakpoint, REGEX } from '@/app/static';
 

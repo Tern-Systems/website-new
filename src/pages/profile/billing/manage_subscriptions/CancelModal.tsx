@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 import { PlanName } from '@/app/types/subscription';
 import { Route } from '@/app/static';

@@ -1,7 +1,7 @@
 import { act } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 
-import { DataTestID, TIMEOUT } from '@/__tests__/static';
+import { DataTestID, TIMEOUT } from '@/tests/static';
 import {
     AuthTestUtil,
     AuthTestUtilImpl,
@@ -13,7 +13,7 @@ import {
     findByTestId,
     render,
     waitFor,
-} from '@/__tests__/utils';
+} from '@/tests/utils';
 
 // App
 import { SearchParamsEnum } from '@/app/static';

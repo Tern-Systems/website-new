@@ -21,7 +21,7 @@ import SVG_MASTER from '@/assets/images/icons/card-master-card.svg';
 import SVG_AMEX from '@/assets/images/icons/card-amex.svg';
 import SVG_DISCOVER from '@/assets/images/icons/card-discover.svg';
 import SVG_CARD_NUM from '@/assets/images/icons/card-num.svg';
-import { DataTestID } from '@/__tests__/static';
+import { DataTestID } from '@/tests/static';
 
 const TestID = DataTestID.page.profile.billing.purchasingInformation.paymentMethodTool;
 

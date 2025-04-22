@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    pageExtensions: ['page.tsx', 'jsx', '_app.tsx', 'js', 'ts'],
+    pageExtensions: ['page.tsx', '_app.tsx'],
     swcMinify: true,
     experimental: {
         forceSwcTransforms: true,
@@ -8,6 +8,14 @@ const nextConfig = {
     },
     webpack(config, { dev }) {
         if (dev) config.cache = true;
+        config.module.rules.push({
+            test: /\.*-spec\.tsx?$/,
+            use: 'ignore-loader',
+        });
+        config.module.rules.push({
+            test: /tests([\/\\])regression/i,
+            loader: 'ignore-loader',
+        });
         return config;
     },
     compiler: {
