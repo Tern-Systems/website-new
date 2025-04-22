@@ -63,6 +63,7 @@ enum Route {
     TrainingFAQs = Route.Training + '/faqs',
     ProfessionalCertifications = Route.Training + '/certifications',
     Subscribe = Route.Training + '/subscriptions',
+    Credentials = '/support/training/credentials',
     Downloads = Route.Support + '/downloads',
     Cases = Route.Support + '/cases',
     Contact = Route.Support + '/contact',

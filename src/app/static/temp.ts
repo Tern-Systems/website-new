@@ -2,4 +2,8 @@ enum SearchParamsEnum {
     token = 'token',
 }
 
-export { SearchParamsEnum };
+enum CacheEnum {
+    credential = 'tern-credential',
+}
+
+export { SearchParamsEnum, CacheEnum };

@@ -43,7 +43,7 @@ class RegressionUtilImpl implements RegressionUtil {
         await browser.close();
     }
 
-    public requireCheck(page: Page, route: Route): CheckFunction {
+    public requireCheck(page: Page, route: string): CheckFunction {
         return async (baselineFile: string): Promise<void> => {
             const baseline: ResolvedFile = this._resolve(baselineFile);
             const baselinePNG: PNGWithMetadata = PNG.sync.read(fs.readFileSync(baseline.path));

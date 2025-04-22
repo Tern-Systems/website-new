@@ -30,4 +30,4 @@ export {
 export type { StateKey, CountryKey, SalutationKey, LanguageKey } from './profile';
 export { STATE_PROVINCE, COUNTRY, LANGUAGE, SALUTATION, REGEX, DEFAULT_PHONE, DEFAULT_ADDRESS } from './profile';
 
-export { SearchParamsEnum } from './temp';
+export { SearchParamsEnum, CacheEnum } from './temp';
