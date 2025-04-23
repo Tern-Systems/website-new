@@ -73,13 +73,10 @@ const ContactsPage: FC = () => {
             <MainBackground url={OFFICE_GIRL_3} />
                 
                 <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
-                    style={{
-                        position: 'relative',
-                        backgroundPosition: '50% top',
-                        backgroundSize: 'cover', 
-                    }}
-                >
+                    className={cn(
+                        styles.content
+                    )}
+                >    
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                         <div>
                             <h1
