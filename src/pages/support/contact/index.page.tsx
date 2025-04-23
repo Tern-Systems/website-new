@@ -70,7 +70,7 @@ const ContactsPage: FC = () => {
         <>
             <section className={'relative h-dvh w-full overflow-hidden'}>
                 <MainBackground url={OFFICE_GIRL_3.src} />
-                <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
+                <div className={cn(styles.content, 'relative z-10 flex items-center justify-center')}>
                     <div>
                         <h1
                             className={cn(
