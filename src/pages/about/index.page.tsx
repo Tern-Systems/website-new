@@ -29,8 +29,11 @@ const INFO: InfoSectionData = {
 const AboutPage: FC = () => {
     return (
         <>
-            <section className={cn(styles.section, styles.fullHeightSection)}>
-                <MainBackground url={SVG_ROCKET} />
+            <section className={cn(styles.section, 'h-screen sm:!min-h-[20rem] sm:!h-[33rem] sm:!overflow-hidden')}>
+                <MainBackground
+                    className='sm:!h-full sm:scale-100 sm:bg-[20%]'
+                    url={SVG_ROCKET}
+                />
                 <div
                     className={cn(
                         styles.content,
@@ -52,8 +55,7 @@ const AboutPage: FC = () => {
                     </div>
                 </div>
             </section>
-
-            <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
+            <section className={cn(styles.section, styles.fullHeightSection)}>
                 <div
                     className={cn(
                         styles.fullHeightSection,
@@ -75,7 +77,7 @@ const AboutPage: FC = () => {
                 <div
                     className={cn(
                         styles.content,
-                        'relative flex h-full z-20 items-center justify-center',
+                        'relative flex h-full z-20 items-center justify-center sm:items-start sm:pt-[6rem]',
                         'bg-cover bg-center bg-no-repeat',
                         'md:x-[max-w-[62rem],mx-auto]',
                     )}
@@ -117,21 +119,17 @@ const AboutPage: FC = () => {
                     </div>
                 </div>
             </section>
-            <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
+            <section className={cn(styles.section, styles.fullHeightSection)}>
                 <div
                     className={cn(
                         styles.content,
-                        'flex w-full flex-col justify-between py-[7rem]',
+                        'flex w-full  flex-col justify-between py-[7rem] sm:py-[3rem]',
                         'sm:landscape:py-n md:landscape:py-n',
                     )}
                 >
                     <div
                         style={{ backgroundImage: `url("${SVG_NATURE.src}")` }}
-                        className={cn(
-                            styles.fullHeightSection,
-                            'absolute w-dvw max-w-dwv left-0 top-0 -z-10',
-                            'bg-cover bg-center bg-no-repeat',
-                        )}
+                        className={cn(styles.fullHeightSection, 'absolute w-dvw max-w-dwv inset-0 -z-10', 'bg-cover')}
                     />
                     <h1
                         className={cn(
@@ -165,8 +163,8 @@ const AboutPage: FC = () => {
                     />
                     <InfoSection
                         data={INFO}
-                        className={cn('pt-[12rem] bg-transparent')}
-                        classNameTitle={'sm:x-[text-30,mb-xl,leading-n]  md:text-36'}
+                        className={cn('pt-[5rem] bg-transparent')}
+                        classNameTitle={'sm:x-[text-30,mb-xl,leading-n] md:text-36'}
                         classNameSubTitle={'mb-4xs [&]:text-24 lg:[&]:text-32'}
                         classNameContent={'md:x-[max-w-[62rem],mx-auto]'}
                         classNameDescription={'[&]:leading-l text-16 lg:text-20'}
