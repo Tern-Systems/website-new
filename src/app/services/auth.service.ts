@@ -60,7 +60,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     async postLogout(): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `logout`,
+            url: this._API + `auth/logout`,
             withCredentials: true,
         };
         const { message } = await this.req(this.postLogout.name, config, null);
@@ -71,7 +71,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const salt = await bcryptjs.genSalt(10);
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + 'arch-signup',
+            url: this._API + 'auth/website-signup',
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ email, password: bcryptjs.hashSync(password, salt) }),
             withCredentials: false,
@@ -83,7 +83,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     async postLogin(email: string, password: string): Promise<Res<LoginDTO, false>> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `login`,
+            url: this._API + `auth/login`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ email, password }),
             withCredentials: true,
@@ -97,7 +97,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     async postForgotPassword(email: string): Promise<Res<ResetPasswordDTO>> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `forgot-password`,
+            url: this._API + `auth/forgot-password`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ email }),
             withCredentials: true,
@@ -111,7 +111,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     async postResetPassword(token: string, newPassword: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `reset-password/` + token,
+            url: this._API + `auth/reset-password/` + token,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: { newPassword },
             withCredentials: true,
@@ -123,7 +123,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     async postCreatePassword(token: string, password: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `create-password`,
+            url: this._API + `auth/create-password`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ token, password }),
             withCredentials: true,
@@ -135,7 +135,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     async postSendOTP(userEmail: string): Promise<Res<OTP_DTO>> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `send-otp`,
+            url: this._API + `auth/send-otp`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ userEmail }),
             withCredentials: true,
@@ -151,7 +151,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     async postLoginVerifyOTP(otp: string, email: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `2FA-login-verify-otp`,
+            url: this._API + `auth/verify-otp`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ userEmail: email, otp }),
             withCredentials: true,
@@ -211,7 +211,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     async postDeleteAccount(email: string, confirm: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `delete-account`,
+            url: this._API + `user/delete-account`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ email, confirm: confirm.toLowerCase() }),
             withCredentials: true,
@@ -228,7 +228,7 @@ class AuthServiceImpl extends BaseService implements IAuthService {
     ): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + 'change-password',
+            url: this._API + 'user/change-password',
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ oldPassword, newPassword, confirmPassword, email }),
             withCredentials: true,

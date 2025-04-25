@@ -32,6 +32,7 @@ type Invoice = DeepPartial<{
     subtotalUSD: number;
     totalDue: number;
     taxPercent: number;
+    taxAmount: number;
     paidUSD: number;
     country: CountryKey;
     state: StateKey;

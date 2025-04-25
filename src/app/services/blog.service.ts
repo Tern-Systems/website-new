@@ -116,7 +116,7 @@ class BlogServiceImpl extends BaseService implements IBlogService {
     async getArticles(): Promise<Res<ArticlesDTO, false>> {
         const config: AxiosRequestConfig = {
             method: 'GET',
-            url: this._API + `get-blog`,
+            url: this._API + `blogs/data`,
             withCredentials: true,
         };
         const { payload } = await this.req<ArticlesDTO, false>(this.getArticles.name, config, (data) => [
