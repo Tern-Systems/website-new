@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, HTMLAttributes } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
@@ -8,17 +8,20 @@ import { PageLink } from '@/app/ui/layout';
 
 import PNG_CARD_CUBES from '@/assets/images/blue-cubes.png';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
     alt?: true;
 }
 
 const AllWaysCard: FC<Props> = (props: Props) => {
-    const { alt } = props;
+    const { alt, className, ...divProps } = props;
     return (
         <div
-            className={cn('relative flex flex-col min-h-full max-h-full sm:h-14xl  sm:x-[mx-auto,max-w-card]', {
-                ['h-[22.375rem]']: alt,
-            })}
+            {...divProps}
+            className={cn(
+                'relative flex flex-col min-h-full max-h-full sm:h-14xl  sm:x-[mx-auto,max-w-card]',
+                { ['h-[22.375rem]']: alt },
+                className,
+            )}
         >
             <span
                 className={cn(
@@ -52,4 +55,5 @@ const AllWaysCard: FC<Props> = (props: Props) => {
 };
 
 AllWaysCard.displayName = AllWaysCard.name;
+
 export { AllWaysCard };

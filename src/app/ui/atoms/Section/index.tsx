@@ -17,10 +17,10 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
 }
 
 const Section: FC<Props> = (props: Props) => {
-    const { children, className, screenHeight, background } = props;
+    const { children, className, screenHeight, background, ...sectionProps } = props;
     return (
         <section
-            {...props}
+            {...sectionProps}
             className={cn(styles.section, { [styles.fullHeightSection]: screenHeight }, className?.section)}
         >
             {background ? (

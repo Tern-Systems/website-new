@@ -4,7 +4,8 @@
 
 :root {
   /* Paddings */
-  --p-7xl: 10rem;     /* 160px */ 
+  --p-7xl: 10rem;     /* 160px */
+  --p-7xl-1: 9.375rem;/* 150px */
   --p-6xl: 7.5rem;    /* 120px */
   --p-6xl-1: 6.25rem; /* 100px */
   --p-5xl: 5rem;      /* 80px */
@@ -108,7 +109,7 @@
   --bg-navy-d0: #001125;
   --bg-green: #0c545c;
   --bg-green-d0: #23af7a;
-  
+
 
 
   /* Text */
@@ -195,31 +196,31 @@ body ::-webkit-scrollbar {
 @font-face {
   font-family: "Franklin Gothic ATF";
   src: url("/public/assets/fonts/FranklinGothicATF.otf") format("embedded-opentype");
-  font-weight: bold;
+  font-weight: 400;
   font-style: normal;
 }
-
 
 @font-face {
   font-family: "Franklin Gothic ATF";
   src: url("/public/assets/fonts/FranklinGothicATF-Bold.otf") format("embedded-opentype");
-  font-weight: bold;
+  font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Franklin Gothic ATF";
   src: url("/public/assets/fonts/FranklinGothicATF-Med.otf") format("embedded-opentype");
-  font-weight: bold;
+  font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Franklin Gothic ATF";
   src: url("/public/assets/fonts/FranklinGothicATF-Light.otf") format("embedded-opentype");
-  font-weight: normal;
+  font-weight: 300;
   font-style: normal;
 }
+
 
 @font-face {
   font-family: 'Oxygen';

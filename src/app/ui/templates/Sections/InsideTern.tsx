@@ -120,10 +120,9 @@ const InsideTernSection: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <section className={cn(styles.section, className)}>
+        <section className={className}>
             <div
                 className={cn(
-                    styles.content,
                     'text-20',
                     'sm:w-full sm:max-w-[37.5rem]',
                     'md:w-[80dvw] md:max-w-[50rem] md:ml-0',
