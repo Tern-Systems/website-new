@@ -113,7 +113,7 @@ function HomePage() {
                 <p className={'mt-n'}>{card.info}</p>
                 <PageLink
                     href={card.link.href}
-                    isExternal={card.link.href.startsWith('https://')}
+                    external={card.link.href.startsWith('https://')}
                     className={cn(
                         'mt-xs  h-button-xl w-fit text-nowrap border-s border-gray-l0 px-xs text-blue',
                         'text-18',
@@ -153,14 +153,14 @@ function HomePage() {
                                 }
                             >
                                 <PageLink
-                                    isExternal
+                                    external
                                     href={MISC_LINKS.Tidal}
                                     className={cn(BTN_CN, 'bg-blue text-black')}
                                 >
                                     Discover Tern
                                 </PageLink>
                                 <PageLink
-                                    isExternal
+                                    external
                                     href={MISC_LINKS.TidalDemo}
                                     className={cn(BTN_CN, 'h-button-l border-n border-gray-l0 bg-black text-blue')}
                                 >

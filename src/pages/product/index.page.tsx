@@ -98,14 +98,16 @@ function TidalPage() {
     // Event Handlers
     const handleScrollToDemo = () => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
 
-    const handleScrollToVideo = () => { videoRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-    })}
+    const handleScrollToVideo = () => {
+        videoRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
+    };
 
     const handleStartVideo = () => {
         if (!videoStarted) setVideoStarted(true);
-    }
+    };
 
     // Elements
     const TilesLi: ReactElement[] = TILES.map((tile, idx) => (
@@ -149,7 +151,7 @@ function TidalPage() {
                             )}
                         >
                             <PageLink
-                                isExternal
+                                external
                                 href={MISC_LINKS.Tidal}
                                 className={cn(BTN_BLUE_CN, ' !h-button-xxl text-black')}
                             >
@@ -316,7 +318,7 @@ function TidalPage() {
                             globally, fostering an open and dynamic environment for learning, sharing, and growth.
                         </span>
                         <PageLink
-                            isExternal
+                            external
                             href={MISC_LINKS.TidalExploreKeys}
                             className={cn(BTN_BLUE_CN, 'mt-n')}
                         >
@@ -355,7 +357,7 @@ function TidalPage() {
                     <div className={'flex flex-wrap gap-xl text-16  mt-3xl sm:mt-xl'}>
                         {/*TODO links*/}
                         <PageLink
-                            isExternal
+                            external
                             href={MISC_LINKS.Tidal}
                             icon={'arrow-right-long'}
                             className={cn(BTN_BLUE_CN, ' !h-button-xxl flex-row-reverse')}
@@ -363,7 +365,9 @@ function TidalPage() {
                         >
                             Try Pro trial at no cost
                         </PageLink>
+                        {/*TODO link*/}
                         <PageLink
+                            href={''}
                             icon={'calendar'}
                             className={cn(BTN_BLACK_CN, ' !h-button-xxl flex-row-reverse text-primary !border-blue')}
                             iconClassName={BTN_ICON}

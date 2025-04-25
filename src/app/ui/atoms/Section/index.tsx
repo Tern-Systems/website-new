@@ -21,7 +21,12 @@ const Section: FC<Props> = (props: Props) => {
     return (
         <section
             {...sectionProps}
-            className={cn(styles.section, { [styles.fullHeightSection]: screenHeight }, className?.section)}
+            className={cn(
+                styles.section,
+                'bg-transparent',
+                { [styles.fullHeightSection]: screenHeight },
+                className?.section,
+            )}
         >
             {background ? (
                 <MainBackground

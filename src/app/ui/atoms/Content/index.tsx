@@ -1,25 +1,22 @@
-import { FC, HTMLProps } from 'react';
-import cn from 'classnames';
+import { FC, PropsWithChildren } from 'react';
 
-import styles from '@/app/common.module.css';
-
-interface Props extends HTMLProps<HTMLDivElement> {}
+interface Props extends PropsWithChildren {}
 
 const Content: FC<Props> = (props: Props) => {
-    const { children, className } = props;
+    const { children } = props;
     return (
         <div
             {...props}
-            className={cn(styles.content, 'pt-[9.375rem] pb-[25.625rem]', className)}
+            className={'relative pt-[9.375rem] pb-[25.625rem]'}
         >
             <div
                 className={
-                    'absolute -z-10 inset-0 bg-[linear-gradient(to_bottom,var(--bg-blue)_50rem,transparent_60rem)]'
+                    'absolute -z-10 inset-0 bg-[linear-gradient(to_bottom,var(--bg-blue)_5rem,transparent_9rem)]'
                 }
             />
             {children}
             <div
-                className={'absolute -z-10 inset-0 bg-[linear-gradient(to_top,var(--bg-blue)_20rem,transparent_40rem)]'}
+                className={'absolute -z-10 inset-0 bg-[linear-gradient(to_top,var(--bg-blue)_5rem,transparent_40rem)]'}
             />
         </div>
     );

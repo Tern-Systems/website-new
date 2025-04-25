@@ -18,8 +18,9 @@ const MainBackground: FC<Props> = (props: Props) => {
             <div
                 style={{ backgroundImage: `url("${url}")` }}
                 className={cn(
-                    'absolute inset-0 max-w-dwv min-h-full h-screen max-h-full w-dvw',
-                    'bg-fixed bg-no-repeat bg-top',
+                    'absolute inset-0',
+                    'bg-fixed bg-no-repeat',
+                    'portrait:bg-[auto_70%] landscape:bg-[100%_auto]',
                     className,
                 )}
             />

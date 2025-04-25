@@ -1,16 +1,20 @@
 'use client';
 
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, ReactElement } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image, { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
 import { PageLink } from '@/app/ui/layout';
+
+import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 
 interface Props extends PropsWithChildren {
     type?: 'default' | 'highlighted' | 'alt';
     icon: StaticImageData;
     title: string;
     action: { title: string; href: string };
+    bullets?: string[];
     className?: {
         wrapper?: string;
         image?: string;
@@ -22,7 +26,20 @@ interface Props extends PropsWithChildren {
 }
 
 const ResourceCard: FC<Props> = (props: Props) => {
-    const { type, icon, title, action, children, className } = props;
+    const { type, icon, title, action, bullets, children, className } = props;
+
+    const Points: ReactElement[] | undefined = bullets?.map((string, idx) => (
+        <li
+            key={string + idx}
+            className='flex flex-row items-center mb-4'
+        >
+            <FontAwesomeIcon
+                icon={faCheckCircle}
+                className='w-3xs [&_path]:fill-blue mr-4'
+            />
+            {string}
+        </li>
+    ));
 
     switch (type) {
         default:
@@ -43,6 +60,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                     <span className={cn('contents lg:flex  flex-col gap-y-n', className?.content)}>
                         <span className={'row-start-1  text-32 md:text-27 sm:text-20'}>{title}</span>
                         <span className={cn('leading-l', className?.children)}>{children}</span>
+                        {Points ? <ul>{Points}</ul> : null}
                         <PageLink
                             icon={'arrow-right-long'}
                             href={action.href}

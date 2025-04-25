@@ -134,7 +134,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                         if (!isHref) action(modalCtx);
                     }}
                     prevent={!isHref}
-                    isExternal={isHref && action.includes('https://')}
+                    external={isHref && action.includes('https://')}
                     href={isHref ? action : ''}
                     className={`relative capitalize`}
                 >
