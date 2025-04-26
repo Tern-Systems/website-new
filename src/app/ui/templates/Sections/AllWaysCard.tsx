@@ -18,24 +18,26 @@ const AllWaysCard: FC<Props> = (props: Props) => {
         <div
             {...divProps}
             className={cn(
-                'relative flex flex-col min-h-full max-h-full sm:h-14xl  sm:x-[mx-auto,max-w-card]',
-                { ['h-[22.375rem]']: alt },
+                'relative flex flex-col min-h-full max-h-full sm:h-14xl  sm:mx-auto',
+                { ['!h-[22.375rem]']: alt },
                 className,
             )}
         >
-            <span
+            <p
                 className={cn(
                     'absolute z-10 left-0 top-n bg-black/60 font-bold',
                     alt ? 'sm:p-xs p-n lg:py-xl  text-96 sm:text-64' : 'px-n py-5xs lg:p-3xs  text-40 lg:text-48',
                 )}
             >
                 All Ways
-            </span>
-            <Image
-                src={PNG_CARD_CUBES}
-                alt={'cubes'}
-                className={cn('w-full min-h-full object-cover flex-grow', { ['object-center translate-y-0']: alt })}
-            />
+            </p>
+            <div className={'contents'}>
+                <Image
+                    src={PNG_CARD_CUBES}
+                    alt={'cubes'}
+                    className={cn('w-full min-h-full object-cover flex-grow', { ['object-center translate-y-0']: alt })}
+                />
+            </div>
             <PageLink
                 href={''} // TODO
                 icon={'arrow-right-long'}

@@ -2,12 +2,12 @@ import { FC, HTMLAttributes } from 'react';
 import { StaticImageData } from 'next/image';
 import cn from 'classnames';
 
-import { MainBackground } from '@/app/ui/atoms';
+import { Gradient, MainBackground } from '@/app/ui/atoms';
 
 import styles from '@/app/common.module.css';
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
-    screenHeight?: true;
+    type?: 'full-screen' | 'short';
     background?: { image: StaticImageData; gradient?: 'left' };
     className?: {
         section?: string;
@@ -17,16 +17,24 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
 }
 
 const Section: FC<Props> = (props: Props) => {
-    const { children, className, screenHeight, background, ...sectionProps } = props;
+    const { children, className, type, background, ...sectionProps } = props;
+
+    let typeCN: string | undefined;
+    switch (type) {
+        default:
+            break;
+        case 'full-screen':
+            typeCN = styles.fullHeightSection;
+            break;
+        case 'short':
+            typeCN = 'h-[21.625rem]';
+            break;
+    }
+
     return (
         <section
             {...sectionProps}
-            className={cn(
-                styles.section,
-                'bg-transparent',
-                { [styles.fullHeightSection]: screenHeight },
-                className?.section,
-            )}
+            className={cn(styles.section, typeCN, className?.section)}
         >
             {background ? (
                 <MainBackground
@@ -35,9 +43,7 @@ const Section: FC<Props> = (props: Props) => {
                 />
             ) : null}
             <div className={cn(styles.content, '[&_*]:leading-n', className?.content)}>{children}</div>
-            {background?.gradient ? (
-                <div className='absolute -z-10 inset-0 h-full  bg-gradient-to-r from-black to-transparent to-50%' />
-            ) : null}
+            {background?.gradient ? <Gradient /> : null}
         </section>
     );
 };

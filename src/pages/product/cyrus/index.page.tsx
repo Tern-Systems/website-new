@@ -238,10 +238,7 @@ const CyrusPage = () => {
                 </div>
             </section>
 
-            <InsideTernSection
-                data={'alt1'}
-                className='bg-transparent  mb-[34rem] md:mb-[35.0625rem] lg:mb-[37.6875rem]'
-            />
+            <InsideTernSection data={'alt1'} />
             <div
                 className={cn(
                     'h-full w-full absolute left-0 top-0 z-0 bg-gradient-to-t from-blue to-transparent to-10%',

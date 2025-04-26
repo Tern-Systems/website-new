@@ -1,18 +1,20 @@
-import { FC, PropsWithChildren } from 'react';
+'use client';
+
+import { FC, HTMLAttributes } from 'react';
 import cn from 'classnames';
 
 import { H3 } from '@/app/ui/atoms';
 
-interface Props extends PropsWithChildren {
+interface Props extends HTMLAttributes<HTMLDivElement> {
     heading?: string;
 }
 
 const Content: FC<Props> = (props: Props) => {
-    const { children, heading, ...divProps } = props;
+    const { children, heading, className, ...divProps } = props;
     return (
         <div
             {...divProps}
-            className={cn('relative pb-[25.625rem]', { ['pt-[9.375rem]']: !heading })}
+            className={cn('relative pb-[25.625rem]', { ['pt-[9.375rem]']: !heading }, className)}
         >
             <div
                 className={

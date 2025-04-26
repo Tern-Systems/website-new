@@ -53,7 +53,6 @@ enum Route {
     CommunityEvents = '/support/community/events',
     Training = '/support/training',
     TrainingFAQs = '/support/training/faqs',
-    Courses = '/support/training/courses',
     ProfessionalCertifications = '/support/training/certifications',
     Subscriptions = '/support/training/subscriptions',
     Downloads = '/support/downloads',

@@ -240,7 +240,7 @@ function HomePage() {
                     data={INFO}
                     classNameContent='mb-[15rem]'
                 />
-                <InsideTernSection className={'!bg-transparent'} />
+                <InsideTernSection />
             </div>
         </>
     );

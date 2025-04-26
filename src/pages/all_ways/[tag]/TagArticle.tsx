@@ -147,10 +147,7 @@ const TagArticle: FC<Props> = (props: Props) => {
                     )}
                 </div>
             </section>
-            <InsideTernSection
-                data={'alt0'}
-                className='bg-transparent pb-7xl'
-            />
+            <InsideTernSection data={'alt0'} />
             <div
                 className={cn(
                     'absolute h-full w-full left-0 top-0 z-0',

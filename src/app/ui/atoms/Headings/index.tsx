@@ -32,12 +32,12 @@ const H1: FC<TypeProps> = (props: TypeProps) => {
 };
 
 const H2: FC<Props> = (props: Props) => (
-    <h1
+    <h2
         {...props}
         className={cn('!leading-l  text-18 md:text-24 lg:text-32', props.className)}
     >
         {props.children}
-    </h1>
+    </h2>
 );
 
 const H3: FC<TypeProps> = (props: TypeProps) => {
