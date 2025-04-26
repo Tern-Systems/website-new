@@ -1,25 +1,27 @@
 'use client';
 
 import { FC, ReactElement, useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
+
 import { Article, ArticleTag } from '@/app/types/blog';
-import { Breakpoint } from '@/app/static';
+import { Breakpoint, Route } from '@/app/static';
 
 import { BlogService } from '@/app/services/blog.service';
 
 import { getIdName } from '@/app/utils';
-import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/hooks';
+import { useBreakpointCheck, useModal } from '@/app/hooks';
 
 import { MainBackground } from '@/app/ui/atoms';
 import { MessageModal } from '@/app/ui/modals';
-import { ArticleCard } from '@/app/ui/organisms';
+import { ArticleCard, Carousel } from '@/app/ui/organisms';
 import { AllWaysCard, InsideTernSection } from '@/app/ui/templates';
 import { SubscribeCard } from '../SubscribeCard';
 
 import styles from '@/app/common.module.css';
 
 import PNG_ELECTRONS from '@/assets/images/electrons.png';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 
@@ -37,14 +39,19 @@ const TagArticle: FC<Props> = (props: Props) => {
 
     // TODO sort articles by type
     const [articles, setArticles] = useState<Article[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchArticles = async () => {
             try {
+                setLoading(true);
+                // TODO adjust using start-end indexes
                 const { payload } = await BlogService.getArticles();
                 setArticles(payload.blogs);
             } catch (error: unknown) {
                 if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            } finally {
+                setLoading(false);
             }
         };
         fetchArticles();
@@ -128,21 +135,15 @@ const TagArticle: FC<Props> = (props: Props) => {
             </section>
             <section className={styles.section}>
                 <div className={styles.content}>
-                    <h3 className={P_CN}>Our Picks</h3>
                     {CardsLi.length ? (
-                        <ul
-                            className={cn(
-                                `grid auto-rows-max justify-items-center`,
-                                `mt-s lg:mt-xxl`,
-                                `gap-y-3xl md:x-[gap-x-n,gap-y-3xl] lg:x-[gap-x-xl,gap-y-5xl]`,
-                                `grid-cols-[repeat(3,minmax(var(--w-card),1fr))] sm:grid-cols-1`,
-                            )}
-                        >
-                            {CardsLi}
-                        </ul>
+                        <Carousel altData={{ cards: CardsLi, link: Route.AllWaysArticle, title: 'Our Picks' }} />
                     ) : (
                         <span className={'mt-5xl block text-12'}>
-                            No articles found with tag &apos;{getIdName(tag ?? '--')}&apos;
+                            {loading ? (
+                                <FontAwesomeIcon icon={faSpinner} />
+                            ) : (
+                                `No articles found ${"with tag '" + getIdName(tag ?? '--') + "'"}`
+                            )}
                         </span>
                     )}
                 </div>

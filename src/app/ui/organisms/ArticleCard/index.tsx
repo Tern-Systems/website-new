@@ -69,8 +69,8 @@ const ArticleCard: FC<Props> = (props: Props) => {
                 <div className={'absolute from-0 bg-gradient-to-t from-black to-25%'} />
                 <Image
                     src={article?.poster || PNG_NATURE}
-                    width={100}
-                    height={100}
+                    width={500}
+                    height={500}
                     alt={`article-img`}
                     className={cn('size-full min-h-full object-cover', {
                         [altVertical ? 'sm:max-h-[10.75rem] max-h-[12.8125rem]' : '!min-w-[11.625rem]']: alt,

@@ -240,7 +240,6 @@ function CommunityEventsPage() {
 
     const createPageHandleEvent = (targetPage: number) => () => handlePageChange(targetPage);
 
-
     const Pages: ReactElement = (
         <div className={'flex justify-between h-full'}>
             <button
