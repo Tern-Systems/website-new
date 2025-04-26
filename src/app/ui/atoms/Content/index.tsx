@@ -1,19 +1,32 @@
 import { FC, PropsWithChildren } from 'react';
+import cn from 'classnames';
 
-interface Props extends PropsWithChildren {}
+import { H3 } from '@/app/ui/atoms';
+
+interface Props extends PropsWithChildren {
+    heading?: string;
+}
 
 const Content: FC<Props> = (props: Props) => {
-    const { children } = props;
+    const { children, heading, ...divProps } = props;
     return (
         <div
-            {...props}
-            className={'relative pt-[9.375rem] pb-[25.625rem]'}
+            {...divProps}
+            className={cn('relative pb-[25.625rem]', { ['pt-[9.375rem]']: !heading })}
         >
             <div
                 className={
                     'absolute -z-10 inset-0 bg-[linear-gradient(to_bottom,var(--bg-blue)_5rem,transparent_9rem)]'
                 }
             />
+            {heading ? (
+                <H3
+                    type={'large'}
+                    className={'mt-xl text-center font-light'}
+                >
+                    {heading}
+                </H3>
+            ) : null}
             {children}
             <div
                 className={'absolute -z-10 inset-0 bg-[linear-gradient(to_top,var(--bg-blue)_5rem,transparent_40rem)]'}
