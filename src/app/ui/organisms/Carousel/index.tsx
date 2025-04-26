@@ -9,6 +9,8 @@ import { useBreakpointCheck } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
+import { faCaretLeft } from '@fortawesome/free-solid-svg-icons/faCaretLeft';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 enum CardsPerPage {
     DefaultAlt = 4,
@@ -18,7 +20,9 @@ enum CardsPerPage {
 }
 
 const getAltSpinnerBtnCn = (alt?: string) =>
-    cn('border-s  border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-xs sm:p-4xs-1', { ['md:p-4xs']: alt });
+    cn('!inline-flex border-s  border-blue text-blue disabled:x-[border-gray-l0,text-gray]  size-3xl sm:size-xl', {
+        ['md:p-4xs']: alt,
+    });
 
 interface Props extends PropsWithChildren {
     altData?: { title: string; link: Route; cards: ReactElement[]; altSpinner?: 'default' | 'alt' };
@@ -80,27 +84,24 @@ const Carousel: FC<Props> = (props: Props) => {
     );
 
     const Spinner: FC<{ className: string }> = (props: { className: string }) => (
-        <span className={cn('ml-auto', props.className)}>
+        <span className={cn('ml-auto text-nowrap', props.className)}>
             <Button
+                icon={faCaretLeft}
                 onClick={() => setPage((prevState) => (prevState <= 0 ? prevState : prevState - 1))}
                 disabled={page <= 0}
                 className={getAltSpinnerBtnCn(altData?.altSpinner)}
-            >
-                ◀
-            </Button>
+            />
             <span className={'mx-xxs sm:mx-5xs  text-16 sm:text-10'}>
                 {page + 1} / {maxPage}
             </span>
             <Button
+                icon={faCaretRight}
                 onClick={() => setPage((prevState) => (prevState >= maxPage - 1 ? prevState : prevState + 1))}
                 disabled={page >= maxPage - 1}
                 className={getAltSpinnerBtnCn(altData?.altSpinner)}
-            >
-                ▶
-            </Button>
+            />
         </span>
     );
-
     return (
         <div
             className={cn(
@@ -120,7 +121,13 @@ const Carousel: FC<Props> = (props: Props) => {
                         defaultSpinner ? 'sm:flex  mx-auto max-w-card' : 'md:flex',
                     )}
                 >
-                    <h3 className={'sm:text-center  text-40 sm:text-27'}>{altData?.title}</h3>
+                    <h3
+                        className={
+                            'max-w-fit overflow-x-hidden text-ellipsis text-nowrap  sm:text-center  text-40 sm:text-27'
+                        }
+                    >
+                        {altData?.title}
+                    </h3>
                     <Spinner className={cn('hidden', defaultSpinner ? 'sm:inline' : 'md:inline')} />
                 </div>
             ) : (
@@ -151,11 +158,13 @@ const Carousel: FC<Props> = (props: Props) => {
             </ul>
             {altData ? (
                 defaultSpinner ? (
-                    <div className={'flex items-center sm:mt-0 md:mt-s lg:mt-n'}>
+                    <div className={'flex items-center  mt-s lg:mt-n  sm:mx-auto  sm:!max-w-card'}>
                         <PageLink
                             href={altData.link}
                             icon={'arrow-right-long'}
-                            className={'flex-row-reverse text-blue text-16  hidden lg:flex'}
+                            className={cn('flex-row-reverse text-blue text-16', {
+                                ['sm:hidden']: rowsCount > 1,
+                            })}
                             iconClassName={'ml-xxs [&_*]:size-5xs [&_path]:fill-blue'}
                         >
                             See All

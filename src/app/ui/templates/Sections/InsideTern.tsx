@@ -6,22 +6,18 @@ import cn from 'classnames';
 
 import { SectionCard } from '@/app/types/layout';
 
-import { Button } from '@/app/ui/form';
-
-import styles from '@/app/common.module.css';
-
 import { MEDIA_LINKS, MISC_LINKS } from '@/app/static';
 
-import SVG_OFFICE_GIRL_1 from '@/assets/images/office-girl-2.png';
-import SVG_OFFICE_GIRL_2 from '@/assets/images/office-girl-1.png';
-import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { Section } from '@/app/ui/atoms';
+import { Button } from '@/app/ui/form';
 
+import SVG_OFFICE_GIRL_1 from '@/assets/images/office-girl-2.jpg';
+import SVG_OFFICE_GIRL_2 from '@/assets/images/office-girl-1.jpg';
 import PNG_INSIDE_TERN_GIRL from '@/assets/images/inside-tern-girl.png';
 import PNG_ACCOLADES from '@/assets/images/resources-card-5.png';
-
 import SVG_CITY_WAY from '@/assets/images/city-glowing-way.jpg';
-import SVG_OFFICE_PEOPLE from '@/assets/images/office-people.png';
-import { Section } from '@/app/ui/atoms';
+import SVG_OFFICE_PEOPLE from '@/assets/images/office-people.jpg';
+import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
 type Data = 'default' | 'alt0' | 'alt1';
 
@@ -106,6 +102,8 @@ const InsideTernSection: FC<Props> = (props: Props) => {
                 <Image
                     src={entry.icon}
                     alt={entry.icon.src}
+                    width={500}
+                    height={500}
                     className={'h-full w-full object-cover'}
                 />
             </div>

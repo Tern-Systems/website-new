@@ -90,7 +90,7 @@ function TipsPage() {
                     className={cn(
                         styles.content,
                         'grid grid-rows-2',
-                        'md:grid-cols-2 lg:grid-cols-[15fr,14fr,14fr]',
+                        'grid-cols-1 md:grid-cols-2 lg:grid-cols-[15fr,14fr,14fr]',
                         'sm:gap-y-xxl gap-n',
                         'pt-6xl-1 md:pt-6xl-1 lg:pt-6xl',
                     )}

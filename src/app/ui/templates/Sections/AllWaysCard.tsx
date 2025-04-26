@@ -25,7 +25,7 @@ const AllWaysCard: FC<Props> = (props: Props) => {
         >
             <p
                 className={cn(
-                    'absolute z-10 left-0 top-n bg-black/60 font-bold',
+                    'absolute z-10 left-0 top-n max-w-full bg-black/60 font-bold  text-ellipsis text-nowrap overflow-x-hidden',
                     alt ? 'sm:p-xs p-n lg:py-xl  text-96 sm:text-64' : 'px-n py-5xs lg:p-3xs  text-40 lg:text-48',
                 )}
             >
@@ -46,9 +46,7 @@ const AllWaysCard: FC<Props> = (props: Props) => {
                     'text-14 lg:text-16',
                     alt ? 'right-n bottom-n h-fit !w-fit' : 'bottom-0',
                 )}
-                iconClassName={cn('sm:size-6xs sm:[&_*]size-6xs  size-3xs', {
-                    ['ml-xl']: alt,
-                })}
+                iconClassName={cn('sm:size-6xs sm:[&_*]size-6xs  size-3xs', { ['ml-xl']: alt })}
             >
                 Register to attend All Ways 2026
             </PageLink>

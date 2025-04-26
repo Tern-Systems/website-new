@@ -69,6 +69,11 @@ enum Route {
     TernDoc = '/support/documentation/tern',
     BTMCDoc = '/support/documentation/btmc',
 
+    Courses = '/support/courses',
+    AllCourses = '/support/courses/Library',
+    CoursesVideos = '/support/courses/videos',
+    CoursesReads = '/support/courses/reads',
+
     // /all_ways
     AllWays = '/all_ways',
     AllWaysArticle = '/all_ways/article',
