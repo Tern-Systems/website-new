@@ -65,7 +65,7 @@ const H3: FC<TypeProps> = (props: TypeProps) => {
     switch (type) {
         default:
         case 'default':
-            typeCN = 'text-21 md:text-27 md:text-32';
+            typeCN = 'text-21 md:text-27 lg:text-32';
             break;
         case 'large':
             typeCN = 'text-24 md:text-27 lg:text-40';
