@@ -4,16 +4,31 @@ import { ReactElement, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
+import { Filter } from '@/app/ui/organisms/SearchBar';
 import { Breakpoint } from '@/app/static';
 
-import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/hooks';
+import { arrayToRecord } from '@/app/utils';
+import { useBreakpointCheck, useForm, useModal, usePagination } from '@/app/hooks';
 
-import { BreadcrumbRoute, SearchBar } from '@/app/ui/atoms';
+import { BreadcrumbRoute, Content, H1, Section } from '@/app/ui/atoms';
+import { SearchBar } from '@/app/ui/organisms';
 import { MessageModal } from '@/app/ui/modals';
 
 import CLOCK_ICON from '@/assets/images/icons/clock.svg';
-import DOUBLE_ARROW_ICON from '@/assets/images/icons/double-arrow.svg';
+
+// TODO remove template
+const EVENT_TEMPLATE: Event = {
+    date: 25,
+    timeZone: 'EST',
+    tag: 'Tern New Website Design Demonstration',
+    description:
+        'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
+    time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
+};
+
+const EVENTS_TEMPLATE: Event[] = Array(150)
+    .fill(null)
+    .map((_) => EVENT_TEMPLATE);
 
 type Event = {
     date: number;
@@ -23,121 +38,16 @@ type Event = {
     time: { start: number; end: number };
 };
 
+type EventFilter = {
+    content: string;
+};
+
 const DAY_NAMES = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-const EVENTS_TEMPLATE: Event[] = [
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-    {
-        date: 25,
-        timeZone: 'EST',
-        tag: 'Tern New Website Design Demonstration',
-        description:
-            'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
-    },
-];
+const CONTENT_TYPES: Record<string, string> = arrayToRecord(['Talk', 'Panel', 'Webinar', 'Networking']);
 
-const CONTENT_TYPES: Record<string, string> = {
-    talk: 'Talk',
-    panel: 'Panel',
-    webinar: 'Webinar',
-    networking: 'Networking',
-};
+const COLUMN_COUNT = 4;
+const ROW_COUNT = 5;
 
 function CommunityEventsPage() {
     const modalCtx = useModal();
@@ -146,7 +56,9 @@ function CommunityEventsPage() {
     const sm = breakpoint <= Breakpoint.sm;
 
     const [events, setEvents] = useState<Event[]>([]);
-    const [pageNos, setPageNos] = useState<number>(1);
+    const [filter, setFilterField] = useForm<EventFilter>({ content: '' });
+
+    const Pagination = usePagination();
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -224,84 +136,31 @@ function CommunityEventsPage() {
         );
     });
 
-    const totalPages = 4;
-
-    // Ensures valid page navigation
-    const handlePageChange = (page: number) => {
-        setPageNos(Math.max(1, Math.min(totalPages, page)));
-
-        if (page > pageNos) {
-            setEvents(events.slice(1));
-        } else {
-            const missingItems = EVENTS_TEMPLATE.length - events.length;
-            setEvents(EVENTS_TEMPLATE.slice(Math.max(0, missingItems - 1)));
-        }
-    };
-
-    const createPageHandleEvent = (targetPage: number) => () => handlePageChange(targetPage);
-
-    const Pages: ReactElement = (
-        <div className={'flex justify-between h-full'}>
-            <button
-                className='size-7xl flex place-items-center'
-                onClick={createPageHandleEvent(pageNos - 1)}
-                disabled={pageNos === 1}
-            >
-                <ReactSVG
-                    src={DOUBLE_ARROW_ICON.src}
-                    className={cn(
-                        'my-auto mx-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
-                        'size-7xs',
-                        '[&_*]:scale-x-[-1] [&_*]:translate-x-full',
-                    )}
-                />
-            </button>
-
-            {[...Array(totalPages)].map((_, i) => (
-                <button
-                    key={i}
-                    className={cn(
-                        'w-5xl h-full border-l-s border-gray-l0 transition-colors duration-300',
-                        pageNos === i + 1 ? 'bg-blue text-white' : 'text-blue hover:bg-blue hover:text-white',
-                    )}
-                    onClick={createPageHandleEvent(i + 1)}
-                >
-                    {i + 1}
-                </button>
-            ))}
-
-            <button
-                className='border-l-s border-gray-l0 size-7xl flex place-items-center'
-                onClick={createPageHandleEvent(pageNos + 1)}
-                disabled={pageNos === totalPages}
-            >
-                <ReactSVG
-                    src={DOUBLE_ARROW_ICON.src}
-                    className={cn(
-                        'my-auto mx-auto text-white transition-all duration-500 ease-in-out group-focus-within:text-white-d0 flex',
-                        'size-7xs',
-                    )}
-                />
-            </button>
-        </div>
-    );
+    const filters: Filter[] = [
+        {
+            title: 'Content',
+            options: CONTENT_TYPES,
+            state: [filter.content, (value: string) => setFilterField('content', value)],
+        },
+    ];
 
     return (
-        <div className={'bg-gradient-to-t from-blue to-20% w-full'}>
-            <div
-                className={cn(
-                    'max-w-[71.125rem] w-full min-h-dvh place-self-center flex flex-col gap-y-xxl pt-xs md:p-n sm:x-[p-xs,gap-y-xs]',
-                )}
-            >
+        <Content type={'bottom'}>
+            <Section>
                 <BreadcrumbRoute />
-                <h1 className={cn('text-48 sm:x-[text-24,mb-4xs,mt-4xs]')}>All Tern Community Events</h1>
-                <SearchBar contentTypes={CONTENT_TYPES} />
-                <ul className={cn('grid grid-cols-1', 'gap-y-xxs gap-x-xs md:x-[gap-y-s,gap-x-n] lg:x-[gap-y-l]')}>
-                    {EventsLi}
-                </ul>
-                <div className={cn('w-[18rem] h-7xl border-s border-gray-l2 mb-[21.75rem]')}>{Pages}</div>
-            </div>
-        </div>
+                <H1 type={'small'}>All Tern Community Events</H1>
+                <SearchBar
+                    type={'ContentTypes'}
+                    filters={filters}
+                    placeholder={'Search for events...'}
+                />
+                <Pagination
+                    Items={EventsLi}
+                    columns={COLUMN_COUNT}
+                    rows={ROW_COUNT}
+                />
+            </Section>
+        </Content>
     );
 }
 
