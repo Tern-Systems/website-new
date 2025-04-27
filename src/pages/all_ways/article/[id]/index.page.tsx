@@ -146,7 +146,7 @@ function ArticlePage() {
                         </div>
                         <div className={INFO_CN}>
                             <span className={cn({ ['text-12']: !content?.date })}>
-                                {content?.date ? formatDate(new Date(content?.date)) : '-- date is not provided --'}
+                                {content?.date ? formatDate(content?.date) : '-- date is not provided --'}
                             </span>
                         </div>
                         <div className={cn(INFO_CN, 'border-b-s')}>

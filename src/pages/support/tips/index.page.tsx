@@ -1,58 +1,22 @@
 'use client';
 
-import { ReactElement, useEffect, useState } from 'react';
-import cn from 'classnames';
+import { useEffect, useState } from 'react';
 
-import { CardLink } from '@/app/types/layout';
-import { Tip } from '@/app/types/blog';
-import { ArticleCardType } from '@/app/ui/organisms/ArticleCard';
-import { Breakpoint, Route } from '@/app/static';
+import { Route } from '@/app/static';
 
-import { BlogService, TipsDTO } from '@/app/services/blog.service';
+import { BlogService, CardsLibDTO } from '@/app/services/blog.service';
 
-import { useBreakpointCheck, useModal } from '@/app/hooks';
+import { useModal } from '@/app/hooks';
 
-import { MainBackground } from '@/app/ui/atoms';
-import { ArticleCard, Carousel, ResourceCard } from '@/app/ui/organisms';
-import { AllWaysCard, InsideTernSection } from '@/app/ui/templates';
+import { Content, H1, H2, Section } from '@/app/ui/atoms';
+import { CardsLibrary, InsideTernSection } from '@/app/ui/templates';
 import { MessageModal } from '@/app/ui/modals';
 
-import styles from '@/app/common.module.css';
-
-import PNG_BG_MAIN from '@/assets/images/tips-bg-main.png';
-import PNG_MICROPROCESSOR from '@/assets/images/microprocessor.png';
-
-// TOOD href
-const HIGHLIGHTED_CARD: CardLink = {
-    icon: PNG_MICROPROCESSOR,
-    title: 'Keep up with Tomorrow, Today',
-    description: 'Subscribe to the All Ways Newsletter for expert insights on the future of cutting-edge technology.',
-    action: { title: 'Subscribe today', href: '' },
-};
-
-const UL_H_CN = 'mb-xs md:mb-n lg:mb-s  sm:x-[mx-auto,w-card]  sm:text-27 text-40';
-const CAROUSEL_UL_CN = 'min-h-[27.0625rem]';
-
-const renderTips = (type: ArticleCardType, tips: Tip[] = []) =>
-    tips.map((tip) => (
-        <li
-            key={tip.id}
-            className={'contents'}
-        >
-            <ArticleCard
-                type={type}
-                article={tip}
-                altLink={tip.type === 'video' ? 'watch' : undefined}
-                className={'md:min-w-full [&:not(:first-of-type)]:border-t-0'}
-            />
-        </li>
-    ));
+import BACKGROUND from '@/assets/images/tips-bg-main.png';
 
 function TipsPage() {
     const modalCtx = useModal();
-    const breakpoint = useBreakpointCheck();
-
-    const [tips, setTips] = useState<TipsDTO | null>(null);
+    const [tips, setTips] = useState<CardsLibDTO | null>(null);
 
     useEffect(() => {
         const fetchTips = async () => {
@@ -66,97 +30,34 @@ function TipsPage() {
         fetchTips();
     }, []);
 
-    const CardsPopularLi: ReactElement[] = renderTips('alt-vertical', tips?.popular);
-    const CardsFeaturedLi: ReactElement[] = renderTips('alt', tips?.featured);
-    const CardsVideosLi: ReactElement[] = renderTips('default', tips?.videos);
-    const CardsReadsLi: ReactElement[] = renderTips('default', tips?.reads);
-
     return (
         <>
-            <section className={cn(styles.section, 'h-screen max-h-[21.625rem]')}>
-                <MainBackground
-                    url={PNG_BG_MAIN}
-                    className={'translate-y-0 max-h-full'}
-                />
-                <div className={cn(styles.content, 'relative z-10 flex flex-col justify-between', 'py-xxl md:pb-4xl')}>
-                    <h1 className={'text-64 md:text-80 lg:text-96'}>Tips</h1>
-                    <h2 className={'w-full lg:w-2/3  leading-n  text-20 md:text-36 lg:text-36'}>
-                        Learn how to manage your Tern products, services, and accounts like a professional
-                    </h2>
-                </div>
-            </section>
-            <section className={cn(styles.section, 'bg-gradient-to-b from-blue to-transparent to-10%')}>
-                <div
-                    className={cn(
-                        styles.content,
-                        'grid grid-rows-2',
-                        'grid-cols-1 md:grid-cols-2 lg:grid-cols-[15fr,14fr,14fr]',
-                        'sm:gap-y-xxl gap-n',
-                        'pt-6xl-1 md:pt-6xl-1 lg:pt-6xl',
-                    )}
+            <Section
+                type={'short'}
+                background={{ image: BACKGROUND, gradient: 'left' }}
+                className={{ content: 'sm:pb-[2.81rem] md:pb-[3.81rem] py-xxl' }}
+            >
+                <H1
+                    type={'large'}
+                    className={'sm:text-54'}
                 >
-                    <div className={'row-span-2 flex flex-col'}>
-                        <h4 className={UL_H_CN}>Most Popular</h4>
-                        <ul className={'flex flex-col h-full'}>{CardsPopularLi}</ul>
-                    </div>
-                    <div className={'flex flex-col h-full  lg:col-span-2'}>
-                        <Carousel
-                            altData={{
-                                title: 'Featured',
-                                link: Route.TipsVideos,
-                                cards: CardsFeaturedLi,
-                                altSpinner:
-                                    breakpoint > Breakpoint.sm
-                                        ? breakpoint === Breakpoint.md
-                                            ? 'alt'
-                                            : 'default'
-                                        : undefined,
-                            }}
-                            rowsCount={2}
-                            classNameUl={'grid-rows-2 !pt-s  !gap-0 sm:!gap-x-5xl  !my-0'}
-                        />
-                    </div>
-                    <ResourceCard
-                        type={'highlighted'}
-                        icon={HIGHLIGHTED_CARD.icon}
-                        title={HIGHLIGHTED_CARD.title}
-                        action={HIGHLIGHTED_CARD.action}
-                        className={{
-                            wrapper: 'text-black  lg:x-[!grid-cols-2,gap-x-0] lg:col-span-2  sm:x-[mx-auto,max-w-card]',
-                            image: '!size-full object-cover',
-                            content: 'lg:pl-l',
-                            link: 'text-primary',
-                        }}
-                    >
-                        {HIGHLIGHTED_CARD.description}
-                    </ResourceCard>
-                </div>
-            </section>
-            <section className={styles.section}>
-                <div className={cn(styles.content, 'pt-xxl md:pt-3xl lg:pt-xl')}>
-                    <Carousel
-                        altData={{ title: 'Videos', link: Route.TipsVideos, cards: CardsVideosLi }}
-                        classNameUl={CAROUSEL_UL_CN}
-                    />
-                </div>
-            </section>
-            <section className={styles.section}>
-                <div className={cn(styles.content, 'pt-xxl md:pt-3xl lg:pt-xl')}>
-                    <AllWaysCard alt />
-                </div>
-            </section>
-            <section className={styles.section}>
-                <div className={cn(styles.content, 'pt-xxl md:pt-3xl lg:pt-xl')}>
-                    <Carousel
-                        altData={{ title: 'Reading Material', link: Route.TipsReads, cards: CardsReadsLi }}
-                        classNameUl={CAROUSEL_UL_CN}
-                    />
-                </div>
-            </section>
-            <InsideTernSection
-                data={'alt0'}
-                classNameContent={'pb-[25.3rem] md:pb-[26rem] lg:pb-[28rem]'}
-            />
+                    Tips
+                </H1>
+                <H2 type={'large'}>
+                    Learn how to manage your Tern products, services, and accounts like a professional
+                </H2>
+            </Section>
+            <Content>
+                <CardsLibrary
+                    section={{
+                        preHref: Route.TipsVideos,
+                        first: { title: 'Videos', href: Route.TipsVideos },
+                        second: { title: 'Reading Material', href: Route.TipsReads },
+                    }}
+                    cards={tips}
+                />
+                <InsideTernSection data={'alt0'} />
+            </Content>
         </>
     );
 }

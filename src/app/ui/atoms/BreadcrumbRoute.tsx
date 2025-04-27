@@ -23,9 +23,7 @@ const BreadcrumbRoute: FC<Props> = (props: Props) => {
     const breadcrumbs = layoutCtx.navLinks[NavLink.Breadcrumbs]
         ?.slice(-length)
         .map((path: string) => {
-            if (MAPPED_SUB_NAV_ROUTES[path]) {
-                return MAPPED_SUB_NAV_ROUTES[path];
-            }
+            if (MAPPED_SUB_NAV_ROUTES[path]) return MAPPED_SUB_NAV_ROUTES[path];
             const parts = path.split('/');
             const lastPart = parts[parts.length - 1];
             const idName = getIdName(lastPart);

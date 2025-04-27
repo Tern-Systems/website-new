@@ -6,7 +6,7 @@ import { Article, Tip } from '@/app/types/blog';
 import { BaseService } from './base.service';
 
 type ArticlesDTO = { blogs: Article[] };
-type TipsDTO = {
+type CardsLibDTO = {
     popular: Tip[];
     featured: Tip[];
     videos: Tip[];
@@ -94,7 +94,7 @@ const TIPS_TEMPLATE: Tip[] = [
     },
 ];
 
-const TIPS_DTO_TEMPLATE: TipsDTO = {
+const TIPS_DTO_TEMPLATE: CardsLibDTO = {
     popular: TIPS_TEMPLATE.slice(0, 3),
     featured: TIPS_TEMPLATE.slice(0, 4),
     videos: TIPS_TEMPLATE.slice(-6),
@@ -104,7 +104,7 @@ const TIPS_DTO_TEMPLATE: TipsDTO = {
 interface IBlogService {
     getArticles(): Promise<Res<ArticlesDTO, false>>;
 
-    getTips(): Promise<Res<TipsDTO, false>>;
+    getTips(): Promise<Res<CardsLibDTO, false>>;
 }
 
 class BlogServiceImpl extends BaseService implements IBlogService {
@@ -129,7 +129,7 @@ class BlogServiceImpl extends BaseService implements IBlogService {
     }
 
     // TODO API call
-    async getTips(): Promise<Res<TipsDTO, false>> {
+    async getTips(): Promise<Res<CardsLibDTO, false>> {
         const [debug, error] = this.getLoggers();
 
         const config: AxiosRequestConfig = {
@@ -155,5 +155,5 @@ class BlogServiceImpl extends BaseService implements IBlogService {
 
 const BlogService = new BlogServiceImpl();
 
-export type { TipsDTO };
+export type { CardsLibDTO };
 export { BlogService };

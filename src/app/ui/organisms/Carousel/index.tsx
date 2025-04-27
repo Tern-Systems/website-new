@@ -7,8 +7,10 @@ import { Breakpoint, Route } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
 
+import { H3 } from '@/app/ui/atoms';
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
+
 import { faCaretLeft } from '@fortawesome/free-solid-svg-icons/faCaretLeft';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -20,9 +22,7 @@ enum CardsPerPage {
 }
 
 const getAltSpinnerBtnCn = (alt?: string) =>
-    cn('!inline-flex border-s  border-blue text-blue disabled:x-[border-gray-l0,text-gray]  size-3xl sm:size-xl', {
-        ['md:p-4xs']: alt,
-    });
+    cn('border-s  border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-xs sm:p-4xs-1', { ['md:p-4xs']: alt });
 
 interface Props extends PropsWithChildren {
     altData?: { title: string; link: Route; cards: ReactElement[]; altSpinner?: 'default' | 'alt' };
@@ -102,6 +102,7 @@ const Carousel: FC<Props> = (props: Props) => {
             />
         </span>
     );
+
     return (
         <div
             className={cn(
@@ -121,13 +122,12 @@ const Carousel: FC<Props> = (props: Props) => {
                         defaultSpinner ? 'sm:flex  mx-auto max-w-card' : 'md:flex',
                     )}
                 >
-                    <h3
-                        className={
-                            'max-w-fit overflow-x-hidden text-ellipsis text-nowrap  sm:text-center  text-40 sm:text-27'
-                        }
+                    <H3
+                        type={'large'}
+                        className={'max-w-fit overflow-x-hidden text-ellipsis text-nowrap  sm:text-center'}
                     >
                         {altData?.title}
-                    </h3>
+                    </H3>
                     <Spinner className={cn('hidden', defaultSpinner ? 'sm:inline' : 'md:inline')} />
                 </div>
             ) : (
@@ -157,21 +157,19 @@ const Carousel: FC<Props> = (props: Props) => {
                 {altData?.cards ?? children}
             </ul>
             {altData ? (
-                defaultSpinner ? (
-                    <div className={'flex items-center  mt-s lg:mt-n  sm:mx-auto  sm:!max-w-card'}>
+                !defaultSpinner || rowsCount > 1 ? null : (
+                    <div className={'flex items-center  mt-s lg:mt-n  sm:mx-auto  sm:max-w-card'}>
                         <PageLink
                             href={altData.link}
                             icon={'arrow-right-long'}
-                            className={cn('flex-row-reverse text-blue text-16', {
-                                ['sm:hidden']: rowsCount > 1,
-                            })}
+                            className={'flex-row-reverse text-blue text-16'}
                             iconClassName={'ml-xxs [&_*]:size-5xs [&_path]:fill-blue'}
                         >
                             See All
                         </PageLink>
                         <Spinner className={'sm:hidden'} />
                     </div>
-                ) : null
+                )
             ) : (
                 renderCarouselBtn(true)
             )}

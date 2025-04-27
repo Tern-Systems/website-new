@@ -5,6 +5,7 @@ export { SubscribeTool } from './SubscribeTool';
 export { AllWaysCard } from './Sections/AllWaysCard';
 export { BookCoverSection } from './Sections/BookCover';
 export { CardCheckersSection } from './Sections/CardCheckers';
+export { CardsLibrary } from './Sections/CardsLibrary';
 export { DocumentationSection } from './Sections/Documentation';
 export { InfoSection } from './Sections/Info';
 export { InsideTernSection } from './Sections/InsideTern';
