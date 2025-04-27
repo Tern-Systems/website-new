@@ -129,7 +129,7 @@ function ManageSubscriptionsPage() {
                         </span>
                         <span className={cn('text-nowrap sm:row-start-3', 'text-16 sm:text-14')}>
                             {selectedPlan.renewDate
-                                ? 'Your plan renews on ' + formatDate(new Date(selectedPlan.renewDate))
+                                ? 'Your plan renews on ' + formatDate(selectedPlan.renewDate)
                                 : '-- missing renew date --'}
                         </span>
                         <span className={'font-bold'}>
