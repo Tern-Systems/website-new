@@ -11,3 +11,4 @@ export { SideNav } from './SideNav';
 export { Table } from './Table';
 export { Tabs } from './Tabs';
 export { Video } from './Video';
+export { VideoCard } from './VideoCard';

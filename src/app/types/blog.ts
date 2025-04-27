@@ -24,4 +24,17 @@ type Tip = DeepPartial<
     Pick<Article, 'id' | 'title' | 'poster' | 'content'> & Partial<Pick<Article, 'description'>> & { type: TipType }
 >;
 
-export type { ArticleTag, Article, Tip };
+type Video = {
+    title: string;
+    thumbnail: string | null;
+    label: string;
+    durationMs: number;
+    date: number;
+};
+
+type Course = DeepPartial<{
+    video: string;
+    description: string;
+}>;
+
+export type { ArticleTag, Article, Tip, Video, Course };
