@@ -1,6 +1,5 @@
 .section {
   position: relative;
-  z-index: 10;
   min-width: 100dvw;
   background-color: transparent;
 }

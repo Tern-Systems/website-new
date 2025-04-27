@@ -99,7 +99,7 @@ const TrainingHomePage: FC = () => {
     return (
         <>
             <Section
-                screenHeight
+                type={'full-screen'}
                 background={{ image: ACADEMY_COUCH_GIRL, gradient: 'left' }}
                 className={{
                     content: 'flex flex-col justify-between  py-4xl md:py-5xl lg:py-6xl-1',
