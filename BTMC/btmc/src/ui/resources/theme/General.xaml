@@ -1,0 +1,13 @@
+﻿<!--Global Theme-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <SolidColorBrush x:Key="Color.Gray.77"
+                     Color="#4d4d4d" />
+    <SolidColorBrush x:Key="Color.White"
+                     Color="#f2f2f2" />
+
+    <FontFamily x:Key="FontFamily.Gothic">Adobe Gothic Std L</FontFamily>
+    
+</ResourceDictionary>
