@@ -1,0 +1,17 @@
+﻿<Application x:Class="btmc.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:btmc"
+             StartupUri="ui/forms/main/Main.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/src/ui/resources/theme/General.xaml" />
+                <!-- Uncomment it after you implement styles for your custom TabControl / TabItem components
+                <ResourceDictionary Source="pack://application:,,,/src/ui/resources/toolbox/CTabControl/TabControl.style.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/src/ui/resources/toolbox/CTabItem/TabItem.style.xaml" />
+                -->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

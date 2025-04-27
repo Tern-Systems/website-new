@@ -1,0 +1,41 @@
+﻿<!--Clear Button-->
+<Button x:Class="btmc.src.ui.forms.main.components.Clear"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:btmc.src.ui.forms.main.components"
+        xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
+        mc:Ignorable="d">
+
+    <Button.Resources>
+        <ImageSource x:Key="Icon_Broom">pack://application:,,,/btmc;component/assets/icons/broom.png</ImageSource>
+
+        <sys:Double x:Key="ClearButton.Size">29</sys:Double>
+
+        <ControlTemplate x:Key="Clear.Template" 
+                         TargetType="{x:Type Button}">
+            <toolbox:Button VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Height="{StaticResource ClearButton.Size}"
+                            Width="{StaticResource ClearButton.Size}">
+                <toolbox:Button.Background>
+                    <ImageBrush ImageSource="{StaticResource Icon_Broom}" />
+                </toolbox:Button.Background>
+            </toolbox:Button>
+        </ControlTemplate>
+
+        <Style x:Key="Clear.Style"
+               TargetType="{x:Type Button}">
+            <Setter Property="Template"
+                    Value="{StaticResource Clear.Template}" />
+        </Style>
+    </Button.Resources>
+
+    <Button.Style>
+        <Style TargetType="{x:Type Button}"
+               BasedOn="{StaticResource Clear.Style}" />
+    </Button.Style>
+
+</Button>

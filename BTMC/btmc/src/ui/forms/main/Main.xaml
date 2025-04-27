@@ -1,0 +1,34 @@
+﻿<Window x:Class="btmc.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:btmc"
+        xmlns:tab="clr-namespace:btmc.src.ui.forms.main.tabs"
+        xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
+        xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
+        mc:Ignorable="d"
+        MouseDown="Window_MouseDown"
+        Title="Converter"
+        AllowsTransparency="True"
+        Background="Transparent"
+        SizeToContent="WidthAndHeight"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
+        FontFamily="Adobe Gothic Std L">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary x:Key="Form"
+                                Source="./Form.style.xaml" />
+            <sys:Double x:Key="ActionButton.Size">15</sys:Double>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+    <Border Background="{StaticResource Color.Gray.77}">
+        <StackPanel Width="713">
+        </StackPanel>
+    </Border>
+</Window>

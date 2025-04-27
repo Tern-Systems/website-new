@@ -1,0 +1,28 @@
+﻿<!--Custom Button Style-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTemplate x:Key="Button.Template"
+                     TargetType="{x:Type Button}">
+        <Label VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center"
+               Height="{TemplateBinding Height}"
+               Width="{TemplateBinding Width}"
+               BorderThickness="{TemplateBinding BorderThickness}"
+               Foreground="{StaticResource Color.White}"
+               Background="{TemplateBinding Background}"
+               FontFamily="{StaticResource FontFamily.Gothic}"
+               Cursor="Hand">
+            <ContentPresenter />
+        </Label>
+    </ControlTemplate>
+
+    <Style x:Key="Button.Style"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Template"
+                Value="{StaticResource Button.Template}" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+    </Style>
+</ResourceDictionary>
