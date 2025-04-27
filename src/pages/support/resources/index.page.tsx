@@ -131,7 +131,7 @@ function ResourcesPage() {
                     <ul className={'flex flex-col'}>{CardsLi}</ul>
                 </div>
             </section>
-            <InsideTernSection className='bg-transparent' />
+            <InsideTernSection />
             <div
                 className={cn(
                     'h-full w-full absolute left-0 top-0 z-0 bg-gradient-to-t from-blue to-transparent to-5%',

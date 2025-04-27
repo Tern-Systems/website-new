@@ -6,21 +6,18 @@ import cn from 'classnames';
 
 import { SectionCard } from '@/app/types/layout';
 
-import { Button } from '@/app/ui/form';
-
-import styles from '@/app/common.module.css';
-
 import { MEDIA_LINKS, MISC_LINKS } from '@/app/static';
+
+import { Section } from '@/app/ui/atoms';
+import { Button } from '@/app/ui/form';
 
 import SVG_OFFICE_GIRL_1 from '@/assets/images/office-girl-2.jpg';
 import SVG_OFFICE_GIRL_2 from '@/assets/images/office-girl-1.jpg';
-import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
-
 import PNG_INSIDE_TERN_GIRL from '@/assets/images/inside-tern-girl.png';
 import PNG_ACCOLADES from '@/assets/images/resources-card-5.png';
-
 import SVG_CITY_WAY from '@/assets/images/city-glowing-way.jpg';
 import SVG_OFFICE_PEOPLE from '@/assets/images/office-people.jpg';
+import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
 type Data = 'default' | 'alt0' | 'alt1';
 
@@ -86,13 +83,12 @@ const DATA: Record<Data, SectionCard[]> = {
 
 interface Props {
     data?: keyof typeof DATA;
-    className?: string;
     classNameContent?: string;
     classNameCompanyLi?: string;
 }
 
 const InsideTernSection: FC<Props> = (props: Props) => {
-    const { data, className, classNameContent, classNameCompanyLi } = props;
+    const { data, classNameContent, classNameCompanyLi } = props;
 
     const CompanyLi: ReactElement[] = DATA[data ?? 'default'].map((entry, idx) => (
         <li
@@ -122,23 +118,22 @@ const InsideTernSection: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <section className={cn(styles.section, className)}>
-            <div
-                className={cn(
-                    styles.content,
+        <Section
+            className={{
+                content: cn(
                     'text-20',
                     'sm:w-full sm:max-w-[37.5rem]',
                     'md:w-[80dvw] md:max-w-[50rem] md:ml-0',
                     'pt-6xl-1 md:pt-5xl  pb-xxl lg:pb-7xl ',
                     classNameContent,
-                )}
-            >
-                <h2 className={'text-left text-40 font-bold '}>Inside Tern</h2>
-                <ul className={cn('mt-3xl grid grid-cols-1 gap-xxl', 'lg:x-[grid-cols-2,gap-3xl]', classNameCompanyLi)}>
-                    {CompanyLi}
-                </ul>
-            </div>
-        </section>
+                ),
+            }}
+        >
+            <h2 className={'text-left text-40 font-bold '}>Inside Tern</h2>
+            <ul className={cn('mt-3xl grid grid-cols-1 gap-xxl', 'lg:x-[grid-cols-2,gap-3xl]', classNameCompanyLi)}>
+                {CompanyLi}
+            </ul>
+        </Section>
     );
 };
 

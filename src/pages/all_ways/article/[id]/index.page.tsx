@@ -53,7 +53,7 @@ function ArticlePage() {
     const lg = useBreakpointCheck() === Breakpoint.lg;
 
     const [url, setURL] = useState<string | null>(null);
-    const [nav, setNav] = useState<{ ids: string[]; idMap: Record<string, string> }>({ ids: [], idMap: {} });
+    const [nav, setNav] = useState<Record<string, string>>({});
     const [content, setContent] = useState<Article | null>(null);
     const [contentParts, setContentParts] = useState<string[]>([]);
     const [cards, setCards] = useState<Article[]>([]);
@@ -74,16 +74,14 @@ function ArticlePage() {
                     : [article.content, ''],
             );
 
-            const ids: string[] = [];
-            const idMap: Record<string, string> = Object.fromEntries(
+            const ids: Record<string, string> = Object.fromEntries(
                 article.contentIDs?.map((id, idx) => {
                     const map: string = 'heading_' + idx;
-                    ids.push(map);
                     return [map as string | undefined, id];
                 }) ?? [],
             );
 
-            setNav({ ids, idMap });
+            setNav(ids);
         }
 
         setURL(window.location.href);
@@ -181,8 +179,7 @@ function ArticlePage() {
                     {content?.contentIDs?.length ? (
                         <SideNav
                             sideOnly
-                            sectionIDs={nav.ids}
-                            sectionNames={nav.idMap}
+                            section={nav}
                             className={'sticky top-xxl'}
                         />
                     ) : null}

@@ -160,6 +160,7 @@ const Carousel: FC<Props> = (props: Props) => {
                 defaultSpinner ? (
                     <div className={'flex items-center  mt-s lg:mt-n  sm:mx-auto  sm:!max-w-card'}>
                         <PageLink
+                            href={altData.link}
                             icon={'arrow-right-long'}
                             className={cn('flex-row-reverse text-blue text-16', {
                                 ['sm:hidden']: rowsCount > 1,

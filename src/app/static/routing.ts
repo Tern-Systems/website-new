@@ -23,12 +23,14 @@ enum Route {
 
     // /product
     // Products = '/products/all',
-    Tidal = '/product',
+    Product = '/product',
     TidalPlans = '/product/plans',
     TidalProductManual = '/product/manual',
     TidalSubscribe = '/subscribe/tidal',
     TidalFAQs = '/product/faqs',
-    TidalCyrus = '/product/cyrus',
+    Cyrus = '/product/cyrus',
+    Tidal = '/product/tidal',
+    Ternact = '/product/ternact',
     // Dot = '/products/dot',
     // DotPricing = '/products/dot/pricing',
     // DotProductManual = '/products/dot/user_manual',
@@ -51,7 +53,6 @@ enum Route {
     CommunityEvents = '/support/community/events',
     Training = '/support/training',
     TrainingFAQs = '/support/training/faqs',
-    Courses = '/support/training/courses',
     ProfessionalCertifications = '/support/training/certifications',
     Subscriptions = '/support/training/subscriptions',
     Downloads = '/support/downloads',
@@ -67,6 +68,11 @@ enum Route {
     TernKitDoc = '/support/documentation/tern_kit',
     TernDoc = '/support/documentation/tern',
     BTMCDoc = '/support/documentation/btmc',
+
+    Courses = '/support/courses',
+    AllCourses = '/support/courses/Library',
+    CoursesVideos = '/support/courses/videos',
+    CoursesReads = '/support/courses/reads',
 
     // /all_ways
     AllWays = '/all_ways',

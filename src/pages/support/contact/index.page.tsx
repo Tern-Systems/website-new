@@ -221,7 +221,7 @@ const ContactsPage: FC = () => {
                         <h3 className='font-thin text-32 sm:text-24'>Office</h3>
                         <address className='not-italic leading-tight text-24 sm:text-18'>
                             <PageLink
-                                isExternal
+                                external
                                 href='https://maps.app.goo.gl/aq3baVuq5kX9JzEC6'
                             >
                                 1120 Avenue of the Americas

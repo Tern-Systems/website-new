@@ -32,7 +32,7 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
         title: 'Company',
         links: [
             Route.About,
-            Route.Tidal,
+            Route.Product,
             Route.Contact,
             // {title: 'TernKit', action: 'https://'},
             // {title: 'Cyrus', action: 'https://'},
@@ -134,7 +134,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                         if (!isHref) action(modalCtx);
                     }}
                     prevent={!isHref}
-                    isExternal={isHref && action.includes('https://')}
+                    external={isHref && action.includes('https://')}
                     href={isHref ? action : ''}
                     className={`relative capitalize`}
                 >

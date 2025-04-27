@@ -18,6 +18,7 @@ type CardLink = {
     icon: StaticImageData;
     action: { title: string; href: string };
     alt?: true;
+    bullets?: string[];
 };
 
 type DocumentationLink = ResourceLink & { subscription: PlanName };
