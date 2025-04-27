@@ -14,10 +14,12 @@ import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
 import { copyObject } from '@/app/utils';
+import { useOuterClickClose } from '@/app/hooks';
+
+import { Input } from '@/app/ui/form';
 
 import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
 import SVG_BULLET_LIST from '@/assets/images/icons/bullet-list.svg';
-import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
 
 const EMPTY_KEY = '';
 
@@ -34,6 +36,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren
     onClick?: () => void;
     onOpen?: (isExpanded: boolean) => void;
     altIcon?: true;
+    checkbox?: boolean;
 }
 
 const Select: FC<Props> = (props: Props) => {
@@ -65,9 +68,9 @@ const Select: FC<Props> = (props: Props) => {
     if (
         (optionsEntries.length === 1 + +hasEmptyOption && !valueNullish && options[value]) ||
         optionsEntries.length === 0
-    )
+    ) {
         optionsFinal[EMPTY_KEY] = 'Empty list';
-    else if (!optionsFinal[EMPTY_KEY]) delete optionsFinal[EMPTY_KEY];
+    } else if (!optionsFinal[EMPTY_KEY]) delete optionsFinal[EMPTY_KEY];
 
     optionsEntries = Object.entries(optionsFinal);
 
@@ -89,24 +92,34 @@ const Select: FC<Props> = (props: Props) => {
             ? optionsEntries
             : [...optionsEntries.slice(0, selectedOptionIdx), ...optionsEntries.slice(selectedOptionIdx + 1)];
 
-    const Options: ReactElement[] = optionsEntries.map(([key, value], idx) => (
-        <option
-            key={value + idx}
-            value={value}
-            onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
-            className={cn(
-                `flex items-center overflow-x-hidden px-[min(2dvw,0.75rem)] py-3xs`,
-                `border-s border-white-d0 bg-white [&:not(:last-of-type)]:border-b-0`,
-                `overflow-ellipsis text-nowrap`,
-                classNameOption,
-                { ['!text-10']: EMPTY_KEY === key },
-            )}
-        >
-            {value}
-        </option>
-    ));
+    const OptionsLi: ReactElement[] = optionsEntries.map(([key, label], idx) => {
+        const handleClick = () => {
+            if (key !== EMPTY_KEY) onChangeCustom(key);
+        };
+        return (
+            <li
+                key={label + idx}
+                onClick={handleClick}
+                className={cn(
+                    'flex items-center justify-between px-5xs py-3xs cursor-pointer',
+                    'border-s border-t-0 border-white-d0 !bg-inherit !text-inherit',
+                    classNameOption,
+                    { ['!text-10']: key === EMPTY_KEY },
+                )}
+            >
+                <span>{label}</span>
+                {props.checkbox ? (
+                    <Input
+                        type={'checkbox'}
+                        checked={key === props.value}
+                        className={'size-[13px] appearance-none bg-gray-l3 border border-white-l0 rounded-sm'}
+                    />
+                ) : null}
+            </li>
+        );
+    });
 
-    const isPlaceholder = selectedOptionIdx < 0 || !optionsFinal[value];
+    const hasPlaceholder = selectedOptionIdx < 0 || !optionsFinal[value];
 
     return (
         <div
@@ -115,7 +128,7 @@ const Select: FC<Props> = (props: Props) => {
                 selectPropsRest.onClick?.();
                 toggleSelectExpand();
             }}
-            className={cn(`relative flex items-center`, classNameWrapper, { ['hidden']: hidden })}
+            className={cn(`flex items-center`, classNameWrapper, { ['hidden']: hidden })}
         >
             <input
                 {...selectPropsRest}
@@ -128,19 +141,19 @@ const Select: FC<Props> = (props: Props) => {
             <label
                 onBlur={() => setSelectExpanded(false)}
                 className={cn(
-                    `group flex w-full cursor-pointer select-none items-center capitalize`,
+                    `relative group flex w-full cursor-pointer select-none items-center capitalize`,
                     `border-s border-white-d0 bg-white`,
-                    { ['border-b-0']: expanded },
+                    { ['!border-b-0']: expanded },
                     className,
                 )}
             >
                 <div className={cn(`relative flex w-fit items-center`, classNameSelected)}>
                     <span
                         className={cn(`w-fit overflow-x-hidden overflow-ellipsis text-nowrap leading-[1.3]`, {
-                            ['text-placeholder']: isPlaceholder,
+                            ['text-placeholder']: hasPlaceholder,
                         })}
                     >
-                        {isPlaceholder
+                        {hasPlaceholder
                             ? hasEmptyOption && optionsFinal[EMPTY_KEY]
                                 ? optionsFinal[EMPTY_KEY]
                                 : (placeholder ?? 'Select')
@@ -161,7 +174,7 @@ const Select: FC<Props> = (props: Props) => {
                             classNameUl,
                         )}
                     >
-                        {Options}
+                        {OptionsLi}
                     </ul>
                 ) : null}
             </label>

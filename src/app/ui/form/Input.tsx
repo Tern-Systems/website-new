@@ -1,8 +1,10 @@
 'use client';
 
 import { FC, InputHTMLAttributes, MutableRefObject, PropsWithChildren, ReactElement, useRef } from 'react';
-import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ReactSVG } from 'react-svg';
+import Image from 'next/image';
 import cn from 'classnames';
 
 import styles from '@/app/common.module.css';
@@ -11,11 +13,13 @@ import SVG_UPLOAD from '@/assets/images/icons/upload.svg';
 import SVG_COLOR_PICKER_BORDER from '@/assets/images/color-picker-border.svg';
 import SVG_EYE from '@/assets/images/icons/eye.svg';
 
+type Icon = string | IconProp;
+
 interface Props extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>, PropsWithChildren {
     classNameWrapper?: string;
     classNameLabel?: string;
     classNameIcon?: string;
-    icons?: string[];
+    icons?: Icon[];
     isCustomCheckbox?: boolean;
     classNameCheckbox?: string;
     classNameIconSpan?: string;
@@ -152,17 +156,27 @@ const Input: FC<Props> = (props: Props) => {
             const isPassword = props.type === 'password';
             const isCheckbox = props.type === 'checkbox';
 
-            const inputIcons: string[] = isPassword ? [SVG_EYE] : (icons ?? []);
-            const IconsSVGs: ReactElement[] = inputIcons.map((icon) => {
-                const alt = JSON.stringify(icon);
-                return (
-                    <Image
-                        key={alt}
-                        src={icon}
-                        alt={alt}
-                        className={`max-w-[min(6.4dvw,1.5rem)] ${classNameIcon}`}
-                    />
-                );
+            const inputIcons: Icon[] = isPassword ? [SVG_EYE] : (icons ?? []);
+            const IconsSVGs: ReactElement[] = inputIcons.map((icon, idx) => {
+                if (typeof icon === 'string') {
+                    const alt = JSON.stringify(icon) + idx;
+                    return (
+                        <Image
+                            key={alt}
+                            src={icon}
+                            alt={alt}
+                            className={cn(`max-w-[min(6.4dvw,1.5rem)]`, classNameIcon)}
+                        />
+                    );
+                } else {
+                    return (
+                        <FontAwesomeIcon
+                            key={idx}
+                            icon={icon}
+                            className={cn(`max-w-[min(6.4dvw,1.5rem)]`, classNameIcon)}
+                        />
+                    );
+                }
             });
 
             return (
@@ -176,23 +190,25 @@ const Input: FC<Props> = (props: Props) => {
                         {children}
                     </span>
                     <div className={`relative flex items-center ${isCheckbox ? '' : 'w-full'}`}>
-                        <span
-                            hidden={!IconsSVGs}
-                            className={cn(
-                                'absolute right-0 flex gap-[min(0.6dvw,0.135rem)] pr-[min(3.5dvw,0.81rem)]',
-                                classNameIconSpan,
-                            )}
-                            onClick={() => {
-                                if (inputRef.current)
-                                    inputRef.current.setAttribute(
-                                        'type',
-                                        ['text', 'password'][+(isPassword && inputRef.current?.type !== 'password')],
-                                    );
-                            }}
-                        >
-                            {IconsSVGs}
-                        </span>
-
+                        {IconsSVGs ? (
+                            <span
+                                className={cn(
+                                    'absolute right-0 flex gap-[min(0.6dvw,0.135rem)] pr-[min(3.5dvw,0.81rem)]',
+                                    classNameIconSpan,
+                                )}
+                                onClick={() => {
+                                    if (inputRef.current)
+                                        inputRef.current.setAttribute(
+                                            'type',
+                                            ['text', 'password'][
+                                                +(isPassword && inputRef.current?.type !== 'password')
+                                            ],
+                                        );
+                                }}
+                            >
+                                {IconsSVGs}
+                            </span>
+                        ) : null}
                         <input
                             {...inputProps}
                             className={`${className} pl-3xs ${isCustomCheckbox ? 'peer hidden' : ''}`}
