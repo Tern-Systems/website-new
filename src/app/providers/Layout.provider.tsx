@@ -52,8 +52,8 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                 else if (breakpoint <= Breakpoint.xxs) subNavLinks = [];
                 subNavLinks = routes;
                 break;
-            case checkSubRoute(route, Route.Product):
-                subNavLinks = [Route.Product, Route.Cyrus, Route.Ternact, Route.Tidal];
+            case checkSubRoute(route, Route.Products):
+                subNavLinks = [Route.Products, Route.Cyrus, Route.Ternact, Route.Tidal];
                 break;
             default:
                 break;
@@ -124,7 +124,7 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             navLinks[NavLink.Breadcrumbs] = [Route.MyTern, Route.GeneralFAQs];
             break;
         case checkSubRoute(route, Route.TidalFAQs):
-            navLinks[NavLink.Breadcrumbs] = [Route.Product, Route.TidalFAQs];
+            navLinks[NavLink.Breadcrumbs] = [Route.Products, Route.TidalFAQs];
             break;
         default:
             break;

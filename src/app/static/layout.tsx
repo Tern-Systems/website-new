@@ -28,7 +28,7 @@ const LAYOUT: {
 } = {
     fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
-    navLinks: [Route.About, Route.Product, Route.Contact, Route.SupportHub, Route.AllWays],
+    navLinks: [Route.About, Route.Products, Route.Contact, Route.SupportHub, Route.AllWays],
     blogLinks: [
         Route.Artificial,
         Route.Cloud,
@@ -46,12 +46,12 @@ const ROUTES_WITH_INDEX: Record<string, true> = { [Route.Profile]: true };
 const MAPPED_NAV_ROUTES: Record<string, string> = {};
 
 const SPECIAL_NAV_ROUTES: Record<string, string> = {
-    [Route.Product]: 'Products',
+    [Route.Products]: 'Products',
     [Route.TidalDoc]: 'Tidal',
 };
 
 const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
-    [Route.Product]: 'All',
+    [Route.Products]: 'All',
     [Route.BTMCDoc]: 'BTMC',
     [Route.TrainingFAQs]: 'FAQs',
     [Route.Training]: 'Training',
