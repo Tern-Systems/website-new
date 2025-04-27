@@ -28,6 +28,7 @@ import SVG_TILE_SHARE from '@/assets/images/icons/share.svg';
 import SVG_TILE_SAVE from '@/assets/images/icons/save.svg';
 import SVG_TILE_HEART from '@/assets/images/icons/heart.svg';
 import SVG_PLAY from '@/assets/images/icons/play.svg';
+import { Video } from '@/app/ui/organisms';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
@@ -236,30 +237,11 @@ function TidalPage() {
                         'pb-6xl-1 md:pb-[13rem] lg:pb-[19.5rem]',
                     )}
                 >
-                    <div
+                    <Video
                         ref={videoRef}
-                        onClick={handleStartVideo}
-                        className={cn(
-                            'relative h-[50dvw] max-h-[42.886rem] w-full cursor-pointer',
-                            'before:x-[absolute,size-full,bg-black]',
-                            { ['before:hidden']: videoStarted },
-                        )}
-                    >
-                        <ReactSVG
-                            src={SVG_PLAY.src}
-                            className={cn(
-                                'absolute z-50 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2',
-                                '[&_*]:!size-l md:[&_*]:!size-9xl lg:[&_*]:!size-[5.75rem]',
-                                { ['hidden']: videoStarted },
-                            )}
-                        />
-                        <div className={'[&_*]:!size-full size-full'}>
-                            <ReactPlayer
-                                url={MISC_LINKS.TidalDemoEmbed}
-                                playing={videoStarted}
-                            />
-                        </div>
-                    </div>
+                        url={MISC_LINKS.TidalDemoEmbed}
+                        className={'max-h-[39.5rem]'}
+                    />
                 </div>
             </section>
             <section className={cn(styles.section, '!bg-transparent')}>
