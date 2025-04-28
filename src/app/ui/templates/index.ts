@@ -3,8 +3,10 @@ export { PricingAndPlansScreen } from './PricingAndPlansScreen';
 export { SubscribeTool } from './SubscribeTool';
 
 export { AllWaysCard } from './Sections/AllWaysCard';
-export { ResourceCards } from './Sections/ResourceCards';
+export { BookCoverSection } from './Sections/BookCover';
+export { CardCheckersSection } from './Sections/CardCheckers';
 export { DocumentationSection } from './Sections/Documentation';
-export { InsideTernSection } from './Sections/InsideTern';
 export { InfoSection } from './Sections/Info';
+export { InsideTernSection } from './Sections/InsideTern';
+export { ResourceCards } from './Sections/ResourceCards';
 export { ResourcesSection } from './Sections/Resources';

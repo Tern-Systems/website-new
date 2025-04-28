@@ -1,17 +1,16 @@
 .section {
   position: relative;
-  z-index: 10;
   min-width: 100dvw;
-  background-color: #000;
+  background-color: transparent;
 }
 
 .fullHeightSection {
-  min-height: min(100dvh, 100rem);
+  min-height: min(100dvh, 49.5rem);
   height: fit-content;
 }
 
 .fullHeightSection > .content {
-  min-height: min(100dvh, 100rem);
+  min-height: inherit;
 }
 
 .content {
@@ -74,7 +73,7 @@
 }
 
 .contentHighlight:after {
-  @apply absolute -z-10 top-0 w-full h-full bg-blue blur-[15rem];
+  @apply absolute -z-10 top-0 size-full bg-blue blur-[15rem];
   content: "";
 }
 

@@ -95,8 +95,8 @@ function HomePage() {
             <div className={'relative -z-10 h-[14.125rem] w-full'}>
                 <div className={'absolute bg-gradient-to-t from-black to-transparent to-30%'} />
                 <Image
-                    width={150}
-                    height={150}
+                    width={500}
+                    height={500}
                     src={card.image.src}
                     alt={card.image.src}
                     className={'h-full w-full object-cover'}
@@ -113,7 +113,7 @@ function HomePage() {
                 <p className={'mt-n'}>{card.info}</p>
                 <PageLink
                     href={card.link.href}
-                    isExternal={card.link.href.startsWith('https://')}
+                    external={card.link.href.startsWith('https://')}
                     className={cn(
                         'mt-xs  h-button-xl w-fit text-nowrap border-s border-gray-l0 px-xs text-blue',
                         'text-18',
@@ -153,14 +153,14 @@ function HomePage() {
                                 }
                             >
                                 <PageLink
-                                    isExternal
+                                    external
                                     href={MISC_LINKS.Tidal}
                                     className={cn(BTN_CN, 'bg-blue text-black')}
                                 >
                                     Discover Tern
                                 </PageLink>
                                 <PageLink
-                                    isExternal
+                                    external
                                     href={MISC_LINKS.TidalDemo}
                                     className={cn(BTN_CN, 'h-button-l border-n border-gray-l0 bg-black text-blue')}
                                 >
@@ -240,7 +240,7 @@ function HomePage() {
                     data={INFO}
                     classNameContent='mb-[15rem]'
                 />
-                <InsideTernSection className={'!bg-transparent'} />
+                <InsideTernSection />
             </div>
         </>
     );

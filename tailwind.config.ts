@@ -3,6 +3,7 @@ import Tailwind from 'tailwindcss/plugin';
 
 const spacing = {
     '7xl': 'var(--p-7xl)',
+    '7xl-1': 'var(--p-7xl-1)',
     '6xl': 'var(--p-6xl)',
     '6xl-1': 'var(--p-6xl-1)',
     '5xl': 'var(--p-5xl)',
@@ -76,9 +77,9 @@ const config: Config = {
                 x3s: { max: '375px' },
                 xxs: { max: '616px' },
                 xs: { max: '774px' },
-                sm: { max: '874.99px' },
-                md: { min: '875px', max: '1440.99px' },
-                lg: { min: '1441px' },
+                sm: { max: '834.98px' },
+                md: { min: '834.99px', max: '1439.98px' },
+                lg: { min: '1439.99px' },
             },
             spacing: spacing,
             gap: spacing,

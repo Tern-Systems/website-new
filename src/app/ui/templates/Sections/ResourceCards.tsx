@@ -1,25 +1,28 @@
 'use client';
 
 import { FC, ReactElement } from 'react';
+import { StaticImageData } from 'next/image';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
-import { StaticImageData } from 'next/image';
 import { ResourceLink } from '@/app/types/layout';
 
 import { PageLink } from '@/app/ui/layout';
 
+import styles from '@/app/common.module.css';
+
 interface Props {
+    highlighted?: true;
     links: ResourceLink[];
     icon: StaticImageData | null;
 }
 
 const ResourceCards: FC<Props> = (props: Props) => {
-    const { links, icon } = props;
+    const { links, icon, highlighted } = props;
 
     const Links: ReactElement[] = links.map((link, idx) => (
         <li
-            key={link.description + idx}
+            key={link.title + idx}
             className={'content'}
         >
             <PageLink
@@ -38,7 +41,11 @@ const ResourceCards: FC<Props> = (props: Props) => {
         </li>
     ));
 
-    return <ul className={'mt-xxl grid grid-cols-2 gap-n  sm:grid-cols-1'}>{Links}</ul>;
+    return (
+        <ul className={cn('mt-xxl grid grid-cols-2 gap-n  sm:grid-cols-1', { [styles.contentHighlight]: highlighted })}>
+            {Links}
+        </ul>
+    );
 };
 
 ResourceCards.displayName = ResourceCards.name;

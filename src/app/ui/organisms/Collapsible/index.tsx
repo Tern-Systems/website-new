@@ -26,14 +26,10 @@ const ICON: Record<Icon, string> = {
     blocks: SVG_BLOCKS,
 };
 
-const WRAPPER_CN = cn(
-    `p-l rounded-s bg-gray w-full max-w-[62rem] text-nowrap place-self-center  lg:rounded-none`,
-    `md:x-[p-s,rounded-none]`,
-    `sm:p-xxs`,
-);
+const WRAPPER_CN = `p-l bg-gray w-full max-w-[62rem] text-nowrap place-self-center  sm:p-xxs md:p-s`;
 
 interface Props extends PropsWithChildren {
-    title?: string;
+    title?: string | ReactElement;
     icon?: Icon;
     classNameWrapper?: string;
     classNameTitle?: string;
@@ -43,7 +39,7 @@ interface Props extends PropsWithChildren {
     className?: string;
     chevron?: boolean;
     collapsedContent?: ReactElement;
-    expandedState?: [boolean] | [boolean, () => void];
+    expandedInit?: [boolean] | [boolean, () => void];
 }
 
 const Collapsible: FC<Props> = (props: Props) => {
@@ -59,17 +55,17 @@ const Collapsible: FC<Props> = (props: Props) => {
         classNameTitleIcon,
         classNameIcon,
         classNameHr,
-        expandedState,
+        expandedInit,
         ...propsDiv
     } = props;
 
-    const [expanded, setExpand] = useState<boolean>(expandedState?.[0] ?? true);
+    const [expanded, setExpand] = useState<boolean>(expandedInit?.[0] ?? true);
 
-    const expandedFinal = expanded || expandedState?.[0] === true;
-    const titleFinal = getId(title ?? '');
+    const expandedFinal = expanded || expandedInit?.[0] === true;
+    const titleFinal = typeof title === 'string' ? getId(title ?? '') : title;
 
     const handleToggle = () => {
-        if (expandedState?.[1]) expandedState[1]();
+        if (expandedInit?.[1]) expandedInit[1]();
         else setExpand((prevState) => !prevState);
         if (!expandedFinal) {
             setTimeout(
@@ -91,13 +87,15 @@ const Collapsible: FC<Props> = (props: Props) => {
 
     const collapseCN = chevron ? (expandedFinal ? 'rotate-180' : '') : expandedFinal ? '' : 'brightness-[300%]';
 
+    const id = { ...(typeof titleFinal === 'string' ? { id: titleFinal } : {}) };
+
     if (collapsedContent) {
         const Content = expandedFinal ? <div className={className}>{children}</div> : collapsedContent;
 
         return (
             <div
                 {...propsDiv}
-                id={titleFinal}
+                {...id}
                 className={cn(`relative`, { ['lg:h-full [&]:h-fit']: !expanded }, WRAPPER_CN, classNameWrapper)}
             >
                 <Image
@@ -120,7 +118,7 @@ const Collapsible: FC<Props> = (props: Props) => {
     return (
         <div
             {...propsDiv}
-            id={titleFinal}
+            {...id}
             className={cn(WRAPPER_CN, { ['pb-0']: !expandedFinal }, classNameWrapper)}
         >
             <div
@@ -132,25 +130,31 @@ const Collapsible: FC<Props> = (props: Props) => {
                 )}
             >
                 <h2 className={`flex items-center gap-4xs font-bold leading-none text-inherit`}>
-                    {Icon}
-                    <span>{title}</span>
+                    {typeof title === 'string' ? (
+                        <>
+                            {Icon}
+                            <span>{title}</span>
+                        </>
+                    ) : (
+                        title
+                    )}
                 </h2>
                 <Image
                     src={CollapseIcon}
                     alt={'plus-minus'}
-                    className={`inline-block size-6xs cursor-pointer ${collapseCN} ${classNameIcon}`}
+                    className={cn(`inline-block size-6xs cursor-pointer`, collapseCN, classNameIcon)}
                 />
             </div>
             <hr
-                className={cn(
-                    { ['hidden']: chevron },
-                    `mb-[min(2.6dvw,1.54rem)] mt-[min(2.1dvw,1.25rem)] [&]:scale-[102%] ${classNameHr}`,
-                )}
+                className={cn(`mb-[min(2.6dvw,1.54rem)] mt-[min(2.1dvw,1.25rem)] [&]:scale-[102%]`, classNameHr, {
+                    ['hidden']: chevron,
+                })}
             />
             <div
                 className={cn(
-                    `grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] items-start gap-[min(4dvw,0.56rem)] whitespace-pre-wrap text-left text-16 ${className}`,
-                    { ['hidden']: !expandedFinal },
+                    `grid grid-cols-[minmax(0,4fr),minmax(0,5fr),minmax(0,1fr)] items-start gap-[min(4dvw,0.56rem)] whitespace-pre-wrap text-left text-16`,
+                    className,
+                    { ['!hidden']: !expandedFinal },
                 )}
             >
                 {children}

@@ -90,7 +90,7 @@ function TipsPage() {
                     className={cn(
                         styles.content,
                         'grid grid-rows-2',
-                        'md:grid-cols-2 lg:grid-cols-[15fr,14fr,14fr]',
+                        'grid-cols-1 md:grid-cols-2 lg:grid-cols-[15fr,14fr,14fr]',
                         'sm:gap-y-xxl gap-n',
                         'pt-6xl-1 md:pt-6xl-1 lg:pt-6xl',
                     )}
@@ -155,7 +155,6 @@ function TipsPage() {
             </section>
             <InsideTernSection
                 data={'alt0'}
-                className={cn('bg-gradient-to-t from-blue to-transparent to-60%')}
                 classNameContent={'pb-[25.3rem] md:pb-[26rem] lg:pb-[28rem]'}
             />
         </>

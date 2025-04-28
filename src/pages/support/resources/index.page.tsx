@@ -1,14 +1,12 @@
 'use client';
 
-import { ReactElement } from 'react';
 import cn from 'classnames';
 
 import { CardLink } from '@/app/types/layout';
 import { Route } from '@/app/static';
 
 import { MainBackground } from '@/app/ui/atoms';
-import { ResourceCard } from '@/app/ui/organisms';
-import { InsideTernSection } from '@/app/ui/templates';
+import { CardCheckersSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
@@ -71,24 +69,6 @@ const CARDS: CardLink[] = [
 ];
 
 function ResourcesPage() {
-    const CardsLi: ReactElement[] = CARDS.map((card, idx) => (
-        <li key={card.title + idx}>
-            <ResourceCard
-                type={card.alt ? 'highlighted' : 'default'}
-                icon={card.icon}
-                title={card.title}
-                action={card.action}
-                className={{
-                    wrapper: 'mt-7xl md:mt-5xl sm:mt-3xl',
-                    image: cn({ ['lg:col-start-2']: idx % 2 }),
-                    content: cn({ ['lg:x-[row-start-1,col-start-1]']: idx % 2 }),
-                }}
-            >
-                {card.description}
-            </ResourceCard>
-        </li>
-    ));
-
     return (
         <div className={'pb-[5rem] md:pb-[12rem] bg-black'}>
             <section
@@ -126,12 +106,8 @@ function ResourcesPage() {
                     </h4>
                 </div>
             </section>
-            <section className={cn(styles.section, 'bg-transparent')}>
-                <div className={styles.content}>
-                    <ul className={'flex flex-col'}>{CardsLi}</ul>
-                </div>
-            </section>
-            <InsideTernSection className='bg-transparent' />
+            <CardCheckersSection cards={CARDS} />
+            <InsideTernSection />
             <div
                 className={cn(
                     'h-full w-full absolute left-0 top-0 z-0 bg-gradient-to-t from-blue to-transparent to-5%',

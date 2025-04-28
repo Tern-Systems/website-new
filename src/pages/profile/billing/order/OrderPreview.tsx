@@ -47,6 +47,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
     const handleDownloadInvoice = () => toPDF({});
 
     const handleDownloadReceipt = () => toPDFReceipt();
+
     return (
         <div className={`relative md:landscape:shadow-2xl lg:shadow-2xl ${className}`}>
             <div

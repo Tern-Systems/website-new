@@ -19,6 +19,8 @@ import styles from '@/app/common.module.css';
 import stylesLayout from './Layout.module.css';
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { ReactSVG } from 'react-svg';
+import SVG_ARROW_LONG from '@/assets/images/icons/arrow-right-long.svg';
 
 interface Props {
     setNav: Dispatch<SetStateAction<boolean>>;
@@ -63,7 +65,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               'xxs:px-s xxs:first-of-type:font-bold',
                           )}
                       >
-                          <PageLink
+                          <span
                               onClick={async () => {
                                   if (string) {
                                       if (external) window.open(action, '_blank');
@@ -72,13 +74,15 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                   setDropdown(null);
                                   setNav(false);
                               }}
-                              prevent={true}
-                              icon={!entryIdx ? 'arrow-right-long' : undefined}
-                              className={'flex-row-reverse'}
-                              iconClassName={cn('ml-4xs  !size-xs  xxs:h-6xs')}
                           >
                               {title}
-                          </PageLink>
+                              {entryIdx ? undefined : (
+                                  <ReactSVG
+                                      src={SVG_ARROW_LONG.src}
+                                      className={cn(`ml-4xs inline-block  !size-xs xxs:h-6xs`)}
+                                  />
+                              )}
+                          </span>
                       </li>
                   );
               });

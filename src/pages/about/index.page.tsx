@@ -176,10 +176,7 @@ const AboutPage: FC = () => {
                             'mt-n md:mt-xl lg:mt-xxl',
                         )}
                     />
-                    <InsideTernSection
-                        data={'alt1'}
-                        className={'bg-transparent'}
-                    />
+                    <InsideTernSection data={'alt1'} />
                 </div>
             </div>
         </>

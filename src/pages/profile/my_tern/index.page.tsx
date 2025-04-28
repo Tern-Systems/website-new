@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, ReactElement, useEffect, useState } from 'react';
+import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
 import { ResourceSectionData, TableSection } from '@/app/types/layout';
@@ -9,8 +10,7 @@ import { RowProps } from '@/app/ui/organisms/Table';
 import { MD_SM_HIDDEN_CN, MISC_LINKS, Route, SM_HIDDEN_CN } from '@/app/static';
 
 import { capitalize, copyObject } from '@/app/utils';
-import { useModal, useUser } from '@/app/hooks';
-import { useLoginCheck, useNavigate } from '@/app/hooks';
+import { useLoginCheck, useModal, useNavigate, useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { Table } from '@/app/ui/organisms';
@@ -19,6 +19,8 @@ import { Button } from '@/app/ui/form';
 import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
+
+import SVG_ARROW_LONG from '@/assets/images/icons/arrow-right-long.svg';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 type TableEntry = {
@@ -69,24 +71,24 @@ const SubscriptionRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) 
     const { row, className } = props;
     const [navigate] = useNavigate();
 
-    const handlRowNavigation = () => {
+    const handleRowNavigation = () => {
         if (row.href.startsWith('https://')) window.open(row.href, '_blank');
         else navigate(row.href as Route);
     };
 
     return (
         <tr
-            onClick={handlRowNavigation}
+            onClick={handleRowNavigation}
             className={cn('cursor-pointer', className)}
         >
             <td className={'w-[40%] py-3xs sm:x-[w-full,py-4xs] md:w-[50%]'}>{row.name}</td>
             <td className={cn('w-[29%]', MD_SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
             <td className={cn('w-[29%] md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
             <td className={'!max-w-full'}>
-                <PageLink
-                    icon={'arrow-right-long'}
-                    className={'mr-1'}
-                    iconClassName={`[&_path]:fill-blue w-3xs  sm:w-6xs`}
+                {/*TODO link*/}
+                <ReactSVG
+                    src={SVG_ARROW_LONG.src}
+                    className={cn(`mr-1 inline-block !size-5xs [&_path]:fill-blue w-3xs  sm:w-6xs`)}
                 />
             </td>
         </tr>
@@ -111,7 +113,9 @@ const EventRow: FC<RowProps<TableEntry>> = (props: RowProps<TableEntry>) => {
             <td className={cn('w-[29%]', MD_SM_HIDDEN_CN)}>{renderTd(row.type ?? '-')}</td>
             <td className={cn('w-[29%]  md:w-[49%]', SM_HIDDEN_CN)}>{renderTd(row.data ?? '-')}</td>
             <td className={'!max-w-full'}>
+                {/*TODO link*/}
                 <PageLink
+                    href={''}
                     icon={'arrow-right-long'}
                     className={'mr-1'}
                     iconClassName={`[&_path]:fill-blue w-3xs  sm:w-6xs`}
@@ -178,7 +182,7 @@ function MyTernPage() {
     const LinksLi: ReactElement[] = navBtns.map((btn, idx) => (
         <PageLink
             key={btn.title + idx}
-            isExternal={btn.external}
+            external={btn.external}
             href={btn.href}
         >
             <Button

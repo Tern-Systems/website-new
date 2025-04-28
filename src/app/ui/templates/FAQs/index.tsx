@@ -21,11 +21,11 @@ interface FAQSection {
 }
 
 const FAQsContent = ({ faqsData }: { faqsData: FAQSection[] }) => {
-    const sectionIDs: string[] = [];
+    const sections: string[] = [];
 
     const SectionsLi: ReactElement[] = faqsData.map((section, idx) => {
         const id = getId(section.heading);
-        sectionIDs.push(id);
+        sections.push(id);
 
         const FAQsLi: ReactElement[] = section.faqs.map((faq, faqIdx) => (
             <li key={faq.question.slice(0, 5) + idx + faqIdx}>
@@ -58,6 +58,8 @@ const FAQsContent = ({ faqsData }: { faqsData: FAQSection[] }) => {
         );
     });
 
+    const section: Record<string, string> = Object.fromEntries(sections.map((section) => [section, section]));
+
     return (
         <div className='min-h-screen relative text-white'>
             <div
@@ -80,7 +82,7 @@ const FAQsContent = ({ faqsData }: { faqsData: FAQSection[] }) => {
                     <BreadcrumbRoute className={'hidden lg:block mb-6'} />
                     <div className={'lg:grid grid-cols-[min-content,1fr] gap-x-6xl-1 pt-xs md:pt-n lg:pt-4xl'}>
                         <aside className={cn(`lg:sticky top-[min(25.3dvw,3.88rem)] self-start text-nowrap text-left`)}>
-                            <SideNav sectionIDs={sectionIDs} />
+                            <SideNav section={section} />
                         </aside>
                         <ul className={'flex flex-col gap-y-xxl sm:gap-y-l sm:mt-5xl md:mt-xxl'}>{SectionsLi}</ul>
                     </div>
