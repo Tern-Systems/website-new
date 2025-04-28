@@ -1,9 +1,3 @@
-export const downloadFile = (content: string): void => {
-    const link = document.createElement('a');
-    link.href = content;
-    link.click();
-};
-
 export const downloadBlob = (blob: Blob, filename: string): void => {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');

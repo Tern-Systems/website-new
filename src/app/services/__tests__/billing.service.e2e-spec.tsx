@@ -23,7 +23,7 @@ import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
-import { downloadFile } from '@/app/utils';
+import { downloadBlob } from '@/app/utils';
 
 import { PaymentMethodTool } from '@/app/ui/templates';
 import PricingAndPlansPage from '@/pages/product/plans/index.page';
@@ -128,7 +128,7 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
                 const ExportHistoryModal = await checkToBeInDocument(exporting.modal.modal);
                 if (!ExportHistoryModal) throw 'No modal found';
 
-                const downloadFileSpy = jest.spyOn(UIUtilsMock, downloadFile.name);
+                const downloadFileSpy = jest.spyOn(UIUtilsMock, downloadBlob.name);
 
                 await change(exporting.modal.rangeSelect, '1'); // TODO
                 await click(exporting.modal.exportButton);

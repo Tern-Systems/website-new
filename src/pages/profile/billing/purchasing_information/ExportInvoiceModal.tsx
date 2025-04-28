@@ -6,7 +6,7 @@ import { DataTestID } from '@/tests/static';
 
 import { BillingService } from '@/app/services';
 
-import { downloadFile, downloadBlob } from '@/app/utils';
+import { downloadBlob } from '@/app/utils';
 import { useForm, useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';

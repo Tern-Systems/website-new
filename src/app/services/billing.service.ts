@@ -238,7 +238,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         };
         const selectedPlan = {
             planName: planType,
-            price: 0.01,
+            price: planPrice,
             duration: planDuration,
         };
 
@@ -275,7 +275,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
                 cardId: data.id,
                 cvv: data.cvc,
                 planName: planType,
-                price: 0.01,
+                price: planPrice,
                 duration: planDuration,
                 country: data.country,
                 state: data.state,
