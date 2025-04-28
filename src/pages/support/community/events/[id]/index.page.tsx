@@ -99,7 +99,7 @@ function EventPage() {
                     <div className={'contents lg:block'}>
                         <div className={cn(INFO_CN, 'mt-n md:mt-xxl lg:mt-xxl')}>
                             <span className={'text-12  md:text-14  lg:text-16'}>
-                                {event?.date ? formatDate(new Date(event.date), 'long') : '-- date is not provided --'}
+                                {event?.date ? formatDate(event.date, 'long') : '-- date is not provided --'}
                             </span>
                         </div>
                         <div className={cn(INFO_CN, 'border-b-s')}>

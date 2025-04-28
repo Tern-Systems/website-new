@@ -14,7 +14,9 @@ const useForm = <T extends object>(
 ): [T, SetFunction<T>, Dispatch<SetStateAction<T>>] => {
     const [formValue, setFormValue] = useState<T>(defaultValue);
 
-    const setFormValueHelper = (key: keyof T) => {
+    const setFormValueHelper = (key: keyof T, value?: string) => {
+        if (value) setFormValue((prevState) => ({ ...prevState, [key]: value }));
+
         return <E extends FormElement>(event: ChangeEvent<E> | string) => {
             const value =
                 typeof event === 'string'

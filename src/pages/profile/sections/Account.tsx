@@ -109,9 +109,7 @@ function AccountSection(props: SectionProps) {
                     <span className={'block text-12 tracking-widest'}>•••••••••••••••</span>
                     <span className={'text-10 md:text-14 lg:text-14'}>
                         Last updated&nbsp;
-                        {userData.passwordUpdateDate
-                            ? formatDate(new Date(userData.passwordUpdateDate), 'short')
-                            : '--'}
+                        {userData.passwordUpdateDate ? formatDate(userData.passwordUpdateDate, 'short') : '--'}
                     </span>
                 </span>
             </Editable>

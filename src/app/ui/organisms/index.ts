@@ -1,11 +1,15 @@
 export { ArticleCard } from './ArticleCard';
 export { Carousel } from './Carousel';
 export { Collapsible } from './Collapsible';
+export { ContentCard } from './ContentCard';
 export { Highlighted } from './Highlighted';
 export { Insignia } from './Insignia';
+export { Pagination } from './Pagination';
 export { ResourceCard } from './ResourceCard';
 export { ScrollEnd } from './ScrollEnd';
+export { SearchBar } from './SearchBar';
 export { SideNav } from './SideNav';
 export { Table } from './Table';
 export { Tabs } from './Tabs';
 export { Video } from './Video';
+export { VideoCard } from './VideoCard';

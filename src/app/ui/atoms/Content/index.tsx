@@ -6,21 +6,27 @@ import cn from 'classnames';
 import { H3 } from '@/app/ui/atoms';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
+    type?: 'bottom' | 'default';
     heading?: string;
 }
 
 const Content: FC<Props> = (props: Props) => {
-    const { children, heading, className, ...divProps } = props;
+    const { children, type, heading, className, ...divProps } = props;
+
+    const top = type === 'default';
+
     return (
         <div
             {...divProps}
-            className={cn('relative pb-[25.625rem]', { ['pt-[9.375rem]']: !heading }, className)}
+            className={cn('relative pb-[25.625rem] min-h-screen', { ['pt-[9.375rem]']: !heading && top }, className)}
         >
-            <div
-                className={
-                    'absolute -z-10 inset-0 bg-[linear-gradient(to_bottom,var(--bg-blue)_5rem,transparent_9rem)]'
-                }
-            />
+            {top ? (
+                <div
+                    className={
+                        'absolute -z-10 inset-0 bg-[linear-gradient(to_bottom,var(--bg-blue)_5rem,transparent_9rem)]'
+                    }
+                />
+            ) : null}
             {heading ? (
                 <H3
                     type={'large'}

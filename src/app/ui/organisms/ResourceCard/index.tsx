@@ -96,7 +96,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                             <span
                                 className={cn(
                                     'block text-black leading-l  lg:w-1/2',
-                                    'mt-xs md:mt-xxl lg:mt-l',
+                                    'mt-xs md:mt-xxl lg:mt-xxl',
                                     className?.children,
                                 )}
                             >

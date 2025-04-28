@@ -24,4 +24,29 @@ type Tip = DeepPartial<
     Pick<Article, 'id' | 'title' | 'poster' | 'content'> & Partial<Pick<Article, 'description'>> & { type: TipType }
 >;
 
-export type { ArticleTag, Article, Tip };
+type VideoCardType = {
+    title: string;
+    thumbnail: string | null;
+    label: string;
+    durationMs: number;
+    date: number;
+};
+
+type ContentCardType = {
+    date: number;
+    time: { start: number; end: number };
+    title: string;
+    tag: string;
+    description: string;
+};
+
+type Course = DeepPartial<
+    VideoCardType & {
+        video: string;
+        description: string;
+        category: string;
+        subject: string;
+    }
+>;
+
+export type { ArticleTag, Article, Tip, VideoCardType, ContentCardType, Course };

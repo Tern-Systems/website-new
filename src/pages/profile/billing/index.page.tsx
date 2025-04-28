@@ -57,7 +57,7 @@ const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {
                 {row?.id ?? CELL_FALLBACK}
             </td>
             <td data-testid={TestID.page.invoice.date}>
-                {row?.startDate ? formatDate(new Date(row?.startDate), 'short') : CELL_FALLBACK}
+                {row?.startDate ? formatDate(row?.startDate, 'short') : CELL_FALLBACK}
             </td>
             <td
                 data-testid={TestID.page.invoice.price}

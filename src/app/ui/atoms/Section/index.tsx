@@ -42,7 +42,9 @@ const Section: FC<Props> = (props: Props) => {
                     className={cn('-z-10', className?.background)}
                 />
             ) : null}
-            <div className={cn(styles.content, '[&_*]:leading-n', className?.content)}>{children}</div>
+            <div className={cn(styles.content, 'flex flex-col justify-between  [&_*]:leading-n', className?.content)}>
+                {children}
+            </div>
             {background?.gradient ? <Gradient /> : null}
         </section>
     );
