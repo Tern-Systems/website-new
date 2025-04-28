@@ -78,8 +78,8 @@ function TipsPage() {
                 <CardsLibrary
                     section={{
                         preHref: Route.Tips,
-                        first: { title: 'Videos', href: Route.TipsVideos },
-                        second: { title: 'Reading Material', href: Route.TipsReads },
+                        first: { title: 'Videos', href: Route.TipsAll },
+                        second: { title: 'Reading Material', href: Route.TipsAll },
                     }}
                     cards={tips}
                     tags={TIP_TAGS}
