@@ -6,13 +6,11 @@ import cn from 'classnames';
 
 import { Pagination, PaginationProps } from '@/app/ui/organisms/Pagination';
 
-interface Props extends Omit<PaginationProps, 'pageState'> {}
-
 const usePagination = () => {
     const { page } = (useParams() || { page: '0' }) as { page: string };
     const [currentPage, setCurrentPage] = useState<number>(parseInt(page ?? '0') || 0);
 
-    const PaginationElement: FC<Props> = (props: Props) => (
+    const PaginationElement: FC<PaginationProps> = (props: PaginationProps) => (
         <Pagination
             pageState={[currentPage, setCurrentPage]}
             {...props}

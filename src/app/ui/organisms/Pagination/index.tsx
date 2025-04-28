@@ -108,5 +108,7 @@ const Pagination: FC<Props> = (props: Props) => {
     );
 };
 
-export type { Props as PaginationProps };
+interface PaginationProps extends Omit<Props, 'pageState'> {}
+
+export type { PaginationProps };
 export { Pagination };

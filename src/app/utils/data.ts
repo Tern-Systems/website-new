@@ -1,8 +1,14 @@
+type DateType = Date | number | string;
+
 const generateArray = (count: number): null[] => Array(count).fill(null);
 
 const generateFallbackEntries = (count: number): [string, undefined][] => Array(count).fill(['--', undefined]);
 
-const formatDate = (date: Date | number | string, type: 'short' | 'long' | 'numerical' = 'long'): string => {
+const formatDate = (
+    date: DateType,
+    type: 'short' | 'long' | 'numerical' | 'day' | 'daymonth' | 'timerange' = 'long',
+    options?: { sm?: boolean; dateEnd?: DateType },
+): string => {
     const dateFinal = typeof date !== 'object' ? new Date(date) : date;
 
     let result: string;
@@ -18,6 +24,26 @@ const formatDate = (date: Date | number | string, type: 'short' | 'long' | 'nume
             break;
         case 'numerical':
             result = `${dateFinal.getFullYear()}-${String(dateFinal.getMonth() + 1).padStart(2, '0')}-${String(dateFinal.getDate()).padStart(2, '0')}`;
+            break;
+        case 'day':
+            result = dateFinal.toLocaleString('en-US', {
+                weekday: 'short',
+                month: options?.sm ? undefined : 'short',
+                day: options?.sm ? undefined : '2-digit',
+                year: options?.sm ? undefined : 'numeric',
+            });
+            break;
+        case 'daymonth':
+            result = dateFinal.toLocaleString('en-US', {
+                month: options?.sm ? undefined : 'short',
+                day: options?.sm ? undefined : '2-digit',
+            });
+            break;
+        case 'timerange':
+            const formatted = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' }).formatToParts(dateFinal);
+            const timeZone = formatted.find((part) => part.type === 'timeZoneName')?.value ?? 'Timezone is unknown';
+            result = `${String(dateFinal.getHours()).padStart(2, '0')}00 - ${String(dateFinal.getHours() + 1).padStart(2, '0')}00 hrs (${timeZone})`;
+            break;
     }
 
     return result;

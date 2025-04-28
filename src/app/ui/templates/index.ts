@@ -1,3 +1,4 @@
+export { LibraryTemplate } from './LibraryPage';
 export { PaymentMethodTool } from './PaymentMethodTool';
 export { PricingAndPlansScreen } from './PricingAndPlansScreen';
 export { SubscribeTool } from './SubscribeTool';

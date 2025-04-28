@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import cn from 'classnames';
 
-import { Video } from '@/app/types/blog';
+import { VideoCardType } from '@/app/types/blog';
 import { Fallback } from '@/app/static';
 
 import { checkNumber, formatDate } from '@/app/utils';
@@ -15,7 +15,7 @@ import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 
 const LABEL_CN = 'inline px-4xs py-5xs text-12';
 
-interface Props extends Video {}
+interface Props extends VideoCardType {}
 
 const VideoCard: FC<Props> = (props: Props) => {
     const { title, thumbnail, label, durationMs, date } = props;

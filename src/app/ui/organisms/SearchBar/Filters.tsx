@@ -53,7 +53,7 @@ const Filters: FC<Props> = (props: Props) => {
                     classNameSelected={'w-full mr-auto'}
                     classNameChevron={'ml-xl mr-4xs-1'}
                     {...CONTROL_PROPS_CN}
-                    classNameWrapper={cn(CONTROL_PROPS_CN.classNameWrapper, 'h-[11rem]')}
+                    classNameWrapper={cn(CONTROL_PROPS_CN.classNameWrapper, '!h-[11rem]')}
                     classNameUl={'!max-h-[7.5rem] border-s border-gray-l0'}
                 >
                     {filter.title}
