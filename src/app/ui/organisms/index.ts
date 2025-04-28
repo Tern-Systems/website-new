@@ -1,6 +1,7 @@
 export { ArticleCard } from './ArticleCard';
 export { Carousel } from './Carousel';
 export { Collapsible } from './Collapsible';
+export { ContentCard } from './ContentCard';
 export { Highlighted } from './Highlighted';
 export { Insignia } from './Insignia';
 export { Pagination } from './Pagination';
