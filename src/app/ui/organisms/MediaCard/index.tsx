@@ -15,7 +15,7 @@ import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 
 const LABEL_CN = 'inline px-4xs py-5xs text-12';
 
-interface Props extends MediaCardType {}
+interface Props extends MediaCardType<string> {}
 
 const MediaCard: FC<Props> = (props: Props) => {
     const { title, thumbnail, label, durationMs, date } = props;

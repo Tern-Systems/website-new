@@ -11,8 +11,7 @@ import { H3 } from '@/app/ui/atoms';
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
 
-import { faCaretLeft } from '@fortawesome/free-solid-svg-icons/faCaretLeft';
-import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 enum CardsPerPage {
     DefaultAlt = 4,
@@ -84,7 +83,7 @@ const Carousel: FC<Props> = (props: Props) => {
     );
 
     const Spinner: FC<{ className: string }> = (props: { className: string }) => (
-        <span className={cn('ml-auto text-nowrap', props.className)}>
+        <span className={cn('ml-auto flex items-center', props.className)}>
             <Button
                 icon={faCaretLeft}
                 onClick={() => setPage((prevState) => (prevState <= 0 ? prevState : prevState - 1))}
@@ -128,7 +127,7 @@ const Carousel: FC<Props> = (props: Props) => {
                     >
                         {altData?.title}
                     </H3>
-                    <Spinner className={cn('hidden', defaultSpinner ? 'sm:inline' : 'md:inline')} />
+                    <Spinner className={cn('hidden', defaultSpinner ? 'sm:flex' : 'md:flex')} />
                 </div>
             ) : (
                 renderCarouselBtn()
@@ -139,7 +138,7 @@ const Carousel: FC<Props> = (props: Props) => {
                     altData?.altSpinner === 'default' || !altData
                         ? {}
                         : {
-                              gridTemplateColumns: `repeat(${altData.cards.length / rowsCount}, calc(${100 / colsPerPage}% - ${altData.altSpinner === 'alt' || breakpoint <= Breakpoint.sm ? '0px' : 'var(--p-xl) + 0.75px'}))`,
+                              gridTemplateColumns: `repeat(${altData.cards.length / rowsCount}, calc(${100 / colsPerPage}% - ${altData.altSpinner === 'alt' || breakpoint <= Breakpoint.sm ? '0px' : 'var(--p-xl) + 1px'}))`,
                           }
                 }
                 className={cn(
@@ -148,7 +147,7 @@ const Carousel: FC<Props> = (props: Props) => {
                     'mt-s md:mt-n lg:mt-xl',
                     altData
                         ? cn('grid-flow-col overflow-x-hidden', defaultSpinner ? 'h-full' : 'flex-grow', {
-                              [!page ? 'sm:ml-0 ml-xl' : 'sm:mr-0 mr-xl']: defaultSpinner,
+                              [!page ? 'sm:ml-0 ml-xs' : 'sm:ml-0 -ml-xs']: defaultSpinner,
                           })
                         : 'overflow-scroll',
                     classNameUl,

@@ -11,7 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Content: FC<Props> = (props: Props) => {
-    const { children, type, heading, className, ...divProps } = props;
+    const { children, type = 'default', heading, className, ...divProps } = props;
 
     const top = type === 'default';
 

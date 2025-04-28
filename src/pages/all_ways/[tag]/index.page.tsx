@@ -2,12 +2,12 @@
 
 import { useParams } from 'next/navigation';
 
-import { ArticleTag } from '@/app/types/blog';
+import { ArticleCategory } from '@/app/types/blog';
 
 import { TagArticle } from './TagArticle';
 
 function ArticlesByTag() {
-    const { tag = null } = useParams<{ tag: ArticleTag }>() ?? {};
+    const { tag = null } = useParams<{ tag: ArticleCategory }>() ?? {};
     return <TagArticle tag={tag} />;
 }
 

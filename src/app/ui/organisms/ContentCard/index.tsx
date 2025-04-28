@@ -12,7 +12,7 @@ import { useBreakpointCheck } from '@/app/hooks';
 
 import CLOCK_ICON from '@/assets/images/icons/clock.svg';
 
-interface Props extends ContentCardType {}
+interface Props extends ContentCardType<string> {}
 
 const ContentCard: FC<Props> = (props: Props) => {
     const { date, time, title, description } = props;

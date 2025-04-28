@@ -4,7 +4,7 @@ import { FC, ReactElement, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 
-import { Article, ArticleTag } from '@/app/types/blog';
+import { Article, ArticleCategory } from '@/app/types/blog';
 import { Breakpoint, Route } from '@/app/static';
 
 import { BlogService } from '@/app/services/blog.service';
@@ -28,7 +28,7 @@ const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 const P_CN = 'mb-s lg:mb-xl sm:text-center  text-24 md:text-30 lg:text-40';
 
 interface Props {
-    tag: ArticleTag | null;
+    tag: ArticleCategory | null;
 }
 
 const TagArticle: FC<Props> = (props: Props) => {
@@ -59,7 +59,7 @@ const TagArticle: FC<Props> = (props: Props) => {
 
     let articlesFinal: Article[] = articles;
     const tagFinal = tag?.split('_').join(' ').toLowerCase();
-    if (tagFinal) articlesFinal = articles.filter((article) => article?.tag?.toLowerCase() === tagFinal);
+    if (tagFinal) articlesFinal = articles.filter((article) => article?.category?.toLowerCase() === tagFinal);
 
     // Elements
     const CardsLi: ReactElement[] = articlesFinal.slice(0, ARTICLE_COUNT.ourPicks).map((article, idx) => (

@@ -1,61 +1,73 @@
 import { DeepPartial } from '@/app/types/utils';
 import { CategoryFallback } from '@/app/static';
 
-type ArticleTag = 'Artificial Intelligence' | 'Cloud' | 'Data' | 'Security';
-
-type Article = DeepPartial<{
+// Content Base
+type ContentCommon<T extends string> = {
     id: string;
-    tag: ArticleTag;
     title: string;
     description: string;
-    poster: string | null;
     date: number;
-    author: {
-        name: string;
-        image: string | null;
-        position: string;
-    };
-    content: string;
-    contentIDs: string[];
-}>;
-
-type VideoContent<T extends string> = {
     category: T;
-    video: string;
+    content: string;
+    type: 'text' | 'video';
 };
 
-type MediaCardType = {
-    title: string;
-    thumbnail: string | null;
-    label: string;
+type MediaContent<T extends string> = ContentCommon<T> & {
     durationMs?: number;
-    date: number;
+    thumbnail: string | null;
 };
 
-type ContentCardType = {
-    date: number;
+// Cards
+type MediaCardType<T extends string> = MediaContent<T> & { label: string };
+
+type ContentCardType<T extends string> = ContentCommon<T> & {
     time: { start: number; end: number };
-    title: string;
-    tag: string;
-    description: string;
 };
+
+type CardLibraryEntry<T extends string, C extends string> = MediaCardType<C> & { tag: T };
+
+// Website Content
+type ArticleCategory = 'Artificial Intelligence' | 'Cloud' | 'Data' | 'Security';
+type Article = DeepPartial<
+    MediaCardType<ArticleCategory> & {
+        author: {
+            name: string;
+            image: string | null;
+            position: string;
+        };
+        contentIDs: string[];
+    }
+>;
 
 // TODO clarify
-type TipCategory = typeof CategoryFallback | 'Popular' | 'Featured' | 'Videos' | 'Reads';
-type Tip = DeepPartial<
-    Pick<Article, 'id' | 'title' | 'poster' | 'content'> &
-        Partial<Pick<Article, 'description'>> &
-        MediaCardType &
-        VideoContent<TipCategory>
->;
+type TipTag = 'Popular' | 'Featured' | 'Videos' | 'Reads';
+type TipCategory = typeof CategoryFallback | 'Networking';
+type Tip = DeepPartial<CardLibraryEntry<TipTag, TipCategory>>;
 
+type CourseTag = 'Popular' | 'Featured' | 'Free' | 'Premium';
 type CourseCategory = typeof CategoryFallback | 'Individual' | 'Free' | 'Premium' | 'Series' | 'New';
-type Course = DeepPartial<
-    MediaCardType &
-        VideoContent<CourseCategory> & {
-            description: string;
-            subject: string;
-        }
->;
+type CourseSubject = 'G25' | 'T27I' | 'BTMC' | 'Tidal';
+type Course = DeepPartial<CardLibraryEntry<CourseTag, CourseCategory> & { subject: CourseSubject }>;
 
-export type { ArticleTag, Article, Tip, TipCategory, MediaCardType, ContentCardType, Course, CourseCategory };
+// TODO clarify
+type EventCategory = typeof CategoryFallback | 'networking';
+type Event = DeepPartial<ContentCardType<EventCategory>>;
+
+export type {
+    ContentCommon,
+    MediaContent,
+    ArticleCategory,
+    Article,
+    CardLibraryEntry,
+    Tip,
+    TipTag,
+    TipCategory,
+    MediaCardType,
+    ContentCardType,
+    Course,
+    CourseTag,
+    CourseSubject,
+    CourseCategory,
+    Event,
+    EventCategory,
+};

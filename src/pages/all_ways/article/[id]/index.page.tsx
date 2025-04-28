@@ -126,7 +126,7 @@ function ArticlePage() {
                         <h1 className={'leading-n  text-32 md:text-48 lg:text-64'}>{content?.title}</h1>
                         <div className={'contents'}>
                             <Image
-                                src={content?.poster ?? PNG_NATURE}
+                                src={content?.thumbnail ?? PNG_NATURE}
                                 alt={'article-image'}
                                 width={500}
                                 height={500}
@@ -138,10 +138,10 @@ function ArticlePage() {
                         <div className={cn(INFO_CN, 'mt-xl lg:mt-0')}>
                             <span
                                 className={cn('bg-gray-l0 py-5xs px-3xs rounded-full', {
-                                    ['text-12']: !content?.tag,
+                                    ['text-12']: !content?.category,
                                 })}
                             >
-                                {content?.tag ?? 'All Ways'}
+                                {content?.category ?? 'All Ways'}
                             </span>
                         </div>
                         <div className={INFO_CN}>

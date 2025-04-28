@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
+import { ArrayOfLength } from '@/app/types/utils';
+import { Tip, TipTag } from '@/app/types/blog';
 import { Route } from '@/app/static';
-
-import { BlogService, TipsDTO } from '@/app/services/blog.service';
 
 import { useModal } from '@/app/hooks';
 
@@ -14,15 +14,41 @@ import { MessageModal } from '@/app/ui/modals';
 
 import BACKGROUND from '@/assets/images/tips-bg-main.png';
 
+// TODO remove templates
+const TIP_TEMPLATE: Tip = {
+    title: 'Some title',
+    description: 'Some useful description',
+    category: 'Networking',
+    content: 'Some tip ',
+    thumbnail: '',
+    id: '9uqhe45gf032j0',
+    date: 264,
+    label: 'Website',
+    tag: 'Featured',
+    type: 'text',
+};
+
+const TIPS_TEMPLATE: Tip[] = Array(83)
+    .fill(null)
+    .map((_, idx) => ({
+        ...TIP_TEMPLATE,
+        id: TIP_TEMPLATE.id + idx,
+        durationMs: idx % 7 ? 492362 : undefined,
+        tag: idx % 7 ? 'Popular' : idx % 5 ? 'Featured' : idx % 11 ? 'Videos' : 'Reads',
+        type: idx % 7 ? 'video' : 'text',
+    }));
+
+// The items order is important
+const TIP_TAGS: ArrayOfLength<TipTag, 4> = ['Popular', 'Featured', 'Videos', 'Reads'];
+
 function TipsPage() {
     const modalCtx = useModal();
-    const [tips, setTips] = useState<TipsDTO | null>(null);
+    const [tips, setTips] = useState<Tip[] | null>(null);
 
     useEffect(() => {
         const fetchTips = async () => {
             try {
-                const { payload } = await BlogService.getTips();
-                setTips(payload);
+                setTips(TIPS_TEMPLATE);
             } catch (error: unknown) {
                 if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);
             }
@@ -55,6 +81,7 @@ function TipsPage() {
                         second: { title: 'Reading Material', href: Route.TipsReads },
                     }}
                     cards={tips}
+                    tags={TIP_TAGS}
                 />
                 <InsideTernSection data={'alt0'} />
             </Content>

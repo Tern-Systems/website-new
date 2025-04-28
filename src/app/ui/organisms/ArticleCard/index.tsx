@@ -5,7 +5,7 @@ import Image from 'next/image';
 import cn from 'classnames';
 
 import { ButtonIcon } from '@/app/ui/form/Button';
-import { Article, Tip } from '@/app/types/blog';
+import { MediaCardType } from '@/app/types/blog';
 import { Route } from '@/app/static';
 
 import { useNavigate } from '@/app/hooks';
@@ -19,11 +19,10 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faReadme } from '@fortawesome/free-brands-svg-icons';
 
 type ArticleCardType = 'default' | 'expand' | 'alt' | 'alt-vertical';
-export type { ArticleCardType };
 
 interface Props {
     type?: ArticleCardType;
-    article: Article | Tip | null;
+    article: MediaCardType<string> | null;
     hideTag?: true;
     altLink?: string;
     altIcon?: ButtonIcon;
@@ -36,7 +35,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
 
     const [navigate] = useNavigate(true);
 
-    const openArticle = (article: Article | Tip | null) => {
+    const openArticle = (article: MediaCardType<string> | null) => {
         if (!article) return;
         localStorage.setItem('article', JSON.stringify(article));
         navigate((Route.AllWaysArticle + '/' + article.id) as Route);
@@ -52,7 +51,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
             onClick={() => openArticle(article)}
             className={cn(
                 styles.clickable,
-                'box-border grid h-full w-full flex-1 overflow-hidden border-s',
+                'box-border grid size-full flex-1 overflow-hidden border-s  ',
                 {
                     [alt ? 'grid-cols-2' : 'grid-rows-[4fr,3fr]']: !altVertical,
                     ['max-w-card lg:max-w-full']: !type || type === 'default',
@@ -68,7 +67,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
             >
                 <div className={'absolute from-0 bg-gradient-to-t from-black to-25%'} />
                 <Image
-                    src={article?.poster || PNG_NATURE}
+                    src={article?.thumbnail || PNG_NATURE}
                     width={500}
                     height={500}
                     alt={`article-img`}
@@ -89,7 +88,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
             >
                 {alt || hideTag || !isArticle ? null : (
                     <span className={'mb-n block text-10 text-secondary'}>
-                        {article.tag ?? 'There will be a tag...'}
+                        {article?.category ?? 'There will be a category...'}
                     </span>
                 )}
                 <span
@@ -119,4 +118,5 @@ const ArticleCard: FC<Props> = (props: Props) => {
 
 ArticleCard.displayName = ArticleCard.name;
 
+export type { ArticleCardType };
 export { ArticleCard };

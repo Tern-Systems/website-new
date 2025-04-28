@@ -77,7 +77,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                 <div
                     className={cn(
                         'grid items-center  from-gray to-[--bg-white-d2] bg-gradient-to-r sm:bg-gradient-to-b',
-                        'md:grid-cols-2 lg:grid-cols-[2fr,3fr]',
+                        'grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr,3fr]',
                         'gap-y-xs md:gap-x-n lg:gap-x-xl',
                         'p-xxs md:x-[px-xxl,p-xl] lg:p-xxl',
                         className?.wrapper,
@@ -95,7 +95,7 @@ const ResourceCard: FC<Props> = (props: Props) => {
                             </span>
                             <span
                                 className={cn(
-                                    'block text-black leading-l  lg:w-1/2',
+                                    'block text-black leading-l',
                                     'mt-xs md:mt-xxl lg:mt-xxl',
                                     className?.children,
                                 )}
