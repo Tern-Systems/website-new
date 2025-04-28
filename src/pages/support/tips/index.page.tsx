@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { Route } from '@/app/static';
 
-import { BlogService, CardsLibDTO } from '@/app/services/blog.service';
+import { BlogService, TipsDTO } from '@/app/services/blog.service';
 
 import { useModal } from '@/app/hooks';
 
@@ -16,7 +16,7 @@ import BACKGROUND from '@/assets/images/tips-bg-main.png';
 
 function TipsPage() {
     const modalCtx = useModal();
-    const [tips, setTips] = useState<CardsLibDTO | null>(null);
+    const [tips, setTips] = useState<TipsDTO | null>(null);
 
     useEffect(() => {
         const fetchTips = async () => {

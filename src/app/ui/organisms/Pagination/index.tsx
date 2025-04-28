@@ -3,11 +3,14 @@
 import { Dispatch, FC, HTMLAttributes, ReactElement, ReactNode, SetStateAction, useState } from 'react';
 import cn from 'classnames';
 
+import { Route } from '@/app/static';
+
 import { generateArray } from '@/app/utils';
 
 import { Button } from '@/app/ui/form';
 
 import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from '@/app/hooks';
 
 const OVERFLOW_COUNT = 5;
 
@@ -30,16 +33,20 @@ const Pagination: FC<Props> = (props: Props) => {
     const elementCount = columns * rows;
     const pageCount = Math.ceil(Items.length / elementCount);
 
+    const [navigate, _, route] = useNavigate();
+
     const [batchIdx, setBatchIdx] = useState(Math.trunc(currentPage / OVERFLOW_COUNT));
 
     const maxBatchIdx = Math.ceil(pageCount / OVERFLOW_COUNT) - 1;
     const lastBatchIdx = maxBatchIdx === batchIdx;
 
-    const requireHandleSelect = (getPage: (prev: number) => number, page?: true) => () => {
+    const requireHandleSelect = (getPage: (prev: number) => number, page?: boolean) => () => {
         if (page) {
             setPage((prevState) => {
                 const page = getPage(prevState);
-                return page <= 0 ? 0 : page >= pageCount - 1 ? pageCount - 1 : page;
+                const newPage = page <= 0 ? 0 : page >= pageCount - 1 ? pageCount - 1 : page;
+                if (route) navigate((route + '?' + new URLSearchParams({ page: (page + 1).toString() })) as Route);
+                return newPage;
             });
         } else {
             setBatchIdx((prevState) => {
@@ -73,7 +80,7 @@ const Pagination: FC<Props> = (props: Props) => {
         </li>
     ));
 
-    return (
+    return ItemsLi.length ? (
         <div>
             <ul
                 style={{ gridTemplateColumns: `repeat(${columns},1fr)` }}
@@ -92,20 +99,20 @@ const Pagination: FC<Props> = (props: Props) => {
             >
                 <Button
                     icon={faAngleDoubleLeft}
-                    onClick={requireHandleSelect((prev) => prev - 1)}
-                    disabled={(overflow ? batchIdx - 1 : currentPage) < 0}
+                    onClick={requireHandleSelect((prev) => prev - 1, !overflow)}
+                    disabled={(overflow ? batchIdx : currentPage) - 1 < 0}
                     {...BUTTON_PROPS_CN}
                 />
                 <ul className={'flex border-y-s'}>{PageButtonsLi}</ul>
                 <Button
                     icon={faAngleDoubleRight}
-                    onClick={requireHandleSelect((prev) => prev + 1)}
+                    onClick={requireHandleSelect((prev) => prev + 1, !overflow)}
                     disabled={overflow ? batchIdx >= maxBatchIdx : currentPage >= pageCount - 1}
                     {...BUTTON_PROPS_CN}
                 />
             </div>
         </div>
-    );
+    ) : null;
 };
 
 interface PaginationProps extends Omit<Props, 'pageState'> {}

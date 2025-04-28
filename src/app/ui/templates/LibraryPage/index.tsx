@@ -89,7 +89,7 @@ const LibraryTemplate: FC<Props> = (props: Props) => {
                 <Button
                     icon={faX}
                     onClick={tag.reset}
-                    className={'flex-row-reverse !items-center'}
+                    className={'flex-row-reverse capitalize'}
                     classNameIcon={'[&_*]:size-[0.75rem]'}
                 >
                     {tag.value}

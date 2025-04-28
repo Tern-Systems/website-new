@@ -1,13 +1,13 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import cn from 'classnames';
 
 import { Pagination, PaginationProps } from '@/app/ui/organisms/Pagination';
 
 const usePagination = () => {
-    const { page } = (useParams() || { page: '0' }) as { page: string };
+    const { page } = (useSearchParams() || { page: '0' }) as { page: string };
     const [currentPage, setCurrentPage] = useState<number>(parseInt(page ?? '0') || 0);
 
     const PaginationElement: FC<PaginationProps> = (props: PaginationProps) => (

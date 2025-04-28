@@ -1,4 +1,5 @@
 import { DeepPartial } from '@/app/types/utils';
+import { CategoryFallback } from '@/app/static';
 
 type ArticleTag = 'Artificial Intelligence' | 'Cloud' | 'Data' | 'Security';
 
@@ -18,17 +19,16 @@ type Article = DeepPartial<{
     contentIDs: string[];
 }>;
 
-// TODO clarify
-type TipType = 'video';
-type Tip = DeepPartial<
-    Pick<Article, 'id' | 'title' | 'poster' | 'content'> & Partial<Pick<Article, 'description'>> & { type: TipType }
->;
+type VideoContent<T extends string> = {
+    category: T;
+    video: string;
+};
 
-type VideoCardType = {
+type MediaCardType = {
     title: string;
     thumbnail: string | null;
     label: string;
-    durationMs: number;
+    durationMs?: number;
     date: number;
 };
 
@@ -40,13 +40,22 @@ type ContentCardType = {
     description: string;
 };
 
-type Course = DeepPartial<
-    VideoCardType & {
-        video: string;
-        description: string;
-        category: string;
-        subject: string;
-    }
+// TODO clarify
+type TipCategory = typeof CategoryFallback | 'Popular' | 'Featured' | 'Videos' | 'Reads';
+type Tip = DeepPartial<
+    Pick<Article, 'id' | 'title' | 'poster' | 'content'> &
+        Partial<Pick<Article, 'description'>> &
+        MediaCardType &
+        VideoContent<TipCategory>
 >;
 
-export type { ArticleTag, Article, Tip, VideoCardType, ContentCardType, Course };
+type CourseCategory = typeof CategoryFallback | 'Individual' | 'Free' | 'Premium' | 'Series' | 'New';
+type Course = DeepPartial<
+    MediaCardType &
+        VideoContent<CourseCategory> & {
+            description: string;
+            subject: string;
+        }
+>;
+
+export type { ArticleTag, Article, Tip, TipCategory, MediaCardType, ContentCardType, Course, CourseCategory };

@@ -6,105 +6,34 @@ import { Article, Tip } from '@/app/types/blog';
 import { BaseService } from './base.service';
 
 type ArticlesDTO = { blogs: Article[] };
-type CardsLibDTO = {
-    popular: Tip[];
-    featured: Tip[];
-    videos: Tip[];
-    reads: Tip[];
-};
+type TipsDTO = { tips: Tip[] };
 
 const CACHED_ARTICLE_COUNT = 5;
 
-const TIPS_TEMPLATE: Tip[] = [
-    {
-        type: 'video',
-        id: '98fg45r3s0j3----',
-        poster: '',
-        title: 'Step-by-Step: How to Setup your Tern Account for 2FA',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98254gf0j3----',
-        poster: '',
-        title: 'The 5 biggest AI adoption challenges for 2025',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98f02f3fj3----',
-        poster: '',
-        title: 'Here we discuss what benefits are enabled by switching from conventional computers to ours.',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98f0j53g34f324----',
-        poster: '',
-        title: 'The World’s Most Efficient Computer',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98f0aasdasdergj3----',
-        poster: '',
-        description: 'Some useful thing 6',
-        title: 'The World’s Most Efficient Computer',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98f0agasdasfdsj3----',
-        poster: '',
-        description: 'Some useful thing 5',
-        title: 'The World’s Most Efficient Computer',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98asdaf0j3----',
-        poster: '',
-        description: 'Some useful thing 4',
-        title: 'The World’s Most Efficient Computer',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98f0hgjs3----',
-        poster: '',
-        description: 'Some useful thing 3',
-        title: 'The World’s Most Efficient Computer',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98f0js3f----',
-        poster: '',
-        description: 'Some useful thing 2',
-        title: 'The World’s Most Efficient Computer',
-        content: 'some useful content',
-    },
-    {
-        type: 'video',
-        id: '98f0ja3---s-',
-        poster: '',
-        description: 'Some useful thing 1',
-        title: 'The World’s Most Efficient Computer',
-        content: 'some useful content',
-    },
-];
-
-const TIPS_DTO_TEMPLATE: CardsLibDTO = {
-    popular: TIPS_TEMPLATE.slice(0, 3),
-    featured: TIPS_TEMPLATE.slice(0, 4),
-    videos: TIPS_TEMPLATE.slice(-6),
-    reads: TIPS_TEMPLATE.slice(-6),
+// TODO remove templates
+const TIP_TEMPLATE: Tip = {
+    title: 'Some title',
+    description: 'Some useful description',
+    category: 'Popular',
+    content: 'Some tip content',
+    poster: '',
+    id: '9uqhe45gf032j0',
+    date: 264,
+    thumbnail: '',
+    label: 'Website',
+    video: '',
 };
+
+const TIPS_TEMPLATE = Array(83)
+    .fill(null)
+    .map((_, idx) => (idx % 7 ? TIP_TEMPLATE : { ...TIP_TEMPLATE, durationMs: 49236 }));
+
+const TIPS_DTO_TEMPLATE: TipsDTO = { tips: TIPS_TEMPLATE };
 
 interface IBlogService {
     getArticles(): Promise<Res<ArticlesDTO, false>>;
 
-    getTips(): Promise<Res<CardsLibDTO, false>>;
+    getTips(): Promise<Res<TipsDTO, false>>;
 }
 
 class BlogServiceImpl extends BaseService implements IBlogService {
@@ -129,7 +58,7 @@ class BlogServiceImpl extends BaseService implements IBlogService {
     }
 
     // TODO API call
-    async getTips(): Promise<Res<CardsLibDTO, false>> {
+    async getTips(): Promise<Res<TipsDTO, false>> {
         const [debug, error] = this.getLoggers();
 
         const config: AxiosRequestConfig = {
@@ -155,5 +84,5 @@ class BlogServiceImpl extends BaseService implements IBlogService {
 
 const BlogService = new BlogServiceImpl();
 
-export type { CardsLibDTO };
+export type { TipsDTO };
 export { BlogService };

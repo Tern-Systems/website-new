@@ -1,5 +1,7 @@
 'use client';
 
+import { CategoryFallback } from '@/app/static/fallback';
+
 import SVG_DISCORD from '@/assets/images/icons/discord.svg';
 import SVG_STACKOVERFLOW from '@/assets/images/icons/stack-overflow.svg';
 import SVG_GITHUB from '@/assets/images/icons/github.svg';
@@ -55,8 +57,10 @@ enum Route {
     Downloads = '/support/downloads',
     Cases = '/support/cases',
     Tips = '/support/tips',
-    TipsVideos = '/support/tips/videos',
-    TipsReads = '/support/tips/reads',
+    TipsLibrary = '/support/tips/library',
+    TipsAll = Route.TipsLibrary + '/' + CategoryFallback,
+    TipsVideos = Route.TipsLibrary + '/videos',
+    TipsReads = Route.TipsLibrary + '/reads',
     Contact = '/support/contact',
     GeneralFAQs = '/support/faqs',
     Documentation = '/support/documentation',

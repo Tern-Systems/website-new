@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import { CardLink } from '@/app/types/layout';
 import { Tip } from '@/app/types/blog';
-import { CardsLibDTO } from '@/app/services/blog.service';
+import { TipsDTO } from '@/app/services/blog.service';
 import { ArticleCardType } from '@/app/ui/organisms/ArticleCard';
 import { Breakpoint, Route } from '@/app/static';
 
@@ -36,7 +36,7 @@ const renderTips = (type: ArticleCardType, tips: Tip[] = []) =>
             <ArticleCard
                 type={type}
                 article={tip}
-                altLink={tip.type === 'video' ? 'watch' : undefined}
+                altLink={tip.category === 'Videos' ? 'watch' : undefined}
                 className={'[&:not(:first-of-type)]:border-t-0'}
             />
         </li>
@@ -57,7 +57,7 @@ interface Props {
         first: SectionData;
         second: SectionData;
     };
-    cards: CardsLibDTO | null;
+    cards: TipsDTO | null;
 }
 
 const CardsLibrary = (props: Props) => {
@@ -65,10 +65,22 @@ const CardsLibrary = (props: Props) => {
 
     const breakpoint = useBreakpointCheck();
 
-    const CardsPopularLi: ReactElement[] = renderTips('alt-vertical', cards?.popular);
-    const CardsFeaturedLi: ReactElement[] = renderTips('alt', cards?.featured);
-    const CardsVideosLi: ReactElement[] = renderTips('default', cards?.videos);
-    const CardsReadsLi: ReactElement[] = renderTips('default', cards?.reads);
+    const CardsPopularLi: ReactElement[] = renderTips(
+        'alt-vertical',
+        cards?.tips.filter((tip) => tip.category === 'Popular'),
+    );
+    const CardsFeaturedLi: ReactElement[] = renderTips(
+        'alt',
+        cards?.tips.filter((tip) => tip.category === 'Featured'),
+    );
+    const CardsVideosLi: ReactElement[] = renderTips(
+        'default',
+        cards?.tips.filter((tip) => tip.category === 'Videos'),
+    );
+    const CardsReadsLi: ReactElement[] = renderTips(
+        'default',
+        cards?.tips.filter((tip) => tip.category === 'Reads'),
+    );
 
     return (
         <>
