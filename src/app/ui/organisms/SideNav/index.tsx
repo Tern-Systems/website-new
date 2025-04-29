@@ -3,10 +3,10 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { useLayout } from '@/app/hooks';
+import { getId } from '@/app/utils';
+import { useScrollTrack } from '@/app/hooks';
 
 import { Select } from '@/app/ui/form';
-import { getId } from '@/app/utils';
 
 interface Props {
     sideOnly?: true;
@@ -17,11 +17,10 @@ interface Props {
 const SideNav: FC<Props> = (props: Props) => {
     const { sideOnly, section, className } = props;
 
-    const { scrollState } = useLayout();
-    const [scrollValue] = scrollState;
-
     const sectionIDs: string[] = Object.keys(section ?? {}).map((key) => getId(key));
     const sections: string[] = Object.values(section);
+
+    const scrollValue = useScrollTrack();
 
     const [activeSection, setActiveSection] = useState<string>(sectionIDs[0] ?? '');
 

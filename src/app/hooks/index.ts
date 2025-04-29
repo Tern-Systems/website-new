@@ -9,3 +9,4 @@ export { useOuterClickClose } from './useOuterClickClose';
 export { usePagination } from './usePagination';
 export { useRedirect } from './useRedirect';
 export { useSaveOnLeave } from './useSaveOnLeave';
+export { useScrollTrack } from './useScrollTrack';
