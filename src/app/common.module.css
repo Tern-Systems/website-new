@@ -69,7 +69,7 @@
 }
 
 .contentHighlight {
-  @apply absolute;
+  @apply relative;
 }
 
 .contentHighlight:after {
