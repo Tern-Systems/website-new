@@ -11,8 +11,6 @@ const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 import { ResourceSectionData } from '@/app/types/layout';
 import { MISC_LINKS, Route } from '@/app/static';
 
-import { useUser } from '@/app/hooks';
-
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
 import { MainBackground } from '@/app/ui/atoms';
@@ -93,8 +91,6 @@ const BTN_BLUE_CN = BTN_CN + ' bg-blue';
 const BTN_BLACK_CN = BTN_CN + ' border-s border-gray-l0 bg-black text-blue';
 
 function TidalPage() {
-    const userCtx = useUser();
-
     const [videoStarted, setVideoStarted] = useState(false);
 
     const demoSectionRef = useRef<HTMLDivElement | null>(null);
