@@ -36,7 +36,7 @@ const LAYOUT: {
         Route.Security,
         Route.Videos,
         Route.Podcasts,
-        Route.Events,
+        Route.AllWaysEvents,
         Route.More,
     ],
 };
@@ -107,8 +107,8 @@ const DROPDOWN_SUB_NAV_ROUTES: Record<string, Record<string, string>> = {
         Todo: 'Your tern',
         Todo0: 'Bleeding Edge',
     },
-    [Route.Events]: {
-        [Route.Events]: 'Events',
+    [Route.AllWaysEvents]: {
+        [Route.AllWaysEvents]: 'Events',
         Todo: 'Chicago',
         Todo0: 'New York',
         Todo1: 'San Jose',

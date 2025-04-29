@@ -49,7 +49,8 @@ enum Route {
     // /support
     Resources = '/support/resources',
     Community = '/support/community',
-    CommunityEvents = '/support/community/events',
+    EventsLibrary = '/support/community/events/library',
+    EventsAll = Route.EventsLibrary + '/' + CategoryFallback,
     Training = '/support/training',
     TrainingFAQs = '/support/training/faqs',
     ProfessionalCertifications = '/support/training/certifications',
@@ -85,7 +86,7 @@ enum Route {
     Security = '/all_ways/security',
     Videos = '/all_ways/videos',
     Podcasts = '/all_ways/podcasts',
-    Events = '/all_ways/events',
+    AllWaysEvents = '/all_ways/events',
     More = '/all_ways/more',
 }
 

@@ -1,16 +1,15 @@
 'use client';
 
-import { Dispatch, FC, HTMLAttributes, ReactElement, ReactNode, SetStateAction, useState } from 'react';
+import { FC, HTMLAttributes, ReactElement, ReactNode, useState } from 'react';
 import cn from 'classnames';
-
-import { Route } from '@/app/static';
 
 import { generateArray } from '@/app/utils';
 
 import { Button } from '@/app/ui/form';
 
 import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from '@/app/hooks';
+import { useBreakpointCheck, useNavigate } from '@/app/hooks';
+import { useSearchParams } from 'next/navigation';
 
 const OVERFLOW_COUNT = 5;
 
@@ -23,17 +22,18 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
     Items: ReactNode[];
     columns: number;
     rows: number;
-    pageState: [number, Dispatch<SetStateAction<number>>];
 }
 
 const Pagination: FC<Props> = (props: Props) => {
-    const { Items, columns, rows, pageState, className, ...divProps } = props;
-    const [currentPage, setPage] = pageState;
+    const { Items, rows, columns, className, ...divProps } = props;
+
+    const params = useSearchParams();
+    const currentPage = parseInt(params?.get('page') ?? '0') || 0;
+
+    const [_, router, route] = useNavigate();
 
     const elementCount = columns * rows;
     const pageCount = Math.ceil(Items.length / elementCount);
-
-    const [navigate, _, route] = useNavigate();
 
     const [batchIdx, setBatchIdx] = useState(Math.trunc(currentPage / OVERFLOW_COUNT));
 
@@ -42,12 +42,9 @@ const Pagination: FC<Props> = (props: Props) => {
 
     const requireHandleSelect = (getPage: (prev: number) => number, page?: boolean) => () => {
         if (page) {
-            setPage((prevState) => {
-                const page = getPage(prevState);
-                const newPage = page <= 0 ? 0 : page >= pageCount - 1 ? pageCount - 1 : page;
-                if (route) navigate((route + '?' + new URLSearchParams({ page: (page + 1).toString() })) as Route);
-                return newPage;
-            });
+            const page = getPage(currentPage);
+            const newPage = page <= 0 ? 0 : page >= pageCount - 1 ? pageCount - 1 : page;
+            if (route) router.push(route + '?' + new URLSearchParams({ page: newPage.toString() }));
         } else {
             setBatchIdx((prevState) => {
                 const batchIdx = getPage(prevState);
@@ -115,7 +112,5 @@ const Pagination: FC<Props> = (props: Props) => {
     ) : null;
 };
 
-interface PaginationProps extends Omit<Props, 'pageState'> {}
-
-export type { PaginationProps };
+export type { Props as PaginationProps };
 export { Pagination };

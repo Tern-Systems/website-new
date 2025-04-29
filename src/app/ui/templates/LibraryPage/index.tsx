@@ -4,11 +4,11 @@ import { ReactElement, ReactNode, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 
 import { ContentCardType, MediaCardType } from '@/app/types/blog';
-import { PaginationProps } from '@/app/ui/organisms/Pagination';
-import { CategoryFallback } from '@/app/static';
+import { Pagination, PaginationProps } from '@/app/ui/organisms/Pagination';
+import { Breakpoint, CategoryFallback } from '@/app/static';
 
 import { formatDate } from '@/app/utils';
-import { useForm, usePagination } from '@/app/hooks';
+import { useBreakpointCheck, useForm, useNavigate } from '@/app/hooks';
 
 import { BreadcrumbRoute, Content, H1, Section } from '@/app/ui/atoms';
 import { ContentCard, MediaCard } from '@/app/ui/organisms';
@@ -34,7 +34,14 @@ const DEFAULT_FILTER: FilterDefault = {
     date: { start: 0, end: Date.now() },
 };
 
-interface Props<T, F, I> extends Omit<PaginationProps, 'Items'> {
+const getDimensions = (type: Type, breakpoint: Breakpoint): Pick<PaginationProps, 'columns' | 'rows'> => {
+    const isContent = type === 'Content';
+    if (breakpoint >= Breakpoint.lg) return { columns: isContent ? 1 : 4, rows: isContent ? 13 : 6 };
+    if (breakpoint >= Breakpoint.md) return { columns: isContent ? 1 : 3, rows: isContent ? 12 : 8 };
+    return { columns: 1, rows: isContent ? 8 : 4 };
+};
+
+interface Props<T, F, I> {
     type: T;
     heading: string;
     filterSetup: {
@@ -43,6 +50,7 @@ interface Props<T, F, I> extends Omit<PaginationProps, 'Items'> {
     };
     items: I[];
     urlParamName: keyof F;
+    renderItem: (item: I) => ReactElement;
 }
 
 const LibraryTemplate = <
@@ -52,12 +60,14 @@ const LibraryTemplate = <
 >(
     props: Props<T, F, I>,
 ) => {
-    const { type, heading, items, columns, rows, filterSetup, urlParamName } = props;
+    const { type, heading, items, filterSetup, urlParamName, renderItem } = props;
 
     const { [urlParamName]: urlParam } = (useParams() || { category: filterSetup.default[urlParamName] }) as {
         [urlParamName]: string;
     };
-    const Pagination = usePagination();
+
+    const breakpoint = useBreakpointCheck();
+    const [_, router] = useNavigate();
 
     const [filter, setFilterField, setFilter] = useForm<F & FilterDefault>({
         ...DEFAULT_FILTER,
@@ -73,6 +83,8 @@ const LibraryTemplate = <
 
     if (filter.search)
         itemsFiltered = itemsFiltered.filter((item) => item.title.toLowerCase().includes(filter.search.toLowerCase()));
+    if (filter.date)
+        itemsFiltered = itemsFiltered.filter((item) => filter.date.start <= item.date && item.date <= filter.date.end);
 
     const filters: Filter[] = Object.keys(filterSetup.default).map((key): Filter => {
         const value = filter[key];
@@ -83,9 +95,15 @@ const LibraryTemplate = <
                 return typeof itemProperty !== 'string' || itemProperty.toLowerCase() === value.toLowerCase();
             });
 
+        const isUrlParam = key === urlParamName;
+        const tagFallback = isUrlParam ? CategoryFallback : '';
+
         tags.push({
-            value: value || CategoryFallback,
-            reset: () => setFilterField(key, CategoryFallback),
+            value: value || tagFallback,
+            reset: () => {
+                setFilterField(key, tagFallback);
+                if (isUrlParam) router.push(CategoryFallback);
+            },
         });
 
         return {
@@ -100,11 +118,7 @@ const LibraryTemplate = <
             key={(item?.title ?? 'item-') + idx}
             className={'contents'}
         >
-            {type === 'Media' ? (
-                <MediaCard {...(item as MediaCardType<string>)} />
-            ) : (
-                <ContentCard {...(item as ContentCardType<string>)} />
-            )}
+            {renderItem(item)}
         </li>
     ));
 
@@ -149,6 +163,8 @@ const LibraryTemplate = <
         },
     ];
 
+    const dimensions = getDimensions(type, breakpoint);
+
     // Elements
     const TagsLi: ReactNode[] = tagsFinal.map((tag: LibraryTag, idx) =>
         tag.value ? (
@@ -188,8 +204,8 @@ const LibraryTemplate = <
                 <ul className={'flex gap-x-xs  my-4xs md:my-xxs lg:my-xs'}>{TagsLi}</ul>
                 <Pagination
                     Items={ItemsLi}
-                    columns={columns}
-                    rows={rows}
+                    className={'mt-xxl lg:mt-[4.41rem]'}
+                    {...dimensions}
                 />
             </Section>
         </Content>

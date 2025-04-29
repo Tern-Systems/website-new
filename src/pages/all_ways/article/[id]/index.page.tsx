@@ -13,8 +13,7 @@ import { formatDate } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
-import { ArticleCard, SideNav } from '@/app/ui/organisms';
-import { SubscribeCard } from '../../SubscribeCard';
+import { ArticleCard, SideNav, SubscribeCard } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
@@ -126,7 +125,7 @@ function ArticlePage() {
                         <h1 className={'leading-n  text-32 md:text-48 lg:text-64'}>{content?.title}</h1>
                         <div className={'contents'}>
                             <Image
-                                src={content?.thumbnail ?? PNG_NATURE}
+                                src={content?.thumbnail || PNG_NATURE}
                                 alt={'article-image'}
                                 width={500}
                                 height={500}

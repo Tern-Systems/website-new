@@ -117,8 +117,8 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         case checkSubRoute(route, Route.Downloads):
             navLinks[NavLink.Breadcrumbs] = [Route.Resources, Route.Downloads];
             break;
-        case checkSubRoute(route, Route.CommunityEvents):
-            navLinks[NavLink.Breadcrumbs] = [Route.Community, Route.CommunityEvents];
+        case checkSubRoute(route, Route.EventsLibrary):
+            navLinks[NavLink.Breadcrumbs] = [Route.Community, Route.EventsLibrary];
             break;
         case checkSubRoute(route, Route.GeneralFAQs):
             navLinks[NavLink.Breadcrumbs] = [Route.MyTern, Route.GeneralFAQs];

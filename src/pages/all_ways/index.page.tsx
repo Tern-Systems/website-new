@@ -1,9 +1,12 @@
-import React from 'react';
+'use client';
 
-import { TagArticle } from '@/pages/all_ways/[tag]/TagArticle';
+import { Route } from '@/app/static';
 
-function AllWaysPage() {
-    return <TagArticle tag={null} />;
+import { useRedirect } from '@/app/hooks';
+
+function Redirect() {
+    useRedirect(Route.AllWaysAll);
+    return null;
 }
 
-export default AllWaysPage;
+export default Redirect;

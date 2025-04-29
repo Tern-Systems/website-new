@@ -12,12 +12,12 @@ const useScrollTrack = () => {
         scrollHeight: 0,
         autoScroll: false,
     });
-    const elem = document.getElementById('top');
 
     const scrollIntervalRef = useRef<null | NodeJS.Timeout>(null);
 
     useEffect(() => {
         const handleScroll = () => {
+            const elem = document.getElementById('top');
             setScrollState((prevState) => ({
                 ...prevState,
                 scrollHeight: elem?.scrollHeight ?? 0,
@@ -49,7 +49,7 @@ const useScrollTrack = () => {
             window.removeEventListener('mouseup', handleMouseDown);
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [elem, scrollIntervalRef.current]);
+    }, [scrollIntervalRef.current]);
 
     return scrollValue;
 };

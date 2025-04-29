@@ -357,7 +357,7 @@ function CommunityPage() {
                         {EventsLi}
                     </ul>
                     <PageLink
-                        href={Route.CommunityEvents}
+                        href={Route.EventsLibrary}
                         icon={'arrow-right-long'}
                         className={'flex-row-reverse text-blue  mt-xs md:mt-xl lg:mt-l'}
                         iconClassName={'[&_path]:fill-blue size-6xs  ml-4xs lg:ml-xxs'}
