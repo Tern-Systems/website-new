@@ -11,9 +11,11 @@
     "test:unit": "npm run test -- --testRegex='.*\\.spec\\.tsx?$'",
     "test:e2e": "npm run test -- --bail=1 --testRegex='.*\\.e2e-spec\\.tsx?$'",
     "test:int": "npm run test -- --bail=1 --testRegex='.*\\.e2e-(int-)?spec\\.tsx?$'",
-    "test:reg": "concurrently --kill-others \"npm run dev\" \"npm run test -- --config jest.config.reg.cjs --testRegex='.*\\.reg-spec\\.ts$'\"",
+    "test:_reg": "npm run test -- --config jest.config.reg.cjs",
+    "test:reg": "concurrently --kill-others \"npm run dev\" \"npm run test:_reg -- --bail=4 --testRegex='.*\\.reg-spec\\.ts$'\"",
     "test:coverage": "npm run test -- --coverage",
     "test:watch": "npm run test -- --watch",
+
     "lint": "eslint",
     "prepare": "husky install",
     "lint:fix": "eslint --fix",

@@ -15,7 +15,7 @@ import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 
 const LABEL_CN = 'inline px-4xs py-5xs text-12';
 
-interface Props extends MediaCardType<string> {}
+interface Props extends MediaCardType {}
 
 const MediaCard: FC<Props> = (props: Props) => {
     const { title, thumbnail, label, durationMs, date } = props;
@@ -70,7 +70,7 @@ const MediaCard: FC<Props> = (props: Props) => {
             </div>
             <div className={'text-white  [&_*]:mt-3xs md:[&_*]:mt-4xs-1 lg:[&_*]:mt-4xs'}>
                 <p className={'text-12'}>{title}</p>
-                <p className={'text-10'}>{formatDate(date, 'short')}</p>
+                <p className={'text-10'}>{date ? formatDate(date, 'short') : 'Date is ' + Fallback}</p>
             </div>
         </div>
     );

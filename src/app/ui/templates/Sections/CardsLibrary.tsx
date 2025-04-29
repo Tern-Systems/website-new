@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import { ArrayOfLength } from '@/app/types/utils';
 import { CardLink } from '@/app/types/layout';
-import { CardLibraryEntry } from '@/app/types/blog';
+import { LibraryCardType } from '@/app/types/blog';
 import { ArticleCardType } from '@/app/ui/organisms/ArticleCard';
 import { Breakpoint, Route } from '@/app/static';
 
@@ -27,7 +27,7 @@ const HIGHLIGHTED_CARD: CardLink = {
     action: { title: 'Subscribe today', href: '' },
 };
 
-const renderCards = (type: ArticleCardType, tips: CardLibraryEntry<string, string>[] = []) =>
+const renderCards = (type: ArticleCardType, tips: LibraryCardType[] = []) =>
     tips.map((tip, idx) => {
         let borderCN = '';
         switch (type) {
@@ -68,7 +68,7 @@ interface Props {
         first: SectionData;
         second: SectionData;
     };
-    cards: CardLibraryEntry<string, string>[] | null;
+    cards: LibraryCardType[] | null;
     tags: ArrayOfLength<string, 4>;
 }
 

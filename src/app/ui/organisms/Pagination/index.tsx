@@ -7,9 +7,10 @@ import { generateArray } from '@/app/utils';
 
 import { Button } from '@/app/ui/form';
 
-import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
-import { useBreakpointCheck, useNavigate } from '@/app/hooks';
+import { useNavigate } from '@/app/hooks';
 import { useSearchParams } from 'next/navigation';
+
+import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 
 const OVERFLOW_COUNT = 5;
 

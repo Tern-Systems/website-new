@@ -11,7 +11,6 @@ import { formatDate } from '@/app/utils';
 import { useBreakpointCheck, useForm, useNavigate } from '@/app/hooks';
 
 import { BreadcrumbRoute, Content, H1, Section } from '@/app/ui/atoms';
-import { ContentCard, MediaCard } from '@/app/ui/organisms';
 import { DateFilter, DateFilterValue, Filter, SearchBar } from '@/app/ui/organisms/SearchBar';
 import { Button } from '@/app/ui/form';
 
@@ -56,7 +55,7 @@ interface Props<T, F, I> {
 const LibraryTemplate = <
     T extends Type,
     F extends Record<string, string>,
-    I extends T extends 'Media' ? MediaCardType<string> : ContentCardType<string>,
+    I extends T extends 'Media' ? MediaCardType : ContentCardType,
 >(
     props: Props<T, F, I>,
 ) => {
@@ -84,7 +83,9 @@ const LibraryTemplate = <
     if (filter.search)
         itemsFiltered = itemsFiltered.filter((item) => item.title.toLowerCase().includes(filter.search.toLowerCase()));
     if (filter.date)
-        itemsFiltered = itemsFiltered.filter((item) => filter.date.start <= item.date && item.date <= filter.date.end);
+        itemsFiltered = itemsFiltered.filter(
+            (item) => item.date === undefined || (filter.date.start <= item.date && item.date <= filter.date.end),
+        );
 
     const filters: Filter[] = Object.keys(filterSetup.default).map((key): Filter => {
         const value = filter[key];

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams } from 'next/navigation';
 import cn from 'classnames';
 
-import { Article, ArticleCategory } from '@/app/types/blog';
+import { Article } from '@/app/types/blog';
 import { Breakpoint, CategoryFallback, Route } from '@/app/static';
 
 import { BlogService } from '@/app/services/blog.service';
@@ -26,7 +26,7 @@ const ARTICLE_COUNT = { ourPicks: 6, latest: 3 };
 const P_CN = 'mb-s lg:mb-xl sm:text-center  text-24 md:text-30 lg:text-40';
 
 function ArticlesByTag() {
-    const { tag = null } = useParams<{ tag: ArticleCategory }>() ?? {};
+    const { tag = null } = useParams<{ tag: string }>() ?? {};
 
     const modalCtx = useModal();
     const lg = useBreakpointCheck() === Breakpoint.lg;

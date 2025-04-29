@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { ArrayOfLength } from '@/app/types/utils';
-import { Tip, TipTag } from '@/app/types/blog';
+import { Tip } from '@/app/types/blog';
 import { Route } from '@/app/static';
 
 import { useModal } from '@/app/hooks';
@@ -39,7 +39,7 @@ const TIPS_TEMPLATE: Tip[] = Array(83)
     }));
 
 // The items order is important
-const TIP_TAGS: ArrayOfLength<TipTag, 4> = ['Popular', 'Featured', 'Videos', 'Reads'];
+const TIP_TAGS: ArrayOfLength<string, 4> = ['Popular', 'Featured', 'Videos', 'Reads'];
 
 function TipsPage() {
     const modalCtx = useModal();

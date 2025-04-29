@@ -22,7 +22,7 @@ type ArticleCardType = 'default' | 'expand' | 'alt' | 'alt-vertical';
 
 interface Props {
     type?: ArticleCardType;
-    article: MediaCardType<string> | null;
+    article: MediaCardType | null;
     hideTag?: true;
     altLink?: string;
     altIcon?: ButtonIcon;
@@ -35,7 +35,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
 
     const [navigate] = useNavigate(true);
 
-    const openArticle = (article: MediaCardType<string> | null) => {
+    const openArticle = (article: MediaCardType | null) => {
         if (!article) return;
         localStorage.setItem('article', JSON.stringify(article));
         navigate((Route.AllWaysArticle + '/' + article.id) as Route);

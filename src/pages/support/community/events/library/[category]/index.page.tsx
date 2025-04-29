@@ -2,13 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { Event } from '@/app/types/blog';
+import { ReactSVG } from 'react-svg';
+import cn from 'classnames';
 
-import { arrayToRecord } from '@/app/utils';
-import { useModal } from '@/app/hooks';
+import { Breakpoint, Fallback } from '@/app/static';
+
+import { arrayToRecord, formatDate } from '@/app/utils';
+import { useBreakpointCheck, useModal } from '@/app/hooks';
 
 import { LibraryTemplate } from '@/app/ui/templates';
 import { MessageModal } from '@/app/ui/modals';
 import { ContentCard } from '@/app/ui/organisms';
+
+import CLOCK_ICON from '@/assets/images/icons/clock.svg';
 
 // TODO remove template
 const EVENT_TEMPLATE: Event = {
@@ -32,8 +38,41 @@ type EventFilter = { category: string };
 const DEFAULT_FILTER: EventFilter = { category: '' };
 const CONTENT: Record<string, string> = arrayToRecord(['Talk', 'Panel', 'Webinar', 'Networking']);
 
+const renderThumbnail = (item: Event) => {
+    const [day, month] = item.date ? formatDate(item.date, 'daymonth').split(' ').reverse() : ['-', 'Unknown'];
+    return (
+        <span
+            className={cn(
+                'flex flex-col justify-center  py-n  bg-gray-l2 flex-grow  sm:px-xxs px-xs',
+                'sm:size-8xl size-9xl',
+                'w-11xl h-[7.875rem]',
+            )}
+        >
+            <span className={'text-center text-64 sm:x-[text-40]'}>{day}</span>
+            <span className={'sm:x-[ml-5xs,text-10] text-12'}>{month}</span>
+        </span>
+    );
+};
+
+const renderInfoLine = (item: Event, sm: boolean) => (
+    <>
+        <ReactSVG
+            src={CLOCK_ICON.src}
+            className={'size-8xs sm:size-[0.55rem]  [&_path]:fill-blue'}
+        />
+        <span className={'ml-5xs'}>
+            {item.date ? formatDate(item.date, 'day') : 'Date is ' + Fallback} |&nbsp;
+            {item.time
+                ? formatDate(item.time.start, 'timerange', { sm, dateEnd: item.time.end })
+                : 'Time is ' + Fallback}
+        </span>
+    </>
+);
+
 function CommunityEventsPage() {
     const modalCtx = useModal();
+
+    const sm = useBreakpointCheck() <= Breakpoint.sm;
 
     const [events, setEvents] = useState<Event[]>([]);
 
@@ -59,7 +98,13 @@ function CommunityEventsPage() {
                 option: { category: CONTENT },
             }}
             urlParamName={'category'}
-            renderItem={(item) => <ContentCard {...item} />}
+            renderItem={(item) => (
+                <ContentCard
+                    {...item}
+                    Thumbnail={renderThumbnail(item)}
+                    InfoLine={renderInfoLine(item, sm)}
+                />
+            )}
         />
     );
 }
