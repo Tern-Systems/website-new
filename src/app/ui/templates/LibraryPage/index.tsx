@@ -25,12 +25,12 @@ type LibraryTag = {
 };
 
 type FilterDefault = {
-    title: string;
+    search: string;
     date: DateFilterValue;
 };
 
 const DEFAULT_FILTER: FilterDefault = {
-    title: '',
+    search: '',
     date: { start: 0, end: Date.now() },
 };
 
@@ -71,13 +71,16 @@ const LibraryTemplate = <
     const tags: LibraryTag[] = [];
     let itemsFiltered: I[] = items;
 
+    if (filter.search)
+        itemsFiltered = itemsFiltered.filter((item) => item.title.toLowerCase().includes(filter.search.toLowerCase()));
+
     const filters: Filter[] = Object.keys(filterSetup.default).map((key): Filter => {
         const value = filter[key];
 
         if (value && value !== CategoryFallback)
             itemsFiltered = itemsFiltered.filter((item) => {
-                const value = item[key as keyof I];
-                return typeof value !== 'string' || value.toLowerCase() === value.toLowerCase();
+                const itemProperty = item[key as keyof I];
+                return typeof itemProperty !== 'string' || itemProperty.toLowerCase() === value.toLowerCase();
             });
 
         tags.push({
@@ -176,6 +179,7 @@ const LibraryTemplate = <
                     {heading}
                 </H1>
                 <SearchBar
+                    searchState={[filter.search, (value: string) => setFilterField('search', value)]}
                     filters={filters}
                     dateFilter={dateFilter}
                     placeholder={'Search for courses...'}
@@ -194,5 +198,4 @@ const LibraryTemplate = <
 
 LibraryTemplate.displayName = LibraryTemplate.name;
 
-export type { LibraryTag };
 export { LibraryTemplate };

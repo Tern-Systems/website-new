@@ -10,6 +10,7 @@ export { ResourceCard } from './ResourceCard';
 export { ScrollEnd } from './ScrollEnd';
 export { SearchBar } from './SearchBar';
 export { SideNav } from './SideNav';
+export { SubscribeCard } from './SubscribeCard';
 export { Table } from './Table';
 export { Tabs } from './Tabs';
 export { Video } from './Video';

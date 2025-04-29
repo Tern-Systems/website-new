@@ -27,7 +27,7 @@ type ContentCardType<T extends string> = ContentCommon<T> & {
 type CardLibraryEntry<T extends string, C extends string> = MediaCardType<C> & { tag: T };
 
 // Website Content
-type ArticleCategory = 'Artificial Intelligence' | 'Cloud' | 'Data' | 'Security';
+type ArticleCategory = typeof CategoryFallback | 'Artificial Intelligence' | 'Cloud' | 'Data' | 'Security';
 type Article = DeepPartial<
     MediaCardType<ArticleCategory> & {
         author: {

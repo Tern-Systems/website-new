@@ -26,9 +26,9 @@ const EVENTS_TEMPLATE: Event[] = Array(47)
     .fill(null)
     .map((_) => EVENT_TEMPLATE);
 
-type EventFilter = { content: string };
+type EventFilter = { category: string };
 
-const DEFAULT_FILTER: EventFilter = { content: '' };
+const DEFAULT_FILTER: EventFilter = { category: '' };
 const CONTENT: Record<string, string> = arrayToRecord(['Talk', 'Panel', 'Webinar', 'Networking']);
 
 const COLUMN_COUNT = 1;
@@ -60,9 +60,9 @@ function CommunityEventsPage() {
             rows={ROW_COUNT}
             filterSetup={{
                 default: DEFAULT_FILTER,
-                option: { content: CONTENT },
+                option: { category: CONTENT },
             }}
-            urlParamName={'content'}
+            urlParamName={'category'}
         />
     );
 }

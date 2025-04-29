@@ -61,7 +61,7 @@ const getId = (str: string) =>
         .toLowerCase()
         .split(' ')
         .join('')
-        .replaceAll(/[^a-zA-Z\d]/g, '');
+        .replaceAll(/[^a-zA-Z_\d]/g, '');
 
 const checkNumber = <T extends number | undefined>(value: T): value is Exclude<T, 0 | '' | null | undefined | false> =>
     value !== undefined && value !== null;

@@ -78,6 +78,7 @@ enum Route {
     // /all_ways
     AllWays = '/all_ways',
     AllWaysArticle = '/all_ways/article',
+    AllWaysAll = Route.AllWays + '/' + CategoryFallback,
     Artificial = '/all_ways/artificial_intelligence',
     Cloud = '/all_ways/cloud',
     Data = '/all_ways/data',

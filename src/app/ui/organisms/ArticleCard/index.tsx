@@ -61,11 +61,11 @@ const ArticleCard: FC<Props> = (props: Props) => {
             )}
         >
             <div
-                className={cn('relative -z-10 flex size-full overflow-hidden', altVertical ? 'pb-0' : 'pr-0', {
+                className={cn('relative flex size-full overflow-hidden', altVertical ? 'pb-0' : 'pr-0', {
                     ['p-xs']: alt,
                 })}
             >
-                <div className={'absolute from-0 bg-gradient-to-t from-black to-25%'} />
+                <div className={'absolute inset-0 from-0 bg-gradient-to-t from-black to-25%'} />
                 <Image
                     src={article?.thumbnail || PNG_NATURE}
                     width={500}
