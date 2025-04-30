@@ -121,4 +121,5 @@ const ResourceCard: FC<Props> = (props: Props) => {
 
 ResourceCard.displayName = ResourceCard.name;
 
+export type { Props as ResourceCardProps };
 export { ResourceCard };
