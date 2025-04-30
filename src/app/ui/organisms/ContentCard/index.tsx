@@ -23,6 +23,7 @@ const ContentCard: FC<Props> = (props: Props) => {
         <div
             className={cn(
                 'grid',
+                'sm:gap-x-0 gap-x-xxs',
                 'sm:grid-cols-[1fr,min-content] grid-cols-[min-content,1fr]',
                 'sm:gap-4xs gap-x-xxs',
                 'text-12',

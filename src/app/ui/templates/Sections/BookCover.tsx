@@ -68,7 +68,7 @@ const BookCoverSection: FC<Props> = (props: Props) => {
                 className={cn(
                     'grid w-full bg-cover',
                     'grid-cols-2 md:grid-cols-[17rem,1fr] lg:grid-cols-[23.312rem,1fr]',
-                    'sm:pb-[9rem] py-xl lg:py-[6.5rem]',
+                    'sm:pb-[9rem] md:pb-[5.12rem] py-xl lg:py-[6.5rem]',
                     'sm:pl-xs pl-[2.69rem]',
                     'pr-[3.5rem] md:pr-[7.5rem] lg:pr-[11.5rem]',
                     'h-[26.062rem] md:h-[60.25rem] lg:h-[88.625rem]',

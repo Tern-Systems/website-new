@@ -126,5 +126,7 @@ const Pagination: FC<Props> = (props: Props) => {
     ) : null;
 };
 
-export type { Props as PaginationProps };
+interface PaginationProps extends Omit<Props, 'pageState'> {}
+
+export type { PaginationProps };
 export { Pagination };
