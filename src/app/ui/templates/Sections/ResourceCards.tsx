@@ -14,7 +14,7 @@ import styles from '@/app/common.module.css';
 interface Props {
     highlighted?: true;
     links: ResourceLink[];
-    icon: StaticImageData | null;
+    icon?: StaticImageData | null;
 }
 
 const ResourceCards: FC<Props> = (props: Props) => {
@@ -23,18 +23,23 @@ const ResourceCards: FC<Props> = (props: Props) => {
     const Links: ReactElement[] = links.map((link, idx) => (
         <li
             key={link.title + idx}
-            className={'content'}
+            className={'contents'}
         >
             <PageLink
-                href={link.href}
-                className={`h-full w-full flex-col !items-start bg-gray px-xs py-l  sm:py-n`}
+                href={link?.href ?? ''}
+                prevent={!link?.href}
+                className={`size-full flex flex-col !items-start bg-gray px-xs  sm:py-n py-l`}
             >
-                <span className={'block text-27  font-bold  sm:text-24'}>{link.title}</span>
+                <span className={cn('block text-27  sm:text-24', { ['font-bold']: link.href })}>{link.title}</span>
                 <span className={'mt-3xl sm:mt-l  leading-n  sm:text-14'}>{link.description}</span>
-                {icon ? (
+                {icon || link?.icon ? (
                     <ReactSVG
-                        src={icon.src}
-                        className={cn(`rotate-180 [&_path]:fill-blue`, `mt-5xl  size-xxs`, `sm:mt-l sm:size-3xs`)}
+                        src={link?.icon?.src ?? icon?.src ?? ''}
+                        className={cn(
+                            `[&_path]:fill-blue z-10  sm:size-3xs size-xxs`,
+                            link.icon ? 'sm:mb-xxl mb-l' : 'sm:mt-l mt-5xl',
+                            { ['-order-1']: link.icon },
+                        )}
                     />
                 ) : null}
             </PageLink>

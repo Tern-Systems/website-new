@@ -9,7 +9,8 @@ import { PlanName } from '@/app/types/subscription';
 type ResourceLink = {
     title: string;
     description: string;
-    href: string;
+    href?: string;
+    icon?: StaticImageData;
 };
 
 type CardLink = {

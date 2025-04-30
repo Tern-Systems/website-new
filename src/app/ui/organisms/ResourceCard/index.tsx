@@ -8,12 +8,13 @@ import cn from 'classnames';
 import { PageLink } from '@/app/ui/layout';
 
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import { H3 } from '@/app/ui/atoms';
 
 interface Props extends PropsWithChildren {
     type?: 'default' | 'highlighted' | 'alt';
     icon: StaticImageData;
     title: string;
-    action: { title: string; href: string };
+    action?: { title: string; href: string };
     bullets?: string[];
     className?: {
         wrapper?: string;
@@ -52,24 +53,28 @@ const ResourceCard: FC<Props> = (props: Props) => {
                         className?.wrapper,
                     )}
                 >
-                    <Image
-                        src={icon}
-                        alt={title}
-                        className={cn('w-full h-auto', className?.image)}
-                    />
-                    <span className={cn('contents lg:flex  flex-col gap-y-n', className?.content)}>
-                        <span className={'row-start-1  text-32 md:text-27 sm:text-20'}>{title}</span>
-                        <span className={cn('leading-l', className?.children)}>{children}</span>
+                    <div className={'contents'}>
+                        <Image
+                            src={icon}
+                            alt={title}
+                            className={cn('w-full h-auto', className?.image)}
+                        />
+                    </div>
+                    <div className={cn('contents lg:flex  flex-col gap-y-n', className?.content)}>
+                        <H3 className={'row-start-1  text-24 md:text-27 lg:text-32'}>{title}</H3>
+                        <p className={cn('!leading-l', className?.children)}>{children}</p>
                         {Points ? <ul>{Points}</ul> : null}
-                        <PageLink
-                            icon={'arrow-right-long'}
-                            href={action.href}
-                            className={cn('flex-row-reverse p-xxs w-fit bg-blue', className?.link)}
-                            iconClassName={'ml-xs size-5xs'}
-                        >
-                            {action.title}
-                        </PageLink>
-                    </span>
+                        {action ? (
+                            <PageLink
+                                icon={'arrow-right-long'}
+                                href={action.href}
+                                className={cn('flex-row-reverse p-xxs w-fit bg-blue', className?.link)}
+                                iconClassName={'ml-xs size-5xs'}
+                            >
+                                {action.title}
+                            </PageLink>
+                        ) : null}
+                    </div>
                 </div>
             );
         case 'highlighted':
@@ -103,14 +108,16 @@ const ResourceCard: FC<Props> = (props: Props) => {
                                 {children}
                             </span>
                         </span>
-                        <PageLink
-                            icon={'arrow-right-long'}
-                            href={action.href}
-                            className={cn('flex-row-reverse p-xxs w-fit bg-blue lg:mt-auto', className?.link)}
-                            iconClassName={'ml-xs size-5xs'}
-                        >
-                            {action.title}
-                        </PageLink>
+                        {action ? (
+                            <PageLink
+                                icon={'arrow-right-long'}
+                                href={action.href}
+                                className={cn('flex-row-reverse p-xxs w-fit bg-blue lg:mt-auto', className?.link)}
+                                iconClassName={'ml-xs size-5xs'}
+                            >
+                                {action.title}
+                            </PageLink>
+                        ) : null}
                     </span>
                 </div>
             );

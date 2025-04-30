@@ -1,13 +1,13 @@
 'use client';
 
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, ReactNode } from 'react';
 import cn from 'classnames';
 
 import { H3 } from '@/app/ui/atoms';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
     type?: 'bottom' | 'default';
-    heading?: string;
+    heading?: ReactNode;
 }
 
 const Content: FC<Props> = (props: Props) => {

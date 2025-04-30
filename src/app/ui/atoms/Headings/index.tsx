@@ -82,8 +82,30 @@ const H3: FC<TypeProps> = (props: TypeProps) => {
     );
 };
 
+const H4: FC<TypeProps> = (props: TypeProps) => {
+    const { children, className, type, ...h3Props } = props;
+
+    let typeCN: string;
+    switch (type) {
+        default:
+        case 'default':
+            typeCN = 'text-18 md:text-24 lg:text-32';
+            break;
+    }
+
+    return (
+        <h3
+            {...h3Props}
+            className={cn(typeCN, '!leading-n', className)}
+        >
+            {children}
+        </h3>
+    );
+};
+
 H1.displayName = H1.name;
 H2.displayName = H2.name;
 H3.displayName = H3.name;
+H4.displayName = H4.name;
 
-export { H1, H2, H3 };
+export { H1, H2, H3, H4 };
