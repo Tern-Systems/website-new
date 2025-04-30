@@ -2,8 +2,9 @@ enum SearchParamsEnum {
     token = 'token',
 }
 
-enum CacheEnum {
+enum StorageEnum {
     credential = 'tern-credential',
+    course = 'tern-course',
 }
 
-export { SearchParamsEnum, CacheEnum };
+export { SearchParamsEnum, StorageEnum };

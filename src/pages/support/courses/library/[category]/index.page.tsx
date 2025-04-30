@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { Course } from '@/app/types/blog';
+import { Course } from '@/app/types/course';
 
 import { CategoryFallback } from '@/app/static';
 

@@ -137,6 +137,9 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         case checkSubRoute(route, Route.CoursesLib):
             navLinks[NavLink.Breadcrumbs] = [Route.Courses, Route.CoursesLib];
             break;
+        case checkSubRoute(route, Route.Courses):
+            navLinks[NavLink.Breadcrumbs] = [Route.Courses, Route.CoursesLib];
+            break;
         default:
             break;
     }

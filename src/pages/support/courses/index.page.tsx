@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { ArrayOfLength } from '@/app/types/utils';
-import { Course } from '@/app/types/blog';
+import { Course, COURSES_TEMPLATE } from '@/app/types/course';
 import { Route } from '@/app/static';
 
 import { useModal } from '@/app/hooks';
@@ -13,31 +13,6 @@ import { MessageModal } from '@/app/ui/modals';
 import { BookCoverSection, CardsLibrary, InsideTernSection } from '@/app/ui/templates';
 
 import BACKGROUND from '@/assets/images/courses-bg-main.png';
-
-// TODO remove templates
-const COURSE_TEMPLATE: Course = {
-    title: 'Some title',
-    description: 'Some useful description',
-    category: 'Individual',
-    content: 'Some tip ',
-    thumbnail: '',
-    id: '9uqhe45gf032j0',
-    date: 264,
-    label: 'Website',
-    durationMs: 39874,
-    subject: 'BTMC',
-    tag: 'Featured',
-    type: 'text',
-};
-
-const COURSES_TEMPLATE: Course[] = Array(183)
-    .fill(null)
-    .map((_, idx) => ({
-        ...COURSE_TEMPLATE,
-        id: COURSE_TEMPLATE.id + idx,
-        tag: !(idx % 7) ? 'Free' : !(idx % 5) ? 'Featured' : !(idx % 11) ? 'Popular' : 'Premium',
-        type: idx % 3 ? 'video' : 'text',
-    }));
 
 // The items order is important
 const COURSE_TAGS: ArrayOfLength<string, 4> = ['Popular', 'Featured', 'Free', 'Premium'];
