@@ -62,7 +62,7 @@ const ArticleCard: FC<Props> = (props: Props) => {
             )}
         >
             <div
-                className={cn('relative flex size-full overflow-hidden', altVertical ? 'pb-0' : 'pr-0', {
+                className={cn('relative -z-10 flex size-full overflow-hidden', altVertical ? 'pb-0' : 'pr-0', {
                     ['p-xs']: alt,
                 })}
             >

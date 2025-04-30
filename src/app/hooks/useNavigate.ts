@@ -23,7 +23,6 @@ const useNavigate = (
 
     useEffect(() => {
         layoutCtx.setFadeState(false);
-        document.querySelector('#header')?.scrollIntoView();
     }, [pageRoute]);
 
     const closeModal = () => {
@@ -41,6 +40,7 @@ const useNavigate = (
         setTimeout(() => {
             router.push(route);
             setNavigationState(NavigationState.FREE);
+            document.querySelector('#header')?.scrollIntoView();
         }, LAYOUT.fadeDuration);
 
         if (closeModalImmediately) closeModal();

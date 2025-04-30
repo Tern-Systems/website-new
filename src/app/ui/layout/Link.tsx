@@ -45,7 +45,7 @@ const PageLink: FC<Props> = (props: Props) => {
 
     const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
         linkProps.onClick?.(event);
-        if (prevent || external) return;
+        if (prevent || external) return event.preventDefault();
 
         const handleNavigation = () => navigate((href as Route) ?? Route.Home);
         if (timeout) return setTimeout(() => handleNavigation(), timeout);
@@ -68,18 +68,10 @@ const PageLink: FC<Props> = (props: Props) => {
         href,
     };
 
-    return external ? (
+    return (
         <a
             {...commonProps}
-            target={'_blank'}
-            rel={'noopener noreferrer'}
-        >
-            {Icon} {splitHref}
-        </a>
-    ) : (
-        <a
-            {...commonProps}
-            onClick={handleLinkClick}
+            {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : { onClick: handleLinkClick })}
         >
             {Icon} {splitHref}
         </a>

@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
+import { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import { Breakpoint, Route } from '@/app/static';
@@ -14,7 +14,6 @@ import { PageLink } from '@/app/ui/layout';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 enum CardsPerPage {
-    DefaultAlt = 4,
     Default = 3,
     MD = 2,
     SM = 1,
@@ -52,16 +51,17 @@ const Carousel: FC<Props> = (props: Props) => {
             ? CardsPerPage.SM
             : md
               ? CardsPerPage.Default
-              : CardsPerPage.DefaultAlt
+              : CardsPerPage.MD
         : defaultSpinner
           ? sm
-              ? CardsPerPage.MD
+              ? CardsPerPage.SM
               : CardsPerPage.Default
           : md
             ? altSpinner === 'alt'
                 ? CardsPerPage.SM
                 : CardsPerPage.MD
-            : CardsPerPage.DefaultAlt;
+            : CardsPerPage.MD;
+    const cardsPerPage = colsPerPage * rowsCount;
 
     const cardCount: number | undefined = altData?.cards.length;
 
@@ -72,11 +72,8 @@ const Carousel: FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if (cardCount) setMaxPage(Math.ceil(cardCount / rowsCount / colsPerPage));
-    }, [cardCount, colsPerPage]);
-
-    useEffect(() => {
-        if (carouselRef.current) carouselRef.current.scrollLeft = page * carouselRef.current.scrollWidth;
-    }, [page]);
+        if (page >= maxPage && maxPage) setPage(maxPage - 1);
+    }, [cardCount, colsPerPage, breakpoint]);
 
     // Elements
     const renderCarouselBtn = (right?: true) => (
@@ -115,6 +112,8 @@ const Carousel: FC<Props> = (props: Props) => {
         </span>
     );
 
+    const CardsLi: ReactNode = altData?.cards.slice(page * cardsPerPage, cardsPerPage * (page + 1)) ?? children;
+
     return (
         <div
             className={cn(
@@ -147,27 +146,21 @@ const Carousel: FC<Props> = (props: Props) => {
             )}
             <ul
                 ref={carouselRef}
-                style={
-                    altSpinner === 'default' || !altData
-                        ? {}
-                        : {
-                              gridTemplateColumns: `repeat(${altData.cards.length / rowsCount}, calc(${100 / colsPerPage}% - ${altSpinner === 'alt' || breakpoint <= Breakpoint.sm ? '0px' : 'var(--p-xl) + 1px'}))`,
-                          }
-                }
+                style={{
+                    gridTemplateColumns: `repeat(${colsPerPage},1fr)`,
+                    gridTemplateRows: `repeat(${rowsCount},1fr)`,
+                }}
                 className={cn(
                     'mx-auto grid w-fit max-w-full !min-h-fit flex-grow justify-items-center',
                     'sm:gap-x-5xl gap-xl',
                     'mt-s md:mt-n lg:mt-xl',
                     altData
-                        ? cn('grid-flow-col overflow-x-hidden', defaultSpinner ? 'h-full' : 'flex-grow', {
-                              [!page ? 'sm:ml-0 ml-xs' : 'sm:ml-0 -ml-xs']: defaultSpinner || topSpinner,
-                              ['sm:grid-rows-2']: topSpinner,
-                          })
+                        ? cn('grid-flow-col overflow-x-hidden', defaultSpinner ? 'h-full' : 'flex-grow')
                         : 'overflow-scroll',
                     classNameUl,
                 )}
             >
-                {altData?.cards ?? children}
+                {CardsLi}
             </ul>
             {altData ? (
                 !defaultSpinner || rowsCount > 1 || !altData.link ? null : (

@@ -23,7 +23,7 @@ const EVENT_TEMPLATE: Event = {
     title: 'Tern New Website Design Demonstration',
     description:
         'Join us for an exclusive webinar as we unveil the newly redesigned Tern website! This interactive session will showcase the enhanced features, streamlined navigation, and updated content that highlight Tern’s groundbreaking advancements in ternary computing.',
-    time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
+    time: { start: new Date().getTime(), end: new Date().getTime() + 3_000_000 },
     category: 'networking',
     content: '',
     type: 'text',
@@ -31,7 +31,7 @@ const EVENT_TEMPLATE: Event = {
 
 const EVENTS_TEMPLATE: Event[] = Array(47)
     .fill(null)
-    .map((_) => EVENT_TEMPLATE);
+    .map((_, idx) => ({ ...EVENT_TEMPLATE, title: EVENT_TEMPLATE.title + idx }));
 
 type EventFilter = { category: string };
 

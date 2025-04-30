@@ -28,13 +28,14 @@ const TIP_TEMPLATE: Tip = {
     type: 'text',
 };
 
-const TIPS_TEMPLATE: Tip[] = Array(83)
+const TIPS_TEMPLATE: Tip[] = Array(183)
     .fill(null)
     .map((_, idx) => ({
         ...TIP_TEMPLATE,
         id: TIP_TEMPLATE.id + idx,
+        title: TIP_TEMPLATE.title + idx,
         durationMs: idx % 7 ? 492362 : undefined,
-        tag: idx % 7 ? 'Popular' : idx % 5 ? 'Featured' : idx % 11 ? 'Videos' : 'Reads',
+        tag: !(idx % 7) ? 'Popular' : !(idx % 5) ? 'Featured' : !(idx % 11) ? 'Videos' : 'Reads',
         type: idx % 7 ? 'video' : 'text',
     }));
 
@@ -76,7 +77,7 @@ function TipsPage() {
             <Content>
                 <CardsLibrary
                     section={{
-                        preHref: Route.TipsVideos,
+                        preHref: Route.Tips,
                         first: { title: 'Videos', href: Route.TipsVideos },
                         second: { title: 'Reading Material', href: Route.TipsReads },
                     }}

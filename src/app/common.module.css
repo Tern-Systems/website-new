@@ -14,12 +14,10 @@
 }
 
 .content {
-  box-sizing: content-box;
-
   margin-right: auto;
   margin-left: auto;
 
-  max-width: 90rem;
+  max-width: calc(90rem + 2 * var(--p-xl));
   width: 100%;
   height: 100%;
 

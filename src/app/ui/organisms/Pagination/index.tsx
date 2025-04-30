@@ -3,16 +3,18 @@
 import { FC, HTMLAttributes, ReactElement, ReactNode, useState } from 'react';
 import cn from 'classnames';
 
+import { Breakpoint } from '@/app/static';
+
 import { generateArray } from '@/app/utils';
 
 import { Button } from '@/app/ui/form';
 
-import { useNavigate } from '@/app/hooks';
+import { useBreakpointCheck, useNavigate } from '@/app/hooks';
 import { useSearchParams } from 'next/navigation';
 
 import { faAngleDoubleLeft, faAngleDoubleRight, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
-const OVERFLOW_COUNT = 5;
+const OVERFLOW_COUNT = { regular: 5, sm: 2 };
 
 const BUTTON_PROPS_CN = {
     className: 'size-7xl flex border-s border-inherit',
@@ -27,26 +29,33 @@ const Ellipsis = (
     />
 );
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
     Items: ReactNode[];
-    columns: number;
+    columns?: number;
     rows: number;
+    className?: {
+        wrapper?: string;
+        list?: string;
+        pagination?: string;
+    };
 }
 
 const Pagination: FC<Props> = (props: Props) => {
-    const { Items, rows, columns, className, ...divProps } = props;
+    const { Items, rows, columns = 1, className, ...divProps } = props;
 
     const params = useSearchParams();
+    const sm = useBreakpointCheck() <= Breakpoint.sm;
     const currentPage = parseInt(params?.get('page') ?? '0') || 0;
 
     const [_, router, route] = useNavigate();
 
+    const overflowCount = sm ? OVERFLOW_COUNT.sm : OVERFLOW_COUNT.regular;
     const elementCount = columns * rows;
     const pageCount = Math.ceil(Items.length / elementCount);
 
-    const [batchIdx, setBatchIdx] = useState(Math.trunc(currentPage / OVERFLOW_COUNT));
+    const [batchIdx, setBatchIdx] = useState(Math.trunc(currentPage / overflowCount));
 
-    const maxBatchIdx = Math.ceil(pageCount / OVERFLOW_COUNT) - 1;
+    const maxBatchIdx = Math.ceil(pageCount / overflowCount) - 1;
     const lastBatchIdx = maxBatchIdx === batchIdx;
 
     const requireHandleSelect = (getPage: (prev: number) => number, page?: boolean) => () => {
@@ -62,12 +71,12 @@ const Pagination: FC<Props> = (props: Props) => {
         }
     };
 
-    const overflow = pageCount > OVERFLOW_COUNT;
+    const overflow = pageCount > overflowCount;
     const pagination = (
         overflow
-            ? generateArray(OVERFLOW_COUNT).slice(0, (lastBatchIdx && pageCount % OVERFLOW_COUNT) || OVERFLOW_COUNT)
+            ? generateArray(overflowCount).slice(0, (lastBatchIdx && pageCount % overflowCount) || overflowCount)
             : generateArray(Math.ceil(pageCount))
-    ).map((_, idx) => OVERFLOW_COUNT * batchIdx + idx);
+    ).map((_, idx) => overflowCount * batchIdx + idx);
 
     // Elements
     const ItemsLi: ReactNode[] = Items.slice(currentPage * elementCount, (currentPage + 1) * elementCount);
@@ -86,11 +95,11 @@ const Pagination: FC<Props> = (props: Props) => {
         </li>
     ));
 
-    const lastLeft: boolean = (overflow ? batchIdx : currentPage) - 1 < 0;
-    const lastRight: boolean = overflow ? batchIdx >= maxBatchIdx : currentPage >= pageCount - 1;
+    const lastBatchLeft: boolean = batchIdx <= 0;
+    const lastBatchRight: boolean = batchIdx >= maxBatchIdx;
 
     return ItemsLi.length ? (
-        <div>
+        <div className={className?.wrapper}>
             <ul
                 style={{ gridTemplateColumns: `repeat(${columns},1fr)` }}
                 className={cn(
@@ -98,27 +107,28 @@ const Pagination: FC<Props> = (props: Props) => {
                     'gap-y-xl md:gap-y-xxl lg:gap-y-5xl',
                     'sm:!grid-cols-[minmax(0,20.937rem)]',
                     'sm:w-fit w-full',
+                    className?.list,
                 )}
             >
                 {ItemsLi}
             </ul>
             <div
                 {...divProps}
-                className={cn('flex h-7xl w-fit border-gray-l2', className)}
+                className={cn('flex h-7xl w-fit border-gray-l2', className?.pagination)}
             >
                 <Button
                     icon={faAngleDoubleLeft}
                     onClick={requireHandleSelect((prev) => prev - 1, !overflow)}
-                    disabled={lastLeft}
+                    disabled={overflow ? lastBatchLeft : currentPage <= 0}
                     {...BUTTON_PROPS_CN}
                 />
-                {lastLeft ? null : Ellipsis}
+                {lastBatchLeft ? null : Ellipsis}
                 <ul className={'flex border-y-s border-inherit'}>{PageButtonsLi}</ul>
-                {lastRight ? null : Ellipsis}
+                {lastBatchRight ? null : Ellipsis}
                 <Button
                     icon={faAngleDoubleRight}
                     onClick={requireHandleSelect((prev) => prev + 1, !overflow)}
-                    disabled={lastRight}
+                    disabled={overflow ? lastBatchRight : currentPage >= pageCount - 1}
                     {...BUTTON_PROPS_CN}
                 />
             </div>

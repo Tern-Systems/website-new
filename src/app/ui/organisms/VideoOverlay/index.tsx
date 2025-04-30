@@ -76,5 +76,7 @@ const VideoOverlay: FC<Props> = (props: Props) => {
     );
 };
 
+VideoOverlay.displayName = VideoOverlay.name;
+
 export type { Props as VideoOverlayProps };
 export { VideoOverlay };
