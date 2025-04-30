@@ -27,8 +27,8 @@ const HIGHLIGHTED_CARD: CardLink = {
     action: { title: 'Subscribe today', href: '' },
 };
 
-const renderCards = (type: ArticleCardType, tips: LibraryCardType[] = []) =>
-    tips.map((tip, idx) => {
+const renderCards = (type: ArticleCardType, rootHref: Route, cards: LibraryCardType[] = []) =>
+    cards.map((card, idx) => {
         let borderCN = '';
         switch (type) {
             case 'alt':
@@ -40,14 +40,15 @@ const renderCards = (type: ArticleCardType, tips: LibraryCardType[] = []) =>
         }
         return (
             <li
-                key={tip.id + idx}
+                key={card.id + idx}
                 className={cn('contents', borderCN)}
             >
                 <ArticleCard
-                    key={tip.id + idx}
+                    key={card.id + idx}
                     type={type}
-                    article={tip}
-                    altLink={tip.type === 'video' ? 'watch' : undefined}
+                    article={card}
+                    altLink={card.type === 'video' ? 'watch' : undefined}
+                    rootHref={rootHref}
                 />
             </li>
         );
@@ -79,15 +80,22 @@ const CardsLibrary = (props: Props) => {
 
     const CardsTag0Li: ReactElement[] = renderCards(
         'alt-vertical',
+        section.preHref,
         cards?.filter((entry) => entry.tag === tags[0]).slice(0, 3),
     );
-    const CardsTag1Li: ReactElement[] = renderCards('alt', cards?.filter((entry) => entry.tag === tags[1]).slice(0, 4));
+    const CardsTag1Li: ReactElement[] = renderCards(
+        'alt',
+        section.preHref,
+        cards?.filter((entry) => entry.tag === tags[1]).slice(0, 4),
+    );
     const CardsTag2Li: ReactElement[] = renderCards(
         'default',
+        section.preHref,
         cards?.filter((entry) => entry.tag === tags[2]),
     );
     const CardsTag3Li: ReactElement[] = renderCards(
         'default',
+        section.preHref,
         cards?.filter((entry) => entry.tag === tags[3]),
     );
 

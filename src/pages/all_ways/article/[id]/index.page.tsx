@@ -7,7 +7,7 @@ import Image from 'next/image';
 import cn from 'classnames';
 
 import { Article } from '@/app/types/blog';
-import { Breakpoint } from '@/app/static';
+import { Breakpoint, Route } from '@/app/static';
 
 import { formatDate } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
@@ -113,7 +113,10 @@ function ArticlePage() {
                 key={article?.id ?? 'card-' + idx}
                 className={'contents'}
             >
-                <ArticleCard article={article} />
+                <ArticleCard
+                    article={article}
+                    rootHref={Route.AllWaysArticle}
+                />
             </li>
         ));
 

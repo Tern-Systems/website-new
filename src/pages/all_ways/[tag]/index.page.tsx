@@ -62,7 +62,10 @@ function ArticlesByTag() {
             key={article?.id ?? 'card-' + idx}
             className={'contents'}
         >
-            <ArticleCard article={article} />
+            <ArticleCard
+                article={article}
+                rootHref={Route.AllWaysArticle}
+            />
         </li>
     ));
     const CardsLatestLi: ReactElement[] = articlesFinal.slice(1, ARTICLE_COUNT.latest + +lg).map((article, idx) => (
@@ -74,6 +77,7 @@ function ArticlesByTag() {
                 type={'alt'}
                 article={article}
                 className={'[&:not(:first-of-type)]:border-t-0'}
+                rootHref={Route.AllWaysArticle}
             />
         </li>
     ));
@@ -104,6 +108,7 @@ function ArticlesByTag() {
                         <ArticleCard
                             type={'expand'}
                             article={articlesFinal[0]}
+                            rootHref={Route.AllWaysArticle}
                         />
                     </div>
                     <div className={'flex flex-col'}>

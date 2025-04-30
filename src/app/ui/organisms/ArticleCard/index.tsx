@@ -28,17 +28,18 @@ interface Props {
     altIcon?: ButtonIcon;
     className?: string;
     classNameContent?: string;
+    rootHref: Route;
 }
 
 const ArticleCard: FC<Props> = (props: Props) => {
-    const { type, article, hideTag, altLink, altIcon, className, classNameContent } = props;
+    const { type, article, hideTag, altLink, altIcon, className, rootHref, classNameContent } = props;
 
     const [navigate] = useNavigate(true);
 
     const openArticle = (article: MediaCardType | null) => {
         if (!article) return;
         localStorage.setItem('article', JSON.stringify(article));
-        navigate((Route.AllWaysArticle + '/' + article.id) as Route);
+        navigate((rootHref + '/' + article.id) as Route);
     };
 
     const expand = type === 'expand';
