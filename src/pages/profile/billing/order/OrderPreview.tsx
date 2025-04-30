@@ -99,7 +99,7 @@ const OrderPreview: FC<Props> = (props: Props) => {
 
                 <div
                     className={cn(
-                        `mt-xl flex items-center justify-center gap-y-xxs gap-x-[0.75rem] text-21 font-bold sm:flex-col md:landscape:flex-col lg:flex-col`,
+                        `mt-xl flex items-center justify-center gap-y-xxs gap-x-3xs-1 text-21 font-bold sm:flex-col md:landscape:flex-col lg:flex-col`,
                         `sm:landscape:x-[mt-xs,text-16] md:text-21  lg:text-21`,
                     )}
                 >

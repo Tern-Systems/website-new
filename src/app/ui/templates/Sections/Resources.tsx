@@ -14,6 +14,7 @@ import { useModal } from '@/app/hooks';
 import styles from '@/app/common.module.css';
 
 import SVG_ARROW_LONG from '@/assets/images/icons/arrow-right-long.svg';
+import { Section } from '@/app/ui/atoms';
 
 interface Props extends PropsWithChildren {
     className?: string;
@@ -46,10 +47,10 @@ const ResourcesSection: FC<Props> = (props: Props) => {
     ));
 
     return (
-        <section className={cn(styles.content, className, 'text-14')}>
+        <Section className={{ content: cn('text-14', className) }}>
             <p className={'pl-n font-bold'}>{children ?? 'Additional resources'}</p>
             <ul className={'mt-xxs border-t-s border-white-d0  [&>li]:x-[px-n,py-xs,text-blue]'}>{ResourcesLi}</ul>
-        </section>
+        </Section>
     );
 };
 

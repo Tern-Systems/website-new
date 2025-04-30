@@ -17,6 +17,7 @@ const spacing = {
     xs: 'var(--p-xs)',
     xxs: 'var(--p-xxs)',
     '3xs': 'var(--p-3xs)',
+    '3xs-1': 'var(--p-3xs-1)',
     '4xs': 'var(--p-4xs)',
     '4xs-1': 'var(--p-4xs-1)',
     '4xs-2': 'var(--p-4xs-2)',
