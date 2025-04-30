@@ -63,7 +63,7 @@ const ExportInvoiceModal: FC = () => {
                     options={TIMEFRAME_OPTIONS}
                     value={formData.timeRange.toString()}
                     placeholder={'Select'}
-                    onChangeCustom={handleTimeRangeChange}
+                    onChange={handleTimeRangeChange}
                     classNameWrapper={'flex-col [&]:items-start gap-xs flex-grow'}
                     classNameLabel={'text-[min(3.2dvw,var(--fz-content-s))] font-bold'}
                     className={`h-[min(5.9dvw,3.25rem)] px-4xs py-[min(--p-3xs)]`}

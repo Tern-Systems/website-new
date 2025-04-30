@@ -66,6 +66,11 @@ const getId = (str: string) =>
 const checkNumber = <T extends number | undefined>(value: T): value is Exclude<T, 0 | '' | null | undefined | false> =>
     value !== undefined && value !== null;
 
+const exclude = <T>(array: T[], item: T | number): T[] => {
+    const idx: number = typeof item === 'number' ? item : array.indexOf(item);
+    return [...array.slice(0, idx), ...array.slice(idx + 1)];
+};
+
 export {
     generateArray,
     generateFallbackEntries,
@@ -75,4 +80,5 @@ export {
     getId,
     checkNumber,
     arrayToRecord,
+    exclude,
 };

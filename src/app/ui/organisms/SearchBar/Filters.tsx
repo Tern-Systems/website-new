@@ -8,9 +8,10 @@ import { formatDate } from '@/app/utils';
 
 import { Input, Select } from '@/app/ui/form';
 
+type FilterList = { multiple?: true; options: Record<string, string> };
 type Filter = {
     title: string;
-    options?: Record<string, string>;
+    list?: FilterList;
     state: [string, (value: string) => void];
 };
 
@@ -19,7 +20,7 @@ type DateFilter = Record<keyof DateFilterValue, [number, (value: string) => void
 
 type FilterProps = {
     filters: Filter[];
-    dateFilter?: DateFilter;
+    dateFilter: DateFilter | null;
 };
 
 const CONTROL_PROPS_CN = {
@@ -39,16 +40,17 @@ const Filters: FC<Props> = (props: Props) => {
     useOuterClickClose(filterRef, expanded, setExpanded);
 
     const FiltersLi: ReactElement[] = filters.map((filter: Filter, idx) => {
-        const [value, setValue] = filter.state;
+        const [filterValue, setValue] = filter.state;
         return (
             <li
                 key={filter.title + idx}
                 className={'contents'}
             >
                 <Select
-                    options={filter.options || {}}
-                    value={value}
-                    onChangeCustom={(value) => setValue(value)}
+                    options={filter.list?.options || {}}
+                    value={filterValue}
+                    multiple={filter.list?.multiple}
+                    onChange={setValue}
                     classNameOption={'h-4xs !border-gray-l0 !border-x-0'}
                     classNameSelected={'w-full mr-auto'}
                     classNameChevron={'ml-xl mr-4xs-1'}
@@ -96,5 +98,5 @@ const Filters: FC<Props> = (props: Props) => {
 
 Filters.displayName = Filters.name;
 
-export type { FilterProps, Filter, DateFilterValue, DateFilter };
+export type { FilterProps, Filter, FilterList, DateFilterValue, DateFilter };
 export { Filters };

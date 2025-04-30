@@ -5,9 +5,10 @@ import { useParams } from 'next/navigation';
 
 import { ContentCardType, MediaCardType } from '@/app/types/blog';
 import { Pagination, PaginationProps } from '@/app/ui/organisms/Pagination';
+import { FilterList } from '@/app/ui/organisms/SearchBar/Filters';
 import { Breakpoint, CategoryFallback } from '@/app/static';
 
-import { formatDate } from '@/app/utils';
+import { exclude, formatDate } from '@/app/utils';
 import { useBreakpointCheck, useForm, useNavigate } from '@/app/hooks';
 
 import { BreadcrumbRoute, Content, H1, Section } from '@/app/ui/atoms';
@@ -45,7 +46,8 @@ interface Props<T, F, I> {
     heading: string;
     filterSetup: {
         default: F;
-        option: Record<keyof F, Record<string, string>>;
+        option: Record<keyof F, FilterList>;
+        date?: true;
     };
     items: I[];
     urlParamName: keyof F;
@@ -82,35 +84,46 @@ const LibraryTemplate = <
 
     if (filter.search)
         itemsFiltered = itemsFiltered.filter((item) => item.title.toLowerCase().includes(filter.search.toLowerCase()));
-    if (filter.date)
+    if (filter.date) {
         itemsFiltered = itemsFiltered.filter(
             (item) => item.date === undefined || (filter.date.start <= item.date && item.date <= filter.date.end),
         );
+    }
 
     const filters: Filter[] = Object.keys(filterSetup.default).map((key): Filter => {
         const value = filter[key];
+        const list: FilterList = filterSetup.option[key];
 
-        if (value && value !== CategoryFallback)
+        if (value && value !== CategoryFallback) {
             itemsFiltered = itemsFiltered.filter((item) => {
                 const itemProperty = item[key as keyof I];
-                return typeof itemProperty !== 'string' || itemProperty.toLowerCase() === value.toLowerCase();
+                return (
+                    typeof itemProperty !== 'string' ||
+                    (list.multiple
+                        ? value.toLowerCase().includes(itemProperty.toLowerCase())
+                        : itemProperty.toLowerCase() === value.toLowerCase())
+                );
             });
+        }
 
         const isUrlParam = key === urlParamName;
         const tagFallback = isUrlParam ? CategoryFallback : '';
 
-        tags.push({
-            value: value || tagFallback,
-            reset: () => {
-                setFilterField(key, tagFallback);
-                if (isUrlParam) router.push(CategoryFallback);
-            },
-        });
+        const newTags: string[] = list.multiple ? value.split(',') : [value];
+        tags.push(
+            ...newTags.map((tag) => ({
+                value: tag || tagFallback,
+                reset: () => {
+                    setFilterField(key, exclude(newTags, tag).join(','));
+                    if (isUrlParam) router.push(CategoryFallback);
+                },
+            })),
+        );
 
         return {
             title: key,
-            options: filterSetup.option[key],
-            state: [filter[key], (value: string) => setFilterField(key, value)],
+            list,
+            state: [value, (value: string) => setFilterField(key, value)],
         };
     });
 
@@ -123,45 +136,53 @@ const LibraryTemplate = <
         </li>
     ));
 
-    const dateFilter: DateFilter = {
-        start: [
-            filter.date.start,
-            (value: string) =>
-                setFilter((prevState) => ({
-                    ...prevState,
-                    date: { ...prevState.date, start: new Date(value).getTime() },
-                })),
-        ],
-        end: [
-            filter.date.end,
-            (value: string) =>
-                setFilter((prevState) => ({
-                    ...prevState,
-                    date: { ...prevState.date, end: new Date(value).getTime() },
-                })),
-        ],
-    };
+    const dateFilter: DateFilter | null = filterSetup.date
+        ? {
+              start: [
+                  filter.date.start,
+                  (value: string) =>
+                      setFilter((prevState) => {
+                          return {
+                              ...prevState,
+                              date: { ...prevState.date, start: new Date(value + 'T00:00:00').getTime() },
+                          };
+                      }),
+              ],
+              end: [
+                  filter.date.end,
+                  (value: string) =>
+                      setFilter((prevState) => ({
+                          ...prevState,
+                          date: { ...prevState.date, end: new Date(value + 'T00:00:00').getTime() },
+                      })),
+              ],
+          }
+        : null;
 
     const tagsFinal: LibraryTag[] = [
         ...tags,
-        {
-            value: filter.date.start ? 'Start: ' + formatDate(filter.date.start, 'short') : '',
-            reset: () => {
-                setFilter((prevState) => ({
-                    ...prevState,
-                    date: { ...prevState.date, start: 0 },
-                }));
-            },
-        },
-        {
-            value: filter.date.end ? 'End: ' + formatDate(filter.date.end, 'short') : '',
-            reset: () => {
-                setFilter((prevState) => ({
-                    ...prevState,
-                    date: { ...prevState.date, end: Date.now() },
-                }));
-            },
-        },
+        ...(filterSetup.date
+            ? [
+                  {
+                      value: filter.date.start ? 'Start: ' + formatDate(filter.date.start, 'short') : '',
+                      reset: () => {
+                          setFilter((prevState) => ({
+                              ...prevState,
+                              date: { ...prevState.date, start: 0 },
+                          }));
+                      },
+                  },
+                  {
+                      value: filter.date.end ? 'End: ' + formatDate(filter.date.end, 'short') : '',
+                      reset: () => {
+                          setFilter((prevState) => ({
+                              ...prevState,
+                              date: { ...prevState.date, end: Date.now() },
+                          }));
+                      },
+                  },
+              ]
+            : []),
     ];
 
     const dimensions = getDimensions(type, breakpoint);
@@ -177,7 +198,7 @@ const LibraryTemplate = <
                     icon={faX}
                     onClick={tag.reset}
                     className={'flex-row-reverse capitalize'}
-                    classNameIcon={'[&_*]:size-[0.75rem]'}
+                    classNameIcon={'[&_*]:size-7xs'}
                 >
                     {tag.value}
                 </Button>

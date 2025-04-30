@@ -150,7 +150,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               <Select
                                   value={link}
                                   options={dropdownLinks}
-                                  onChangeCustom={(_: string) => {
+                                  onChange={(_: string) => {
                                       // TODO handle links
                                   }}
                                   classNameWrapper={'!static left-0 size-full'}

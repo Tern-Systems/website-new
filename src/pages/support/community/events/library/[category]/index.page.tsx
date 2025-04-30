@@ -95,7 +95,7 @@ function CommunityEventsPage() {
             items={events}
             filterSetup={{
                 default: DEFAULT_FILTER,
-                option: { category: CONTENT },
+                option: { category: { options: CONTENT } },
             }}
             urlParamName={'category'}
             renderItem={(item) => (

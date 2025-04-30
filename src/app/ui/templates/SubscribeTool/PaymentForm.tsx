@@ -167,7 +167,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     options={SavedCards}
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
-                    onChangeCustom={(value) => setFormData('savedCardIdx')(value)}
+                    onChange={(value) => setFormData('savedCardIdx')(value)}
                     classNameWrapper={'mb-xxs'}
                     className={SELECT_CN}
                     classNameOption={CONTROL_H_CN}
@@ -252,7 +252,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         options={COUNTRY}
                         value={formData.country ?? ''}
                         placeholder={'Country / Region'}
-                        onChangeCustom={(value) => setFormData('country')(value)}
+                        onChange={(value) => setFormData('country')(value)}
                         className={`${SELECT_CN} bg-white [&&]:rounded-b-none`}
                         classNameOption={CONTROL_H_CN}
                         classNameUl={'min-w-0'}
@@ -310,7 +310,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                     options={STATE_PROVINCE?.[formData?.country ?? ''] ?? {}}
                                     value={formData.state ?? ''}
                                     placeholder={'State / Province'}
-                                    onChangeCustom={(value) => setFormData('state')(value)}
+                                    onChange={(value) => setFormData('state')(value)}
                                     className={`${SELECT_CN} [&&]:rounded-t-none [&&]:border-t-0`}
                                     classNameOption={CONTROL_H_CN}
                                     required={billingExpanded}

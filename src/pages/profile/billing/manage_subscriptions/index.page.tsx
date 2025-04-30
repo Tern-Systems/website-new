@@ -259,7 +259,7 @@ function ManageSubscriptionsPage() {
                         options={subscriptionOptions}
                         value={selectedIdx.toString()}
                         placeholder={'Select'}
-                        onChangeCustom={handleSelectChange}
+                        onChange={handleSelectChange}
                         classNameWrapper={cn(
                             `flex-col gap-y-xxs`,
                             `text-14 md:text-16 lg:text-18`,

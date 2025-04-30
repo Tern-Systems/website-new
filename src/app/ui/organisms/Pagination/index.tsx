@@ -10,7 +10,7 @@ import { Button } from '@/app/ui/form';
 import { useNavigate } from '@/app/hooks';
 import { useSearchParams } from 'next/navigation';
 
-import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleLeft, faAngleDoubleRight, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
 const OVERFLOW_COUNT = 5;
 
@@ -18,6 +18,14 @@ const BUTTON_PROPS_CN = {
     className: 'size-7xl flex border-s border-inherit',
     classNameIcon: '[&_path]:fill-blue group-disabled:[&_path]:fill-gray',
 };
+
+const Ellipsis = (
+    <Button
+        icon={faEllipsisH}
+        {...BUTTON_PROPS_CN}
+        className={cn(BUTTON_PROPS_CN.className, '!border-x-0')}
+    />
+);
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
     Items: ReactNode[];
@@ -78,6 +86,9 @@ const Pagination: FC<Props> = (props: Props) => {
         </li>
     ));
 
+    const lastLeft: boolean = (overflow ? batchIdx : currentPage) - 1 < 0;
+    const lastRight: boolean = overflow ? batchIdx >= maxBatchIdx : currentPage >= pageCount - 1;
+
     return ItemsLi.length ? (
         <div>
             <ul
@@ -98,14 +109,16 @@ const Pagination: FC<Props> = (props: Props) => {
                 <Button
                     icon={faAngleDoubleLeft}
                     onClick={requireHandleSelect((prev) => prev - 1, !overflow)}
-                    disabled={(overflow ? batchIdx : currentPage) - 1 < 0}
+                    disabled={lastLeft}
                     {...BUTTON_PROPS_CN}
                 />
-                <ul className={'flex border-y-s'}>{PageButtonsLi}</ul>
+                {lastLeft ? null : Ellipsis}
+                <ul className={'flex border-y-s border-inherit'}>{PageButtonsLi}</ul>
+                {lastRight ? null : Ellipsis}
                 <Button
                     icon={faAngleDoubleRight}
                     onClick={requireHandleSelect((prev) => prev + 1, !overflow)}
-                    disabled={overflow ? batchIdx >= maxBatchIdx : currentPage >= pageCount - 1}
+                    disabled={lastRight}
                     {...BUTTON_PROPS_CN}
                 />
             </div>

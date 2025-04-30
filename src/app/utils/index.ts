@@ -8,6 +8,7 @@ export {
     checkNumber,
     generateArray,
     arrayToRecord,
+    exclude,
 } from './data';
 export { mapSavedCard, getCardName } from './payment';
 export { getIdName, getRouteRoot, checkSubRoute, getRouteLeave, sliceRoute } from './router';

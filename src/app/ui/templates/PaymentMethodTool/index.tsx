@@ -107,7 +107,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             options={SavedCardOptions}
             value={editCardIdx.toString()}
             placeholder={'Select Payment Method'}
-            onChangeCustom={(value) => setEditCardIdx(parseInt(value) ?? -1)}
+            onChange={(value) => setEditCardIdx(parseInt(value) ?? -1)}
             classNameWrapper={cn(
                 `flex-col gap-y-xxs`,
                 `text-14 md:text-16 lg:text-18`,
@@ -305,7 +305,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     name={TestID.form.input.state}
                                     options={STATE_PROVINCE?.[formData.country ?? ''] ?? {}}
                                     value={formData.state ?? ''}
-                                    onChangeCustom={(value) => setFormData('state')(value)}
+                                    onChange={(value) => setFormData('state')(value)}
                                     classNameWrapper={cn(FIELD_CN, `text-[500] w-1/2`)}
                                     classNameLabel={'mr-auto'}
                                     classNameSelected={'w-full '}
@@ -341,7 +341,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 name={TestID.form.input.country}
                                 options={COUNTRY}
                                 value={formData.country ?? ''}
-                                onChangeCustom={(value) => setFormData('country')(value)}
+                                onChange={(value) => setFormData('country')(value)}
                                 classNameWrapper={cn(FIELD_CN, `text-[500]`)}
                                 classNameLabel={'mr-auto'}
                                 classNameSelected={'w-full '}
