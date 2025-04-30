@@ -1,18 +1,17 @@
 'use client';
 
-import { ReactElement } from 'react';
-import Image from 'next/image';
+import {ReactElement} from 'react';
 import cn from 'classnames';
 
-import { CardLink, ResourceLink } from '@/app/types/layout';
-import { Breakpoint } from '@/app/static';
+import {CardLink, ResourceLink} from '@/app/types/layout';
+import {Breakpoint} from '@/app/static';
 
-import { useBreakpointCheck } from '@/app/hooks';
+import {useBreakpointCheck} from '@/app/hooks';
 
-import { Content, Gradient, H1, H2, H3, Section } from '@/app/ui/atoms';
-import { PageLink } from '@/app/ui/layout';
-import { AllWaysCard, BookCoverSection, ResourceCards } from '@/app/ui/templates';
-import { ResourceCard } from '@/app/ui/organisms';
+import {Content, H1, H2, H3, Section} from '@/app/ui/atoms';
+import {PageLink} from '@/app/ui/layout';
+import {AllWaysCard, BookCoverSection, ResourceCards} from '@/app/ui/templates';
+import {ImageCard, ResourceCard} from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
@@ -146,34 +145,24 @@ function SubscriptionsPage() {
             </Section>
             <Content className={SECTION_SPACING_CN}>
                 <Section>
-                    <div className={'lg:relative  grid grid-flow-row  sm:gap-y-xs gap-y-n'}>
-                        <div className={'contents'}>
-                            <Gradient />
-                            <Image
-                                src={PNG_GIRL_LAPTOP}
-                                alt={'Girl with tablet'}
-                                className={'-z-50 w-full h-auto  row-start-2 lg:row-start-1'}
-                            />
-                        </div>
-                        <div className={'contents lg:flex  lg:x-[absolute,top-[6.44rem],left-xxl,flex-col,gap-y-n]'}>
-                            <H3>Get Full Access</H3>
-                            <p className={'!leading-l text-16'}>
-                                When you sign up for the Tern Academy Premium plan you will gain
-                                <br />
-                                access to our entire digital library of courses and materials.
-                            </p>
-                            {/* TODO: add href */}
-                            <PageLink
-                                external
-                                href={''}
-                                icon={'arrow-right-long'}
-                                className={'flex-row-reverse px-xxs py-xxs h-button-5x w-fit bg-blue'}
-                                iconClassName={'ml-xl size-5xs'}
-                            >
-                                Get access
-                            </PageLink>
-                        </div>
-                    </div>
+                    <ImageCard
+                        image={PNG_GIRL_LAPTOP}
+                        heading={'Get Full Access'}
+                    >
+                        When you sign up for the Tern Academy Premium plan you will gain
+                        <br />
+                        access to our entire digital library of courses and materials.
+                        {/* TODO: add href */}
+                        <PageLink
+                            external
+                            href={''}
+                            icon={'arrow-right-long'}
+                            className={'flex-row-reverse px-xxs py-xxs h-button-5x w-fit bg-blue'}
+                            iconClassName={'ml-xl size-5xs'}
+                        >
+                            Get access
+                        </PageLink>
+                    </ImageCard>
                 </Section>
                 <Section>
                     <H3 type={'large'}>Shop by Course</H3>
