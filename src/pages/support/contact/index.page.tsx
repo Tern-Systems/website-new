@@ -3,21 +3,22 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
-import MapEmbed from './Map';
+import { CardLink, ResourceSectionData } from '@/app/types/layout';
+import { Route } from '@/app/static';
+
 import { useForm } from '@/app/hooks';
 
-import { Button, Input } from '@/app/ui/form';
-import { CardLink, ResourceSectionData } from '@/app/types/layout';
+import { MainBackground } from '@/app/ui/atoms';
 import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
+import { Button, Input } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
-import { Route } from '@/app/static';
+import { MapEmbed } from './Map';
 
 import styles from '@/app/common.module.css';
 
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
-import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
-import { MainBackground } from '@/app/ui/atoms';
+import PNG_HIGHLIGHTEDTIPS from '@/assets/images/conference-girls.png';
 
 type FormData = {
     isAllowedUpdate: boolean | undefined;

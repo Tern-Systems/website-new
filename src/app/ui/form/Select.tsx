@@ -10,13 +10,13 @@ import {
     useRef,
     useState,
 } from 'react';
-import {ReactSVG} from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
-import {copyObject, exclude} from '@/app/utils';
-import {useOuterClickClose} from '@/app/hooks';
+import { copyObject, exclude } from '@/app/utils';
+import { useOuterClickClose } from '@/app/hooks';
 
-import {Input} from '@/app/ui/form';
+import { Input } from '@/app/ui/form';
 
 import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
 import SVG_BULLET_LIST from '@/assets/images/icons/bullet-list.svg';

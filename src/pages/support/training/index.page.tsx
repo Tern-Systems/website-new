@@ -3,8 +3,7 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
-import { CardLink, ResourceLink } from '@/app/types/layout';
-import { Route } from '@/app/static';
+import { ResourceLink } from '@/app/types/layout';
 
 import { PageLink } from '@/app/ui/layout';
 import { Content, H1, H2, H3, Section } from '@/app/ui/atoms';
@@ -13,10 +12,6 @@ import { CardCheckersSection, ResourceCards } from '@/app/ui/templates';
 
 import ACADEMY_COUCH_GIRL from '@/assets/images/academy-couch-girl.jpg';
 import SVG_ARROW from '@/assets/images/icons/arrow.svg';
-import PNG_CARD_1 from '@/assets/images/training-card-1.jpg';
-import PNG_CARD_2 from '@/assets/images/training-card-2.png';
-import PNG_CARD_3 from '@/assets/images/training-card-3.jpg';
-import PNG_CARD_4 from '@/assets/images/training-card-4.jpg';
 
 const links: ResourceLink[] = [
     {

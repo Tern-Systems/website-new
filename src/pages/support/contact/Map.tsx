@@ -1,4 +1,8 @@
-const MapEmbed = () => (
+'use client';
+
+import { FC } from 'react';
+
+const MapEmbed: FC = () => (
     <iframe
         className={'h-full w-full shadow-md'}
         src={
@@ -9,4 +13,4 @@ const MapEmbed = () => (
     />
 );
 
-export default MapEmbed;
+export { MapEmbed };

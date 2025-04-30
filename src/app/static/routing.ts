@@ -49,7 +49,8 @@ enum Route {
     // /support
     Resources = '/support/resources',
     Community = '/support/community',
-    EventsLibrary = '/support/community/events/library',
+    Events = Route.Community + '/events',
+    EventsLibrary = Route.Events + '/library',
     EventsAll = Route.EventsLibrary + '/' + CategoryFallback,
     Training = '/support/training',
     TrainingFAQs = '/support/training/faqs',
@@ -72,9 +73,10 @@ enum Route {
     BTMCDoc = '/support/documentation/btmc',
 
     Courses = '/support/courses',
-    AllCourses = '/support/courses/Library',
-    CoursesVideos = '/support/courses/videos',
-    CoursesReads = '/support/courses/reads',
+    CoursesLib = '/support/courses/library',
+    CoursesAll = Route.CoursesLib + '/' + CategoryFallback,
+    FreeCourses = Route.CoursesLib + '/free',
+    PremiumCourses = Route.CoursesLib + '/premium',
 
     // /all_ways
     AllWays = '/all_ways',

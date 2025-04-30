@@ -3,12 +3,10 @@
 import { FC, ReactElement } from 'react';
 import cn from 'classnames';
 
-import { NavLink, Route } from '@/app/static';
+import { MAPPED_SUB_NAV_ROUTES, NavLink } from '@/app/static';
 
 import { getIdName } from '@/app/utils';
 import { useLayout } from '@/app/hooks';
-
-import { MAPPED_SUB_NAV_ROUTES } from '@/app/static';
 import { PageLink } from '@/app/ui/layout';
 
 interface Props {

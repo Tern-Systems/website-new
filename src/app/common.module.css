@@ -14,6 +14,8 @@
 }
 
 .content {
+  box-sizing: content-box;
+
   margin-right: auto;
   margin-left: auto;
 
@@ -24,11 +26,11 @@
   padding-left: var(--p-xl);
   padding-right: var(--p-xl);
 
-  @media screen  and (min-width: 1440px) {
+  @media screen and (min-width: 1440px) {
     width: 80%;
   }
 
-  @media screen  and (max-width: 835px) {
+  @media screen and (max-width: 835px) {
     padding-left: var(--p-xs);
     padding-right: var(--p-xs);
   }
