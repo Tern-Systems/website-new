@@ -27,8 +27,48 @@
     </Window.Resources>
 
 
-    <Border Background="{StaticResource Color.Gray.77}">
-        <StackPanel Width="713">
-        </StackPanel>
+    <Border Background="White"
+        Padding="30"
+        CornerRadius="8"
+        Effect="{DynamicResource DropShadow}">
+        <Grid Margin="20" Width="500">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Name -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Margin="0 10 10 10" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="NameTextBox" />
+
+            <!-- Email -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Email" Margin="0 10 10 10" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="EmailTextBox" />
+
+            <!-- Gender -->
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Gender" Margin="0 10 10 10" VerticalAlignment="Center"/>
+            <ComboBox Grid.Row="2" Grid.Column="1" x:Name="GenderComboBox">
+                <ComboBoxItem Content="Select Gender" IsSelected="True"/>
+                <ComboBoxItem Content="Male"/>
+                <ComboBoxItem Content="Female"/>
+                <ComboBoxItem Content="Other"/>
+            </ComboBox>
+
+            <!-- DOB -->
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Date of Birth" Margin="0 10 10 10" VerticalAlignment="Center"/>
+            <DatePicker Grid.Row="3" Grid.Column="1" x:Name="DobPicker" />
+
+            <!-- Submit Button -->
+            <Button Grid.Row="4" Grid.Column="1" Content="Submit" Click="Submit_Click" HorizontalAlignment="Left" Margin="0 20 0 0"/>
+        </Grid>
+
     </Border>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace btmc
@@ -65,6 +66,22 @@ namespace btmc
                     // Do not implement
                     break;
             }
+        }
+
+        private void GenderComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Submit_Click(object sender, RoutedEventArgs e)
+        {
+            string name = NameTextBox.Text;
+            string email = EmailTextBox.Text;
+            string gender = (GenderComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            string dob = DobPicker.SelectedDate?.ToShortDateString();
+
+            MessageBox.Show($"Submitted:\nName: {name}\nEmail: {email}\nGender: {gender}\nDOB: {dob}");
+
         }
     }
 }
