@@ -3,6 +3,8 @@ export { Carousel } from './Carousel';
 export { Collapsible } from './Collapsible';
 export { ContentCard } from './ContentCard';
 export { Highlighted } from './Highlighted';
+export { ImageCard } from './ImageCard';
+export { ImageList } from './ImageList';
 export { Insignia } from './Insignia';
 export { MediaCard } from './MediaCard';
 export { Pagination } from './Pagination';

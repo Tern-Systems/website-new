@@ -52,11 +52,13 @@ const Filters: FC<Props> = (props: Props) => {
                     multiple={filter.list?.multiple}
                     onChange={setValue}
                     classNameOption={'h-4xs !border-gray-l0 !border-x-0'}
-                    classNameSelected={'w-full mr-auto'}
-                    classNameChevron={'ml-xl mr-4xs-1'}
+                    classNameSelected={'w-full'}
+                    classNameChevron={'ml-auto mr-4xs-1'}
                     {...CONTROL_PROPS_CN}
+                    className={cn(CONTROL_PROPS_CN.className, 'w-[11rem]')}
                     classNameWrapper={cn(CONTROL_PROPS_CN.classNameWrapper, '!h-[10.3rem]')}
                     classNameUl={'!max-h-[6.8rem] border-s border-gray-l0'}
+                    classNameLabel={'capitalize'}
                 >
                     {filter.title}
                 </Select>
