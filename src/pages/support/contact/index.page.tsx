@@ -71,7 +71,7 @@ const ContactsPage: FC = () => {
                 <div
                     className={cn(
                         'h-dvh max-h-[62.5rem] w-full max-w-[120rem]',
-                        'relative bg-fixed bg-center bg-cover',
+                        'bg-fixed bg-center bg-cover relative',
                     )}
                     style={{
                         backgroundImage: `url(${OFFICE_GIRL_3.src})`,
