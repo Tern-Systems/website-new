@@ -37,8 +37,21 @@ type Article = DeepPartial<
 
 // TODO clarify
 type Tip = DeepPartial<LibraryCardType>;
+type Course = DeepPartial<LibraryCardType>;
+type Career = DeepPartial<ContentCardType>;
 
 // TODO clarify
 type Event = DeepPartial<ContentCardType>;
 
-export type { ContentCommon, MediaContent, Article, LibraryCardType, Tip, MediaCardType, ContentCardType, Event };
+export type {
+    ContentCommon,
+    MediaContent,
+    Article,
+    LibraryCardType,
+    Tip,
+    MediaCardType,
+    ContentCardType,
+    Course,
+    Event,
+    Career,
+};
