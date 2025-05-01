@@ -10,7 +10,7 @@ import {
     useRef,
     useState,
 } from 'react';
-import { ReactSVG } from 'react-svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 
 import { copyObject, exclude } from '@/app/utils';
@@ -18,13 +18,14 @@ import { useOuterClickClose } from '@/app/hooks';
 
 import { Input } from '@/app/ui/form';
 
-import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
-import SVG_BULLET_LIST from '@/assets/images/icons/bullet-list.svg';
+import { faChevronDown, faChevronUp, faList } from '@fortawesome/free-solid-svg-icons';
 
 const EMPTY_KEY = '';
 
+type SelectOptions = Record<string, string>;
+
 interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>, PropsWithChildren {
-    options: Record<string, string>;
+    options: SelectOptions;
     value: string;
     onChange: (value: string) => void;
     classNameWrapper?: string;
@@ -59,7 +60,7 @@ const Select: FC<Props> = (props: Props) => {
         ...selectPropsRest
     } = props;
 
-    const optionsFinal: Record<string, string> = copyObject(options ?? {});
+    const optionsFinal: SelectOptions = copyObject(options ?? {});
     let optionsEntries = Object.entries(optionsFinal ?? {});
 
     const hasEmptyOption = optionsEntries.find(([key]) => key === EMPTY_KEY) !== undefined;
@@ -126,9 +127,7 @@ const Select: FC<Props> = (props: Props) => {
                         type={'checkbox'}
                         checked={checked}
                         onChange={() => {}}
-                        className={cn('size-[0.8125rem] border rounded-sm bg-inherit pointer-events-auto', {
-                            ['appearance-none']: !checked,
-                        })}
+                        className={'size-[0.8125rem] border rounded-sm bg-inherit pointer-events-auto'}
                     />
                 ) : null}
             </li>
@@ -153,17 +152,17 @@ const Select: FC<Props> = (props: Props) => {
             <div
                 className={cn(
                     `relative group flex w-full cursor-pointer select-none items-center capitalize`,
-                    `border-s border-white-d0 bg-white`,
+                    `!border-s border-white-d0 bg-white`,
                     { ['!border-b-0']: expanded },
                     className,
                 )}
             >
                 <div
                     onClick={toggleExpand}
-                    className={cn(`relative flex w-fit items-center`, classNameSelected)}
+                    className={cn(`relative flex justify-between w-full items-center`, classNameSelected)}
                 >
                     <span
-                        className={cn(`w-fit overflow-x-hidden overflow-ellipsis text-nowrap leading-[1.3]`, {
+                        className={cn(`w-fit overflow-x-hidden overflow-ellipsis text-nowrap leading-l`, {
                             ['text-placeholder']: hasPlaceholder,
                         })}
                     >
@@ -173,17 +172,15 @@ const Select: FC<Props> = (props: Props) => {
                                 : (placeholder ?? 'Select')
                             : optionsFinal[value]}
                     </span>
-                    <ReactSVG
-                        src={altIcon ? SVG_BULLET_LIST.src : SVG_CHEVRON.src}
-                        className={cn(`group ml-5xs h-auto brightness-[85%]`, classNameChevron, {
-                            ['rotate-180']: !altIcon && expanded,
-                        })}
+                    <FontAwesomeIcon
+                        icon={altIcon ? faList : expanded ? faChevronUp : faChevronDown}
+                        className={cn('size-7xs group ml-5xs', classNameChevron)}
                     />
                 </div>
                 {expanded ? (
                     <ul
                         className={cn(
-                            `absolute left-0 top-full z-30 max-h-[20rem] w-full min-w-fit overflow-y-scroll pointer-events-auto`,
+                            `absolute left-0 top-full z-30 max-h-[20rem] w-full min-w-fit bg-inherit overflow-y-scroll pointer-events-auto`,
                             classNameUl,
                         )}
                     >
@@ -197,4 +194,5 @@ const Select: FC<Props> = (props: Props) => {
 
 Select.displayName = Select.name;
 
+export type { SelectOptions };
 export { Select };

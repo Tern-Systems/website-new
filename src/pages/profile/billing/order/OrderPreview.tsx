@@ -9,7 +9,6 @@ import { Invoice } from '@/app/types/billing';
 
 import { checkNumber } from '@/app/utils';
 
-import { ScrollEnd } from '@/app/ui/organisms';
 import { Button } from '@/app/ui/form';
 
 import SVG_TERN_LOGO from '@/assets/images/insignia-logo.png';
@@ -120,7 +119,6 @@ const OrderPreview: FC<Props> = (props: Props) => {
                 </div>
                 {VisibilityToggle}
             </div>
-            <ScrollEnd />
         </div>
     );
 };

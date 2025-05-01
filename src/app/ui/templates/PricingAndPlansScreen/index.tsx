@@ -20,7 +20,7 @@ import { PageLink } from '@/app/ui/layout';
 import { AuthModal, HelpModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 import { LimitsModal } from './LimitsModal';
-import { Collapsible, ScrollEnd } from '@/app/ui/organisms';
+import { Collapsible } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
@@ -352,7 +352,6 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             >
                 {renderColumns()}
             </div>
-            <ScrollEnd />
         </div>
     );
 };

@@ -14,7 +14,6 @@ import { BillingService } from '@/app/services';
 import { checkNumber, getCardName } from '@/app/utils';
 import { useLoginCheck, useModal, useUser } from '@/app/hooks';
 
-import { ScrollEnd } from '@/app/ui/organisms';
 import { FullScreenLayout, PageLink } from '@/app/ui/layout';
 import { Button } from '@/app/ui/form';
 import { ExportInvoiceModal } from './ExportInvoiceModal';
@@ -241,7 +240,6 @@ function PurchasingInformationPage() {
                     </div>
                 </div>
             </div>
-            <ScrollEnd />
         </div>
     );
 }

@@ -382,7 +382,6 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </span>
                 </div>
             ) : null}
-            <ScrollEnd />
         </div>
     );
 };
