@@ -29,7 +29,7 @@ const SearchBar: FC<Props> = (props: Props) => {
                 tabIndex={0}
                 autoFocus
                 icons={[faMagnifyingGlass]}
-                classNameWrapper={'w-full'}
+                wrapper={'w-full'}
                 className={'flex-grow w-full h-6xl bg-inherit text-18'}
                 classNameIcon={'size-3xs'}
             />

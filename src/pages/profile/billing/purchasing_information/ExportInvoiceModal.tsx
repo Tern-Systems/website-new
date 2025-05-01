@@ -65,10 +65,12 @@ const ExportInvoiceModal: FC = () => {
                     value={formData.timeRange.toString()}
                     placeholder={'Select'}
                     onChange={handleTimeRangeChange}
-                    classNameWrapper={'flex-col [&]:items-start gap-xs flex-grow'}
-                    classNameLabel={'text-[min(3.2dvw,var(--fz-content-s))] font-bold'}
-                    className={`h-[min(5.9dvw,3.25rem)] px-4xs py-[min(--p-3xs)]`}
-                    classNameOption={'h-[min(5.9dvw,3.25rem)] [&:first-of-type]:border-t-0'}
+                    className={{
+                        select: `h-[min(5.9dvw,3.25rem)] px-4xs py-[min(--p-3xs)]`,
+                        wrapper: 'flex-col [&]:items-start gap-xs flex-grow',
+                        label: 'text-[min(3.2dvw,var(--fz-content-s))] font-bold',
+                        option: 'h-[min(5.9dvw,3.25rem)] [&:first-of-type]:border-t-0',
+                    }}
                 >
                     Choose timeframe to export invoices
                 </Select>

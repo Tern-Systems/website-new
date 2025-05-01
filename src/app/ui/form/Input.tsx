@@ -18,24 +18,15 @@ type Icon = string | IconProp;
 type InputProps = InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>;
 interface Props extends Omit<InputProps, 'pattern' | 'type'> {
     type?: InputProps['type'] | 'expiration' | 'text-only';
-    classNameWrapper?: string;
-    classNameLabel?: string;
+    wrapper?: string;
+    label?: string;
     classNameIcon?: string;
     icons?: Icon[];
     classNameIconSpan?: string;
 }
 
 const Input: FC<Props> = (props: Props) => {
-    const {
-        children,
-        classNameWrapper,
-        classNameLabel,
-        className,
-        classNameIcon,
-        icons,
-        classNameIconSpan,
-        ...inputProps
-    } = props;
+    const { children, wrapper, label, className, classNameIcon, icons, classNameIconSpan, ...inputProps } = props;
 
     const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
@@ -46,7 +37,7 @@ const Input: FC<Props> = (props: Props) => {
                     htmlFor={props.id}
                     className={cn(
                         `relative flex w-full cursor-pointer items-center justify-center`,
-                        classNameWrapper,
+                        wrapper,
                         styles.clickable,
                     )}
                 >
@@ -55,7 +46,7 @@ const Input: FC<Props> = (props: Props) => {
                         className={`mr-5xs size-l ${classNameIcon}`}
                     />
                     {children ? (
-                        <span className={cn(classNameLabel, 'overflow-hidden overflow-ellipsis text-nowrap leading-n')}>
+                        <span className={cn(label, 'overflow-hidden overflow-ellipsis text-nowrap leading-n')}>
                             {children}
                         </span>
                     ) : null}
@@ -69,9 +60,9 @@ const Input: FC<Props> = (props: Props) => {
             return (
                 <label
                     htmlFor={props.id}
-                    className={cn(`flex cursor-pointer items-center justify-between`, classNameWrapper)}
+                    className={cn(`flex cursor-pointer items-center justify-between`, wrapper)}
                 >
-                    {children ? <span className={cn(`capitalize`, classNameLabel)}>{children}</span> : null}
+                    {children ? <span className={cn(`capitalize`, label)}>{children}</span> : null}
                     <span
                         className={`relative inline-flex size-[min(9.6dvw,2.25rem)] items-center justify-center rounded-full`}
                     >
@@ -135,10 +126,10 @@ const Input: FC<Props> = (props: Props) => {
                 <label
                     className={cn(
                         `relative flex cursor-pointer flex-col items-start gap-x-[min(1.7dvw,0.4rem)] text-left last-of-type:mb-0 `,
-                        classNameWrapper,
+                        wrapper,
                     )}
                 >
-                    {children ? <span className={classNameLabel}>{children}</span> : null}
+                    {children ? <span className={label}>{children}</span> : null}
                     <textarea
                         {...inputProps}
                         className={cn(`min-h-[9.25rem] p-xxs`, className)}
@@ -176,10 +167,10 @@ const Input: FC<Props> = (props: Props) => {
                 <label
                     className={cn(
                         `relative flex cursor-pointer items-center gap-x-4xs-2 text-left last-of-type:mb-0`,
-                        classNameWrapper,
+                        wrapper,
                     )}
                 >
-                    {children ? <span className={classNameLabel}>{children}</span> : null}
+                    {children ? <span className={label}>{children}</span> : null}
                     <div className={cn(`relative flex items-center`, { ['w-full']: !isCheckbox })}>
                         {IconsSVGs ? (
                             <span

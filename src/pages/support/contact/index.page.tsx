@@ -54,8 +54,8 @@ const RESOURCES: ResourceSectionData[] = [
 ];
 
 const INPUT_PROPS = {
-    classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
-    classNameLabel: 'font-[400]   ',
+    wrapper: 'flex-col [&]:items-start gap-4xs text-18',
+    label: 'font-[400]   ',
     className: cn('h-6xl w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
 };
 
@@ -177,8 +177,8 @@ const ContactsPage: FC = () => {
                                         type={'checkbox'}
                                         checked={formData.isAllowedUpdate}
                                         onChange={setFormValue('isAllowedUpdate')}
-                                        classNameLabel={'text-12 leading-normal'}
-                                        classNameWrapper={'flex [&_div]:items-start'}
+                                        label={'text-12 leading-normal'}
+                                        wrapper={'flex [&_div]:items-start'}
                                         className={'h-5xs w-5xs flex-shrink-0'}
                                     >
                                         May Tern provide you with personalized communications about Tern and select

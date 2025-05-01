@@ -32,7 +32,7 @@ enum Route {
     Ternact = Route.Products + '/ternact',
 
     // Subscriptions
-    Subscriptions = '/subscribe',
+    Subscriptions = '/subscriptions',
     SubscribeTidal = Route.Subscriptions + '/tidal',
     SubscribeNewsletter = Route.Subscriptions + '/newsletter',
     SubscribeCourse = Route.Subscriptions + '/course',

@@ -55,8 +55,19 @@ const formatDate = (
     return result;
 };
 
-const arrayToRecord = (array: any): Record<string, string> =>
-    Object.fromEntries(array.map((entry: any) => [entry.toString().toLowerCase(), entry.toString()]));
+const arrayToRecord = <T, G extends ((entry: T) => V) | undefined, V = T>(
+    array: T[],
+    getKey?: (entry: T) => string,
+    getValue?: G,
+): Record<string, G extends undefined ? T : V> => {
+    return Object.fromEntries(
+        array.map((entry: any) => {
+            const key: string = getKey?.(entry) ?? entry.toString();
+            const value = getValue?.(entry) ?? entry;
+            return [key.toLowerCase(), value];
+        }),
+    );
+};
 
 const copyObject = <T extends object>(object: T): T => JSON.parse(JSON.stringify(object));
 

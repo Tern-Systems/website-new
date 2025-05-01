@@ -26,7 +26,7 @@ type FilterProps = {
 };
 
 const CONTROL_PROPS_CN = {
-    classNameWrapper: 'flex-col !items-start gap-5xs h-fit text-nowrap',
+    wrapper: 'flex-col !items-start gap-5xs h-fit text-nowrap',
     className: 'h-n pl-5xs !bg-gray !border-s !border-gray-l0 text-14',
 };
 
@@ -53,14 +53,16 @@ const Filters: FC<Props> = (props: Props) => {
                     value={filterValue}
                     multiple={filter.list?.multiple}
                     onChange={setValue}
-                    classNameOption={'h-4xs !border-gray-l0 !border-x-0'}
-                    classNameSelected={'w-full'}
-                    classNameChevron={'ml-auto mr-4xs-1'}
-                    {...CONTROL_PROPS_CN}
-                    className={cn(CONTROL_PROPS_CN.className, 'w-[11rem]')}
-                    classNameWrapper={cn(CONTROL_PROPS_CN.classNameWrapper, '!h-[10.3rem]')}
-                    classNameUl={'!max-h-[6.8rem] border-s border-gray-l0'}
-                    classNameLabel={'capitalize'}
+                    className={{
+                        ...CONTROL_PROPS_CN,
+                        select: cn(CONTROL_PROPS_CN.className, 'w-[11rem]'),
+                        wrapper: cn(CONTROL_PROPS_CN.wrapper, '!h-[10.3rem]'),
+                        option: 'h-4xs !border-gray-l0 !border-x-0',
+                        selected: 'w-full',
+                        ul: '!max-h-[6.8rem] border-s border-gray-l0',
+                        label: 'capitalize',
+                        chevron: 'ml-auto mr-4xs-1',
+                    }}
                 >
                     {filter.title}
                 </Select>

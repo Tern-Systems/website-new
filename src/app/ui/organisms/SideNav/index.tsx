@@ -88,23 +88,25 @@ const SideNav: FC<Props> = (props: Props) => {
                         setActiveSection(id);
                         document.querySelector('#' + id)?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    classNameWrapper={cn(
-                        `lg:hidden  w-full mb-4xs`,
-                        `flex-col gap-y-xxs text-18`,
-                        `border-b [&]:border-gray-l0`,
-                    )}
-                    classNameLabel={'mr-auto'}
-                    classNameSelected={'w-full '}
-                    classNameChevron={'ml-auto'}
-                    className={cn(`!border-0 !bg-gray-d2 [&]:h-4xl  md:h-7xl  sm:h-button-xl`, `px-xxs  md:px-xs `)}
-                    classNameUl={`border border-gray-l0`}
-                    classNameOption={cn(
-                        `h-6xl sm:h-button-xl`,
-                        `[&]:x-[bg-gray,border-transparent,py-4xs]`,
-                        `hover:bg-gray-l2`,
-                        `text-18  md:text-20`,
-                        `px-xxs  md:px-xs`,
-                    )}
+                    className={{
+                        select: cn(`!border-0 !bg-gray-d2 [&]:h-4xl  md:h-7xl  sm:h-button-xl`, `px-xxs  md:px-xs `),
+                        option: cn(
+                            `h-6xl sm:h-button-xl`,
+                            `[&]:x-[bg-gray,border-transparent,py-4xs]`,
+                            `hover:bg-gray-l2`,
+                            `text-18  md:text-20`,
+                            `px-xxs  md:px-xs`,
+                        ),
+                        wrapper: cn(
+                            `lg:hidden  w-full mb-4xs`,
+                            `flex-col gap-y-xxs text-18`,
+                            `border-b [&]:border-gray-l0`,
+                        ),
+                        label: 'mr-auto',
+                        selected: 'w-full ',
+                        chevron: 'ml-auto',
+                        ul: `border border-gray-l0`,
+                    }}
                 />
             )}
         </div>

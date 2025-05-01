@@ -261,16 +261,18 @@ function ManageSubscriptionsPage() {
                         value={selectedIdx.toString()}
                         placeholder={'Select'}
                         onChange={handleSelectChange}
-                        classNameWrapper={cn(
-                            `flex-col gap-y-xxs`,
-                            `text-14 md:text-16 lg:text-18`,
-                            `w-full md:w-1/2 lg:w-1/3`,
-                        )}
-                        classNameLabel={'mr-auto'}
-                        classNameSelected={'w-full '}
-                        classNameChevron={'ml-auto'}
-                        className={cn(SELECT_CN, `px-xxs sm:px-3xs`)}
-                        classNameOption={cn(SELECT_CN, '!border-t-s !border-gray-l0')}
+                        className={{
+                            select: cn(SELECT_CN, `px-xxs sm:px-3xs`),
+                            option: cn(SELECT_CN, '!border-t-s !border-gray-l0'),
+                            wrapper: cn(
+                                `flex-col gap-y-xxs`,
+                                `text-14 md:text-16 lg:text-18`,
+                                `w-full md:w-1/2 lg:w-1/3`,
+                            ),
+                            label: 'mr-auto',
+                            selected: 'w-full ',
+                            chevron: 'ml-auto',
+                        }}
                     >
                         Choose Subscription
                     </Select>

@@ -7,13 +7,15 @@ import { DataTestID } from '@/tests/static';
 import { SavedCard } from '@/app/types/billing';
 import { Subscription, SubscriptionRecurrency } from '@/app/types/subscription';
 import { SubscribeData } from '@/app/services/billing.service';
+import { SelectOptions } from '@/app/ui/form/Select';
+
 import { COUNTRY, CountryKey, MISC_LINKS, Route, STATE_PROVINCE, StateKey } from '@/app/static';
 
 import { BillingService } from '@/app/services';
 
 import { useFlow, useForm, useModal, useNavigate, useUser } from '@/app/hooks';
 
-import { ScrollEnd } from '@/app/ui/organisms';
+import { H3 } from '@/app/ui/atoms';
 import { PageLink } from '@/app/ui/layout';
 import { Button, Input, Select } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
@@ -46,9 +48,6 @@ const FORM_DEFAULT: SubscribeData = {
     state: '',
     acceptTerms: false,
 };
-
-const CONTROL_H_CN = 'h-[3rem] sm:h-s sm:landscape:[&&]:py-0 bg-white-l0';
-const SELECT_CN = `px-[min(1dvw,0.75rem)] rounded-xs border-s ${CONTROL_H_CN}`;
 
 interface Props {
     type: Subscription['type'] | undefined;
@@ -155,7 +154,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     };
 
     // Elements
-    const SavedCards: Record<string, string> = {};
+    const SavedCards: SelectOptions = {};
     for (const key in savedCards) SavedCards[key] = savedCards[key].cardType + ' **** ' + savedCards[key].last4;
 
     let FormInputs: ReactElement;
@@ -167,11 +166,14 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     options={SavedCards}
                     value={formData.savedCardIdx}
                     placeholder={'Select'}
-                    onChange={(value) => setFormData('savedCardIdx')(value)}
-                    classNameWrapper={'mb-xxs'}
-                    className={SELECT_CN}
-                    classNameOption={CONTROL_H_CN}
+                    onChange={setFormData('savedCardIdx')}
+                    className={{
+                        wrapper: 'mb-xxs',
+                        select: styles.select,
+                        option: styles.control,
+                    }}
                     required
+                    altIcon
                 />
                 <Input
                     data-testid={TestID.input.cvc}
@@ -182,7 +184,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                     onChange={setFormData('cvc')}
                     placeholder={'CVC'}
                     icons={[SVG_CARD_NUM]}
-                    className={CONTROL_H_CN}
+                    className={styles.control}
                     required
                 />
             </>
@@ -190,7 +192,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
     } else {
         FormInputs = (
             <>
-                <fieldset className={'grid grid-cols-2 grid-rows-2'}>
+                <fieldset>
                     <legend>Card Information</legend>
                     <Input
                         data-testid={TestID.input.cardNumber}
@@ -200,46 +202,46 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         maxLength={16}
                         onChange={setFormData('cardNumber')}
                         placeholder={'1234 1234 1234 1234'}
-                        classNameWrapper={'col-span-2'}
-                        className={`[&&]:rounded-b-none [&&]:border-b-0 ${CONTROL_H_CN}`}
+                        wrapper={'col-span-2'}
+                        className={styles.control}
                         icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
                         required
                     />
-                    <Input
-                        data-testid={TestID.input.expirationDate}
-                        name={TestID.input.expirationDate}
-                        type={'expiration'}
-                        value={formData.expirationDate}
-                        maxLength={5}
-                        onChange={setFormData('expirationDate')}
-                        placeholder={'MM/YY'}
-                        className={`[&&]:rounded-t-none [&&]:rounded-br-none [&&]:border-r-0 ${CONTROL_H_CN}`}
-                        required
-                    />
-                    <Input
-                        data-testid={TestID.input.cvc}
-                        name={TestID.input.cvc}
-                        type={'number'}
-                        value={formData.cvc}
-                        maxLength={4}
-                        onChange={setFormData('cvc')}
-                        placeholder={'CVC'}
-                        className={`[&&]:rounded-t-none [&&]:rounded-bl-none ${CONTROL_H_CN}`}
-                        icons={[SVG_CARD_NUM]}
-                        required
-                    />
+                    <fieldset className={styles.pair}>
+                        <Input
+                            data-testid={TestID.input.expirationDate}
+                            name={TestID.input.expirationDate}
+                            type={'expiration'}
+                            value={formData.expirationDate}
+                            maxLength={5}
+                            onChange={setFormData('expirationDate')}
+                            placeholder={'MM/YY'}
+                            className={styles.control}
+                            required
+                        />
+                        <Input
+                            data-testid={TestID.input.cvc}
+                            name={TestID.input.cvc}
+                            type={'number'}
+                            value={formData.cvc}
+                            maxLength={4}
+                            onChange={setFormData('cvc')}
+                            placeholder={'CVC'}
+                            className={styles.control}
+                            icons={[SVG_CARD_NUM]}
+                            required
+                        />
+                    </fieldset>
                 </fieldset>
                 <fieldset>
                     <legend>Cardholder Name</legend>
                     <Input
                         data-testid={TestID.input.cardholderName}
+                        type={'text-only'}
                         name={TestID.input.cardholderName}
                         value={formData.cardholderName}
                         onChange={setFormData('cardholderName')}
-                        onKeyDown={(event) => {
-                            if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace') event.preventDefault();
-                        }}
-                        className={CONTROL_H_CN}
+                        className={styles.control}
                         placeholder={'Full name on card'}
                         required
                     />
@@ -252,11 +254,14 @@ const PaymentForm: FC<Props> = (props: Props) => {
                         options={COUNTRY}
                         value={formData.country ?? ''}
                         placeholder={'Country / Region'}
-                        onChange={(value) => setFormData('country')(value)}
-                        className={`${SELECT_CN} bg-white [&&]:rounded-b-none`}
-                        classNameOption={CONTROL_H_CN}
-                        classNameUl={'min-w-0'}
+                        onChange={setFormData('country')}
+                        className={{
+                            select: styles.select,
+                            option: styles.control,
+                            ul: 'min-w-0',
+                        }}
                         required
+                        altIcon
                     />
                     {billingExpanded ? (
                         <>
@@ -266,7 +271,7 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 value={formData.addressLine1}
                                 onChange={setFormData('addressLine1')}
                                 placeholder={'Street Address #1'}
-                                className={`[&&]:rounded-none [&&]:border-y-0 ${CONTROL_H_CN}`}
+                                className={styles.control}
                                 required={billingExpanded}
                             />
                             <Input
@@ -275,20 +280,17 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                 value={formData.addressLine2}
                                 onChange={setFormData('addressLine2')}
                                 placeholder={'Street Address #2'}
-                                className={`[&&]:rounded-none [&&]:border-b-0 ${CONTROL_H_CN}`}
+                                className={styles.control}
                             />
-                            <div className={'flex'}>
+                            <fieldset className={styles.pair}>
                                 <Input
                                     data-testid={TestID.input.city}
+                                    type={'text-only'}
                                     name={TestID.input.city}
                                     value={formData.city}
                                     onChange={setFormData('city')}
                                     placeholder={'City / Locality'}
-                                    onKeyDown={(event) => {
-                                        if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
-                                            event.preventDefault();
-                                    }}
-                                    className={`[&&]:rounded-none [&&]:border-r-0 ${CONTROL_H_CN}`}
+                                    className={styles.control}
                                     required={billingExpanded}
                                 />
                                 <Input
@@ -298,11 +300,11 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                     value={formData.zip}
                                     maxLength={5}
                                     onChange={setFormData('zip')}
-                                    className={`[&&]:rounded-none ${CONTROL_H_CN}`}
+                                    className={styles.control}
                                     placeholder={'Postal / Zip Code'}
                                     required={billingExpanded}
                                 />
-                            </div>
+                            </fieldset>
                             {billingExpanded ? (
                                 <Select
                                     data-testid={TestID.input.state}
@@ -310,10 +312,13 @@ const PaymentForm: FC<Props> = (props: Props) => {
                                     options={STATE_PROVINCE?.[formData?.country ?? ''] ?? {}}
                                     value={formData.state ?? ''}
                                     placeholder={'State / Province'}
-                                    onChange={(value) => setFormData('state')(value)}
-                                    className={`${SELECT_CN} [&&]:rounded-t-none [&&]:border-t-0`}
-                                    classNameOption={CONTROL_H_CN}
+                                    onChange={setFormData('state')}
+                                    className={{
+                                        select: styles.select,
+                                        option: styles.control,
+                                    }}
                                     required={billingExpanded}
+                                    altIcon
                                 />
                             ) : null}
                         </>
@@ -324,90 +329,83 @@ const PaymentForm: FC<Props> = (props: Props) => {
                             value={formData.billingAddress}
                             onChange={setFormData('billingAddress')}
                             placeholder={'Address'}
-                            className={`[&&]:rounded-t-none [&&]:border-t-0 ${CONTROL_H_CN}`}
+                            className={styles.control}
                             required={!billingExpanded}
                         />
                     )}
                 </fieldset>
                 {billingExpanded ? null : (
-                    <span
+                    <p
                         data-testid={TestID.expandButton}
                         className={'mt-4xs block cursor-pointer text-14 underline'}
                         onClick={() => toggleBillingDetails()}
                     >
                         Enter address manually
-                    </span>
+                    </p>
                 )}
             </>
         );
     }
 
     return (
-        <div
-            className={`h-full w-1/2 flex-1 overflow-y-scroll bg-white pt-6xl sm:x-[overflow-y-visible,p-xs,w-full,max-h-fit,shadow-none]`}
+        <form
+            className={styles.form}
+            onSubmit={handleFormSubmit}
         >
-            <div className={'mx-auto w-full max-w-[29rem]'}>
-                <form
-                    className={styles.form}
-                    onSubmit={handleFormSubmit}
-                >
-                    <h2 className={`mb-xs font-bold`}>{savedCards.length ? 'Choose' : ''} Payment Method</h2>
-                    {FormInputs}
-                    <Input
-                        data-testid={TestID.input.termsCheckbox}
-                        name={TestID.input.termsCheckbox}
-                        type={'checkbox'}
-                        checked={formData.acceptTerms}
-                        onChange={setFormData('acceptTerms')}
-                        classNameWrapper={'flex-row-reverse mt-[min(4dvw,1.46rem)] [&&]:items-start gap-4xs-1'}
-                        classNameLabel={'flex'}
-                        className={'max-h-xxs max-w-xxs'}
-                        required
+            <H3 className={`mb-xs lg:!text-27`}>{savedCards.length ? 'Choose ' : ''}Payment Method</H3>
+            {FormInputs}
+            <Input
+                data-testid={TestID.input.termsCheckbox}
+                name={TestID.input.termsCheckbox}
+                type={'checkbox'}
+                checked={formData.acceptTerms}
+                onChange={setFormData('acceptTerms')}
+                wrapper={'flex-row-reverse mt-s !items-start gap-4xs-1'}
+                label={'flex'}
+                className={'max-h-xxs max-w-xxs'}
+                required
+            >
+                <span className={'text-14 leading-n'}>
+                    You will be charged the amount and at the frequency listed above until you cancel. We may charge our
+                    prices as described in our&nbsp;
+                    <PageLink
+                        href={Route.Terms}
+                        className={'underline'}
                     >
-                        <span className={'text-14 leading-normal'}>
-                            You will be charged the amount and at the frequency listed above until you cancel. We may
-                            charge our prices as described in our&nbsp;
-                            <PageLink
-                                href={Route.Terms}
-                                className='underline'
-                            >
-                                Terms & Conditions
-                            </PageLink>
-                            . You can&nbsp;
-                            <PageLink
-                                href={Route.ManageSubscriptions}
-                                className='underline'
-                            >
-                                cancel at any time
-                            </PageLink>
-                            &nbsp; . By subscribing, you agree to Tern System&apos;s&nbsp;
-                            <PageLink
-                                href={Route.Terms}
-                                className='underline'
-                            >
-                                Terms & Conditions
-                            </PageLink>
-                            &nbsp; and&nbsp;
-                            <PageLink
-                                href={Route.Privacy}
-                                className='underline'
-                            >
-                                Privacy Policy
-                            </PageLink>
-                            .
-                        </span>
-                    </Input>
-                    <Button
-                        data-testid={TestID.submitButton}
-                        type={'submit'}
-                        className={`mt-n h-8xl w-full rounded-full bg-gray text-18 font-bold text-primary sm:h-6xl`}
+                        Terms & Conditions
+                    </PageLink>
+                    . You can&nbsp;
+                    <PageLink
+                        href={Route.ManageSubscriptions}
+                        className={'underline'}
                     >
-                        Subscribe
-                    </Button>
-                </form>
-            </div>
-            <ScrollEnd />
-        </div>
+                        cancel at any time
+                    </PageLink>
+                    . By subscribing, you agree to Tern System&apos;s&nbsp;
+                    <PageLink
+                        href={Route.Terms}
+                        className={'underline'}
+                    >
+                        Terms & Conditions
+                    </PageLink>
+                    &nbsp;and&nbsp;
+                    <PageLink
+                        href={Route.Privacy}
+                        className={'underline'}
+                    >
+                        Privacy Policy
+                    </PageLink>
+                    .
+                </span>
+            </Input>
+            <Button
+                data-testid={TestID.submitButton}
+                type={'submit'}
+                className={`mt-n w-full  bg-blue  font-bold text-18 text-primary  sm:h-6xl h-7xl`}
+            >
+                Subscribe
+            </Button>
+        </form>
     );
 };
 

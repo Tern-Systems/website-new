@@ -31,12 +31,12 @@ interface Props extends PropsWithChildren {
     };
     rowsCount?: number;
     className?: string;
-    classNameUl?: string;
+    ul?: string;
     classNameArrow?: string;
 }
 
 const Carousel: FC<Props> = (props: Props) => {
-    const { altData, rowsCount = 1, className, classNameUl, classNameArrow, children } = props;
+    const { altData, rowsCount = 1, className, ul, classNameArrow, children } = props;
     const { altSpinner } = altData || {};
 
     const breakpoint = useBreakpointCheck();
@@ -157,7 +157,7 @@ const Carousel: FC<Props> = (props: Props) => {
                     altData
                         ? cn('grid-flow-col overflow-x-hidden', defaultSpinner ? 'h-full' : 'flex-grow')
                         : 'overflow-scroll',
-                    classNameUl,
+                    ul,
                 )}
             >
                 {CardsLi}

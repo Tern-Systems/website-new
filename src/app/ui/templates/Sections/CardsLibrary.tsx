@@ -58,7 +58,7 @@ const renderCarousel = (section: SectionData, cards: ReactElement[]) => (
     <Section className={{ section: 'mt-xxl md:mt-3xl lg:mt-xl' }}>
         <Carousel
             altData={{ title: section.title, link: section.href, cards }}
-            classNameUl={'min-h-[27.0625rem]  grid-cols-1 md:grid-cols-2 lg:grid-cols-3  w-full'}
+            ul={'min-h-[27.0625rem]  grid-cols-1 md:grid-cols-2 lg:grid-cols-3  w-full'}
         />
     </Section>
 );
@@ -133,7 +133,7 @@ const CardsLibrary = (props: Props) => {
                                     : undefined,
                         }}
                         rowsCount={2}
-                        classNameUl={'flex-grow grid grid-rows-2 !gap-0 !w-full  sm:h-fit  grid-cols-1 lg:grid-cols-2'}
+                        ul={'flex-grow grid grid-rows-2 !gap-0 !w-full  sm:h-fit  grid-cols-1 lg:grid-cols-2'}
                     />
                 </div>
                 <ResourceCard

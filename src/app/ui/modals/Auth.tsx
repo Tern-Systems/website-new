@@ -123,7 +123,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                             placeholder={'Email'}
                             value={formValue.email}
                             onChange={setFormValue('email')}
-                            classNameWrapper={'flex-col [&]:items-start gap-4xs'}
+                            wrapper={'flex-col [&]:items-start gap-4xs'}
                             className={INPUT_CN}
                             required
                         >
