@@ -1,4 +1,0 @@
-.sectionGradient {
-  --gradient-to: 21rem;
-  background-image: linear-gradient(to bottom, var(--bg-blue) 0%, transparent var(--gradient-to)), linear-gradient(to top, var(--bg-blue) 0%, transparent var(--gradient-to));
-}

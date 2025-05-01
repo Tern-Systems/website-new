@@ -6,14 +6,14 @@ import cn from 'classnames';
 import { H3 } from '@/app/ui/atoms';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-    type?: 'bottom' | 'default';
+    type?: 'bottom' | 'default' | 'long';
     heading?: ReactNode;
 }
 
 const Content: FC<Props> = (props: Props) => {
-    const { children, type = 'default', heading, className, ...divProps } = props;
+    const { children, type = 'default' as Props['type'], heading, className, ...divProps } = props;
 
-    const top = type === 'default';
+    const top = type !== 'bottom';
 
     return (
         <div
@@ -22,9 +22,12 @@ const Content: FC<Props> = (props: Props) => {
         >
             {top ? (
                 <div
-                    className={
-                        'absolute -z-10 inset-0 bg-[linear-gradient(to_bottom,var(--bg-blue)_5rem,transparent_9rem)]'
-                    }
+                    className={cn(
+                        'absolute -z-10 inset-0',
+                        type === 'long'
+                            ? 'bg-[linear-gradient(to_bottom,var(--bg-blue)_1rem,transparent_25rem)]'
+                            : 'bg-[linear-gradient(to_bottom,var(--bg-blue)_5rem,transparent_9rem)]',
+                    )}
                 />
             ) : null}
             {heading ? (

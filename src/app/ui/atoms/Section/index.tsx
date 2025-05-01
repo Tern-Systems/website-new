@@ -8,7 +8,7 @@ import styles from '@/app/common.module.css';
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
     type?: 'full-screen' | 'short';
-    background?: { image: StaticImageData; gradient?: 'left' };
+    background?: { image?: StaticImageData; gradient?: 'left' };
     className?: {
         section?: string;
         content?: string;
@@ -36,7 +36,7 @@ const Section: FC<Props> = (props: Props) => {
             {...sectionProps}
             className={cn(styles.section, typeCN, className?.section)}
         >
-            {background ? (
+            {background?.image ? (
                 <MainBackground
                     url={background.image}
                     className={cn('-z-10', className?.background)}
