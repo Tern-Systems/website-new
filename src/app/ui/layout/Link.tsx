@@ -65,7 +65,6 @@ const PageLink: FC<Props> = (props: Props) => {
     const commonProps = {
         ...linkProps,
         className: cn(`inline-flex items-center`, styles.clickable, linkProps.className),
-        href,
     };
 
     return (

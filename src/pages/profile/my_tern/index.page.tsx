@@ -56,7 +56,7 @@ const EVENTS_TEMPLATE: TableEntry[] = [
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
     { Node: <PageLink href={Route.GeneralFAQs}>Help & FAQs</PageLink> },
-    { Node: <PageLink href={Route.SupportHub} /> },
+    { Node: <PageLink href={Route.Support} /> },
 ];
 
 const renderSinceDate = (dateNumber: number | undefined) => {

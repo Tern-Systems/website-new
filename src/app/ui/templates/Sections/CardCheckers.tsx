@@ -76,7 +76,7 @@ const CARDS: Record<CardType, CardLink[]> = {
             icon: PNG_CARD_REGULAR_3,
             action: {
                 title: 'Explore Tern Credentials',
-                href: Route.SupportHub,
+                href: Route.Support,
             },
             bullets: ['Get certified', 'Earn a badge', 'View your earned credentials'],
         },
@@ -117,7 +117,7 @@ const CARDS: Record<CardType, CardLink[]> = {
             icon: PNG_CARD_ALT_4,
             action: {
                 title: 'Enter support hub',
-                href: Route.SupportHub,
+                href: Route.Support,
             },
         },
         {

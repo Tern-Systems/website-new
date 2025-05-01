@@ -27,7 +27,7 @@ const TestID = DataTestID.page.profile.billing;
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.ManageSubscriptions} /> },
     { Node: <PageLink href={Route.PurchasingInformation} /> },
-    { Node: <PageLink href={Route.SupportHub} /> },
+    { Node: <PageLink href={Route.Support} /> },
 ];
 
 const InvoiceRow: FC<RowProps<Invoice>> = (props: RowProps<Invoice>) => {

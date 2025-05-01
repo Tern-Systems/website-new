@@ -50,7 +50,7 @@ const DOWNLOAD_LINKS: DocumentationLink[] = [
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Tips} /> },
     { Node: <PageLink href={Route.Community} /> },
-    { Node: <PageLink href={Route.SupportHub} /> },
+    { Node: <PageLink href={Route.Support} /> },
 ];
 
 interface Props {

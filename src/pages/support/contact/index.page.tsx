@@ -49,7 +49,7 @@ const HIGHLIGHTED_CARD: CardLink = {
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Community} /> },
-    { Node: <PageLink href={Route.SupportHub}>Support hub</PageLink> },
+    { Node: <PageLink href={Route.Support}>Support hub</PageLink> },
     { Node: <PageLink href={Route.Billing}>Billing resolution center</PageLink> },
 ];
 
