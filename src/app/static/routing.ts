@@ -33,9 +33,9 @@ enum Route {
 
     // Subscriptions
     Subscriptions = '/subscriptions',
-    SubscribeTidal = Route.Subscriptions + '/tidal',
-    SubscribeNewsletter = Route.Subscriptions + '/newsletter',
-    SubscribeCourse = Route.Subscriptions + '/course',
+    SubscriptionsTidal = Route.Subscriptions + '/tidal',
+    SubscriptionsNewsletter = Route.Subscriptions + '/newsletter',
+    SubscriptionsCourse = Route.Subscriptions + '/course',
 
     // Profile
     Profile = '/profile',

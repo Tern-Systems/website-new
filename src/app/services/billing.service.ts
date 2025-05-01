@@ -312,7 +312,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         );
 
         let previewResult: SubscriptionPreview = {
-            route: Route.SubscribeTidal,
+            route: Route.SubscriptionsTidal,
             subscription: source,
             basicKind: source === 'Tidal',
             type: {},

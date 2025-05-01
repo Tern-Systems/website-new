@@ -3,8 +3,7 @@
 import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-import { Breakpoint } from '@/app/static';
-import { LAYOUT, NavLink, Route } from '@/app/static';
+import { Breakpoint, LAYOUT, NavLink, Route } from '@/app/static';
 
 import { LayoutContext, NavigationState, NavLinks, ScrollState } from '@/app/contexts/layout.context';
 
@@ -41,7 +40,7 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                     Route.Training,
                     Route.Courses,
                     Route.ProfessionalCertifications,
-                    Route.Subscriptions,
+                    Route.Subscribe,
                     Route.TrainingFAQs,
                 ];
                 breadCrumbLinks = [Route.Training];
@@ -54,6 +53,15 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                 break;
             case checkSubRoute(route, Route.Products):
                 subNavLinks = [Route.Products, Route.Cyrus, Route.Ternact, Route.Tidal];
+                break;
+            case checkSubRoute(route, Route.SubscriptionsCourse):
+                breadCrumbLinks = [Route.Subscriptions, Route.SubscriptionsCourse];
+                break;
+            case checkSubRoute(route, Route.SubscriptionsNewsletter):
+                breadCrumbLinks = [Route.Subscriptions, Route.SubscriptionsNewsletter];
+                break;
+            case checkSubRoute(route, Route.SubscriptionsTidal):
+                breadCrumbLinks = [Route.Subscriptions, Route.SubscriptionsTidal];
                 break;
             default:
                 break;

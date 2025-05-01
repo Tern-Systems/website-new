@@ -1,17 +1,17 @@
 'use client';
 
-import {ReactElement} from 'react';
+import { ReactElement } from 'react';
 import cn from 'classnames';
 
-import {CardLink, ResourceLink} from '@/app/types/layout';
-import {Breakpoint} from '@/app/static';
+import { CardLink, ResourceLink } from '@/app/types/layout';
+import { Breakpoint } from '@/app/static';
 
-import {useBreakpointCheck} from '@/app/hooks';
+import { useBreakpointCheck } from '@/app/hooks';
 
-import {Content, H1, H2, H3, Section} from '@/app/ui/atoms';
-import {PageLink} from '@/app/ui/layout';
-import {AllWaysCard, BookCoverSection, ResourceCards} from '@/app/ui/templates';
-import {ImageCard, ResourceCard} from '@/app/ui/organisms';
+import { Content, H1, H2, H3, Section } from '@/app/ui/atoms';
+import { PageLink } from '@/app/ui/layout';
+import { AllWaysCard, BookCoverSection, ResourceCards } from '@/app/ui/templates';
+import { ImageCard, ResourceCard } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 

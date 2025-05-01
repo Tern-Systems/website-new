@@ -8,8 +8,6 @@ import { DataTestID } from '@/tests/static';
 
 import { SubscriptionBase } from '@/app/types/subscription';
 import { Fallback } from '@/app/static';
-
-import { H3 } from '@/app/ui/atoms';
 import { Select, SelectOptions } from '@/app/ui/form/Select';
 
 import { checkNumber } from '@/app/utils';
