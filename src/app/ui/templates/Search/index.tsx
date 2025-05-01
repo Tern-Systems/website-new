@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 
 import { ContentCardType, MediaCardType } from '@/app/types/blog';
 import { DateFilter, DateFilterValue, Filter } from '@/app/ui/organisms/SearchBar';
+import { SelectOptions } from '@/app/ui/form/Select';
 import { FilterList } from '@/app/ui/organisms/SearchBar/Filters';
 import { PaginationProps } from '@/app/ui/organisms/Pagination';
 
@@ -52,7 +53,7 @@ interface Props<T, F, I> extends Pick<PaginationProps, 'columns' | 'rows'> {
 
 const Search = <
     T extends PageType,
-    F extends Record<string, string>,
+    F extends SelectOptions,
     I extends T extends 'Media' ? MediaCardType : ContentCardType,
 >(
     props: Props<T, F, I>,

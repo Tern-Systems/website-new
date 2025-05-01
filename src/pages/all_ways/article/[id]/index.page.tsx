@@ -7,6 +7,7 @@ import Image from 'next/image';
 import cn from 'classnames';
 
 import { Article } from '@/app/types/blog';
+import { SelectOptions } from '@/app/ui/form/Select';
 import { Breakpoint, Route } from '@/app/static';
 
 import { formatDate } from '@/app/utils';
@@ -52,7 +53,7 @@ function ArticlePage() {
     const lg = useBreakpointCheck() === Breakpoint.lg;
 
     const [url, setURL] = useState<string | null>(null);
-    const [nav, setNav] = useState<Record<string, string>>({});
+    const [nav, setNav] = useState<SelectOptions>({});
     const [content, setContent] = useState<Article | null>(null);
     const [contentParts, setContentParts] = useState<string[]>([]);
     const [cards, setCards] = useState<Article[]>([]);

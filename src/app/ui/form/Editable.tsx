@@ -18,6 +18,7 @@ import cn from 'classnames';
 import lodash from 'lodash';
 import { v4 } from 'uuid';
 
+import { SelectOptions } from '@/app/ui/form/Select';
 import { KeysOfUnion, NonNullableKeys } from '@/app/types/utils';
 import {
     COUNTRY,
@@ -100,7 +101,7 @@ interface Props extends PropsWithChildren {
 
     type?: FormType;
     toggleType?: 'icon' | 'button';
-    initialize: <T extends FormType>() => DataBase<T> | (DataBase<T> & { options: Record<string, string> });
+    initialize: <T extends FormType>() => DataBase<T> | (DataBase<T> & { options: SelectOptions });
 
     setParentEditId?: Dispatch<SetStateAction<string | null>>;
     parentEditId?: string | null;

@@ -5,6 +5,7 @@ import { Event } from '@/app/types/blog';
 import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
+import { SelectOptions } from '@/app/ui/form/Select';
 import { Breakpoint, Fallback } from '@/app/static';
 
 import { arrayToRecord, formatDate } from '@/app/utils';
@@ -36,7 +37,7 @@ const EVENTS_TEMPLATE: Event[] = Array(47)
 type EventFilter = { category: string };
 
 const DEFAULT_FILTER: EventFilter = { category: '' };
-const CONTENT: Record<string, string> = arrayToRecord(['Talk', 'Panel', 'Webinar', 'Networking']);
+const CONTENT: SelectOptions = arrayToRecord(['Talk', 'Panel', 'Webinar', 'Networking']);
 
 const renderThumbnail = (item: Event) => {
     const [day, month] = item.date ? formatDate(item.date, 'daymonth').split(' ').reverse() : ['-', 'Unknown'];

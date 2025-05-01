@@ -3,12 +3,14 @@
 import { Dispatch, FC, ReactElement, SetStateAction, useRef } from 'react';
 import cn from 'classnames';
 
+import { SelectOptions } from '@/app/ui/form/Select';
+
 import { useOuterClickClose } from '@/app/hooks';
 import { formatDate } from '@/app/utils';
 
 import { Input, Select } from '@/app/ui/form';
 
-type FilterList = { multiple?: true; options: Record<string, string> };
+type FilterList = { multiple?: true; options: SelectOptions };
 type Filter = {
     title: string;
     list?: FilterList;

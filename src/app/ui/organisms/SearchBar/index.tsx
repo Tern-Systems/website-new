@@ -1,14 +1,16 @@
 'use client';
 
-import { FC, InputHTMLAttributes, useState } from 'react';
+import { FC, useState } from 'react';
 import cn from 'classnames';
+
+import { InputProps } from '@/app/ui/form/Input';
 
 import { Button, Input } from '@/app/ui/form';
 import { DateFilter, DateFilterValue, Filter, FilterProps, Filters } from './Filters';
 
 import { faChevronDown, faChevronUp, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-interface Props extends FilterProps, InputHTMLAttributes<HTMLInputElement> {
+interface Props extends FilterProps, InputProps {
     searchState: [string, (value: string) => void];
 }
 

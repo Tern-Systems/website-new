@@ -6,6 +6,7 @@ import cn from 'classnames';
 
 import { DataTestID } from '@/tests/static';
 
+import { SelectOptions } from '@/app/ui/form/Select';
 import { SavedCardFull } from '@/app/types/billing';
 import { Subscription } from '@/app/types/subscription';
 
@@ -70,7 +71,7 @@ function ManageSubscriptionsPage() {
     );
 
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedIdx];
-    const subscriptionOptions: Record<string, string> = Object.fromEntries(
+    const subscriptionOptions: SelectOptions = Object.fromEntries(
         subscriptions?.map((subscription, idx) => [
             idx,
             subscription.subscription + ' ' + subscription.type + ' Plan',

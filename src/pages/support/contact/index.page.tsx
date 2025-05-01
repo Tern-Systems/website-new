@@ -178,10 +178,8 @@ const ContactsPage: FC = () => {
                                         checked={formData.isAllowedUpdate}
                                         onChange={setFormValue('isAllowedUpdate')}
                                         classNameLabel={'text-12 leading-normal'}
-                                        className={'border-gray-l0 bg-gray-d2'}
-                                        classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
                                         classNameWrapper={'flex [&_div]:items-start'}
-                                        isCustomCheckbox
+                                        className={'h-5xs w-5xs flex-shrink-0'}
                                     >
                                         May Tern provide you with personalized communications about Tern and select
                                         Tern-partner products, services, offers and events?

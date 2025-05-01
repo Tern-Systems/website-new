@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, InputHTMLAttributes, MutableRefObject, PropsWithChildren, ReactElement, useRef } from 'react';
+import { FC, InputHTMLAttributes, MutableRefObject, ReactElement, RefObject, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ReactSVG } from 'react-svg';
@@ -15,13 +15,13 @@ import SVG_EYE from '@/assets/images/icons/eye.svg';
 
 type Icon = string | IconProp;
 
-interface Props extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>, PropsWithChildren {
+type InputProps = InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>;
+interface Props extends Omit<InputProps, 'pattern' | 'type'> {
+    type?: InputProps['type'] | 'expiration' | 'text-only';
     classNameWrapper?: string;
     classNameLabel?: string;
     classNameIcon?: string;
     icons?: Icon[];
-    isCustomCheckbox?: boolean;
-    classNameCheckbox?: string;
     classNameIconSpan?: string;
 }
 
@@ -33,34 +33,35 @@ const Input: FC<Props> = (props: Props) => {
         className,
         classNameIcon,
         icons,
-        isCustomCheckbox,
-        classNameCheckbox,
         classNameIconSpan,
         ...inputProps
     } = props;
 
-    const inputRef: MutableRefObject<HTMLInputElement | HTMLTextAreaElement | null> = useRef(null);
+    const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
     switch (props.type) {
         case 'file':
             return (
                 <label
                     htmlFor={props.id}
-                    className={`relative flex w-full cursor-pointer items-center justify-center ${classNameWrapper} ${styles.clickable}`}
+                    className={cn(
+                        `relative flex w-full cursor-pointer items-center justify-center`,
+                        classNameWrapper,
+                        styles.clickable,
+                    )}
                 >
                     <ReactSVG
                         src={SVG_UPLOAD.src}
                         className={`mr-5xs size-l ${classNameIcon}`}
                     />
-                    <span
-                        hidden={!children}
-                        className={classNameLabel + ' overflow-hidden overflow-ellipsis text-nowrap leading-n'}
-                    >
-                        {children}
-                    </span>
+                    {children ? (
+                        <span className={cn(classNameLabel, 'overflow-hidden overflow-ellipsis text-nowrap leading-n')}>
+                            {children}
+                        </span>
+                    ) : null}
                     <input
                         {...inputProps}
-                        className={`absolute bottom-0 -z-10 h-1 w-1 hover:hidden ${className}`}
+                        className={cn(`absolute bottom-0 -z-10 h-1 w-1 hover:hidden`, className)}
                     />
                 </label>
             );
@@ -68,14 +69,9 @@ const Input: FC<Props> = (props: Props) => {
             return (
                 <label
                     htmlFor={props.id}
-                    className={`flex cursor-pointer items-center justify-between ${classNameWrapper}`}
+                    className={cn(`flex cursor-pointer items-center justify-between`, classNameWrapper)}
                 >
-                    <span
-                        hidden={!children}
-                        className={`capitalize ${classNameLabel}`}
-                    >
-                        {children}
-                    </span>
+                    {children ? <span className={cn(`capitalize`, classNameLabel)}>{children}</span> : null}
                     <span
                         className={`relative inline-flex size-[min(9.6dvw,2.25rem)] items-center justify-center rounded-full`}
                     >
@@ -135,20 +131,17 @@ const Input: FC<Props> = (props: Props) => {
                 </label>
             );
         case 'textarea':
-            return (
+            return props.hidden ? null : (
                 <label
-                    className={`relative flex cursor-pointer flex-col items-start gap-x-[min(1.7dvw,0.4rem)] text-left last-of-type:mb-0 ${classNameWrapper} ${props.hidden ? 'hidden' : ''}`}
+                    className={cn(
+                        `relative flex cursor-pointer flex-col items-start gap-x-[min(1.7dvw,0.4rem)] text-left last-of-type:mb-0 `,
+                        classNameWrapper,
+                    )}
                 >
-                    <span
-                        hidden={!children}
-                        className={classNameLabel}
-                    >
-                        {children}
-                    </span>
+                    {children ? <span className={classNameLabel}>{children}</span> : null}
                     <textarea
                         {...inputProps}
-                        className={`min-h-[9.25rem] p-xxs ${className}`}
-                        ref={inputRef as React.RefObject<HTMLTextAreaElement>}
+                        className={cn(`min-h-[9.25rem] p-xxs`, className)}
                     />
                 </label>
             );
@@ -179,17 +172,15 @@ const Input: FC<Props> = (props: Props) => {
                 }
             });
 
-            return (
+            return props.hidden ? null : (
                 <label
-                    className={`relative flex cursor-pointer items-center gap-x-[min(1.7dvw,0.4rem)] text-left last-of-type:mb-0 ${classNameWrapper} ${props.hidden ? 'hidden' : ''}`}
+                    className={cn(
+                        `relative flex cursor-pointer items-center gap-x-4xs-2 text-left last-of-type:mb-0`,
+                        classNameWrapper,
+                    )}
                 >
-                    <span
-                        hidden={!children}
-                        className={`${classNameLabel} ${isCustomCheckbox ? 'hidden' : ''}`}
-                    >
-                        {children}
-                    </span>
-                    <div className={`relative flex items-center ${isCheckbox ? '' : 'w-full'}`}>
+                    {children ? <span className={classNameLabel}>{children}</span> : null}
+                    <div className={cn(`relative flex items-center`, { ['w-full']: !isCheckbox })}>
                         {IconsSVGs ? (
                             <span
                                 className={cn(
@@ -211,8 +202,23 @@ const Input: FC<Props> = (props: Props) => {
                         ) : null}
                         <input
                             {...inputProps}
-                            className={`${className} pl-3xs ${isCustomCheckbox ? 'peer hidden' : ''}`}
-                            ref={inputRef as React.RefObject<HTMLInputElement>}
+                            className={cn(
+                                {
+                                    [cn(
+                                        inputProps.checked ? 'appearance-auto' : 'appearance-none',
+                                        'min-w-5xs size-5xs mr-4xs',
+                                        'border-s border-gray-l0 bg-gray-d2',
+                                    )]: isCheckbox,
+                                },
+                                'pl-3xs',
+                                className,
+                            )}
+                            ref={inputRef as RefObject<HTMLInputElement>}
+                            onKeyDown={(event) => {
+                                const check = props.type === 'text-only';
+                                if (check && !/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
+                                    event.preventDefault();
+                            }}
                             onInput={(event) => {
                                 inputProps.onInput?.(event);
                                 const { value } = event.currentTarget;
@@ -240,23 +246,6 @@ const Input: FC<Props> = (props: Props) => {
                                     event.currentTarget.value = value.slice(0, event.currentTarget.maxLength);
                             }}
                         />
-                        {isCustomCheckbox && (
-                            <>
-                                <div
-                                    className={cn(
-                                        `flex h-5xs w-5xs mr-4xs items-center justify-center border-s border-gray-l0 bg-gray-d2 text-12`,
-                                        `peer-checked:bg-gray-d2 peer-checked:text-primary peer-checked:before:text-primary peer-checked:before:content-['✔']`,
-                                        classNameCheckbox,
-                                    )}
-                                />
-                                <span
-                                    hidden={!children}
-                                    className={`${classNameLabel} ${isCustomCheckbox ? 'w-auto peer-checked:text-primary' : ''}`}
-                                >
-                                    {children}
-                                </span>
-                            </>
-                        )}
                     </div>
                 </label>
             );
@@ -265,4 +254,5 @@ const Input: FC<Props> = (props: Props) => {
 
 Input.displayName = Input.name;
 
+export type { Props as InputProps };
 export { Input };

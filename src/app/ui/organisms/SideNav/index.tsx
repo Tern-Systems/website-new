@@ -3,6 +3,8 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
 import cn from 'classnames';
 
+import { SelectOptions } from '@/app/ui/form/Select';
+
 import { getId } from '@/app/utils';
 import { useScrollTrack } from '@/app/hooks';
 
@@ -10,7 +12,7 @@ import { Select } from '@/app/ui/form';
 
 interface Props {
     sideOnly?: true;
-    section: Record<string, string>;
+    section: SelectOptions;
     className?: string;
 }
 

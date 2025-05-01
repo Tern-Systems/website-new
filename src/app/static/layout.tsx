@@ -1,5 +1,6 @@
 import { IModalContext } from '@/app/contexts/modal.context';
 import { NavDropdownDict } from '@/app/types/layout';
+import { SelectOptions } from '@/app/ui/form/Select';
 import { Route } from '@/app/static/routing';
 
 import { HelpModal } from '@/app/ui/modals';
@@ -57,7 +58,7 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.Training]: 'Training',
     [Route.Courses]: 'Courses',
     [Route.ProfessionalCertifications]: 'Professional Certifications',
-    [Route.Subscriptions]: 'Subscriptions',
+    [Route.Subscribe]: 'Subscriptions',
 };
 
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD', 'FAQs'];
@@ -94,7 +95,7 @@ const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
     },
 };
 
-const DROPDOWN_SUB_NAV_ROUTES: Record<string, Record<string, string>> = {
+const DROPDOWN_SUB_NAV_ROUTES: Record<string, SelectOptions> = {
     [Route.Videos]: {
         [Route.Videos]: 'Videos',
         Todo: 'Development',

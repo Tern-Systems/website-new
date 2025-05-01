@@ -2,6 +2,7 @@
 
 import { FC, FormEvent } from 'react';
 
+import { SelectOptions } from '@/app/ui/form/Select';
 import { DataTestID } from '@/tests/static';
 
 import { BillingService } from '@/app/services';
@@ -17,7 +18,7 @@ const TestID = DataTestID.modal.exportHistory;
 type FormData = { timeRange: number };
 
 const FORM_DEFAULT: FormData = { timeRange: -1 };
-const TIMEFRAME_OPTIONS: Record<string, string> = {
+const TIMEFRAME_OPTIONS: SelectOptions = {
     // TODO
     '1': 'last 30 days',
     '3': 'past 3 months',
