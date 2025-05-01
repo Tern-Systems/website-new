@@ -71,12 +71,12 @@ const ContactsPage: FC = () => {
             <section className={cn(styles.fullHeightSection)}>
                 <MainBackground
                     url={OFFICE_GIRL_3.src}
-                    className='bg-[center_5%]'
+                    className='!bg-[center_5%]'
                 />
                 <div
                     className={cn(
                         styles.content,
-                        'relative flex justify-end z-10',
+                        'flex justify-end z-10',
                         'items-start md:items-center lg:items-center',
                     )}
                 >
@@ -95,8 +95,8 @@ const ContactsPage: FC = () => {
                             </h1>
                         </div>
                     </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
+                    <div className='absolute inset-0 bg-gradient-to-r from-black to-transparent to-[20%] sm:to-[30%] md:to-[25%] lg:to-[20%] z-0' />
+                    <div className='absolute inset-0 bg-gradient-to-l from-black to-transparent to-[20%] sm:to-[30%] md:to-[25%] lg:to-[20%] z-0' />
                 </div>
             </section>
 
