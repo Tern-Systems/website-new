@@ -8,7 +8,7 @@ import SVG_CREDO_HR from '@/assets/images/credo-hr.svg';
 function CredoPage() {
     return (
         <Content
-            type={'long'}
+            type={'long-to-bottom'}
             heading={
                 <Section>
                     <BreadcrumbRoute className={'mr-auto w-fit'} />

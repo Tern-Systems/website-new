@@ -6,8 +6,15 @@ import { Gradient, MainBackground } from '@/app/ui/atoms';
 
 import styles from '@/app/common.module.css';
 
+type SectionType = 'full-screen' | 'short';
+
+const TYPE_CN: Record<SectionType, string> = {
+    short: 'h-[21.625rem]',
+    'full-screen': styles.fullHeightSection,
+};
+
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
-    type?: 'full-screen' | 'short';
+    type?: SectionType;
     background?: { image?: StaticImageData; gradient?: 'left' };
     className?: {
         section?: string;
@@ -19,22 +26,10 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
 const Section: FC<Props> = (props: Props) => {
     const { children, className, type, background, ...sectionProps } = props;
 
-    let typeCN: string | undefined;
-    switch (type) {
-        default:
-            break;
-        case 'full-screen':
-            typeCN = styles.fullHeightSection;
-            break;
-        case 'short':
-            typeCN = 'h-[21.625rem]';
-            break;
-    }
-
     return (
         <section
             {...sectionProps}
-            className={cn(styles.section, typeCN, className?.section)}
+            className={cn(styles.section, type ? TYPE_CN[type] : '', className?.section)}
         >
             {background?.image ? (
                 <MainBackground

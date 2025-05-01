@@ -1,7 +1,8 @@
 'use client';
 
-import { PaginationProps } from '@/app/ui/organisms/Pagination';
 import { ContentCardType, MediaCardType } from '@/app/types/blog';
+import { PaginationProps } from '@/app/ui/organisms/Pagination';
+import { SelectOptions } from '@/app/ui/form/Select';
 import { Breakpoint } from '@/app/static';
 
 import { useBreakpointCheck } from '@/app/hooks';
@@ -22,7 +23,7 @@ interface Props<T, F, I> extends Omit<PaginationSectionProps<T, F, I>, 'columns'
 
 const LibraryTemplate = <
     T extends PageType,
-    F extends Record<string, string>,
+    F extends SelectOptions,
     I extends T extends 'Media' ? MediaCardType : ContentCardType,
 >(
     props: Props<T, F, I>,
@@ -33,7 +34,7 @@ const LibraryTemplate = <
     const dimensions = getDimensions(type, breakpoint);
 
     return (
-        <Content type={'bottom'}>
+        <Content type={'to-top'}>
             <Section>
                 <BreadcrumbRoute />
                 <H1
