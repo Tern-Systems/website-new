@@ -62,7 +62,7 @@ class BaseUtilImpl extends BaseService {
     async deleteUser(email: string = BaseUtilImpl.DATA.dummyEmail): Promise<void> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `delete-profile`,
+            url: this._API + `tester/delete-profile`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ email }),
         };

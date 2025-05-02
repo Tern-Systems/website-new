@@ -26,7 +26,7 @@ import { BillingService } from '@/app/services';
 import { downloadBlob } from '@/app/utils';
 
 import { PaymentMethodTool } from '@/app/ui/templates';
-import PricingAndPlansPage from '@/pages/product/plans/index.page';
+import PricingAndPlansPage from '@/pages/products/plans/index.page';
 import SubscribePage from '@/pages/subscribe/tidal/index.page';
 import BillingPage from '@/pages/profile/billing/index.page';
 import PurchasingInformationPage from '@/pages/profile/billing/purchasing_information/index.page';
