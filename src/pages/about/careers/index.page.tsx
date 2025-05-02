@@ -22,10 +22,10 @@ import BACKGROUND from '@/assets/images/carers-main.png';
 import MICROSCOPE from '@/assets/images/chip-microscope.jpg';
 import OFFICE_PEOPLE_1 from '@/assets/images/office-people-1.jpg';
 import OFFICE_PEOPLE_2 from '@/assets/images/office-people-2.jpg';
-import COMPASS from '@/assets/images/icons/compass.png';
-import CALENDAR from '@/assets/images/icons/calendar.png';
-import HEART from '@/assets/images/icons/heart.png';
-import HAND from '@/assets/images/icons/hand-bubbles.png';
+import COMPASS from '@/assets/images/icons/compass.svg';
+import CALENDAR from '@/assets/images/icons/calendar.svg';
+import HEART from '@/assets/images/icons/heart.svg';
+import HAND from '@/assets/images/icons/hand.svg';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 // TODO remove templates
@@ -166,7 +166,7 @@ function CarersPage() {
                         title={'Mission-driven'}
                         className={{ content: 'row-start-1 col-start-1' }}
                     >
-                        D We are pursuing a challenging mission, but one we fully believe is worth pursuing. We are
+                        We are pursuing a challenging mission, but one we fully believe is worth pursuing. We are
                         committed to building a solution for the demand for AI and future computer-supported
                         technologies and enabling access to efficient, affordable computation for all.
                     </ResourceCard>
@@ -181,8 +181,9 @@ function CarersPage() {
                             'Our greatest creation is the company itself. Tern employees are the greatest asset we invest in.'
                         }
                         className={{
-                            content: 'row-start-1 col-start-1',
-                            image: '!object-cover  h-[33.062rem] md:h-[38.187rem] lg:h-[42.75rem]',
+                            content:
+                                'row-start-1 col-start-1 md:grid md:w-[22.5rem] md:mr-[1.875rem] md:gap-[4.375rem]',
+                            image: '!object-cover  sm:h-[33.062rem] md:h-[38.187rem] lg:h-[42.75rem]   md:col-start-2',
                         }}
                     >
                         At Tern, we believe that our employees are the heart of our success. That&apos;s why we are
