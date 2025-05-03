@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import cn from 'classnames';
 
 import MapEmbed from './Map';
@@ -28,6 +28,13 @@ type FormData = {
     message: string;
 };
 
+type FormErrors = {
+    [key in keyof FormData]?: string;
+};
+
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
+type ErrorType = 'connection' | 'server' | 'validation' | 'unknown';
+
 const FORM_DEFAULT: FormData = {
     firstName: '',
     lastName: '',
@@ -42,11 +49,11 @@ const HIGHLIGHTED_CARD: CardLink = {
     icon: PNG_HIGHLIGHTEDTIPS,
     title: 'Get help with tips from our experts',
     description: 'Our experts share how to best manage and operate your Tern products, services and accounts.',
-    action: { title: 'Learn more', href: '' },
+    action: { title: 'Learn more', href: '/support/tips' },
 };
 
 const RESOURCES: ResourceSectionData[] = [
-    { Node: <PageLink href={Route.Community} /> },
+    { Node: <PageLink href={Route.Community}>Community</PageLink> },
     { Node: <PageLink href={Route.SupportHub}>Support hub</PageLink> },
     { Node: <PageLink href={Route.Billing}>Billing resolution center</PageLink> },
 ];
@@ -58,11 +65,141 @@ const INPUT_PROPS = {
 };
 
 const ContactsPage: FC = () => {
-    const [formData, setFormValue] = useForm<FormData>(FORM_DEFAULT);
+    const [formData, setFormValue, setFullFormValue] = useForm<FormData>(FORM_DEFAULT);
+    const [formErrors, setFormErrors] = useState<FormErrors>({});
+    const [formStatus, setFormStatus] = useState<FormStatus>('idle');
+    const [errorType, setErrorType] = useState<ErrorType>('unknown');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const validateForm = (): boolean => {
+        const errors: FormErrors = {};
+
+        if (!formData.firstName.trim()) {
+            errors.firstName = 'First name is required';
+        }
+
+        if (!formData.lastName.trim()) {
+            errors.lastName = 'Last name is required';
+        }
+
+        if (!formData.email.trim()) {
+            errors.email = 'Email is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)) {
+            errors.email = 'Please enter a valid email address (e.g., name@example.com)';
+        }
+
+        if (formData.phone && !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(formData.phone)) {
+            errors.phone = 'Please enter a valid phone number';
+        }
+
+        if (!formData.message.trim()) {
+            errors.message = 'Message is required';
+        }
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO
+
+        if (!validateForm()) {
+            return;
+        }
+
+        setFormStatus('submitting');
+
+        /*
+         * This section enables local development testing without a backend server.
+         * It detects when the form is being used in a development environment and
+         * simulates a successful form submission when the backend server isn't available.
+         * This allows frontend developers to test the full form experience, including
+         * validation, submission states, and success messages without needing to set up
+         * the backend API.
+         */
+        const isLocalDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8080/';
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+            try {
+                const response = await fetch(`${apiUrl}api/contact`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                    signal: controller.signal,
+                });
+
+                clearTimeout(timeoutId);
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                setFormStatus('success');
+                setFullFormValue(FORM_DEFAULT);
+            } catch (error) {
+                // If we're in development and it's a network error, simulate success
+                if (
+                    isLocalDevelopment &&
+                    (error instanceof TypeError ||
+                        error instanceof DOMException ||
+                        (error instanceof Error &&
+                            (error.name === 'AbortError' ||
+                                error.message.includes('Failed to fetch') ||
+                                error.message.includes('Network') ||
+                                error.message.includes('REFUSED'))))
+                ) {
+                    // In development, simulate successful submission after a brief delay
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                    setFormStatus('success');
+                    setFullFormValue(FORM_DEFAULT);
+                } else {
+                    setErrorType('connection');
+                    setFormStatus('error');
+                }
+            }
+        } catch (error) {
+            setErrorType('unknown');
+            setFormStatus('error');
+        }
+    };
+
+    const renderStatusMessage = () => {
+        switch (formStatus) {
+            case 'submitting':
+                return <div className='mb-n text-blue'>Submitting your message...</div>;
+            case 'success':
+                return (
+                    <div className='mb-n text-green-400'>
+                        Thank you for your message! We&apos;ll get back to you soon.
+                    </div>
+                );
+            case 'error':
+                let errorMessage = 'There was an error submitting your message. Please try again later.';
+
+                switch (errorType) {
+                    case 'connection':
+                        errorMessage =
+                            'Unable to connect to the server. Please make sure the server is running or try again later.';
+                        break;
+                    case 'server':
+                        errorMessage =
+                            'Our server encountered an error. Our team has been notified and is working to fix the issue.';
+                        break;
+                    case 'validation':
+                        errorMessage = 'Please check your form entries and try again.';
+                        break;
+                }
+
+                return <div className='mb-n text-red-500'>{errorMessage}</div>;
+            default:
+                return null;
+        }
     };
 
     return (
@@ -76,6 +213,8 @@ const ContactsPage: FC = () => {
                         backgroundSize: 'cover',
                         backgroundPosition: '50% top',
                     }}
+                    role='banner'
+                    aria-label='Contact Tern banner image'
                 >
                     <div className={cn(styles.content, 'relative z-10 flex items-start justify-start')}>
                         <div>
@@ -92,8 +231,8 @@ const ContactsPage: FC = () => {
                             </h1>
                         </div>
                     </div>
-                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent  sm:to-60%  md:to-40% lg:to-50% z-0' />
-                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0%   via-black via-0% lg:via-10%   to-transparent to-0% lg:to-20% z-1' />
+                    <div className='absolute inset-0 bg-gradient-to-r from-black via-black via-0% lg:via-5% to-transparent sm:to-60% md:to-40% lg:to-50% z-0' />
+                    <div className='absolute inset-0 bg-gradient-to-l from-black from-0% via-black via-0% lg:via-10% to-transparent to-0% lg:to-20% z-1' />
                 </div>
             </section>
 
@@ -114,55 +253,111 @@ const ContactsPage: FC = () => {
                     <div className={cn('lg:w-1/2 md:w-[65%]')}>
                         <div className={cn('')}>
                             <h2 className={cn('mb-6xl-1 text-left text-48 font-[500]', 'sm:mb-xl')}>Get in Touch</h2>
+                            {renderStatusMessage()}
                             <form
                                 onSubmit={handleSubmit}
                                 className='relative z-10 [&_*]:tracking-wide'
+                                aria-label='Contact form'
                             >
                                 <div className='grid gap-n'>
-                                    <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
+                                    <div className='grid grid-cols-2 gap-n sm:grid-cols-1'>
                                         <Input
                                             value={formData.firstName}
                                             onChange={setFormValue('firstName')}
                                             required
+                                            aria-required='true'
+                                            aria-invalid={!!formErrors.firstName}
+                                            aria-describedby={formErrors.firstName ? 'firstName-error' : undefined}
                                             {...INPUT_PROPS}
                                         >
                                             First Name*
                                         </Input>
+                                        {formErrors.firstName && (
+                                            <div
+                                                id='firstName-error'
+                                                className='text-red-500 text-xs mt-1'
+                                            >
+                                                {formErrors.firstName}
+                                            </div>
+                                        )}
                                         <Input
                                             value={formData.lastName}
                                             onChange={setFormValue('lastName')}
                                             required
+                                            aria-required='true'
+                                            aria-invalid={!!formErrors.lastName}
+                                            aria-describedby={formErrors.lastName ? 'lastName-error' : undefined}
                                             {...INPUT_PROPS}
                                         >
                                             Last Name*
                                         </Input>
+                                        {formErrors.lastName && (
+                                            <div
+                                                id='lastName-error'
+                                                className='text-red-500 text-xs mt-1'
+                                            >
+                                                {formErrors.lastName}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className='grid grid-cols-1'>
                                         <Input
                                             value={formData.company}
                                             onChange={setFormValue('company')}
+                                            aria-invalid={!!formErrors.company}
+                                            aria-describedby={formErrors.company ? 'company-error' : undefined}
                                             {...INPUT_PROPS}
                                         >
                                             Company
                                         </Input>
+                                        {formErrors.company && (
+                                            <div
+                                                id='company-error'
+                                                className='text-red-500 text-xs mt-1'
+                                            >
+                                                {formErrors.company}
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className='grid grid-cols-2 gap-n  sm:grid-cols-1'>
+                                    <div className='grid grid-cols-2 gap-n sm:grid-cols-1'>
                                         <Input
                                             type={'email'}
                                             value={formData.email}
                                             onChange={setFormValue('email')}
+                                            required
+                                            aria-required='true'
+                                            aria-invalid={!!formErrors.email}
+                                            aria-describedby={formErrors.email ? 'email-error' : undefined}
                                             {...INPUT_PROPS}
                                         >
                                             Email*
                                         </Input>
+                                        {formErrors.email && (
+                                            <div
+                                                id='email-error'
+                                                className='text-red-500 text-xs mt-1'
+                                            >
+                                                {formErrors.email}
+                                            </div>
+                                        )}
                                         <Input
-                                            type={'phone'}
+                                            type={'tel'}
                                             value={formData.phone}
                                             onChange={setFormValue('phone')}
+                                            aria-invalid={!!formErrors.phone}
+                                            aria-describedby={formErrors.phone ? 'phone-error' : undefined}
                                             {...INPUT_PROPS}
                                         >
                                             Phone
                                         </Input>
+                                        {formErrors.phone && (
+                                            <div
+                                                id='phone-error'
+                                                className='text-red-500 text-xs mt-1'
+                                            >
+                                                {formErrors.phone}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className='grid grid-cols-1'>
                                         <Input
@@ -170,10 +365,21 @@ const ContactsPage: FC = () => {
                                             value={formData.message}
                                             onChange={setFormValue('message')}
                                             required
+                                            aria-required='true'
+                                            aria-invalid={!!formErrors.message}
+                                            aria-describedby={formErrors.message ? 'message-error' : undefined}
                                             {...INPUT_PROPS}
                                         >
                                             Message*
                                         </Input>
+                                        {formErrors.message && (
+                                            <div
+                                                id='message-error'
+                                                className='text-red-500 text-xs mt-1'
+                                            >
+                                                {formErrors.message}
+                                            </div>
+                                        )}
                                     </div>
                                     <Input
                                         type={'checkbox'}
@@ -184,10 +390,17 @@ const ContactsPage: FC = () => {
                                         classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
                                         classNameWrapper={'flex [&_div]:items-start'}
                                         isCustomCheckbox
+                                        aria-describedby='consent-description'
                                     >
                                         May Tern provide you with personalized communications about Tern and select
                                         Tern-partner products, services, offers and events?
                                     </Input>
+                                    <span
+                                        id='consent-description'
+                                        className='sr-only'
+                                    >
+                                        Check this box to receive updates from Tern
+                                    </span>
                                     <Button
                                         type={'submit'}
                                         className='border-control-gray-l0 max-w-[7.9375rem] border rounded-none bg-black px-6 py-3 text-21'
@@ -198,7 +411,7 @@ const ContactsPage: FC = () => {
                             </form>
                         </div>
                     </div>
-                    <div className='lg:w-1/2  md:w-[65%] flex'>
+                    <div className='lg:w-1/2 md:w-[65%] flex'>
                         <div
                             className={cn(
                                 'h-full w-full',
@@ -220,7 +433,7 @@ const ContactsPage: FC = () => {
                         'lg:x-[grid-cols-3,mb-6xl]',
                     )}
                 >
-                    <div className='grid gap-3xs  md:gap-s  lg:order-last'>
+                    <div className='grid gap-3xs md:gap-s lg:order-last'>
                         <h3 className='font-thin text-32 sm:text-24'>Office</h3>
                         <address className='not-italic leading-tight text-24 sm:text-18'>
                             1120 Avenue of the Americas
@@ -233,14 +446,28 @@ const ContactsPage: FC = () => {
                         </address>
                     </div>
 
-                    <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
+                    <div className='grid gap-3xs md:gap-s lg:grid-rows-[1fr,3fr]'>
                         <h3 className='font-thin text-32 sm:text-24'>Email</h3>
-                        <p className='text-24 sm:text-18'>info@tern.ac</p>
+                        <p className='text-24 sm:text-18'>
+                            <a
+                                href='mailto:info@tern.ac'
+                                className='hover:underline'
+                            >
+                                info@tern.ac
+                            </a>
+                        </p>
                     </div>
 
-                    <div className='grid gap-3xs  md:gap-s  lg:grid-rows-[1fr,3fr]'>
+                    <div className='grid gap-3xs md:gap-s lg:grid-rows-[1fr,3fr]'>
                         <h3 className='font-thin text-32 sm:text-24'>Phone</h3>
-                        <p className='text-24 sm:text-18'>(973) 590-8753</p>
+                        <p className='text-24 sm:text-18'>
+                            <a
+                                href='tel:+19735908753'
+                                className='hover:underline'
+                            >
+                                (973) 590-8753
+                            </a>
+                        </p>
                     </div>
                 </section>
 
@@ -258,10 +485,10 @@ const ContactsPage: FC = () => {
                                 'sm:x-[mx-auto,w-full]',
                             ),
                             image: '!size-full object-cover',
-                            content: 'lg:pl-l  md:pl-l md:flex',
-                            title: 'text-20  md:text-24  lg:text-27',
-                            children: 'text-12  sm:text-10',
-                            link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs]  lg:x-[text-18,!py-xxs]',
+                            content: 'lg:pl-l md:pl-l md:flex',
+                            title: 'text-20 md:text-24 lg:text-27',
+                            children: 'text-12 sm:text-10',
+                            link: 'text-primary text-12 [&]:py-4xs md:x-[text-14,mt-auto,!py-4xs] lg:x-[text-18,!py-xxs]',
                         }}
                     >
                         {HIGHLIGHTED_CARD.description}
@@ -280,4 +507,5 @@ const ContactsPage: FC = () => {
         </>
     );
 };
+
 export default ContactsPage;
