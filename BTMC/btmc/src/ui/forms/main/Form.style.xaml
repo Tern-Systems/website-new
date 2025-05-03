@@ -2,4 +2,68 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <!-- Toggle Button Style for BTMC/TERN switch -->
+    <Style x:Key="ToggleTabStyle" TargetType="ToggleButton">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="ToggleBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="20"
+                        Padding="10"
+                        SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="ToggleBorder" Property="Background" Value="White"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="ToggleBorder" Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+    <!-- TextBox Styling -->
+    <Style TargetType="TextBox">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Background" Value="#EEE"/>
+        <Setter Property="BorderBrush" Value="#CCC"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <!-- ComboBox Styling -->
+    <Style TargetType="ComboBox">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="MinWidth" Value="120"/>
+    </Style>
+
+    <!-- Button Styling -->
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="#00ADEF"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
 </ResourceDictionary>

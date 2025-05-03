@@ -23,48 +23,53 @@ namespace btmc
                 DragMove();
         }
 
-        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        private void Toggle_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-
-        private void BtnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        private void TcMain_SectionChanged(object sender, RoutedEventArgs e)
-        {
-            /* Uncomment after you add your custom TabControl to the form */
-            //_activeTab = (_TabEnum)tcMain.SelectedIndex;
-        }
-
-        private void BtnClean_Click(object sender, RoutedEventArgs e)
-        {
-            switch (_activeTab)
+            if (BtmcToggle.IsChecked == true)
             {
-                default: break;
-                case _TabEnum.BTMC:
-                    // Implement it
-                    break;
-                case _TabEnum.TERN:
-                    // Implement it
-                    break;
+                BtmcPanel.Visibility = Visibility.Visible;
+                TernPanel.Visibility = Visibility.Collapsed;
+                _activeTab = _TabEnum.BTMC;
+            }
+            else if (TernToggle.IsChecked == true)
+            {
+                BtmcPanel.Visibility = Visibility.Collapsed;
+                TernPanel.Visibility = Visibility.Visible;
+                _activeTab = _TabEnum.TERN;
             }
         }
 
-        private void BtnConvert_Click(object sender, RoutedEventArgs e)
+        private void Copy_Click(object sender, RoutedEventArgs e)
         {
-            switch (_activeTab)
+            if (_activeTab == _TabEnum.BTMC)
             {
-                default: break;
-                case _TabEnum.BTMC:
-                    // Do not implement
-                    break;
-                case _TabEnum.TERN:
-                    // Do not implement
-                    break;
+                Clipboard.SetText(OutputBox.Text);
             }
+            else if (_activeTab == _TabEnum.TERN)
+            {
+                Clipboard.SetText(TernOutputBox.Text);
+            }
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            if (_activeTab == _TabEnum.BTMC)
+            {
+                InputBox1.Text = string.Empty;
+                OutputBox.Text = string.Empty;
+            }
+            else if (_activeTab == _TabEnum.TERN)
+            {
+                Input1Box.Text = string.Empty;
+                Input2Box.Text = string.Empty;
+                TernOutputBox.Text = string.Empty;
+                InstructionBox.SelectedIndex = -1;
+            }
+        }
+
+        private void InputBox1_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
         }
     }
 }
