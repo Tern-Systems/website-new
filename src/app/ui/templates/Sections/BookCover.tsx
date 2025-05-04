@@ -73,6 +73,7 @@ const BookCoverSection: FC<Props> = (props: Props) => {
                     'sm:pl-xs pl-[2.69rem]',
                     'pr-[3.5rem] md:pr-[7.5rem] lg:pr-[11.5rem]',
                     'h-[26.062rem] md:h-[60.25rem] lg:h-[88.625rem]',
+                    { 'h-[43.81rem]': type === 'blue' },
                 )}
             >
                 <div className={'mt-auto'}>
