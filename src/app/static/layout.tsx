@@ -88,7 +88,7 @@ const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
             },
             {
                 Training: Route.Training, // TODO links
-                Courses: '',
+                Courses: Route.Courses,
                 'Professional certificates': '',
             },
         ],
