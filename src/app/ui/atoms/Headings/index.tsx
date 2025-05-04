@@ -41,7 +41,7 @@ const H2: FC<TypeProps> = (props: TypeProps) => {
     switch (type) {
         default:
         case 'default':
-            typeCN = 'text-18 md:text-24 lg:text-32';
+            typeCN = '!leading-l  text-18 md:text-24 lg:text-32';
             break;
         case 'large':
             typeCN = 'w-[65%] md:w-[65%] lg:w-[75%]  text-20 md:text-27 lg:text-36';

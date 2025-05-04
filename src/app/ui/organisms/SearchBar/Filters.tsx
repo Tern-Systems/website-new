@@ -58,7 +58,7 @@ const Filters: FC<Props> = (props: Props) => {
                         select: cn(CONTROL_PROPS_CN.className, 'w-[11rem]'),
                         wrapper: cn(CONTROL_PROPS_CN.wrapper, '!h-[10.3rem]'),
                         option: 'h-4xs !border-gray-l0 !border-x-0',
-                        selected: 'w-full',
+                        selected: 'w-[13.625rem]',
                         ul: '!max-h-[6.8rem] border-s border-gray-l0',
                         label: 'capitalize',
                         chevron: 'ml-auto mr-4xs-1',
