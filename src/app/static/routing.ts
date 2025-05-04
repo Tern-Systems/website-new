@@ -19,19 +19,20 @@ enum Route {
     About = '/about',
     Credo = Route.About + '/credo',
     Careers = Route.About + '/careers',
-    SupportHub = '/support',
     Terms = '/terms',
     Cookies = '/cookies',
     Privacy = '/privacy',
 
-    // Products
+    // /products
+    // Products = '/products/all',
     Products = '/products',
-    TidalPlans = Route.Products + '/plans',
-    TidalProductManual = Route.Products + '/manual',
-    TidalFAQs = Route.Products + '/faqs',
-    Cyrus = Route.Products + '/cyrus',
-    Tidal = Route.Products + '/tidal',
-    Ternact = Route.Products + '/ternact',
+    TidalPlans = '/products/plans',
+    TidalProductManual = '/products/manual',
+    TidalSubscribe = '/subscribe/tidal',
+    TidalFAQs = '/products/faqs',
+    Cyrus = '/products/cyrus',
+    Tidal = '/products/tidal',
+    Ternact = '/products/ternact',
 
     // Subscriptions
     Subscriptions = '/subscriptions',
