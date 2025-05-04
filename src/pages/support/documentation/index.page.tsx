@@ -19,7 +19,7 @@ import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Downloads} /> },
     { Node: <PageLink href={Route.Cases}>View your cases</PageLink> },
-    { Node: <PageLink href={Route.SupportHub} /> },
+    { Node: <PageLink href={Route.Support} /> },
 ];
 
 interface Props {

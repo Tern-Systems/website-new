@@ -6,6 +6,7 @@ import cn from 'classnames';
 
 import { DataTestID } from '@/tests/static';
 
+import { SelectOptions } from '@/app/ui/form/Select';
 import { SavedCardFull } from '@/app/types/billing';
 import { Subscription } from '@/app/types/subscription';
 
@@ -70,7 +71,7 @@ function ManageSubscriptionsPage() {
     );
 
     const selectedPlan: Subscription | undefined = subscriptions?.[+selectedIdx];
-    const subscriptionOptions: Record<string, string> = Object.fromEntries(
+    const subscriptionOptions: SelectOptions = Object.fromEntries(
         subscriptions?.map((subscription, idx) => [
             idx,
             subscription.subscription + ' ' + subscription.type + ' Plan',
@@ -259,17 +260,19 @@ function ManageSubscriptionsPage() {
                         options={subscriptionOptions}
                         value={selectedIdx.toString()}
                         placeholder={'Select'}
-                        onChangeCustom={handleSelectChange}
-                        classNameWrapper={cn(
-                            `flex-col gap-y-xxs`,
-                            `text-14 md:text-16 lg:text-18`,
-                            `w-full md:w-1/2 lg:w-1/3`,
-                        )}
-                        classNameLabel={'mr-auto'}
-                        classNameSelected={'w-full '}
-                        classNameChevron={'ml-auto'}
-                        className={cn(SELECT_CN, `px-xxs sm:px-3xs`)}
-                        classNameOption={cn(SELECT_CN, '!border-t-s !border-gray-l0')}
+                        onChange={handleSelectChange}
+                        className={{
+                            select: cn(SELECT_CN, `px-xxs sm:px-3xs`),
+                            option: cn(SELECT_CN, '!border-t-s !border-gray-l0'),
+                            wrapper: cn(
+                                `flex-col gap-y-xxs`,
+                                `text-14 md:text-16 lg:text-18`,
+                                `w-full md:w-1/2 lg:w-1/3`,
+                            ),
+                            label: 'mr-auto',
+                            selected: 'w-full ',
+                            chevron: 'ml-auto',
+                        }}
                     >
                         Choose Subscription
                     </Select>

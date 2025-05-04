@@ -150,14 +150,16 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                               <Select
                                   value={link}
                                   options={dropdownLinks}
-                                  onChangeCustom={(_: string) => {
+                                  onChange={(_: string) => {
                                       // TODO handle links
                                   }}
-                                  classNameWrapper={'!static left-0 size-full'}
-                                  className={'!w-full !border-0 !bg-transparent'}
-                                  classNameUl={'top-[calc(100%+2px)] py-4xs !rounded-none bg-black-l0'}
-                                  classNameOption={cn(styles.clickable, '!bg-black-l0 !border-0 text-12 !py-5xs')}
-                                  classNameChevron={'w-8xs'}
+                                  className={{
+                                      wrapper: '!static left-0 size-full',
+                                      select: '!w-full !border-0 !bg-transparent',
+                                      ul: 'top-[calc(100%+2px)] py-4xs !rounded-none bg-black-l0',
+                                      option: cn(styles.clickable, '!bg-black-l0 !border-0 text-12 !py-5xs'),
+                                      chevron: 'w-8xs',
+                                  }}
                               />
                           ) : (
                               <PageLink href={link}>{getIdName(mapRoute ? mappedLink : link)}</PageLink>

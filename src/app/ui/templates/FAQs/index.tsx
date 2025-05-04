@@ -3,6 +3,8 @@
 import { ReactElement } from 'react';
 import cn from 'classnames';
 
+import { SelectOptions } from '@/app/ui/form/Select';
+
 import { arrayToRecord, getId } from '@/app/utils';
 
 import { BreadcrumbRoute } from '@/app/ui/atoms';
@@ -58,7 +60,7 @@ const FAQsContent = ({ faqsData }: { faqsData: FAQSection[] }) => {
         );
     });
 
-    const section: Record<string, string> = arrayToRecord(sections);
+    const section: SelectOptions = arrayToRecord(sections);
 
     return (
         <div className='min-h-screen relative text-white'>

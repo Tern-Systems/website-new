@@ -18,7 +18,7 @@ const AllWaysCard: FC<Props> = (props: Props) => {
         <div
             {...divProps}
             className={cn(
-                'relative flex flex-col min-h-full max-h-full sm:h-14xl  sm:mx-auto',
+                'relative flex flex-col min-h-full max-h-full sm:x-[w-card,h-14xl]  sm:mx-auto',
                 { ['!h-[22.375rem]']: alt },
                 className,
             )}

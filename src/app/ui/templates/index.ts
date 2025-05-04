@@ -1,6 +1,7 @@
 export { LibraryTemplate } from './LibraryPage';
 export { PaymentMethodTool } from './PaymentMethodTool';
 export { PricingAndPlansScreen } from './PricingAndPlansScreen';
+export { Search } from './Search';
 export { SubscribeTool } from './SubscribeTool';
 
 export { AllWaysCard } from './Sections/AllWaysCard';

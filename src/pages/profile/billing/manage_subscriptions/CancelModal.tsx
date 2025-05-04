@@ -4,7 +4,6 @@ import { FC } from 'react';
 
 import { DataTestID } from '@/tests/static';
 
-import { PlanName } from '@/app/types/subscription';
 import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
@@ -20,7 +19,7 @@ const TestID = DataTestID.modal.cancelSubscription;
 const BTN_CN = 'px-[min(2.7dvw,1rem)] h-button-n rounded-full';
 
 interface Props {
-    plan: PlanName | undefined;
+    plan: string | undefined;
 }
 
 const CancelModal: FC<Props> = (props: Props) => {

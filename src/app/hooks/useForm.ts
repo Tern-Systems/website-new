@@ -15,7 +15,7 @@ const useForm = <T extends object>(
     const [formValue, setFormValue] = useState<T>(defaultValue);
 
     const setFormValueHelper = (key: keyof T, value?: string) => {
-        if (value) setFormValue((prevState) => ({ ...prevState, [key]: value }));
+        if (value !== undefined) setFormValue((prevState) => ({ ...prevState, [key]: value }));
 
         return <E extends FormElement>(event: ChangeEvent<E> | string) => {
             const value =

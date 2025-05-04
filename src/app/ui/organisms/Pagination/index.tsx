@@ -1,46 +1,68 @@
 'use client';
 
-import { Dispatch, FC, HTMLAttributes, ReactElement, ReactNode, SetStateAction, useState } from 'react';
+import { FC, HTMLAttributes, ReactElement, ReactNode, useState } from 'react';
 import cn from 'classnames';
+
+import { Breakpoint } from '@/app/static';
 
 import { generateArray } from '@/app/utils';
 
 import { Button } from '@/app/ui/form';
 
-import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { useBreakpointCheck, useNavigate } from '@/app/hooks';
+import { useSearchParams } from 'next/navigation';
 
-const OVERFLOW_COUNT = 5;
+import { faAngleDoubleLeft, faAngleDoubleRight, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+
+const OVERFLOW_COUNT = { regular: 5, sm: 2 };
 
 const BUTTON_PROPS_CN = {
     className: 'size-7xl flex border-s border-inherit',
     classNameIcon: '[&_path]:fill-blue group-disabled:[&_path]:fill-gray',
 };
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+const Ellipsis = (
+    <Button
+        icon={faEllipsisH}
+        {...BUTTON_PROPS_CN}
+        className={cn(BUTTON_PROPS_CN.className, '!border-x-0')}
+    />
+);
+
+interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
     Items: ReactNode[];
-    columns: number;
+    columns?: number;
     rows: number;
-    pageState: [number, Dispatch<SetStateAction<number>>];
+    className?: {
+        wrapper?: string;
+        list?: string;
+        pagination?: string;
+    };
 }
 
 const Pagination: FC<Props> = (props: Props) => {
-    const { Items, columns, rows, pageState, className, ...divProps } = props;
-    const [currentPage, setPage] = pageState;
+    const { Items, rows, columns = 1, className, ...divProps } = props;
 
+    const params = useSearchParams();
+    const sm = useBreakpointCheck() <= Breakpoint.sm;
+    const currentPage = parseInt(params?.get('page') ?? '0') || 0;
+
+    const [_, router, route] = useNavigate();
+
+    const overflowCount = sm ? OVERFLOW_COUNT.sm : OVERFLOW_COUNT.regular;
     const elementCount = columns * rows;
     const pageCount = Math.ceil(Items.length / elementCount);
 
-    const [batchIdx, setBatchIdx] = useState(Math.trunc(currentPage / OVERFLOW_COUNT));
+    const [batchIdx, setBatchIdx] = useState(Math.trunc(currentPage / overflowCount));
 
-    const maxBatchIdx = Math.ceil(pageCount / OVERFLOW_COUNT) - 1;
+    const maxBatchIdx = Math.ceil(pageCount / overflowCount) - 1;
     const lastBatchIdx = maxBatchIdx === batchIdx;
 
-    const requireHandleSelect = (getPage: (prev: number) => number, page?: true) => () => {
+    const requireHandleSelect = (getPage: (prev: number) => number, page?: boolean) => () => {
         if (page) {
-            setPage((prevState) => {
-                const page = getPage(prevState);
-                return page <= 0 ? 0 : page >= pageCount - 1 ? pageCount - 1 : page;
-            });
+            const page = getPage(currentPage);
+            const newPage = page <= 0 ? 0 : page >= pageCount - 1 ? pageCount - 1 : page;
+            if (route) router.push(route + '?' + new URLSearchParams({ page: newPage.toString() }));
         } else {
             setBatchIdx((prevState) => {
                 const batchIdx = getPage(prevState);
@@ -49,12 +71,12 @@ const Pagination: FC<Props> = (props: Props) => {
         }
     };
 
-    const overflow = pageCount > OVERFLOW_COUNT;
+    const overflow = pageCount > overflowCount;
     const pagination = (
         overflow
-            ? generateArray(OVERFLOW_COUNT).slice(0, (lastBatchIdx && pageCount % OVERFLOW_COUNT) || OVERFLOW_COUNT)
+            ? generateArray(overflowCount).slice(0, (lastBatchIdx && pageCount % overflowCount) || overflowCount)
             : generateArray(Math.ceil(pageCount))
-    ).map((_, idx) => OVERFLOW_COUNT * batchIdx + idx);
+    ).map((_, idx) => overflowCount * batchIdx + idx);
 
     // Elements
     const ItemsLi: ReactNode[] = Items.slice(currentPage * elementCount, (currentPage + 1) * elementCount);
@@ -73,8 +95,11 @@ const Pagination: FC<Props> = (props: Props) => {
         </li>
     ));
 
-    return (
-        <div>
+    const lastBatchLeft: boolean = batchIdx <= 0;
+    const lastBatchRight: boolean = batchIdx >= maxBatchIdx;
+
+    return ItemsLi.length ? (
+        <div className={className?.wrapper}>
             <ul
                 style={{ gridTemplateColumns: `repeat(${columns},1fr)` }}
                 className={cn(
@@ -82,30 +107,33 @@ const Pagination: FC<Props> = (props: Props) => {
                     'gap-y-xl md:gap-y-xxl lg:gap-y-5xl',
                     'sm:!grid-cols-[minmax(0,20.937rem)]',
                     'sm:w-fit w-full',
+                    className?.list,
                 )}
             >
                 {ItemsLi}
             </ul>
             <div
                 {...divProps}
-                className={cn('flex h-7xl w-fit border-gray-l2', className)}
+                className={cn('flex h-7xl w-fit border-gray-l2', className?.pagination)}
             >
                 <Button
                     icon={faAngleDoubleLeft}
-                    onClick={requireHandleSelect((prev) => prev - 1)}
-                    disabled={(overflow ? batchIdx - 1 : currentPage) < 0}
+                    onClick={requireHandleSelect((prev) => prev - 1, !overflow)}
+                    disabled={overflow ? lastBatchLeft : currentPage <= 0}
                     {...BUTTON_PROPS_CN}
                 />
-                <ul className={'flex border-y-s'}>{PageButtonsLi}</ul>
+                {lastBatchLeft ? null : Ellipsis}
+                <ul className={'flex border-y-s border-inherit'}>{PageButtonsLi}</ul>
+                {lastBatchRight ? null : Ellipsis}
                 <Button
                     icon={faAngleDoubleRight}
-                    onClick={requireHandleSelect((prev) => prev + 1)}
-                    disabled={overflow ? batchIdx >= maxBatchIdx : currentPage >= pageCount - 1}
+                    onClick={requireHandleSelect((prev) => prev + 1, !overflow)}
+                    disabled={overflow ? lastBatchRight : currentPage >= pageCount - 1}
                     {...BUTTON_PROPS_CN}
                 />
             </div>
         </div>
-    );
+    ) : null;
 };
 
 interface PaginationProps extends Omit<Props, 'pageState'> {}

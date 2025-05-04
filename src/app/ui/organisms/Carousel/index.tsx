@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
+import { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import { Breakpoint, Route } from '@/app/static';
@@ -11,11 +11,9 @@ import { H3 } from '@/app/ui/atoms';
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
 
-import { faCaretLeft } from '@fortawesome/free-solid-svg-icons/faCaretLeft';
-import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 enum CardsPerPage {
-    DefaultAlt = 4,
     Default = 3,
     MD = 2,
     SM = 1,
@@ -25,31 +23,45 @@ const getAltSpinnerBtnCn = (alt?: string) =>
     cn('border-s  border-blue text-blue disabled:x-[border-gray-l0,text-gray]  p-xs sm:p-4xs-1', { ['md:p-4xs']: alt });
 
 interface Props extends PropsWithChildren {
-    altData?: { title: string; link: Route; cards: ReactElement[]; altSpinner?: 'default' | 'alt' };
+    altData?: {
+        title: string;
+        link?: Route;
+        cards: ReactElement[];
+        altSpinner?: 'default' | 'alt' | 'top';
+    };
     rowsCount?: number;
     className?: string;
-    classNameUl?: string;
+    ul?: string;
     classNameArrow?: string;
 }
 
 const Carousel: FC<Props> = (props: Props) => {
-    const { altData, rowsCount = 1, className, classNameUl, classNameArrow, children } = props;
+    const { altData, rowsCount = 1, className, ul, classNameArrow, children } = props;
+    const { altSpinner } = altData || {};
 
     const breakpoint = useBreakpointCheck();
+    const sm = breakpoint <= Breakpoint.sm;
     const md = breakpoint <= Breakpoint.md;
 
-    const defaultSpinner = !altData?.altSpinner;
-    const colsPerPage = defaultSpinner
-        ? breakpoint <= Breakpoint.sm
+    const defaultSpinner = !altSpinner;
+    const topSpinner = altSpinner === 'top';
+
+    const colsPerPage = topSpinner
+        ? sm
             ? CardsPerPage.SM
             : md
-              ? CardsPerPage.MD
-              : CardsPerPage.Default
-        : md
-          ? altData?.altSpinner === 'alt'
-              ? CardsPerPage.SM
+              ? CardsPerPage.Default
               : CardsPerPage.MD
-          : CardsPerPage.DefaultAlt;
+        : defaultSpinner
+          ? sm
+              ? CardsPerPage.SM
+              : CardsPerPage.Default
+          : md
+            ? altSpinner === 'alt'
+                ? CardsPerPage.SM
+                : CardsPerPage.MD
+            : CardsPerPage.MD;
+    const cardsPerPage = colsPerPage * rowsCount;
 
     const cardCount: number | undefined = altData?.cards.length;
 
@@ -60,11 +72,8 @@ const Carousel: FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if (cardCount) setMaxPage(Math.ceil(cardCount / rowsCount / colsPerPage));
-    }, [cardCount, colsPerPage]);
-
-    useEffect(() => {
-        if (carouselRef.current) carouselRef.current.scrollLeft = page * carouselRef.current.scrollWidth;
-    }, [page]);
+        if (page >= maxPage && maxPage) setPage(maxPage - 1);
+    }, [cardCount, colsPerPage, breakpoint]);
 
     // Elements
     const renderCarouselBtn = (right?: true) => (
@@ -84,12 +93,12 @@ const Carousel: FC<Props> = (props: Props) => {
     );
 
     const Spinner: FC<{ className: string }> = (props: { className: string }) => (
-        <span className={cn('ml-auto text-nowrap', props.className)}>
+        <span className={cn('ml-auto flex items-center', props.className)}>
             <Button
                 icon={faCaretLeft}
                 onClick={() => setPage((prevState) => (prevState <= 0 ? prevState : prevState - 1))}
                 disabled={page <= 0}
-                className={getAltSpinnerBtnCn(altData?.altSpinner)}
+                className={getAltSpinnerBtnCn(altSpinner)}
             />
             <span className={'mx-xxs sm:mx-5xs  text-16 sm:text-10'}>
                 {page + 1} / {maxPage}
@@ -98,10 +107,12 @@ const Carousel: FC<Props> = (props: Props) => {
                 icon={faCaretRight}
                 onClick={() => setPage((prevState) => (prevState >= maxPage - 1 ? prevState : prevState + 1))}
                 disabled={page >= maxPage - 1}
-                className={getAltSpinnerBtnCn(altData?.altSpinner)}
+                className={getAltSpinnerBtnCn(altSpinner)}
             />
         </span>
     );
+
+    const CardsLi: ReactNode = altData?.cards.slice(page * cardsPerPage, cardsPerPage * (page + 1)) ?? children;
 
     return (
         <div
@@ -119,7 +130,7 @@ const Carousel: FC<Props> = (props: Props) => {
                 <div
                     className={cn(
                         'contents justify-between',
-                        defaultSpinner ? 'sm:flex  mx-auto max-w-card' : 'md:flex',
+                        topSpinner ? '!flex' : defaultSpinner ? 'sm:flex  mx-auto max-w-card' : 'md:flex',
                     )}
                 >
                     <H3
@@ -128,36 +139,31 @@ const Carousel: FC<Props> = (props: Props) => {
                     >
                         {altData?.title}
                     </H3>
-                    <Spinner className={cn('hidden', defaultSpinner ? 'sm:inline' : 'md:inline')} />
+                    <Spinner className={topSpinner ? 'flex' : cn('hidden', defaultSpinner ? 'sm:flex' : 'md:flex')} />
                 </div>
             ) : (
                 renderCarouselBtn()
             )}
             <ul
                 ref={carouselRef}
-                style={
-                    altData?.altSpinner === 'default' || !altData
-                        ? {}
-                        : {
-                              gridTemplateColumns: `repeat(${altData.cards.length / rowsCount}, calc(${100 / colsPerPage}% - ${altData.altSpinner === 'alt' || breakpoint <= Breakpoint.sm ? '0px' : 'var(--p-xl) + 0.75px'}))`,
-                          }
-                }
+                style={{
+                    gridTemplateColumns: `repeat(${colsPerPage},1fr)`,
+                    gridTemplateRows: `repeat(${rowsCount},1fr)`,
+                }}
                 className={cn(
                     'mx-auto grid w-fit max-w-full !min-h-fit flex-grow justify-items-center',
                     'sm:gap-x-5xl gap-xl',
                     'mt-s md:mt-n lg:mt-xl',
                     altData
-                        ? cn('grid-flow-col overflow-x-hidden', defaultSpinner ? 'h-full' : 'flex-grow', {
-                              [!page ? 'sm:ml-0 ml-xl' : 'sm:mr-0 mr-xl']: defaultSpinner,
-                          })
+                        ? cn('grid-flow-col overflow-x-hidden', defaultSpinner ? 'h-full' : 'flex-grow')
                         : 'overflow-scroll',
-                    classNameUl,
+                    ul,
                 )}
             >
-                {altData?.cards ?? children}
+                {CardsLi}
             </ul>
             {altData ? (
-                !defaultSpinner || rowsCount > 1 ? null : (
+                !defaultSpinner || rowsCount > 1 || !altData.link ? null : (
                     <div className={'flex items-center  mt-s lg:mt-n  sm:mx-auto  sm:max-w-card'}>
                         <PageLink
                             href={altData.link}

@@ -10,6 +10,7 @@ import { PageLink } from '@/app/ui/layout';
 
 import DARK from '@/assets/images/book-cover-dark.png';
 import LIGHT from '@/assets/images/book-cover-light.png';
+import BLUE from '@/assets/images/book-cover-blue.png';
 
 interface Props {
     type?: 'light' | 'blue' | 'dark';
@@ -33,7 +34,7 @@ const BookCoverSection: FC<Props> = (props: Props) => {
             image = DARK;
             break;
         case 'blue':
-            image = DARK;
+            image = BLUE;
             break;
         case 'light':
             image = LIGHT;

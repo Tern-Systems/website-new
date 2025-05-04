@@ -2,71 +2,12 @@
 
 import cn from 'classnames';
 
-import { CardLink } from '@/app/types/layout';
-import { Route } from '@/app/static';
-
 import { MainBackground } from '@/app/ui/atoms';
 import { CardCheckersSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
 import JPG_MAIN from '@/assets/images/resources-bg-main.jpg';
-import PNG_CARD_1 from '@/assets/images/resources-card-1.png';
-import PNG_CARD_2 from '@/assets/images/resources-card-2.png';
-import PNG_CARD_3 from '@/assets/images/resources-card-3.png';
-import PNG_CARD_4 from '@/assets/images/resources-card-4.png';
-import PNG_CARD_5 from '@/assets/images/resources-card-5.png';
-
-const CARDS: CardLink[] = [
-    {
-        title: 'Downloads',
-        description: 'Explore and download the latest software from Tern',
-        icon: PNG_CARD_1,
-        action: {
-            title: 'Explore downloads',
-            href: Route.Downloads,
-        },
-    },
-    {
-        title: 'Get Expert Tips',
-        description: 'Our experts share how to best manage and operate your Tern products, services and accounts.',
-        icon: PNG_CARD_2,
-        action: {
-            title: 'Learn more',
-            href: Route.Tips,
-        },
-    },
-    {
-        title: 'Stay ahead with the latest tech news',
-        description:
-            'Weekly insights, research and expert views on AI, security, cloud and more in the All Ways Newsletter.',
-        icon: PNG_CARD_3,
-        action: {
-            title: 'Subscribe today',
-            href: Route.AllWays,
-        },
-        alt: true,
-    },
-    {
-        title: 'Enter the Support Hub',
-        description:
-            'Take control and manage all aspects of your account support with the support hub where you have access to FAQs, handling cases, insights and more!',
-        icon: PNG_CARD_4,
-        action: {
-            title: 'Enter support hub',
-            href: Route.SupportHub,
-        },
-    },
-    {
-        title: 'Engage with the Tern Community',
-        description: 'Together, we can connect via forums, blogs, files and face-to-face networking.',
-        icon: PNG_CARD_5,
-        action: {
-            title: 'Find your community',
-            href: Route.Community,
-        },
-    },
-];
 
 function ResourcesPage() {
     return (
@@ -106,7 +47,7 @@ function ResourcesPage() {
                     </h4>
                 </div>
             </section>
-            <CardCheckersSection cards={CARDS} />
+            <CardCheckersSection type={'alt'} />
             <InsideTernSection />
             <div
                 className={cn(

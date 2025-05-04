@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Route } from '@/app/static';
 
-import { Highlighted } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 
 const PARAGRAPHS: string = `Tern Systems LLC Cookie Policy
@@ -60,7 +59,7 @@ If you have questions about this policy or believe we have not adhered to its te
  `;
 
 const CookiesPage = () => (
-    <Highlighted heading={'Cookies Policy'}>
+    <div className={'Cookies Policy'}>
         <pre
             dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
             className={'whitespace-pre-line '}
@@ -75,7 +74,7 @@ const CookiesPage = () => (
             </PageLink>
             &nbsp;.
         </span>
-    </Highlighted>
+    </div>
 );
 
 export default CookiesPage;

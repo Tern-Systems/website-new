@@ -3,25 +3,26 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { useLayout } from '@/app/hooks';
+import { SelectOptions } from '@/app/ui/form/Select';
+
+import { getId } from '@/app/utils';
+import { useScrollTrack } from '@/app/hooks';
 
 import { Select } from '@/app/ui/form';
-import { getId } from '@/app/utils';
 
 interface Props {
     sideOnly?: true;
-    section: Record<string, string>;
+    section: SelectOptions;
     className?: string;
 }
 
 const SideNav: FC<Props> = (props: Props) => {
     const { sideOnly, section, className } = props;
 
-    const { scrollState } = useLayout();
-    const [scrollValue] = scrollState;
-
     const sectionIDs: string[] = Object.keys(section ?? {}).map((key) => getId(key));
     const sections: string[] = Object.values(section);
+
+    const scrollValue = useScrollTrack();
 
     const [activeSection, setActiveSection] = useState<string>(sectionIDs[0] ?? '');
 
@@ -83,27 +84,29 @@ const SideNav: FC<Props> = (props: Props) => {
                     )}
                     value={activeSection}
                     placeholder={'Select'}
-                    onChangeCustom={(id: string) => {
+                    onChange={(id: string) => {
                         setActiveSection(id);
                         document.querySelector('#' + id)?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    classNameWrapper={cn(
-                        `lg:hidden  w-full mb-4xs`,
-                        `flex-col gap-y-xxs text-18`,
-                        `border-b [&]:border-gray-l0`,
-                    )}
-                    classNameLabel={'mr-auto'}
-                    classNameSelected={'w-full '}
-                    classNameChevron={'ml-auto'}
-                    className={cn(`!border-0 !bg-gray-d2 [&]:h-4xl  md:h-7xl  sm:h-button-xl`, `px-xxs  md:px-xs `)}
-                    classNameUl={`border border-gray-l0`}
-                    classNameOption={cn(
-                        `h-6xl sm:h-button-xl`,
-                        `[&]:x-[bg-gray,border-transparent,py-4xs]`,
-                        `hover:bg-gray-l2`,
-                        `text-18  md:text-20`,
-                        `px-xxs  md:px-xs`,
-                    )}
+                    className={{
+                        select: cn(`!border-0 !bg-gray-d2 [&]:h-4xl  md:h-7xl  sm:h-button-xl`, `px-xxs  md:px-xs `),
+                        option: cn(
+                            `h-6xl sm:h-button-xl`,
+                            `[&]:x-[bg-gray,border-transparent,py-4xs]`,
+                            `hover:bg-gray-l2`,
+                            `text-18  md:text-20`,
+                            `px-xxs  md:px-xs`,
+                        ),
+                        wrapper: cn(
+                            `lg:hidden  w-full mb-4xs`,
+                            `flex-col gap-y-xxs text-18`,
+                            `border-b [&]:border-gray-l0`,
+                        ),
+                        label: 'mr-auto',
+                        selected: 'w-full ',
+                        chevron: 'ml-auto',
+                        ul: `border border-gray-l0`,
+                    }}
                 />
             )}
         </div>

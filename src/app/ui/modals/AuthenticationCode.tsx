@@ -122,7 +122,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
                                 setFormValue('code')(event);
                                 setWarningMsg(null);
                             }}
-                            classNameWrapper={'flex-col [&]:items-start'}
+                            wrapper={'flex-col [&]:items-start'}
                             className={'h-button-l w-full rounded-xs border-s bg-gray-l0 px-3xs'}
                             required
                         />

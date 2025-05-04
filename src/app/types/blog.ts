@@ -1,52 +1,55 @@
 import { DeepPartial } from '@/app/types/utils';
 
-type ArticleTag = 'Artificial Intelligence' | 'Cloud' | 'Data' | 'Security';
-
-type Article = DeepPartial<{
+// Content Base
+type ContentCommon = {
     id: string;
-    tag: ArticleTag;
     title: string;
     description: string;
-    poster: string | null;
-    date: number;
-    author: {
-        name: string;
-        image: string | null;
-        position: string;
-    };
+    date?: number;
+    time?: { start: number; end: number };
+    category: string;
+    subject?: string;
     content: string;
-    contentIDs: string[];
-}>;
+    type: 'text' | 'video';
+};
 
-// TODO clarify
-type TipType = 'video';
-type Tip = DeepPartial<
-    Pick<Article, 'id' | 'title' | 'poster' | 'content'> & Partial<Pick<Article, 'description'>> & { type: TipType }
->;
-
-type VideoCardType = {
-    title: string;
+type MediaContent = ContentCommon & {
+    durationMs?: number;
     thumbnail: string | null;
-    label: string;
-    durationMs: number;
-    date: number;
 };
 
-type ContentCardType = {
-    date: number;
-    time: { start: number; end: number };
-    title: string;
-    tag: string;
-    description: string;
-};
+// Cards
+type MediaCardType = MediaContent & { label: string };
+type ContentCardType = ContentCommon;
+type LibraryCardType = MediaCardType & { tag: string };
 
-type Course = DeepPartial<
-    VideoCardType & {
-        video: string;
-        description: string;
-        category: string;
-        subject: string;
+// Website Content
+type Article = DeepPartial<
+    MediaCardType & {
+        author: {
+            name: string;
+            image: string | null;
+            position: string;
+        };
+        contentIDs: string[];
     }
 >;
 
-export type { ArticleTag, Article, Tip, VideoCardType, ContentCardType, Course };
+// TODO clarify
+type Tip = DeepPartial<LibraryCardType>;
+type Course = DeepPartial<LibraryCardType>;
+
+// TODO clarify
+type Event = DeepPartial<ContentCardType>;
+
+export type {
+    ContentCommon,
+    MediaContent,
+    Article,
+    LibraryCardType,
+    Tip,
+    MediaCardType,
+    ContentCardType,
+    Course,
+    Event,
+};

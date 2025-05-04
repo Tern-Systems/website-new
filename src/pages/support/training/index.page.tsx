@@ -3,8 +3,7 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
-import { CardLink, ResourceLink } from '@/app/types/layout';
-import { Route } from '@/app/static';
+import { ResourceLink } from '@/app/types/layout';
 
 import { PageLink } from '@/app/ui/layout';
 import { Content, H1, H2, H3, Section } from '@/app/ui/atoms';
@@ -13,10 +12,6 @@ import { CardCheckersSection, ResourceCards } from '@/app/ui/templates';
 
 import ACADEMY_COUCH_GIRL from '@/assets/images/academy-couch-girl.jpg';
 import SVG_ARROW from '@/assets/images/icons/arrow.svg';
-import PNG_CARD_1 from '@/assets/images/training-card-1.jpg';
-import PNG_CARD_2 from '@/assets/images/training-card-2.png';
-import PNG_CARD_3 from '@/assets/images/training-card-3.jpg';
-import PNG_CARD_4 from '@/assets/images/training-card-4.jpg';
 
 const links: ResourceLink[] = [
     {
@@ -41,57 +36,6 @@ const links: ResourceLink[] = [
         description:
             'Balanced Ternary Logic, Basic Arithmetic, Language Structure, Heptavintimal Encoding, Advanced Arithmetic, UEF',
         href: '',
-    },
-];
-
-const CARDS: CardLink[] = [
-    {
-        title: 'Invest in Your Skills',
-        description:
-            'Looking to buy two or more fee-based courses? Save money by purchasing a subscription and have access to all the digital courses we have to offer. Features of your subscription include:',
-        icon: PNG_CARD_1,
-        action: {
-            title: 'Subscribe Today',
-            href: Route.Downloads,
-        },
-        bullets: [
-            'Self-paced courses',
-            'Hands-on labs',
-            'Preparations for Tern certifications',
-            'New content added frequently',
-        ],
-    },
-    {
-        title: 'Commit to Learning',
-        description:
-            'If you require access to a single course, you may purchase it individually, granting you unlimited access to the learning materials for a minimum of three months.',
-        icon: PNG_CARD_2,
-        action: {
-            title: 'Learn more',
-            href: Route.Tips,
-        },
-        bullets: [],
-    },
-    {
-        title: 'Professional Certifications',
-        description:
-            'Verify your knowledge by earning the credentials you qualify for. We present an easy to navigate resource, making it easier for you to find the credentials and related learning material that matter most.',
-        icon: PNG_CARD_3,
-        action: {
-            title: 'Explore Tern Credentials',
-            href: Route.SupportHub,
-        },
-        bullets: ['Get certified', 'Earn a badge', 'View your earned credentials'],
-    },
-    {
-        title: 'Engage with the Tern Community',
-        description: 'Together, we can connect via forums, blogs, files and face-to-face networking.',
-        icon: PNG_CARD_4,
-        action: {
-            title: 'Find your community',
-            href: Route.Community,
-        },
-        bullets: [],
     },
 ];
 
@@ -142,7 +86,7 @@ const TrainingHomePage: FC = () => {
                     <Video
                         url={''}
                         className={cn(
-                            'before:x-[border-s,border-gray-l0]  lg:col-start-2  lg:mr-0',
+                            'h-[52dvw] before:x-[border-s,border-gray-l0]  lg:col-start-2  lg:mr-0',
                             'md:x-[min-h-[22.5rem],max-h-[50rem]]',
                             'lg:x-[min-h-[24.394rem],h-[30dvw],max-h-[30rem]]',
                         )}
@@ -156,7 +100,7 @@ const TrainingHomePage: FC = () => {
                         </p>
                     </div>
                 </Section>
-                <CardCheckersSection cards={CARDS} />
+                <CardCheckersSection type={'regular'} />
             </Content>
         </>
     );

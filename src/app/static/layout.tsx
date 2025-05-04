@@ -1,5 +1,6 @@
 import { IModalContext } from '@/app/contexts/modal.context';
 import { NavDropdownDict } from '@/app/types/layout';
+import { SelectOptions } from '@/app/ui/form/Select';
 import { Route } from '@/app/static/routing';
 
 import { HelpModal } from '@/app/ui/modals';
@@ -28,7 +29,7 @@ const LAYOUT: {
 } = {
     fadeDuration: 500,
     profileLinks: [Route.MyTern, Route.Profile, Route.Billing],
-    navLinks: [Route.About, Route.Products, Route.Contact, Route.SupportHub, Route.AllWays],
+    navLinks: [Route.About, Route.Products, Route.Contact, Route.Support, Route.AllWays],
     blogLinks: [
         Route.Artificial,
         Route.Cloud,
@@ -36,7 +37,7 @@ const LAYOUT: {
         Route.Security,
         Route.Videos,
         Route.Podcasts,
-        Route.Events,
+        Route.AllWaysEvents,
         Route.More,
     ],
 };
@@ -57,13 +58,13 @@ const MAPPED_SUB_NAV_ROUTES: Record<string, string> = {
     [Route.Training]: 'Training',
     [Route.Courses]: 'Courses',
     [Route.ProfessionalCertifications]: 'Professional Certifications',
-    [Route.Subscriptions]: 'Subscriptions',
+    [Route.Subscribe]: 'Subscriptions',
 };
 
 const ALWAYS_MAPPED_ROUTES: string[] = ['TBD', 'FAQs'];
 
 const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
-    [Route.SupportHub]: {
+    [Route.Support]: {
         name: 'Support',
         columns: [
             {
@@ -94,7 +95,7 @@ const DROPDOWN_NAV_ROUTES: NavDropdownDict = {
     },
 };
 
-const DROPDOWN_SUB_NAV_ROUTES: Record<string, Record<string, string>> = {
+const DROPDOWN_SUB_NAV_ROUTES: Record<string, SelectOptions> = {
     [Route.Videos]: {
         [Route.Videos]: 'Videos',
         Todo: 'Development',
@@ -107,8 +108,8 @@ const DROPDOWN_SUB_NAV_ROUTES: Record<string, Record<string, string>> = {
         Todo: 'Your tern',
         Todo0: 'Bleeding Edge',
     },
-    [Route.Events]: {
-        [Route.Events]: 'Events',
+    [Route.AllWaysEvents]: {
+        [Route.AllWaysEvents]: 'Events',
         Todo: 'Chicago',
         Todo0: 'New York',
         Todo1: 'San Jose',

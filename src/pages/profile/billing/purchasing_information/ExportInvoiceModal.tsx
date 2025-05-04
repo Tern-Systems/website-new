@@ -2,6 +2,7 @@
 
 import { FC, FormEvent } from 'react';
 
+import { SelectOptions } from '@/app/ui/form/Select';
 import { DataTestID } from '@/tests/static';
 
 import { BillingService } from '@/app/services';
@@ -17,7 +18,7 @@ const TestID = DataTestID.modal.exportHistory;
 type FormData = { timeRange: number };
 
 const FORM_DEFAULT: FormData = { timeRange: -1 };
-const TIMEFRAME_OPTIONS: Record<string, string> = {
+const TIMEFRAME_OPTIONS: SelectOptions = {
     // TODO
     '1': 'last 30 days',
     '3': 'past 3 months',
@@ -63,11 +64,13 @@ const ExportInvoiceModal: FC = () => {
                     options={TIMEFRAME_OPTIONS}
                     value={formData.timeRange.toString()}
                     placeholder={'Select'}
-                    onChangeCustom={handleTimeRangeChange}
-                    classNameWrapper={'flex-col [&]:items-start gap-xs flex-grow'}
-                    classNameLabel={'text-[min(3.2dvw,var(--fz-content-s))] font-bold'}
-                    className={`h-[min(5.9dvw,3.25rem)] px-4xs py-[min(--p-3xs)]`}
-                    classNameOption={'h-[min(5.9dvw,3.25rem)] [&:first-of-type]:border-t-0'}
+                    onChange={handleTimeRangeChange}
+                    className={{
+                        select: `h-[min(5.9dvw,3.25rem)] px-4xs py-[min(--p-3xs)]`,
+                        wrapper: 'flex-col [&]:items-start gap-xs flex-grow',
+                        label: 'text-[min(3.2dvw,var(--fz-content-s))] font-bold',
+                        option: 'h-[min(5.9dvw,3.25rem)] [&:first-of-type]:border-t-0',
+                    }}
                 >
                     Choose timeframe to export invoices
                 </Select>

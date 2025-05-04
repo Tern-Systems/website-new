@@ -4,6 +4,7 @@ import { FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { CardData, SavedCardFull } from '@/app/types/billing';
+import { SelectOptions } from '@/app/ui/form/Select';
 import { CARD_DATA_DEFAULT, COUNTRY, Route, STATE_PROVINCE } from '@/app/static';
 
 import { BillingService } from '@/app/services';
@@ -11,7 +12,6 @@ import { BillingService } from '@/app/services';
 import { mapSavedCard } from '@/app/utils';
 import { useForm, useModal, useNavigate, useUser } from '@/app/hooks';
 
-import { ScrollEnd } from '@/app/ui/organisms';
 import { Button, Input, Select } from '@/app/ui/form';
 import { MessageModal } from '@/app/ui/modals';
 import { RemovePaymentMethodModal } from './RemovePaymentMethodModal';
@@ -91,7 +91,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
     };
 
     // Elements
-    const SavedCardOptions: Record<string, string> = Object.fromEntries(
+    const SavedCardOptions: SelectOptions = Object.fromEntries(
         savedCards?.map((card: SavedCardFull | undefined, idx) => [
             idx,
             card ? (card.nickName ?? card.cardType + ' **** ' + card.last4) : '',
@@ -107,20 +107,15 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
             options={SavedCardOptions}
             value={editCardIdx.toString()}
             placeholder={'Select Payment Method'}
-            onChangeCustom={(value) => setEditCardIdx(parseInt(value) ?? -1)}
-            classNameWrapper={cn(
-                `flex-col gap-y-xxs`,
-                `text-14 md:text-16 lg:text-18`,
-                `w-full border-b border-gray-l0`,
-            )}
-            classNameLabel={'mr-auto'}
-            classNameSelected={'w-full '}
-            classNameChevron={cn('ml-auto')}
-            className={cn(`px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`)}
-            classNameOption={cn(
-                'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                'hover:!bg-gray-l2',
-            )}
+            onChange={(value) => setEditCardIdx(parseInt(value) ?? -1)}
+            className={{
+                select: cn(`px-xs h-6xl !border-0 !bg-gray-d2  sm:h-button-xl marker:px-xxs sm:px-3xs`),
+                wrapper: cn(`flex-col gap-y-xxs`, `text-14 md:text-16 lg:text-18`, `w-full border-b border-gray-l0`),
+                label: 'mr-auto',
+                selected: 'w-full ',
+                chevron: cn('ml-auto'),
+                option: cn('h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0', 'hover:!bg-gray-l2'),
+            }}
         >
             Choose Payment Method
         </Select>
@@ -168,7 +163,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 onChange={setFormData('cardNumber')}
                                 placeholder={'1234 1234 1234 1234'}
                                 icons={[SVG_VISA, SVG_MASTER, SVG_AMEX, SVG_DISCOVER]}
-                                classNameWrapper={cn(FIELD_CN, 'text-18', {
+                                wrapper={cn(FIELD_CN, 'text-18', {
                                     ['brightness-[0.9]']: !creation,
                                 })}
                                 className={INPUT_CN}
@@ -185,7 +180,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     maxLength={5}
                                     onChange={setFormData('expirationDate')}
                                     placeholder={'MM/YY'}
-                                    classNameWrapper={`${FIELD_CN} w-1/2`}
+                                    wrapper={`${FIELD_CN} w-1/2`}
                                     className={INPUT_CN}
                                     required
                                 >
@@ -199,7 +194,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     onChange={setFormData('cvc')}
                                     placeholder={'CVC'}
                                     icons={[SVG_CARD_NUM]}
-                                    classNameWrapper={`${FIELD_CN} w-1/2`}
+                                    wrapper={`${FIELD_CN} w-1/2`}
                                     className={INPUT_CN}
                                     required
                                 >
@@ -213,7 +208,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 type={'text'}
                                 value={formData.nickName}
                                 onChange={setFormData('nickName')}
-                                classNameWrapper={`${FIELD_CN} `}
+                                wrapper={FIELD_CN}
                                 className={INPUT_CN}
                             >
                                 Nickname
@@ -225,11 +220,9 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     type={'checkbox'}
                                     checked={formData.isPreferred}
                                     onChange={setFormData('isPreferred')}
-                                    classNameWrapper={`[&&]:mb-s w-fit`}
-                                    classNameLabel={'text-10 [&&]:mb-0  md:text-12  lg:text-12'}
-                                    className={'max-h-xxs max-w-xxs [&&&]:border-gray-l0 [&&&]:bg-gray-d2'}
-                                    classNameCheckbox={`h-7xs w-7xs  md:x-[h-5xs,w-5xs]  lg:x-[h-5xs,w-5xs]`}
-                                    isCustomCheckbox
+                                    wrapper={`[&&]:mb-s w-fit`}
+                                    label={'text-10 [&&]:mb-0  md:text-12  lg:text-12'}
+                                    className={'h-7xs w-7xs  md:x-[h-5xs,w-5xs]  lg:x-[h-5xs,w-5xs]'}
                                 >
                                     Set as preferred payment method
                                 </Input>
@@ -250,14 +243,14 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
 
                 {savedCards[+editCardIdx] || creation ? (
                     <>
-                        <fieldset className={` ${FIELDSET_CN} lg:row-span-2`}>
-                            <h2 className={` ${LEGEND_CN}`}>Billing address</h2>
+                        <fieldset className={cn(FIELDSET_CN, `lg:row-span-2`)}>
+                            <h2 className={LEGEND_CN}>Billing address</h2>
                             <Input
                                 data-testid={TestID.form.input.cardholderName}
                                 name={TestID.form.input.cardholderName}
                                 value={formData.cardholderName}
                                 onChange={setFormData('cardholderName')}
-                                classNameWrapper={`${FIELD_CN} `}
+                                wrapper={FIELD_CN}
                                 className={INPUT_CN}
                                 required
                             >
@@ -268,7 +261,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 name={TestID.form.input.addressLine1}
                                 value={formData.addressLine1}
                                 onChange={setFormData('addressLine1')}
-                                classNameWrapper={`${FIELD_CN} `}
+                                wrapper={FIELD_CN}
                                 className={INPUT_CN}
                                 required
                             >
@@ -279,21 +272,18 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 name={TestID.form.input.addressLine2}
                                 value={formData.addressLine2}
                                 onChange={setFormData('addressLine2')}
-                                classNameWrapper={`${FIELD_CN} `}
+                                wrapper={FIELD_CN}
                                 className={INPUT_CN}
                             >
                                 Street Address #2
                             </Input>
                             <Input
                                 data-testid={TestID.form.input.city}
+                                type={'text-only'}
                                 name={TestID.form.input.city}
                                 value={formData.city}
                                 onChange={setFormData('city')}
-                                onKeyDown={(event) => {
-                                    if (!/[a-z\s]/i.test(event.key) && event.key !== 'Backspace')
-                                        event.preventDefault();
-                                }}
-                                classNameWrapper={`${FIELD_CN}`}
+                                wrapper={FIELD_CN}
                                 className={INPUT_CN}
                                 required
                             >
@@ -305,18 +295,15 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     name={TestID.form.input.state}
                                     options={STATE_PROVINCE?.[formData.country ?? ''] ?? {}}
                                     value={formData.state ?? ''}
-                                    onChangeCustom={(value) => setFormData('state')(value)}
-                                    classNameWrapper={cn(FIELD_CN, `text-[500] w-1/2`)}
-                                    classNameLabel={'mr-auto'}
-                                    classNameSelected={'w-full '}
-                                    classNameChevron={cn('ml-auto')}
-                                    className={cn(
-                                        `px-xs h-6xl !border-0 !bg-gray-d2 !border-s !border-gray-l0   sm:h-button-xl marker:px-xxs sm:px-3xs`,
-                                    )}
-                                    classNameOption={cn(
-                                        'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                        'hover:!bg-gray-l2',
-                                    )}
+                                    onChange={(value) => setFormData('state')(value)}
+                                    className={{
+                                        wrapper: cn(FIELD_CN, `text-[500] w-1/2`),
+                                        label: 'mr-auto',
+                                        selected: 'w-full ',
+                                        chevron: cn('ml-auto'),
+                                        select: cn(`px-xs sm:h-button-xl marker:px-xxs sm:px-3xs`),
+                                        option: cn('!bg-gray'),
+                                    }}
                                     required
                                     disabled={!formData.country}
                                 >
@@ -329,7 +316,7 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                     value={formData.zip}
                                     maxLength={5}
                                     onChange={setFormData('zip')}
-                                    classNameWrapper={`${FIELD_CN} w-1/2`}
+                                    wrapper={`${FIELD_CN} w-1/2`}
                                     className={INPUT_CN}
                                     required
                                 >
@@ -341,18 +328,20 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                                 name={TestID.form.input.country}
                                 options={COUNTRY}
                                 value={formData.country ?? ''}
-                                onChangeCustom={(value) => setFormData('country')(value)}
-                                classNameWrapper={cn(FIELD_CN, `text-[500]`)}
-                                classNameLabel={'mr-auto'}
-                                classNameSelected={'w-full '}
-                                classNameChevron={cn('ml-auto')}
-                                className={cn(
-                                    `px-xs h-6xl !border-0 !bg-gray-d2 !border-s !border-gray-l0  sm:h-button-xl marker:px-xxs sm:px-3xs`,
-                                )}
-                                classNameOption={cn(
-                                    'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
-                                    'hover:!bg-gray-l2',
-                                )}
+                                onChange={setFormData('country')}
+                                className={{
+                                    wrapper: cn(FIELD_CN, `text-[500]`),
+                                    label: 'mr-auto',
+                                    selected: 'w-full ',
+                                    chevron: 'ml-auto',
+                                    select: cn(
+                                        `px-xs h-6xl !border-0 !bg-gray-d2 !border-s !border-gray-l0  sm:h-button-xl marker:px-xxs sm:px-3xs`,
+                                    ),
+                                    option: cn(
+                                        'h-6xl !border-0 !bg-gray  sm:h-button-xl !border-t-s !border-gray-l0',
+                                        'hover:!bg-gray-l2',
+                                    ),
+                                }}
                                 required
                             >
                                 Country / Region
@@ -382,7 +371,6 @@ const PaymentMethodTool: FC<Props> = (props: Props) => {
                     </span>
                 </div>
             ) : null}
-            <ScrollEnd />
         </div>
     );
 };

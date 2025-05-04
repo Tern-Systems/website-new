@@ -1,105 +1,40 @@
 'use client';
 
-import { FC, ReactNode } from 'react';
+import { ContentCardType, MediaCardType } from '@/app/types/blog';
 import { PaginationProps } from '@/app/ui/organisms/Pagination';
+import { SelectOptions } from '@/app/ui/form/Select';
+import { Breakpoint } from '@/app/static';
 
-import { formatDate } from '@/app/utils';
-import { useForm, usePagination } from '@/app/hooks';
+import { useBreakpointCheck } from '@/app/hooks';
 
 import { BreadcrumbRoute, Content, H1, Section } from '@/app/ui/atoms';
-import { DateFilter, DateFilterValue, Filter, SearchBar } from '@/app/ui/organisms/SearchBar';
-import { Button } from '@/app/ui/form';
+import { PageType, PaginationSectionProps, Search } from '../Search';
 
-import { faX } from '@fortawesome/free-solid-svg-icons';
-
-type LibraryTag = {
-    value: string;
-    reset: () => void;
+const getDimensions = (type: PageType, breakpoint: Breakpoint): Pick<PaginationProps, 'columns' | 'rows'> => {
+    const isContent = type === 'Content';
+    if (breakpoint >= Breakpoint.lg) return { columns: isContent ? 1 : 4, rows: isContent ? 13 : 6 };
+    if (breakpoint >= Breakpoint.md) return { columns: isContent ? 1 : 3, rows: isContent ? 12 : 8 };
+    return { columns: 1, rows: isContent ? 8 : 4 };
 };
 
-type FilterDefault = {
-    date: DateFilterValue;
-};
-
-const DEFAULT_FILTER: FilterDefault = {
-    date: { start: 0, end: Date.now() },
-};
-
-interface Props extends PaginationProps {
+interface Props<T, F, I> extends Omit<PaginationSectionProps<T, F, I>, 'columns' | 'rows'> {
     heading: string;
-    tags: LibraryTag[];
-    filters: Filter[];
 }
 
-const LibraryTemplate: FC<Props> = (props: Props) => {
-    const { heading, Items, columns, rows, filters, tags } = props;
+const LibraryTemplate = <
+    T extends PageType,
+    F extends SelectOptions,
+    I extends T extends 'Media' ? MediaCardType : ContentCardType,
+>(
+    props: Props<T, F, I>,
+) => {
+    const { heading, type, ...searchProps } = props;
 
-    const Pagination = usePagination();
-
-    const [filter, _, setFilter] = useForm<FilterDefault>(DEFAULT_FILTER);
-
-    const dateFilter: DateFilter = {
-        start: [
-            filter.date.start,
-            (value: string) =>
-                setFilter((prevState) => ({
-                    ...prevState,
-                    date: { ...prevState.date, start: new Date(value).getTime() },
-                })),
-        ],
-        end: [
-            filter.date.end,
-            (value: string) =>
-                setFilter((prevState) => ({
-                    ...prevState,
-                    date: { ...prevState.date, end: new Date(value).getTime() },
-                })),
-        ],
-    };
-
-    const tagsFinal: LibraryTag[] = [
-        ...tags,
-        {
-            value: filter.date.start ? 'Start: ' + formatDate(filter.date.start, 'short') : '',
-            reset: () => {
-                setFilter((prevState) => ({
-                    ...prevState,
-                    date: { ...prevState.date, start: 0 },
-                }));
-            },
-        },
-        {
-            value: filter.date.end ? 'End: ' + formatDate(filter.date.end, 'short') : '',
-            reset: () => {
-                setFilter((prevState) => ({
-                    ...prevState,
-                    date: { ...prevState.date, end: Date.now() },
-                }));
-            },
-        },
-    ];
-
-    // Elements
-    const TagsLi: ReactNode[] = tagsFinal.map((tag: LibraryTag, idx) =>
-        tag.value ? (
-            <li
-                key={tag.value + idx}
-                className={'contents'}
-            >
-                <Button
-                    icon={faX}
-                    onClick={tag.reset}
-                    className={'flex-row-reverse !items-center'}
-                    classNameIcon={'[&_*]:size-[0.75rem]'}
-                >
-                    {tag.value}
-                </Button>
-            </li>
-        ) : null,
-    );
+    const breakpoint = useBreakpointCheck();
+    const dimensions = getDimensions(type, breakpoint);
 
     return (
-        <Content type={'bottom'}>
+        <Content type={'to-top'}>
             <Section>
                 <BreadcrumbRoute />
                 <H1
@@ -108,17 +43,11 @@ const LibraryTemplate: FC<Props> = (props: Props) => {
                 >
                     {heading}
                 </H1>
-                <SearchBar
-                    filters={filters}
-                    dateFilter={dateFilter}
-                    placeholder={'Search for courses...'}
-                    className={'sm:mt-n mt-xxl'}
-                />
-                <ul className={'flex gap-x-xs  my-4xs md:my-xxs lg:my-xs'}>{TagsLi}</ul>
-                <Pagination
-                    Items={Items}
-                    columns={columns}
-                    rows={rows}
+                <Search
+                    type={type}
+                    showTags
+                    {...searchProps}
+                    {...dimensions}
                 />
             </Section>
         </Content>
@@ -127,5 +56,4 @@ const LibraryTemplate: FC<Props> = (props: Props) => {
 
 LibraryTemplate.displayName = LibraryTemplate.name;
 
-export type { LibraryTag };
 export { LibraryTemplate };

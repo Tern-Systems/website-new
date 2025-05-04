@@ -4,19 +4,16 @@ import { ReactElement, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import Image from 'next/image';
 import cn from 'classnames';
-
-import { CardLink } from '@/app/types/layout';
-import { Breakpoint } from '@/app/static';
+import { Breakpoint, Route } from '@/app/static';
 import { Article } from '@/app/types/blog';
-import { CONTACT_LINKS, Route } from '@/app/static';
+import { Tab } from '@/app/ui/organisms/Tabs';
 
 import { BlogService } from '@/app/services/blog.service';
 
-import { useBreakpointCheck } from '@/app/hooks';
-import { useModal } from '@/app/hooks';
+import { useBreakpointCheck, useModal } from '@/app/hooks';
 
 import { MainBackground } from '@/app/ui/atoms';
-import { ArticleCard, ResourceCard, Tabs } from '@/app/ui/organisms';
+import { ArticleCard, Tabs } from '@/app/ui/organisms';
 import { MessageModal } from '@/app/ui/modals';
 import { PageLink } from '@/app/ui/layout';
 
@@ -28,11 +25,7 @@ import PNG_HIGHLIGHTED_0 from '@/assets/images/community-card-highlighted-0.png'
 import PNG_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-2.png';
 
 import SVG_CLOCK from '@/assets/images/icons/clock.svg';
-import PNG_CARD_1 from '@/assets/images/community-card-0.png';
-import PNG_CARD_2 from '@/assets/images/community-card-1.png';
-import PNG_CARD_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-1.png';
-import PNG_CARD_4 from '@/assets/images/community-card-2.png';
-import PNG_CARD_5 from '@/assets/images/community-card-3.png';
+import { CardCheckersSection } from '@/app/ui/templates';
 
 type Event = {
     date: number;
@@ -75,53 +68,27 @@ const EVENTS_TEMPLATE: Event[] = [
     },
 ];
 
-const CARDS: CardLink[] = [
+// TODO links
+const TABS: Tab[] = [
     {
-        title: 'Facebook',
-        description: 'Be part of the conversation - connect, share and grow with our community.',
-        icon: PNG_CARD_1,
-        action: {
-            title: 'Follow Us',
-            href: CONTACT_LINKS.Facebook.href,
+        name: 'Associates',
+        content: {
+            icon: PNG_HIGHLIGHTED_0,
+            title: 'We love interacting with our associates',
+            action: { title: 'Read Whitepaper', href: '' },
+            text: 'Find out more about our unique strategic approach to cultivating lasting professional relationships.',
         },
     },
     {
-        title: 'Reddit',
-        description: 'Explore ideas, ask questions, and engage with like-minded innovators.',
-        icon: PNG_CARD_2,
-        action: {
-            title: 'Join the Discussion',
-            href: CONTACT_LINKS.Reddit.href,
-        },
-    },
-    {
-        title: 'Stay Ahead with the Latest Tech News',
-        description:
-            'Weekly insights, research and expert views on AI, security, cloud and more in the All Ways Newsletter.',
-        icon: PNG_CARD_HIGHLIGHTED_1,
-        action: {
-            title: 'Subscribe today',
-            href: CONTACT_LINKS.Facebook.href,
-        },
-        alt: true,
-    },
-    {
-        title: 'Discord',
-        description: 'Chat, collaborate, and build lasting connections with fellow enthusiasts.',
-        icon: PNG_CARD_4,
-        action: {
-            title: 'Join Now',
-            href: CONTACT_LINKS.Discord.href,
-        },
-    },
-    {
-        title: 'GitHub',
-        description:
-            'Collaborate with developers, contribute to groundbreaking projects, and help drive innovation forward.',
-        icon: PNG_CARD_5,
-        action: {
-            title: 'Collaborate',
-            href: CONTACT_LINKS.GitHub.href,
+        name: 'Customers',
+        content: {
+            icon: PNG_HIGHLIGHTED_1,
+            title: 'Customers deserve undivided attention',
+            action: { title: 'Find resources', href: '' },
+            text:
+                '   At Tern we hold our customers on the highest pedestal to ensure they receive the high-class\n' +
+                '                professionalism they deserve. We do this through our Support Hub and Billing Resolution Centers\n' +
+                '                resources.',
         },
     },
 ];
@@ -204,30 +171,10 @@ function CommunityPage() {
         );
     });
 
-    const ResourceCardsLi: ReactElement[] = CARDS.map((card: CardLink, idx, array) => {
-        const swap = (idx < 0.5 * array.length ? idx + 1 : idx) % 2;
-        return (
-            <li key={card.title + idx}>
-                <ResourceCard
-                    type={card.alt ? 'highlighted' : 'default'}
-                    icon={card.icon}
-                    title={card.title}
-                    action={card.action}
-                    className={{
-                        wrapper: 'mt-7xl md:mt-5xl sm:mt-3xl',
-                        image: cn({ ['lg:col-start-2']: swap }),
-                        content: cn({ ['lg:x-[row-start-1,col-start-1]']: swap }),
-                    }}
-                >
-                    {card.description}
-                </ResourceCard>
-            </li>
-        );
-    });
-
     let articleCount = ARTICLE_CARD_COUNT_LG;
     if (breakpoint <= Breakpoint.sm) articleCount = ARTICLE_CARD_COUNT_LG - 1;
     if (breakpoint === Breakpoint.md) articleCount = ARTICLE_CARD_COUNT_LG + 1;
+
     const ArticleCardsLi: ReactElement[] = articles.slice(0, articleCount).map((article: Article, idx) => (
         <li
             key={article?.id ?? 'card-' + idx}
@@ -239,64 +186,10 @@ function CommunityPage() {
                 altLink={'Enter support hub'}
                 className={'max-w-full'}
                 classNameContent={'bg-white-d2 text-black'}
+                rootHref={Route.Events}
             />
         </li>
     ));
-
-    const RC_Wrapper = '!p-0 !bg-white-d2 from-transparent !gap-0  sm:!grid-cols-1 !grid-cols-2';
-    const RC_Title = '[&]:text-24 leading-l  md:[&]:text-36  lg:[&]:text-40';
-    const RC_IMG = '!object-cover object-right h-[25.5rem]  md:h-[31.25rem]  lg:h-[39.1875rem]';
-    const RC_Content =
-        '[&]:flex row-start-1 text-black p-xxs gap-y-xxs  sm:row-start-2  md:x-[p-n,gap-y-3xl]  lg:x-[p-xxl,gap-y-5xl]';
-    const RC_Children = '!w-full tracking-wide text-12  md:text-14  lg:text-16';
-    const RC_Link = 'sm:mt-xs !mt-auto text-12  md:text-14  lg:text-16';
-
-    const tabs = [
-        {
-            name: 'Associates',
-            content: (
-                <ResourceCard
-                    type={'highlighted'}
-                    icon={PNG_HIGHLIGHTED_0}
-                    title={'We love interacting with our associates'}
-                    action={{ title: 'Read Whitepaper', href: '' }}
-                    className={{
-                        wrapper: RC_Wrapper,
-                        title: RC_Title,
-                        image: RC_IMG,
-                        content: RC_Content,
-                        children: RC_Children,
-                        link: cn(RC_Link, 'bg-transparent text-blue text-12 [&_path]:fill-blue p-0 '),
-                    }}
-                >
-                    Find out more about our unique strategic approach to cultivating lasting professional relationships.
-                </ResourceCard>
-            ),
-        },
-        {
-            name: 'Customers',
-            content: (
-                <ResourceCard
-                    type={'highlighted'}
-                    icon={PNG_HIGHLIGHTED_1}
-                    title={'Customers deserve undivided attention'}
-                    action={{ title: 'Find resources', href: '' }}
-                    className={{
-                        wrapper: RC_Wrapper,
-                        title: RC_Title,
-                        image: RC_IMG,
-                        content: RC_Content,
-                        children: RC_Children,
-                        link: cn(RC_Link, 'bg-blue text-white [&_path]:fill-white p-0'),
-                    }}
-                >
-                    At Tern we hold our customers on the highest pedestal to ensure they receive the high-class
-                    professionalism they deserve. We do this through our Support Hub and Billing Resolution Centers
-                    resources.
-                </ResourceCard>
-            ),
-        },
-    ];
 
     return (
         <>
@@ -341,7 +234,7 @@ function CommunityPage() {
                     <Tabs
                         title='What Drives You?'
                         description='Join the conversation'
-                        tabs={tabs}
+                        tabs={TABS}
                     />
                 </div>
             </section>
@@ -357,7 +250,7 @@ function CommunityPage() {
                         {EventsLi}
                     </ul>
                     <PageLink
-                        href={Route.CommunityEvents}
+                        href={Route.EventsLibrary}
                         icon={'arrow-right-long'}
                         className={'flex-row-reverse text-blue  mt-xs md:mt-xl lg:mt-l'}
                         iconClassName={'[&_path]:fill-blue size-6xs  ml-4xs lg:ml-xxs'}
@@ -369,7 +262,7 @@ function CommunityPage() {
             </section>
             <section className={styles.section}>
                 <div className={styles.content}>
-                    <ul className={'flex flex-col'}>{ResourceCardsLi}</ul>
+                    <CardCheckersSection type={'default'} />
                 </div>
             </section>
             {/* TODO create ArticleCards*/}

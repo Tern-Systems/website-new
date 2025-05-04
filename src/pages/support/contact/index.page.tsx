@@ -3,21 +3,22 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
-import MapEmbed from './Map';
+import { CardLink, ResourceSectionData } from '@/app/types/layout';
+import { Route } from '@/app/static';
+
 import { useForm } from '@/app/hooks';
 
-import { Button, Input } from '@/app/ui/form';
-import { CardLink, ResourceSectionData } from '@/app/types/layout';
+import { MainBackground } from '@/app/ui/atoms';
 import { ResourceCard } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
+import { Button, Input } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
-import { Route } from '@/app/static';
+import { MapEmbed } from './Map';
 
 import styles from '@/app/common.module.css';
 
 import OFFICE_GIRL_3 from '@/assets/images/office-girl-3.png';
-import PNG_HIGHLIGHTEDTIPS from '@/assets/images/contact-card-highlighted-0.png';
-import { MainBackground } from '@/app/ui/atoms';
+import PNG_HIGHLIGHTEDTIPS from '@/assets/images/conference-girls.png';
 
 type FormData = {
     isAllowedUpdate: boolean | undefined;
@@ -48,13 +49,13 @@ const HIGHLIGHTED_CARD: CardLink = {
 
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.Community} /> },
-    { Node: <PageLink href={Route.SupportHub}>Support hub</PageLink> },
+    { Node: <PageLink href={Route.Support}>Support hub</PageLink> },
     { Node: <PageLink href={Route.Billing}>Billing resolution center</PageLink> },
 ];
 
 const INPUT_PROPS = {
-    classNameWrapper: 'flex-col [&]:items-start gap-4xs text-18',
-    classNameLabel: 'font-[400]   ',
+    wrapper: 'flex-col [&]:items-start gap-4xs text-18',
+    label: 'font-[400]   ',
     className: cn('h-6xl w-full px-xxs ', 'bg-gray-d2 border-s border-gray-l0', 'text-primary'),
 };
 
@@ -176,11 +177,9 @@ const ContactsPage: FC = () => {
                                         type={'checkbox'}
                                         checked={formData.isAllowedUpdate}
                                         onChange={setFormValue('isAllowedUpdate')}
-                                        classNameLabel={'text-12 leading-normal'}
-                                        className={'border-gray-l0 bg-gray-d2'}
-                                        classNameCheckbox={'h-5xs w-5xs flex-shrink-0'}
-                                        classNameWrapper={'flex [&_div]:items-start'}
-                                        isCustomCheckbox
+                                        label={'text-12 leading-normal'}
+                                        wrapper={'flex [&_div]:items-start'}
+                                        className={'h-5xs w-5xs flex-shrink-0'}
                                     >
                                         May Tern provide you with personalized communications about Tern and select
                                         Tern-partner products, services, offers and events?

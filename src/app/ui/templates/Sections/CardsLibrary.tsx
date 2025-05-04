@@ -3,9 +3,9 @@
 import { ReactElement } from 'react';
 import cn from 'classnames';
 
+import { ArrayOfLength } from '@/app/types/utils';
 import { CardLink } from '@/app/types/layout';
-import { Tip } from '@/app/types/blog';
-import { CardsLibDTO } from '@/app/services/blog.service';
+import { LibraryCardType } from '@/app/types/blog';
 import { ArticleCardType } from '@/app/ui/organisms/ArticleCard';
 import { Breakpoint, Route } from '@/app/static';
 
@@ -27,26 +27,38 @@ const HIGHLIGHTED_CARD: CardLink = {
     action: { title: 'Subscribe today', href: '' },
 };
 
-const renderTips = (type: ArticleCardType, tips: Tip[] = []) =>
-    tips.map((tip) => (
-        <li
-            key={tip.id}
-            className={'contents'}
-        >
-            <ArticleCard
-                type={type}
-                article={tip}
-                altLink={tip.type === 'video' ? 'watch' : undefined}
-                className={'[&:not(:first-of-type)]:border-t-0'}
-            />
-        </li>
-    ));
+const renderCards = (type: ArticleCardType, rootHref: Route, cards: LibraryCardType[] = []) =>
+    cards.map((card, idx) => {
+        let borderCN = '';
+        switch (type) {
+            case 'alt':
+                borderCN = 'lg:[&:nth-last-child(-n+2)>*]:!border-l-0';
+                break;
+            case 'alt-vertical':
+                borderCN = '[&:not(:first-of-type)>*]:border-t-0';
+                break;
+        }
+        return (
+            <li
+                key={card.id + idx}
+                className={cn('contents', borderCN)}
+            >
+                <ArticleCard
+                    key={card.id + idx}
+                    type={type}
+                    article={card}
+                    altLink={card.type === 'video' ? 'watch' : undefined}
+                    rootHref={rootHref}
+                />
+            </li>
+        );
+    });
 
 const renderCarousel = (section: SectionData, cards: ReactElement[]) => (
     <Section className={{ section: 'mt-xxl md:mt-3xl lg:mt-xl' }}>
         <Carousel
             altData={{ title: section.title, link: section.href, cards }}
-            classNameUl={'min-h-[27.0625rem]  grid-cols-1 md:grid-cols-2 lg:grid-cols-3  w-full sm:w-fit'}
+            ul={'min-h-[27.0625rem]  grid-cols-1 md:grid-cols-2 lg:grid-cols-3  w-full'}
         />
     </Section>
 );
@@ -57,18 +69,35 @@ interface Props {
         first: SectionData;
         second: SectionData;
     };
-    cards: CardsLibDTO | null;
+    cards: LibraryCardType[] | null;
+    tags: ArrayOfLength<string, 4>;
 }
 
 const CardsLibrary = (props: Props) => {
-    const { section, cards } = props;
+    const { section, cards, tags } = props;
 
     const breakpoint = useBreakpointCheck();
 
-    const CardsPopularLi: ReactElement[] = renderTips('alt-vertical', cards?.popular);
-    const CardsFeaturedLi: ReactElement[] = renderTips('alt', cards?.featured);
-    const CardsVideosLi: ReactElement[] = renderTips('default', cards?.videos);
-    const CardsReadsLi: ReactElement[] = renderTips('default', cards?.reads);
+    const CardsTag0Li: ReactElement[] = renderCards(
+        'alt-vertical',
+        section.preHref,
+        cards?.filter((entry) => entry.tag === tags[0]).slice(0, 3),
+    );
+    const CardsTag1Li: ReactElement[] = renderCards(
+        'alt',
+        section.preHref,
+        cards?.filter((entry) => entry.tag === tags[1]).slice(0, 4),
+    );
+    const CardsTag2Li: ReactElement[] = renderCards(
+        'default',
+        section.preHref,
+        cards?.filter((entry) => entry.tag === tags[2]),
+    );
+    const CardsTag3Li: ReactElement[] = renderCards(
+        'default',
+        section.preHref,
+        cards?.filter((entry) => entry.tag === tags[3]),
+    );
 
     return (
         <>
@@ -76,7 +105,7 @@ const CardsLibrary = (props: Props) => {
                 className={{
                     content: cn(
                         'grid grid-rows-2',
-                        'md:grid-cols-2 lg:grid-cols-[15fr,14fr,14fr]',
+                        'grid-cols-1 md:grid-cols-2 lg:grid-cols-[15fr,14fr,14fr]',
                         'sm:gap-y-xxl gap-n',
                     ),
                 }}
@@ -88,14 +117,14 @@ const CardsLibrary = (props: Props) => {
                     >
                         Most Popular
                     </H3>
-                    <ul className={'flex flex-col h-full sm:mr-xs'}>{CardsPopularLi}</ul>
+                    <ul className={'flex flex-col h-full'}>{CardsTag0Li}</ul>
                 </div>
                 <div className={'flex flex-col h-full lg:col-span-2'}>
                     <Carousel
                         altData={{
                             title: 'Featured',
                             link: section.preHref,
-                            cards: CardsFeaturedLi,
+                            cards: CardsTag1Li,
                             altSpinner:
                                 breakpoint > Breakpoint.sm
                                     ? breakpoint === Breakpoint.md
@@ -104,7 +133,7 @@ const CardsLibrary = (props: Props) => {
                                     : undefined,
                         }}
                         rowsCount={2}
-                        classNameUl={'flex-grow grid grid-rows-2 !gap-0  grid-cols-1 lg:grid-cols-2'}
+                        ul={'flex-grow grid grid-rows-2 !gap-0 !w-full  sm:h-fit  grid-cols-1 lg:grid-cols-2'}
                     />
                 </div>
                 <ResourceCard
@@ -115,23 +144,23 @@ const CardsLibrary = (props: Props) => {
                     className={{
                         wrapper: cn(
                             'text-black',
-                            'lg:x-[!grid-cols-2,gap-x-0] lg:col-span-2',
-                            'sm:x-[!mx-auto,max-w-card,mr-xxs]',
-                            'mt-xxl md:mt-3xl lg:mt-xl',
+                            'md:!grid-cols-1 lg:x-[!grid-cols-2,gap-x-0] lg:col-span-2',
+                            'sm:x-[!mx-auto,max-w-card,mr-xxs] md:!p-xs',
                         ),
                         image: '!size-full object-cover',
                         content: 'lg:pl-n  sm:text-10 text-12',
                         link: 'text-primary',
+                        children: 'md:!mt-xxs',
                     }}
                 >
                     {HIGHLIGHTED_CARD.description}
                 </ResourceCard>
             </Section>
-            {renderCarousel(section.first, CardsVideosLi)}
+            {renderCarousel(section.first, CardsTag2Li)}
             <Section className={{ section: 'mt-xxl md:mt-3xl lg:mt-xl' }}>
                 <AllWaysCard alt />
             </Section>
-            {renderCarousel(section.second, CardsReadsLi)}
+            {renderCarousel(section.second, CardsTag3Li)}
         </>
     );
 };
