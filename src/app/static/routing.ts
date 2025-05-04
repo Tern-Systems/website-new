@@ -18,6 +18,8 @@ enum Route {
 
     About = '/about',
     Credo = Route.About + '/credo',
+    Careers = Route.About + '/careers',
+    SupportHub = '/support',
     Terms = '/terms',
     Cookies = '/cookies',
     Privacy = '/privacy',
