@@ -30,7 +30,7 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
 ) => {
     const { invoice, className, VisibilityToggle, card, invoiceDate, renewDate } = props;
 
-    const taxPercent: number | undefined = checkNumber(invoice?.taxPercent) ? 100 * invoice.taxPercent : undefined;
+    const taxPercent: number | undefined = invoice?.taxPercent;
     const subtotalUSD: number | undefined = checkNumber(invoice?.subtotalUSD) ? invoice.subtotalUSD : undefined;
     const paidUSD: number | undefined = checkNumber(invoice?.paidUSD) ? invoice.paidUSD : undefined;
     const totalDue: number | undefined = checkNumber(invoice?.totalDue) ? invoice.totalDue : undefined;

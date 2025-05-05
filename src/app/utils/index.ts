@@ -12,4 +12,4 @@ export {
 } from './data';
 export { mapSavedCard, getCardName } from './payment';
 export { getIdName, getRouteRoot, checkSubRoute, getRouteLeave, sliceRoute } from './router';
-export { downloadFile } from './ui';
+export { downloadBlob } from './ui';

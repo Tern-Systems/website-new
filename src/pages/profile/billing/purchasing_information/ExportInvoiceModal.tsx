@@ -7,7 +7,7 @@ import { DataTestID } from '@/tests/static';
 
 import { BillingService } from '@/app/services';
 
-import { downloadFile } from '@/app/utils';
+import { downloadBlob } from '@/app/utils';
 import { useForm, useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal } from '@/app/ui/modals';
@@ -37,8 +37,8 @@ const ExportInvoiceModal: FC = () => {
         if (!userData) return;
 
         try {
-            const { payload: csvStr } = await BillingService.postExportTransaction(userData.email);
-            downloadFile('data:application/octet-stream;charset=utf-8,' + encodeURIComponent(csvStr));
+            const { payload } = await BillingService.postExportTransaction(userData.email);
+            downloadBlob(payload, 'transaction-details.csv');
             modalCtx.closeModal();
         } catch (error: unknown) {
             if (typeof error === 'string') modalCtx.openModal(<MessageModal>{error}</MessageModal>);

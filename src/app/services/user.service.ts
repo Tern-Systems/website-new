@@ -30,7 +30,7 @@ class UserServiceImpl extends BaseService implements IUserService {
     async postUpdateUserName(email: string, username: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `add-or-update-username`,
+            url: this._API + `user/update-username`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ userEmail: email, username }),
             withCredentials: true,
@@ -83,7 +83,7 @@ class UserServiceImpl extends BaseService implements IUserService {
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `update-user-data`,
+            url: this._API + `user/update-data`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: userFormData,
             withCredentials: true,
@@ -95,7 +95,7 @@ class UserServiceImpl extends BaseService implements IUserService {
     async getUser(token: string, fetchPlanDetails: boolean = false): Promise<Res<UserData, false>> {
         const config: AxiosRequestConfig = {
             method: 'GET',
-            url: this._API + `get-user-data`,
+            url: this._API + `user/data`,
             headers: BaseService._HEADER.AUTHORIZATION(token),
             withCredentials: true,
         };

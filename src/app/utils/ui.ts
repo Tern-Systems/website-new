@@ -1,13 +1,10 @@
-const downloadFile = (data: string) => {
-    const element = document.createElement('a');
-    element.setAttribute('href', data);
-    element.setAttribute('download', 'transactions.csv');
-    element.style.display = 'none';
-
-    document.body.appendChild(element);
-    element.addEventListener('click', (event) => event.preventDefault());
-    element.click();
-    document.body.removeChild(element);
+export const downloadBlob = (blob: Blob, filename: string): void => {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
 };
-
-export { downloadFile };

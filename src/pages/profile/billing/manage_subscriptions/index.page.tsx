@@ -171,9 +171,7 @@ function ManageSubscriptionsPage() {
                             <span className={'text-right'}>{price}</span>
                             <hr className={'col-span-2 self-center border-white-d0'} />
                             <span>Tax</span>
-                            <span className={'text-right'}>
-                                {taxUSD ? '$' + taxUSD.toFixed(2) : '-- missing tax --'}
-                            </span>
+                            <span className={'text-right'}>{'$' + taxUSD?.toFixed(2)}</span>
                             <span className={'font-bold'}>Total</span>
                             <span className={'text-right'}>
                                 {checkNumber(priceUSD) && checkNumber(taxUSD)

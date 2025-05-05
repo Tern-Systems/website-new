@@ -49,7 +49,7 @@ interface IBillingService {
 
     getInvoices(email: string): Promise<Res<Invoice[], false>>;
 
-    postExportTransaction(email: string): Promise<Res<string, false>>;
+    postExportTransaction(email: string): Promise<Res<Blob, false>>;
 
     getCards(email: string): Promise<Res<SavedCard[], false>>;
 
@@ -80,7 +80,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     async postCancelSubscription(email: string, source: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `cancel-subscription`,
+            url: this._API + `billing/manage/cancel-subscription`,
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify({ userEmail: email, source }),
             withCredentials: true,
@@ -93,7 +93,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     async postDeleteCard(id: string, paymentId: string, email: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `remove-card`,
+            url: this._API + `billing/edit/remove-card`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({
                 email,
@@ -109,7 +109,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     async postUpdateCard(formData: CardData, email: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `update-card`,
+            url: this._API + `billing/edit/update-card`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ email, ...formData }),
             withCredentials: true,
@@ -121,7 +121,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     async getEditCards(email: string): Promise<Res<SavedCardFull[], false>> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `get-saved-cards-and-edit`,
+            url: this._API + `billing/manage/saved-cards`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ email }),
             withCredentials: true,
@@ -153,7 +153,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `save-new-card`,
+            url: this._API + `billing/edit/new-card`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({
                 user,
@@ -168,21 +168,27 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         return { message: message || BillingServiceImpl._MESSAGE.CARD_SAVED };
     }
 
-    async postExportTransaction(email: string): Promise<Res<string, false>> {
+    async postExportTransaction(email: string): Promise<Res<Blob, false>> {
         const config: AxiosRequestConfig = {
-            method: 'GET',
-            url: this._API + `export-transaction-details`,
-            params: { email },
+            method: 'POST',
+            url: this._API + `billing/details/export`,
+            headers: {
+                ...BaseService._HEADER.CONTENT_JSON,
+                Accept: 'text/csv',
+            },
+            data: { email },
+            responseType: 'blob',
             withCredentials: true,
         };
-        const { payload } = await this.req<string, false>(this.postExportTransaction.name, config, (data) => [!!data]);
+
+        const { payload } = await this.req<Blob, false>(this.postExportTransaction.name, config, () => [true]);
         return { payload };
     }
 
     async getInvoices(email: string): Promise<Res<Invoice[], false>> {
         const config: AxiosRequestConfig = {
             method: 'GET',
-            url: this._API + `get-subscription-details`,
+            url: this._API + `billing/details/subscription`,
             params: { email },
             withCredentials: true,
         };
@@ -196,7 +202,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     async getCards(email: string): Promise<Res<SavedCard[], false>> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `get-saved-cards`,
+            url: this._API + `checkout/saved-cards`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ email }),
             withCredentials: true,
@@ -238,7 +244,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
 
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `process-payment`,
+            url: this._API + `checkout/new-payment`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({
                 user: email,
@@ -262,7 +268,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     ): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `process-payment-saved`,
+            url: this._API + `checkout/upgrade`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({
                 user: email,
@@ -283,7 +289,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     async getUserActivePlans(email: string): Promise<Res<Subscription[], false>> {
         const config: AxiosRequestConfig = {
             method: 'GET',
-            url: this._API + `get-plan-details`,
+            url: this._API + `user/plans`,
             params: { email },
             withCredentials: true,
         };
@@ -302,7 +308,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
     async getPlanDetails(source: string): Promise<Res<SubscriptionPreview, false>> {
         const config: AxiosRequestConfig = {
             method: 'GET',
-            url: this._API + `plan-details`,
+            url: this._API + `plan/details`,
             withCredentials: false,
         };
         const { payload } = await this.req<{ allplanDetails: PlanDetails[] }, false>(
