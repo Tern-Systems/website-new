@@ -74,6 +74,7 @@ const SubNavElement = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                                   setDropdown(null);
                                   setNav(false);
                               }}
+                              className='cursor-pointer'
                           >
                               {title}
                               {entryIdx ? undefined : (
