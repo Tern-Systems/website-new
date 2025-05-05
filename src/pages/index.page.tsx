@@ -191,7 +191,7 @@ function HomePage() {
                         </h2>
                         <Carousel
                             className={'lg:contents'}
-                            classNameUl={cn(
+                            ul={cn(
                                 'grid-cols-[repeat(3,22rem)]',
                                 'lg:max-h-[30.3125rem]',
                                 'sm:!h-fit sm:grid-cols-[minmax(0,21rem)]',

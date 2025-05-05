@@ -1,1 +1,4 @@
-export const Fallback = 'Unknown';
+const Fallback = 'Unknown';
+const CategoryFallback = 'all';
+
+export { Fallback, CategoryFallback };

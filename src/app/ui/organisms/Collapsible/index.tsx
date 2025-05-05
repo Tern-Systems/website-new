@@ -31,7 +31,7 @@ const WRAPPER_CN = `p-l bg-gray w-full max-w-[62rem] text-nowrap place-self-cent
 interface Props extends PropsWithChildren {
     title?: string | ReactElement;
     icon?: Icon;
-    classNameWrapper?: string;
+    wrapper?: string;
     classNameTitle?: string;
     classNameTitleIcon?: string;
     classNameIcon?: string;
@@ -50,7 +50,7 @@ const Collapsible: FC<Props> = (props: Props) => {
         icon,
         children,
         className,
-        classNameWrapper,
+        wrapper,
         classNameTitle,
         classNameTitleIcon,
         classNameIcon,
@@ -96,7 +96,7 @@ const Collapsible: FC<Props> = (props: Props) => {
             <div
                 {...propsDiv}
                 {...id}
-                className={cn(`relative`, { ['lg:h-full [&]:h-fit']: !expanded }, WRAPPER_CN, classNameWrapper)}
+                className={cn(`relative`, { ['lg:h-full [&]:h-fit']: !expanded }, WRAPPER_CN, wrapper)}
             >
                 <Image
                     src={CollapseIcon}
@@ -119,7 +119,7 @@ const Collapsible: FC<Props> = (props: Props) => {
         <div
             {...propsDiv}
             {...id}
-            className={cn(WRAPPER_CN, { ['pb-0']: !expandedFinal }, classNameWrapper)}
+            className={cn(WRAPPER_CN, { ['pb-0']: !expandedFinal }, wrapper)}
         >
             <div
                 onClick={() => handleToggle()}

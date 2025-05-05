@@ -7,14 +7,14 @@ import Image from 'next/image';
 import cn from 'classnames';
 
 import { Article } from '@/app/types/blog';
-import { Breakpoint } from '@/app/static';
+import { SelectOptions } from '@/app/ui/form/Select';
+import { Breakpoint, Route } from '@/app/static';
 
 import { formatDate } from '@/app/utils';
 import { useBreakpointCheck } from '@/app/hooks';
 
 import { Button } from '@/app/ui/form';
-import { ArticleCard, SideNav } from '@/app/ui/organisms';
-import { SubscribeCard } from '../../SubscribeCard';
+import { ArticleCard, SideNav, SubscribeCard } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
@@ -53,7 +53,7 @@ function ArticlePage() {
     const lg = useBreakpointCheck() === Breakpoint.lg;
 
     const [url, setURL] = useState<string | null>(null);
-    const [nav, setNav] = useState<Record<string, string>>({});
+    const [nav, setNav] = useState<SelectOptions>({});
     const [content, setContent] = useState<Article | null>(null);
     const [contentParts, setContentParts] = useState<string[]>([]);
     const [cards, setCards] = useState<Article[]>([]);
@@ -114,7 +114,10 @@ function ArticlePage() {
                 key={article?.id ?? 'card-' + idx}
                 className={'contents'}
             >
-                <ArticleCard article={article} />
+                <ArticleCard
+                    article={article}
+                    rootHref={Route.AllWaysArticle}
+                />
             </li>
         ));
 
@@ -126,7 +129,7 @@ function ArticlePage() {
                         <h1 className={'leading-n  text-32 md:text-48 lg:text-64'}>{content?.title}</h1>
                         <div className={'contents'}>
                             <Image
-                                src={content?.poster ?? PNG_NATURE}
+                                src={content?.thumbnail || PNG_NATURE}
                                 alt={'article-image'}
                                 width={500}
                                 height={500}
@@ -138,15 +141,15 @@ function ArticlePage() {
                         <div className={cn(INFO_CN, 'mt-xl lg:mt-0')}>
                             <span
                                 className={cn('bg-gray-l0 py-5xs px-3xs rounded-full', {
-                                    ['text-12']: !content?.tag,
+                                    ['text-12']: !content?.category,
                                 })}
                             >
-                                {content?.tag ?? 'All Ways'}
+                                {content?.category ?? 'All Ways'}
                             </span>
                         </div>
                         <div className={INFO_CN}>
                             <span className={cn({ ['text-12']: !content?.date })}>
-                                {content?.date ? formatDate(new Date(content?.date)) : '-- date is not provided --'}
+                                {content?.date ? formatDate(content?.date) : '-- date is not provided --'}
                             </span>
                         </div>
                         <div className={cn(INFO_CN, 'border-b-s')}>

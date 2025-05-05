@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-import { Highlighted } from '@/app/ui/organisms';
-
 const PARAGRAPHS: string = `Tern Systems LLC: Terms and Conditions
 
 Effective Date: May 3, 2024
@@ -81,12 +79,12 @@ By using the Site, you acknowledge your agreement to these Terms and Conditions.
 `;
 
 const TermsPage = () => (
-    <Highlighted heading={'Terms & Conditions'}>
+    <div className={'Terms & Conditions'}>
         <pre
             dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
             className={'whitespace-pre-line '}
         />
-    </Highlighted>
+    </div>
 );
 
 export default TermsPage;

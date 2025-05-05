@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react';
+import { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 
@@ -70,52 +70,10 @@ const FOOTER_LINKS: { title: string; links: FooterLink[] }[] = [
     },
 ];
 
-const SCROLL_CHECK_INTERVAL_MS = 50;
-
 const Layout: FC<PropsWithChildren> = ({ children }) => {
     const modalCtx = useModal();
     const layoutCtx = useLayout();
     const userCtx = useUser();
-
-    const [_, setScrollState] = layoutCtx.scrollState;
-
-    const ref = useRef<HTMLDivElement>(null);
-    const scrollIntervalRef = useRef<null | NodeJS.Timeout>(null);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrollState((prevState) => ({
-                ...prevState,
-                scrollHeight: ref.current?.scrollHeight ?? 0,
-                scrollTop: ref.current?.getBoundingClientRect().top ?? 0,
-            }));
-        };
-
-        const handleMouseDown = (event: MouseEvent) => {
-            if (event.button === 1 && !scrollIntervalRef.current) {
-                scrollIntervalRef.current = setInterval(() => {
-                    handleScroll();
-                }, SCROLL_CHECK_INTERVAL_MS);
-            } else if (scrollIntervalRef.current) {
-                clearInterval(scrollIntervalRef.current);
-                handleScroll();
-                scrollIntervalRef.current = null;
-            }
-        };
-
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (['ArrowDown', 'Escape', 'ArrowUp'].includes(event.key)) handleScroll();
-        };
-
-        window.addEventListener('wheel', handleScroll);
-        window.addEventListener('mouseup', handleMouseDown);
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('wheel', handleScroll);
-            window.removeEventListener('mouseup', handleMouseDown);
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [ref.current, scrollIntervalRef.current]);
 
     const FooterLinksLi: ReactElement[] = FOOTER_LINKS.map((section, idx: number) => {
         const LinksLi: ReactNode[] = section.links.map((link, linkIdx) => {
@@ -248,7 +206,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         children
     ) : (
         <div
-            ref={ref}
+            id={'top'}
             className={`flex min-h-full flex-grow flex-col select-none justify-between`}
         >
             {Layout}

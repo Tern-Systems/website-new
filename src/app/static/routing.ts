@@ -1,5 +1,7 @@
 'use client';
 
+import { CategoryFallback } from '@/app/static/fallback';
+
 import SVG_DISCORD from '@/assets/images/icons/discord.svg';
 import SVG_STACKOVERFLOW from '@/assets/images/icons/stack-overflow.svg';
 import SVG_GITHUB from '@/assets/images/icons/github.svg';
@@ -14,16 +16,16 @@ import SVG_TWITCH from '@/assets/images/icons/twitch.svg';
 enum Route {
     Home = '/',
 
-    Credo = '/about/credo',
     About = '/about',
-    SupportHub = '/support',
+    Credo = Route.About + '/credo',
+    Careers = Route.About + '/careers',
     Terms = '/terms',
     Cookies = '/cookies',
     Privacy = '/privacy',
 
     // /products
     // Products = '/products/all',
-    Products = '/product',
+    Products = '/products',
     TidalPlans = '/products/plans',
     TidalProductManual = '/products/manual',
     TidalSubscribe = '/subscribe/tidal',
@@ -32,56 +34,78 @@ enum Route {
     Tidal = '/products/tidal',
     Ternact = '/products/ternact',
 
-    // /profile
+    // Subscriptions
+    Subscriptions = '/subscriptions',
+    SubscriptionsTidal = Route.Subscriptions + '/tidal',
+    SubscriptionsNewsletter = Route.Subscriptions + '/newsletter',
+    SubscriptionsCourse = Route.Subscriptions + '/course',
+
+    // Profile
     Profile = '/profile',
-    MyTern = '/profile/my_tern',
-    MyDocumentation = '/profile/my_tern/documentation',
+    MyTern = Route.Profile + '/my_tern',
+    MyDocumentation = Route.MyTern + '/documentation',
 
-    Billing = '/profile/billing',
-    Invoice = '/profile/billing/order',
-    ManageSubscriptions = '/profile/billing/manage_subscriptions',
-    PurchasingInformation = '/profile/billing/purchasing_information',
-    EditPaymentMethod = '/profile/billing/purchasing_information/edit_payment_method',
-    AddPaymentMethod = '/profile/billing/purchasing_information/add_payment_method',
+    Billing = Route.Profile + '/billing',
+    Invoice = Route.Billing + '/order',
+    ManageSubscriptions = Route.Billing + '/manage_subscriptions',
+    PurchasingInformation = Route.Billing + '/purchasing_information',
+    EditPaymentMethod = Route.PurchasingInformation + '/edit_payment_method',
+    AddPaymentMethod = Route.PurchasingInformation + '/add_payment_method',
 
-    // /support
-    Resources = '/support/resources',
-    Community = '/support/community',
-    CommunityEvents = '/support/community/events',
-    Training = '/support/training',
-    TrainingFAQs = '/support/training/faqs',
-    ProfessionalCertifications = '/support/training/certifications',
-    Subscriptions = '/support/training/subscriptions',
-    Downloads = '/support/downloads',
-    Cases = '/support/cases',
-    Tips = '/support/tips',
-    TipsVideos = '/support/tips/videos',
-    TipsReads = '/support/tips/reads',
-    Contact = '/support/contact',
-    GeneralFAQs = '/support/faqs',
-    Documentation = '/support/documentation',
-    TidalDoc = '/support/documentation/tidal',
-    GDoc = '/support/documentation/g',
-    TernKitDoc = '/support/documentation/tern_kit',
-    TernDoc = '/support/documentation/tern',
-    BTMCDoc = '/support/documentation/btmc',
+    // Support
+    Support = '/support',
+    Resources = Route.Support + '/resources',
 
-    Courses = '/support/courses',
-    AllCourses = '/support/courses/Library',
-    CoursesVideos = '/support/courses/videos',
-    CoursesReads = '/support/courses/reads',
+    // Community
+    Community = Route.Support + '/community',
+    Events = Route.Community + '/events',
+    EventsLibrary = Route.Events + '/library',
+    EventsAll = Route.EventsLibrary + '/' + CategoryFallback,
 
-    // /all_ways
+    Training = Route.Support + '/training',
+    TrainingFAQs = Route.Training + '/faqs',
+    ProfessionalCertifications = Route.Training + '/certifications',
+    Subscribe = Route.Training + '/subscriptions',
+    Credentials = '/support/training/credentials',
+    Downloads = Route.Support + '/downloads',
+    Cases = Route.Support + '/cases',
+    Contact = Route.Support + '/contact',
+    GeneralFAQs = Route.Support + '/faqs',
+
+    // Documentation
+    Documentation = Route.Support + '/documentation',
+    TidalDoc = Route.Documentation + '/tidal',
+    GDoc = Route.Documentation + '/g',
+    TernKitDoc = Route.Documentation + '/tern_kit',
+    TernDoc = Route.Documentation + '/tern',
+    BTMCDoc = Route.Documentation + '/btmc',
+
+    // Tips
+    Tips = Route.Support + '/tips',
+    TipsLibrary = Route.Tips + '/library',
+    TipsAll = Route.TipsLibrary + '/' + CategoryFallback,
+    TipsVideos = Route.TipsLibrary + '/videos',
+    TipsReads = Route.TipsLibrary + '/reads',
+
+    // support
+    Courses = Route.Support + '/courses',
+    CoursesLib = Route.Courses + '/library',
+    CoursesAll = Route.CoursesLib + '/' + CategoryFallback,
+    FreeCourses = Route.CoursesLib + '/free',
+    PremiumCourses = Route.CoursesLib + '/premium',
+
+    // All_ways
     AllWays = '/all_ways',
-    AllWaysArticle = '/all_ways/article',
-    Artificial = '/all_ways/artificial_intelligence',
-    Cloud = '/all_ways/cloud',
-    Data = '/all_ways/data',
-    Security = '/all_ways/security',
-    Videos = '/all_ways/videos',
-    Podcasts = '/all_ways/podcasts',
-    Events = '/all_ways/events',
-    More = '/all_ways/more',
+    AllWaysArticle = Route.AllWays + '/article',
+    AllWaysAll = Route.AllWays + '/' + CategoryFallback,
+    Artificial = Route.AllWays + '/artificial_intelligence',
+    Cloud = Route.AllWays + '/cloud',
+    Data = Route.AllWays + '/data',
+    Security = Route.AllWays + '/security',
+    Videos = Route.AllWays + '/videos',
+    Podcasts = Route.AllWays + '/podcasts',
+    AllWaysEvents = Route.AllWays + '/events',
+    More = Route.AllWays + '/more',
 }
 
 const CONTACT_LINKS = {

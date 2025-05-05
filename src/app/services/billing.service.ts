@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from 'axios';
 import { DeepPartial } from '@/app/types/utils';
 import { Res } from '@/app/types/service';
 import { CardData, Invoice, SavedCard, SavedCardFull } from '@/app/types/billing';
-import { PlanName, PlanType, RecurrencyEnum, Subscription, SubscriptionPreview } from '@/app/types/subscription';
+import { PlanType, RecurrencyEnum, Subscription, SubscriptionPreview } from '@/app/types/subscription';
 
 import { BaseService } from '@/app/services/base.service';
 import { Route } from '@/app/static';
@@ -17,7 +17,7 @@ type PlanDetails = DeepPartial<{
     Duration: number;
     Plan: PlanType;
     Price: number;
-    Source: PlanName;
+    Source: string;
 }>;
 
 type FormCardData = Omit<CardData, 'nickName' | 'isPreferred'>;
@@ -61,7 +61,7 @@ interface IBillingService {
 
     postDeleteCard(id: string, paymentId: string, email: string): Promise<Res>;
 
-    postCancelSubscription(email: string, source: PlanName): Promise<Res>;
+    postCancelSubscription(email: string, source: string): Promise<Res>;
 }
 
 class BillingServiceImpl extends BaseService implements IBillingService {
@@ -77,7 +77,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         super(BillingServiceImpl.name);
     }
 
-    async postCancelSubscription(email: string, source: PlanName): Promise<Res> {
+    async postCancelSubscription(email: string, source: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `billing/manage/cancel-subscription`,
@@ -305,7 +305,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         return { payload: subscriptions };
     }
 
-    async getPlanDetails(source: PlanName): Promise<Res<SubscriptionPreview, false>> {
+    async getPlanDetails(source: string): Promise<Res<SubscriptionPreview, false>> {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: this._API + `plan/details`,
@@ -318,7 +318,7 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         );
 
         let previewResult: SubscriptionPreview = {
-            route: Route.TidalSubscribe,
+            route: Route.SubscriptionsTidal,
             subscription: source,
             basicKind: source === 'Tidal',
             type: {},

@@ -1,30 +1,30 @@
 import cn from 'classnames';
 import { ReactSVG } from 'react-svg';
 
-import { BreadcrumbRoute } from '@/app/ui/atoms';
-
-import styles from '@/app/common.module.css';
-import stylesLocal from './Credo.module.css';
+import { BreadcrumbRoute, Content, H1, Section } from '@/app/ui/atoms';
 
 import SVG_CREDO_HR from '@/assets/images/credo-hr.svg';
 
 function CredoPage() {
     return (
-        <>
-            <section className={cn(styles.section, stylesLocal.sectionGradient)}>
-                <div className={cn(styles.content, 'mt-l')}>
-                    <BreadcrumbRoute />
-                </div>
-                <div className={cn('flex flex-col items-center  ', 'mt-xxl lg:mt-5xl')}>
-                    <h1 className={'text-32 md:text-48 lg:text-64'}>Our Credo</h1>
-                    <ReactSVG
-                        src={SVG_CREDO_HR.src}
-                        className={'mt-[2.31rem]  sm:mt-xs md:mt-s  w-[12.69rem] sm:w-[6.0625rem]'}
-                    />
-                </div>
+        <Content
+            type={'long-to-bottom'}
+            heading={
+                <Section>
+                    <BreadcrumbRoute className={'mr-auto w-fit'} />
+                    <div className={'flex flex-col items-center  mt-xxl lg:mt-5xl'}>
+                        <H1>Our Credo</H1>
+                        <ReactSVG
+                            src={SVG_CREDO_HR.src}
+                            className={'mt-[2.31rem]  sm:mt-xs md:mt-s  w-[12.69rem] sm:w-[6.0625rem]'}
+                        />
+                    </div>
+                </Section>
+            }
+        >
+            <Section>
                 <div
                     className={cn(
-                        styles.content,
                         'leading-l',
                         'pt-6xl-1 lg:pt-6xl',
                         'text-20 md:text-32 lg:text-36',
@@ -82,8 +82,8 @@ function CredoPage() {
                         purpose everlastingly.
                     </p>
                 </div>
-            </section>
-        </>
+            </Section>
+        </Content>
     );
 }
 

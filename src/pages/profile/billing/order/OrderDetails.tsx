@@ -10,7 +10,6 @@ import { Fallback } from '@/app/static';
 import { checkNumber } from '@/app/utils';
 
 import { PageLink } from '@/app/ui/layout';
-import { ScrollEnd } from '@/app/ui/organisms';
 
 const Hr = ({ className = '' }: { className?: string }) => (
     <hr className={`my-xxs border-white-d0  md:my-xs  lg:my-xs  ${className}`} />
@@ -146,8 +145,6 @@ const OrderDetailsComponent: ForwardRefRenderFunction<HTMLDivElement, PropsWitho
 
                     {VisibilityToggle}
                 </div>
-
-                <ScrollEnd />
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ import { ReactSVG } from 'react-svg';
 import cn from 'classnames';
 
 import { ResourceSectionData, TableSection } from '@/app/types/layout';
-import { PlanName, Subscription } from '@/app/types/subscription';
+import { Subscription } from '@/app/types/subscription';
 import { RowProps } from '@/app/ui/organisms/Table';
 import { MD_SM_HIDDEN_CN, MISC_LINKS, Route, SM_HIDDEN_CN } from '@/app/static';
 
@@ -30,7 +30,7 @@ type TableEntry = {
     href: string | Route;
 };
 
-const SUBSCRIPTION_LINK_DICT: Record<PlanName, string> = {
+const SUBSCRIPTION_LINK_DICT: Record<string, string> = {
     // dot: Route.Dot,
     Tidal: MISC_LINKS.Tidal,
     trial: '',
@@ -56,7 +56,7 @@ const EVENTS_TEMPLATE: TableEntry[] = [
 const RESOURCES: ResourceSectionData[] = [
     { Node: <PageLink href={Route.MyDocumentation} /> },
     { Node: <PageLink href={Route.GeneralFAQs}>Help & FAQs</PageLink> },
-    { Node: <PageLink href={Route.SupportHub} /> },
+    { Node: <PageLink href={Route.Support} /> },
 ];
 
 const renderSinceDate = (dateNumber: number | undefined) => {

@@ -4,12 +4,13 @@ import { StaticImageData } from 'next/image';
 import { ButtonIcon } from '@/app/ui/form/Button';
 import { IModalContext } from '@/app/contexts/modal.context';
 import { Route } from '@/app/static';
-import { PlanName } from '@/app/types/subscription';
+import { SubscriptionBase } from '@/app/types/subscription';
 
 type ResourceLink = {
     title: string;
     description: string;
-    href: string;
+    href?: string;
+    icon?: StaticImageData;
 };
 
 type CardLink = {
@@ -21,7 +22,7 @@ type CardLink = {
     bullets?: string[];
 };
 
-type DocumentationLink = ResourceLink & { subscription: PlanName };
+type DocumentationLink = ResourceLink & Pick<SubscriptionBase, 'subscription'>;
 
 type InfoSectionData = {
     title: string;

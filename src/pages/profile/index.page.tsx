@@ -5,6 +5,7 @@ import cn from 'classnames';
 
 import { Res } from '@/app/types/service';
 import { UpdateUserData } from '@/app/services/user.service';
+import { SelectOptions } from '@/app/ui/form/Select';
 
 import { UserService } from '@/app/services';
 
@@ -30,7 +31,7 @@ interface SectionProps {
     editId: string | null;
 }
 
-const SECTIONS: Record<string, string> = {
+const SECTIONS: SelectOptions = {
     [AccountSection.ID]: 'Credentials',
     [ContactSection.ID]: 'Contact',
     [CompanySection.ID]: 'Organization',

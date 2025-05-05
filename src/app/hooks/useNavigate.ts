@@ -12,7 +12,7 @@ import { NavigationState } from '@/app/contexts/layout.context';
 const useNavigate = (
     preventModalClosing?: boolean,
     closeModalImmediately?: boolean,
-): [(route: Route) => Promise<void>, AppRouterInstance] => {
+): [(route: Route) => Promise<void>, AppRouterInstance, string | null] => {
     const pageRoute = usePathname();
     const router = useRouter();
     const modalCtx = useModal();
@@ -23,7 +23,6 @@ const useNavigate = (
 
     useEffect(() => {
         layoutCtx.setFadeState(false);
-        document.querySelector('#header')?.scrollIntoView();
     }, [pageRoute]);
 
     const closeModal = () => {
@@ -41,6 +40,7 @@ const useNavigate = (
         setTimeout(() => {
             router.push(route);
             setNavigationState(NavigationState.FREE);
+            document.querySelector('#header')?.scrollIntoView();
         }, LAYOUT.fadeDuration);
 
         if (closeModalImmediately) closeModal();
@@ -51,7 +51,7 @@ const useNavigate = (
         }
     };
 
-    return [navigate, router];
+    return [navigate, router, pageRoute];
 };
 
 export { useNavigate };

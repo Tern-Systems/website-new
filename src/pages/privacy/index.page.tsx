@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Highlighted } from '@/app/ui/organisms';
-
 const PARAGRAPHS: string = `Tern Systems LLC Privacy Policy
 
 Effective Date: May 3, 2024
@@ -87,12 +85,12 @@ This Policy ensures transparency and demonstrates our commitment to safeguarding
  `;
 
 const PrivacyPage = () => (
-    <Highlighted heading={'Privacy Policy'}>
+    <div className={'Privacy Policy'}>
         <pre
             dangerouslySetInnerHTML={{ __html: PARAGRAPHS }}
             className={'whitespace-pre-line '}
         />
-    </Highlighted>
+    </div>
 );
 
 export default PrivacyPage;

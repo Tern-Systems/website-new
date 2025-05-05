@@ -31,7 +31,7 @@ function OffboardingSection() {
         <Collapsible
             title={OFFBOARDING}
             className={`${styles.collapsible} [&&]:gap-y-xxs [&&]:md:gap-y-n [&&]:lg:gap-y-n`}
-            classNameWrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
+            wrapper={`p-xxs rounded-s  md:p-s  lg:p-l`}
             classNameTitle={`text-18  md:text-27  lg:text-27`}
             classNameTitleIcon={`[&]:max-w-5xs  [&]:md:max-w-n  [&]:lg:max-w-n`}
             classNameHr={`border-gray-l0`}

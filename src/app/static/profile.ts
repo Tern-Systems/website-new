@@ -1,5 +1,6 @@
 import { KeysOfUnion } from '@/app/types/utils';
 import { Address, Phone } from '@/app/contexts/user.context';
+import { SelectOptions } from '@/app/ui/form/Select';
 
 const COUNTRY = {
     '': '',
@@ -248,7 +249,7 @@ const COUNTRY = {
     ZW: 'Zimbabwe',
 };
 
-const STATE_PROVINCE: Record<CountryKey, Record<string, string>> = {
+const STATE_PROVINCE: Record<CountryKey, SelectOptions> = {
     '': { ' ': ' ' },
     AF: {
         BDS: 'Badakhshan',

@@ -14,7 +14,7 @@ import { Button } from '@/app/ui/form';
 import SVG_OFFICE_GIRL_1 from '@/assets/images/office-girl-2.jpg';
 import SVG_OFFICE_GIRL_2 from '@/assets/images/office-girl-1.jpg';
 import PNG_INSIDE_TERN_GIRL from '@/assets/images/inside-tern-girl.png';
-import PNG_ACCOLADES from '@/assets/images/resources-card-5.png';
+import PNG_ACCOLADES from '@/assets/images/resource-card-common.png';
 import SVG_CITY_WAY from '@/assets/images/city-glowing-way.jpg';
 import SVG_OFFICE_PEOPLE from '@/assets/images/office-people.jpg';
 import { faArrowRight, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';

@@ -20,7 +20,7 @@ import { PageLink } from '@/app/ui/layout';
 import { AuthModal, HelpModal, MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 import { LimitsModal } from './LimitsModal';
-import { Collapsible, ScrollEnd } from '@/app/ui/organisms';
+import { Collapsible } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
@@ -68,7 +68,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             subscription: subscriptionData.subscription,
             type,
             basicKind: subscriptionData.basicKind,
-            priceUSD: subscriptionData.type?.[type]?.priceUSD?.[recurrency],
+            priceUSD: subscriptionData.type?.[type]?.priceUSD?.[recurrency] ?? NaN,
             recurrency: recurrency,
         };
         sessionStorage.setItem('subscription', JSON.stringify(subscription));
@@ -260,7 +260,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                 chevron
                 expandedInit={[breakpoint === Breakpoint.lg]}
                 collapsedContent={CollapsedContentSm}
-                classNameWrapper={cn(
+                wrapper={cn(
                     `[&]:self-start [&]:max-w-[25rem] w-full h-full border-s border-white-d0 text-left`,
                     'lg:h-[35.5rem]',
                     `md:x-[p-s,h-[35.5rem]]`,
@@ -352,7 +352,6 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
             >
                 {renderColumns()}
             </div>
-            <ScrollEnd />
         </div>
     );
 };

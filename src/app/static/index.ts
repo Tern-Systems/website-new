@@ -9,7 +9,7 @@ export { FAQs } from './faqs';
 
 export { CARD_DATA_DEFAULT } from './form';
 
-export { Fallback } from './fallback';
+export { Fallback, CategoryFallback } from './fallback';
 
 export {
     Breakpoint,
@@ -30,4 +30,4 @@ export {
 export type { StateKey, CountryKey, SalutationKey, LanguageKey } from './profile';
 export { STATE_PROVINCE, COUNTRY, LANGUAGE, SALUTATION, REGEX, DEFAULT_PHONE, DEFAULT_ADDRESS } from './profile';
 
-export { SearchParamsEnum } from './temp';
+export { SearchParamsEnum, StorageEnum } from './temp';

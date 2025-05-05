@@ -6,9 +6,16 @@ import { Gradient, MainBackground } from '@/app/ui/atoms';
 
 import styles from '@/app/common.module.css';
 
+type SectionType = 'full-screen' | 'short';
+
+const TYPE_CN: Record<SectionType, string> = {
+    short: 'h-[21.625rem]',
+    'full-screen': styles.fullHeightSection,
+};
+
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
-    type?: 'full-screen' | 'short';
-    background?: { image: StaticImageData; gradient?: 'left' };
+    type?: SectionType;
+    background?: { image?: StaticImageData; gradient?: 'left' };
     className?: {
         section?: string;
         content?: string;
@@ -19,30 +26,20 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
 const Section: FC<Props> = (props: Props) => {
     const { children, className, type, background, ...sectionProps } = props;
 
-    let typeCN: string | undefined;
-    switch (type) {
-        default:
-            break;
-        case 'full-screen':
-            typeCN = styles.fullHeightSection;
-            break;
-        case 'short':
-            typeCN = 'h-[21.625rem]';
-            break;
-    }
-
     return (
         <section
             {...sectionProps}
-            className={cn(styles.section, typeCN, className?.section)}
+            className={cn(styles.section, type ? TYPE_CN[type] : '', className?.section)}
         >
-            {background ? (
+            {background?.image ? (
                 <MainBackground
                     url={background.image}
                     className={cn('-z-10', className?.background)}
                 />
             ) : null}
-            <div className={cn(styles.content, '[&_*]:leading-n', className?.content)}>{children}</div>
+            <div className={cn(styles.content, 'flex flex-col justify-between  [&_*]:leading-n', className?.content)}>
+                {children}
+            </div>
             {background?.gradient ? <Gradient /> : null}
         </section>
     );

@@ -1,9 +1,8 @@
 'use client';
 
-import { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useRef } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import { ReactSVG } from 'react-svg';
-import dynamic from 'next/dynamic';
 import cn from 'classnames';
 
 import { ResourceSectionData } from '@/app/types/layout';
@@ -12,6 +11,7 @@ import { MISC_LINKS, Route } from '@/app/static';
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
 import { H1, H2, Section } from '@/app/ui/atoms';
+import { Video } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
@@ -30,9 +30,6 @@ import SVG_TILE_SHARE from '@/assets/images/icons/share.svg';
 import SVG_TILE_SAVE from '@/assets/images/icons/save.svg';
 import SVG_TILE_HEART from '@/assets/images/icons/heart.svg';
 import SVG_PLAY from '@/assets/images/icons/play.svg';
-import { Video } from '@/app/ui/organisms';
-
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 type Tiles = {
     title: string;
@@ -323,6 +320,7 @@ function TidalPage() {
                         >
                             Try Pro trial at no cost
                         </PageLink>
+                        {/*TODO link*/}
                         <PageLink
                             href={''}
                             icon={'calendar'}

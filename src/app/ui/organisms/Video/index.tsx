@@ -1,48 +1,41 @@
 'use client';
 
 import { ForwardedRef, forwardRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import dynamic from 'next/dynamic';
 import cn from 'classnames';
 
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
-import { faPlayCircle as faPlayCircleReg } from '@fortawesome/free-regular-svg-icons';
+import { VideoOverlay, VideoOverlayProps } from '@/app/ui/organisms/VideoOverlay';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
-interface Props {
-    url: string;
-    playIcon?: 'circle' | 'default';
+interface Props extends Omit<VideoOverlayProps, 'className'> {
+    url?: string;
     className?: string;
 }
 
 const Video = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
-    const { url, playIcon, className } = props;
+    const { url, label, durationMs, className } = props;
 
     const [videoStarted, setVideoStarted] = useState(false);
 
-    const handleStartVideo = () => {
-        if (!videoStarted) setVideoStarted(true);
-    };
+    const togglePlay = () => setVideoStarted((prevState) => !prevState);
 
-    return (
+    return url ? (
         <div
             ref={ref}
-            onClick={handleStartVideo}
+            onClick={togglePlay}
             className={cn(
-                'relative mx-auto h-[52dvw] aspect-video cursor-pointer',
+                'relative mx-auto aspect-video cursor-pointer bg-black',
                 'before:x-[absolute,size-[100.1%],bg-black]',
                 { ['before:hidden']: videoStarted },
                 className,
             )}
         >
-            <FontAwesomeIcon
-                icon={playIcon === 'circle' ? faPlayCircleReg : faPlayCircle}
-                className={cn(
-                    'absolute z-50 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2',
-                    'size-[1.566rem] md:size-[3.62rem] lg:size-[3.241rem]',
-                    { ['hidden']: videoStarted },
-                )}
+            <VideoOverlay
+                hidden={videoStarted}
+                label={label}
+                durationMs={durationMs}
+                className={{ label: 'text-20', duration: 'text-20' }}
             />
             <div className={'contents [&_*]:!size-full'}>
                 <ReactPlayer
@@ -51,6 +44,8 @@ const Video = (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
                 />
             </div>
         </div>
+    ) : (
+        <p>The video is not found...</p>
     );
 };
 

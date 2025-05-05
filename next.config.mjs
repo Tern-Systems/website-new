@@ -27,11 +27,6 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'localhost',
-                pathname: '/**',
-            },
-            {
-                protocol: 'https',
                 hostname: 'storage.googleapis.com',
                 pathname: '/**',
             },

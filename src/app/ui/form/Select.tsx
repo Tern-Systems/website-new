@@ -10,27 +10,33 @@ import {
     useRef,
     useState,
 } from 'react';
-import { ReactSVG } from 'react-svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 
-import { copyObject } from '@/app/utils';
+import { copyObject, exclude } from '@/app/utils';
+import { useOuterClickClose } from '@/app/hooks';
 
-import SVG_CHEVRON from '@/assets/images/icons/chevron.svg';
-import SVG_BULLET_LIST from '@/assets/images/icons/bullet-list.svg';
-import { useOuterClickClose } from '@/app/hooks/useOuterClickClose';
+import { Input } from '@/app/ui/form';
+
+import { faChevronDown, faChevronUp, faList } from '@fortawesome/free-solid-svg-icons';
 
 const EMPTY_KEY = '';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren {
-    options: Record<string, string>;
-    value: string;
-    onChangeCustom: (value: string) => void;
-    classNameWrapper?: string;
-    classNameLabel?: string;
-    classNameUl?: string;
-    classNameOption?: string;
-    classNameChevron?: string;
-    classNameSelected?: string;
+type SelectOptions = Record<string, string>;
+
+interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'className'>, PropsWithChildren {
+    options: SelectOptions;
+    value?: string;
+    onChange: (value: string) => void;
+    className?: {
+        wrapper?: string;
+        label?: string;
+        ul?: string;
+        select?: string;
+        option?: string;
+        chevron?: string;
+        selected?: string;
+    };
     onClick?: () => void;
     onOpen?: (isExpanded: boolean) => void;
     altIcon?: true;
@@ -42,133 +48,150 @@ const Select: FC<Props> = (props: Props) => {
         options,
         value,
         onOpen,
-        classNameWrapper,
-        classNameUl,
-        classNameOption,
         className,
-        classNameLabel,
-        classNameChevron,
-        classNameSelected,
         hidden,
-        onChangeCustom,
+        onChange,
         placeholder,
         altIcon,
+        multiple,
         ...selectPropsRest
     } = props;
 
-    const optionsFinal: Record<string, string> = copyObject(options ?? {});
+    const optionsFinal: SelectOptions = copyObject(options ?? {});
     let optionsEntries = Object.entries(optionsFinal ?? {});
 
     const hasEmptyOption = optionsEntries.find(([key]) => key === EMPTY_KEY) !== undefined;
-    const valueNullish = [EMPTY_KEY, -1].includes(value);
+    const valueFinal = value ?? EMPTY_KEY;
+    const valueNullish = [EMPTY_KEY, -1].includes(valueFinal);
 
     if (
-        (optionsEntries.length === 1 + +hasEmptyOption && !valueNullish && options[value]) ||
+        (optionsEntries.length === 1 + +hasEmptyOption && !valueNullish && options[valueFinal]) ||
         optionsEntries.length === 0
-    )
+    ) {
         optionsFinal[EMPTY_KEY] = 'Empty list';
-    else if (!optionsFinal[EMPTY_KEY]) delete optionsFinal[EMPTY_KEY];
+    } else if (!optionsFinal[EMPTY_KEY]) delete optionsFinal[EMPTY_KEY];
 
     optionsEntries = Object.entries(optionsFinal);
 
     const ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
-    const [expanded, setSelectExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
-    const toggleSelectExpand = () => setSelectExpanded((prevState) => !prevState);
+    const toggleExpand = () => {
+        selectPropsRest.onClick?.();
+        setExpanded((prevState) => !prevState);
+    };
 
-    useOuterClickClose(ref, expanded, setSelectExpanded);
+    useOuterClickClose(ref, expanded, setExpanded);
 
     useEffect(() => onOpen?.(expanded), [onOpen]);
 
     // Options list
-    const selectedOptionIdx: number =
-        value === EMPTY_KEY ? -1 : Object.values(optionsFinal).indexOf(optionsFinal[value]);
+    const selectedIdx: number =
+        valueFinal === EMPTY_KEY ? -1 : Object.values(optionsFinal).indexOf(optionsFinal[valueFinal]);
+    optionsEntries = selectedIdx < 0 || multiple ? optionsEntries : exclude(optionsEntries, selectedIdx);
 
-    optionsEntries =
-        selectedOptionIdx < 0
-            ? optionsEntries
-            : [...optionsEntries.slice(0, selectedOptionIdx), ...optionsEntries.slice(selectedOptionIdx + 1)];
+    const OptionsLi: ReactElement[] = optionsEntries.map(([key, label], idx) => {
+        const handleClick = () => {
+            if (key !== EMPTY_KEY) {
+                let newValue = key;
+                if (multiple) {
+                    newValue = (
+                        valueFinal.includes(newValue)
+                            ? exclude(valueFinal.split(','), newValue)
+                            : [valueFinal, newValue].filter((value) => value)
+                    ).join(',');
+                }
+                onChange(newValue);
+                if (!multiple) setExpanded((prevState) => !prevState);
+            }
+        };
+        const checked = multiple && valueFinal.includes(key);
+        return (
+            <li
+                key={label + idx}
+                onClick={handleClick}
+                className={cn(
+                    'flex items-center justify-between px-5xs py-3xs cursor-pointer',
+                    'border-s border-t-0 border-white-d0 !bg-inherit !text-inherit',
+                    className?.option,
+                    {
+                        ['!text-10']: key === EMPTY_KEY,
+                        ['gap-x-5xs max-w-full']: multiple,
+                    },
+                )}
+            >
+                <span>{label}</span>
+                {multiple ? (
+                    <Input
+                        type={'checkbox'}
+                        checked={checked}
+                        onChange={() => {}}
+                        className={'size-[0.8125rem] border rounded-sm bg-inherit pointer-events-auto'}
+                    />
+                ) : null}
+            </li>
+        );
+    });
 
-    const Options: ReactElement[] = optionsEntries.map(([key, value], idx) => (
-        <option
-            key={value + idx}
-            value={value}
-            onClick={() => EMPTY_KEY !== key && onChangeCustom(key)}
-            className={cn(
-                `flex items-center overflow-x-hidden px-[min(2dvw,0.75rem)] py-3xs`,
-                `border-s border-white-d0 bg-white [&:not(:last-of-type)]:border-b-0`,
-                `overflow-ellipsis text-nowrap`,
-                classNameOption,
-                { ['!text-10']: EMPTY_KEY === key },
-            )}
-        >
-            {value}
-        </option>
-    ));
-
-    const isPlaceholder = selectedOptionIdx < 0 || !optionsFinal[value];
+    const hasPlaceholder = selectedIdx < 0 || !optionsFinal[valueFinal] || multiple;
 
     return (
         <div
             ref={ref}
-            onClick={() => {
-                selectPropsRest.onClick?.();
-                toggleSelectExpand();
-            }}
-            className={cn(`relative flex items-center`, classNameWrapper, { ['hidden']: hidden })}
+            className={cn(`flex items-center`, className?.wrapper, { ['hidden']: hidden })}
         >
             <input
                 {...selectPropsRest}
-                value={value}
-                onChange={(event) => onChangeCustom(event.target.value)}
+                value={valueFinal}
+                onChange={(event) => onChange(event.target.value)}
                 placeholder={placeholder}
                 className={'absolute bottom-0 left-[34%] -z-10 [&&]:h-0 [&&]:w-1 [&&]:p-0'}
             />
-            {children ? <span className={classNameLabel}>{children}</span> : null}
-            <label
-                onBlur={() => setSelectExpanded(false)}
+            {children ? <span className={className?.label}>{children}</span> : null}
+            <div
                 className={cn(
-                    `group flex w-full cursor-pointer select-none items-center capitalize`,
-                    `border-s border-white-d0 bg-white`,
-                    { ['border-b-0']: expanded },
-                    className,
+                    `relative group flex w-full cursor-pointer select-none items-center capitalize`,
+                    `!border-s border-white-d0 bg-white`,
+                    { ['!border-b-0']: expanded },
+                    className?.select,
                 )}
             >
-                <div className={cn(`relative flex w-fit items-center`, classNameSelected)}>
+                <div
+                    onClick={toggleExpand}
+                    className={cn(`relative flex justify-between w-full items-center`, className?.selected)}
+                >
                     <span
-                        className={cn(`w-fit overflow-x-hidden overflow-ellipsis text-nowrap leading-[1.3]`, {
-                            ['text-placeholder']: isPlaceholder,
+                        className={cn(`w-fit overflow-x-hidden overflow-ellipsis text-nowrap leading-l`, {
+                            ['text-placeholder']: hasPlaceholder,
                         })}
                     >
-                        {isPlaceholder
+                        {hasPlaceholder
                             ? hasEmptyOption && optionsFinal[EMPTY_KEY]
                                 ? optionsFinal[EMPTY_KEY]
                                 : (placeholder ?? 'Select')
-                            : optionsFinal[value]}
+                            : optionsFinal[valueFinal]}
                     </span>
-                    <ReactSVG
-                        src={altIcon ? SVG_BULLET_LIST.src : SVG_CHEVRON.src}
-                        className={cn(`group ml-5xs h-auto brightness-[85%]`, classNameChevron, {
-                            ['rotate-180']: !altIcon && expanded,
-                        })}
+                    <FontAwesomeIcon
+                        icon={altIcon ? faList : expanded ? faChevronUp : faChevronDown}
+                        className={cn('size-7xs group ml-5xs', className?.chevron)}
                     />
                 </div>
                 {expanded ? (
                     <ul
                         className={cn(
-                            `absolute left-0 top-full z-30 max-h-[20rem] w-full min-w-fit overflow-y-scroll`,
-                            `pointer-events-auto`,
-                            classNameUl,
+                            `absolute left-0 top-full z-30 max-h-[20rem] w-full min-w-fit bg-inherit overflow-y-scroll pointer-events-auto`,
+                            className?.ul,
                         )}
                     >
-                        {Options}
+                        {OptionsLi}
                     </ul>
                 ) : null}
-            </label>
+            </div>
         </div>
     );
 };
 
 Select.displayName = Select.name;
 
+export type { SelectOptions };
 export { Select };

@@ -18,6 +18,7 @@ import cn from 'classnames';
 import lodash from 'lodash';
 import { v4 } from 'uuid';
 
+import { SelectOptions } from '@/app/ui/form/Select';
 import { KeysOfUnion, NonNullableKeys } from '@/app/types/utils';
 import {
     COUNTRY,
@@ -46,8 +47,8 @@ import SVG_PENCIL from '@/assets/images/icons/edit-line.svg';
 const FA2_INPUT_CN =
     'bg-gray-l0 py-[min(1.7dvw,0.35rem)] w-full rounded-xs px-[min(16dvw,0.76rem)] border-s border-white';
 const CHECKBOX_CN = {
-    classNameWrapper: 'flex-row-reverse place-self-start',
-    classNameLabel: 'text-12  md:text-14  lg:text-16',
+    wrapper: 'flex-row-reverse place-self-start',
+    label: 'text-12  md:text-14  lg:text-16',
 };
 
 type FormType = 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'address' | 'image' | 'company';
@@ -100,7 +101,7 @@ interface Props extends PropsWithChildren {
 
     type?: FormType;
     toggleType?: 'icon' | 'button';
-    initialize: <T extends FormType>() => DataBase<T> | (DataBase<T> & { options: Record<string, string> });
+    initialize: <T extends FormType>() => DataBase<T> | (DataBase<T> & { options: SelectOptions });
 
     setParentEditId?: Dispatch<SetStateAction<string | null>>;
     parentEditId?: string | null;
@@ -111,7 +112,7 @@ interface Props extends PropsWithChildren {
 
     classNameToggle?: string;
     classNameToggleText?: string;
-    classNameWrapper?: string;
+    wrapper?: string;
 }
 
 const Editable: FC<Props> = (props: Props) => {
@@ -124,7 +125,7 @@ const Editable: FC<Props> = (props: Props) => {
         simpleSwitch,
         parentEditId,
         setParentEditId,
-        classNameWrapper,
+        wrapper,
         classNameToggle,
         classNameToggleText,
         initialize,
@@ -308,17 +309,17 @@ const Editable: FC<Props> = (props: Props) => {
 
     // Styles
     const SELECT_CN = {
-        classNameWrapper: `flex-col gap-y-4xs`,
-        classNameLabel: `self-start text-12  md:text-14  lg:text-16`,
+        wrapper: `flex-col gap-y-4xs`,
+        label: `self-start text-12  md:text-14  lg:text-16`,
         className: `${initial?.className} px-3xs py-5xs [&]:bg-gray-l0`,
-        classNameOption: `${initial?.className} [&&]:rounded-none`,
-        classNameSelected: `w-full `,
-        classNameChevron: `ml-auto`,
+        option: `${initial?.className} [&&]:rounded-none`,
+        selected: `w-full `,
+        chevron: `ml-auto`,
     };
     const INPUT_CN = {
         className: `${initial?.className}`,
-        classNameWrapper: 'flex-col gap-y-4xs w-full text-12  md:text-14  lg:text-16',
-        classNameLabel: `first-letter:capitalize place-self-start text-12  md:text-14  lg:text-16`,
+        wrapper: 'flex-col gap-y-4xs w-full text-12  md:text-14  lg:text-16',
+        label: `first-letter:capitalize place-self-start text-12  md:text-14  lg:text-16`,
     };
 
     // Form controls
@@ -363,9 +364,8 @@ const Editable: FC<Props> = (props: Props) => {
                         options={initial.options}
                         value={form.value ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) => setForm({ value })}
-                        {...SELECT_CN}
-                        classNameOption={initial?.className}
+                        onChange={(value) => setForm({ value })}
+                        className={{ ...SELECT_CN, option: initial?.className }}
                         required
                     >
                         {initial?.title}
@@ -624,7 +624,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={SALUTATION}
                         value={form.salutation}
                         placeholder={'Select'}
-                        onChangeCustom={(value) =>
+                        onChange={(value) =>
                             setForm(
                                 (prevState) =>
                                     ({
@@ -633,8 +633,7 @@ const Editable: FC<Props> = (props: Props) => {
                                     }) as FormData<'name'>,
                             )
                         }
-                        {...SELECT_CN}
-                        classNameWrapper={SELECT_CN.classNameWrapper + ' w-[43%]'}
+                        className={{ ...SELECT_CN, wrapper: SELECT_CN.wrapper + ' w-[43%]' }}
                         required
                     >
                         Salutations
@@ -734,9 +733,8 @@ const Editable: FC<Props> = (props: Props) => {
                                 options={COUNTRY}
                                 value={form[key].country ?? ''}
                                 placeholder={'Select'}
-                                onChangeCustom={(value) => requireOnChangeAddress(key, 'country')(value)}
-                                {...SELECT_CN}
-                                classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
+                                onChange={(value) => requireOnChangeAddress(key, 'country')(value)}
+                                className={{ ...SELECT_CN, wrapper: INPUT_CN.wrapper + ' sm:col-span-2' }}
                                 required
                             >
                                 Country / Region
@@ -745,9 +743,8 @@ const Editable: FC<Props> = (props: Props) => {
                                 options={STATE_PROVINCE?.[form[key].country] ?? {}}
                                 value={form[key]?.state ?? ''}
                                 placeholder={'Select'}
-                                onChangeCustom={(value) => requireOnChangeAddress(key, 'state')(value)}
-                                {...SELECT_CN}
-                                classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
+                                onChange={(value) => requireOnChangeAddress(key, 'state')(value)}
+                                className={{ ...SELECT_CN, wrapper: INPUT_CN.wrapper + ' sm:col-span-2' }}
                                 required
                             >
                                 State / Province
@@ -756,7 +753,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 value={form[key]?.line1 ?? ''}
                                 onChange={requireOnChangeAddress(key, 'line1')}
                                 {...INPUT_CN}
-                                classNameWrapper={INPUT_CN.classNameWrapper + ' col-span-2'}
+                                wrapper={INPUT_CN.wrapper + ' col-span-2'}
                                 required
                             >
                                 Street Address #1
@@ -765,7 +762,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 value={form[key]?.line2 ?? ''}
                                 onChange={requireOnChangeAddress(key, 'line2')}
                                 {...INPUT_CN}
-                                classNameWrapper={INPUT_CN.classNameWrapper + ' col-span-2'}
+                                wrapper={INPUT_CN.wrapper + ' col-span-2'}
                             >
                                 Street Address #2
                             </Input>
@@ -773,7 +770,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 value={form[key]?.city ?? ''}
                                 onChange={requireOnChangeAddress(key, 'city')}
                                 {...INPUT_CN}
-                                classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
+                                wrapper={INPUT_CN.wrapper + ' sm:col-span-2'}
                                 required
                             >
                                 City / Locality
@@ -782,7 +779,7 @@ const Editable: FC<Props> = (props: Props) => {
                                 value={form[key]?.zip ?? ''}
                                 onChange={requireOnChangeAddress(key, 'zip')}
                                 {...INPUT_CN}
-                                classNameWrapper={INPUT_CN.classNameWrapper + ' sm:col-span-2'}
+                                wrapper={INPUT_CN.wrapper + ' sm:col-span-2'}
                                 required
                             >
                                 Postal / ZIP Code
@@ -834,7 +831,7 @@ const Editable: FC<Props> = (props: Props) => {
                             setForm((prevState) => ({ ...prevState, jobTitle }) as FormData<'company'>);
                         }}
                         {...INPUT_CN}
-                        classNameWrapper={INPUT_CN.classNameWrapper + ' col-span-2'}
+                        wrapper={INPUT_CN.wrapper + ' col-span-2'}
                         required
                     >
                         Job Title
@@ -843,7 +840,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={JOB_FUNCTION}
                         value={form.jobFunction ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) =>
+                        onChange={(value) =>
                             setForm(
                                 (prevState) =>
                                     ({
@@ -852,7 +849,7 @@ const Editable: FC<Props> = (props: Props) => {
                                     }) as FormData<'company'>,
                             )
                         }
-                        {...SELECT_CN}
+                        className={SELECT_CN}
                         required
                     >
                         Job Function
@@ -861,7 +858,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={INDUSTRY}
                         value={form.industry ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) =>
+                        onChange={(value) =>
                             setForm(
                                 (prevState) =>
                                     ({
@@ -870,7 +867,7 @@ const Editable: FC<Props> = (props: Props) => {
                                     }) as FormData<'company'>,
                             )
                         }
-                        {...SELECT_CN}
+                        className={SELECT_CN}
                         required
                     >
                         Industry
@@ -879,7 +876,7 @@ const Editable: FC<Props> = (props: Props) => {
                         options={SUB_INDUSTRY[form.industry]}
                         value={form.subIndustry ?? ''}
                         placeholder={'Select'}
-                        onChangeCustom={(value) =>
+                        onChange={(value) =>
                             setForm(
                                 (prevState) =>
                                     ({
@@ -888,7 +885,7 @@ const Editable: FC<Props> = (props: Props) => {
                                     }) as FormData<'company'>,
                             )
                         }
-                        {...SELECT_CN}
+                        className={SELECT_CN}
                         required
                     >
                         Industry
@@ -917,7 +914,7 @@ const Editable: FC<Props> = (props: Props) => {
                     id={JSON.stringify(form)}
                     ref={formRef}
                     onSubmit={handleFormSubmit}
-                    className={`${classNameWrapper} flex flex-col`}
+                    className={`${wrapper} flex flex-col`}
                 >
                     {isFormShown ? Form : children}
                 </form>

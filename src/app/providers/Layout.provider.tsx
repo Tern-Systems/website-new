@@ -3,8 +3,7 @@
 import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-import { Breakpoint } from '@/app/static';
-import { LAYOUT, NavLink, Route } from '@/app/static';
+import { Breakpoint, LAYOUT, NavLink, Route } from '@/app/static';
 
 import { LayoutContext, NavigationState, NavLinks, ScrollState } from '@/app/contexts/layout.context';
 
@@ -41,7 +40,7 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                     Route.Training,
                     Route.Courses,
                     Route.ProfessionalCertifications,
-                    Route.Subscriptions,
+                    Route.Subscribe,
                     Route.TrainingFAQs,
                 ];
                 breadCrumbLinks = [Route.Training];
@@ -54,6 +53,15 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
                 break;
             case checkSubRoute(route, Route.Products):
                 subNavLinks = [Route.Products, Route.Cyrus, Route.Ternact, Route.Tidal];
+                break;
+            case checkSubRoute(route, Route.SubscriptionsCourse):
+                breadCrumbLinks = [Route.Subscriptions, Route.SubscriptionsCourse];
+                break;
+            case checkSubRoute(route, Route.SubscriptionsNewsletter):
+                breadCrumbLinks = [Route.Subscriptions, Route.SubscriptionsNewsletter];
+                break;
+            case checkSubRoute(route, Route.SubscriptionsTidal):
+                breadCrumbLinks = [Route.Subscriptions, Route.SubscriptionsTidal];
                 break;
             default:
                 break;
@@ -117,14 +125,23 @@ const LayoutProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
         case checkSubRoute(route, Route.Downloads):
             navLinks[NavLink.Breadcrumbs] = [Route.Resources, Route.Downloads];
             break;
-        case checkSubRoute(route, Route.CommunityEvents):
-            navLinks[NavLink.Breadcrumbs] = [Route.Community, Route.CommunityEvents];
+        case checkSubRoute(route, Route.EventsLibrary):
+            navLinks[NavLink.Breadcrumbs] = [Route.Community, Route.EventsLibrary];
             break;
         case checkSubRoute(route, Route.GeneralFAQs):
             navLinks[NavLink.Breadcrumbs] = [Route.MyTern, Route.GeneralFAQs];
             break;
         case checkSubRoute(route, Route.TidalFAQs):
             navLinks[NavLink.Breadcrumbs] = [Route.Products, Route.TidalFAQs];
+            break;
+        case checkSubRoute(route, Route.CoursesLib):
+            navLinks[NavLink.Breadcrumbs] = [Route.Courses, Route.CoursesLib];
+            break;
+        case checkSubRoute(route, Route.Courses):
+            navLinks[NavLink.Breadcrumbs] = [Route.Courses, Route.CoursesLib];
+            break;
+        case checkSubRoute(route, Route.TipsLibrary):
+            navLinks[NavLink.Breadcrumbs] = [Route.Tips, Route.TipsLibrary];
             break;
         default:
             break;

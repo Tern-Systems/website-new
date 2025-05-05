@@ -6,16 +6,15 @@ enum RecurrencyEnum {
     annual = 12,
 }
 
-type SubscriptionRecurrency = 'annual' | 'monthly';
-type PlanName = 'Tidal' | 'trial';
+type SubscriptionRecurrency = 'annual' | 'monthly' | 'quarterly';
 type PlanType = 'Basic' | 'Pro';
 
 type SubscriptionBase = DeepPartial<{
-    subscription: PlanName;
+    subscription: string;
     recurrency: SubscriptionRecurrency;
     priceUSD: number;
-    type: PlanType;
-    basicKind: boolean;
+    type?: PlanType;
+    basicKind?: boolean;
 }>;
 
 type Subscription = DeepPartial<
@@ -30,7 +29,7 @@ type Subscription = DeepPartial<
 >;
 
 type SubscriptionPreviewData = DeepPartial<{
-    priceUSD: Record<SubscriptionRecurrency, number>;
+    priceUSD: Partial<Record<SubscriptionRecurrency, number>>;
     benefits: string[];
 }>;
 
@@ -43,7 +42,6 @@ type SubscriptionPreview = DeepPartial<
 
 export { RecurrencyEnum };
 export type {
-    PlanName,
     PlanType,
     SubscriptionPreview,
     SubscriptionPreviewData,
