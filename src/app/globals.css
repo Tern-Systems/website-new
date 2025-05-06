@@ -196,43 +196,56 @@ body ::-webkit-scrollbar {
 
 @font-face {
   font-family: "Franklin Gothic ATF";
-  src: url("/public/assets/fonts/FranklinGothicATF.otf") format("embedded-opentype");
+  src: url("/assets/fonts/FranklinGothic-font/FranklinGothicATF.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Franklin Gothic ATF";
-  src: url("/public/assets/fonts/FranklinGothicATF-Bold.otf") format("embedded-opentype");
+  src: url("/assets/fonts/FranklinGothic-font/FranklinGothicATF-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Franklin Gothic ATF";
-  src: url("/public/assets/fonts/FranklinGothicATF-Med.otf") format("embedded-opentype");
+  src: url("/assets/fonts/FranklinGothic-font/FranklinGothicATF-Med.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Franklin Gothic ATF";
-  src: url("/public/assets/fonts/FranklinGothicATF-Light.otf") format("embedded-opentype");
+  src: url("/assets/fonts/FranklinGothic-font/FranklinGothicATF-Light.otf") format("opentype");
   font-weight: 300;
-  font-style: normal;
-}
-
-
-@font-face {
-  font-family: 'Oxygen';
-  src: url('/public/assets/fonts/Oxygen-Regular.ttf') format('truetype');
-  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Old English Five';
-  src: url('/public/assets/fonts/OldEnglishFive.ttf') format('truetype');
+  src: url('/assets/fonts/OldEnglishFive.ttf') format('truetype');
   font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/Montserrat-font/Montserrat-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/Montserrat-font/Montserrat-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/Montserrat-font/Montserrat-Medium.woff') format('woff');
+  font-weight: 500;
   font-style: normal;
 }

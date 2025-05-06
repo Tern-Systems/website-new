@@ -153,7 +153,7 @@ const config: Config = {
             fontFamily: {
                 gothic: ['"Franklin Gothic ATF"', 'sans-serif'],
                 english: ['"Old English Five"', 'serif'],
-                oxygen: ['"Oxygen"', 'sans-serif'],
+                montserrat: ['"Montserrat"', 'sans-serif'],
                 arial: ['"Arial"', 'serif'],
             },
             fontSize: {
