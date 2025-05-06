@@ -1,34 +1,463 @@
-﻿<Window x:Class="btmc.MainWindow"
+﻿<Window x:Class="btmc.Main"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:btmc"
-        xmlns:tab="clr-namespace:btmc.src.ui.forms.main.tabs"
-        xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
-        xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
-        mc:Ignorable="d"
-        MouseDown="Window_MouseDown"
-        Title="Converter"
+        Title="Low-Level Language Calculator"
+        WindowStyle="None"
+        ResizeMode="NoResize"
         AllowsTransparency="True"
         Background="Transparent"
-        SizeToContent="WidthAndHeight"
-        WindowStyle="None"
-        ResizeMode="CanResizeWithGrip"
-        FontFamily="Adobe Gothic Std L">
+        MouseDown="Window_MouseDown"
+        Width="700" Height="500">
 
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary x:Key="Form"
-                                Source="./Form.style.xaml" />
-            <sys:Double x:Key="ActionButton.Size">15</sys:Double>
-        </ResourceDictionary>
-    </Window.Resources>
+	<Window.Resources>
+		<!-- Standard visibility converters -->
+		<BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		<local:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
 
+		<!-- FULL Rounded-Corner ComboBox style -->
+		<Style x:Key="RoundedComboBoxStyle" TargetType="ComboBox">
+			<Setter Property="SnapsToDevicePixels" Value="True"/>
+			<Setter Property="OverridesDefaultStyle" Value="True"/>
+			<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+			<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+			<Setter Property="MinWidth" Value="0"/>
+			<Setter Property="MinHeight" Value="0"/>
+			<Setter Property="Background" Value="#555"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="BorderBrush" Value="Gray"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Padding" Value="6,3,25,3"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ComboBox">
+						<Grid>
+							<!-- Rounded outer border -->
+							<Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="8"/>
+							<!-- Display area + arrow -->
+							<Grid>
+								<ContentPresenter x:Name="ContentSite"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Margin="{TemplateBinding Padding}"/>
+								<Path x:Name="Arrow"
+                                      Data="M 0 0 L 4 4 L 8 0 Z"
+                                      Fill="White"
+                                      Width="8" Height="4"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,6,0"/>
+							</Grid>
+							<!-- Invisible ToggleButton to open Popup -->
+							<ToggleButton x:Name="ToggleButton"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+							<!-- Drop-down Popup -->
+							<Popup x:Name="PART_Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+								<Grid MinWidth="{TemplateBinding ActualWidth}"
+                                      MaxHeight="200">
+									<Border x:Name="DropDownBorder"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="0,0,8,8"/>
+									<ScrollViewer Margin="4" SnapsToDevicePixels="True">
+										<StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+									</ScrollViewer>
+								</Grid>
+							</Popup>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="HasItems" Value="False">
+								<Setter TargetName="DropDownBorder" Property="Visibility" Value="Collapsed"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Opacity" Value="0.5"/>
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter TargetName="Border" Property="Background" Value="#666"/>
+							</Trigger>
+							<Trigger Property="IsDropDownOpen" Value="True">
+								<Setter TargetName="Arrow" Property="RenderTransform">
+									<Setter.Value>
+										<RotateTransform Angle="180"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Window.Resources>
 
-    <Border Background="{StaticResource Color.Gray.77}">
-        <StackPanel Width="713">
-        </StackPanel>
-    </Border>
+	<Border Background="#3C3F41" CornerRadius="10" Padding="20">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<!-- Header -->
+				<RowDefinition Height="Auto"/>
+				<!-- Separator -->
+				<RowDefinition Height="Auto"/>
+				<!-- Toggle + Clear -->
+				<RowDefinition Height="*"/>
+				<!-- Views -->
+				<RowDefinition Height="Auto"/>
+				<!-- Convert -->
+			</Grid.RowDefinitions>
+
+			<!-- Header -->
+			<Grid Grid.Row="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="Low-Level Language Calculator"
+                           Foreground="White"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+				<Button Grid.Column="1" Width="30" Height="30"
+                        Content="─"
+                        Background="Transparent"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Click="Minimize_Click"/>
+				<Button Grid.Column="2" Width="30" Height="30"
+                        Content="X"
+                        Background="Transparent"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Click="Close_Click"/>
+			</Grid>
+
+			<!-- Separator -->
+			<Rectangle Grid.Row="1" Fill="#555" Height="1" Margin="0,10"/>
+
+			<!-- Toggle + Clear -->
+			<Grid Grid.Row="2" HorizontalAlignment="Stretch" Margin="0,10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+
+				<!-- BTMC / TERN Toggle -->
+				<ToggleButton x:Name="ToggleSwitch"
+                              Grid.Column="0"
+                              Width="180" Height="40"
+                              IsChecked="True"
+                              Click="ToggleSwitch_Click">
+					<ToggleButton.Template>
+						<!-- Paste your existing ToggleButton template here -->
+						<ControlTemplate TargetType="ToggleButton">
+							<Grid>
+								<Border Background="Transparent"
+                                        BorderBrush="Gray"
+                                        BorderThickness="1"
+                                        CornerRadius="20"/>
+								<Grid>
+									<Border x:Name="Pill"
+                                            Width="90" Height="34"
+                                            Background="#AAAAAA"
+                                            CornerRadius="17"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Margin="3,0"/>
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition/>
+											<ColumnDefinition/>
+										</Grid.ColumnDefinitions>
+										<TextBlock Text="BTMC" Grid.Column="0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="White"/>
+										<TextBlock Text="TERN" Grid.Column="1"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="White"/>
+									</Grid>
+								</Grid>
+							</Grid>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsChecked" Value="False">
+									<Setter TargetName="Pill"
+                                            Property="HorizontalAlignment"
+                                            Value="Right"/>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</ToggleButton.Template>
+				</ToggleButton>
+
+				<!-- Clear Button -->
+				<Button Grid.Column="1"
+                        Width="30" Height="30"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ToolTip="Clear"
+                        Click="BtnClear_Click">
+					<Image Source="D:\Bhavana\Tern\Training-wpf\BTMC\btmc\assets\icons\broom.png"
+                           Width="16" Height="16"/>
+				</Button>
+			</Grid>
+
+			<!-- BTMC View -->
+			<StackPanel x:Name="BtmcView"
+                        Grid.Row="3"
+                        Margin="0,10"
+                        Visibility="{Binding IsChecked,
+                                     ElementName=ToggleSwitch,
+                                     Converter={StaticResource BoolToVisibilityConverter}}">
+
+				<!-- Input Row -->
+				<StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Margin="0,10">
+					<Label Content="Input:" Foreground="White" Margin="5"/>
+					<!-- BTMC Input Dropdown -->
+					<ComboBox Style="{StaticResource RoundedComboBoxStyle}"
+							  Width="150" Height="32" Margin="5"
+							  SelectedIndex="0">
+						<!-- placeholder -->
+						<ComboBoxItem Content="select"
+									  IsEnabled="False"
+									  Foreground="Gray"
+									  FontStyle="Italic"/>
+					</ComboBox>
+					<!-- TextBox + icons (unchanged) -->
+					<Border Background="#555" CornerRadius="8" Margin="5">
+						<Grid Width="300" Height="32">
+							<TextBox x:Name="InputText"
+							 Background="Transparent"
+							 Foreground="Gray"
+							 Text="input..."
+							 BorderThickness="0"
+							 Padding="5,5,60,5"/>
+							<StackPanel Orientation="Horizontal"
+										HorizontalAlignment="Right"
+										VerticalAlignment="Center"
+										Margin="0,0,5,0">
+								<Image Source="/btmc;component/assets/icons/copy.png" Width="20" Height="20" Margin="0,0,8,0"/>
+								<Image Source="/btmc;component/assets/icons/paste.png" Width="20" Height="20"/>
+							</StackPanel>
+						</Grid>
+					</Border>
+				</StackPanel>
+
+				<!-- Swap Arrow -->
+				<Border Width="32" Height="32"
+				HorizontalAlignment="Center"
+				Background="#555"
+				CornerRadius="8"
+				Margin="0,10">
+					<TextBlock Text="⇅"
+							   FontSize="20"
+							   Foreground="White"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
+				</Border>
+				<!-- Output Row -->
+				<StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Margin="0,10">
+					<Label Content="Output:" Foreground="White" Margin="5"/>
+					<!-- Rounded ComboBox -->
+					<ComboBox Style="{StaticResource RoundedComboBoxStyle}"
+					  Width="150" Height="32" Margin="5"
+					  SelectedIndex="0">
+						<ComboBoxItem Content="select"
+									  IsEnabled="False"
+									  Foreground="Gray"
+									  FontStyle="Italic"/>
+					</ComboBox>
+					<!-- TextBox + icons (unchanged) -->
+					<Border Background="#555" CornerRadius="8" Margin="5">
+						<Grid Width="300" Height="32">
+							<TextBox x:Name="OutputText"
+                                     Background="Transparent"
+                                     Foreground="Gray"
+                                     Text="output..."
+                                     BorderThickness="0"
+                                     Padding="5,5,60,5"/>
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,5,0">
+								<Image Source="/btmc;component/assets/icons/copy.png" Width="20" Height="20" Margin="0,0,8,0"/>
+								<Image Source="/btmc;component/assets/icons/paste.png" Width="20" Height="20"/>
+							</StackPanel>
+						</Grid>
+					</Border>
+				</StackPanel>
+			</StackPanel>
+
+			<!-- TERN View -->
+			<StackPanel x:Name="TernView"
+						Grid.Row="3"
+						Margin="0,10"
+						Visibility="{Binding IsChecked,
+                         ElementName=ToggleSwitch,
+                         Converter={StaticResource InverseBoolToVisibilityConverter}}">
+
+				<!-- Input 1 -->
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+					<Label Content="Input 1:" Foreground="White" Margin="5"/>
+					<Border Background="#555" CornerRadius="8" Width="400" Height="32" Margin="5">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+
+							<TextBox x:Name="TernInput1"
+									 Grid.Column="0"
+									 Background="Transparent"
+									 Foreground="Gray"
+									 Text="input 1..."
+									 BorderThickness="0"
+									 Padding="5,5,5,5"/>
+
+							<StackPanel Grid.Column="1"
+										Orientation="Horizontal"
+										VerticalAlignment="Center"
+										Margin="0,0,5,0">
+								<Image Source="/btmc;component/assets/icons/copy.png"
+									   Width="20" Height="20" Margin="0,0,8,0"/>
+								<Image Source="/btmc;component/assets/icons/paste.png"
+									   Width="20" Height="20"/>
+							</StackPanel>
+						</Grid>
+					</Border>
+				</StackPanel>
+
+				<!-- Instruction (unchanged) -->
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+					<Label Content="Instruction:" Foreground="White" Margin="5"/>
+					<ComboBox x:Name="TernInstruction"
+          Style="{StaticResource RoundedComboBoxStyle}"
+          Width="150" Height="32" Margin="5"
+          SelectedIndex="0">
+						<ComboBoxItem Content="select"
+									  IsEnabled="False"
+									  Foreground="Gray"
+									  FontStyle="Italic"/>
+					</ComboBox>
+					<Border Width="32" Height="32"
+							Background="#555"
+							CornerRadius="8"
+							VerticalAlignment="Center"
+							Margin="0,0,5,0">
+						<TextBlock Text="⇅"
+								   FontSize="20"
+								   Background="Transparent"
+								Foreground="Gray"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"/>
+					</Border>
+				</StackPanel>
+
+				<!-- Input 2 -->
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+					<Label Content="Input 2:" Foreground="White" Margin="5"/>
+					<Border Background="#555" CornerRadius="8" Width="400" Height="32" Margin="5">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+
+							<TextBox x:Name="TernInput2"
+									 Grid.Column="0"
+									 Background="Transparent"
+									 Foreground="Gray"
+									 Text="input 2..."
+									 BorderThickness="0"
+									 Padding="5,5,5,5"/>
+
+							<StackPanel Grid.Column="1"
+										Orientation="Horizontal"
+										VerticalAlignment="Center"
+										Margin="0,0,5,0">
+								<Image Source="/btmc;component/assets/icons/copy.png"
+									   Width="20" Height="20" Margin="0,0,8,0"/>
+								<Image Source="/btmc;component/assets/icons/paste.png"
+									   Width="20" Height="20"/>
+							</StackPanel>
+						</Grid>
+					</Border>
+				</StackPanel>
+
+				<!-- Output -->
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+					<Label Content="Output:" Foreground="White" Margin="5"/>
+					<Border Background="#555" CornerRadius="8" Width="400" Height="32" Margin="5">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+
+							<TextBox x:Name="TernOutput"
+									 Grid.Column="0"
+									 Background="Transparent"
+									 Foreground="Gray"
+									 Text="output..."
+									 BorderThickness="0"
+									 Padding="5,5,5,5"/>
+
+							<StackPanel Grid.Column="1"
+										Orientation="Horizontal"
+										VerticalAlignment="Center"
+										Margin="0,0,5,0">
+								<Image Source="/btmc;component/assets/icons/copy.png"
+									   Width="20" Height="20" Margin="0,0,8,0"/>
+								<Image Source="/btmc;component/assets/icons/paste.png"
+									   Width="20" Height="20"/>
+							</StackPanel>
+						</Grid>
+					</Border>
+				</StackPanel>
+			</StackPanel>
+
+			<!-- Convert -->
+			<Button Grid.Row="4"
+        Content="Convert"
+        Width="90" Height="40"
+        Background="#00BFFF"
+        Foreground="White"
+        FontWeight="Bold"
+        BorderBrush="Transparent"
+        Margin="0,20"
+        HorizontalAlignment="Center"
+        Cursor="Hand">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Border Background="{TemplateBinding Background}"
+								CornerRadius="20"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}">
+							<ContentPresenter HorizontalAlignment="Center"
+											  VerticalAlignment="Center"
+											  Margin="10,2"/>
+						</Border>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+		</Grid>
+	</Border>
 </Window>
