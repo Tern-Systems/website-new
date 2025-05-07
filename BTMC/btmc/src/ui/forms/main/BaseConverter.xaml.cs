@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace btmc.src.ui.forms.main
 {
@@ -8,6 +10,7 @@ namespace btmc.src.ui.forms.main
         public BaseConverter()
         {
             InitializeComponent();
+           
         }
 
         private void BTMCToggle_Checked(object sender, RoutedEventArgs e)
@@ -29,5 +32,15 @@ namespace btmc.src.ui.forms.main
                 BTMCToggle.IsChecked = false;
             }
         }
-    }
+        private void Convert_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: Add your conversion logic here
+            MessageBox.Show("Convert button clicked!");
+        }
+       
+        
+
+           
+
+        }
 }

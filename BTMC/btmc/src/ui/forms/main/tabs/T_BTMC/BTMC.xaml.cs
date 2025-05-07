@@ -6,6 +6,8 @@ using btmc.src.alu;
 
 using toolbox = btmc.src.ui.resources.toolbox;
 using btmc.src.ui.forms.main.components;
+using System.Windows.Media;
+using System.Diagnostics;
 
 namespace btmc.src.ui.forms.main.tabs.T_BTMC
 {
@@ -42,10 +44,29 @@ namespace btmc.src.ui.forms.main.tabs.T_BTMC
             /* Uncomment after you add the required components to the form */
             //_HandleSelectionChanged(ref cmbBTMC_In, ref cmbBTMC_Out, ref tbBTMC_Out);
         }
-
-        private void _HandleSelectionChanged(ref toolbox.ComboBox cmb0, ref toolbox.ComboBox cmb1, ref toolbox.TextBox tb)
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            // Implement it
+            if (sender is TextBox tb && tb.Text == (string)tb.Tag)
+            {
+                tb.Clear();
+                tb.Foreground = Brushes.White;
+            }
         }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox tb && string.IsNullOrWhiteSpace(tb.Text))
+            {
+                tb.Text = (string)tb.Tag;
+                tb.Foreground = Brushes.Gray;
+            }
+        }
+
+
+
+        // private static void HandleSelectionChanged(ref toolbox.ComboBox cmb0, ref toolbox.ComboBox cmb1, ref toolbox.TextBox tb)
+        // {
+        // Implement it
+        //}
     }
 }

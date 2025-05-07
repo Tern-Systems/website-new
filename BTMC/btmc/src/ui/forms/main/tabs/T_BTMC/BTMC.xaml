@@ -6,13 +6,81 @@
              xmlns:local="clr-namespace:btmc.src.ui.forms.main.tabs.T_BTMC"
              xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
              xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
+           xmlns:tabs="clr-namespace:btmc.src.ui.forms.main.tabs"
+
+
+            
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="../../Form.style.xaml" />
+        
+           
+                <ResourceDictionary Source="../../Form.style.xaml" />
+            
+   
+
     </UserControl.Resources>
 
     <Grid >
-        
+        <StackPanel x:Name="BTMCLayout" Visibility="Visible" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="80,20" HorizontalAlignment="Center">
+                <TextBlock Text="Input:" Width="50"  VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}"/>
+                <ComboBox Style="{StaticResource RoundedComboBox}" SelectedIndex="0" FontFamily="{StaticResource FontFamily.Gothic}">
+                    <ComboBoxItem Content="select"/>
+                    <ComboBoxItem Content="Hex"/>
+                    <ComboBoxItem Content="Decimal"/>
+                    <ComboBoxItem Content="Binary"/>
+                    <ComboBoxItem Content="Oct"/>
+                </ComboBox>
+                <Border Grid.Column="2" Width="250" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
+                    <Grid>
+                        <TextBox 
+                            x:Name="InputTextBox" 
+                            Background="Transparent" 
+                            BorderThickness="0" 
+                            Foreground="Gray" 
+                            Padding="8,0,60,0"
+                            VerticalContentAlignment="Center" 
+                            FontFamily="{StaticResource FontFamily.Gothic}"
+                            tabs:PlaceholderBehavior.Placeholder="input..."/>
+                        <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
+                        <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <components:Swap
+                        Width="25"
+                        Height="25"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Margin="0,0,0,0"
+                        ToolTip="Swap"
+                        Padding="5"
+                        Cursor="Hand"
+            />
+
+
+            <!-- Output Row -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="80,20" HorizontalAlignment="Center">
+                <TextBlock Text="Output:" Width="50" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}"/>
+                <ComboBox Style="{StaticResource RoundedComboBox}" SelectedIndex="0" FontFamily="{StaticResource FontFamily.Gothic}">
+                    <ComboBoxItem Content="select"/>
+                    <ComboBoxItem Content="Hex"/>
+                    <ComboBoxItem Content="Decimal"/>
+                    <ComboBoxItem Content="Binary"/>
+                    <ComboBoxItem Content="Oct"/>
+                </ComboBox>
+                <Border Grid.Column="2" Width="250" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
+                    <Grid>
+                        <TextBox x:Name="OutputTextBox" Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="8,0,60,0" VerticalContentAlignment="Center" Text="output..." FontFamily="{StaticResource FontFamily.Gothic}"  tabs:PlaceholderBehavior.Placeholder="output..." />
+                        <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
+                        <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+
+
+        </StackPanel>
     </Grid>
 </UserControl>

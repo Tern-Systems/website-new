@@ -23,13 +23,12 @@ namespace btmc.src.ui.forms.main.components
             tb1.AllowedChars = tb2.AllowedChars;
             tb2.AllowedChars = tempAllowedChars;*/
 
-            int tempMaxLength = tb1.MaxLength;
+            /*int tempMaxLength = tb1.MaxLength;
             tb1.MaxLength = tb2.MaxLength;
-            tb2.MaxLength = tempMaxLength;
+            tb2.MaxLength = tempMaxLength;*/
 
-            string tempText = tb1.Text;
-            tb1.Text = tb2.Text;
-            tb2.Text = tempText;
+            (tb1.Text, tb2.Text) = (tb2.Text, tb1.Text);
+
         }
     }
 }
