@@ -48,7 +48,7 @@
                     </Grid>
                 </Border>
             </StackPanel>
-            <components:Swap
+            <components:Swap 
                         Width="25"
                         Height="25"
                         Foreground="White"
@@ -57,6 +57,8 @@
                         ToolTip="Swap"
                         Padding="5"
                         Cursor="Hand"
+                        Click="SwapButton_Click" 
+                        
             />
 
 

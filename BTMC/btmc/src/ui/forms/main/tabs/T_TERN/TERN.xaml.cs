@@ -58,5 +58,10 @@ namespace btmc.src.ui.forms.main.tabs.T_TERN
                 }
             }
         }
+        private void SwapButton_Click(object sender, RoutedEventArgs e)
+        {
+            Swap.SwapInputs(ref input1, ref input2);
+        }
+
     }
 }

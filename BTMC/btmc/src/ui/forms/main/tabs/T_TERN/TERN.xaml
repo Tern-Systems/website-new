@@ -20,7 +20,7 @@
                 <TextBlock Text="Input 1:"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
                 <Border Grid.Column="2" Width="500" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
                     <Grid>
-                        <TextBox  Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="8,0,60,0" VerticalContentAlignment="Center"  FontFamily="{StaticResource FontFamily.Gothic}"   tabs:PlaceholderBehavior.Placeholder="input1..." />
+                        <TextBox x:Name="input1"  Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="8,0,60,0" VerticalContentAlignment="Center"  FontFamily="{StaticResource FontFamily.Gothic}"   tabs:PlaceholderBehavior.Placeholder="input1..." />
                         <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
                         <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
                     </Grid>
@@ -36,21 +36,23 @@
                     <ComboBoxItem Content="DIV"/>
                 </ComboBox>
                 <components:Swap
-             Width="25"
-             Height="25"
-             Foreground="White"
-             BorderThickness="0"
-             Margin="10,0,0,0"
-             ToolTip="Swap"
-             Padding="5"
-             Cursor="Hand"
+                        Width="25"
+                        Height="25"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Margin="10,0,0,0"
+                        ToolTip="Swap"
+                        Padding="5"
+                        Cursor="Hand"
+                        Click="SwapButton_Click"
+                    
  />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="50,0,10,0">
                 <TextBlock Text="Input 2:"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
                 <Border Grid.Column="2" Width="500" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
                     <Grid>
-                        <TextBox  Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="8,0,60,0" VerticalContentAlignment="Center" Text="input2..." FontFamily="{StaticResource FontFamily.Gothic}" tabs:PlaceholderBehavior.Placeholder="input2..." />
+                        <TextBox  x:Name="input2" Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="8,0,60,0" VerticalContentAlignment="Center"  FontFamily="{StaticResource FontFamily.Gothic}" tabs:PlaceholderBehavior.Placeholder="input2..." />
                         <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
                         <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
                     </Grid>

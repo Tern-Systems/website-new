@@ -62,6 +62,10 @@ namespace btmc.src.ui.forms.main.tabs.T_BTMC
             }
         }
 
+        private void SwapButton_Click(object sender, RoutedEventArgs e)
+        {
+            Swap.SwapInputs(ref InputTextBox, ref OutputTextBox);
+        }
 
 
         // private static void HandleSelectionChanged(ref toolbox.ComboBox cmb0, ref toolbox.ComboBox cmb1, ref toolbox.TextBox tb)

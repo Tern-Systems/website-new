@@ -25,27 +25,48 @@ namespace btmc.src.ui.forms.main.tabs
 
         private static void OnPlaceholderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TextBox tb)
+            if (d is not TextBox tb) return;
+
+            tb.Loaded -= TextBox_Loaded;
+            tb.GotFocus -= TextBox_GotFocus;
+            tb.LostFocus -= TextBox_LostFocus;
+
+            tb.Loaded += TextBox_Loaded;
+            tb.GotFocus += TextBox_GotFocus;
+            tb.LostFocus += TextBox_LostFocus;
+        }
+
+        private static void TextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var tb = sender as TextBox;
+            ApplyPlaceholder(tb);
+        }
+
+        private static void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var tb = sender as TextBox;
+            var placeholder = GetPlaceholder(tb);
+
+            if (tb.Text == placeholder)
             {
-                tb.GotFocus += (s, args) =>
-                {
-                    if (tb.Text == (string)e.NewValue)
-                    {
-                        tb.Text = "";
-                        tb.Foreground = Brushes.White;
-                    }
-                };
+                tb.Text = "";
+                tb.Foreground = Brushes.White;
+            }
+        }
 
-                tb.LostFocus += (s, args) =>
-                {
-                    if (string.IsNullOrWhiteSpace(tb.Text))
-                    {
-                        tb.Text = (string)e.NewValue;
-                        tb.Foreground = Brushes.Gray;
-                    }
-                };
+        private static void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var tb = sender as TextBox;
+            ApplyPlaceholder(tb);
+        }
 
-                tb.Text = (string)e.NewValue;
+        private static void ApplyPlaceholder(TextBox tb)
+        {
+            var placeholder = GetPlaceholder(tb);
+
+            if (string.IsNullOrWhiteSpace(tb.Text))
+            {
+                tb.Text = placeholder;
                 tb.Foreground = Brushes.Gray;
             }
         }

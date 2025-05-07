@@ -15,11 +15,15 @@
         <sys:Double x:Key="ClearButton.Size">29</sys:Double>
 
         <ControlTemplate x:Key="Clear.Template" 
-                         TargetType="{x:Type Button}">
+                         TargetType="{x:Type Button}"
+                         >
+
             <toolbox:Button VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Height="{StaticResource ClearButton.Size}"
-                            Width="{StaticResource ClearButton.Size}">
+                            Width="{StaticResource ClearButton.Size}"
+                            >
+
                 <toolbox:Button.Background>
                     <ImageBrush ImageSource="{StaticResource Icon_Broom}" />
                 </toolbox:Button.Background>
@@ -35,7 +39,7 @@
 
     <Button.Style>
         <Style TargetType="{x:Type Button}"
-               BasedOn="{StaticResource Clear.Style}" />
+               BasedOn="{StaticResource Clear.Style}"  />
     </Button.Style>
 
 </Button>
