@@ -37,43 +37,7 @@
         <StackPanel Width="713" Height="450">
 
             <!-- Title Bar -->
-            <Grid Margin="6">
-            </Grid>
-
-            <Grid Margin="15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Title -->
-                <TextBlock Text="Low-Level Language Calculator"
-                    FontSize="25"
-                    Foreground="White"
-                    VerticalAlignment="Center"
-                    Grid.Column="0"/>
-
-                <!-- Minimize, Exit -->
-                <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Grid.Column="1">
-                    <Button Content="—"
-                    Width="30" Height="30"
-                    FontSize="16" FontWeight="Bold"
-                    Foreground="White"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    Click="BtnMinimize_Click"/>
-                    <Button Content="✕"
-                    Width="30" Height="30"
-                    FontSize="16" FontWeight="Bold"
-                    Foreground="White"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    Click="BtnClose_Click"/>
-                </StackPanel>
-            </Grid>
+            <components:TitleBarControl Title="Low-Level Language Calculator"/>
 
 
             <!-- Seperator -->
