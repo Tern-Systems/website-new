@@ -8,11 +8,12 @@
         xmlns:tab="clr-namespace:btmc.src.ui.forms.main.tabs"
         xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
         xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
+        xmlns:forms="clr-namespace:btmc.src.ui.forms.main"
         mc:Ignorable="d"
         MouseDown="Window_MouseDown"
         Title="Converter"
         AllowsTransparency="True"
-        Background="Transparent"
+        Background="#FF1E1E1E"
         SizeToContent="WidthAndHeight"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
@@ -26,9 +27,9 @@
         </ResourceDictionary>
     </Window.Resources>
 
-
     <Border Background="{StaticResource Color.Gray.77}">
         <StackPanel Width="713">
+            <forms:BaseConverter Height="377" Loaded="BaseConverter_Loaded" />
         </StackPanel>
     </Border>
 </Window>

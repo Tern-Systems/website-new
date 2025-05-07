@@ -66,5 +66,10 @@ namespace btmc
                     break;
             }
         }
+
+        private void BaseConverter_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

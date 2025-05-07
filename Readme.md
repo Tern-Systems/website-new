@@ -8,10 +8,23 @@ Required dependencies:
 5. ![requirements (5).png](requirements%20%285%29.png)
 
 Specs - save them to your local. for colors - please use color picker tool of your image editor (Paint fits as well)
+
+
+Specs - save them to your local. for colors - please use color picker tool of your image editor (Paint fits as well)
 1. ![specs (0).png](specs%20%280%29.png)
 2. ![specs (1).png](specs%20%281%29.png)
 
 Notes:
 1. The form should be draggable
 2. All the buttons on it should work correctly (except the `Convert` button)
+
 3. !!Reuse and clean your code as much as its possible and - every line / keyword / character matters!!!
+
+
+
+
+
+
+
+This is the merged content from both branches.
+
