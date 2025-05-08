@@ -5,9 +5,6 @@
     <Compile Update="src\ui\forms\main\components\ComboBoxControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="src\ui\forms\main\components\Swap.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="src\ui\forms\main\components\SwapButtonControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -28,13 +25,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="src\ui\forms\main\components\Clear.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="src\ui\forms\main\components\ComboBoxControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="src\ui\forms\main\components\Swap.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="src\ui\forms\main\components\SwapButtonControl.xaml">

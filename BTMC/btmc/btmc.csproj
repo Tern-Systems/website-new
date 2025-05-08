@@ -52,18 +52,7 @@
 		<Resource Include="src\ui\resources\theme\General.xaml" />
 	</ItemGroup>
 
-
 	<ItemGroup>
-		<Compile Update="src\ui\forms\main\components\Clear.xaml.cs">
-		  <SubType>Code</SubType>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Page Update="src\ui\forms\main\components\Clear.xaml">
-		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		  <SubType>Designer</SubType>
-		</Page>
 		<Page Update="src\ui\resources\toolbox\CButton\Button.style.xaml">
 			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 			<SubType>Designer</SubType>

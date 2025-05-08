@@ -62,10 +62,10 @@ namespace btmc
             {
                 default: break;
                 case _TabEnum.BTMC:
-                    BtmcPanel.ClearInputs(); // Create this method in your BTMC control
+                    BtmcPanel.ClearInputs();
                     break;
                 case _TabEnum.TERN:
-                    TernPanel.ClearInputs(); // Create this method in your TERN control
+                    TernPanel.ClearInputs();
                     break;
             }
         }
@@ -75,11 +75,9 @@ namespace btmc
         {
             var toggleControl = sender as ToggleNavControl;
 
-            // Check that the sender is indeed a ToggleNavControl
             if (toggleControl == null)
-                return; // Exit if it's not the expected type
+                return;
 
-            // Check the current toggle state and update the active tab
             if (toggleControl.IsBtmcChecked)
             {
                 _activeTab = _TabEnum.BTMC;
@@ -88,12 +86,10 @@ namespace btmc
             {
                 _activeTab = _TabEnum.TERN;
             }
-
-            // Optionally update the UI or any other controls based on _activeTab
         }
 
         // Placeholder stuff
-        // TextBox stuff
+        // Textbox event handlers
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
@@ -130,7 +126,7 @@ namespace btmc
             }
         }
 
-        // ComboBox event handlers for all ComboBoxes
+        // ComboBox event handlers
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = sender as ComboBox;
