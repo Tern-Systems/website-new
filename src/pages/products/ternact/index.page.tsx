@@ -148,8 +148,8 @@ const TernactPage: FC = () => {
                     </div>
                 </Section>
                 <Section>
-                    <p className='hidden md:flex lg:flex text-27 lg:text-32'>
-                        <span className={'sm:inline hidden'}>Improvements</span>
+                    <p className='sm:mt-xl md:x-[flex,mt-xl] lg:flex text-27 lg:text-32'>
+                        <span className={'sm:inline !hidden'}>Improvements</span>
                         <span>Explore the Future</span>
                     </p>
                     <ResourceCards
