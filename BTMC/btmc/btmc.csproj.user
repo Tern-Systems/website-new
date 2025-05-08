@@ -2,7 +2,16 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="src\ui\forms\main\components\ComboBoxControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="src\ui\forms\main\components\Swap.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="src\ui\forms\main\components\SwapButtonControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="src\ui\forms\main\components\TextBoxWithToolsControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="src\ui\forms\main\components\TitleBarControl.xaml.cs">
@@ -19,7 +28,16 @@
     <Page Update="src\ui\forms\main\components\Clear.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="src\ui\forms\main\components\ComboBoxControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="src\ui\forms\main\components\Swap.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="src\ui\forms\main\components\SwapButtonControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="src\ui\forms\main\components\TextBoxWithToolsControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="src\ui\forms\main\components\TitleBarControl.xaml">
