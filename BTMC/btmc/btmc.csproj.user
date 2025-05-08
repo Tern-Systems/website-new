@@ -17,6 +17,9 @@
     <Compile Update="src\ui\forms\main\components\TitleBarControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="src\ui\forms\main\components\ToggleNavControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="src\ui\forms\main\tabs\T_BTMC\BTMC.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -41,6 +44,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="src\ui\forms\main\components\TitleBarControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="src\ui\forms\main\components\ToggleNavControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="src\ui\forms\main\tabs\T_BTMC\BTMC.xaml">

@@ -47,46 +47,24 @@
 
 
             <!-- BTMC/TERN/CLEAN  -->
-            <Grid Margin="0,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-
-                <!-- BTMC/TERN Toggles (centered in middle column) -->
-                <Border Grid.Column="1" Width="191" Height="40" Background="Transparent" CornerRadius="20" HorizontalAlignment="Center" BorderThickness="1" BorderBrush="White">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <RadioButton x:Name="BtmcToggle" Content="BTMC" FontWeight="Bold" Style="{StaticResource ToggleTabStyle}" Grid.Column="0" Margin="0" IsChecked="True" Click="Toggle_Click"/>
-                        <RadioButton x:Name="TernToggle" Content="TERN" FontWeight="Bold" Style="{StaticResource ToggleTabStyle}" Grid.Column="1" Margin="0" IsChecked="False" Click="Toggle_Click"/>
-                    </Grid>
-                </Border>
-
-
-                <!-- Clean button (positioned in right column) -->
-                <Button Grid.Column="2" Click="BtnClean_Click" Width="35" Margin="15,5" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right">
-                    <Image Source="/assets/icons/broom.png" Width="24" Height="24"/>
-                </Button>
-            </Grid>
-
+            <components:ToggleNavControl 
+                x:Name="toggleNavigation"
+                ToggleClicked="ToggleNavigation_ToggleClicked"
+                CleanClicked="ToggleNavigation_CleanClicked"/>
 
             <!-- BTMC Tab -->
             <BTMCtab:BTMC
                 x:Name="BtmcPanel" 
-                Visibility="{Binding ElementName=BtmcToggle, Path=IsChecked, Converter={StaticResource BoolToVis}}"
+                Visibility="{Binding ElementName=toggleNavigation, Path=IsBtmcChecked, Converter={StaticResource BoolToVis}}"
                 InputOperation="{Binding BtmcInputOperation, Mode=TwoWay}"
                 OutputOperation="{Binding BtmcOutputOperation, Mode=TwoWay}"
                 InputValue="{Binding BtmcInputValue, Mode=TwoWay}"
                 OutputValue="{Binding BtmcOutputValue, Mode=TwoWay}"/>
+
             <!-- TERN Tab -->
             <TERNtab:TERN 
                 x:Name="TernPanel" 
-                Visibility="{Binding ElementName=TernToggle, Path=IsChecked, Converter={StaticResource BoolToVis}}"
+                Visibility="{Binding ElementName=toggleNavigation, Path=IsTernChecked, Converter={StaticResource BoolToVis}}"
                 InstructionOperation="{Binding TernInstructionOperation, Mode=TwoWay}"
                 Input1Value="{Binding TernInput1Value, Mode=TwoWay}"
                 Input2Value="{Binding TernInput2Value, Mode=TwoWay}"

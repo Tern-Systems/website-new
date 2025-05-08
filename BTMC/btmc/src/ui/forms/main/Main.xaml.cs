@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using btmc.src.ui.forms.main.components;
 
 namespace btmc
 {
@@ -17,10 +18,7 @@ namespace btmc
         {
             InitializeComponent();
             DataContext = this;
-
-
         }
-
 
         // BTMC tab properties
         public object BtmcInputOperation { get; set; }
@@ -33,7 +31,6 @@ namespace btmc
         public string TernInput1Value { get; set; } = string.Empty;
         public string TernInput2Value { get; set; } = string.Empty;
         public string TernOutputValue { get; set; } = string.Empty;
-
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -58,7 +55,8 @@ namespace btmc
             // Decided to use toggle button, felt easier to make look nicer than tc, first iteration had tc
         }
 
-        private void BtnClean_Click(object sender, RoutedEventArgs e)
+        // Handler for when Clean button is clicked in the component
+        private void ToggleNavigation_CleanClicked(object sender, RoutedEventArgs e)
         {
             switch (_activeTab)
             {
@@ -72,27 +70,26 @@ namespace btmc
             }
         }
 
-        private void Toggle_Click(object sender, RoutedEventArgs e)
+        // Handler for when BTMC/TERN toggle is clicked in the component
+        private void ToggleNavigation_ToggleClicked(object sender, RoutedEventArgs e)
         {
-            var toggleButton = sender as System.Windows.Controls.Primitives.ToggleButton;
+            var toggleControl = sender as ToggleNavControl;
 
-            if (toggleButton == BtmcToggle && toggleButton.IsChecked == true)
+            // Check that the sender is indeed a ToggleNavControl
+            if (toggleControl == null)
+                return; // Exit if it's not the expected type
+
+            // Check the current toggle state and update the active tab
+            if (toggleControl.IsBtmcChecked)
             {
-                TernToggle.IsChecked = false;
                 _activeTab = _TabEnum.BTMC;
             }
-            else if (toggleButton == TernToggle && toggleButton.IsChecked == true)
+            else if (toggleControl.IsTernChecked)
             {
-                BtmcToggle.IsChecked = false;
                 _activeTab = _TabEnum.TERN;
             }
 
-            // Ensure at least one toggle is checked
-            if (BtmcToggle.IsChecked == false && TernToggle.IsChecked == false)
-            {
-                BtmcToggle.IsChecked = true;
-                _activeTab = _TabEnum.BTMC;
-            }
+            // Optionally update the UI or any other controls based on _activeTab
         }
 
         // Placeholder stuff
