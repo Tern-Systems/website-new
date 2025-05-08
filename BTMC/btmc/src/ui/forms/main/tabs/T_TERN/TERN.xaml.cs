@@ -1,32 +1,68 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Collections.Generic;
-
-using btmc.src.alu;
-
-using btmc.src.ui.forms.main.components;
 
 namespace btmc.src.ui.forms.main.tabs.T_TERN
 {
-    using OperationEntry = KeyValuePair<ALU.Operation, string>;
-
-    /// <summary>
-    /// Interaction logic for TERN.xaml
-    /// </summary>
     public partial class TERN : UserControl
     {
-        public List<OperationEntry> Operations { get; }
-        public Utils.TypePatternEntry TextBoxPattern { get; }
+        public static readonly DependencyProperty InstructionOperationProperty =
+            DependencyProperty.Register("InstructionOperation", typeof(object), typeof(TERN),
+                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty Input1ValueProperty =
+            DependencyProperty.Register("Input1Value", typeof(string), typeof(TERN),
+                new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty Input2ValueProperty =
+            DependencyProperty.Register("Input2Value", typeof(string), typeof(TERN),
+                new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty OutputValueProperty =
+            DependencyProperty.Register("OutputValue", typeof(string), typeof(TERN),
+                new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public object InstructionOperation
+        {
+            get { return GetValue(InstructionOperationProperty); }
+            set { SetValue(InstructionOperationProperty, value); }
+        }
+
+        public string Input1Value
+        {
+            get { return (string)GetValue(Input1ValueProperty); }
+            set { SetValue(Input1ValueProperty, value); }
+        }
+
+        public string Input2Value
+        {
+            get { return (string)GetValue(Input2ValueProperty); }
+            set { SetValue(Input2ValueProperty, value); }
+        }
+
+        public string OutputValue
+        {
+            get { return (string)GetValue(OutputValueProperty); }
+            set { SetValue(OutputValueProperty, value); }
+        }
 
         public TERN()
         {
             InitializeComponent();
         }
 
-        private void BtnSwap_Click(object sender, RoutedEventArgs e)
+        private void SwapButton_SwapClicked(object sender, RoutedEventArgs e)
         {
-            /* Uncomment after you add the required TextBoxes to the form */
-            //Swap.SwapInputs(ref tbTERN_In_1, ref tbTERN_In_2);
+            var temp = Input1Value;
+            Input1Value = Input2Value;
+            Input2Value = temp;
+        }
+
+        public void ClearInputs()
+        {
+            InstructionOperation = null;
+            Input1Value = string.Empty;
+            Input2Value = string.Empty;
+            OutputValue = string.Empty;
         }
     }
 }

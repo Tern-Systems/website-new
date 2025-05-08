@@ -56,5 +56,13 @@ namespace btmc.src.ui.forms.main.tabs.T_BTMC
             InputOperation = OutputOperation;
             OutputOperation = temp;
         }
+
+        public void ClearInputs()
+        {
+            InputOperation = null;
+            OutputOperation = null;
+            InputValue = string.Empty;
+            OutputValue = string.Empty;
+        }
     }
 }

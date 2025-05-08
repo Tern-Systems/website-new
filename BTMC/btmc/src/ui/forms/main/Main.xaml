@@ -9,6 +9,8 @@
         xmlns:tab="clr-namespace:btmc.src.ui.forms.main.tabs"
         xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
         xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
+        xmlns:BTMCtab="clr-namespace:btmc.src.ui.forms.main.tabs.T_BTMC"
+        xmlns:TERNtab="clr-namespace:btmc.src.ui.forms.main.tabs.T_TERN"
         mc:Ignorable="d"
         MouseDown="Window_MouseDown"
         Title="Converter"
@@ -74,199 +76,21 @@
 
 
             <!-- BTMC Tab -->
-            <StackPanel x:Name="BtmcPanel" Visibility="{Binding ElementName=BtmcToggle, Path=IsChecked, Converter={StaticResource BoolToVis}}" Margin="10" HorizontalAlignment="Center">
-
-                <!-- inputs -->
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Input:" Foreground="White" Margin="25,10" FontSize="20"/>
-                    <!-- Combo input -->
-                    <Border CornerRadius="5" Width="160" Height="35" Background="#808080" BorderBrush="White" BorderThickness="1" Margin="5">
-                        <Grid>
-                            <ComboBox x:Name="cmbInputOp" Width="140" Height="30" Style="{StaticResource CustomComboBoxStyle}" 
-                                      BorderThickness="0" ItemsSource="{Binding Source={x:Static alu:ALU.Operations}}"
-                                      GotFocus="ComboBox_GotFocus" LostFocus="ComboBox_LostFocus"/>
-                            <TextBlock x:Name="cmbInputOpPlaceholder" Text="Select operation..." 
-                                       Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Center"
-                                       IsHitTestVisible="False" />
-                        </Grid>
-                    </Border>
-                    <!-- Text input -->
-                    <Border CornerRadius="5" Width="300" Height="35" Background="#808080" BorderBrush="White" BorderThickness="1" Margin="5">
-                        <Grid>
-                            <Grid>
-                                <TextBox x:Name="txtInput" Width="280" Background="#808080" BorderThickness="0"
-                                         Padding="5,0,60,0" VerticalContentAlignment="Center" Foreground="White"
-                                         TextChanged="TextBox_TextChanged" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                                <TextBlock x:Name="txtInputPlaceholder" Text="Enter value..." 
-                                           Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Center"
-                                           IsHitTestVisible="False" />
-                            </Grid>
-                            <!-- Copy paste stuff -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Click="BtnCopyInput_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/copy.png" Width="24" Height="24"/>
-                                </Button>
-                                <Button Click="BtnPasteInput_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/paste.png" Width="24" Height="24"/>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-
-                <!-- BTMC swap -->
-                <Border CornerRadius="5" Width="40" Margin="10" BorderThickness="1" BorderBrush="White" Background="Gray"  ToolTip="Swaps operations">
-                    <Border.Effect>
-                        <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3"
-                                          BlurRadius="2" Opacity="0.5"/>
-                    </Border.Effect>
-                    <Button Content="⥯" Click="BtnSwap_Click" FontSize="25" Foreground="White" Background="Transparent" BorderThickness="0"/>
-                </Border>
-
-                <!-- outputs -->
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Output:" Foreground="White" Margin="17,10" FontSize="20"/>
-                    <!-- Combo output-->
-                    <Border CornerRadius="5" Width="160" Height="35" Background="#808080" BorderBrush="White" BorderThickness="1" Margin="5">
-                        <Grid>
-                            <ComboBox x:Name="cmbOutputOp" Width="140" Height="30" Style="{StaticResource CustomComboBoxStyle}" 
-                                      ItemsSource="{Binding Source={x:Static alu:ALU.Operations}}"
-                                      GotFocus="ComboBox_GotFocus" LostFocus="ComboBox_LostFocus"/>
-                            <TextBlock x:Name="cmbOutputOpPlaceholder" Text="Select operation..." 
-                                       Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Center"
-                                       IsHitTestVisible="False" />
-                        </Grid>
-                    </Border>
-                    <!-- Text output -->
-                    <Border CornerRadius="5" Width="300" Height="35" Background="#808080" BorderBrush="White" BorderThickness="1" Margin="5">
-                        <Grid>
-                            <Grid>
-                                <TextBox x:Name="txtOutput" Width="280" Background="#808080" BorderThickness="0" 
-                                         Padding="5,0,60,0" VerticalContentAlignment="Center" Foreground="White"
-                                         TextChanged="TextBox_TextChanged" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                                <TextBlock x:Name="txtOutputPlaceholder" Text="Output..." 
-                                           Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Center"
-                                           IsHitTestVisible="False" />
-                            </Grid>
-                            <!-- Copy paste stuff -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Click="BtnCopyOutput_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/copy.png" Width="24" Height="24"/>
-                                </Button>
-                                <Button Click="BtnPasteOutput_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/paste.png" Width="24" Height="24"/>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-            </StackPanel>
-
-
+            <BTMCtab:BTMC
+                x:Name="BtmcPanel" 
+                Visibility="{Binding ElementName=BtmcToggle, Path=IsChecked, Converter={StaticResource BoolToVis}}"
+                InputOperation="{Binding BtmcInputOperation, Mode=TwoWay}"
+                OutputOperation="{Binding BtmcOutputOperation, Mode=TwoWay}"
+                InputValue="{Binding BtmcInputValue, Mode=TwoWay}"
+                OutputValue="{Binding BtmcOutputValue, Mode=TwoWay}"/>
             <!-- TERN Tab -->
-            <StackPanel x:Name="TernPanel" Visibility="{Binding ElementName=TernToggle, Path=IsChecked, Converter={StaticResource BoolToVis}}" Margin="10">
-
-                <!-- Tern text input 1 -->
-                <StackPanel Orientation="Horizontal" Width="600">
-                    <TextBlock Text="Input 1:" Foreground="White" Margin="25,10" FontSize="20"/>
-                    <Border CornerRadius="5" Width="463" Height="35" Background="#808080" BorderBrush="White" BorderThickness="1" Margin="5">
-                        <Grid>
-                            <Grid>
-                                <TextBox x:Name="txtInput1" Width="450" Background="#808080" BorderThickness="0" 
-                                         Padding="5,0,60,0" VerticalContentAlignment="Center" Foreground="White"
-                                         TextChanged="TextBox_TextChanged" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                                <TextBlock x:Name="txtInput1Placeholder" Text="Enter value..." 
-                                           Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Center"
-                                           IsHitTestVisible="False" />
-                            </Grid>
-                            <!-- copy paste stuff -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Click="BtnCopyInput1_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/copy.png" Width="24" Height="24"/>
-                                </Button>
-                                <Button Click="BtnPasteInput1_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/paste.png" Width="24" Height="24"/>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-
-                <!-- Tern Combobox -->
-                <StackPanel Orientation="Horizontal" Width="600" HorizontalAlignment="Right">
-                    <TextBlock Text="Instruction:" Foreground="White" Margin="80,20,10,20"  FontSize="20"/>
-                    <Border CornerRadius="5" Width="160" Height="35" Background="#808080" BorderBrush="White" BorderThickness="1" Margin="5">
-                        <Grid>
-                            <ComboBox x:Name="cmbInstructionOp" Width="140" Height="30" Style="{StaticResource CustomComboBoxStyle}" 
-                                      BorderThickness="0" ItemsSource="{Binding Source={x:Static alu:ALU.Operations}}"
-                                      GotFocus="ComboBox_GotFocus" LostFocus="ComboBox_LostFocus"/>
-                            <TextBlock x:Name="cmbInstructionOpPlaceholder" Text="Select instruction..." 
-                                       Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Center"
-                                       IsHitTestVisible="False" />
-                        </Grid>
-                    </Border>
-
-                    <!-- TERN swap -->
-                    <Border CornerRadius="5" Width="40" Height="35" Margin="10" BorderThickness="1" BorderBrush="White" Background="Gray">
-                        <Border.Effect>
-                            <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3"
-                                          BlurRadius="2" Opacity="0.5"/>
-                        </Border.Effect>
-                        <Button Content="⥯" Click="BtnSwap1_Click" FontSize="30" Foreground="White" Background="Transparent" BorderThickness="0" ToolTip="Swaps input1 and 2"/>
-                    </Border>
-                </StackPanel>
-
-                <!-- Tern text input 2-->
-                <StackPanel Orientation="Horizontal" Width="600">
-                    <TextBlock Text="Input 2:" Foreground="White" Margin="25,10" FontSize="20"/>
-                    <Border CornerRadius="5" Width="463" Height="35" Background="#808080" BorderBrush="White" BorderThickness="1" Margin="5">
-                        <Grid>
-                            <Grid>
-                                <TextBox x:Name="txtInput2" Width="450" Background="#808080" BorderThickness="0" 
-                                         Padding="5,0,60,0" VerticalContentAlignment="Center" Foreground="White"
-                                         TextChanged="TextBox_TextChanged" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                                <TextBlock x:Name="txtInput2Placeholder" Text="Enter value..." 
-                                           Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Center"
-                                           IsHitTestVisible="False" />
-                            </Grid>
-                            <!-- copy paste stuff -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Click="BtnCopyInput2_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/copy.png" Width="24" Height="24"/>
-                                </Button>
-                                <Button Click="BtnPasteInput2_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/paste.png" Width="24" Height="24"/>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-
-                <!-- Tern output-->
-                <StackPanel Orientation="Horizontal" Width="600">
-                    <TextBlock Text="Output:" Foreground="White" Margin="25,10" FontSize="20"/>
-                    <Border CornerRadius="5" Width="463" Height="35" Background="#808080" BorderBrush="White" BorderThickness="1" Margin="5">
-                        <Grid>
-                            <Grid>
-                                <TextBox x:Name="txtOutput1" Width="450" Background="#808080" BorderThickness="0" 
-                                         Padding="5,0,60,0" VerticalContentAlignment="Center" Foreground="White"
-                                         TextChanged="TextBox_TextChanged" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                                <TextBlock x:Name="txtOutput1Placeholder" Text="Output..." 
-                                         Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Center"
-                                         IsHitTestVisible="False" />
-                            </Grid>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Click="BtnCopyOutput1_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/copy.png" Width="24" Height="24"/>
-                                </Button>
-                                <Button Click="BtnPasteOutput1_Click" Background="Transparent" Width="30" Height="30" BorderThickness="0">
-                                    <Image Source="/assets/icons/paste.png" Width="24" Height="24"/>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-            </StackPanel>
+            <TERNtab:TERN 
+                x:Name="TernPanel" 
+                Visibility="{Binding ElementName=TernToggle, Path=IsChecked, Converter={StaticResource BoolToVis}}"
+                InstructionOperation="{Binding TernInstructionOperation, Mode=TwoWay}"
+                Input1Value="{Binding TernInput1Value, Mode=TwoWay}"
+                Input2Value="{Binding TernInput2Value, Mode=TwoWay}"
+                OutputValue="{Binding TernOutputValue, Mode=TwoWay}"/>
 
 
             <!-- Convert (disabled) -->

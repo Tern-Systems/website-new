@@ -21,6 +21,20 @@ namespace btmc
 
         }
 
+
+        // BTMC tab properties
+        public object BtmcInputOperation { get; set; }
+        public object BtmcOutputOperation { get; set; }
+        public string BtmcInputValue { get; set; } = string.Empty;
+        public string BtmcOutputValue { get; set; } = string.Empty;
+
+        // TERN tab properties
+        public object TernInstructionOperation { get; set; }
+        public string TernInput1Value { get; set; } = string.Empty;
+        public string TernInput2Value { get; set; } = string.Empty;
+        public string TernOutputValue { get; set; } = string.Empty;
+
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ButtonState == MouseButtonState.Pressed)
@@ -50,13 +64,10 @@ namespace btmc
             {
                 default: break;
                 case _TabEnum.BTMC:
-                    txtInput.Text = "";
-                    txtOutput.Text = "";
+                    BtmcPanel.ClearInputs(); // Create this method in your BTMC control
                     break;
                 case _TabEnum.TERN:
-                    txtInput1.Text = "";
-                    txtInput2.Text = "";
-                    txtOutput1.Text = "";
+                    TernPanel.ClearInputs(); // Create this method in your TERN control
                     break;
             }
         }
@@ -164,100 +175,6 @@ namespace btmc
         {
             string placeholderName = controlName + "Placeholder";
             return FindName(placeholderName) as TextBlock;
-        }
-
-
-        // Copy paste
-
-        // This is probably really bad and inefficient but whatever
-        private void BtnCopyInput_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(txtInput.Text);
-        }
-
-        private void BtnCopyOutput_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(txtOutput.Text);
-        }
-
-        private void BtnPasteInput_Click(object sender, RoutedEventArgs e)
-        {
-            if (Clipboard.ContainsText())
-            {
-                txtInput.Text = Clipboard.GetText();
-            }
-        }
-
-        private void BtnPasteOutput_Click(object sender, RoutedEventArgs e)
-        {
-            if (Clipboard.ContainsText())
-            {
-                txtOutput.Text = Clipboard.GetText();
-            }
-        }
-
-        // For input1
-        private void BtnCopyInput1_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(txtInput1.Text);
-        }
-
-        private void BtnPasteInput1_Click(object sender, RoutedEventArgs e)
-        {
-            if (Clipboard.ContainsText())
-            {
-                txtInput1.Text = Clipboard.GetText();
-            }
-        }
-
-        // For Input2
-        private void BtnCopyInput2_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(txtInput2.Text);
-        }
-
-        private void BtnPasteInput2_Click(object sender, RoutedEventArgs e)
-        {
-            if (Clipboard.ContainsText())
-            {
-                txtInput2.Text = Clipboard.GetText();
-            }
-        }
-
-        // For Output1
-        private void BtnCopyOutput1_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(txtOutput1.Text);
-        }
-
-        private void BtnPasteOutput1_Click(object sender, RoutedEventArgs e)
-        {
-            if (Clipboard.ContainsText())
-            {
-                txtOutput1.Text = Clipboard.GetText();
-            }
-        }
-        // end of spam
-
-
-
-
-        // swaps btmc
-        private void BtnSwap_Click(object sender, RoutedEventArgs e)
-        {
-            var inVal = cmbInputOp.SelectedValue;
-            var outVal = cmbOutputOp.SelectedValue;
-
-            cmbInputOp.SelectedValue = outVal;
-            cmbOutputOp.SelectedValue = inVal;
-        }
-
-        // swaps tern
-        private void BtnSwap1_Click(object sender, RoutedEventArgs e)
-        {
-            string temp = txtInput1.Text;
-            txtInput1.Text = txtInput2.Text;
-            txtInput2.Text = temp;
         }
 
         private void BtnConvert_Click(object sender, RoutedEventArgs e)
