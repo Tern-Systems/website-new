@@ -76,7 +76,7 @@ const TrainingHomePage: FC = () => {
                         section: 'bg-transparent',
                         content: cn(
                             'grid items-center',
-                            'grid-cols-1 lg:grid-cols-[1fr,2fr]',
+                            'grid-cols-1 lg:!grid-cols-[auto,2fr] lg:gap-x-l',
                             'lg:gap-x-7xl-1  sm:gap-y-s md:gap-y-xs',
                             'my-3xl md:my-5xl lg:my-7xl-1',
                         ),
@@ -86,18 +86,51 @@ const TrainingHomePage: FC = () => {
                     <Video
                         url={''}
                         className={cn(
-                            'h-[52dvw] before:x-[border-s,border-gray-l0]  lg:col-start-2  lg:mr-0',
+                            'flex flex-col w-full x3s:!h-[45dvw] xxs:h-[51dvw] h-[52dvw] before:x-[border-s,border-gray-l0]  lg:col-start-2 lg:mr-0',
                             'md:x-[min-h-[22.5rem],max-h-[50rem]]',
                             'lg:x-[min-h-[24.394rem],h-[30dvw],max-h-[30rem]]',
                         )}
                     />
-                    <div className={'contents lg:flex  lg:row-start-1 lg:flex-col lg:gap-y-n'}>
-                        <H3 className={'row-start-1'}>Why Tern Academy</H3>
-                        <p className={'leading-l'}>Discover what Tern Academy has to offer</p>
-                        <p className={'contents'}>
+                    <div className={'contents w-full lg:flex lg:row-start-1 lg:flex-col lg:gap-y-n'}>
+                        <H3 className={'row-start-1'}>Why Tern Academy?</H3>
+                        <p className={'leading-l'}>Discover what Tern Academy has to offer.</p>
+                        <div className={'contents'}>
                             {/*TODO href*/}
-                            <PageLink href={''}>Explore training solutions</PageLink>
-                        </p>
+                            <PageLink
+                                href={''}
+                                className={'flex-row-reverse p-xxs w-fit bg-blue'}
+                            >
+                                <div className='inline-block !size-5xs ml-xs'>
+                                    <svg
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        width='26'
+                                        height='27'
+                                        viewBox='0 0 26 27'
+                                        fill='none'
+                                        className='injected-svg'
+                                        data-src='/_next/static/media/arrow-right-long.9237f077.svg'
+                                        role='img'
+                                    >
+                                        <g id='Group 1439'>
+                                            <g id='Page-1'>
+                                                <g id='Dribbble-Light-Preview'>
+                                                    <g id='icons'>
+                                                        <path
+                                                            id='arrow_right-[#355]-15'
+                                                            fillRule='evenodd'
+                                                            clipRule='evenodd'
+                                                            d='M0.896219 12.7796L0.895908 14.5561L22.058 14.5287L15.281 21.3057L16.5535 22.5782L25.463 13.6686L16.4929 4.69847L15.2011 5.9523L22.0446 12.7957L0.896219 12.7796Z'
+                                                            fill='white'
+                                                        ></path>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                Explore training solutions
+                            </PageLink>
+                        </div>
                     </div>
                 </Section>
                 <CardCheckersSection type={'regular'} />
