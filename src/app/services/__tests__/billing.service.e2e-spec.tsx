@@ -18,7 +18,7 @@ import {
 
 // App
 import { UserData } from '@/app/contexts/user.context';
-import { PlanName, RecurrencyEnum, Subscription } from '@/app/types/subscription';
+import { RecurrencyEnum, Subscription } from '@/app/types/subscription';
 import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
@@ -27,7 +27,7 @@ import { downloadBlob } from '@/app/utils';
 
 import { PaymentMethodTool } from '@/app/ui/templates';
 import PricingAndPlansPage from '@/pages/products/plans/index.page';
-import SubscribePage from '@/pages/subscribe/tidal/index.page';
+import SubscribePage from '@/pages/subscriptions/tidal/index.page';
 import BillingPage from '@/pages/profile/billing/index.page';
 import PurchasingInformationPage from '@/pages/profile/billing/purchasing_information/index.page';
 import ManageSubscriptionsPage from '@/pages/profile/billing/manage_subscriptions/index.page';
@@ -353,7 +353,7 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
 
                 // Test
                 await waitFor(async () => await checkToBeInDocument(invoice.row, 1));
-                await checkTextContent(invoice.name, 'Tidal' as PlanName);
+                await checkTextContent(invoice.name, 'Tidal');
             },
             TIMEOUT.testMs,
         );
@@ -438,8 +438,6 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
                 await change(paymentForm.input.country, dummyCard.address.country);
 
                 if (fullAddress) {
-                    console.log('Using full address:', fullAddress);
-                    // Try using the same fields as manual entry
                     await click(paymentForm.expandButton);
                     await change(paymentForm.input.addressLine1, fullAddress);
                     await change(paymentForm.input.city, dummyCard.address.city);

@@ -7,8 +7,8 @@ import { InfoSectionData } from '@/app/types/layout';
 import { Route } from '@/app/static';
 
 import { PageLink } from '@/app/ui/layout';
-import { Content, H1, H2, MainBackground } from '@/app/ui/atoms';
-import { Section } from '@/app/ui/atoms/Section/index';
+import { H1, H2 } from '@/app/ui/atoms';
+import { Section } from '@/app/ui/atoms';
 import { InfoSection, InsideTernSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
