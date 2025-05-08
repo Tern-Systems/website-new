@@ -37,3 +37,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+/.vs/Training/FileContentIndex/28a08335-7729-4519-94af-9102d6e30a07.vsidx
