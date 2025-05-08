@@ -1,7 +1,6 @@
 ﻿<Window x:Class="btmc.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="BTMC Tool"
         MouseDown="Window_MouseDown"
         AllowsTransparency="True"
@@ -9,170 +8,86 @@
         SizeToContent="WidthAndHeight"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
-        FontFamily="Adobe Gothic Std L">
+        FontFamily="{StaticResource AppFont}">
 
-	<Window.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary x:Key="Form" Source="./Form.style.xaml"/>
-			<sys:Double x:Key="ActionButton.Size">15</sys:Double>
-
-			<!-- RoundedComboBox with Popup -->
-			<Style x:Key="RoundedComboBox" TargetType="ComboBox">
-				<Setter Property="Foreground" Value="White"/>
-				<Setter Property="FontSize" Value="14"/>
-				<Setter Property="Background" Value="Transparent"/>
-				<Setter Property="BorderThickness" Value="0"/>
-				<Setter Property="VerticalContentAlignment" Value="Center"/>
-				<Setter Property="Template">
-					<Setter.Value>
-						<ControlTemplate TargetType="ComboBox">
-							<Grid>
-								<Border Background="#666666" CornerRadius="5"/>
-								<ContentPresenter Margin="10,0,30,0"
-                                                  VerticalAlignment="Center"
-                                                  Content="{TemplateBinding SelectionBoxItem}"/>
-								<ToggleButton x:Name="ToggleBtn"
-                                              IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Width="20" Background="Transparent" BorderThickness="0"
-                                              HorizontalAlignment="Right">
-									<Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="White"
-                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
-								</ToggleButton>
-								<Popup x:Name="PART_Popup"
-                                       IsOpen="{TemplateBinding IsDropDownOpen}"
-                                       Placement="Bottom"
-                                       AllowsTransparency="True"
-                                       Focusable="False"
-                                       PopupAnimation="Slide">
-									<Border Background="#666666"
-                                            CornerRadius="5"
-                                            BorderBrush="White"
-                                            BorderThickness="1"
-                                            SnapsToDevicePixels="True">
-										<ScrollViewer SnapsToDevicePixels="True">
-											<ItemsPresenter/>
-										</ScrollViewer>
-									</Border>
-								</Popup>
-							</Grid>
-							<ControlTemplate.Triggers>
-								<Trigger Property="HasItems" Value="False">
-									<Setter TargetName="PART_Popup" Property="Visibility" Value="Collapsed"/>
-								</Trigger>
-								<Trigger Property="IsEnabled" Value="False">
-									<Setter Property="Foreground" Value="Gray"/>
-								</Trigger>
-							</ControlTemplate.Triggers>
-						</ControlTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style>
-		</ResourceDictionary>
-	</Window.Resources>
-
-	<Border Background="{StaticResource Color.Gray.77}">
+	<Border Background="{StaticResource Brush.Gray77}">
 		<Grid Margin="20" Width="713">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
-				<!-- Header -->
 				<RowDefinition Height="1"/>
-				<!-- Divider -->
 				<RowDefinition Height="Auto"/>
-				<!-- Toggle + Clean -->
 				<RowDefinition Height="Auto"/>
-				<!-- BTMC Input or TERN Input1 -->
 				<RowDefinition Height="Auto"/>
-				<!-- Reverse or nothing -->
 				<RowDefinition Height="Auto"/>
-				<!-- BTMC Output or TERN Input2+Output -->
 				<RowDefinition Height="*"/>
-				<!-- Convert button -->
 			</Grid.RowDefinitions>
 
-			<!-- 0) Header -->
+			<!-- Header -->
 			<Grid Grid.Row="0" Height="30">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0"
-                           Text="Low-Level Language Calculator"
-                           FontSize="18" FontWeight="Bold"
-                           Foreground="White" VerticalAlignment="Center"
-                           Margin="10,0"/>
+						   Text="Low-Level Language Calculator"
+						   FontSize="18"
+						   FontWeight="Bold"
+						   Foreground="White"
+						   VerticalAlignment="Center"
+						   Margin="10,0"/>
 				<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-					<Button x:Name="BtnMinimize" Content="−" Width="30" Height="25"
-                            Background="Transparent" BorderThickness="0" Foreground="White"
-                            Click="BtnMinimize_Click"/>
-					<Button x:Name="BtnClose" Content="✕" Width="30" Height="25"
-                            Background="Transparent" BorderThickness="0" Foreground="White"
-                            Click="BtnClose_Click"/>
+					<Button x:Name="BtnMinimize"
+							Content="−"
+							Width="30" Height="25"
+							Background="Transparent"
+							BorderThickness="0"
+							Foreground="White"
+							Click="BtnMinimize_Click"/>
+					<Button x:Name="BtnClose"
+							Content="✕"
+							Width="30" Height="25"
+							Background="Transparent"
+							BorderThickness="0"
+							Foreground="White"
+							Click="BtnClose_Click"/>
 				</StackPanel>
 			</Grid>
 
-			<!-- 1) Divider -->
-			<Border Grid.Row="1" Height="1" Background="White" Grid.ColumnSpan="2"/>
+			<!-- Divider -->
+			<Border Grid.Row="1"
+					Height="1"
+					Background="White"
+					Grid.ColumnSpan="2"/>
 
-			<!-- 2) Toggle + Clean -->
+			<!-- Toggle + Clean -->
 			<Grid Grid.Row="2" Margin="0,20,0,0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
+
 				<!-- Pill Toggle -->
 				<ToggleButton x:Name="ToggleSwitch"
-                              Grid.Column="0"
-                              Width="180" Height="40"
-                              IsChecked="True"
-                              Background="Transparent"
-                              BorderBrush="White"
-                              BorderThickness="1"
-                              Click="ToggleSwitch_Click">
-					<ToggleButton.Template>
-						<ControlTemplate TargetType="ToggleButton">
-							<Grid>
-								<Border Background="Transparent" CornerRadius="20"
-                                        BorderBrush="White" BorderThickness="1"/>
-								<Grid>
-									<Border x:Name="Pill" Width="88" Height="36"
-                                            CornerRadius="18" Background="#666666"
-                                            HorizontalAlignment="Left" VerticalAlignment="Center"
-                                            Margin="2,0"/>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition/>
-											<ColumnDefinition/>
-										</Grid.ColumnDefinitions>
-										<TextBlock Text="BTMC" Grid.Column="0"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                   Foreground="White" FontWeight="Bold"/>
-										<TextBlock Text="TERN" Grid.Column="1"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                   Foreground="White" FontWeight="Bold"/>
-									</Grid>
-								</Grid>
-							</Grid>
-							<ControlTemplate.Triggers>
-								<Trigger Property="IsChecked" Value="True">
-									<Setter TargetName="Pill" Property="HorizontalAlignment" Value="Left"/>
-								</Trigger>
-								<Trigger Property="IsChecked" Value="False">
-									<Setter TargetName="Pill" Property="HorizontalAlignment" Value="Right"/>
-								</Trigger>
-							</ControlTemplate.Triggers>
-						</ControlTemplate>
-					</ToggleButton.Template>
-				</ToggleButton>
+							  Grid.Column="0"
+							  IsChecked="True"
+							  Click="ToggleSwitch_Click"
+							  Style="{StaticResource PillToggle}"/>
+
 				<!-- Clean -->
-				<Button x:Name="BtnClean" Grid.Column="1" Width="30" Height="30"
-                        Background="Transparent" BorderThickness="0" Margin="10,0,0,0"
-                        Click="BtnClean_Click">
-					<Image Source="pack://application:,,,/btmc;component/assets/icons/broom.png"
-                           Width="24" Height="24"/>
+				<Button x:Name="BtnClean"
+						Grid.Column="1"
+						Width="30" Height="30"
+						Background="Transparent"
+						BorderThickness="0"
+						Margin="10,0,0,0"
+						Click="BtnClean_Click">
+					<Image Source="pack://application:,,,/btmc;component/Assets/icons/broom.png"
+						   Width="{StaticResource Icon.Medium}"
+						   Height="{StaticResource Icon.Medium}"/>
 				</Button>
 			</Grid>
 
-			<!-- 3) BTMC InputSection -->
+			<!-- BTMC InputSection -->
 			<Grid x:Name="InputSection" Grid.Row="3" Margin="0,20,0,0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
@@ -181,13 +96,13 @@
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0"
-                           Text="   Input:"
-                           VerticalAlignment="Center"
-                           Foreground="White"
-                           Margin="0,0,5,0"/>
+						   Text="   Input:"
+						   VerticalAlignment="Center"
+						   Foreground="White"
+						   Margin="0,0,5,0"/>
 				<ComboBox x:Name="InputModeCombo"
-                          Grid.Column="1"
-                          Style="{StaticResource RoundedComboBox}">
+						  Grid.Column="1"
+						  Style="{StaticResource RoundedComboBox}">
 					<ComboBoxItem Content="select" IsSelected="True"/>
 					<ComboBoxItem Content="1"/>
 					<ComboBoxItem Content="2"/>
@@ -195,9 +110,9 @@
 					<ComboBoxItem Content="4"/>
 				</ComboBox>
 				<Border Grid.Column="3"
-                        Background="#666666"
-                        CornerRadius="5"
-                        Height="35">
+						Background="{StaticResource Brush.ToggleBackground}"
+						CornerRadius="{StaticResource Corner.Standard}"
+						Height="{StaticResource Height.Standard}">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
@@ -205,40 +120,50 @@
 							<ColumnDefinition Width="30"/>
 						</Grid.ColumnDefinitions>
 						<TextBox x:Name="InputBox"
-                                 Grid.Column="0"
-                                 Text="input.."
-                                 Foreground="White"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Padding="10,0"
-                                 VerticalContentAlignment="Center"/>
-						<Button Grid.Column="1" Click="BtnCopyInput1_Click"
-                                Background="Transparent" BorderThickness="0" Margin="0,0,5,0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/copy.png"
-                                   Width="16" Height="16"/>
+								 Grid.Column="0"
+								 Tag="input.."
+								 Text="input.."
+								 Foreground="Gray"
+								 Background="Transparent"
+								 BorderThickness="0"
+								 Padding="10,0"
+								 VerticalContentAlignment="Center"
+								 GotFocus="TextBox_GotFocus"
+								 LostFocus="TextBox_LostFocus"/>
+						<Button Grid.Column="1"
+								Click="BtnCopyInput1_Click"
+								Background="Transparent"
+								BorderThickness="0"
+								Margin="0,0,5,0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/copy.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
-						<Button Grid.Column="2" Click="BtnPasteInput1_Click"
-                                Background="Transparent" BorderThickness="0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/paste.png"
-                                   Width="16" Height="16"/>
+						<Button Grid.Column="2"
+								Click="BtnPasteInput1_Click"
+								Background="Transparent"
+								BorderThickness="0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/paste.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
 					</Grid>
 				</Border>
 			</Grid>
 
-			<!-- 4) ReverseButton -->
+			<!-- Reverse -->
 			<Button x:Name="ReverseButton"
-                    Grid.Row="4"
-                    Content="⇅"
-                    Width="30" Height="30"
-                    Background="#5C5C5C"
-                    BorderThickness="0"
-                    Foreground="White"
-                    HorizontalAlignment="Center"
-                    Margin="0,20,0,10"
-                    Click="BtnSwapInputs_Click"/>
+					Grid.Row="4"
+					Content="⇅"
+					Width="30" Height="30"
+					Background="{StaticResource Brush.ToggleBorderHover}"
+					BorderThickness="0"
+					Foreground="White"
+					HorizontalAlignment="Center"
+					Margin="0,20,0,10"
+					Click="BtnSwapInputs_Click"/>
 
-			<!-- 5) BTMC OutputSection -->
+			<!-- BTMC OutputSection -->
 			<Grid x:Name="OutputSection" Grid.Row="5" Margin="0,10,0,0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
@@ -247,19 +172,19 @@
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0"
-                           Text="Output:"
-                           VerticalAlignment="Center"
-                           Foreground="White"
-                           Margin="0,0,5,0"/>
+						   Text="Output:"
+						   VerticalAlignment="Center"
+						   Foreground="White"
+						   Margin="0,0,5,0"/>
 				<ComboBox x:Name="OutputModeCombo"
-                          Grid.Column="1"
-                          Style="{StaticResource RoundedComboBox}">
+						  Grid.Column="1"
+						  Style="{StaticResource RoundedComboBox}">
 					<ComboBoxItem Content="select" IsSelected="True"/>
 				</ComboBox>
 				<Border Grid.Column="3"
-                        Background="#666666"
-                        CornerRadius="5"
-                        Height="35">
+						Background="{StaticResource Brush.ToggleBackground}"
+						CornerRadius="{StaticResource Corner.Standard}"
+						Height="{StaticResource Height.Standard}">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
@@ -267,34 +192,43 @@
 							<ColumnDefinition Width="30"/>
 						</Grid.ColumnDefinitions>
 						<TextBox x:Name="OutputBox"
-                                 Grid.Column="0"
-                                 Text="output.."
-                                 Foreground="White"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Padding="10,0"
-                                 VerticalContentAlignment="Center"
-                                 IsReadOnly="True"/>
-						<Button Grid.Column="1" Click="BtnCopyOutput_Click"
-                                Background="Transparent" BorderThickness="0" Margin="0,0,5,0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/copy.png"
-                                   Width="16" Height="16"/>
+								 Grid.Column="0"
+								 Tag="output.."
+								 Text="output.."
+								 Foreground="Gray"
+								 Background="Transparent"
+								 BorderThickness="0"
+								 Padding="10,0"
+								 VerticalContentAlignment="Center"
+								 IsReadOnly="True"
+								 GotFocus="TextBox_GotFocus"
+								 LostFocus="TextBox_LostFocus"/>
+						<Button Grid.Column="1"
+								Click="BtnCopyOutput_Click"
+								Background="Transparent"
+								BorderThickness="0"
+								Margin="0,0,5,0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/copy.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
-						<Button Grid.Column="2" Click="BtnPasteOutput_Click"
-                                Background="Transparent" BorderThickness="0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/paste.png"
-                                   Width="16" Height="16"/>
+						<Button Grid.Column="2"
+								Click="BtnPasteOutput_Click"
+								Background="Transparent"
+								BorderThickness="0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/paste.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
 					</Grid>
 				</Border>
 			</Grid>
 
-			<!-- 3–5) TERN Section -->
+			<!-- TERN Section -->
 			<Grid x:Name="TERNSection"
-                  Grid.Row="3"
-                  Grid.RowSpan="3"
-                  Margin="0,20,0,0"
-                  Visibility="Collapsed">
+				  Grid.Row="3" Grid.RowSpan="3"
+				  Margin="0,20,0,0"
+				  Visibility="Collapsed">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
@@ -307,16 +241,16 @@
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 
-				<!-- TERN Input 1 -->
+				<!-- Input1 -->
 				<TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="Input 1:"
-                           Foreground="White"
-                           VerticalAlignment="Center"
-                           Margin="0,0,5,0"/>
+						   Text="Input 1:"
+						   Foreground="White"
+						   VerticalAlignment="Center"
+						   Margin="0,0,5,0"/>
 				<Border Grid.Row="0" Grid.Column="1"
-                        Background="#666666"
-                        CornerRadius="5"
-                        Height="35">
+						Background="{StaticResource Brush.ToggleBackground}"
+						CornerRadius="{StaticResource Corner.Standard}"
+						Height="{StaticResource Height.Standard}">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
@@ -324,41 +258,50 @@
 							<ColumnDefinition Width="30"/>
 						</Grid.ColumnDefinitions>
 						<TextBox x:Name="Input1Box"
-                                 Grid.Column="0"
-                                 Text="input1.."
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Foreground="White"
-                                 Padding="10,0"
-                                 VerticalContentAlignment="Center"/>
-						<Button Grid.Column="1" Click="BtnCopyInput2_Click"
-                                Background="Transparent" BorderThickness="0" Margin="0,0,5,0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/copy.png"
-                                   Width="16" Height="16"/>
+								 Grid.Column="0"
+								 Tag="input1.."
+								 Text="input1.."
+								 Foreground="Gray"
+								 Background="Transparent"
+								 BorderThickness="0"
+								 Padding="10,0"
+								 VerticalContentAlignment="Center"
+								 GotFocus="TextBox_GotFocus"
+								 LostFocus="TextBox_LostFocus"/>
+						<Button Grid.Column="1"
+								Click="BtnCopyInput2_Click"
+								Background="Transparent"
+								BorderThickness="0"
+								Margin="0,0,5,0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/copy.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
-						<Button Grid.Column="2" Click="BtnPasteInput2_Click"
-                                Background="Transparent" BorderThickness="0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/paste.png"
-                                   Width="16" Height="16"/>
+						<Button Grid.Column="2"
+								Click="BtnPasteInput2_Click"
+								Background="Transparent"
+								BorderThickness="0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/paste.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
 					</Grid>
 				</Border>
 
-				<!-- TERN Instruction -->
+				<!-- Instruction -->
 				<StackPanel Grid.Row="1"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="3"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center"
-                            Margin="0,20,0,10">
+            Grid.Column="0" Grid.ColumnSpan="3"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Margin="0,20,0,10">
 					<TextBlock Text="Instruction:"
-                               Foreground="White"
-                               VerticalAlignment="Center"
-                               Margin="0,0,10,0"/>
+							   Foreground="White"
+							   VerticalAlignment="Center"
+							   Margin="0,0,10,0"/>
 					<ComboBox x:Name="TernInstructionCombo"
-                              Width="120"
-                              Style="{StaticResource RoundedComboBox}"
-                              Margin="0,0,10,0">
+							  Width="120"
+							  Style="{StaticResource RoundedComboBox}"
+							  Margin="0,0,10,0">
 						<ComboBoxItem Content="select" IsSelected="True"/>
 						<ComboBoxItem Content="1"/>
 						<ComboBoxItem Content="2"/>
@@ -366,24 +309,24 @@
 						<ComboBoxItem Content="4"/>
 					</ComboBox>
 					<Button Content="⇅"
-                            Width="30" Height="30"
-                            Background="#5C5C5C"
-                            BorderThickness="0"
-                            Foreground="White"
-                            Click="BtnSwapInputs_Click"/>
+							Width="30" Height="30"
+							Background="{StaticResource Brush.ToggleBorderHover}"
+							BorderThickness="0"
+							Foreground="White"
+							Click="BtnSwapInputs_Click"/>
 				</StackPanel>
 
-				<!-- TERN Input 2 -->
+				<!-- Input2 -->
 				<TextBlock Grid.Row="2" Grid.Column="0"
-                           Text="Input 2:"
-                           Foreground="White"
-                           VerticalAlignment="Center"
-                           Margin="0,10,5,0"/>
+						   Text="Input 2:"
+						   Foreground="White"
+						   VerticalAlignment="Center"
+						   Margin="0,10,5,0"/>
 				<Border Grid.Row="2" Grid.Column="1"
-                        Background="#666666"
-                        CornerRadius="5"
-                        Height="35"
-                        Margin="0,10,0,0">
+						Background="{StaticResource Brush.ToggleBackground}"
+						CornerRadius="{StaticResource Corner.Standard}"
+						Height="{StaticResource Height.Standard}"
+						Margin="0,10,0,0">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
@@ -391,37 +334,47 @@
 							<ColumnDefinition Width="30"/>
 						</Grid.ColumnDefinitions>
 						<TextBox x:Name="Input2Box"
-                                 Grid.Column="0"
-                                 Text="input2.."
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Foreground="White"
-                                 Padding="10,0"
-                                 VerticalContentAlignment="Center"/>
-						<Button Grid.Column="1" Click="BtnCopyInput2_Click"
-                                Background="Transparent" BorderThickness="0" Margin="0,0,5,0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/copy.png"
-                                   Width="16" Height="16"/>
+								 Grid.Column="0"
+								 Tag="input2.."
+								 Text="input2.."
+								 Foreground="Gray"
+								 Background="Transparent"
+								 BorderThickness="0"
+								 Padding="10,0"
+								 VerticalContentAlignment="Center"
+								 GotFocus="TextBox_GotFocus"
+								 LostFocus="TextBox_LostFocus"/>
+						<Button Grid.Column="1"
+								Click="BtnCopyInput2_Click"
+								Background="Transparent"
+								BorderThickness="0"
+								Margin="0,0,5,0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/copy.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
-						<Button Grid.Column="2" Click="BtnPasteInput2_Click"
-                                Background="Transparent" BorderThickness="0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/paste.png"
-                                   Width="16" Height="16"/>
+						<Button Grid.Column="2"
+								Click="BtnPasteInput2_Click"
+								Background="Transparent"
+								BorderThickness="0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/paste.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
 					</Grid>
 				</Border>
 
-				<!-- TERN Output -->
+				<!-- Output -->
 				<TextBlock Grid.Row="3" Grid.Column="0"
-                           Text="Output:"
-                           Foreground="White"
-                           VerticalAlignment="Center"
-                           Margin="0,10,5,0"/>
+						   Text="Output:"
+						   Foreground="White"
+						   VerticalAlignment="Center"
+						   Margin="0,10,5,0"/>
 				<Border Grid.Row="3" Grid.Column="1"
-                        Background="#666666"
-                        CornerRadius="5"
-                        Height="35"
-                        Margin="0,30,0,0">
+						Background="{StaticResource Brush.ToggleBackground}"
+						CornerRadius="{StaticResource Corner.Standard}"
+						Height="{StaticResource Height.Standard}"
+						Margin="0,10,0,0">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
@@ -429,43 +382,54 @@
 							<ColumnDefinition Width="30"/>
 						</Grid.ColumnDefinitions>
 						<TextBox x:Name="TernOutputBox"
-                                 Grid.Column="0"
-                                 Text="output.."
-                                 IsReadOnly="True"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Foreground="White"
-                                 Padding="10,0"
-                                 VerticalContentAlignment="Center"/>
-						<Button Grid.Column="1" Click="BtnCopyOutput_Click"
-                                Background="Transparent" BorderThickness="0" Margin="0,0,5,0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/copy.png"
-                                   Width="16" Height="16"/>
+								 Grid.Column="0"
+								 Tag="output.."
+								 Text="output.."
+								 Foreground="Gray"
+								 Background="Transparent"
+								 BorderThickness="0"
+								 Padding="10,0"
+								 VerticalContentAlignment="Center"
+								 IsReadOnly="True"
+								 GotFocus="TextBox_GotFocus"
+								 LostFocus="TextBox_LostFocus"/>
+						<Button Grid.Column="1"
+								Click="BtnCopyOutput_Click"
+								Background="Transparent"
+								BorderThickness="0"
+								Margin="0,0,5,0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/copy.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
-						<Button Grid.Column="2" Click="BtnPasteOutput_Click"
-                                Background="Transparent" BorderThickness="0">
-							<Image Source="pack://application:,,,/btmc;component/assets/icons/paste.png"
-                                   Width="16" Height="16"/>
+						<Button Grid.Column="2"
+								Click="BtnPasteOutput_Click"
+								Background="Transparent"
+								BorderThickness="0">
+							<Image Source="pack://application:,,,/btmc;component/Assets/icons/paste.png"
+								   Width="{StaticResource ActionButton.IconSize}"
+								   Height="{StaticResource ActionButton.IconSize}"/>
 						</Button>
 					</Grid>
 				</Border>
 			</Grid>
 
-			<!-- 7) Convert -->
+			<!-- Convert Button -->
 			<Border Grid.Row="6"
-                    HorizontalAlignment="Center"
-                    Margin="0,30,0,0"
-                    CornerRadius="10"
-                    Background="#00B2FF">
+					HorizontalAlignment="Center"
+					Margin="0,30,0,0"
+					CornerRadius="{StaticResource Corner.Standard}"
+					Background="{StaticResource Brush.Primary}">
 				<Button x:Name="BtnConvert"
-                        Content="Convert"
-                        Width="75" Height="20"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        Click="BtnConvert_Click"/>
+						Content="Convert"
+						Width="75" Height="20"
+						Background="Transparent"
+						BorderThickness="0"
+						Foreground="White"
+						FontWeight="Bold"
+						Click="BtnConvert_Click"/>
 			</Border>
+
 		</Grid>
 	</Border>
 </Window>
