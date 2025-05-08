@@ -76,7 +76,7 @@ function AccountSection(props: SectionProps) {
                 type={'password'}
                 classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
-                wrapper={getSimpleToggleProps(setEditId, editId).wrapper + ' gap-y-3xs'}
+                classNameWrapper={getSimpleToggleProps(setEditId, editId).classNameWrapper + ' gap-y-3xs'}
                 initialize={function () {
                     return {
                         className: cn(
@@ -119,7 +119,7 @@ function AccountSection(props: SectionProps) {
                 type={'2FA'}
                 classNameToggleText={`text-14`}
                 {...getSimpleToggleProps()}
-                wrapper={getSimpleToggleProps().wrapper + ' gap-y-xxs'}
+                classNameWrapper={getSimpleToggleProps().classNameWrapper + ' gap-y-xxs'}
                 initialize={function <T extends FormType>() {
                     return {
                         value: {

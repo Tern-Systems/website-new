@@ -18,7 +18,7 @@ import {
 
 // App
 import { UserData } from '@/app/contexts/user.context';
-import { PlanType, RecurrencyEnum, Subscription } from '@/app/types/subscription';
+import { RecurrencyEnum, Subscription } from '@/app/types/subscription';
 import { Route } from '@/app/static';
 
 import { BillingService } from '@/app/services';
@@ -353,7 +353,7 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
 
                 // Test
                 await waitFor(async () => await checkToBeInDocument(invoice.row, 1));
-                await checkTextContent(invoice.name, 'Tidal' as PlanType);
+                await checkTextContent(invoice.name, 'Tidal');
             },
             TIMEOUT.testMs,
         );
@@ -438,8 +438,6 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
                 await change(paymentForm.input.country, dummyCard.address.country);
 
                 if (fullAddress) {
-                    console.log('Using full address:', fullAddress);
-                    // Try using the same fields as manual entry
                     await click(paymentForm.expandButton);
                     await change(paymentForm.input.addressLine1, fullAddress);
                     await change(paymentForm.input.city, dummyCard.address.city);

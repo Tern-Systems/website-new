@@ -5,8 +5,8 @@ import { EditableProps } from '@/app/ui/form/Editable';
 const getSimpleToggleProps = (
     setEditId?: Dispatch<SetStateAction<string | null>>,
     isEditState?: string | null,
-): Pick<EditableProps, 'wrapper' | 'classNameToggle' | 'setParentEditId' | 'parentEditId'> => ({
-    wrapper: 'w-[min(100%,21.625rem)]',
+): Pick<EditableProps, 'classNameWrapper' | 'classNameToggle' | 'setParentEditId' | 'parentEditId'> => ({
+    classNameWrapper: 'w-[min(100%,21.625rem)]',
     classNameToggle: 'col-start-3',
     setParentEditId: setEditId,
     parentEditId: isEditState,

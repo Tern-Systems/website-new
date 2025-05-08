@@ -112,7 +112,7 @@ interface Props extends PropsWithChildren {
 
     classNameToggle?: string;
     classNameToggleText?: string;
-    wrapper?: string;
+    classNameWrapper?: string;
 }
 
 const Editable: FC<Props> = (props: Props) => {
@@ -125,7 +125,7 @@ const Editable: FC<Props> = (props: Props) => {
         simpleSwitch,
         parentEditId,
         setParentEditId,
-        wrapper,
+        classNameWrapper,
         classNameToggle,
         classNameToggleText,
         initialize,
@@ -914,7 +914,7 @@ const Editable: FC<Props> = (props: Props) => {
                     id={JSON.stringify(form)}
                     ref={formRef}
                     onSubmit={handleFormSubmit}
-                    className={`${wrapper} flex flex-col`}
+                    className={`${classNameWrapper} flex flex-col`}
                 >
                     {isFormShown ? Form : children}
                 </form>

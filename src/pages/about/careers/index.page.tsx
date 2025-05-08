@@ -128,14 +128,14 @@ const renderCareerItem = (item: Career): ReactElement => (
 );
 
 function CarersPage() {
-    // const modalCtx = useModal();
+    const modalCtx = useModal();
     const [careers, setCareers] = useState<Career[]>([]);
 
     useEffect(() => {
         try {
             setCareers(CAREERS_TEMPLATE);
         } catch (err: unknown) {
-            // if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
+            if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
         }
     }, []);
 
