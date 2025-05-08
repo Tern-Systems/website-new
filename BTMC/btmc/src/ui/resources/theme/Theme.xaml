@@ -1,0 +1,15 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Colors & Brushes -->
+  <Color x:Key="Gray77">#FF4D4D4D</Color>
+  <SolidColorBrush x:Key="Brush.Gray77" Color="{StaticResource Gray77}"/>
+  <SolidColorBrush x:Key="Brush.Primary" Color="#FF00B2FF"/>
+  <SolidColorBrush x:Key="Brush.ToggleBackground">#666666</SolidColorBrush>
+  <SolidColorBrush x:Key="Brush.ToggleBorderHover">#5C5C5C</SolidColorBrush>
+
+  <!-- Typography -->
+  <FontFamily x:Key="AppFont">Adobe Gothic Std L</FontFamily>
+
+</ResourceDictionary>

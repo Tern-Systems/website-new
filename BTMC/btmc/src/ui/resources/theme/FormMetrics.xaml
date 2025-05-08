@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+  <!-- Icon sizes -->
+  <sys:Double x:Key="Icon.Small">16</sys:Double>
+  <sys:Double x:Key="Icon.Medium">24</sys:Double>
+
+  <!-- Control dimensions -->
+  <sys:Double x:Key="Height.Standard">35</sys:Double>
+  <sys:Double x:Key="Toggle.Width">180</sys:Double>
+  <sys:Double x:Key="Toggle.Height">40</sys:Double>
+  <sys:Double x:Key="Toggle.PillWidth">88</sys:Double>
+  <sys:Double x:Key="Toggle.PillHeight">36</sys:Double>
+
+  <!-- Corner radii -->
+  <CornerRadius x:Key="Corner.Standard">5</CornerRadius>
+  <CornerRadius x:Key="Corner.Pill">18</CornerRadius>
+
+  <!-- Copy/paste button icon -->
+  <sys:Double x:Key="ActionButton.IconSize">15</sys:Double>
+
+</ResourceDictionary>
