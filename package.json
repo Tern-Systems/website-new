@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p 3002",
     "build": "next build",
-    "start": "next start -p 3001",
+    "start": "next start -p 3002",
     "test": "set NODE_ENV=test&& jest --no-cache --passWithNoTests --detectOpenHandles",
     "test:unit": "npm run test -- --testRegex='.*\\.spec\\.tsx?$'",
     "test:e2e": "npm run test -- --bail=1 --testRegex='.*\\.e2e-spec\\.tsx?$'",
@@ -13,10 +13,13 @@
     "test:coverage": "npm run test -- --coverage",
     "test:watch": "npm run test -- --watch",
     "lint": "eslint",
-    "prepare": "husky install",
     "lint:fix": "eslint --fix",
     "pre-commit": "lint-staged --allow-empty",
     "pre-push": "npm run lint src/ && npm run build"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run pre-commit",
+    "pre-push": "npm run pre-push"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -58,13 +61,13 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react-refresh": "^0.4.19",
-    "husky": "^8.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.4.3",
     "postcss": "^8",
     "prettier": "^3.4.2",
     "prettier-eslint": "^16.3.0",
     "sharp": "^0.33.5",
+    "simple-git-hooks": "^2.13.0",
     "supertest": "^7.0.0",
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.2.6",

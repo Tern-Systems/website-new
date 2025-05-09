@@ -67,12 +67,15 @@ const ContactsPage: FC = () => {
 
     return (
         <>
-            <section className={'flex justify-center w-full'}>
+            <section className={cn(styles.section, styles.fullHeightSection, 'relative')}>
                 <div
-                    className={cn('h-dvh max-h-[62.5rem] w-full max-w-[120rem]', 'relative bg-cover bg-center')}
+                    className={cn(
+                        'h-dvh max-h-[62.5rem] w-full max-w-[120rem]',
+                        'relative bg-cover bg-center bg-fixed',
+                        'absolute w-dvw max-w-dwv left-0 top-0 -z-10'
+                    )}
                     style={{
                         backgroundImage: `url(${OFFICE_GIRL_3.src})`,
-                        position: 'relative',
                         backgroundSize: 'cover',
                         backgroundPosition: '50% top',
                     }}
