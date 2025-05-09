@@ -47,6 +47,14 @@ function ManageSubscriptionsPage() {
     const [savedCards, setSavedCards] = useState<SavedCardFull[]>([]);
 
     useEffect(() => {
+        return () => {
+            if (modalCtx && typeof modalCtx.closeModal === 'function') {
+                modalCtx.closeModal();
+            }
+        };
+    }, []);
+
+    useEffect(() => {
         const fetchCards = async () => {
             if (!userData || !updateCards) return;
             try {
