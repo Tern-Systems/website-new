@@ -1,11 +1,15 @@
-const getIdName = (route: string | undefined, joinWords = false): string | undefined =>
-    route
+const getIdName = (route: string | undefined, joinWords = false): string | undefined => {
+    if (route && route.toLowerCase().endsWith('/btmc')) {
+        return 'BTMC';
+    }
+    return route
         ?.split('/')
         .pop()
         ?.split('_')
         ?.filter((value) => value)
         ?.map((value) => value.charAt(0).toUpperCase() + value.slice(1))
         ?.reduce((result, char) => result + ((joinWords ? '' : ' ') + char), '');
+};
 
 const getRouteRoot = (route: string | null): string => '/' + route?.split('/')?.[1];
 
