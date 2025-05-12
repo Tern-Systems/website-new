@@ -33,14 +33,14 @@ const CAREER_TEMPLATE: Career = {
     id: 'af24gftre2',
     title: 'Frontend Software Engineer',
     description: 'Description',
-    category: 'Executive',
+    category: 'Operations',
     content: 'Some useful content',
     type: 'text',
 };
 
 const CAREERS_TEMPLATE: Career[] = Array(147)
     .fill(null)
-    .map((_, idx) => ({ ...CAREER_TEMPLATE, title: CAREER_TEMPLATE.title + idx }));
+    .map((_, idx) => ({ ...CAREER_TEMPLATE, title: CAREER_TEMPLATE.title }));
 
 const IMAGE_LIST: ImageListProps = {
     image: MICROSCOPE,
@@ -137,17 +137,86 @@ function CarersPage() {
         } catch (err: unknown) {
             if (typeof err === 'string') modalCtx.openModal(<MessageModal>{err}</MessageModal>);
         }
+
+        const inputElement = document.querySelector('input[placeholder="Search for courses..."]') as HTMLInputElement;
+        if (inputElement) {
+            inputElement.placeholder = '';
+        }
     }, []);
 
     return (
         <>
+            <style
+                jsx
+                global
+            >{`
+                .benefits-section svg path {
+                    fill: white !important;
+                }
+
+                .hero-section-fix [class*='absolute'][class*='-z-10'][class*='inset-0'][class*='scale-'] {
+                    background: linear-gradient(to right, rgba(0, 0, 0, 1) 1%, transparent 100%) !important;
+                }
+
+                .hero-section-fix h1,
+                .hero-section-fix h2 {
+                    text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+                    filter: brightness(2) contrast(1.05);
+                    position: relative;
+                    z-index: 5;
+                }
+
+                @media (max-width: 834.98px) {
+                    .microscope-section .contents img {
+                        height: 42rem !important;
+                        object-position: center;
+                        max-height: 80vh;
+                    }
+
+                    .benefits-section span.text-27 {
+                        font-size: 2rem !important;
+                    }
+
+                    .benefits-section span.leading-n {
+                        font-size: 1.1rem !important;
+                    }
+
+                    .bookcover-section > div > div.grid {
+                        height: 100% !important;
+                        display: flex !important;
+                    }
+
+                    .bookcover-section > div > div.grid > div:first-child {
+                        display: flex !important;
+                        flex-direction: column !important;
+                        justify-content: center !important;
+                        width: 100% !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+
+                    .bookcover-section > div > div.grid > div.mt-auto {
+                        display: flex !important;
+                        align-items: center !important;
+                    }
+                }
+            `}</style>
+
             <Section
                 type={'full-screen'}
                 background={{ image: BACKGROUND, gradient: 'left' }}
-                className={{ content: 'pb-[6.5rem] md:pb-[5.5rem] lg:py-6xl-1  pt-[2.7rem] md:pt-xxl' }}
+                className={{
+                    content: 'pb-[6.5rem] md:pb-[5.5rem] lg:py-6xl-1  pt-[2.7rem] md:pt-xxl',
+                    section: 'hero-section-fix',
+                }}
             >
-                <H1 type={'large'}>Build the future of efficient computing</H1>
-                <H2 className={'sm:!text-20'}>
+                <H1
+                    className='md:w-[75%]'
+                    type={'large'}
+                >
+                    Build the future of efficient computing
+                </H1>
+                <H2 className={'sm:!text-24'}>
                     We’re looking for brilliant people who want to change <br className={'sm:hidden'} /> the world
                 </H2>
             </Section>
@@ -171,7 +240,11 @@ function CarersPage() {
                         technologies and enabling access to efficient, affordable computation for all.
                     </ResourceCard>
                 </Section>
-                <Section>
+                <Section
+                    className={{
+                        content: 'sm:bg-cover microscope-section',
+                    }}
+                >
                     <ImageList {...IMAGE_LIST} />
                 </Section>
                 <Section>
@@ -183,7 +256,7 @@ function CarersPage() {
                         className={{
                             content:
                                 'row-start-1 col-start-1 md:grid md:w-[22.5rem] md:mr-[1.875rem] md:gap-[4.375rem]',
-                            image: '!object-cover  sm:h-[33.062rem] md:h-[38.187rem] lg:h-[42.75rem]   md:col-start-2',
+                            image: '!object-cover sm:h-[40rem] md:h-[38.187rem] lg:h-[42.75rem] md:col-start-2',
                         }}
                     >
                         At Tern, we believe that our employees are the heart of our success. That&apos;s why we are
@@ -203,12 +276,17 @@ function CarersPage() {
                         and inspired to reach their full potential.
                     </ResourceCard>
                 </Section>
-                <Section>
-                    <H3>Benefits</H3>
+                <Section
+                    className={{
+                        content: 'benefits-section',
+                    }}
+                >
+                    <H3 className='sm:text-4xl'>Benefits</H3>
                     <ResourceCards links={RESOURCE_LINKS} />
                 </Section>
                 {/*TODO href*/}
                 <BookCoverSection
+                    className='sm:h-[62rem] bookcover-section sm:[&_h3]:!mt-[7rem] sm:[&_h3]:!self-start'
                     type={'blue'}
                     title={'Join us in our mission'}
                     Description={

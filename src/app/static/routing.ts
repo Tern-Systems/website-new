@@ -19,6 +19,7 @@ enum Route {
     About = '/about',
     Credo = Route.About + '/credo',
     Careers = Route.About + '/careers',
+    Support = '/support',
     Terms = '/terms',
     Cookies = '/cookies',
     Privacy = '/privacy',
@@ -53,7 +54,6 @@ enum Route {
     AddPaymentMethod = Route.PurchasingInformation + '/add_payment_method',
 
     // Support
-    Support = '/support',
     Resources = Route.Support + '/resources',
 
     // Community
