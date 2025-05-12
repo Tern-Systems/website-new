@@ -29,9 +29,15 @@ class BlogServiceImpl extends BaseService implements IBlogService {
             !data.blogs?.length || typeof data.blogs[0].id === 'string',
         ]);
 
-        localStorage.setItem('article-cards', JSON.stringify(payload.blogs.slice(0, CACHED_ARTICLE_COUNT)));
+        // Map poster to thumbnail for each blog
+        const blogsWithThumbnails = payload.blogs.map(blog => ({
+            ...blog,
+            thumbnail: blog.poster || blog.thumbnail
+        }));
 
-        return { payload };
+        localStorage.setItem('article-cards', JSON.stringify(blogsWithThumbnails.slice(0, CACHED_ARTICLE_COUNT)));
+        
+        return { payload: { blogs: blogsWithThumbnails } };
     }
 }
 
