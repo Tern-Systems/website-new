@@ -33,14 +33,17 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     const setupSession = useCallback(
         async (fetchPlanDetails?: boolean, bearer?: string) => {
             const tokenFinal = bearer ?? token;
-            if (!tokenFinal) return;
+            if (!tokenFinal) {
+                setLoggedState(false);
+                return;
+            }
 
             try {
                 const { payload: user } = await UserService.getUser(tokenFinal, fetchPlanDetails);
                 if (!fetchPlanDetails && userData) user.subscriptions = userData?.subscriptions;
                 setSession(tokenFinal, user);
             } catch (_: unknown) {
-                setLoggedState(false);
+                removeSession();
             }
         },
         [token],
@@ -48,8 +51,11 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     useEffect(() => {
         const token = document.cookie.split(COOKIE_TOKEN_KEY_PREFIX).pop()?.split(';').shift();
-        if (token) setupSession(true, token);
-        else setLoggedState(false);
+        if (token) {
+            setupSession(true, token);
+        } else {
+            setLoggedState(false);
+        }
     }, [setupSession]);
 
     return (

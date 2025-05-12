@@ -16,6 +16,7 @@ type ContentCommon = {
 type MediaContent = ContentCommon & {
     durationMs?: number;
     thumbnail: string | null;
+    poster?: string | null;
 };
 
 // Cards
