@@ -123,16 +123,36 @@ function AccountSection(props: SectionProps) {
                 initialize={function <T extends FormType>() {
                     return {
                         value: {
-                            isEmailAdded: !!userData.state2FA.email,
-                            isPhoneAdded: !!userData.state2FA.phone,
+                            isEmailAdded: !!userData.state2FA.email && userData.state2FA.email !== '',
+                            isPhoneAdded: !!userData.state2FA.phone && userData.state2FA.phone !== '',
                             suggestedPhone: userData.phones.personal?.number ?? null,
                         } as FormInit<T>,
                         onSave: async (form) => {
                             if (!('value' in form) || !form.value) throw 'Wrong request setup';
 
+                            console.log('Form value for 2FA:', form.value);
+
+                            // If the value looks like an email, handle as email ONLY
+                            if (form.value.includes('@')) {
+                                if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.value)) throw 'Invalid email address';
+                                console.log('Detected email format, opening authentication modal');
+                                // Open modal for email 2FA, do NOT run phone logic
+                                modalCtx.openModal(
+                                    <AuthenticationCode
+                                        is2FA
+                                        isEmailEnabling
+                                        token={token}
+                                        email={userData.email}
+                                        twoFAEmail={form.value}
+                                        phone={userData.state2FA.phone ?? ''}
+                                    />
+                                );
+                                return; // <-- Make sure to return here!
+                            }
+
+                            // Otherwise, handle as phone ONLY
                             const phone = form.value.trim();
                             if (!REGEX.phone.getRegex().test(phone)) throw REGEX.phone.message;
-
                             const numericPhone = phone.startsWith('+') ? phone.slice(1) : phone;
                             if (numericPhone.length < 10 || numericPhone.length > 15)
                                 throw `Phone number must contain 10 digits long.`;
@@ -144,6 +164,7 @@ function AccountSection(props: SectionProps) {
                                     token={token}
                                     phone={phone}
                                     email={userData.email || ''}
+                                    twoFAEmail={userData.state2FA.email ?? ''}
                                 />,
                             );
                         },
@@ -152,10 +173,11 @@ function AccountSection(props: SectionProps) {
                                 modalCtx.openModal(
                                     <AuthenticationCode
                                         is2FA
-                                        isDisabling={state}
+                                        isDisabling={!state}
                                         token={token}
-                                        phone={userData.state2FA?.phone}
+                                        phone={userData.state2FA.phone ?? ''}
                                         email={userData.email}
+                                        twoFAEmail={userData.state2FA.email ?? ''}
                                     />,
                                 );
                             }

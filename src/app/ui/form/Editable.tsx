@@ -39,10 +39,15 @@ import { Address, Company, FullName, Phone, UserAddress, UserPhone } from '@/app
 
 import { copyObject } from '@/app/utils';
 import { useSaveOnLeave } from '@/app/hooks';
+import { useUser } from '@/app/hooks';
+import { useModal } from '@/app/hooks';
 
 import { Button, Input, Select, Switch } from '@/app/ui/form';
 
 import SVG_PENCIL from '@/assets/images/icons/edit-line.svg';
+import { AuthService } from '@/app/services';
+import { MessageModal } from '@/app/ui/modals';
+import { AuthenticationCode } from '@/app/ui/modals';
 
 const FA2_INPUT_CN =
     'bg-gray-l0 py-[min(1.7dvw,0.35rem)] w-full rounded-xs px-[min(16dvw,0.76rem)] border-s border-white';
@@ -134,12 +139,23 @@ const Editable: FC<Props> = (props: Props) => {
 
     const initial = initialize<typeof type>();
     const { value: initValue } = initial;
+    const userCtx = useUser();
+    const modalCtx = useModal();
 
     // State
     const [editId] = useState<string>(v4());
-    const [editState, setEditState] = useState<boolean>(
-        initValue !== null && 'isPhoneAdded' in initValue && initValue.isPhoneAdded,
-    );
+    const [editState, setEditState] = useState<boolean>(() => {
+        if (type === '2FA' && initValue !== null && 'isEmailAdded' in initValue) {
+            const is2FAEnabled = initValue.isEmailAdded || initValue.isPhoneAdded;
+            console.log('Initializing 2FA editState:', { 
+                isEmailAdded: initValue.isEmailAdded, 
+                isPhoneAdded: initValue.isPhoneAdded, 
+                result: is2FAEnabled 
+            });
+            return is2FAEnabled;
+        }
+        return false;
+    });
 
     const [waring, setWarning] = useState<string | null>(null);
 
@@ -150,10 +166,37 @@ const Editable: FC<Props> = (props: Props) => {
     const formRef = useRef<HTMLFormElement | null>(null);
     const submitRef = useRef<HTMLButtonElement | null>(null);
 
+    // State for phone input visibility
+    const [showPhoneInput, setShowPhoneInput] = useState(false);
+    // State for email input visibility
+    const [showEmailInput, setShowEmailInput] = useState(false);
+    // Ensure form is always an object with both value and email properties for 2FA
+    const form2FA = typeof form === 'object' && form !== null ? { value: (form as any).value ?? '', email: (form as any).email ?? '' } : { value: '', email: '' };
+
+    // Initialize 2FA input visibility based on current state
+    useEffect(() => {
+        if (type === '2FA' && initValue !== null && 'isEmailAdded' in initValue && 'isPhoneAdded' in initValue) {
+            // Only check if twoFA is enabled in user data
+            const is2FAEnabled = userCtx.userData?.twoFA;
+        
+            // If 2FA is enabled, set editState to true to keep the section expanded
+            if (is2FAEnabled && !editState) {
+                console.log('Setting 2FA section to expanded state based on twoFA flag');
+                setEditState(true);
+                setParentEditId?.(editId);
+            }
+        }
+    }, [type, initValue, userCtx.userData?.twoFA]);
+
     const toggleEditState = () => {
         if (parentEditId === editId) {
             resetForm();
             setParentEditId?.(null);
+            // Reset input visibility when closing the form
+            if (type === '2FA') {
+                setShowEmailInput(false);
+                setShowPhoneInput(false);
+            }
         } else {
             setParentEditId?.(editId);
             setPreventState(true);
@@ -454,61 +497,226 @@ const Editable: FC<Props> = (props: Props) => {
             if (!initValue || !('isEmailAdded' in initValue)) break;
             Form = (
                 <>
-                    {children}
-                    <hr className={'border-white-d0'} />
-                    {/*<div className={'flex justify-between'}>*/}
-                    {/*    <Editable*/}
-                    {/*        toggleType={'button'}*/}
-                    {/*        keepChildrenOnEdit*/}
-                    {/*        isSimpleSwitch*/}
-                    {/*        isToggleBlocked={data.value.isEmailAdded}*/}
-                    {/*        data={{*/}
-                    {/*            className: FA2_INPUT_CN,*/}
-                    {/*            title: 'Add your Email as a two-factor authentication option',*/}
-                    {/*            value: null,*/}
-                    {/*            onSave: data.onSave*/}
-                    {/*        }}*/}
-                    {/*    >*/}
-                    {/*        Email*/}
-                    {/*    </Editable>*/}
-                    {/*</div>*/}
-                    <div className={'flex justify-between'}>
-                        <Editable
-                            toggleType={'button'}
-                            keepChildrenOnEdit
-                            toggleBlocked={initValue.isPhoneAdded}
-                            initialize={function <T extends FormType>() {
-                                return {
-                                    className: FA2_INPUT_CN,
-                                    title: 'Add your Phone as a two-factor authentication option',
-                                    value: { value: initValue.suggestedPhone } as FormInit<T>,
-                                    onSave: initial.onSave,
-                                };
-                            }}
-                        >
-                            <span>
-                                Phone <span className={'sm:hidden'}>number</span>
-                            </span>
-                        </Editable>
-                    </div>
-                    <span className={waring ? 'mt-xxs block text-14' : 'hidden'}>{waring}</span>
+                    <span className={'block text-16 mb-xxs'}>
+                        {userCtx.userData?.twoFA 
+                            ? "Two-factor authentication is enabled. You can update your settings below:" 
+                            : "Enable/disable your two-factor authentication"}
+                    </span>
+                    {editState && (
+                        <div className={'flex flex-col gap-y-xxs'}>
+                            <div className={'flex items-center gap-x-xs'}>
+                                <span className={'w-[7rem]'}>Email</span>
+                                {showEmailInput ? (
+                                    <>
+                                        <Input
+                                            value={form2FA.value}
+                                            onChange={e => setForm({ value: e.currentTarget.value })}
+                                            className={'w-[14rem] mr-xs text-black'}
+                                            placeholder={'Enter email'}
+                                        />
+                                        <Button
+                                            className={'rounded-xs px-xs py-2xs text-12 !bg-gray-l0 !text-gray mr-xs'}
+                                            onClick={() => {
+                                                setShowEmailInput(false);
+                                                setForm({ value: '' });
+                                            }}
+                                            type={'button'}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            className={'rounded-xs px-xs py-2xs text-12 !bg-navy !text-white'}
+                                            onClick={async () => {
+                                                setWarning(null);
+                                                try {
+                                                    const email = form2FA.value.trim();
+                                                    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw 'Invalid email address';
+                                                    await initial.onSave?.({ value: email });
+                                                    setShowEmailInput(false);
+                                                } catch (err) {
+                                                    setWarning(typeof err === 'string' ? err : 'Error');
+                                                }
+                                            }}
+                                            type={'button'}
+                                        >
+                                            Update
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Button
+                                            className={`rounded-xs px-xs py-2xs text-12 ${initValue.isEmailAdded ? '!bg-green !text-primary' : '!bg-blue !text-white'}`}
+                                            onClick={() => {
+                                                // Hide phone input when email input is shown
+                                                setShowPhoneInput(false);
+                                                setShowEmailInput(true);
+                                            }}
+                                            type={'button'}
+                                        >
+                                            {initValue.isEmailAdded ? 'Change Email' : 'Enable Email'}
+                                        </Button>
+                                        {initValue.isEmailAdded && userCtx.userData?.state2FA.email && (
+                                            <span className="ml-xs text-14 text-gray">{userCtx.userData.state2FA.email}</span>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                            <div className={'flex items-center gap-x-xs'}>
+                                <span className={'w-[7rem]'}>Phone Number</span>
+                                {showPhoneInput ? (
+                                    <>
+                                        <Input
+                                            value={form2FA.value}
+                                            onChange={e => setForm({ value: e.currentTarget.value })}
+                                            className={'w-[10rem] mr-xs text-black'}
+                                            placeholder={'Enter phone number'}
+                                        />
+                                        <Button
+                                            className={'rounded-xs px-xs py-2xs text-12 !bg-gray-l0 !text-gray mr-xs'}
+                                            onClick={() => {
+                                                setShowPhoneInput(false);
+                                                setForm({ value: '' });
+                                            }}
+                                            type={'button'}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            className={'rounded-xs px-xs py-2xs text-12 !bg-navy !text-white'}
+                                            onClick={async () => {
+                                                setWarning(null);
+                                                try {
+                                                    // Validate phone
+                                                    const phone = form2FA.value.trim();
+                                                    if (!phone || !/^\+?\d{10,15}$/.test(phone)) throw 'Invalid phone number';
+                                                    await initial.onSave?.({ value: phone });
+                                                    setShowPhoneInput(false);
+                                                } catch (err) {
+                                                    setWarning(typeof err === 'string' ? err : 'Error');
+                                                }
+                                            }}
+                                            type={'button'}
+                                        >
+                                            Update
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Button
+                                            className={`rounded-xs px-xs py-2xs text-12 ${initValue.isPhoneAdded ? '!bg-green !text-primary' : '!bg-blue !text-white'}`}
+                                            onClick={() => {
+                                                // Hide email input when phone input is shown
+                                                setShowEmailInput(false);
+                                                setShowPhoneInput(true);
+                                            }}
+                                            type={'button'}
+                                        >
+                                            {initValue.isPhoneAdded ? 'Change Phone' : 'Enable Phone'}
+                                        </Button>
+                                        {initValue.isPhoneAdded && userCtx.userData?.state2FA.phone && (
+                                            <span className="ml-xs text-14 text-gray">{userCtx.userData.state2FA.phone}</span>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                            {waring && <span className={'mt-xxs block text-14 text-red'}>{waring}</span>}
+                        </div>
+                    )}
                 </>
             );
-
             EditToggle = (
                 <Switch
                     state={editState}
                     classNameSwitchText={classNameToggleText}
                     handleSwitch={async () => {
-                        await initial.onSwitch?.(editState);
-                        if (
-                            form &&
-                            'value' in form &&
-                            initValue &&
-                            'isEmailAdded' in initValue &&
-                            !initValue.isPhoneAdded
-                        ) {
-                            toggleEditState();
+                        // When turning off 2FA
+                        if (editState && userCtx.userData?.twoFA) {
+                            try {
+                                console.log('Turning off 2FA for user:', userCtx.userData.email);
+                                const { message } = await AuthService.post2FATurnOff(userCtx.userData.email);
+                                
+                                // Reset the UI states
+                                setEditState(false);
+                                setShowPhoneInput(false);
+                                setShowEmailInput(false);
+                                setParentEditId?.(null);
+                                
+                                // Refresh user data to update the twoFA flag
+                                await userCtx.setupSession();
+                                
+                                // Show success message
+                                modalCtx.openModal(<MessageModal>{message}</MessageModal>);
+                                
+                                // Option 1: Force page refresh to ensure all UI states are reset
+                                window.location.reload();
+                            } catch (error) {
+                                console.error('Error turning off 2FA:', error);
+                                modalCtx.openModal(
+                                    <MessageModal>
+                                        {typeof error === 'string' ? error : 'Failed to turn off 2FA. Please try again.'}
+                                    </MessageModal>
+                                );
+                            }
+                        } else {
+                            // Check if we're turning ON 2FA and have existing email/phone values
+                            if (!editState) {
+                                // First, set UI state to expanded
+                                setEditState(true);
+                                setParentEditId?.(editId);
+                                
+                                // Check if user has saved 2FA email or phone from previous setup
+                                const previousEmail = userCtx.userData?.state2FA?.email;
+                                const previousPhone = userCtx.userData?.state2FA?.phone;
+                                
+                                setWarning(null);
+                                
+                                if (previousEmail || previousPhone) {
+                                    try {
+                                        console.log('Found existing 2FA settings, sending OTP:', {
+                                            email: previousEmail,
+                                            phone: previousPhone
+                                        });
+                                        
+                                        // If we have previously saved values, send OTP to verify them
+                                        await AuthService.post2FASendOTP(
+                                            userCtx.userData?.email || '',
+                                            previousEmail || 'info@tern.ac',
+                                            previousPhone || ''
+                                        );
+                                        
+                                        // Instead of just showing a message, open the AuthenticationCode modal
+                                        modalCtx.openModal(
+                                            <AuthenticationCode
+                                                is2FA
+                                                token={userCtx.token || ''}
+                                                email={userCtx.userData?.email || ''}
+                                                twoFAEmail={previousEmail || 'info@tern.ac'}
+                                                phone={previousPhone || ''}
+                                            />
+                                        );
+                                        
+                                    } catch (error) {
+                                        console.error('Error sending 2FA OTP:', error);
+                                        modalCtx.openModal(
+                                            <MessageModal>
+                                                {typeof error === 'string' 
+                                                    ? error 
+                                                    : 'Failed to send verification code. Please try entering your 2FA details again.'}
+                                            </MessageModal>
+                                        );
+                                    }
+                                } else {
+                                    // No previous 2FA settings, just show the form for user to enter new details
+                                    setShowEmailInput(false);
+                                    setShowPhoneInput(false);
+                                }
+                            } else {
+                                // Just turning off the form UI (not 2FA itself)
+                                setEditState(false);
+                                setShowPhoneInput(false);
+                                setShowEmailInput(false);
+                                setParentEditId?.(null);
+                            }
                         }
                     }}
                     className={'justify-self-end'}

@@ -26,7 +26,7 @@ class AuthTestUtilImpl extends BaseUtilImpl {
         // Save phone
         const configSavePhone: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `2FA-save-phone`,
+            url: this._API + `auth/2FA/save-phone`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({
                 userEmail: AuthTestUtilImpl.DATA.dummyEmail,
@@ -40,7 +40,7 @@ class AuthTestUtilImpl extends BaseUtilImpl {
         // Enable 2FA
         const configRequest2FA_OTP: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `2FA-send-otp`,
+            url: this._API + `auth/2FA/send-otp`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({
                 userEmail: AuthTestUtilImpl.DATA.dummyEmail,
@@ -61,7 +61,7 @@ class AuthTestUtilImpl extends BaseUtilImpl {
 
         const configEnable2FA: AxiosRequestConfig = {
             method: 'POST',
-            url: this._API + `2FA-verify-otp`,
+            url: this._API + `auth/2FA/verify-otp`,
             headers: BaseService._HEADER.CONTENT_JSON,
             data: JSON.stringify({ userEmail: AuthTestUtilImpl.DATA.dummyEmail, otp }),
             withCredentials: true,
