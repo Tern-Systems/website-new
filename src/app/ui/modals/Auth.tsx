@@ -13,6 +13,7 @@ import { AuthService } from '@/app/services';
 import { useFlow, useForm, useModal, useUser } from '@/app/hooks';
 
 import { BaseModal, MessageModal, ResetPasswordModal } from '@/app/ui/modals';
+import { AuthenticationCode } from '@/app/ui/modals/AuthenticationCode';
 import { Button, Input } from '@/app/ui/form';
 
 import SVG_INSIGNIA from '@/assets/images/insignia-logo.png';
@@ -53,16 +54,97 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         setMessage(null);
     }, [login]);
 
+    // Separate function to handle 2FA after login
+    const fetchUserDataWith2FA = async (token: string) => {
+        try {
+            // Setup session to get user data
+            const userData = await userCtx.setupSession(true, token);
+            
+            if (!userData) {
+                console.log('No user data returned, login failed');
+                setMessage('Login failed');
+                return;
+            }
+            
+            console.log('Checking 2FA status:', {
+                twoFA: userData.twoFA,
+                state2FA: userData.state2FA
+            });
+
+            // If 2FA is not enabled, just close modal and proceed
+            if (!userData.twoFA) {
+                console.log('No 2FA, completing login flow');
+                modalCtx.closeModal();
+                flowCtx.next()?.();
+                return;
+            }
+
+            // Check if we have a phone number for 2FA
+            if (!userData.state2FA?.phone) {
+                console.log('2FA enabled but no phone number');
+                return modalCtx.openModal(
+                    <MessageModal>
+                        You have 2FA enabled, but phone number isn't found - can't send an OTP code
+                    </MessageModal>
+                );
+            }
+
+            console.log('2FA enabled, sending OTP and showing verification modal');
+            
+            // Send OTP
+            await AuthService.post2FASendOTP(
+                userData.email,
+                userData.state2FA?.email || 'info@tern.ac', 
+                userData.state2FA?.phone
+            );
+            
+            // Set 2FA in progress flag and save data to session storage
+            userCtx.set2FAVerificationInProgress(true, {
+                email: userData.email,
+                phone: userData.state2FA?.phone,
+                twoFAEmail: userData.state2FA?.email || ''
+            });
+            
+            // Show verification modal
+            modalCtx.openModal(
+                <AuthenticationCode
+                    isLogin
+                    token={token}
+                    email={userData.email}
+                    phone={userData.state2FA?.phone}
+                    twoFAEmail={userData.state2FA?.email || ''}
+                    is2FA
+                    codeSent={true}
+                />
+            );
+        } catch (error) {
+            console.error('Error in 2FA flow:', error);
+            if (typeof error === 'string') {
+                modalCtx.openModal(<MessageModal>{error}</MessageModal>);
+            } else {
+                modalCtx.openModal(<MessageModal>Error checking 2FA status</MessageModal>);
+            }
+        }
+    };
+
     const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
 
         try {
             if (login) {
-                const { payload } = await AuthService.postLogin(formValue.email, formValue.password);
-                await userCtx.setupSession(true, payload.token);
-                modalCtx.closeModal();
-                flowCtx.next()?.();
+                try {
+                    console.log('Attempting login for:', formValue.email);
+                    const { payload } = await AuthService.postLogin(formValue.email, formValue.password);
+                    console.log('Login successful, token received');
+                    
+                    // Call our function to handle 2FA
+                    await fetchUserDataWith2FA(payload.token);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    if (typeof error === 'string') setMessage(error);
+                    else setMessage('Login failed');
+                }
             } else if (!REGEX.email.getRegex().test(formValue.email))
                 setMessage(`Entered email doesn't match the email format`);
             else if (!REGEX.password.getRegex().test(formValue.password)) {
@@ -75,10 +157,11 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
 
             const next = flowCtx.next();
 
-            if (next) next();
-            else setLoginFormState(true);
+            if (next && !login) next();
+            else if (!login) setLoginFormState(true);
         } catch (error: unknown) {
             if (typeof error === 'string') setMessage(error);
+            console.error('Form submission error:', error);
         } finally {
             setIsLoading(false);
         }

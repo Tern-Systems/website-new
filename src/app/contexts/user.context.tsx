@@ -82,7 +82,19 @@ interface IUserContext {
     token: string | null;
     setSession: (token: string, data?: UserData) => void;
     removeSession: () => void;
-    setupSession: (fetchPlanDetails?: boolean, token?: string) => Promise<void>;
+    setupSession: (fetchPlanDetails?: boolean, token?: string) => Promise<UserData | null>;
+    is2FAInProgress: boolean;
+    set2FAVerificationInProgress: (inProgress: boolean, tfaData?: {
+        email: string;
+        phone: string;
+        twoFAEmail: string;
+    }) => void;
+    get2FAInProgressData: () => {
+        inProgress: boolean;
+        email: string;
+        phone: string;
+        twoFAEmail: string;
+    } | null;
 }
 
 const UserContext = createContext<IUserContext | null>(null);

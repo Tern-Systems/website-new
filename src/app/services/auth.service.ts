@@ -32,10 +32,6 @@ interface IAuthService {
 
     post2FATurnOff(email: string): Promise<Res>;
 
-    post2FASavePhone(userEmail: string, phone: string): Promise<Res>;
-
-    post2FASaveEmail(userEmail: string, twoFAEmail: string): Promise<Res>;
-
     postDeleteAccount(email: string, password: string): Promise<Res>;
 }
 
@@ -162,12 +158,12 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         return { message: message ?? AuthServiceImpl._MESSAGE.OTP_VERIFIED };
     }
 
-    async post2FASendOTP(email: string, twoFAEmail: string): Promise<Res> {
+    async post2FASendOTP(email: string, twoFAEmail: string, phone: string): Promise<Res> {
         const config: AxiosRequestConfig = {
             method: 'POST',
             url: this._API + `auth/2FA/send-otp`,
             headers: BaseService._HEADER.CONTENT_JSON,
-            data: JSON.stringify({ userEmail: email, twoFAEmail }),
+            data: JSON.stringify({ userEmail: email, twoFAEmail, phone }),
             withCredentials: true,
         };
         const { message } = await this.req(this.post2FASendOTP.name, config, null);
@@ -195,30 +191,6 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             withCredentials: true,
         };
         const { message } = await this.req(this.post2FATurnOff.name, config, null);
-        return { message: message ?? AuthServiceImpl._MESSAGE.TURNED_OFF_2FA };
-    }
-
-    async post2FASavePhone(userEmail: string, phone: string): Promise<Res> {
-        const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: this._API + `auth/2FA/save-phone`,
-            headers: BaseService._HEADER.CONTENT_JSON,
-            data: JSON.stringify({ userEmail, phone }),
-            withCredentials: true,
-        };
-        const { message } = await this.req(this.post2FASavePhone.name, config, null);
-        return { message: message ?? AuthServiceImpl._MESSAGE.TURNED_OFF_2FA };
-    }
-
-    async post2FASaveEmail(userEmail: string, twoFAEmail: string): Promise<Res> {
-        const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: this._API + `auth/2FA/save-email`,
-            headers: BaseService._HEADER.CONTENT_JSON,
-            data: JSON.stringify({ userEmail, twoFAEmail }),
-            withCredentials: true,
-        };
-        const { message } = await this.req(this.post2FASaveEmail.name, config, null);
         return { message: message ?? AuthServiceImpl._MESSAGE.TURNED_OFF_2FA };
     }
 

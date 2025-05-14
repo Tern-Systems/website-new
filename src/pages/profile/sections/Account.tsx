@@ -15,7 +15,7 @@ import { getSimpleToggleProps } from '../getSimpleToggleProps';
 
 import { Collapsible } from '@/app/ui/organisms';
 import { Editable } from '@/app/ui/form';
-import { AuthenticationCodePhone, AuthenticationCodeEmail } from '@/app/ui/modals';
+import { AuthenticationCode } from '@/app/ui/modals';
 
 import styles from '@/pages/profile/Profile.module.css';
 
@@ -138,12 +138,13 @@ function AccountSection(props: SectionProps) {
                                 console.log('Detected email format, opening authentication modal');
                                 // Open modal for email 2FA, do NOT run phone logic
                                 modalCtx.openModal(
-                                    <AuthenticationCodeEmail
+                                    <AuthenticationCode
                                         is2FA
                                         isEmailEnabling
                                         token={token}
                                         email={userData.email}
                                         twoFAEmail={form.value}
+                                        phone={userData.state2FA.phone ?? ''}
                                     />
                                 );
                                 return; // <-- Make sure to return here!
@@ -157,24 +158,26 @@ function AccountSection(props: SectionProps) {
                                 throw `Phone number must contain 10 digits long.`;
 
                             modalCtx.openModal(
-                                <AuthenticationCodePhone
+                                <AuthenticationCode
                                     is2FA
                                     isPhoneEnabling
                                     token={token}
                                     phone={phone}
                                     email={userData.email || ''}
+                                    twoFAEmail={userData.state2FA.email ?? ''}
                                 />,
                             );
                         },
                         onSwitch: async (state: boolean) => {
                             if (userData.state2FA?.phone) {
                                 modalCtx.openModal(
-                                    <AuthenticationCodePhone
+                                    <AuthenticationCode
                                         is2FA
                                         isDisabling={!state}
                                         token={token}
-                                        phone={userData.state2FA.phone}
+                                        phone={userData.state2FA.phone ?? ''}
                                         email={userData.email}
+                                        twoFAEmail={userData.state2FA.email ?? ''}
                                     />,
                                 );
                             }

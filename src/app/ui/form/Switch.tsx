@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 import cn from 'classnames';
+import { useUser } from '@/app/hooks';
 
 interface Props {
     handleSwitch: () => void;
@@ -12,6 +13,7 @@ interface Props {
 
 const Switch: FC<Props> = (props: Props) => {
     const { handleSwitch, state, className, classNameSwitchText } = props;
+    const userCtx = useUser();
 
     return (
         <div
@@ -25,11 +27,11 @@ const Switch: FC<Props> = (props: Props) => {
                 <div
                     className={cn(
                         `h-full w-1/2 cursor-pointer rounded-full border-s border-gray-l0 bg-white font-bold capitalize transition-transform duration-200`,
-                        { ['ml-auto [&]:bg-green-d0']: state },
+                        { ['ml-auto [&]:bg-green-d0']: state || userCtx.userData?.twoFA },
                     )}
                 />
             </div>
-            <span className={`sm:hidden  ${classNameSwitchText}`}>{state ? 'On' : 'Off'}</span>
+            <span className={`sm:hidden  ${classNameSwitchText}`}>{state || userCtx.userData?.twoFA ? 'On' : 'Off'}</span>
         </div>
     );
 };

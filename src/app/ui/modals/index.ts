@@ -1,5 +1,5 @@
 export { AuthModal } from './Auth';
-export { AuthenticationCodePhone, AuthenticationCodeEmail } from './AuthenticationCode';
+export { AuthenticationCode } from './AuthenticationCode';
 export { BaseModal } from './Base';
 export { HelpModal } from './Help';
 export { MessageModal } from './Message';
