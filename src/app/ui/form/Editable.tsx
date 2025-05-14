@@ -43,6 +43,7 @@ import { useSaveOnLeave } from '@/app/hooks';
 import { Button, Input, Select, Switch } from '@/app/ui/form';
 
 import SVG_PENCIL from '@/assets/images/icons/edit-line.svg';
+import { AuthService } from '@/app/services';
 
 const FA2_INPUT_CN =
     'bg-gray-l0 py-[min(1.7dvw,0.35rem)] w-full rounded-xs px-[min(16dvw,0.76rem)] border-s border-white';
@@ -137,9 +138,18 @@ const Editable: FC<Props> = (props: Props) => {
 
     // State
     const [editId] = useState<string>(v4());
-    const [editState, setEditState] = useState<boolean>(
-        initValue !== null && 'isPhoneAdded' in initValue && initValue.isPhoneAdded,
-    );
+    const [editState, setEditState] = useState<boolean>(() => {
+        if (type === '2FA' && initValue !== null && 'isEmailAdded' in initValue) {
+            const is2FAEnabled = initValue.isEmailAdded || initValue.isPhoneAdded;
+            console.log('Initializing 2FA editState:', { 
+                isEmailAdded: initValue.isEmailAdded, 
+                isPhoneAdded: initValue.isPhoneAdded, 
+                result: is2FAEnabled 
+            });
+            return is2FAEnabled;
+        }
+        return false;
+    });
 
     const [waring, setWarning] = useState<string | null>(null);
 
@@ -149,6 +159,13 @@ const Editable: FC<Props> = (props: Props) => {
 
     const formRef = useRef<HTMLFormElement | null>(null);
     const submitRef = useRef<HTMLButtonElement | null>(null);
+
+    // State for phone input visibility
+    const [showPhoneInput, setShowPhoneInput] = useState(false);
+    // State for email input visibility
+    const [showEmailInput, setShowEmailInput] = useState(false);
+    // Ensure form is always an object with both value and email properties for 2FA
+    const form2FA = typeof form === 'object' && form !== null ? { value: (form as any).value ?? '', email: (form as any).email ?? '' } : { value: '', email: '' };
 
     const toggleEditState = () => {
         if (parentEditId === editId) {
@@ -454,61 +471,119 @@ const Editable: FC<Props> = (props: Props) => {
             if (!initValue || !('isEmailAdded' in initValue)) break;
             Form = (
                 <>
-                    {children}
-                    <hr className={'border-white-d0'} />
-                    {/*<div className={'flex justify-between'}>*/}
-                    {/*    <Editable*/}
-                    {/*        toggleType={'button'}*/}
-                    {/*        keepChildrenOnEdit*/}
-                    {/*        isSimpleSwitch*/}
-                    {/*        isToggleBlocked={data.value.isEmailAdded}*/}
-                    {/*        data={{*/}
-                    {/*            className: FA2_INPUT_CN,*/}
-                    {/*            title: 'Add your Email as a two-factor authentication option',*/}
-                    {/*            value: null,*/}
-                    {/*            onSave: data.onSave*/}
-                    {/*        }}*/}
-                    {/*    >*/}
-                    {/*        Email*/}
-                    {/*    </Editable>*/}
-                    {/*</div>*/}
-                    <div className={'flex justify-between'}>
-                        <Editable
-                            toggleType={'button'}
-                            keepChildrenOnEdit
-                            toggleBlocked={initValue.isPhoneAdded}
-                            initialize={function <T extends FormType>() {
-                                return {
-                                    className: FA2_INPUT_CN,
-                                    title: 'Add your Phone as a two-factor authentication option',
-                                    value: { value: initValue.suggestedPhone } as FormInit<T>,
-                                    onSave: initial.onSave,
-                                };
-                            }}
-                        >
-                            <span>
-                                Phone <span className={'sm:hidden'}>number</span>
-                            </span>
-                        </Editable>
-                    </div>
-                    <span className={waring ? 'mt-xxs block text-14' : 'hidden'}>{waring}</span>
+                    <span className={'block text-16 mb-xxs'}>Enable/disable your two-factor authentication</span>
+                    {editState && (
+                        <div className={'flex flex-col gap-y-xxs'}>
+                            <div className={'flex items-center gap-x-xs'}>
+                                <span className={'w-[7rem]'}>Email</span>
+                                {showEmailInput ? (
+                                    <>
+                                        <Input
+                                            value={form2FA.value}
+                                            onChange={e => setForm({ value: e.currentTarget.value })}
+                                            className={'w-[14rem] mr-xs text-black'}
+                                            placeholder={'Enter email'}
+                                        />
+                                        <Button
+                                            className={'rounded-xs px-xs py-2xs text-12 !bg-gray-l0 !text-gray mr-xs'}
+                                            onClick={() => setShowEmailInput(false)}
+                                            type={'button'}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            className={'rounded-xs px-xs py-2xs text-12 !bg-navy !text-white'}
+                                            onClick={async () => {
+                                                setWarning(null);
+                                                try {
+                                                    const email = form2FA.value.trim();
+                                                    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw 'Invalid email address';
+                                                    await initial.onSave?.({ value: email });
+                                                    setShowEmailInput(false);
+                                                } catch (err) {
+                                                    setWarning(typeof err === 'string' ? err : 'Error');
+                                                }
+                                            }}
+                                            type={'button'}
+                                        >
+                                            Update
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <Button
+                                        className={`rounded-xs px-xs py-2xs text-12 ${initValue.isEmailAdded ? '!bg-green !text-primary' : '!bg-blue !text-white'}`}
+                                        onClick={() => setShowEmailInput(true)}
+                                        disabled={initValue.isEmailAdded}
+                                        type={'button'}
+                                    >
+                                        {initValue.isEmailAdded ? 'Enabled' : 'Enable'}
+                                    </Button>
+                                )}
+                            </div>
+                            <div className={'flex items-center gap-x-xs'}>
+                                <span className={'w-[7rem]'}>Phone Number</span>
+                                {showPhoneInput ? (
+                                    <>
+                                        <Input
+                                            value={form2FA.value}
+                                            onChange={e => setForm({ value: e.currentTarget.value })}
+                                            className={'w-[10rem] mr-xs text-black'}
+                                            placeholder={'Enter phone number'}
+                                        />
+                                        <Button
+                                            className={'rounded-xs px-xs py-2xs text-12 !bg-gray-l0 !text-gray mr-xs'}
+                                            onClick={() => setShowPhoneInput(false)}
+                                            type={'button'}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            className={'rounded-xs px-xs py-2xs text-12 !bg-navy !text-white'}
+                                            onClick={async () => {
+                                                setWarning(null);
+                                                try {
+                                                    // Validate phone
+                                                    const phone = form2FA.value.trim();
+                                                    if (!phone || !/^\+?\d{10,15}$/.test(phone)) throw 'Invalid phone number';
+                                                    await initial.onSave?.({ value: phone });
+                                                    setShowPhoneInput(false);
+                                                } catch (err) {
+                                                    setWarning(typeof err === 'string' ? err : 'Error');
+                                                }
+                                            }}
+                                            type={'button'}
+                                        >
+                                            Update
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <Button
+                                        className={`rounded-xs px-xs py-2xs text-12 ${initValue.isPhoneAdded ? '!bg-green !text-primary' : '!bg-blue !text-white'}`}
+                                        onClick={() => setShowPhoneInput(true)}
+                                        disabled={initValue.isPhoneAdded}
+                                        type={'button'}
+                                    >
+                                        {initValue.isPhoneAdded ? 'Enabled' : 'Enable'}
+                                    </Button>
+                                )}
+                            </div>
+                            {waring && <span className={'mt-xxs block text-14 text-red'}>{waring}</span>}
+                        </div>
+                    )}
                 </>
             );
-
             EditToggle = (
                 <Switch
                     state={editState}
                     classNameSwitchText={classNameToggleText}
                     handleSwitch={async () => {
-                        await initial.onSwitch?.(editState);
-                        if (
-                            form &&
-                            'value' in form &&
-                            initValue &&
-                            'isEmailAdded' in initValue &&
-                            !initValue.isPhoneAdded
-                        ) {
-                            toggleEditState();
+                        setEditState(!editState);
+                        setShowPhoneInput(false);
+                        setShowEmailInput(false);
+                        if (!editState) {
+                            setParentEditId?.(editId);
+                        } else {
+                            setParentEditId?.(null);
                         }
                     }}
                     className={'justify-self-end'}
