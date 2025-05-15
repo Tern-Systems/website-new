@@ -6,6 +6,8 @@ import cn from 'classnames';
 import { CardLink, ResourceLink } from '@/app/types/layout';
 import { Breakpoint } from '@/app/static';
 
+import { Route } from '@/app/static/routing';
+
 import { useBreakpointCheck } from '@/app/hooks';
 
 import { Content, H1, H2, H3, Section } from '@/app/ui/atoms';
@@ -84,7 +86,7 @@ const CARDS: CardLink[] = [
         icon: PNG_QUESTIONS,
         action: {
             title: 'Find FAQs',
-            href: '',
+            href: Route.Support + '/faqs',
         },
     },
 ];
@@ -101,7 +103,7 @@ const Description = (
     </>
 );
 
-const SECTION_SPACING_CN = 'flex flex-col  gap-y-5xl md:gap-y-6xl-1 lg:gap-y-[9.38rem]';
+const SECTION_SPACING_CN = 'flex flex-col gap-y-5xl md:gap-y-6xl-1 lg:gap-y-[9.38rem]';
 
 function SubscriptionsPage() {
     const links: ResourceLink[] = COURSE_LINKS;
@@ -118,6 +120,7 @@ function SubscriptionsPage() {
             className={{
                 image: cn({ ['lg:col-start-2']: idx % 2 }),
                 content: cn({ ['lg:x-[row-start-1,col-start-1]']: idx % 2 }),
+                link: 'cursor-pointer',
             }}
         >
             {card.description}
@@ -129,7 +132,9 @@ function SubscriptionsPage() {
             <Section
                 type={'short'}
                 background={{ image: PNG_MAIN, gradient: 'left' }}
-                className={{ content: 'flex flex-col justify-between  py-xxl sm:pb-[2.81rem]' }}
+                className={{
+                    content: 'flex flex-col justify-between  py-xxl sm:pb-[2.81rem]',
+                }}
             >
                 <H1
                     type={'large'}
@@ -152,7 +157,9 @@ function SubscriptionsPage() {
                         When you sign up for the Tern Academy Premium plan you will gain
                         <br />
                         access to our entire digital library of courses and materials.
-                        {/* TODO: add href */}
+                    </ImageCard>
+                    {/* TODO: add href */}
+                    <div className='mt-4'>
                         <PageLink
                             external
                             href={''}
@@ -162,7 +169,7 @@ function SubscriptionsPage() {
                         >
                             Get access
                         </PageLink>
-                    </ImageCard>
+                    </div>
                 </Section>
                 <Section>
                     <H3 type={'large'}>Shop by Course</H3>
