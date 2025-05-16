@@ -64,7 +64,10 @@ const renderInfoLine = (item: Event, sm: boolean) => (
         <span className={'ml-5xs'}>
             {item.date ? formatDate(item.date, 'day') : 'Date is ' + Fallback} |&nbsp;
             {item.time
-                ? formatDate(item.time.start, 'timerange', { sm, dateEnd: item.time.end })
+                ? formatDate(item.time.start, 'timerange', {
+                      sm,
+                      dateEnd: item.time.end,
+                  })
                 : 'Time is ' + Fallback}
         </span>
     </>

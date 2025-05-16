@@ -8,7 +8,9 @@ import { BaseService } from './base.service';
 
 import { BillingService } from '@/app/services/billing.service';
 
-type UpdateUserData = Omit<UserData, 'email' | 'photo'> & { photo?: File | null };
+type UpdateUserData = Omit<UserData, 'email' | 'photo'> & {
+    photo?: File | null;
+};
 
 interface IUserService {
     getUser(token: string, fetchPlanDetails: boolean): Promise<Res<UserData, false>>;

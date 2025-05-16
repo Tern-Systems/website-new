@@ -63,7 +63,10 @@ class AuthTestUtilImpl extends BaseUtilImpl {
             method: 'POST',
             url: this._API + `auth/2FA/verify-otp`,
             headers: BaseService._HEADER.CONTENT_JSON,
-            data: JSON.stringify({ userEmail: AuthTestUtilImpl.DATA.dummyEmail, otp }),
+            data: JSON.stringify({
+                userEmail: AuthTestUtilImpl.DATA.dummyEmail,
+                otp,
+            }),
             withCredentials: true,
         };
 

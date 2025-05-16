@@ -10,7 +10,9 @@ import { Route } from '@/app/static';
 
 import { copyObject } from '@/app/utils';
 
-type SubscriptionDTO = Omit<Subscription, 'recurrency'> & { recurrency: number };
+type SubscriptionDTO = Omit<Subscription, 'recurrency'> & {
+    recurrency: number;
+};
 
 type PlanDetails = DeepPartial<{
     Details: string[];
@@ -87,7 +89,9 @@ class BillingServiceImpl extends BaseService implements IBillingService {
         };
 
         const { message } = await this.req(this.postCancelSubscription.name, config, null);
-        return { message: message || BillingServiceImpl._MESSAGE.SUBSCRIPTION_CANCELLED };
+        return {
+            message: message || BillingServiceImpl._MESSAGE.SUBSCRIPTION_CANCELLED,
+        };
     }
 
     async postDeleteCard(id: string, paymentId: string, email: string): Promise<Res> {
@@ -256,7 +260,9 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             withCredentials: true,
         };
         const { message } = await this.req(this.postProcessPayment.name, config, null);
-        return { message: message || BillingServiceImpl._MESSAGE.PAYMENT_PROCESSED };
+        return {
+            message: message || BillingServiceImpl._MESSAGE.PAYMENT_PROCESSED,
+        };
     }
 
     async postProcessSavedPayment(
@@ -283,7 +289,9 @@ class BillingServiceImpl extends BaseService implements IBillingService {
             withCredentials: true,
         };
         const { message } = await this.req(this.postProcessSavedPayment.name, config, null);
-        return { message: message || BillingServiceImpl._MESSAGE.PAYMENT_PROCESSED };
+        return {
+            message: message || BillingServiceImpl._MESSAGE.PAYMENT_PROCESSED,
+        };
     }
 
     async getUserActivePlans(email: string): Promise<Res<Subscription[], false>> {

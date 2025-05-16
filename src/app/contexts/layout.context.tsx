@@ -5,7 +5,11 @@ import { createContext, Dispatch, SetStateAction } from 'react';
 import { Route } from '@/app/static';
 import { Breakpoint } from '@/app/static';
 
-type ScrollState = { scrollTop: number; scrollHeight: number; autoScroll: boolean };
+type ScrollState = {
+    scrollTop: number;
+    scrollHeight: number;
+    autoScroll: boolean;
+};
 
 type SetState<T> = Dispatch<SetStateAction<T>>;
 

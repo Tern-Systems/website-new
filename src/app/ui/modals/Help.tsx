@@ -7,8 +7,16 @@ import { BaseModal } from '@/app/ui/modals';
 type Type = 'brc' | 'support';
 
 const Contacts: Record<Type, { title: string; email: string; phone: string }> = {
-    brc: { title: 'Billing Resolution Center', email: 'brc@tern.ac', phone: '+1 (914) 306-5528' },
-    support: { title: 'Support Hub', email: 'support@tern.ac', phone: '+1 (914) 295-9337' },
+    brc: {
+        title: 'Billing Resolution Center',
+        email: 'brc@tern.ac',
+        phone: '+1 (914) 306-5528',
+    },
+    support: {
+        title: 'Support Hub',
+        email: 'support@tern.ac',
+        phone: '+1 (914) 295-9337',
+    },
 };
 
 interface Props {

@@ -500,7 +500,10 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
 
             it(
                 `Should subscribe for Pro Monthly plan (entering correct full address)`,
-                async () => await doSubscribe(true, true, { fullAddress: dummyCard.fullAddress.normal }),
+                async () =>
+                    await doSubscribe(true, true, {
+                        fullAddress: dummyCard.fullAddress.normal,
+                    }),
                 TIMEOUT.testMs,
             );
 
@@ -508,7 +511,9 @@ describe('E2E related to ' + BillingTestUtilImpl.name, () => {
                 `Should not subscribe for Pro Monthly plan (entering wrong full address)`,
                 async () => {
                     // Since backend no longer validates address, expect success
-                    await doSubscribe(true, true, { fullAddress: dummyCard.fullAddress.wrong });
+                    await doSubscribe(true, true, {
+                        fullAddress: dummyCard.fullAddress.wrong,
+                    });
                 },
                 TIMEOUT.testMs,
             );

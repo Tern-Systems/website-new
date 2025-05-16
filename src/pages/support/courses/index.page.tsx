@@ -54,7 +54,10 @@ function CoursesPage() {
             <Section
                 type={'short'}
                 background={{ image: BACKGROUND, gradient: 'left' }}
-                className={{ background: 'bg-center', content: 'sm:pb-[2.81rem] md:pb-[3.81rem] py-xxl' }}
+                className={{
+                    background: 'bg-center',
+                    content: 'sm:pb-[2.81rem] md:pb-[3.81rem] py-xxl',
+                }}
             >
                 <H1
                     type={'large'}

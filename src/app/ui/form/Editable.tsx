@@ -61,7 +61,11 @@ type FormType = 'input' | 'select' | 'password' | '2FA' | 'phone' | 'name' | 'ad
 type FormData<T extends FormType> =
     | null
     | (T extends 'password'
-          ? { currentPassword: string; newPassword: string; passwordConfirm: string }
+          ? {
+                currentPassword: string;
+                newPassword: string;
+                passwordConfirm: string;
+            }
           : T extends 'image'
             ? { file: File | null; fileName: string | null }
             : T extends 'phone'
@@ -79,7 +83,11 @@ type FormInit<T extends FormType> =
     | (T extends 'image'
           ? { file: File | null; fileName: string | null }
           : T extends '2FA'
-            ? { isEmailAdded: boolean; isPhoneAdded: boolean; suggestedPhone: string | null }
+            ? {
+                  isEmailAdded: boolean;
+                  isPhoneAdded: boolean;
+                  suggestedPhone: string | null;
+              }
             : T extends 'phone'
               ? UserPhone
               : T extends 'name'
@@ -88,7 +96,10 @@ type FormInit<T extends FormType> =
                   ? UserAddress
                   : T extends 'company'
                     ? Company
-                    : { value: string | null; verify?: (formData: FormData<'input'>) => Promise<void> });
+                    : {
+                          value: string | null;
+                          verify?: (formData: FormData<'input'>) => Promise<void>;
+                      });
 
 type DataBase<T extends FormType> = {
     className?: string;
@@ -147,10 +158,10 @@ const Editable: FC<Props> = (props: Props) => {
     const [editState, setEditState] = useState<boolean>(() => {
         if (type === '2FA' && initValue !== null && 'isEmailAdded' in initValue) {
             const is2FAEnabled = initValue.isEmailAdded || initValue.isPhoneAdded;
-            console.log('Initializing 2FA editState:', { 
-                isEmailAdded: initValue.isEmailAdded, 
-                isPhoneAdded: initValue.isPhoneAdded, 
-                result: is2FAEnabled 
+            console.log('Initializing 2FA editState:', {
+                isEmailAdded: initValue.isEmailAdded,
+                isPhoneAdded: initValue.isPhoneAdded,
+                result: is2FAEnabled,
             });
             return is2FAEnabled;
         }
@@ -171,14 +182,17 @@ const Editable: FC<Props> = (props: Props) => {
     // State for email input visibility
     const [showEmailInput, setShowEmailInput] = useState(false);
     // Ensure form is always an object with both value and email properties for 2FA
-    const form2FA = typeof form === 'object' && form !== null ? { value: (form as any).value ?? '', email: (form as any).email ?? '' } : { value: '', email: '' };
+    const form2FA =
+        typeof form === 'object' && form !== null
+            ? { value: (form as any).value ?? '', email: (form as any).email ?? '' }
+            : { value: '', email: '' };
 
     // Initialize 2FA input visibility based on current state
     useEffect(() => {
         if (type === '2FA' && initValue !== null && 'isEmailAdded' in initValue && 'isPhoneAdded' in initValue) {
             // Only check if twoFA is enabled in user data
             const is2FAEnabled = userCtx.userData?.twoFA;
-        
+
             // If 2FA is enabled, set editState to true to keep the section expanded
             if (is2FAEnabled && !editState) {
                 console.log('Setting 2FA section to expanded state based on twoFA flag');
@@ -243,7 +257,10 @@ const Editable: FC<Props> = (props: Props) => {
                 break;
             case 'address':
                 setInitFormState<'address'>(
-                    { businessAddress: DEFAULT_ADDRESS, personalAddress: DEFAULT_ADDRESS },
+                    {
+                        businessAddress: DEFAULT_ADDRESS,
+                        personalAddress: DEFAULT_ADDRESS,
+                    },
                     initValue,
                 );
                 break;
@@ -252,7 +269,11 @@ const Editable: FC<Props> = (props: Props) => {
                 break;
             case 'phone':
                 setInitFormState<'phone'>(
-                    { mobile: DEFAULT_PHONE, personal: DEFAULT_PHONE, business: DEFAULT_PHONE },
+                    {
+                        mobile: DEFAULT_PHONE,
+                        personal: DEFAULT_PHONE,
+                        business: DEFAULT_PHONE,
+                    },
                     initValue,
                 );
                 break;
@@ -264,7 +285,13 @@ const Editable: FC<Props> = (props: Props) => {
                 break;
             case 'company':
                 setInitFormState<'company'>(
-                    { name: '', jobTitle: '', jobFunction: '', industry: '', subIndustry: '' },
+                    {
+                        name: '',
+                        jobTitle: '',
+                        jobFunction: '',
+                        industry: '',
+                        subIndustry: '',
+                    },
                     initValue,
                 );
                 break;
@@ -498,9 +525,9 @@ const Editable: FC<Props> = (props: Props) => {
             Form = (
                 <>
                     <span className={'block text-16 mb-xxs'}>
-                        {userCtx.userData?.twoFA 
-                            ? "Two-factor authentication is enabled. You can update your settings below:" 
-                            : "Enable/disable your two-factor authentication"}
+                        {userCtx.userData?.twoFA
+                            ? 'Two-factor authentication is enabled. You can update your settings below:'
+                            : 'Enable/disable your two-factor authentication'}
                     </span>
                     {editState && (
                         <div className={'flex flex-col gap-y-xxs'}>
@@ -510,7 +537,7 @@ const Editable: FC<Props> = (props: Props) => {
                                     <>
                                         <Input
                                             value={form2FA.value}
-                                            onChange={e => setForm({ value: e.currentTarget.value })}
+                                            onChange={(e) => setForm({ value: e.currentTarget.value })}
                                             className={'w-[14rem] mr-xs text-black'}
                                             placeholder={'Enter email'}
                                         />
@@ -530,7 +557,8 @@ const Editable: FC<Props> = (props: Props) => {
                                                 setWarning(null);
                                                 try {
                                                     const email = form2FA.value.trim();
-                                                    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw 'Invalid email address';
+                                                    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
+                                                        throw 'Invalid email address';
                                                     await initial.onSave?.({ value: email });
                                                     setShowEmailInput(false);
                                                 } catch (err) {
@@ -556,7 +584,9 @@ const Editable: FC<Props> = (props: Props) => {
                                             {initValue.isEmailAdded ? 'Change Email' : 'Enable Email'}
                                         </Button>
                                         {initValue.isEmailAdded && userCtx.userData?.state2FA.email && (
-                                            <span className="ml-xs text-14 text-gray">{userCtx.userData.state2FA.email}</span>
+                                            <span className='ml-xs text-14 text-gray'>
+                                                {userCtx.userData.state2FA.email}
+                                            </span>
                                         )}
                                     </>
                                 )}
@@ -567,7 +597,7 @@ const Editable: FC<Props> = (props: Props) => {
                                     <>
                                         <Input
                                             value={form2FA.value}
-                                            onChange={e => setForm({ value: e.currentTarget.value })}
+                                            onChange={(e) => setForm({ value: e.currentTarget.value })}
                                             className={'w-[10rem] mr-xs text-black'}
                                             placeholder={'Enter phone number'}
                                         />
@@ -588,7 +618,8 @@ const Editable: FC<Props> = (props: Props) => {
                                                 try {
                                                     // Validate phone
                                                     const phone = form2FA.value.trim();
-                                                    if (!phone || !/^\+?\d{10,15}$/.test(phone)) throw 'Invalid phone number';
+                                                    if (!phone || !/^\+?\d{10,15}$/.test(phone))
+                                                        throw 'Invalid phone number';
                                                     await initial.onSave?.({ value: phone });
                                                     setShowPhoneInput(false);
                                                 } catch (err) {
@@ -614,7 +645,9 @@ const Editable: FC<Props> = (props: Props) => {
                                             {initValue.isPhoneAdded ? 'Change Phone' : 'Enable Phone'}
                                         </Button>
                                         {initValue.isPhoneAdded && userCtx.userData?.state2FA.phone && (
-                                            <span className="ml-xs text-14 text-gray">{userCtx.userData.state2FA.phone}</span>
+                                            <span className='ml-xs text-14 text-gray'>
+                                                {userCtx.userData.state2FA.phone}
+                                            </span>
                                         )}
                                     </>
                                 )}
@@ -634,27 +667,29 @@ const Editable: FC<Props> = (props: Props) => {
                             try {
                                 console.log('Turning off 2FA for user:', userCtx.userData.email);
                                 const { message } = await AuthService.post2FATurnOff(userCtx.userData.email);
-                                
+
                                 // Reset the UI states
                                 setEditState(false);
                                 setShowPhoneInput(false);
                                 setShowEmailInput(false);
                                 setParentEditId?.(null);
-                                
+
                                 // Refresh user data to update the twoFA flag
                                 await userCtx.setupSession();
-                                
+
                                 // Show success message
                                 modalCtx.openModal(<MessageModal>{message}</MessageModal>);
-                                
+
                                 // Option 1: Force page refresh to ensure all UI states are reset
                                 window.location.reload();
                             } catch (error) {
                                 console.error('Error turning off 2FA:', error);
                                 modalCtx.openModal(
                                     <MessageModal>
-                                        {typeof error === 'string' ? error : 'Failed to turn off 2FA. Please try again.'}
-                                    </MessageModal>
+                                        {typeof error === 'string'
+                                            ? error
+                                            : 'Failed to turn off 2FA. Please try again.'}
+                                    </MessageModal>,
                                 );
                             }
                         } else {
@@ -663,27 +698,27 @@ const Editable: FC<Props> = (props: Props) => {
                                 // First, set UI state to expanded
                                 setEditState(true);
                                 setParentEditId?.(editId);
-                                
+
                                 // Check if user has saved 2FA email or phone from previous setup
                                 const previousEmail = userCtx.userData?.state2FA?.email;
                                 const previousPhone = userCtx.userData?.state2FA?.phone;
-                                
+
                                 setWarning(null);
-                                
+
                                 if (previousEmail || previousPhone) {
                                     try {
                                         console.log('Found existing 2FA settings, sending OTP:', {
                                             email: previousEmail,
-                                            phone: previousPhone
+                                            phone: previousPhone,
                                         });
-                                        
+
                                         // If we have previously saved values, send OTP to verify them
                                         await AuthService.post2FASendOTP(
                                             userCtx.userData?.email || '',
                                             previousEmail || 'info@tern.ac',
-                                            previousPhone || ''
+                                            previousPhone || '',
                                         );
-                                        
+
                                         // Instead of just showing a message, open the AuthenticationCode modal
                                         modalCtx.openModal(
                                             <AuthenticationCode
@@ -692,17 +727,16 @@ const Editable: FC<Props> = (props: Props) => {
                                                 email={userCtx.userData?.email || ''}
                                                 twoFAEmail={previousEmail || 'info@tern.ac'}
                                                 phone={previousPhone || ''}
-                                            />
+                                            />,
                                         );
-                                        
                                     } catch (error) {
                                         console.error('Error sending 2FA OTP:', error);
                                         modalCtx.openModal(
                                             <MessageModal>
-                                                {typeof error === 'string' 
-                                                    ? error 
+                                                {typeof error === 'string'
+                                                    ? error
                                                     : 'Failed to send verification code. Please try entering your 2FA details again.'}
-                                            </MessageModal>
+                                            </MessageModal>,
                                         );
                                     }
                                 } else {
@@ -841,7 +875,10 @@ const Editable: FC<Props> = (props: Props) => {
                                     }) as FormData<'name'>,
                             )
                         }
-                        className={{ ...SELECT_CN, wrapper: SELECT_CN.wrapper + ' w-[43%]' }}
+                        className={{
+                            ...SELECT_CN,
+                            wrapper: SELECT_CN.wrapper + ' w-[43%]',
+                        }}
                         required
                     >
                         Salutations
@@ -901,7 +938,10 @@ const Editable: FC<Props> = (props: Props) => {
                               : value.currentTarget.value;
                     setForm((prevState) =>
                         prevState && 'businessAddress' in prevState
-                            ? { ...prevState, [key]: { ...prevState[key], [subKey]: formValue } }
+                            ? {
+                                  ...prevState,
+                                  [key]: { ...prevState[key], [subKey]: formValue },
+                              }
                             : prevState,
                     );
                 };
@@ -942,7 +982,10 @@ const Editable: FC<Props> = (props: Props) => {
                                 value={form[key].country ?? ''}
                                 placeholder={'Select'}
                                 onChange={(value) => requireOnChangeAddress(key, 'country')(value)}
-                                className={{ ...SELECT_CN, wrapper: INPUT_CN.wrapper + ' sm:col-span-2' }}
+                                className={{
+                                    ...SELECT_CN,
+                                    wrapper: INPUT_CN.wrapper + ' sm:col-span-2',
+                                }}
                                 required
                             >
                                 Country / Region
@@ -952,7 +995,10 @@ const Editable: FC<Props> = (props: Props) => {
                                 value={form[key]?.state ?? ''}
                                 placeholder={'Select'}
                                 onChange={(value) => requireOnChangeAddress(key, 'state')(value)}
-                                className={{ ...SELECT_CN, wrapper: INPUT_CN.wrapper + ' sm:col-span-2' }}
+                                className={{
+                                    ...SELECT_CN,
+                                    wrapper: INPUT_CN.wrapper + ' sm:col-span-2',
+                                }}
                                 required
                             >
                                 State / Province

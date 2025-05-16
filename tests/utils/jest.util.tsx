@@ -78,7 +78,11 @@ const click = async (ElementOrID: HTMLElement | string) => {
 };
 
 const change = async (testID: string, value: string | number, options?: Record<string, string | number>) =>
-    await act(async () => fireEvent.change(await findByTestId(testID), { target: { value, ...options } }));
+    await act(async () =>
+        fireEvent.change(await findByTestId(testID), {
+            target: { value, ...options },
+        }),
+    );
 
 export * from '@testing-library/react';
 export {

@@ -31,7 +31,9 @@ const Switch: FC<Props> = (props: Props) => {
                     )}
                 />
             </div>
-            <span className={`sm:hidden  ${classNameSwitchText}`}>{state || userCtx.userData?.twoFA ? 'On' : 'Off'}</span>
+            <span className={`sm:hidden  ${classNameSwitchText}`}>
+                {state || userCtx.userData?.twoFA ? 'On' : 'Off'}
+            </span>
         </div>
     );
 };

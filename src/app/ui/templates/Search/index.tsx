@@ -141,7 +141,10 @@ const Search = <
                       setFilter((prevState) => {
                           return {
                               ...prevState,
-                              date: { ...prevState.date, start: new Date(value + 'T00:00:00').getTime() },
+                              date: {
+                                  ...prevState.date,
+                                  start: new Date(value + 'T00:00:00').getTime(),
+                              },
                           };
                       }),
               ],
@@ -150,7 +153,10 @@ const Search = <
                   (value: string) =>
                       setFilter((prevState) => ({
                           ...prevState,
-                          date: { ...prevState.date, end: new Date(value + 'T00:00:00').getTime() },
+                          date: {
+                              ...prevState.date,
+                              end: new Date(value + 'T00:00:00').getTime(),
+                          },
                       })),
               ],
           }

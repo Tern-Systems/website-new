@@ -74,7 +74,11 @@ const TernactPage: FC = () => {
                 <H2 className={`sm:text-24`}>Play with the future</H2>
             </Section>
             <Content heading={'Access True Power'}>
-                <Section className={{ content: 'grid grid-cols-2  mt-5xl md:mt-6xl-1 lg:mt-7xl' }}>
+                <Section
+                    className={{
+                        content: 'grid grid-cols-2  mt-5xl md:mt-6xl-1 lg:mt-7xl',
+                    }}
+                >
                     <Image
                         src={PNG_ABOUT}
                         alt='About'
@@ -91,7 +95,9 @@ const TernactPage: FC = () => {
                     </p>
                 </Section>
                 <Section
-                    className={{ content: 'relative flex justify-center items-center  mt-5xl md:mt-6xl-1 lg:mt-7xl' }}
+                    className={{
+                        content: 'relative flex justify-center items-center  mt-5xl md:mt-6xl-1 lg:mt-7xl',
+                    }}
                 >
                     <span className='absolute  text-40 md:text-64 lg:text-96'>Redefine the Paradigm</span>
                     <Image

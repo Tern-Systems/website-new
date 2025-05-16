@@ -35,7 +35,9 @@ const AllWaysCard: FC<Props> = (props: Props) => {
                 <Image
                     src={PNG_CARD_CUBES}
                     alt={'cubes'}
-                    className={cn('w-full min-h-full object-cover flex-grow', { ['object-center translate-y-0']: alt })}
+                    className={cn('w-full min-h-full object-cover flex-grow', {
+                        ['object-center translate-y-0']: alt,
+                    })}
                 />
             </div>
             <PageLink
@@ -46,7 +48,9 @@ const AllWaysCard: FC<Props> = (props: Props) => {
                     'text-14 lg:text-16',
                     alt ? 'right-n bottom-n h-fit !w-fit' : 'bottom-0',
                 )}
-                iconClassName={cn('sm:size-6xs sm:[&_*]size-6xs  size-3xs', { ['ml-xl']: alt })}
+                iconClassName={cn('sm:size-6xs sm:[&_*]size-6xs  size-3xs', {
+                    ['ml-xl']: alt,
+                })}
             >
                 Register to attend All Ways 2026
             </PageLink>

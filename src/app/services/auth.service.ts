@@ -71,7 +71,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             method: 'POST',
             url: this._API + 'auth/website-signup',
             headers: BaseService._HEADER.CONTENT_JSON,
-            data: JSON.stringify({ email, password: bcryptjs.hashSync(password, salt) }),
+            data: JSON.stringify({
+                email,
+                password: bcryptjs.hashSync(password, salt),
+            }),
             withCredentials: false,
         };
         const { message } = await this.req(this.postSignup.name, config, null);
@@ -103,7 +106,10 @@ class AuthServiceImpl extends BaseService implements IAuthService {
         const { payload, message } = await this.req<ResetPasswordDTO>(this.postForgotPassword.name, config, (data) => [
             BaseService.NodeEnv !== 'test' || typeof data.token === 'string',
         ]);
-        return { payload, message: message ?? AuthServiceImpl._MESSAGE.RESET_PASSWORD_EMAIL_SENT };
+        return {
+            payload,
+            message: message ?? AuthServiceImpl._MESSAGE.RESET_PASSWORD_EMAIL_SENT,
+        };
     }
 
     async postResetPassword(token: string, newPassword: string): Promise<Res> {
@@ -216,7 +222,12 @@ class AuthServiceImpl extends BaseService implements IAuthService {
             method: 'POST',
             url: this._API + 'user/change-password',
             headers: BaseService._HEADER.CONTENT_JSON,
-            data: JSON.stringify({ oldPassword, newPassword, confirmPassword, email }),
+            data: JSON.stringify({
+                oldPassword,
+                newPassword,
+                confirmPassword,
+                email,
+            }),
             withCredentials: true,
         };
         const { message } = await this.req(this.postChangePassword.name, config, null);

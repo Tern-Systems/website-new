@@ -35,16 +35,16 @@ interface Props {
 }
 
 const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
-    const { 
-        phone, 
-        email, 
-        is2FA, 
-        isLogin, 
-        isDisabling = false, 
-        isPhoneEnabling = false, 
-        isEmailEnabling = false, 
+    const {
+        phone,
+        email,
+        is2FA,
+        isLogin,
+        isDisabling = false,
+        isPhoneEnabling = false,
+        isEmailEnabling = false,
         twoFAEmail,
-        codeSent = false
+        codeSent = false,
     } = props;
 
     const modalCtx = useModal();
@@ -71,7 +71,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
 
         try {
             console.log('Verifying OTP:', formValue.code);
-            
+
             // Verify the OTP
             if (isLogin) {
                 await AuthService.postLoginVerifyOTP(formValue.code, email);
@@ -80,7 +80,7 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             } else {
                 await AuthService.postVerifyOTP(formValue.code, email);
             }
-            
+
             // Only handle disabling 2FA as a separate case
             if (isDisabling) {
                 const { message } = await AuthService.post2FATurnOff(email);
@@ -88,31 +88,29 @@ const AuthenticationCode: FC<Props> = (props: Props): ReactElement => {
             } else {
                 modalCtx.openModal(<MessageModal>Authentication successful!</MessageModal>);
             }
-            
+
             // Clear 2FA verification in progress state
             userCtx.set2FAVerificationInProgress(false);
-            
+
             // Refresh user data
             await userCtx.setupSession();
             modalCtx.closeModal();
         } catch (error: unknown) {
             console.error('Error verifying OTP:', error);
-            
+
             // Extract error message from different error formats
             let errorMessage = 'Unknown error occurred';
             if (typeof error === 'string') {
                 errorMessage = error;
             } else if (error && typeof error === 'object') {
                 const err = error as any;
-                errorMessage = err.response?.data?.message || 
-                               err.response?.data?.error || 
-                               err.message || 
-                               'Failed to verify OTP';
+                errorMessage =
+                    err.response?.data?.message || err.response?.data?.error || err.message || 'Failed to verify OTP';
             }
-            
+
             console.log('Displaying error message:', errorMessage);
             setWarningMsg(errorMessage);
-            
+
             // Don't close the modal on error - just show the error message
             // This allows the user to try again
         }

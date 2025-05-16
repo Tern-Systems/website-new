@@ -43,12 +43,36 @@ const CREDENTIAL_TEMPLATE: Credential = {
         status: 'Live',
         sections: [
             { title: 'Architecture', completion: 14, content: CONTENT_TEMPLATE },
-            { title: 'Workflow Development', completion: 25, content: CONTENT_TEMPLATE },
-            { title: 'User Interface Development', completion: 22, content: CONTENT_TEMPLATE },
-            { title: 'Service Development', completion: 14, content: CONTENT_TEMPLATE },
-            { title: 'Document Management', completion: 8, content: CONTENT_TEMPLATE },
-            { title: 'Error Handling, Debugging, and Troubleshooting', completion: 10, content: CONTENT_TEMPLATE },
-            { title: 'Deployment and Governance', completion: 7, content: CONTENT_TEMPLATE },
+            {
+                title: 'Workflow Development',
+                completion: 25,
+                content: CONTENT_TEMPLATE,
+            },
+            {
+                title: 'User Interface Development',
+                completion: 22,
+                content: CONTENT_TEMPLATE,
+            },
+            {
+                title: 'Service Development',
+                completion: 14,
+                content: CONTENT_TEMPLATE,
+            },
+            {
+                title: 'Document Management',
+                completion: 8,
+                content: CONTENT_TEMPLATE,
+            },
+            {
+                title: 'Error Handling, Debugging, and Troubleshooting',
+                completion: 10,
+                content: CONTENT_TEMPLATE,
+            },
+            {
+                title: 'Deployment and Governance',
+                completion: 7,
+                content: CONTENT_TEMPLATE,
+            },
         ],
     },
     resources: {
@@ -186,10 +210,19 @@ function CredentialPage() {
 
     const GeneralInfoLi: ReactElement[] = [
         { title: 'Group', value: credential?.info.general.group },
-        { title: 'Certification status', value: credential?.info.general.certificationStatus },
+        {
+            title: 'Certification status',
+            value: credential?.info.general.certificationStatus,
+        },
         { title: 'Credential code', value: credential?.info.general.code },
-        { title: 'Replaces credential code', value: credential?.info.general.replacesCode },
-        { title: 'Being replaced by', value: credential?.info.general.replacedByCode },
+        {
+            title: 'Replaces credential code',
+            value: credential?.info.general.replacesCode,
+        },
+        {
+            title: 'Being replaced by',
+            value: credential?.info.general.replacedByCode,
+        },
         { title: 'Required exam', value: credential?.requirements },
         { title: 'Exam status', value: credential?.objectives.status },
     ].map((entry, idx) => (
@@ -235,7 +268,9 @@ function CredentialPage() {
                     <section>
                         <H3 id={SECTIONS[0][0]}>Certification Overview</H3>
                         <div
-                            dangerouslySetInnerHTML={{ __html: credential?.overview ?? Fallback }}
+                            dangerouslySetInnerHTML={{
+                                __html: credential?.overview ?? Fallback,
+                            }}
                             className={SECTION_CONTENT_CN}
                         />
                     </section>

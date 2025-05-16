@@ -168,7 +168,10 @@ function ContactSection(props: SectionProps) {
                             );
                             if (invalid) throw REGEX.phone.message;
 
-                            const newPhones: UserData['phones'] = { ...(userData?.phones ?? {}), ...form };
+                            const newPhones: UserData['phones'] = {
+                                ...(userData?.phones ?? {}),
+                                ...form,
+                            };
                             await update({ phones: newPhones });
                         },
                     };
@@ -189,7 +192,9 @@ function ContactSection(props: SectionProps) {
                     return {
                         className: `${styles.singleInputBase} ${styles.common} [&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         title: 'Country / Region',
-                        value: { value: userData.address.personalAddress?.country ?? '' } as FormInit<T>,
+                        value: {
+                            value: userData.address.personalAddress?.country ?? '',
+                        } as FormInit<T>,
                         options: COUNTRY,
                         onSave: async (form) => {
                             if (!('value' in form) || !form.value) throw 'Incorrect request setup';
@@ -209,7 +214,8 @@ function ContactSection(props: SectionProps) {
             </Editable>
 
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                <span className={sm || md ? 'hidden' : 'block'}>Preferred </span>Language
+                <span className={sm || md ? 'hidden' : 'block'}>Preferred </span>
+                Language
             </span>
             <Editable
                 key={'language-' + language}

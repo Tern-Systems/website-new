@@ -1,12 +1,12 @@
-
 <div align="center">
   <img src="https://github.com/user-attachments/assets/f829e555-2c3b-4b48-b5f3-a969410949d8" alt="Minimalistic Website Logo" width="1200"/>
 
-  # Website
-  
-  **Simplicity Meets Performance**
-  
-  **_Version 2.0.0 is Out!_**
+# Website
+
+**Simplicity Meets Performance**
+
+**_Version 2.0.0 is Out!_**
+
 </div>
 
 ---

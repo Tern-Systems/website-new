@@ -129,7 +129,9 @@ function SubscriptionsPage() {
             <Section
                 type={'short'}
                 background={{ image: PNG_MAIN, gradient: 'left' }}
-                className={{ content: 'flex flex-col justify-between  py-xxl sm:pb-[2.81rem]' }}
+                className={{
+                    content: 'flex flex-col justify-between  py-xxl sm:pb-[2.81rem]',
+                }}
             >
                 <H1
                     type={'large'}

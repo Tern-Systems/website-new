@@ -25,7 +25,10 @@ function OffboardingSection() {
     const title_CN = `[&&]:text-14  [&&]:md:text-21  [&&]:lg:text-21`;
     const label_CN = `align-bottom [&&]:text-12  [&&]:md:text-16  [&&]:lg:text-16`;
 
-    const handleOpenModal = () => modalCtx.openModal(<DeleteAccountModal userData={userData} />, { darkenBg: true });
+    const handleOpenModal = () =>
+        modalCtx.openModal(<DeleteAccountModal userData={userData} />, {
+            darkenBg: true,
+        });
 
     return (
         <Collapsible

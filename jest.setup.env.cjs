@@ -1,1 +1,1 @@
-require('dotenv').config({ path: __dirname + '/.env.local' });
+require("dotenv").config({ path: __dirname + "/.env.local" });

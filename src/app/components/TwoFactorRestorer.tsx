@@ -11,10 +11,10 @@ const TwoFactorRestorer: FC = () => {
     useEffect(() => {
         if (typeof window !== 'undefined' && userCtx.isLoggedIn && userCtx.token) {
             const tfaData = userCtx.get2FAInProgressData();
-            
+
             if (tfaData) {
                 console.log('Found 2FA in progress state, reopening modal', tfaData);
-                
+
                 // Reopen the authentication modal
                 modalCtx.openModal(
                     <AuthenticationCode
@@ -25,7 +25,7 @@ const TwoFactorRestorer: FC = () => {
                         twoFAEmail={tfaData.twoFAEmail}
                         is2FA={true}
                         codeSent={true}
-                    />
+                    />,
                 );
             }
         }
@@ -35,4 +35,4 @@ const TwoFactorRestorer: FC = () => {
     return null;
 };
 
-export { TwoFactorRestorer }; 
+export { TwoFactorRestorer };

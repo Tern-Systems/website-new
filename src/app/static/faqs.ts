@@ -1,5 +1,8 @@
 // setup API function to retrieve
-const FAQs: { heading: string; faqs: { question: string; answer: string }[] }[] = [
+const FAQs: {
+    heading: string;
+    faqs: { question: string; answer: string }[];
+}[] = [
     {
         heading: 'General',
         faqs: [

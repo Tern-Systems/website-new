@@ -33,7 +33,10 @@ import { DataTestID } from '@/tests/static';
 
 const TestID = DataTestID.page.tidal.plans;
 
-const PLAN_TIME_RANGE: { testID: string; recurrency: SubscriptionRecurrency }[] = [
+const PLAN_TIME_RANGE: {
+    testID: string;
+    recurrency: SubscriptionRecurrency;
+}[] = [
     { testID: TestID.recurrencySwitch.monthly, recurrency: 'monthly' },
     { testID: TestID.recurrencySwitch.annual, recurrency: 'annual' },
 ];
@@ -55,7 +58,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
     const handleSubscribeClick = (type: PlanType) => {
         if (!userCtx.isLoggedIn) {
             const info = `You must log into a Tern account to subscribe${subscriptionData?.subscription ? ' to ' + subscriptionData.subscription : ''}. Please login or create an account to purchase a Plan.`;
-            return modalCtx.openModal(<AuthModal info={info} />, { hideContent: true });
+            return modalCtx.openModal(<AuthModal info={info} />, {
+                hideContent: true,
+            });
         }
 
         if (!subscriptionData || !subscriptionData.route) {

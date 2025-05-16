@@ -138,7 +138,9 @@ const Select: FC<Props> = (props: Props) => {
     return (
         <div
             ref={ref}
-            className={cn(`flex items-center`, className?.wrapper, { ['hidden']: hidden })}
+            className={cn(`flex items-center`, className?.wrapper, {
+                ['hidden']: hidden,
+            })}
         >
             <input
                 {...selectPropsRest}

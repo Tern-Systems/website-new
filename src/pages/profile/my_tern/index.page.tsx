@@ -46,11 +46,36 @@ const NAV_BTNS_DEFAULT: { title: string; href: string; external?: true }[] = [
 ];
 
 const EVENTS_TEMPLATE: TableEntry[] = [
-    { name: 'Bleeding Edge on X', type: 'Online Event', data: Date.now(), href: 'https://youtube.com' },
-    { name: 'Tidal Scrum', type: 'BTS Video', data: Date.now(), href: 'https://youtube.com' },
-    { name: 'SWEs of New York', type: 'In-Person Event', data: Date.now(), href: 'https://youtube.com' },
-    { name: 'Your tern Podcast', type: 'Show', data: Date.now(), href: 'https://youtube.com' },
-    { name: 'Tidal version 1.0.0-beta', type: 'Version Release', data: Date.now(), href: 'https://youtube.com' },
+    {
+        name: 'Bleeding Edge on X',
+        type: 'Online Event',
+        data: Date.now(),
+        href: 'https://youtube.com',
+    },
+    {
+        name: 'Tidal Scrum',
+        type: 'BTS Video',
+        data: Date.now(),
+        href: 'https://youtube.com',
+    },
+    {
+        name: 'SWEs of New York',
+        type: 'In-Person Event',
+        data: Date.now(),
+        href: 'https://youtube.com',
+    },
+    {
+        name: 'Your tern Podcast',
+        type: 'Show',
+        data: Date.now(),
+        href: 'https://youtube.com',
+    },
+    {
+        name: 'Tidal version 1.0.0-beta',
+        type: 'Version Release',
+        data: Date.now(),
+        href: 'https://youtube.com',
+    },
 ];
 
 const RESOURCES: ResourceSectionData[] = [

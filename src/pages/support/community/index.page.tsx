@@ -43,28 +43,40 @@ const EVENTS_TEMPLATE: Event[] = [
         timeZone: 'EST',
         tag: 'Webinar',
         description: 'Tern New Website Design Demonstration',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
+        time: {
+            start: new Date().getTime(),
+            end: new Date().getTime() + 3_600_000,
+        },
     },
     {
         date: 25,
         timeZone: 'EST',
         tag: 'Webinar',
         description: 'Tern New Website Design Demonstration',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
+        time: {
+            start: new Date().getTime(),
+            end: new Date().getTime() + 3_600_000,
+        },
     },
     {
         date: 25,
         timeZone: 'EST',
         tag: 'Webinar',
         description: 'Tern New Website Design Demonstration',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
+        time: {
+            start: new Date().getTime(),
+            end: new Date().getTime() + 3_600_000,
+        },
     },
     {
         date: 25,
         timeZone: 'EST',
         tag: 'Webinar',
         description: 'Tern New Website Design Demonstration',
-        time: { start: new Date().getTime(), end: new Date().getTime() + 3_600_000 },
+        time: {
+            start: new Date().getTime(),
+            end: new Date().getTime() + 3_600_000,
+        },
     },
 ];
 

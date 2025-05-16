@@ -171,7 +171,11 @@ const Input: FC<Props> = (props: Props) => {
                     )}
                 >
                     {children ? <span className={label}>{children}</span> : null}
-                    <div className={cn(`relative flex items-center`, { ['w-full']: !isCheckbox })}>
+                    <div
+                        className={cn(`relative flex items-center`, {
+                            ['w-full']: !isCheckbox,
+                        })}
+                    >
                         {IconsSVGs ? (
                             <span
                                 className={cn(

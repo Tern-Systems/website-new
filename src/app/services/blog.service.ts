@@ -30,13 +30,13 @@ class BlogServiceImpl extends BaseService implements IBlogService {
         ]);
 
         // Map poster to thumbnail for each blog
-        const blogsWithThumbnails = payload.blogs.map(blog => ({
+        const blogsWithThumbnails = payload.blogs.map((blog) => ({
             ...blog,
-            thumbnail: blog.poster || blog.thumbnail
+            thumbnail: blog.poster || blog.thumbnail,
         }));
 
         localStorage.setItem('article-cards', JSON.stringify(blogsWithThumbnails.slice(0, CACHED_ARTICLE_COUNT)));
-        
+
         return { payload: { blogs: blogsWithThumbnails } };
     }
 }

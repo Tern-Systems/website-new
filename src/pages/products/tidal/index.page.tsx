@@ -113,7 +113,9 @@ function TidalPage() {
             <Section
                 type={'full-screen'}
                 background={{ image: PNG_BACKGROUND_MAIN, gradient: 'left' }}
-                className={{ content: 'relative z-10 content-center  sm:pt-3xl pt-5xl  sm:pb-6xl-1 pb-6xl' }}
+                className={{
+                    content: 'relative z-10 content-center  sm:pt-3xl pt-5xl  sm:pb-6xl-1 pb-6xl',
+                }}
             >
                 <H1 className={'sm:!text-64'}>TIDAL</H1>
                 <Image
@@ -171,7 +173,12 @@ function TidalPage() {
                     </p>
                     <div className={'relative'}>
                         <ReactSVG
-                            onClick={() => videoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                            onClick={() =>
+                                videoRef.current?.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center',
+                                })
+                            }
                             src={SVG_PLAY.src}
                             className={'absolute left-1/2 -translate-x-1/2 bottom-[31.5%] cursor-pointer'}
                         />

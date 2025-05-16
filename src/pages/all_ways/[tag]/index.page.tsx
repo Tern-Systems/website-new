@@ -126,7 +126,13 @@ function ArticlesByTag() {
                 </Section>
                 <Section>
                     {CardsLi.length ? (
-                        <Carousel altData={{ cards: CardsLi, link: Route.AllWaysArticle, title: 'Our Picks' }} />
+                        <Carousel
+                            altData={{
+                                cards: CardsLi,
+                                link: Route.AllWaysArticle,
+                                title: 'Our Picks',
+                            }}
+                        />
                     ) : (
                         <span className={'mt-5xl block text-12'}>
                             {loading ? (

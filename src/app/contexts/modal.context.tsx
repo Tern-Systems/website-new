@@ -2,7 +2,11 @@
 
 import { createContext, ReactElement } from 'react';
 
-type ModalConfig = { hideContent?: boolean; darkenBg?: boolean; doFading?: boolean };
+type ModalConfig = {
+    hideContent?: boolean;
+    darkenBg?: boolean;
+    doFading?: boolean;
+};
 
 type OpenModal = (Component: ReactElement, config?: ModalConfig) => void;
 
