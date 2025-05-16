@@ -20,7 +20,7 @@ const H1: FC<TypeProps> = (props: TypeProps) => {
             typeCN = 'text-24 md:text-40 lg:text-48';
             break;
         case 'large':
-            typeCN = 'w-[65%] md:w-[65%] lg:w-[75%]  text-40 md:text-64 lg:text-96';
+            typeCN = 'w-[65%] md:w-[65%] lg:w-[75%]  text-40 md:text-64 lg:text-80';
             break;
     }
 
