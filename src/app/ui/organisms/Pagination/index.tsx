@@ -69,6 +69,7 @@ const Pagination: FC<Props> = (props: Props) => {
                 return batchIdx <= 0 ? 0 : batchIdx >= maxBatchIdx ? maxBatchIdx : batchIdx;
             });
         }
+        document.querySelector('#header')?.scrollIntoView();
     };
 
     const overflow = pageCount > overflowCount;
