@@ -306,6 +306,53 @@ const Editable: FC<Props> = (props: Props) => {
 
     useEffect(() => {
         resetForm();
+
+        // Add initial validation for phone inputs
+        if (type === 'phone' && submitRef.current) {
+            setTimeout(() => {
+                const updateButton = submitRef.current;
+                if (!updateButton) return;
+
+                // Check if we have the form data and it's a phone form
+                if (form && 'business' in form) {
+                    let isValid = true;
+                    let errorMessage = '';
+
+                    // Check each phone field
+                    const phoneTypes = ['mobile', 'business', 'personal'] as const;
+                    for (const type of phoneTypes) {
+                        const phoneData = form[type];
+                        if (!phoneData || !phoneData.number || phoneData.number.trim() === '') {
+                            continue;
+                        }
+
+                        const digits = phoneData.number.replace(/\D/g, '');
+                        const digitCount = digits.length;
+
+                        if (digitCount > 0 && digitCount < 10) {
+                            isValid = false;
+                            errorMessage = `${type} phone has only ${digitCount} digits. Need exactly 10 or 11 digits.`;
+                            break;
+                        } else if (digitCount > 11) {
+                            isValid = false;
+                            errorMessage = `${type} phone has ${digitCount} digits. Maximum allowed is 11.`;
+                            break;
+                        } else if (digitCount === 11 && !digits.startsWith('1')) {
+                            isValid = false;
+                            errorMessage = `${type} phone with 11 digits must start with 1.`;
+                            break;
+                        }
+                    }
+
+                    // Update button state based on validation
+                    if (!isValid) {
+                        updateButton.disabled = true;
+                        updateButton.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-300');
+                        setWarning(errorMessage);
+                    }
+                }
+            }, 300); // Slightly longer timeout to ensure form is fully initialized
+        }
     }, []);
 
     // handlers
@@ -326,21 +373,63 @@ const Editable: FC<Props> = (props: Props) => {
             Cancel
         </Button>
     );
-    const ControlBtns: FC = () => (
-        <span
-            className={`flex h-button-n mt-[min(1.3dvw,0.95rem)] gap-x-[min(1dvw,0.75rem)] text-12 font-bold  md:text-14`}
-        >
-            {CancelBtn}
-            <Button
-                ref={submitRef}
-                type={'submit'}
-                disabled={checkPreventUpdate()}
-                className={'rounded-full bg-navy px-xxs disabled:bg-gray-l0 disabled:text-gray'}
+    const ControlBtns: FC = () => {
+        // Check for invalid phone numbers
+        let disableButton = checkPreventUpdate();
+
+        // If it's a phone form, do additional validation
+        if (type === 'phone' && form && 'business' in form) {
+            const phoneTypes = ['mobile', 'business', 'personal'] as const;
+
+            for (const type of phoneTypes) {
+                const phoneData = form[type];
+                if (!phoneData || !phoneData.number || phoneData.number.trim() === '') {
+                    continue; // Skip empty fields
+                }
+
+                const digits = phoneData.number.replace(/\D/g, '');
+                const digitCount = digits.length;
+
+                if (
+                    (digitCount > 0 && digitCount < 10) ||
+                    digitCount > 11 ||
+                    (digitCount === 11 && !digits.startsWith('1'))
+                ) {
+                    disableButton = true;
+                    break;
+                }
+            }
+        }
+
+        // Set disabled attribute directly on button when it's rendered
+        useEffect(() => {
+            if (submitRef.current) {
+                if (disableButton) {
+                    submitRef.current.disabled = true;
+                    submitRef.current.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-300');
+                } else {
+                    submitRef.current.disabled = false;
+                    submitRef.current.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-300');
+                }
+            }
+        }, [disableButton, form]);
+
+        return (
+            <span
+                className={`flex h-button-n mt-[min(1.3dvw,0.95rem)] gap-x-[min(1dvw,0.75rem)] text-12 font-bold md:text-14`}
             >
-                Update
-            </Button>
-        </span>
-    );
+                {CancelBtn}
+                <Button
+                    ref={submitRef}
+                    type={'submit'}
+                    disabled={disableButton}
+                    className={'rounded-full bg-navy px-xxs disabled:bg-gray-l0 disabled:text-gray'}
+                >
+                    Update
+                </Button>
+            </span>
+        );
+    };
 
     const renderToggle = () => {
         const isDisabled = toggleBlocked || editState;
@@ -390,6 +479,110 @@ const Editable: FC<Props> = (props: Props) => {
         className: `${initial?.className}`,
         wrapper: 'flex-col gap-y-4xs w-full text-12  md:text-14  lg:text-16',
         label: `first-letter:capitalize place-self-start text-12  md:text-14  lg:text-16`,
+    };
+
+    const requireOnChangePhone = (key: keyof UserPhone, subKey: KeysOfUnion<Phone>, isCheckBox?: boolean) => {
+        return (event: ChangeEvent<HTMLInputElement>) => {
+            setWarning(null);
+
+            if (isCheckBox) {
+                const value = event.currentTarget.checked;
+
+                setForm((prevState) => {
+                    if (!prevState || !('business' in prevState)) return prevState;
+
+                    const newState = {
+                        ...prevState,
+                    };
+
+                    if (value) {
+                        for (const stateKey in newState) {
+                            if (stateKey === 'mobile' || stateKey === 'business' || stateKey === 'personal') {
+                                newState[stateKey].isPrimary = false;
+                            }
+                        }
+                    }
+
+                    newState[key].isPrimary = value;
+
+                    return newState;
+                });
+                return;
+            }
+
+            if (subKey === 'number') {
+                const inputValue = event.currentTarget.value;
+
+                const numericValue = inputValue.replace(/\D/g, '');
+
+                event.currentTarget.value = numericValue;
+
+                const value = numericValue;
+
+                const updateButton = submitRef.current;
+                if (!updateButton) return;
+
+                let allValid = true;
+                let errorMessage = '';
+
+                const updatedForm = {
+                    ...form,
+                    [key]: {
+                        ...(form as any)?.[key],
+                        [subKey]: value,
+                    },
+                } as FormData<'phone'>;
+
+                if (updatedForm && 'business' in updatedForm) {
+                    const phoneTypes = ['mobile', 'business', 'personal'] as const;
+
+                    for (const type of phoneTypes) {
+                        const phoneData = updatedForm[type];
+                        if (!phoneData || !phoneData.number || phoneData.number.trim() === '') {
+                            continue;
+                        }
+
+                        const digits = phoneData.number;
+                        const digitCount = digits.length;
+
+                        if (digitCount > 0 && digitCount < 10) {
+                            allValid = false;
+                            errorMessage = `${type} phone has only ${digitCount} digits. Need exactly 10 or 11 digits.`;
+                            break;
+                        } else if (digitCount > 11) {
+                            allValid = false;
+                            errorMessage = `${type} phone has ${digitCount} digits. Maximum allowed is 11.`;
+                            break;
+                        } else if (digitCount === 11 && !digits.startsWith('1')) {
+                            allValid = false;
+                            errorMessage = `${type} phone with 11 digits must start with 1.`;
+                            break;
+                        }
+                    }
+                }
+
+                if (!allValid) {
+                    updateButton.disabled = true;
+                    updateButton.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-300');
+                    setWarning(errorMessage);
+                } else {
+                    updateButton.disabled = checkPreventUpdate();
+                    updateButton.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-300');
+                    setWarning(null);
+                }
+            }
+
+            const value = isCheckBox ? event.currentTarget.checked : event.currentTarget.value;
+
+            setForm((prevState) => {
+                if (!prevState || !('business' in prevState)) return prevState;
+
+                return {
+                    ...prevState,
+                    [key]: { ...prevState[key], [subKey]: value },
+                };
+            });
+        };
     };
 
     // Form controls
@@ -760,52 +953,19 @@ const Editable: FC<Props> = (props: Props) => {
         case 'phone':
             if (!form || !('business' in form)) break;
 
-            const requireOnChangePhone = (key: keyof UserPhone, subKey: KeysOfUnion<Phone>, isCheckBox?: boolean) => {
-                return (event: ChangeEvent<HTMLInputElement>) => {
-                    setWarning(null);
-                    const value = isCheckBox ? event.currentTarget.checked : event.currentTarget.value;
-                    setForm((prevState) => {
-                        if (!prevState || !('business' in prevState)) return prevState;
-
-                        const newState = {
-                            ...prevState,
-                            [key]: { ...prevState[key], [subKey]: value },
-                        };
-
-                        // handle set-as-primary checkboxes
-                        if (isCheckBox && 'business' in newState) {
-                            let isAllDefault = false;
-                            for (const stateKey in newState) {
-                                const k = stateKey as keyof UserPhone;
-                                // @ts-expect-error wrong subkey
-                                newState[k][subKey] = key === stateKey && value && newState[stateKey].number;
-                                // @ts-expect-error wrong subkey
-                                isAllDefault = isAllDefault || newState[stateKey][subKey];
-                            }
-
-                            // Set primary automatically if no one is checked
-                            if (!isAllDefault) {
-                                for (const stateKey in newState) {
-                                    // @ts-expect-error wrong subkey
-                                    newState[stateKey].isPrimary = newState[stateKey].number;
-                                    // @ts-expect-error wrong subkey
-                                    if (newState[stateKey].isPrimary) break;
-                                }
-                            }
-                        }
-
-                        return newState;
-                    });
-                };
-            };
-
-            const renderPhoneFieldset = (field: keyof UserPhone, ext?: string) => {
+            const renderPhoneFieldset = (field: keyof UserPhone, extension?: string) => {
                 const InputField = (
                     <Input
-                        type={'number'}
+                        type={'tel'}
                         value={form[field].number ?? ''}
-                        maxLength={12}
+                        maxLength={11}
                         onChange={requireOnChangePhone(field, 'number')}
+                        onKeyPress={(e) => {
+                            if (!/[0-9]/.test(e.key)) {
+                                e.preventDefault();
+                            }
+                        }}
+                        placeholder='Numbers only (10-11 digits)'
                         {...INPUT_CN}
                     >
                         {field}
@@ -813,14 +973,20 @@ const Editable: FC<Props> = (props: Props) => {
                 );
 
                 const InputFieldFinal =
-                    ext !== undefined ? (
+                    extension !== undefined ? (
                         <span className={'grid grid-cols-[2fr,1fr] gap-x-4xs'}>
                             {InputField}
                             <Input
-                                type={'number'}
-                                value={ext}
+                                type={'tel'}
+                                value={extension}
                                 maxLength={4}
                                 onChange={requireOnChangePhone(field, 'ext')}
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                placeholder='Ext.'
                                 {...INPUT_CN}
                             >
                                 Ext
@@ -952,7 +1118,6 @@ const Editable: FC<Props> = (props: Props) => {
                 if (!form[key]) return null;
 
                 return (
-                    // gap-x is not used for sm breakpoints
                     <>
                         <span
                             className={cn(
