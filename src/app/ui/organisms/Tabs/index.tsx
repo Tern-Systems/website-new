@@ -7,7 +7,9 @@ import { ResourceCard, ResourceCardProps } from '@/app/ui/organisms/ResourceCard
 
 type Tab = {
     name: string;
-    content: Pick<ResourceCardProps, 'icon' | 'title' | 'action'> & { text: string };
+    content: Pick<ResourceCardProps, 'icon' | 'title' | 'action'> & {
+        text: string;
+    };
 };
 
 interface Props extends PropsWithChildren {

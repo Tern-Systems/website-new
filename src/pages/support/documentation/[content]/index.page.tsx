@@ -12,8 +12,15 @@ import { GHandbookAnchors, GHandbookContent } from './g';
 type Content = Route.TidalDoc | Route.GDoc | Route.TernKitDoc | Route.TernDoc | Route.BTMCDoc;
 
 const CONTENTS: Record<Content, DocumentationContent> = {
-    [Route.TidalDoc]: { anchors: TidalManualAnchors, children: <TidalManualContent /> },
-    [Route.GDoc]: { anchors: GHandbookAnchors, children: <GHandbookContent />, isChapter: true },
+    [Route.TidalDoc]: {
+        anchors: TidalManualAnchors,
+        children: <TidalManualContent />,
+    },
+    [Route.GDoc]: {
+        anchors: GHandbookAnchors,
+        children: <GHandbookContent />,
+        isChapter: true,
+    },
     [Route.TernKitDoc]: COMING_SOON_DOC,
     [Route.TernDoc]: COMING_SOON_DOC,
     [Route.BTMCDoc]: COMING_SOON_DOC,

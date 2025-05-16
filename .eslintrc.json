@@ -6,10 +6,7 @@
     "next/typescript",
     "plugin:prettier/recommended"
   ],
-  "plugins": [
-    "prettier",
-    "react-refresh"
-  ],
+  "plugins": ["prettier", "react-refresh"],
   "rules": {
     "prettier/prettier": [
       "warn",
@@ -61,13 +58,8 @@
   },
   "overrides": [
     {
-      "plugins": [
-        "react-refresh"
-      ],
-      "files": [
-        "./src/__tests__/**/*.tsx",
-        "./src/app/static/**/*.tsx"
-      ],
+      "plugins": ["react-refresh"],
+      "files": ["./src/__tests__/**/*.tsx", "./src/app/static/**/*.tsx"],
       "rules": {
         "react-refresh/only-export-components": "off"
       }

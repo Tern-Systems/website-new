@@ -145,7 +145,7 @@ function AccountSection(props: SectionProps) {
                                         email={userData.email}
                                         twoFAEmail={form.value}
                                         phone={userData.state2FA.phone ?? ''}
-                                    />
+                                    />,
                                 );
                                 return; // <-- Make sure to return here!
                             }

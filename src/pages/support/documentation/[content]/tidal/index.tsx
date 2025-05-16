@@ -8,15 +8,21 @@ const TidalManualAnchors: ContentAnchors = [
     { Languages: ['BTMC', 'TERN', 'G'] },
     {
         'Emulator and Features': [
-            { 'Primary Display Controls': ['Sidebar', 'Clear', 'Profile', 'Save', 'Information'] },
+            {
+                'Primary Display Controls': ['Sidebar', 'Clear', 'Profile', 'Save', 'Information'],
+            },
             { Keys: ['My Keys', 'Explore Keys'] },
         ],
     },
     { 'Code Windows': ['Input Code Windows', 'Output Code Windows'] },
     {
         'Profile Management': [
-            { 'My Plan': ['Limits Apply', 'Billing Resolution Center', 'Manage Subscription'] },
-            { 'Account Options': ['General Preferences', 'Developer Profile Management', 'Advanced'] },
+            {
+                'My Plan': ['Limits Apply', 'Billing Resolution Center', 'Manage Subscription'],
+            },
+            {
+                'Account Options': ['General Preferences', 'Developer Profile Management', 'Advanced'],
+            },
         ],
     },
 ];

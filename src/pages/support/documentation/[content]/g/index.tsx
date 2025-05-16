@@ -5,10 +5,16 @@ import { ContentAnchors } from '@/app/types/documentation';
 const GHandbookAnchors: ContentAnchors = [
     'Terms and Abbreviations',
     'Introduction',
-    { Overview: ['Comments', 'Literals', 'Data Types', 'Keywords', 'Variables', 'Inference'] },
-    { Operators: ['Arithmetic', 'Relational', 'State', 'Allocation', 'Conditional', 'Precedence and Associativity'] },
+    {
+        Overview: ['Comments', 'Literals', 'Data Types', 'Keywords', 'Variables', 'Inference'],
+    },
+    {
+        Operators: ['Arithmetic', 'Relational', 'State', 'Allocation', 'Conditional', 'Precedence and Associativity'],
+    },
     { Statements: ['Control Flow'] },
-    { Arrays: ['One-Dimensional Arrays', 'Two-Dimensional Arrays', 'Multidimensional Arrays', 'Memory Layout'] },
+    {
+        Arrays: ['One-Dimensional Arrays', 'Two-Dimensional Arrays', 'Multidimensional Arrays', 'Memory Layout'],
+    },
     {
         Strings: [
             'Declarations',

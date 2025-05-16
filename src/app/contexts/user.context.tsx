@@ -84,11 +84,14 @@ interface IUserContext {
     removeSession: () => void;
     setupSession: (fetchPlanDetails?: boolean, token?: string) => Promise<UserData | null>;
     is2FAInProgress: boolean;
-    set2FAVerificationInProgress: (inProgress: boolean, tfaData?: {
-        email: string;
-        phone: string;
-        twoFAEmail: string;
-    }) => void;
+    set2FAVerificationInProgress: (
+        inProgress: boolean,
+        tfaData?: {
+            email: string;
+            phone: string;
+            twoFAEmail: string;
+        },
+    ) => void;
     get2FAInProgressData: () => {
         inProgress: boolean;
         email: string;

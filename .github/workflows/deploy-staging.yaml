@@ -1,18 +1,18 @@
 name: Deploy Website to GCP Compute Engine
 
-env: 
-  DEBUG: true 
-  
+env:
+  DEBUG: true
+
 on:
   repository_dispatch:
     types: [deploy-staging]
-  
+
 jobs:
   deploy:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
 
     steps:
-      - name: 'Checkout repository'
+      - name: "Checkout repository"
         uses: actions/checkout@v3
 
       - name: Set up SSH
@@ -45,9 +45,9 @@ jobs:
             # Service Status for website-app
             sudo systemctl status website-app
           EOF
-      
+
       - name: Send Deployment Status Notification to Slack
-        if: always()  # Run this step regardless of success or failure
+        if: always() # Run this step regardless of success or failure
         run: |
           # Capture the job status
           STATUS="${{ job.status }}"
@@ -55,10 +55,10 @@ jobs:
           if [ "$STATUS" == "success" ]; then
             MESSAGE=":white_check_mark: Deployment successful"
           fi
-      
+
           # Construct the GitHub Actions run link
           ACTIONS_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-      
+
           # Send message to Slack
           curl -X POST -H "Content-Type: application/json" \
           -d '{
@@ -70,4 +70,3 @@ jobs:
             **[🔍 View Action]('"$ACTIONS_URL"')**"
           }' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
-

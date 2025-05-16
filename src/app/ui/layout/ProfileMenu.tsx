@@ -20,7 +20,12 @@ import SVG_PROFILE from '@/assets/images/icons/profile.svg';
 
 const TestID = DataTestID.layout.profile;
 
-const AUTH_BUTTONS: { testID: string; title: string; action: string; description: string }[] = [
+const AUTH_BUTTONS: {
+    testID: string;
+    title: string;
+    action: string;
+    description: string;
+}[] = [
     {
         testID: TestID.loginButton,
         title: 'Tern Account',

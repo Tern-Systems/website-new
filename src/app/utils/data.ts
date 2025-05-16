@@ -46,7 +46,9 @@ const formatDate = (
             const { dateEnd } = options || {};
             const dateEndFinal = typeof dateEnd !== 'object' ? new Date(dateEnd ?? 0) : dateEnd;
 
-            const formatted = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' }).formatToParts(dateFinal);
+            const formatted = new Intl.DateTimeFormat('en-US', {
+                timeZoneName: 'short',
+            }).formatToParts(dateFinal);
             const timeZone = formatted.find((part) => part.type === 'timeZoneName')?.value ?? 'Timezone is unknown';
             result = `${formatTime(dateFinal)}${dateEnd ? ' - ' + formatTime(dateEndFinal) : ''} hrs (${timeZone})`;
             break;

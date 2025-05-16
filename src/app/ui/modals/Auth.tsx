@@ -59,16 +59,16 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
         try {
             // Setup session to get user data
             const userData = await userCtx.setupSession(true, token);
-            
+
             if (!userData) {
                 console.log('No user data returned, login failed');
                 setMessage('Login failed');
                 return;
             }
-            
+
             console.log('Checking 2FA status:', {
                 twoFA: userData.twoFA,
-                state2FA: userData.state2FA
+                state2FA: userData.state2FA,
             });
 
             // If 2FA is not enabled, just close modal and proceed
@@ -84,27 +84,27 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                 console.log('2FA enabled but no phone number');
                 return modalCtx.openModal(
                     <MessageModal>
-                        You have 2FA enabled, but phone number isn't found - can't send an OTP code
-                    </MessageModal>
+                        You have 2FA enabled, but phone number isn&apos;t found - can&apos;t send an OTP code
+                    </MessageModal>,
                 );
             }
 
             console.log('2FA enabled, sending OTP and showing verification modal');
-            
+
             // Send OTP
             await AuthService.post2FASendOTP(
                 userData.email,
-                userData.state2FA?.email || 'info@tern.ac', 
-                userData.state2FA?.phone
+                userData.state2FA?.email || 'info@tern.ac',
+                userData.state2FA?.phone,
             );
-            
+
             // Set 2FA in progress flag and save data to session storage
             userCtx.set2FAVerificationInProgress(true, {
                 email: userData.email,
                 phone: userData.state2FA?.phone,
-                twoFAEmail: userData.state2FA?.email || ''
+                twoFAEmail: userData.state2FA?.email || '',
             });
-            
+
             // Show verification modal
             modalCtx.openModal(
                 <AuthenticationCode
@@ -115,7 +115,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     twoFAEmail={userData.state2FA?.email || ''}
                     is2FA
                     codeSent={true}
-                />
+                />,
             );
         } catch (error) {
             console.error('Error in 2FA flow:', error);
@@ -137,7 +137,7 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                     console.log('Attempting login for:', formValue.email);
                     const { payload } = await AuthService.postLogin(formValue.email, formValue.password);
                     console.log('Login successful, token received');
-                    
+
                     // Call our function to handle 2FA
                     await fetchUserDataWith2FA(payload.token);
                 } catch (error) {
@@ -249,7 +249,11 @@ const AuthModal: FC<Props> = (props: Props): ReactElement => {
                                     data-testid={TestID.resetLink}
                                     type={'button'}
                                     className={'text-blue-l0'}
-                                    onClick={() => modalCtx.openModal(<ResetPasswordModal />, { darkenBg: true })}
+                                    onClick={() =>
+                                        modalCtx.openModal(<ResetPasswordModal />, {
+                                            darkenBg: true,
+                                        })
+                                    }
                                 >
                                     Reset
                                 </Button>

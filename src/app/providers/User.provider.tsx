@@ -30,7 +30,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
         setToken(token);
     };
-    
+
     const removeSession = () => {
         setUserDataHelper(null);
         setLoggedState(false);
@@ -41,29 +41,35 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
     };
 
     // Add function to set 2FA in progress state
-    const set2FAVerificationInProgress = (inProgress: boolean, tfaData?: {
-        email: string;
-        phone: string;
-        twoFAEmail: string;
-    }) => {
+    const set2FAVerificationInProgress = (
+        inProgress: boolean,
+        tfaData?: {
+            email: string;
+            phone: string;
+            twoFAEmail: string;
+        },
+    ) => {
         set2FAInProgress(inProgress);
-        
+
         if (inProgress && tfaData) {
             // Save 2FA data to session storage
-            sessionStorage.setItem(TFA_IN_PROGRESS_KEY, JSON.stringify({
-                inProgress: true,
-                ...tfaData
-            }));
+            sessionStorage.setItem(
+                TFA_IN_PROGRESS_KEY,
+                JSON.stringify({
+                    inProgress: true,
+                    ...tfaData,
+                }),
+            );
         } else {
             // Clear 2FA data
             sessionStorage.removeItem(TFA_IN_PROGRESS_KEY);
         }
     };
-    
+
     // Function to get stored 2FA data if available
     const get2FAInProgressData = () => {
         if (typeof window === 'undefined') return null;
-        
+
         try {
             const tfaData = sessionStorage.getItem(TFA_IN_PROGRESS_KEY);
             if (tfaData) {
@@ -73,7 +79,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             console.error('Error reading 2FA state:', error);
             sessionStorage.removeItem(TFA_IN_PROGRESS_KEY);
         }
-        
+
         return null;
     };
 
@@ -94,12 +100,12 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
             try {
                 isLoading.current = true; // Set loading flag
                 console.log('Fetching user data...');
-                
+
                 const { payload: user } = await UserService.getUser(tokenFinal, fetchPlanDetails);
                 if (!fetchPlanDetails && userData) user.subscriptions = userData?.subscriptions;
-                
+
                 setSession(tokenFinal, user);
-                
+
                 // The 2FA checking is now handled in Auth.tsx
                 return user;
             } catch (error: unknown) {
@@ -115,7 +121,7 @@ const UserProvider: FC<PropsWithChildren> = (props: PropsWithChildren) => {
 
     useEffect(() => {
         const tokenFromCookie = document.cookie.split(COOKIE_TOKEN_KEY_PREFIX).pop()?.split(';').shift();
-        
+
         // Only run on first mount or when token changes significantly
         if (tokenFromCookie && tokenFromCookie !== token) {
             console.log('Loading session from cookie');

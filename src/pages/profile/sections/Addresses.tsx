@@ -88,7 +88,11 @@ function AddressesSection(props: SectionProps) {
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
                 Address&nbsp;
-                <span className={cn({ ['hidden']: breakpoint <= Breakpoint.sm || breakpoint === Breakpoint.md })}>
+                <span
+                    className={cn({
+                        ['hidden']: breakpoint <= Breakpoint.sm || breakpoint === Breakpoint.md,
+                    })}
+                >
                     Information
                 </span>
             </span>
@@ -107,7 +111,10 @@ function AddressesSection(props: SectionProps) {
                         value: userData.address as FormInit<T>,
                         onSave: async (formData) => {
                             if (!('personalAddress' in formData)) throw 'Incorrect request setup';
-                            const newAddress: UserData['address'] = { ...userData.address, ...formData };
+                            const newAddress: UserData['address'] = {
+                                ...userData.address,
+                                ...formData,
+                            };
                             await update({ address: newAddress });
                         },
                     };

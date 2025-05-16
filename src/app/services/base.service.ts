@@ -90,7 +90,7 @@ abstract class BaseService {
     }
 
     // eslint-disable-next-line
-    private debug(...data: any[]): void {
+  private debug(...data: any[]): void {
         // eslint-disable-next-line no-console
         if (BaseService.NodeEnv !== 'production') console.log('DEBUG', ...data);
     }

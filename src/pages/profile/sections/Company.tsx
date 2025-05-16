@@ -47,7 +47,8 @@ function CompanySection(props: SectionProps) {
             classNameHr={`border-gray-l0`}
         >
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>
-                Organization<span className={sm || md ? 'hidden' : ''}>al Information</span>
+                Organization
+                <span className={sm || md ? 'hidden' : ''}>al Information</span>
             </span>
             <Editable
                 classNameToggleText={`text-14`}

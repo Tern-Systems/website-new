@@ -50,7 +50,9 @@ class RegressionUtilImpl implements RegressionUtil {
             const { width, height } = baselinePNG;
 
             await page.setViewport({ width, height });
-            await page.goto('http://127.0.0.1:3000' + route, { waitUntil: 'networkidle2' });
+            await page.goto('http://127.0.0.1:3000' + route, {
+                waitUntil: 'networkidle2',
+            });
 
             const screenshot = await page.screenshot();
 
