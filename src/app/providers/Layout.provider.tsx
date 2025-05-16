@@ -63,6 +63,9 @@ const getSubNavs = (route: Route | null, breakpoint: Breakpoint): [Route[], Rout
             case checkSubRoute(route, Route.SubscriptionsTidal):
                 breadCrumbLinks = [Route.Subscriptions, Route.SubscriptionsTidal];
                 break;
+            case checkSubRoute(route, Route.Events):
+                breadCrumbLinks = [Route.Events];
+                break;
             default:
                 break;
         }

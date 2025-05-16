@@ -10,7 +10,7 @@ import { MISC_LINKS, Route } from '@/app/static';
 
 import { Button } from '@/app/ui/form';
 import { PageLink } from '@/app/ui/layout';
-import { H1, H2, Section } from '@/app/ui/atoms';
+import { Content, H1, H2, H3, Section } from '@/app/ui/atoms';
 import { Video } from '@/app/ui/organisms';
 import { ResourcesSection } from '@/app/ui/templates';
 
@@ -141,32 +141,17 @@ function TidalPage() {
                     </Button>
                 </div>
             </Section>
-            <section
-                style={{ backgroundImage: `url("${PNG_BACKGROUND_CIRCUIT.src}")` }}
-                className={styles.section}
-            >
-                <div
-                    className={cn(
-                        'max-w-dwv absolute left-0 top-0 z-10 w-dvw h-full bg-cover bg-center bg-no-repeat',
-                        'bg-gradient-to-b from-blue to-transparent to-50%',
-                    )}
-                />
-                <div
-                    className={cn(
-                        styles.content,
-                        'relative z-50 leading-n',
-                        'pt-4xl md:pt-[7.81em] lg:pt-6xl',
-                        'text-16 md:text-14 lg:text-40',
-                    )}
+            <Content type={'long-to-bottom'}>
+                <Section
+                    background={{ image: PNG_BACKGROUND_CIRCUIT }}
+                    className={{ content: cn('py-4xl md:py-[7.81em] lg:py-6xl', 'text-16 md:text-14 lg:text-40') }}
                 >
-                    <h2
-                        className={cn(
-                            'mx-auto text-center font-bold leading-n  w-2/3 sm:w-full',
-                            'text-27 md:text-48 lg:text-64',
-                        )}
+                    <H3
+                        type={'extra-large'}
+                        className={'mx-auto text-center font-bold  w-2/3 sm:w-full'}
                     >
                         Tidal is the World&apos;s First Ternary Software Stack
-                    </h2>
+                    </H3>
                     <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40'}>
                         We are driving the evolution from binary to ternary computing. By harnessing the superior data
                         density and efficiency of ternary logic, Tidal provides developers with an innovative platform
@@ -203,32 +188,24 @@ function TidalPage() {
                             G Handbook
                         </Button>
                     </div>
-                </div>
-            </section>
-            <section
-                ref={demoSectionRef}
-                className={cn(styles.section, styles.sectionShadowBlack)}
-            >
-                <div
-                    className={cn(
-                        styles.content,
-                        styles.contentHighlight,
-                        'text-40 leading-n',
-                        'pt-6xl-1 md:pt-[12.55rem] lg:pt-[16rem]',
-                        'pb-6xl-1 md:pb-[13rem] lg:pb-[19.5rem]',
-                    )}
+                </Section>
+                <Section
+                    className={{
+                        section: cn(
+                            styles.sectionShadowBlack,
+                            'py-6xl-1 md:pt-[12.55rem] lg:pt-[16rem]',
+                            'md:pb-[13rem] lg:pb-[19.5rem]',
+                        ),
+                        content: cn(styles.contentHighlight, 'lg:h-[39.5rem]'),
+                    }}
                 >
                     <Video
                         ref={videoRef}
                         url={MISC_LINKS.TidalDemoEmbed}
-                        className={'max-h-[39.5rem]'}
+                        className={'size-full lg:w-auto'}
                     />
-                </div>
-            </section>
-            <section className={cn(styles.section, '!bg-transparent')}>
-                <div
-                    className={cn(styles.content, 'relative z-50 grid gap-x-5xl leading-n  grid-cols-2 sm:grid-cols-1')}
-                >
+                </Section>
+                <Section className={{ content: 'grid gap-x-5xl  grid-cols-2 sm:grid-cols-1' }}>
                     <div className={'contents'}>
                         <Image
                             src={PNG_GIRL}
@@ -236,7 +213,7 @@ function TidalPage() {
                             className={'m-auto w-[20.9375rem] md:w-[22.0625rem] lg:w-[38.6875rem]'}
                         />
                     </div>
-                    <div className={'sm:contents'}>
+                    <div className={'sm:contents  my-auto'}>
                         <h2
                             className={cn(
                                 'font-bold leading-n',
@@ -252,28 +229,24 @@ function TidalPage() {
                             programming.
                         </p>
                     </div>
-                </div>
-            </section>
-            <section className={styles.section}>
-                <div
-                    className={cn(
-                        styles.content,
-                        styles.contentGradientBlue,
-                        'grid max-h-min grid-cols-[1fr,1fr,max-content] gap-y-5xl leading-n',
-                        'sm:x-[grid-cols-1,w-2/3,justify-items-center]',
-                        'py-6xl md:x-[pt-[16.81rem],pb-[20.69rem]] lg:x-[pt-[19.25rem],pb-[21.56rem]]',
-                        'text-16 lg:text-18',
-                    )}
+                </Section>
+                <Section
+                    className={{
+                        content: cn(
+                            styles.contentGradientBlue,
+                            'grid max-h-min grid-cols-[1fr,1fr,max-content] gap-y-5xl leading-n',
+                            'sm:x-[grid-cols-1,w-2/3,justify-items-center]',
+                            'py-6xl md:x-[pt-[16.81rem],pb-[20.69rem]] lg:x-[pt-[19.25rem],pb-[21.56rem]]',
+                        ),
+                    }}
                 >
-                    <h2
-                        className={cn(
-                            'text-center font-bold leading-n  col-span-3 sm:col-span-1',
-                            'text-27 md:text-36 lg:text-64',
-                        )}
+                    <H3
+                        type={'huge'}
+                        className={'text-center font-bold  col-span-3 sm:col-span-1'}
                     >
                         Learning Together
-                    </h2>
-                    <p className={'sm:text-center'}>
+                    </H3>
+                    <div className={'sm:text-center  text-16 lg:text-18'}>
                         <span className={'block  text-27  lg:text-32'}>Fostering Collaboration</span>
                         <span className={'mt-5xs block'}>
                             Tidal enhances developer collaboration through Explore Keys, a comprehensive database of
@@ -287,7 +260,7 @@ function TidalPage() {
                         >
                             Explore keys
                         </PageLink>
-                    </p>
+                    </div>
                     <div className={'contents'}>
                         <Image
                             src={PNG_GLOBE_GLASS}
@@ -298,11 +271,14 @@ function TidalPage() {
                             )}
                         />
                     </div>
-                </div>
-            </section>
-            <section className={cn(styles.section, 'bg-transparent')}>
-                <div className={cn(styles.content, 'py-6xl')}>
-                    <h2 className={'font-bold sm:x-[text-center,text-27] md:text-36 lg:text-40'}>Features</h2>
+                </Section>
+                <Section className={{ content: 'py-6xl' }}>
+                    <H3
+                        type={'large'}
+                        className={'font-bold sm:text-center  sm:!text-27 md:!text-36'}
+                    >
+                        Features
+                    </H3>
                     <ul
                         className={cn(
                             'grid gap-3xl mx-auto  grid-cols-3 sm:grid-cols-1',
@@ -312,11 +288,14 @@ function TidalPage() {
                     >
                         {TilesLi}
                     </ul>
-                </div>
-            </section>
-            <section className={styles.section}>
-                <div className={cn(styles.content, 'py-5xl')}>
-                    <h2 className={'text-64  font-bold  sm:text-27  md:text-40'}>Get Started</h2>
+                </Section>
+                <Section className={{ content: 'py-5xl' }}>
+                    <H3
+                        type={'huge'}
+                        className={'font-bold  sm:!text-27 lg:!text-64'}
+                    >
+                        Get Started
+                    </H3>
                     <div className={'flex flex-wrap gap-xl text-16  mt-3xl sm:mt-xl'}>
                         {/*TODO links*/}
                         <PageLink
@@ -338,14 +317,14 @@ function TidalPage() {
                             Book a meeting
                         </PageLink>
                     </div>
-                </div>
-            </section>
-            <ResourcesSection
-                data={RESOURCES}
-                className={'mb-7xl md:mb-7xl lg:mb-[12.51rem]'}
-            >
-                More ways to explore
-            </ResourcesSection>
+                </Section>
+                <ResourcesSection
+                    data={RESOURCES}
+                    className={'mb-7xl md:mb-7xl lg:mb-[12.51rem]'}
+                >
+                    More ways to explore
+                </ResourcesSection>
+            </Content>
         </>
     );
 }

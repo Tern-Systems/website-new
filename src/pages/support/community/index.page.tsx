@@ -12,20 +12,17 @@ import { BlogService } from '@/app/services/blog.service';
 
 import { useBreakpointCheck, useModal } from '@/app/hooks';
 
-import { MainBackground } from '@/app/ui/atoms';
+import { Content, H1, H3, Section } from '@/app/ui/atoms';
 import { ArticleCard, Tabs } from '@/app/ui/organisms';
 import { MessageModal } from '@/app/ui/modals';
 import { PageLink } from '@/app/ui/layout';
-
-import styles from '@/app/common.module.css';
+import { CardCheckersSection } from '@/app/ui/templates';
 
 import PNG_BG_MAIN from '@/assets/images/community-bg-main.png';
 import PNG_ABOUT from '@/assets/images/community-about.png';
 import PNG_HIGHLIGHTED_0 from '@/assets/images/community-card-highlighted-0.png';
 import PNG_HIGHLIGHTED_1 from '@/assets/images/community-card-highlighted-2.png';
-
 import SVG_CLOCK from '@/assets/images/icons/clock.svg';
-import { CardCheckersSection } from '@/app/ui/templates';
 
 type Event = {
     date: number;
@@ -107,6 +104,8 @@ const TABS: Tab[] = [
 
 const ARTICLE_CARD_COUNT_LG = 3;
 const MAX_ARTICLE_CARD_COUNT = 4;
+
+const CONTENT_SPACING_CN = 'pt-5xl md:pt-6xl-1 lg:pt-7xl';
 
 function CommunityPage() {
     const modalCtx = useModal();
@@ -205,18 +204,21 @@ function CommunityPage() {
 
     return (
         <>
-            <section className={cn(styles.section, 'h-screen max-h-[21.625rem]')}>
-                <MainBackground
-                    url={PNG_BG_MAIN}
-                    className={'translate-y-0 max-h-full'}
-                />
-                <div className={cn(styles.content, 'relative z-10 pt-xxl')}>
-                    <h1 className={'md:w-[83%] lg:w-1/2  leading-l text-64'}>Welcome to the Tern Community</h1>
-                </div>
-            </section>
-            <section className={cn(styles.section, 'bg-gradient-to-b from-blue to-transparent to-10%')}>
-                <div className={cn(styles.content, 'pt-6xl md:pt-6xl-1 lg:pt-6xl')}>
-                    <h3 className={'text-27 lg:text-40'}>Get plugged in with like minded individuals</h3>
+            <Section
+                type={'short'}
+                background={{ image: PNG_BG_MAIN }}
+                className={{ content: 'pt-xxl' }}
+            >
+                <H1 className={'md:w-[83%] lg:w-1/2 !text-64'}>Welcome to the Tern Community</H1>
+            </Section>
+            <Content>
+                <Section className={{ content: 'pt-6xl md:pt-6xl-1 lg:pt-6xl' }}>
+                    <H3
+                        type={'large'}
+                        className={'sm:!text-27'}
+                    >
+                        Get plugged in with like minded individuals
+                    </H3>
                     <p className={'mt-xxl leading-l  text-20 md:text-21 lg:text-27'}>
                         Tern is dedicated to fostering a strong community around it’s products and services to cultivate
                         a sustainable business mode built on trust.
@@ -239,24 +241,21 @@ function CommunityPage() {
                             Culture. Drives. Markets.
                         </p>
                     </div>
-                </div>
-            </section>
-            <section className={styles.section}>
-                <div className={cn(styles.content, 'pt-5xl md:pt-6xl-1 lg:pt-7xl')}>
+                </Section>
+                <Section className={{ content: CONTENT_SPACING_CN }}>
                     <Tabs
                         title='What Drives You?'
                         description='Join the conversation'
                         tabs={TABS}
                     />
-                </div>
-            </section>
-            <section className={styles.section}>
-                <div className={cn(styles.content, 'pt-5xl md:pt-6xl-1 lg:pt-7xl')}>
-                    <h3 className={cn('text-27 lg:text-40', `mb-xs md:mb-xl lg:mb-xl`)}>Events</h3>
+                </Section>
+                <Section className={{ content: CONTENT_SPACING_CN }}>
+                    <H3 className={'sm:!text-27'}>Events</H3>
                     <ul
                         className={cn(
                             'grid grid-cols-2',
                             'gap-y-xxs gap-x-xs md:x-[gap-y-s,gap-x-n] lg:x-[gap-y-xl,gap-x-xxl]',
+                            `mt-xs md:mt-xl lg:mt-xl`,
                         )}
                     >
                         {EventsLi}
@@ -269,24 +268,21 @@ function CommunityPage() {
                     >
                         See all
                     </PageLink>
-                    <hr className={'border-white  mt-xs md:mt-xxl lg:mt-5xl'} />
-                </div>
-            </section>
-            <section className={styles.section}>
-                <div className={styles.content}>
-                    <CardCheckersSection type={'default'} />
-                </div>
-            </section>
-            {/* TODO create ArticleCards*/}
-            <section className={cn(styles.section, 'bg-gradient-to-t from-blue to-transparent to-60%')}>
-                <div
-                    className={cn(
-                        styles.content,
-                        'pt-5xl md:pt-6xl-1 lg:pt-7xl',
-                        'pb-[33rem] sm:landscape:pb-[12.5rem] md:pb-[27rem] lg:pb-[29.5rem]',
-                    )}
+                    <hr className={'border-white  my-xs md:my-xxl lg:my-5xl'} />
+                </Section>
+                <CardCheckersSection type={'default'} />
+                {/* TODO create ArticleCards*/}
+                <Section
+                    className={{
+                        content: cn('pt-5xl md:pt-6xl-1 lg:pt-7xl', 'pb-[33rem] md:pb-[27rem] lg:pb-[29.5rem]'),
+                    }}
                 >
-                    <h3 className={'text-32 sm:text-27'}>Community News</h3>
+                    <H3
+                        type={'extra-large'}
+                        className={'!text-32'}
+                    >
+                        Community News
+                    </H3>
                     <ul
                         className={cn(
                             `grid auto-rows-max justify-items-center`,
@@ -297,8 +293,8 @@ function CommunityPage() {
                     >
                         {ArticleCardsLi}
                     </ul>
-                </div>
-            </section>
+                </Section>
+            </Content>
         </>
     );
 }

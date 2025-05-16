@@ -15,7 +15,7 @@ const TYPE_CN: Record<SectionType, string> = {
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
     type?: SectionType;
-    background?: { image?: StaticImageData; gradient?: 'left' };
+    background?: { image?: StaticImageData | string; gradient?: 'left' };
     className?: {
         section?: string;
         content?: string;

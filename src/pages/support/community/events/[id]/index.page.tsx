@@ -7,7 +7,7 @@ import Image from 'next/image';
 import cn from 'classnames';
 
 import { formatDate } from '@/app/utils';
-import { BreadcrumbRoute } from '@/app/ui/atoms';
+import { BreadcrumbRoute, Content, H1, Section } from '@/app/ui/atoms';
 
 import { Button } from '@/app/ui/form';
 
@@ -56,14 +56,13 @@ const INFO_CN = 'border-t-s border-gray-l0 py-xxs px-4xs  md:p-xs  lg:x-[px-xs,p
 const BUTTON_CN = 'flex justify-between items-center px-3xs py-xxs text-left text-14 lg:text-16';
 
 function EventPage() {
-    const { id } = useParams() ?? ({} as { id: string });
+    const { id } = (useParams() ?? {}) as { id: string };
 
     const [url, setURL] = useState<string | null>(null);
     const [event, setEvent] = useState<Event | null>(null);
 
     useEffect(() => {
         setEvent(EVENTS_TEMPLATE[0]); // TODO: API Fetching
-
         setURL(window.location.href);
     }, [id]);
 
@@ -83,19 +82,11 @@ function EventPage() {
     ));
 
     return (
-        <div
-            className={cn(
-                styles.section,
-                styles.fullHeightSection,
-                `bg-black bg-gradient-to-t from-blue to-black to-30% lg:to-40%`,
-            )}
-        >
-            <div className={cn(styles.content, 'py-n  md:py-xxl  lg:py-xxl')}>
-                <BreadcrumbRoute className='[&]:mt-0' />
+        <Content type={'to-top'}>
+            <Section>
+                <BreadcrumbRoute leave={id} />
                 <div className={'flex flex-col gap-x-xs mt-n md:mt-xxl lg:mt-xxl'}>
-                    <div className={' w-full'}>
-                        <h1 className={'leading-n  text-20 md:text-32 lg:text-36'}>{event?.title}</h1>
-                    </div>
+                    <H1 type={'extra-small'}>{event?.title}</H1>
                     <div className={'contents lg:block'}>
                         <div className={cn(INFO_CN, 'mt-n md:mt-xxl lg:mt-xxl')}>
                             <span className={'text-12  md:text-14  lg:text-16'}>
@@ -108,7 +99,6 @@ function EventPage() {
                         </div>
                     </div>
                 </div>
-
                 <div
                     className={cn(
                         'grid grid-cols-1 ml-3xs gap-xs',
@@ -127,12 +117,9 @@ function EventPage() {
                             {event?.tag ?? 'Webinar'}
                         </span>
                     </div>
-                    <div className=''>
-                        <div className='leading-tight text-18  md:text-21  lg:text-24'>
-                            {event?.description ?? 'Event description is not provided'}
-                        </div>
+                    <div className='leading-tight text-18  md:text-21  lg:text-24'>
+                        <span>{event?.description ?? 'Event description is not provided'}</span>
                     </div>
-
                     <div className='flex flex-col gap-y-xxl mt-n  md:mt-0  lg:mt-0  '>
                         <div className='flex flex-col gap-y-xxs  lg:gap-y-xs'>
                             <Button
@@ -152,16 +139,15 @@ function EventPage() {
                                 Add to Calendar
                             </Button>
                         </div>
-
-                        <div className='flex flex-col gap-y-xs text-primary '>
-                            <h6 className='leading-none font-bold text-24'>Contact</h6>
-                            <span className='ml-4xs text-14'>Andrew Lee</span>
-                            <span className='ml-4xs text-14'>andrewlee@tern.ac</span>
+                        <div className='flex flex-col gap-y-xs text-primary text-14'>
+                            <h6 className='font-bold text-24'>Contact</h6>
+                            <p>Andrew Lee</p>
+                            <p>andrewlee@tern.ac</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </Section>
+        </Content>
     );
 }
 

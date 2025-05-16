@@ -2,20 +2,15 @@
 
 import React from 'react';
 import { StaticImageData } from 'next/image';
-import cn from 'classnames';
 
 import { DocumentationLink, ResourceLink, ResourceSectionData } from '@/app/types/layout';
-import { Breakpoint } from '@/app/static';
-import { Route } from '@/app/static';
+import { Breakpoint, Route } from '@/app/static';
 
-import { useBreakpointCheck } from '@/app/hooks';
-import { useUser } from '@/app/hooks';
+import { useBreakpointCheck, useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
-import { BreadcrumbRoute } from '@/app/ui/atoms';
+import { BreadcrumbRoute, H1, Section } from '@/app/ui/atoms';
 import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
-
-import styles from '@/app/common.module.css';
 
 import SVG_DOWNLOAD_ARROW from '@/assets/images/icons/arrow-down-underline.svg';
 import SVG_ARROW from '@/assets/images/icons/arrow.svg';
@@ -75,16 +70,17 @@ function DocumentationPage(props: Props) {
 
     return (
         <div className={'pb-6xl'}>
-            <section className={styles.content}>
+            <Section>
                 <BreadcrumbRoute />
-                <h1 className={`mt-3xl font-montserrat text-32 font-bold  sm:text-30`}>Downloads</h1>
-            </section>
-            <section className={cn(styles.content, styles.contentHighlight)}>
+                <H1 className={`mt-3xl font-montserrat !text-32 font-bold  sm:!text-30`}>Downloads</H1>
+            </Section>
+            <Section>
                 <ResourceCards
+                    highlighted
                     icon={icon}
                     links={links}
                 />
-            </section>
+            </Section>
             <ResourcesSection
                 data={RESOURCES}
                 className={'mt-6xl-1'}

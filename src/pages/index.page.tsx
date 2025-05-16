@@ -12,7 +12,7 @@ import { CONTACT_LINKS, MEDIA_LINKS, MISC_LINKS, Route, SearchParamsEnum } from 
 import { useBackground, useFlow, useLoginCheck, useModal } from '@/app/hooks';
 
 import { ResetPasswordModal } from '@/app/ui/modals';
-import { MainBackground } from '@/app/ui/atoms';
+import { H1, H2, MainBackground, Section } from '@/app/ui/atoms';
 import { Carousel } from '@/app/ui/organisms';
 import { PageLink } from '@/app/ui/layout';
 import { InfoSection, InsideTernSection } from '@/app/ui/templates';
@@ -130,115 +130,80 @@ function HomePage() {
     return (
         <>
             <div className={'relative z-10'}>
-                <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <MainBackground
-                        url={bgSrc}
-                        className={styles.sectionInsetShadowBlack}
-                    />
-                    <div className={cn(styles.content, 'relative z-10 flex items-center justify-center')}>
-                        <div>
-                            <h1
-                                className={cn(
-                                    `text-center leading-n`,
-                                    `mb-n text-64`,
-                                    `md:text-48`,
-                                    `sm:x-[mb-xs,text-36]`,
-                                )}
+                <Section
+                    type={'full-screen'}
+                    background={{ image: bgSrc }}
+                    className={{ content: '!justify-center' }}
+                >
+                    <div>
+                        <H1 className={`text-center  sm:!text-36`}>We Design Advanced Semiconductors</H1>
+                        <div
+                            className={cn(
+                                'flex flex-wrap justify-center text-nowrap',
+                                'gap-s lg:gap-x-xl sm:mt-xs',
+                                'text-16 lg:text-21',
+                            )}
+                        >
+                            <PageLink
+                                external
+                                href={MISC_LINKS.Tidal}
+                                className={cn(BTN_CN, 'bg-blue text-black')}
                             >
-                                We Design Advanced Semiconductors
-                            </h1>
-                            <p
-                                className={
-                                    'flex flex-wrap justify-center gap-s text-nowrap text-16 lg:x-[gap-x-xl,text-21]'
-                                }
+                                Discover Tern
+                            </PageLink>
+                            <PageLink
+                                external
+                                href={MISC_LINKS.TidalDemo}
+                                className={cn(BTN_CN, 'h-button-l border-n border-gray-l0 bg-black text-blue')}
                             >
-                                <PageLink
-                                    external
-                                    href={MISC_LINKS.Tidal}
-                                    className={cn(BTN_CN, 'bg-blue text-black')}
-                                >
-                                    Discover Tern
-                                </PageLink>
-                                <PageLink
-                                    external
-                                    href={MISC_LINKS.TidalDemo}
-                                    className={cn(BTN_CN, 'h-button-l border-n border-gray-l0 bg-black text-blue')}
-                                >
-                                    Watch Demo
-                                </PageLink>
-                            </p>
+                                Watch Demo
+                            </PageLink>
                         </div>
                     </div>
-                </section>
-                <section className={cn(styles.section, styles.fullHeightSection)}>
-                    <div
-                        className={cn(
-                            styles.content,
-                            'flex flex-col',
-                            'sm:pt-xl pt-5xl',
-                            'pb-7xl md:pb-[16rem] lg:pb-[20rem]',
-                        )}
-                    >
-                        <h2
-                            className={cn(
-                                'text-center font-[500]',
-                                'sm:leading-l leading-relaxed',
-                                'text-24 md:text-48 lg:text-48',
-                            )}
-                        >
-                            <span>There’s Always a Better Way</span>
-                            <span className={'block text-blue'}>All Ways</span>
-                        </h2>
-                        <Carousel
-                            className={'lg:contents'}
-                            ul={cn(
-                                'grid-cols-[repeat(3,22rem)]',
-                                'lg:max-h-[30.3125rem]',
-                                'sm:!h-fit sm:grid-cols-[minmax(0,21rem)]',
-                            )}
-                            classNameArrow={'hidden  md:block'}
-                        >
-                            {CardsLi}
-                        </Carousel>
-                    </div>
-                </section>
-                <section
-                    className={cn(
-                        styles.section,
-                        'from-green bg-gradient-to-t via-[#0a313a] to-transparent',
-                        'pb-[19rem] md:pb-[21rem] lg:pb-[24rem]',
-                    )}
+                </Section>
+                <Section
+                    type={'full-screen'}
+                    className={{ content: 'sm:pt-xl pt-5xl  pb-7xl md:pb-[16rem] lg:pb-[20rem]' }}
                 >
-                    <div className={styles.content}>
-                        <p
-                            className={cn(
-                                'text-left font-bold leading-n',
-                                'text-20 md:text-24 lg:text-32',
-                                'sm:mt-[10.5rem] mt-auto',
-                                'sm:w-full w-[82%]',
-                            )}
-                        >
-                            Amidst the most demanding era of computational energy in history, we are reminded,
-                        </p>
-                        <h2
-                            className={cn(
-                                'my-3xl text-center font-arial font-bold italic',
-                                'text-80',
-                                'md:text-64',
-                                'sm:text-30',
-                            )}
-                        >
-                            the world is not binary
-                        </h2>
-                        <p className={'text-right text-32 font-bold sm:text-20 md:text-24'}>
-                            and neither is the future.
-                        </p>
-                    </div>
-                </section>
+                    <H2
+                        className={cn('text-center font-[500]', 'sm:leading-l leading-relaxed', 'sm:!text-24 !text-48')}
+                    >
+                        <span>There’s Always a Better Way</span>
+                        <span className={'block text-blue'}>All Ways</span>
+                    </H2>
+                    <Carousel
+                        className={'lg:contents'}
+                        ul={cn(
+                            'grid-cols-[repeat(3,22rem)]',
+                            'lg:max-h-[30.3125rem]',
+                            'sm:!h-fit sm:grid-cols-[minmax(0,21rem)]',
+                        )}
+                        classNameArrow={'hidden  md:block'}
+                    >
+                        {CardsLi}
+                    </Carousel>
+                </Section>
+                <Section
+                    className={{
+                        content: cn(
+                            'leading-n font-bold',
+                            'pb-[19rem] md:pb-[21rem] lg:pb-[24rem]',
+                            'text-20 md:text-24 lg:text-32',
+                        ),
+                    }}
+                >
+                    <p className={'text-left sm:mt-[10.5rem] mt-auto  sm:w-full w-[82%]'}>
+                        Amidst the most demanding era of computational energy in history, we are reminded,
+                    </p>
+                    <h2 className={'my-3xl text-center font-arial italic  lg:text-80 md:text-64 sm:text-30'}>
+                        the world is not binary
+                    </h2>
+                    <p className={'text-right'}>and neither is the future.</p>
+                </Section>
                 <InfoSection
                     blur
                     data={INFO}
-                    classNameContent='mb-[15rem]'
+                    classNameContent={'mb-[15rem]'}
                 />
                 <InsideTernSection />
             </div>

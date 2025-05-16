@@ -30,7 +30,7 @@ const Content: FC<Props> = (props: Props) => {
             {...divProps}
             className={cn(
                 'relative pb-[25.625rem] min-h-screen',
-                { ['pt-[9.375rem]']: !heading && main !== 'blue-to-right' },
+                { ['pt-[9.375rem]']: !heading && ['blue-to-right', 'long-to-bottom'].includes(main ?? '') },
                 className,
             )}
         >

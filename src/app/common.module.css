@@ -32,7 +32,7 @@
 }
 
 .contentGradientBlue:before {
-  @apply absolute z-10 top-0 left-0 size-full bg-blue blur-[12.5rem];
+  @apply absolute -z-10 top-0 left-0 size-full bg-blue blur-[12.5rem];
   content: "";
 }
 

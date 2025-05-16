@@ -21,6 +21,7 @@ import { PageLink } from '@/app/ui/layout';
 import { ResourcesSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
+import { H1, Section } from '@/app/ui/atoms';
 
 const TestID = DataTestID.page.profile.billing;
 
@@ -120,27 +121,27 @@ const BillingPage: FC = () => {
     };
 
     return (
-        <div className={cn(styles.section, `pt-6xl-1`)}>
-            <section className={styles.content}>
-                <h1 className={`flex text-32 font-bold`}>Billing</h1>
-            </section>
-            <section className={cn(styles.content, styles.contentHighlight, 'mt-xl  lg:mt-xxl')}>
-                <Table
-                    table={table}
-                    Row={InvoiceRow}
-                >
-                    <td className={'w-[21.0%] sm:w-1/2 md:w-[31.0%]'}>Order Number</td>
-                    <td className={'w-[21.0%] sm:w-1/2 md:w-[26.0%]'}>Date</td>
-                    <td className={cn('w-[16.4%]', MD_SM_HIDDEN_CN)}>Cost</td>
-                    <td className={cn('w-[11.8%]', MD_SM_HIDDEN_CN)}>Status</td>
-                    <td className={SM_HIDDEN_CN}>Item</td>
-                </Table>
-            </section>
+        <>
+            <Section className={{ section: 'pt-6xl-1' }}>
+                <H1 className={`font-bold !text-32`}>Billing</H1>
+                <div className={cn(styles.contentHighlight, 'mt-xl  lg:mt-xxl')}>
+                    <Table
+                        table={table}
+                        Row={InvoiceRow}
+                    >
+                        <td className={'w-[21.0%] sm:w-1/2 md:w-[31.0%]'}>Order Number</td>
+                        <td className={'w-[21.0%] sm:w-1/2 md:w-[26.0%]'}>Date</td>
+                        <td className={cn('w-[16.4%]', MD_SM_HIDDEN_CN)}>Cost</td>
+                        <td className={cn('w-[11.8%]', MD_SM_HIDDEN_CN)}>Status</td>
+                        <td className={SM_HIDDEN_CN}>Item</td>
+                    </Table>
+                </div>
+            </Section>
             <ResourcesSection
                 data={RESOURCES}
                 className={'mb-7xl mt-6xl-1'}
             />
-        </div>
+        </>
     );
 };
 
