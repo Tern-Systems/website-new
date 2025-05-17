@@ -1,7 +1,8 @@
 'use client';
 
-import { FC, ReactElement, useRef, useState } from 'react';
+import { FC, ReactElement, useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 
 import { DataTestID } from '@/tests/static';
@@ -19,6 +20,24 @@ import { AuthModal } from '@/app/ui/modals';
 import SVG_PROFILE from '@/assets/images/icons/profile.svg';
 
 const TestID = DataTestID.layout.profile;
+
+// Helper function to determine if current page requires member info
+const checkIfPageRequiresMemberInfo = () => {
+    // Get current path
+    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+
+    // List of paths that require member info
+    const memberPaths = [
+        '/profile',
+        '/account',
+        '/dashboard',
+        '/settings',
+        // Add other member-only paths
+    ];
+
+    // Check if current path starts with any member path
+    return memberPaths.some((path) => currentPath.startsWith(path));
+};
 
 const AUTH_BUTTONS: {
     testID: string;
@@ -44,12 +63,52 @@ const ProfileMenu: FC = () => {
     const modalCtx = useModal();
     const userCtx = useUser();
     const sm = useBreakpointCheck() <= Breakpoint.xxs;
+    const pathname = usePathname();
 
     const [opened, setOpened] = useState(false);
+    const [previousLoginState, setPreviousLoginState] = useState(false);
 
     const ref = useRef<HTMLDivElement | null>(null);
 
-    useOuterClickClose(ref, opened, setOpened);
+    // Create a custom handler for the outer click that safely sets opened
+    const handleOuterClick = (event: MouseEvent) => {
+        if (opened && ref.current && !ref.current.contains(event.target as Node)) {
+            setOpened(false);
+        }
+    };
+
+    // Set up the event listener manually
+    useEffect(() => {
+        document.addEventListener('mousedown', handleOuterClick);
+        return () => {
+            document.removeEventListener('mousedown', handleOuterClick);
+        };
+    }, [opened]);
+
+    // Track login state changes to detect logout
+    useEffect(() => {
+        // If user was logged in but now isn't, they just logged out
+        if (previousLoginState && userCtx.isLoggedIn === false) {
+            // Close the dropdown menu on logout
+            setOpened(false);
+
+            // If on a page requiring member info, show login modal
+            if (checkIfPageRequiresMemberInfo()) {
+                modalCtx.openModal(<AuthModal registration={false} />, {
+                    darkenBg: !sm,
+                });
+            }
+        }
+
+        // Update the previous login state - ensure it's a boolean
+        setPreviousLoginState(!!userCtx.isLoggedIn);
+    }, [userCtx.isLoggedIn, modalCtx, sm]);
+
+    // If the user is not logged in and the page requires member info,
+    // don't render the profile menu at all
+    if (userCtx.isLoggedIn === false && checkIfPageRequiresMemberInfo()) {
+        return null;
+    }
 
     let ProfileMenu: ReactElement | null = null;
     if (opened) {
@@ -91,41 +150,44 @@ const ProfileMenu: FC = () => {
                 </ul>
             );
         } else {
-            const ProfileMenuLi: ReactElement[] = AUTH_BUTTONS.map((entry, idx) => (
-                <li
-                    key={entry.title + idx}
-                    className={'flex flex-col gap-y-4xs'}
-                >
-                    <p className={'text-18'}>{entry.title}</p>
-                    <p className={'text-gray'}>{entry.description}</p>
-                    <Button
-                        data-testid={entry.testID}
-                        onClick={() =>
-                            modalCtx.openModal(<AuthModal registration={idx === 1} />, {
-                                darkenBg: !sm,
-                            })
-                        }
+            // If not logged in, only show login dropdown on pages that don't require member info
+            if (!checkIfPageRequiresMemberInfo()) {
+                const ProfileMenuLi: ReactElement[] = AUTH_BUTTONS.map((entry, idx) => (
+                    <li
+                        key={entry.title + idx}
+                        className={'flex flex-col gap-y-4xs'}
+                    >
+                        <p className={'text-18'}>{entry.title}</p>
+                        <p className={'text-gray'}>{entry.description}</p>
+                        <Button
+                            data-testid={entry.testID}
+                            onClick={() =>
+                                modalCtx.openModal(<AuthModal registration={idx === 1} />, {
+                                    darkenBg: !sm,
+                                })
+                            }
+                            className={cn(
+                                `w-full rounded-full border-s border-gray py-5xs text-20 font-bold capitalize`,
+                                idx ? 'bg-black text-primary' : 'bg-white text-black',
+                            )}
+                        >
+                            {entry.action}
+                        </Button>
+                    </li>
+                ));
+                ProfileMenu = (
+                    <div
+                        data-testid={TestID.menuUnlogged}
                         className={cn(
-                            `w-full rounded-full border-s border-gray py-5xs text-20 font-bold capitalize`,
-                            idx ? 'bg-black text-primary' : 'bg-white text-black',
+                            'absolute right-0 z-10 mt-5xs rounded-n border-s p-n',
+                            'text-nowrap border-gray-l0 bg-black',
                         )}
                     >
-                        {entry.action}
-                    </Button>
-                </li>
-            ));
-            ProfileMenu = (
-                <div
-                    data-testid={TestID.menuUnlogged}
-                    className={cn(
-                        'absolute right-0 z-10 mt-5xs rounded-n border-s p-n',
-                        'text-nowrap border-gray-l0 bg-black',
-                    )}
-                >
-                    <h2 className={'text-27 font-bold'}>Tern Account</h2>
-                    <ul className={'mt-xs flex flex-col gap-y-xs'}>{ProfileMenuLi}</ul>
-                </div>
-            );
+                        <h2 className={'text-27 font-bold'}>Tern Account</h2>
+                        <ul className={'mt-xs flex flex-col gap-y-xs'}>{ProfileMenuLi}</ul>
+                    </div>
+                );
+            }
         }
     }
 
