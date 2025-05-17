@@ -44,7 +44,7 @@ const COURSE_LINKS: Course[] = [
         href: '',
     },
     {
-        title: 'T271',
+        title: 'T27I',
         description:
             'How to Read TERN, Syntax Rules, Language Overview, Instructions, Arithmetic, Branching, Tertwise, Opcode Meanings',
         href: '',
@@ -134,6 +134,7 @@ function SubscriptionsPage() {
                 background={{ image: PNG_MAIN, gradient: 'left' }}
                 className={{
                     content: 'flex flex-col justify-between  py-xxl sm:pb-[2.81rem]',
+                    background: 'sm:bg-center',
                 }}
             >
                 <H1
