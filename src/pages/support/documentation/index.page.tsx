@@ -10,9 +10,7 @@ import { useUser } from '@/app/hooks';
 
 import { PageLink } from '@/app/ui/layout';
 import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
-
-import styles from '@/app/common.module.css';
-import { BreadcrumbRoute } from '@/app/ui/atoms';
+import { BreadcrumbRoute, H1, Section } from '@/app/ui/atoms';
 
 import SVG_ARROW from '@/assets/images/icons/arrow.svg';
 
@@ -40,16 +38,17 @@ function DocumentationPage(props: Props) {
 
     return (
         <div className={'pb-6xl'}>
-            <section className={styles.content}>
+            <Section>
                 <BreadcrumbRoute />
-                <h1 className={`mt-3xl font-montserrat text-32 font-bold  sm:text-30`}>Documentation</h1>
-            </section>
-            <section className={styles.content}>
+                <H1 className={`mt-3xl font-montserrat !text-32 font-bold  sm:!text-30`}>Documentation</H1>
+            </Section>
+            <Section>
                 <ResourceCards
+                    highlighted
                     icon={SVG_ARROW}
                     links={links}
                 />
-            </section>
+            </Section>
             <ResourcesSection
                 data={RESOURCES}
                 className={'mt-6xl-1'}

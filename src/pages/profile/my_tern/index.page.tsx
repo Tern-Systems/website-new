@@ -12,6 +12,7 @@ import { MD_SM_HIDDEN_CN, MISC_LINKS, Route, SM_HIDDEN_CN } from '@/app/static';
 import { capitalize, copyObject } from '@/app/utils';
 import { useLoginCheck, useModal, useNavigate, useUser } from '@/app/hooks';
 
+import { H1, Section } from '@/app/ui/atoms';
 import { PageLink } from '@/app/ui/layout';
 import { Table } from '@/app/ui/organisms';
 import { MessageModal } from '@/app/ui/modals';
@@ -21,7 +22,7 @@ import { ResourcesSection } from '@/app/ui/templates';
 import styles from '@/app/common.module.css';
 
 import SVG_ARROW_LONG from '@/assets/images/icons/arrow-right-long.svg';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 type TableEntry = {
     name: string;
@@ -211,9 +212,9 @@ function MyTernPage() {
             href={btn.href}
         >
             <Button
-                icon={faChevronDown}
-                className={cn(`flex-row-reverse bg-blue`, `p-4xs text-16`, `xxs:x-[p-4xs-1,text-14]`)}
-                classNameIcon={cn(`[&_path]:fill-primary -rotate-90 ml-n w-[0.6rem]`, `sm:w-8xs`)}
+                icon={faChevronRight}
+                className={cn(`flex-row-reverse gap-x-n bg-blue  xxs:p-4xs-1 p-4xs  xxs:text-14 text-16`)}
+                classNameIcon={cn(`[&_path]:fill-primary  sm:w-8xs [&_*]:w-[0.6rem]`)}
             >
                 {btn.title}
             </Button>
@@ -221,43 +222,45 @@ function MyTernPage() {
     ));
 
     return (
-        <div className={cn(styles.section, `pt-6xl-1`)}>
-            <section className={styles.content}>
-                <h1 className={`flex text-32 font-bold`}>Dashboard</h1>
+        <>
+            <Section className={{ content: `pt-6xl-1` }}>
+                <H1 className={`flex !text-32 font-bold`}>Dashboard</H1>
                 <p className={'text-xxs mt-xxs'}>{renderSinceDate(userCtx.userData?.registrationDate)}</p>
-            </section>
-            <section className={cn(styles.content, 'mt-n flex flex-wrap gap-xs xxs:gap-x-xxs')}>{LinksLi}</section>
-            <section className={cn(styles.content, styles.contentHighlight, 'relative mt-xxl flex flex-col  gap-y-xl')}>
-                <Table
-                    table={subscriptionTable}
-                    Row={SubscriptionRow}
-                    cnTable={'!max-h-full'}
-                >
-                    <td>Item</td>
-                    <td className={MD_SM_HIDDEN_CN}>Plan Type</td>
-                    <td className={SM_HIDDEN_CN}>Upcoming payment</td>
-                    <td />
-                </Table>
-                <Table
-                    table={{
-                        title: 'Community Events',
-                        data: communityEvents,
-                        fallback: 'No upcoming news or events.',
-                    }}
-                    Row={EventRow}
-                    cnTable={'!max-h-full'}
-                >
-                    <td>Event</td>
-                    <td className={MD_SM_HIDDEN_CN}>Type</td>
-                    <td className={SM_HIDDEN_CN}>Date</td>
-                    <td />
-                </Table>
-            </section>
+                <div className={'mt-n flex flex-wrap gap-xs xxs:gap-x-xxs'}>{LinksLi}</div>
+            </Section>
+            <Section className={{ content: `mt-xxl` }}>
+                <div className={cn(styles.contentHighlight, 'relative flex flex-col  gap-y-xl')}>
+                    <Table
+                        table={subscriptionTable}
+                        Row={SubscriptionRow}
+                        cnTable={'!max-h-full'}
+                    >
+                        <td>Item</td>
+                        <td className={MD_SM_HIDDEN_CN}>Plan Type</td>
+                        <td className={SM_HIDDEN_CN}>Upcoming payment</td>
+                        <td />
+                    </Table>
+                    <Table
+                        table={{
+                            title: 'Community Events',
+                            data: communityEvents,
+                            fallback: 'No upcoming news or events.',
+                        }}
+                        Row={EventRow}
+                        cnTable={'!max-h-full'}
+                    >
+                        <td>Event</td>
+                        <td className={MD_SM_HIDDEN_CN}>Type</td>
+                        <td className={SM_HIDDEN_CN}>Date</td>
+                        <td />
+                    </Table>
+                </div>
+            </Section>
             <ResourcesSection
                 data={RESOURCES}
                 className={'mb-7xl mt-6xl-1'}
             />
-        </div>
+        </>
     );
 }
 

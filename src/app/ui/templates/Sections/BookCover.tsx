@@ -11,9 +11,10 @@ import { PageLink } from '@/app/ui/layout';
 import DARK from '@/assets/images/book-cover-dark.png';
 import LIGHT from '@/assets/images/book-cover-light.png';
 import BLUE from '@/assets/images/book-cover-blue.png';
+import NAVY from '@/assets/images/book-cover-navy.png';
 
 interface Props {
-    type?: 'light' | 'blue' | 'dark';
+    type?: 'light' | 'blue' | 'dark' | 'navy';
     title: string;
     Description: ReactElement;
     link: {
@@ -39,6 +40,9 @@ const BookCoverSection: FC<Props> = (props: Props) => {
         case 'light':
             image = LIGHT;
             descriptionCN = 'text-black';
+            break;
+        case 'navy':
+            image = NAVY;
             break;
     }
 

@@ -24,7 +24,7 @@ interface Props {
 
 const Gradient: FC<Props> = (props: Props) => (
     <div
-        className={cn('absolute -z-10 inset-0 scale-[101%] h-full', TYPE_CN[props.type ?? 'default-black-to-right'])}
+        className={cn('absolute -z-10 inset-0 scale-[100.02%] h-full', TYPE_CN[props.type ?? 'default-black-to-right'])}
     />
 );
 

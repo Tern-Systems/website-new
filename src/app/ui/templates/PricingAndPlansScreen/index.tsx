@@ -30,6 +30,7 @@ import SVG_STAR from '@/assets/images/icons/star.svg';
 import SVG_DIAMOND from '@/assets/images/icons/diamond.svg';
 import SVG_DIAMOND_ACE from '@/assets/images/icons/diamond-ace.svg';
 import { DataTestID } from '@/tests/static';
+import { H2 } from '@/app/ui/atoms';
 
 const TestID = DataTestID.page.tidal.plans;
 
@@ -214,13 +215,9 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
 
         const CollapsedContentSm = (
             <>
-                <h2
-                    className={cn(
-                        `flex items-center font-bold capitalize`,
-                        `mb-4xs text-21`,
-                        `lg:x-[mb-xxs,text-27]`,
-                        `md:text-27`,
-                    )}
+                <H2
+                    type={'large'}
+                    className={`flex items-center font-bold capitalize  mb-4xs lg:mb-xxs  lg:text-27`}
                 >
                     <Image
                         src={idx ? SVG_DIAMOND : SVG_DIAMOND_ACE}
@@ -228,7 +225,7 @@ const PricingAndPlansScreen: FC<Props> = (props: Props) => {
                         className={`mr-5xs h-auto w-xxs sm:w-5xs`}
                     />
                     <span data-testid={TestID.card.name}>{type}</span>
-                </h2>
+                </H2>
                 <div
                     className={cn(
                         'text-secondary',

@@ -4,7 +4,7 @@ import cn from 'classnames';
 interface Props extends HTMLProps<HTMLHeadingElement> {}
 
 interface TypeProps extends Props {
-    type?: 'large' | 'small' | 'default';
+    type?: 'large' | 'extra-large' | 'extra-small' | 'small' | 'default' | 'huge' | 'extra-huge';
 }
 
 const H1: FC<TypeProps> = (props: TypeProps) => {
@@ -15,6 +15,9 @@ const H1: FC<TypeProps> = (props: TypeProps) => {
         default:
         case 'default':
             typeCN = 'text-32 md:text-48 lg:text-64';
+            break;
+        case 'extra-small':
+            typeCN = 'text-21 md:text-32 lg:text-36';
             break;
         case 'small':
             typeCN = 'text-24 md:text-40 lg:text-48';
@@ -69,6 +72,15 @@ const H3: FC<TypeProps> = (props: TypeProps) => {
             break;
         case 'large':
             typeCN = 'text-24 md:text-27 lg:text-40';
+            break;
+        case 'extra-large':
+            typeCN = 'text-27 md:text-48 lg:text-64';
+            break;
+        case 'huge':
+            typeCN = 'text-32 md:text-40 lg:text-48';
+            break;
+        case 'extra-huge':
+            typeCN = 'text-30 md:text-64 lg:text-96';
             break;
     }
 
