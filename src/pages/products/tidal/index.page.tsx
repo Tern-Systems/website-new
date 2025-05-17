@@ -30,6 +30,7 @@ import SVG_TILE_SHARE from '@/assets/images/icons/share.svg';
 import SVG_TILE_SAVE from '@/assets/images/icons/save.svg';
 import SVG_TILE_HEART from '@/assets/images/icons/heart.svg';
 import SVG_PLAY from '@/assets/images/icons/play.svg';
+import { useNavigate } from '@/app/hooks';
 
 type Tiles = {
     title: string;
@@ -90,8 +91,8 @@ const BTN_BLACK_CN = BTN_CN + ' border-s border-gray-l0 bg-black text-blue';
 
 function TidalPage() {
     const demoSectionRef = useRef<HTMLDivElement | null>(null);
-
     const videoRef = useRef<HTMLDivElement | null>(null);
+    const [navigate] = useNavigate();
 
     // Elements
     const TilesLi: ReactElement[] = TILES.map((tile, idx) => (
@@ -164,7 +165,7 @@ function TidalPage() {
                             'text-27 md:text-48 lg:text-64',
                         )}
                     >
-                        Tidal is the World’s First Ternary Software Stack
+                        Tidal is the World&apos;s First Ternary Software Stack
                     </h2>
                     <p className={'mt-6xl-1 sm:mt-xxl  text-16 md:text-30 lg:text-40'}>
                         We are driving the evolution from binary to ternary computing. By harnessing the superior data
@@ -196,7 +197,7 @@ function TidalPage() {
                     </p>
                     <div className={'mt-xl md:mt-4xl lg:mt-5xl'}>
                         <Button
-                            onClick={() => demoSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                            onClick={() => navigate(Route.GDoc)}
                             className={cn(BTN_BLACK_CN, 'text-21 sm:text-16')}
                         >
                             G Handbook
