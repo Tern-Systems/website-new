@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, FC, ReactElement, SetStateAction, useRef } from 'react';
+import { FC, ReactElement, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import { SelectOptions } from '@/app/ui/form/Select';
@@ -8,7 +8,8 @@ import { SelectOptions } from '@/app/ui/form/Select';
 import { useOuterClickClose } from '@/app/hooks';
 import { formatDate } from '@/app/utils';
 
-import { Input, Select } from '@/app/ui/form';
+import { Button, Input, Select } from '@/app/ui/form';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 type FilterList = { multiple?: true; options: SelectOptions };
 type Filter = {
@@ -30,15 +31,14 @@ const CONTROL_PROPS_CN = {
     className: 'h-n pl-5xs !bg-gray !border-s !border-gray-l0 text-14',
 };
 
-interface Props extends FilterProps {
-    expandedState: [boolean, Dispatch<SetStateAction<boolean>>];
-}
+interface Props extends FilterProps {}
 
 const Filters: FC<Props> = (props: Props) => {
-    const { filters, dateFilter, expandedState } = props;
-    const [expanded, setExpanded] = expandedState;
+    const { filters, dateFilter } = props;
 
-    const filterRef = useRef<HTMLUListElement | null>(null);
+    const [expanded, setExpanded] = useState(false);
+
+    const filterRef = useRef<HTMLDivElement | null>(null);
     useOuterClickClose(filterRef, expanded, setExpanded);
 
     const FiltersLi: ReactElement[] = filters.map((filter: Filter, idx) => {
@@ -71,34 +71,44 @@ const Filters: FC<Props> = (props: Props) => {
     });
 
     return (
-        <ul
-            ref={filterRef}
-            className={cn(
-                'absolute z-50 top-full right-[1px]  max-w-full overflow-x-scroll',
-                'grid grid-flow-col gap-x-n p-xs',
-                'bg-gray border-s border-gray-l0 overflow-hidden',
-            )}
-        >
-            {FiltersLi}
-            {dateFilter ? (
-                <li className={'flex flex-col w-1/3'}>
-                    <Input
-                        type={'date'}
-                        value={dateFilter.start[0] === 0 ? '' : formatDate(dateFilter.start[0], 'numerical')}
-                        onChange={(event) => dateFilter?.start[1](event.currentTarget.value)}
-                        {...CONTROL_PROPS_CN}
-                    >
-                        Date Range
-                    </Input>
-                    <Input
-                        type={'date'}
-                        value={dateFilter.end[0] === Date.now() ? '' : formatDate(dateFilter.end[0], 'numerical')}
-                        onChange={(event) => dateFilter?.end[1](event.currentTarget.value)}
-                        {...CONTROL_PROPS_CN}
-                    />
-                </li>
+        <div ref={filterRef}>
+            <Button
+                onClick={() => setExpanded((prevState) => !prevState)}
+                icon={expanded ? faChevronUp : faChevronDown}
+                className={cn('size-6xl', expanded ? 'bg-gray' : 'bg-inherit')}
+            />
+            {expanded ? (
+                <ul
+                    className={cn(
+                        'absolute z-[100] top-full right-[1px]  max-w-full overflow-x-scroll',
+                        'grid grid-flow-col gap-x-n p-xs',
+                        'bg-gray border-s border-gray-l0 overflow-hidden',
+                    )}
+                >
+                    {FiltersLi}
+                    {dateFilter ? (
+                        <li className={'flex flex-col w-1/3'}>
+                            <Input
+                                type={'date'}
+                                value={dateFilter.start[0] === 0 ? '' : formatDate(dateFilter.start[0], 'numerical')}
+                                onChange={(event) => dateFilter?.start[1](event.currentTarget.value)}
+                                {...CONTROL_PROPS_CN}
+                            >
+                                Date Range
+                            </Input>
+                            <Input
+                                type={'date'}
+                                value={
+                                    dateFilter.end[0] === Date.now() ? '' : formatDate(dateFilter.end[0], 'numerical')
+                                }
+                                onChange={(event) => dateFilter?.end[1](event.currentTarget.value)}
+                                {...CONTROL_PROPS_CN}
+                            />
+                        </li>
+                    ) : null}
+                </ul>
             ) : null}
-        </ul>
+        </div>
     );
 };
 
