@@ -44,6 +44,19 @@ function ContactSection(props: SectionProps) {
         COUNTRY[userData.address.personalAddress?.country ?? userData.address.businessAddress?.country ?? ''];
     const language: string = LANGUAGE[userData.language];
 
+    const formatPhoneForDisplay = (number: string | undefined): string => {
+        if (!number) return '';
+
+        return number.replace(/^\+/, '');
+    };
+
+    const phoneKey = Object.entries(userData.phones)
+        .map(([type, phone]) => {
+            const extension = type === 'business' ? (phone as any)?.extension || '' : '';
+            return `${type}:${phone?.number || ''}:${phone?.isPrimary ? 'primary' : ''}:${extension}`;
+        })
+        .join('-');
+
     const Phones = Object.entries(userData.phones).map(([type, phone], idx) =>
         phone?.number ? (
             <span
@@ -52,7 +65,8 @@ function ContactSection(props: SectionProps) {
             >
                 <span className={'mb-5xs block text-10 capitalize md:text-14 lg:text-14'}>{type}</span>
                 <span className={`text-12 md:text-16 lg:text-16`}>
-                    {phone.number + ('ext' in phone ? ' - ' + phone.ext : '')}
+                    {phone.number +
+                        (type === 'business' && (phone as any).extension ? ` - ${(phone as any).extension}` : '')}
                 </span>
                 {!phone.isPrimary ? (
                     <span className={`mt-5xs flex justify-items-start`}>
@@ -147,11 +161,36 @@ function ContactSection(props: SectionProps) {
 
             <span className={`${styles.leftCol} ${styles.ellipsis} ${title_CN}`}>Phone Number</span>
             <Editable
-                key={'phone-' + userData.phones}
+                key={'phone-' + phoneKey}
                 type={'phone'}
                 classNameToggleText={`text-14`}
                 {...getSimpleToggleProps(setEditId, editId)}
                 initialize={function <T extends FormType>() {
+                    const businessExtension = (userData.phones.business as any)?.extension || '';
+
+                    const phonesWithExtension = {
+                        mobile: userData.phones.mobile
+                            ? {
+                                  ...userData.phones.mobile,
+                                  number: formatPhoneForDisplay(userData.phones.mobile.number),
+                              }
+                            : null,
+                        business: userData.phones.business
+                            ? {
+                                  ...userData.phones.business,
+                                  number: formatPhoneForDisplay(userData.phones.business.number),
+
+                                  ext: businessExtension,
+                              }
+                            : null,
+                        personal: userData.phones.personal
+                            ? {
+                                  ...userData.phones.personal,
+                                  number: formatPhoneForDisplay(userData.phones.personal.number),
+                              }
+                            : null,
+                    };
+
                     return {
                         className: cn(
                             styles.singleInput,
@@ -159,20 +198,32 @@ function ContactSection(props: SectionProps) {
                             styles.common,
                             `[&&]:text-12  [&&]:md:text-14  [&&]:lg:text-16`,
                         ),
-                        value: userData.phones as FormInit<T>,
+
+                        value: phonesWithExtension as FormInit<T>,
                         onSave: async (form) => {
                             if (!('mobile' in form)) throw 'Incorrect request setup';
 
-                            const invalid = Object.values(form as NonNullable<FormData<'phone'>>).some(
-                                (phone) => phone.number && !REGEX.phone.getRegex().test('+' + phone.number),
-                            );
-                            if (invalid) throw REGEX.phone.message;
+                            const processedForm = JSON.parse(JSON.stringify(form));
 
-                            const newPhones: UserData['phones'] = {
-                                ...(userData?.phones ?? {}),
-                                ...form,
-                            };
-                            await update({ phones: newPhones });
+                            const phoneTypes = ['mobile', 'business', 'personal'] as const;
+                            for (const type of phoneTypes) {
+                                if (processedForm[type]?.number) {
+                                    let digits = processedForm[type].number.replace(/\D/g, '');
+
+                                    if (digits.length === 10) {
+                                        digits = '1' + digits;
+                                    }
+
+                                    processedForm[type].number = '+' + digits;
+                                }
+                            }
+
+                            if (processedForm.business?.extension) {
+                                const extensionValue = processedForm.business.extension || '';
+                                processedForm.business.extension = extensionValue;
+                            }
+
+                            await update({ phones: processedForm });
                         },
                     };
                 }}
