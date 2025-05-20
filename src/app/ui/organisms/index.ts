@@ -8,3 +8,4 @@ export { ScrollEnd } from './ScrollEnd';
 export { SideNav } from './SideNav';
 export { Table } from './Table';
 export { Tabs } from './Tabs';
+export { VideoCard } from './VideoCard';

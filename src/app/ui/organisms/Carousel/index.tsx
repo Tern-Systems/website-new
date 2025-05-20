@@ -28,24 +28,29 @@ interface Props extends PropsWithChildren {
     className?: string;
     classNameUl?: string;
     classNameArrow?: string;
+    hidePagination?: boolean;
+    cardsPerPageOverride?: number; 
+
 }
 
 const Carousel: FC<Props> = (props: Props) => {
-    const { altData, className, classNameUl, classNameArrow, children } = props;
+    const { altData, className, classNameUl, classNameArrow, children, hidePagination } = props;
 
     const breakpoint = useBreakpointCheck();
     const md = breakpoint <= Breakpoint.md;
 
     const defaultSpinner = !altData?.altSpinner;
-    const altCardsPerPage = defaultSpinner
-        ? breakpoint <= Breakpoint.sm
-            ? CardsPerPage.SM
+    const altCardsPerPage = props.cardsPerPageOverride ?? (
+        defaultSpinner
+            ? breakpoint <= Breakpoint.sm
+                ? CardsPerPage.SM
+                : md
+                    ? CardsPerPage.MD
+                    : CardsPerPage.Default
             : md
-              ? CardsPerPage.MD
-              : CardsPerPage.Default
-        : md
-          ? CardsPerPage.MD
-          : CardsPerPage.AltDefault;
+                ? CardsPerPage.MD
+                : CardsPerPage.AltDefault
+    );
 
     const cardCount: number | undefined = altData?.cards.length;
 
@@ -119,8 +124,9 @@ const Carousel: FC<Props> = (props: Props) => {
                     )}
                 >
                     <h3 className={'sm:text-center  text-40 sm:text-27'}>{altData?.title}</h3>
-                    <Spinner className={cn('hidden', defaultSpinner ? 'sm:inline' : 'md:inline')} />
-                </div>
+                    {!hidePagination && (
+                        <Spinner className={cn('hidden', defaultSpinner ? 'sm:inline' : 'md:inline')} />
+                    )}                </div>
             ) : (
                 renderCarouselBtn()
             )}
@@ -145,7 +151,7 @@ const Carousel: FC<Props> = (props: Props) => {
                         >
                             See All
                         </PageLink>
-                        <Spinner className={'sm:hidden'} />
+                        {!hidePagination && <Spinner className={'sm:hidden'} />}
                     </div>
                 ) : null
             ) : (
