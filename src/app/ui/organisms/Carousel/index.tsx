@@ -33,6 +33,8 @@ interface Props extends PropsWithChildren {
     className?: string;
     ul?: string;
     classNameArrow?: string;
+    cardsPerPageOverride?: number; 
+
 }
 
 const Carousel: FC<Props> = (props: Props) => {
