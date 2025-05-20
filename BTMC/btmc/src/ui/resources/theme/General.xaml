@@ -1,15 +1,34 @@
-﻿    <!--Global Theme-->
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <SolidColorBrush x:Key="Color.Gray.77"
-                     Color="#4d4d4d" />
-    <SolidColorBrush x:Key="Color.Gray.128"
-                     Color="#7f7f7f" />
-    <SolidColorBrush x:Key="Color.White"
-                     Color="#f2f2f2" />
+    <!-- Global brushes, fonts, etc. -->
+    <SolidColorBrush x:Key="Color.Gray.77" Color="#4d4d4d" />
+    <SolidColorBrush x:Key="Color.Gray.128" Color="#7f7f7f" />
+    <SolidColorBrush x:Key="Color.White" Color="#f2f2f2" />
+    <ImageSource x:Key="Icon.Copy">/assets/Icons/copy.png</ImageSource>
+    <ImageSource x:Key="Icon.Paste">/assets/Icons/paste.png</ImageSource>
 
-    <FontFamily x:Key="FontFamily.Gothic">pack://application:,,,/assets/fonts/AdobeGothic-Light.otf#Adobe Gothic Std L</FontFamily>
-    
+    <DataTemplate x:Key="Template.CopyIcon">
+        <Image Source="{StaticResource Icon.Copy}" Width="16" Height="13" Margin="30,0,25,0" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Template.PasteIcon">
+        <Image Source="{StaticResource Icon.Paste}" Width="16" Height="13" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand"/>
+    </DataTemplate>
+
+    <FontFamily x:Key="FontFamily.Gothic">
+        pack://application:,,,/assets/fonts/AdobeGothic-Light.otf#Adobe Gothic Std L
+        
+    </FontFamily>
+    <FontFamily x:Key="FontFamily.GothicBold">
+        pack://application:,,,/assets/fonts/AdobeGothic-Bold.otf#Adobe Gothic Std B
+    </FontFamily>
+
+
+    <!-- Merged Component Styles -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/src/ui/resources/theme/Generic.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
 </ResourceDictionary>

@@ -1,92 +1,85 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net5.0-windows</TargetFramework>
-		<RootNamespace>btmc</RootNamespace>
-		<UseWPF>true</UseWPF>
-		<AssemblyName>btmc</AssemblyName>
-	</PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>btmc</RootNamespace>
+    <AssemblyName>btmc</AssemblyName>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 
-	<ItemGroup>
-	  <Compile Remove="src\ui\resources\toolbox\NewFolder1\**" />
-	  <Compile Remove="src\ui\resources\toolbox\NewFolder\**" />
-	  <EmbeddedResource Remove="src\ui\resources\toolbox\NewFolder1\**" />
-	  <EmbeddedResource Remove="src\ui\resources\toolbox\NewFolder\**" />
-	  <None Remove="src\ui\resources\toolbox\NewFolder1\**" />
-	  <None Remove="src\ui\resources\toolbox\NewFolder\**" />
-	  <Page Remove="src\ui\resources\toolbox\NewFolder1\**" />
-	  <Page Remove="src\ui\resources\toolbox\NewFolder\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Remove="src\ui\resources\toolbox\NewFolder1\**" />
+    <EmbeddedResource Remove="src\ui\resources\toolbox\NewFolder1\**" />
+    <None Remove="src\ui\resources\toolbox\NewFolder1\**" />
+    <Page Remove="src\ui\resources\toolbox\NewFolder1\**" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<None Remove="assets\icons\broom.png" />
-		<None Remove="assets\icons\copy.png" />
-		<None Remove="assets\icons\paste.png" />
-	</ItemGroup>
+  <!-- Clean up or remove previously excluded folders -->
+ 
+  <!-- Assets -->
+  <ItemGroup>
+    <None Remove="assets\icons\broom.png" />
+    <None Remove="assets\icons\copy.png" />
+    <None Remove="assets\icons\paste.png" />
+  </ItemGroup>
 
-	<ItemGroup>
-		
-		<Page Remove="src\ui\forms\main\Form.style.xaml" />
-		<Page Remove="src\ui\resources\theme\General.xaml" />
-		<Page Remove="src\ui\resources\toolbox\TextBox.xaml" />
-	</ItemGroup>
+  <!-- Removed unused or deprecated XAML -->
+  <ItemGroup>
+    <Page Remove="src\ui\resources\theme\General.xaml" />
+    <Page Remove="src\ui\resources\toolbox\TextBox.xaml" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ApplicationDefinition Include="src\App.xaml" />
-	</ItemGroup>
+  <!-- Main App.xaml -->
+  <ItemGroup>
+    <ApplicationDefinition Include="src\App.xaml" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<Resource Include="assets\fonts\AdobeGothic-Bold.otf">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="assets\fonts\AdobeGothic-Light.otf">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="assets\fonts\MonoLisa-Regular.otf">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
+  <!-- Fonts -->
+  <ItemGroup>
+    <Resource Include="assets\fonts\AdobeGothic-Bold.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\fonts\AdobeGothic-Light.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\fonts\MonoLisa-Regular.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
 
-	<ItemGroup>
-		<Resource Include="assets\icons\broom.png" />
-		<Resource Include="assets\icons\copy.png" />
-		<Resource Include="assets\icons\paste.png" />
-		<Resource Include="src\ui\forms\main\Form.style.xaml" />
-		<Resource Include="src\ui\resources\theme\General.xaml" />
-	</ItemGroup>
+  <!-- Icons -->
+  <ItemGroup>
+    <Resource Include="assets\icons\broom.png" />
+    <Resource Include="assets\icons\copy.png" />
+    <Resource Include="assets\icons\paste.png" />
+    <Resource Include="src\ui\resources\theme\General.xaml" />
+  </ItemGroup>
 
+  <!-- Clear.xaml (Component) -->
+  <ItemGroup>
+    <Compile Update="src\ui\forms\main\components\Clear.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Update="src\ui\forms\main\components\Clear.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 
-	<ItemGroup>
-		<Compile Update="src\ui\forms\main\components\Clear.xaml.cs">
-		  <SubType>Code</SubType>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Page Update="src\ui\forms\main\components\Clear.xaml">
-		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		  <SubType>Designer</SubType>
-		</Page>
-		<Page Update="src\ui\resources\toolbox\CButton\Button.style.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-			<SubType>Designer</SubType>
-		</Page>
-	</ItemGroup>
+  <!-- CButton Style -->
 
 
+ 
 
-	<ItemGroup>
-		<Page Update="src\ui\resources\toolbox\CButton\Button.style.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-			<SubType>Designer</SubType>
-		</Page>
-	</ItemGroup></Project>
+  <!-- Optional empty folder -->
+
+</Project>

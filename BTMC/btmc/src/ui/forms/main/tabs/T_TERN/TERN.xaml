@@ -4,70 +4,122 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:btmc.src.ui.forms.main.tabs.T_TERN"
-             xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
+             xmlns:ccombobox="clr-namespace:btmc.src.ui.resources.toolbox.CComboBox"
+             xmlns:ctextbox="clr-namespace:btmc.src.ui.resources.toolbox.CTextBox"
              xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
              xmlns:tabs="clr-namespace:btmc.src.ui.forms.main.tabs"
-
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="../../Form.style.xaml" />
+        <ResourceDictionary>
+            
+            <!-- Reusable Instruction List -->
+            <x:Array x:Key="InstructionOptions" Type="{x:Type sys:String}">
+                <sys:String>select</sys:String>
+                <sys:String>ADD</sys:String>
+                <sys:String>SUB</sys:String>
+                <sys:String>MUL</sys:String>
+                <sys:String>DIV</sys:String>
+            </x:Array>
+
+            <!-- Reusable Icons -->
+            
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
-        <StackPanel x:Name="TERNLayout"  HorizontalAlignment="Left">
+        <StackPanel x:Name="TERNLayout" HorizontalAlignment="Left">
+
+            <!-- Input 1 -->
             <StackPanel Orientation="Horizontal" Margin="50,0,10,0">
-                <TextBlock Text="Input 1:"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
-                <Border Grid.Column="2" Width="500" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
+                <TextBlock Text="Input 1:" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
+                
                     <Grid>
-                        <TextBox x:Name="input1"  Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="8,0,60,0" VerticalContentAlignment="Center"  FontFamily="{StaticResource FontFamily.Gothic}"   tabs:PlaceholderBehavior.Placeholder="input1..." />
-                        <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
-                        <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
+                        <ctextbox:CustomTextBox Grid.Column="2" x:Name="input1"
+                                                Width="500" Height="25"
+                                                Background="{StaticResource Color.Gray.77}"
+                                                BorderBrush="White" BorderThickness="1"
+                                                Margin="10,0,0,0"
+                                                Foreground="White" Padding="0,0,60,0"
+                                                FontFamily="{StaticResource FontFamily.Gothic}"
+                                                CornerRadius="3"
+                                                Placeholder="input1..." />
+                        <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
+                        <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
                     </Grid>
-                </Border>
+                
             </StackPanel>
+
+            <!-- Instruction ComboBox -->
             <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
                 <TextBlock Text="Instruction:" Width="75" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
-                <ComboBox Width="140" Style="{StaticResource RoundedComboBox}" SelectedIndex="0" FontFamily="{StaticResource FontFamily.Gothic}">
-                    <ComboBoxItem Content="select"/>
-                    <ComboBoxItem Content="ADD"/>
-                    <ComboBoxItem Content="SUB"/>
-                    <ComboBoxItem Content="MUL"/>
-                    <ComboBoxItem Content="DIV"/>
-                </ComboBox>
-                <components:Swap
-                        Width="25"
-                        Height="25"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Margin="10,0,0,0"
-                        ToolTip="Swap"
-                        Padding="5"
-                        Cursor="Hand"
-                        Click="SwapButton_Click"
-                    
- />
+                
+
+                <ccombobox:CustomComboBox
+                            x:Name="cmbTERN_Instruction"
+                            ItemsSource="{StaticResource InstructionOptions}"
+                            SelectedIndex="0"
+                            Width="140"
+                            Height="25"
+                            Background="{StaticResource Color.Gray.77}"
+                            Foreground="White"
+                            BorderBrush="White"
+                            BorderThickness="1"
+                            FontFamily="{StaticResource FontFamily.Gothic}"
+                            CornerRadius="4"/>
+
+
+                <components:Swap Width="25"
+                                 Height="25"
+                                 Foreground="White"
+                                 BorderThickness="0"
+                                 Margin="10,0,0,0"
+                                 ToolTip="Swap"
+                                 Padding="5"
+                                 Cursor="Hand"
+                                 Click="BtnSwap_Click"/>
             </StackPanel>
+
+            <!-- Input 2 -->
             <StackPanel Orientation="Horizontal" Margin="50,0,10,0">
-                <TextBlock Text="Input 2:"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
-                <Border Grid.Column="2" Width="500" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
-                    <Grid>
-                        <TextBox  x:Name="input2" Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="8,0,60,0" VerticalContentAlignment="Center"  FontFamily="{StaticResource FontFamily.Gothic}" tabs:PlaceholderBehavior.Placeholder="input2..." />
-                        <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
-                        <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
-                    </Grid>
-                </Border>
+                <TextBlock Text="Input 2:" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
+
+                <Grid>
+                    <ctextbox:CustomTextBox Grid.Column="2" x:Name="input2"
+                                    Width="500" Height="25"
+                                    Background="{StaticResource Color.Gray.77}"
+                                    BorderBrush="White" BorderThickness="1"
+                                    Margin="10,0,0,0"
+                                    Foreground="White" Padding="0,0,60,0"
+                                    FontFamily="{StaticResource FontFamily.Gothic}"
+                                    CornerRadius="3"
+                                    Placeholder="input2..." />
+                    <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
+                    <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
+                </Grid>
+
             </StackPanel>
+
+            <!-- Output -->
             <StackPanel Orientation="Horizontal" Margin="50,30,10,0">
-                <TextBlock Text="Output:"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
-                <Border Grid.Column="2" Width="500" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
-                    <Grid>
-                        <TextBox  Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="6,0,60,0"  VerticalContentAlignment="Center" Text="output..." FontFamily="{StaticResource FontFamily.Gothic}" tabs:PlaceholderBehavior.Placeholder="output..." />
-                        <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
-                        <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
-                    </Grid>
-                </Border>
+                <TextBlock Text="Output:" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
+                <Grid>
+                    <ctextbox:CustomTextBox Grid.Column="2" x:Name="output"
+                                            Width="500" Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            BorderBrush="White" BorderThickness="1"
+                                            Margin="10,0,0,0"
+                                            Focusable="False"
+                                            Foreground="White" Padding="0,0,60,0"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            Placeholder="output" />
+                    <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
+                    <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
+                </Grid>
             </StackPanel>
+
         </StackPanel>
     </Grid>
 </UserControl>

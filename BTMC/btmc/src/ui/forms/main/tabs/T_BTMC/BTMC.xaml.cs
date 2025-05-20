@@ -1,17 +1,16 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
-using System.Collections.Generic;
+using System.Windows.Media;
 
 using btmc.src.alu;
-
 using toolbox = btmc.src.ui.resources.toolbox;
 using btmc.src.ui.forms.main.components;
-using System.Windows.Media;
-using System.Diagnostics;
 
 namespace btmc.src.ui.forms.main.tabs.T_BTMC
 {
     using TypeEntry = KeyValuePair<Utils.TypeEnum, string>;
+    using CustomComboBox = toolbox.CComboBox.CustomComboBox;
 
     /// <summary>
     /// Interaction logic for BTMC.xaml
@@ -27,50 +26,46 @@ namespace btmc.src.ui.forms.main.tabs.T_BTMC
             DataContext = this;
         }
 
-
         private void BtnSwap_Click(object sender, RoutedEventArgs e)
         {
-            // Implement it (make sure to reuse as much code as its possible)
+            Swap.SwapInputs(InputTextBox, OutputTextBox);
         }
 
         private void CmbTypeIn_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /* Uncomment after you add the required components to the form */
-            //_HandleSelectionChanged(ref cmbBTMC_Out, ref cmbBTMC_In, ref tbBTMC_In);
+            HandleSelectionChanged(cmbBTMC_Out, cmbBTMC_In, InputTextBox);
         }
 
         private void CmbTypeOut_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /* Uncomment after you add the required components to the form */
-            //_HandleSelectionChanged(ref cmbBTMC_In, ref cmbBTMC_Out, ref tbBTMC_Out);
+            HandleSelectionChanged(cmbBTMC_In, cmbBTMC_Out, OutputTextBox);
         }
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+
+        private static void HandleSelectionChanged(
+            CustomComboBox otherCombo,
+            CustomComboBox changedCombo,
+            TextBox relatedTextbox)
         {
-            if (sender is TextBox tb && tb.Text == (string)tb.Tag)
+            if (otherCombo != null && changedCombo != null && relatedTextbox != null)
             {
-                tb.Clear();
-                tb.Foreground = Brushes.White;
+                // Prevent duplicate selection
+                if (otherCombo.SelectedIndex == changedCombo.SelectedIndex && changedCombo.SelectedIndex > 0)
+                {
+                    otherCombo.SelectedIndex = 0;
+                }
+
+                // Reset textbox to placeholder
+                if (relatedTextbox.Tag is string placeholder)
+                {
+                    relatedTextbox.Text = placeholder;
+                    relatedTextbox.Foreground = Brushes.Gray;
+                }
+                else
+                {
+                    relatedTextbox.Clear();
+                    relatedTextbox.Foreground = Brushes.Gray;
+                }
             }
         }
-
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox tb && string.IsNullOrWhiteSpace(tb.Text))
-            {
-                tb.Text = (string)tb.Tag;
-                tb.Foreground = Brushes.Gray;
-            }
-        }
-
-        private void SwapButton_Click(object sender, RoutedEventArgs e)
-        {
-            Swap.SwapInputs(ref InputTextBox, ref OutputTextBox);
-        }
-
-
-        // private static void HandleSelectionChanged(ref toolbox.ComboBox cmb0, ref toolbox.ComboBox cmb1, ref toolbox.TextBox tb)
-        // {
-        // Implement it
-        //}
     }
 }

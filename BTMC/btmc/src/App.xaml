@@ -7,14 +7,13 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/src/ui/resources/theme/General.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/src/ui/forms/main/Form.style.xaml" />
-                <ResourceDictionary Source="/src/ui/resources/theme/General.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/src/ui/resources/toolbox/CButton/Button.style.xaml" />
+               
+                <ResourceDictionary Source="pack://application:,,,/src/ui/resources/theme/Generic.xaml" />
 
-                <!-- Uncomment it after you implement styles for your custom TabControl / TabItem components
+                
                 <ResourceDictionary Source="pack://application:,,,/src/ui/resources/toolbox/CTabControl/TabControl.style.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/src/ui/resources/toolbox/CTabItem/TabItem.style.xaml" />
-                -->
+                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

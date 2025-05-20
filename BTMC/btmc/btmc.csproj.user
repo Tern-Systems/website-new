@@ -25,10 +25,25 @@
     <Page Update="src\ui\forms\main\Main.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="src\ui\resources\toolbox\CButton\Button.style.xaml">
+    <Page Update="src\ui\resources\theme\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="src\ui\resources\toolbox\CButton\Button.Style.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="src\ui\resources\toolbox\CButton\Button.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="src\ui\resources\toolbox\CComboBox\ComboBox.style.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="src\ui\resources\toolbox\CTabControl\TabControl.style.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="src\ui\resources\toolbox\CTabItem\TabItem.style.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="src\ui\resources\toolbox\CTextBox\TextBox.style.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Resource Update="src\ui\resources\theme\General.xaml">

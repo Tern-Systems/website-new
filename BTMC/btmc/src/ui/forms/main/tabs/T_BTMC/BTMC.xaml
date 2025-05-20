@@ -4,85 +4,111 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:btmc.src.ui.forms.main.tabs.T_BTMC"
-             xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
              xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
-           xmlns:tabs="clr-namespace:btmc.src.ui.forms.main.tabs"
-
-
-            
+             xmlns:ctextbox="clr-namespace:btmc.src.ui.resources.toolbox.CTextBox"
+              xmlns:ccombobox="clr-namespace:btmc.src.ui.resources.toolbox.CComboBox"
+             xmlns:tabs="clr-namespace:btmc.src.ui.forms.main.tabs"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        
-           
-                <ResourceDictionary Source="../../Form.style.xaml" />
+        <ResourceDictionary>
             
-   
 
+            <x:Array x:Key="TypeOptions" Type="{x:Type sys:String}">
+                <sys:String>select</sys:String>
+                <sys:String>Hex</sys:String>
+                <sys:String>Decimal</sys:String>
+                <sys:String>Binary</sys:String>
+                <sys:String>Oct</sys:String>
+            </x:Array>
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid >
+    <Grid>
         <StackPanel x:Name="BTMCLayout" Visibility="Visible" HorizontalAlignment="Center">
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="80,20" HorizontalAlignment="Center">
-                <TextBlock Text="Input:" Width="50"  VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}"/>
-                <ComboBox Style="{StaticResource RoundedComboBox}" SelectedIndex="0" FontFamily="{StaticResource FontFamily.Gothic}">
-                    <ComboBoxItem Content="select"/>
-                    <ComboBoxItem Content="Hex"/>
-                    <ComboBoxItem Content="Decimal"/>
-                    <ComboBoxItem Content="Binary"/>
-                    <ComboBoxItem Content="Oct"/>
-                </ComboBox>
-                <Border Grid.Column="2" Width="250" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
-                    <Grid>
-                        <TextBox 
-                            x:Name="InputTextBox" 
-                            Background="Transparent" 
-                            BorderThickness="0" 
-                            Foreground="Gray" 
-                            Padding="8,0,60,0"
-                            VerticalContentAlignment="Center" 
-                            FontFamily="{StaticResource FontFamily.Gothic}"
-                            tabs:PlaceholderBehavior.Placeholder="input..."/>
-                        <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
-                        <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
-                    </Grid>
-                </Border>
-            </StackPanel>
-            <components:Swap 
-                        Width="25"
-                        Height="25"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Margin="0,0,0,0"
-                        ToolTip="Swap"
-                        Padding="5"
-                        Cursor="Hand"
-                        Click="SwapButton_Click" 
-                        
-            />
 
+            <!-- Input Row -->
+            <StackPanel Orientation="Horizontal" Margin="80,20">
+                <TextBlock Grid.Column="0" Text="Input :" Width="50" VerticalAlignment="Center"
+                           Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
+
+                <ccombobox:CustomComboBox   x:Name="cmbBTMC_In"
+                                            Grid.Column ="1"
+                                            ItemsSource="{StaticResource TypeOptions}"
+                                            SelectedIndex="0"
+                                            Width="120"
+                                            Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            Foreground="White"
+                                            BorderBrush="White"
+                                            BorderThickness="1"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            SelectionChanged="CmbTypeIn_SelectionChanged"/>
+
+                <Grid>
+                    <ctextbox:CustomTextBox Grid.Column="2" x:Name="InputTextBox"
+                            Width="250" Height="25"
+                            Background="{StaticResource Color.Gray.77}"
+                            BorderBrush="White" BorderThickness="1"
+                            Margin="10,0,0,0"
+                            Foreground="White" Padding="0,0,50,0"
+                            FontFamily="{StaticResource FontFamily.Gothic}"
+                            CornerRadius="3"
+                            Placeholder="input..." />
+                    <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
+                    <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
+
+                </Grid>
+
+            </StackPanel>
+
+            <!-- Swap Button -->
+            <components:Swap Width="25" Height="25"
+                             Foreground="White" BorderThickness="0"
+                             ToolTip="Swap" Padding="5"
+                             Cursor="Hand" HorizontalAlignment="Center" 
+                             Click="BtnSwap_Click"/>
 
             <!-- Output Row -->
-            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="80,20" HorizontalAlignment="Center">
-                <TextBlock Text="Output:" Width="50" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}"/>
-                <ComboBox Style="{StaticResource RoundedComboBox}" SelectedIndex="0" FontFamily="{StaticResource FontFamily.Gothic}">
-                    <ComboBoxItem Content="select"/>
-                    <ComboBoxItem Content="Hex"/>
-                    <ComboBoxItem Content="Decimal"/>
-                    <ComboBoxItem Content="Binary"/>
-                    <ComboBoxItem Content="Oct"/>
-                </ComboBox>
-                <Border Grid.Column="2" Width="250" Height="25" CornerRadius="4" Background="#4B4B4B" BorderBrush="White" BorderThickness="1" Margin="10,0,0,0">
-                    <Grid>
-                        <TextBox x:Name="OutputTextBox" Background="Transparent" BorderThickness="0" Foreground="Gray" Padding="8,0,60,0" VerticalContentAlignment="Center" Text="output..." FontFamily="{StaticResource FontFamily.Gothic}"  tabs:PlaceholderBehavior.Placeholder="output..." />
-                        <Image Source="/assets/Icons/copy.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,25,0" Cursor="Hand"/>
-                        <Image Source="/assets/Icons/paste.png" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Cursor="Hand"/>
-                    </Grid>
-                </Border>
+            <StackPanel Orientation="Horizontal" Margin="80,20">
+                <TextBlock Grid.Column="0" Text="Output:" Width="50" VerticalAlignment="Center"
+                           Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
+                
+                <ccombobox:CustomComboBox   x:Name="cmbBTMC_Out"
+                                            Grid.Column ="1"
+                                            ItemsSource="{StaticResource TypeOptions}"
+                                            SelectedIndex="0"
+                                            Width="120"
+                                            Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            Foreground="White"
+                                            BorderBrush="White"
+                                            BorderThickness="1"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            SelectionChanged="CmbTypeOut_SelectionChanged"/>
+
+                <Grid>
+                    <ctextbox:CustomTextBox Grid.Column="2" x:Name="OutputTextBox"
+                                            Width="250" Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            BorderBrush="White" BorderThickness="1"
+                                            Margin="10,0,0,0"
+                                            Focusable="False"
+                                            Foreground="White" Padding="0,0,50,0"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            Placeholder="output..."/>
+                    <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
+                    <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
+
+                </Grid>
+
+
+
             </StackPanel>
-
-
-
         </StackPanel>
     </Grid>
 </UserControl>

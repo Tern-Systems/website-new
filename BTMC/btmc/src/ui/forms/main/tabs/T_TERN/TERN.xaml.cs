@@ -11,9 +11,6 @@ namespace btmc.src.ui.forms.main.tabs.T_TERN
 {
     using OperationEntry = KeyValuePair<ALU.Operation, string>;
 
-    /// <summary>
-    /// Interaction logic for TERN.xaml
-    /// </summary>
     public partial class TERN : UserControl
     {
         public List<OperationEntry> Operations { get; }
@@ -28,16 +25,15 @@ namespace btmc.src.ui.forms.main.tabs.T_TERN
 
         private void BtnSwap_Click(object sender, RoutedEventArgs e)
         {
-            /* Uncomment after you add the required TextBoxes to the form */
-            //Swap.SwapInputs(ref tbTERN_In_1, ref tbTERN_In_2);
+            Swap.SwapInputs(input1, input2);
+
         }
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        /*private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox tb)
             {
                 string placeholder = tb.Tag as string;
-
                 if (tb.Text == placeholder)
                 {
                     tb.Text = "";
@@ -57,11 +53,8 @@ namespace btmc.src.ui.forms.main.tabs.T_TERN
                     tb.Foreground = Brushes.Gray;
                 }
             }
-        }
-        private void SwapButton_Click(object sender, RoutedEventArgs e)
-        {
-            Swap.SwapInputs(ref input1, ref input2);
-        }
+        }*/
+      
 
     }
 }
