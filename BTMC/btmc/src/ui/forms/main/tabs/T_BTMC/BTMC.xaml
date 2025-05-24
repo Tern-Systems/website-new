@@ -34,14 +34,15 @@
                            Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
 
                 <ccombobox:CustomComboBox   x:Name="cmbBTMC_In"
+                                            AutomationProperties.Name="Convert From"
                                             Grid.Column ="1"
-                                            ItemsSource="{StaticResource TypeOptions}"
+                                            ItemsSource="{Binding TypeNames}"
                                             SelectedIndex="0"
                                             Width="120"
                                             Height="25"
                                             Background="{StaticResource Color.Gray.77}"
-                                            Foreground="White"
-                                            BorderBrush="White"
+                                            Foreground="{StaticResource Color.White}"
+                                            BorderBrush="{StaticResource Color.White}"
                                             BorderThickness="1"
                                             FontFamily="{StaticResource FontFamily.Gothic}"
                                             CornerRadius="3"
@@ -49,14 +50,17 @@
 
                 <Grid>
                     <ctextbox:CustomTextBox Grid.Column="2" x:Name="InputTextBox"
-                            Width="250" Height="25"
-                            Background="{StaticResource Color.Gray.77}"
-                            BorderBrush="White" BorderThickness="1"
-                            Margin="10,0,0,0"
-                            Foreground="White" Padding="0,0,50,0"
-                            FontFamily="{StaticResource FontFamily.Gothic}"
-                            CornerRadius="3"
-                            Placeholder="input..." />
+                                            AutomationProperties.Name="User Input"
+                                            Width="250" Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            BorderBrush="{StaticResource Color.White}" BorderThickness="1"
+                                            Margin="10,0,0,0"
+                                            Foreground="{StaticResource Color.White}" Padding="0,0,50,0"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            Placeholder="input..." 
+                                            TextChanged="InputTextBox_TextChanged"
+                                            />
                     <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
                     <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
 
@@ -66,6 +70,7 @@
 
             <!-- Swap Button -->
             <components:Swap Width="25" Height="25"
+                             AutomationProperties.Name="Swap Inputs Button"
                              Foreground="White" BorderThickness="0"
                              ToolTip="Swap" Padding="5"
                              Cursor="Hand" HorizontalAlignment="Center" 
@@ -77,14 +82,15 @@
                            Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
                 
                 <ccombobox:CustomComboBox   x:Name="cmbBTMC_Out"
+                                            AutomationProperties.Name="Convert To"
                                             Grid.Column ="1"
-                                            ItemsSource="{StaticResource TypeOptions}"
+                                            ItemsSource="{Binding TypeNames}"
                                             SelectedIndex="0"
                                             Width="120"
                                             Height="25"
                                             Background="{StaticResource Color.Gray.77}"
-                                            Foreground="White"
-                                            BorderBrush="White"
+                                            Foreground="{StaticResource Color.White}"
+                                            BorderBrush="{StaticResource Color.White}"
                                             BorderThickness="1"
                                             FontFamily="{StaticResource FontFamily.Gothic}"
                                             CornerRadius="3"
@@ -92,12 +98,12 @@
 
                 <Grid>
                     <ctextbox:CustomTextBox Grid.Column="2" x:Name="OutputTextBox"
+                                            AutomationProperties.Name="Converted Output"
                                             Width="250" Height="25"
                                             Background="{StaticResource Color.Gray.77}"
-                                            BorderBrush="White" BorderThickness="1"
+                                            BorderBrush="{StaticResource Color.White}" BorderThickness="1"
                                             Margin="10,0,0,0"
-                                            Focusable="False"
-                                            Foreground="White" Padding="0,0,50,0"
+                                            Foreground="{StaticResource Color.White}" Padding="0,0,50,0"
                                             FontFamily="{StaticResource FontFamily.Gothic}"
                                             CornerRadius="3"
                                             Placeholder="output..."/>

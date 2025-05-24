@@ -13,7 +13,7 @@ namespace btmc.src.ui.forms.main.components
 
         public static void SwapInputs(TextBox tb1, TextBox tb2)
         {
-            // Cast to CustomTextBox if possible to access Placeholder
+            
             var ctb1 = tb1 as toolbox.CTextBox.CustomTextBox;
             var ctb2 = tb2 as toolbox.CTextBox.CustomTextBox;
 
@@ -31,7 +31,6 @@ namespace btmc.src.ui.forms.main.components
             {
                 tb2.Text = tb1.Text;
                 tb2.Foreground = Brushes.White;
-
                 tb1.Clear();
                 tb1.Text = ph1;
                 tb1.Foreground = Brushes.Gray;
@@ -40,7 +39,6 @@ namespace btmc.src.ui.forms.main.components
             {
                 tb1.Text = tb2.Text;
                 tb1.Foreground = Brushes.White;
-
                 tb2.Clear();
                 tb2.Text = ph2;
                 tb2.Foreground = Brushes.Gray;

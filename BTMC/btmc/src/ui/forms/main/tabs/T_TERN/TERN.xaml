@@ -9,24 +9,10 @@
              xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
              xmlns:tabs="clr-namespace:btmc.src.ui.forms.main.tabs"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             IsVisibleChanged="TERN_IsVisibleChanged">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            
-            <!-- Reusable Instruction List -->
-            <x:Array x:Key="InstructionOptions" Type="{x:Type sys:String}">
-                <sys:String>select</sys:String>
-                <sys:String>ADD</sys:String>
-                <sys:String>SUB</sys:String>
-                <sys:String>MUL</sys:String>
-                <sys:String>DIV</sys:String>
-            </x:Array>
-
-            <!-- Reusable Icons -->
-            
-        </ResourceDictionary>
-    </UserControl.Resources>
+    
 
     <Grid>
         <StackPanel x:Name="TERNLayout" HorizontalAlignment="Left">
@@ -37,11 +23,12 @@
                 
                     <Grid>
                         <ctextbox:CustomTextBox Grid.Column="2" x:Name="input1"
+                                                AutomationProperties.Name="Input 1"
                                                 Width="500" Height="25"
                                                 Background="{StaticResource Color.Gray.77}"
-                                                BorderBrush="White" BorderThickness="1"
+                                                BorderBrush="{StaticResource Color.White}" BorderThickness="1"
                                                 Margin="10,0,0,0"
-                                                Foreground="White" Padding="0,0,60,0"
+                                                Foreground="{StaticResource Color.White}" Padding="0,0,50,0"
                                                 FontFamily="{StaticResource FontFamily.Gothic}"
                                                 CornerRadius="3"
                                                 Placeholder="input1..." />
@@ -58,7 +45,8 @@
 
                 <ccombobox:CustomComboBox
                             x:Name="cmbTERN_Instruction"
-                            ItemsSource="{StaticResource InstructionOptions}"
+                            AutomationProperties.Name="Instruction"
+                            ItemsSource="{Binding operations}"
                             SelectedIndex="0"
                             Width="140"
                             Height="25"
@@ -70,7 +58,8 @@
                             CornerRadius="4"/>
 
 
-                <components:Swap Width="25"
+                <components:Swap AutomationProperties.Name="Swap Inputs Button"
+                                 Width="25"
                                  Height="25"
                                  Foreground="White"
                                  BorderThickness="0"
@@ -87,14 +76,15 @@
 
                 <Grid>
                     <ctextbox:CustomTextBox Grid.Column="2" x:Name="input2"
-                                    Width="500" Height="25"
-                                    Background="{StaticResource Color.Gray.77}"
-                                    BorderBrush="White" BorderThickness="1"
-                                    Margin="10,0,0,0"
-                                    Foreground="White" Padding="0,0,60,0"
-                                    FontFamily="{StaticResource FontFamily.Gothic}"
-                                    CornerRadius="3"
-                                    Placeholder="input2..." />
+                                            AutomationProperties.Name="Input 2"
+                                            Width="500" Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            BorderBrush="{StaticResource Color.White}" BorderThickness="1"
+                                            Margin="10,0,0,0"
+                                            Foreground="{StaticResource Color.White}" Padding="0,0,50,0"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            Placeholder="input2..." />
                     <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
                     <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
                 </Grid>
@@ -106,6 +96,7 @@
                 <TextBlock Text="Output:" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
                 <Grid>
                     <ctextbox:CustomTextBox Grid.Column="2" x:Name="output"
+                                            AutomationProperties.Name="Output"
                                             Width="500" Height="25"
                                             Background="{StaticResource Color.Gray.77}"
                                             BorderBrush="White" BorderThickness="1"

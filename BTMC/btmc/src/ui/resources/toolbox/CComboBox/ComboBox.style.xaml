@@ -12,6 +12,7 @@
                 <ControlTemplate TargetType="{x:Type local:CustomComboBox}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
+                            
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding local:CustomComboBox.CornerRadius}">
                         <Grid>

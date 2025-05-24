@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 using btmc.src.alu;
 using toolbox = btmc.src.ui.resources.toolbox;
@@ -12,18 +14,33 @@ namespace btmc.src.ui.forms.main.tabs.T_BTMC
     using TypeEntry = KeyValuePair<Utils.TypeEnum, string>;
     using CustomComboBox = toolbox.CComboBox.CustomComboBox;
 
-    /// <summary>
-    /// Interaction logic for BTMC.xaml
-    /// </summary>
     public partial class BTMC : UserControl
     {
         public Converter.TypeDict Types { get; }
 
+        public List<string> TypeNames =>
+            new[] { "Select..." }.Concat(Types.ConvertAll(entry => entry.Value)).ToList();
+
+        private bool _inputWasEmptyWhenTypeChanged = false;
+
         public BTMC()
         {
-            InitializeComponent();
             Types = Converter.Type;
+            InitializeComponent();
             DataContext = this;
+
+            cmbBTMC_In.ItemsSource = TypeNames;
+            cmbBTMC_Out.ItemsSource = TypeNames;
+            cmbBTMC_In.SelectedIndex = 0;
+            cmbBTMC_Out.SelectedIndex = 0;
+
+            InputTextBox.TextChanged += InputTextBox_TextChanged;
+            cmbBTMC_In.DropDownOpened += (s, e) =>
+            {
+                _inputWasEmptyWhenTypeChanged = string.IsNullOrWhiteSpace(InputTextBox.Text) || InputTextBox.Text == "input...";
+            };
+
+            InputTextBox.BorderBrush = Brushes.White;
         }
 
         private void BtnSwap_Click(object sender, RoutedEventArgs e)
@@ -34,6 +51,15 @@ namespace btmc.src.ui.forms.main.tabs.T_BTMC
         private void CmbTypeIn_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             HandleSelectionChanged(cmbBTMC_Out, cmbBTMC_In, InputTextBox);
+
+            if (_inputWasEmptyWhenTypeChanged)
+            {
+                _inputWasEmptyWhenTypeChanged = false;
+                InputTextBox.BorderBrush = Brushes.White;
+                return;
+            }
+
+            ValidateInput();
         }
 
         private void CmbTypeOut_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -48,23 +74,74 @@ namespace btmc.src.ui.forms.main.tabs.T_BTMC
         {
             if (otherCombo != null && changedCombo != null && relatedTextbox != null)
             {
-                // Prevent duplicate selection
-                if (otherCombo.SelectedIndex == changedCombo.SelectedIndex && changedCombo.SelectedIndex > 0)
+                if (otherCombo.SelectedValue?.Equals(changedCombo.SelectedValue) == true &&
+                    changedCombo.SelectedIndex > 0)
                 {
                     otherCombo.SelectedIndex = 0;
                 }
+            }
+        }
 
-                // Reset textbox to placeholder
-                if (relatedTextbox.Tag is string placeholder)
+        private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(InputTextBox.Text) || InputTextBox.Text == "input...")
+            {
+                InputTextBox.BorderBrush = Brushes.White;
+                return;
+            }
+
+            ValidateInput();
+        }
+
+        private void ValidateInput()
+        {
+            string input = InputTextBox.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(input) || input == "input...")
+            {
+                InputTextBox.BorderBrush = Brushes.White;
+                return;
+            }
+
+            if (cmbBTMC_In.SelectedIndex <= 0)
+            {
+                InputTextBox.BorderBrush = Brushes.White;
+                return;
+            }
+
+            var selectedTypeName = cmbBTMC_In.SelectedItem as string;
+            var selectedType = Types.FirstOrDefault(x => x.Value == selectedTypeName).Key;
+
+            if (!Utils.TypePattern.TryGetValue(selectedType, out var patternEntry))
+            {
+                InputTextBox.BorderBrush = Brushes.White;
+                return;
+            }
+
+            string rawPattern = patternEntry.regex;
+            short? maxLength = patternEntry.length;
+
+            try
+            {
+                var regex = new Regex(rawPattern);
+
+                if (!regex.IsMatch(input))
                 {
-                    relatedTextbox.Text = placeholder;
-                    relatedTextbox.Foreground = Brushes.Gray;
+                    InputTextBox.BorderBrush = Brushes.Red;
+                    return;
                 }
-                else
+
+                if (maxLength.HasValue && input.Length > maxLength.Value)
                 {
-                    relatedTextbox.Clear();
-                    relatedTextbox.Foreground = Brushes.Gray;
+                    InputTextBox.BorderBrush = Brushes.Red;
+                    return;
                 }
+
+                InputTextBox.BorderBrush = Brushes.White;
+            }
+            catch
+            {
+                InputTextBox.BorderBrush = Brushes.White;
             }
         }
     }

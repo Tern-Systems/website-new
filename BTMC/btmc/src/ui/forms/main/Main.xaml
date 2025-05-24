@@ -108,16 +108,18 @@
                             Grid.Column="0"
                             Background="Transparent"
                             MinHeight="200">
-                    <TabItem Header="BTMC" Style="{StaticResource LeftTabItemStyle}">
+                    <TabItem Header="BTMC" Style="{StaticResource RoundedTabItemStyle}">
                         <tab:BTMC x:Name="BTMCLayout" />
                     </TabItem>
-                    <TabItem Header="TERN" Style="{StaticResource RightTabItemStyle}">
+                    <TabItem Header="TERN" Style="{StaticResource RoundedTabItemStyle}">
                         <tab:TERN x:Name="TERNLayout" />
                     </TabItem>
+                    
                 </TabControl>
 
                 <!-- Clear icon -->
                 <components:Clear Grid.Column="1"
+                                  AutomationProperties.Name="Clear Button"
                                   Margin="10,0,0,0"
                                   VerticalAlignment="Top"
                                   ToolTip="Clear"
@@ -126,24 +128,27 @@
                                   Foreground="White"
                                   Cursor="Hand"
                                   Click="BtnClean_Click"/>
-            </Grid>
 
-            <!-- Convert Button -->
-            <toolbox:CustomButton Grid.Row="2"
-                                  Content="Convert"
-                                  FontFamily="{StaticResource FontFamily.GothicBold}"
-                                  Width="100"
-                                  Height="25"
-                                  Margin="0,20,50,50"
-                                  HorizontalAlignment="Center"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center"
-                                  CornerRadius="16"
-                                  Background="#2483d8"
-                                  Padding="6,2"
-                                  Foreground="White"
-                                  Cursor="Hand"
-                                  Click="BtnConvert_Click"/>
+
+                <!-- Convert Button -->
+               
+            </Grid>
+            <toolbox:CustomButton   Grid.Row="10"
+                                    Content="Convert"
+                                    FontFamily="{StaticResource FontFamily.GothicBold}"
+                                    Width="100"
+                                    Height="25"
+                                    Margin="0,30,50,0"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    CornerRadius="16"
+                                    Background="#2483d8"
+                                    Padding="6,2"
+                                    Foreground="White"
+                                    Cursor="Hand"
+                                    Click="BtnConvert_Click"/>
+
         </Grid>
     </Border>
 </Window>

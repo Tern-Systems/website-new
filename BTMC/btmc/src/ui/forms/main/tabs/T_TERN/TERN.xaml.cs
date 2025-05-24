@@ -1,11 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 using btmc.src.alu;
-
 using btmc.src.ui.forms.main.components;
-using System.Windows.Media;
 
 namespace btmc.src.ui.forms.main.tabs.T_TERN
 {
@@ -13,48 +15,41 @@ namespace btmc.src.ui.forms.main.tabs.T_TERN
 
     public partial class TERN : UserControl
     {
-        public List<OperationEntry> Operations { get; }
+        
         public Utils.TypePatternEntry TextBoxPattern { get; }
+
+        public List<OperationEntry> Operations { get; } = ALU.Operations?.ToList() ?? new();
+
+        public List<string> operations =>
+            new[] { "Select..." }.Concat(Operations.Select(op => op.Value)).ToList();
+
 
         public TERN()
         {
             InitializeComponent();
-           
+            DataContext = this; // Enables binding in XAML to this class’s properties
         }
-
 
         private void BtnSwap_Click(object sender, RoutedEventArgs e)
         {
             Swap.SwapInputs(input1, input2);
-
         }
 
-        /*private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        private bool _hasFocusBeenCleared = false;
+
+        // Prevent automatic unwanted focus on tab switch
+        private void TERN_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is TextBox tb)
+            if (IsVisible && !_hasFocusBeenCleared)
             {
-                string placeholder = tb.Tag as string;
-                if (tb.Text == placeholder)
+                _hasFocusBeenCleared = true;
+
+                Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    tb.Text = "";
-                    tb.Foreground = Brushes.White;
-                }
+                    Keyboard.ClearFocus();
+                    FocusManager.SetFocusedElement(FocusManager.GetFocusScope(this), this);
+                }), DispatcherPriority.Input);
             }
         }
-
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox tb)
-            {
-                if (string.IsNullOrWhiteSpace(tb.Text))
-                {
-                    string placeholder = tb.Tag as string;
-                    tb.Text = placeholder;
-                    tb.Foreground = Brushes.Gray;
-                }
-            }
-        }*/
-      
-
     }
 }
