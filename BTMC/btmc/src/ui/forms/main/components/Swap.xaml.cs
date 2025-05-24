@@ -1,10 +1,9 @@
-﻿using btmc.src.ui.resources.toolbox;
+﻿using System.Windows.Controls;
+using System.Windows.Media;
+using toolbox = btmc.src.ui.resources.toolbox;
 
 namespace btmc.src.ui.forms.main.components
 {
-    /// <summary>
-    /// Interaction logic for Swap.xaml
-    /// </summary>
     public partial class Swap : System.Windows.Controls.Button
     {
         public Swap()
@@ -12,24 +11,38 @@ namespace btmc.src.ui.forms.main.components
             InitializeComponent();
         }
 
-        public static void SwapInputs(ref TextBox tb1, ref TextBox tb2)
+        public static void SwapInputs(TextBox tb1, TextBox tb2)
         {
-            /* Implement these fields inside your custom TextBox before you uncomment it */
-            /*string tempPattern = tb1.Pattern;
-            tb1.Pattern = tb2.Pattern;
-            tb2.Pattern = tempPattern;
+            
+            var ctb1 = tb1 as toolbox.CTextBox.CustomTextBox;
+            var ctb2 = tb2 as toolbox.CTextBox.CustomTextBox;
 
-            string tempAllowedChars = tb1.AllowedChars;
-            tb1.AllowedChars = tb2.AllowedChars;
-            tb2.AllowedChars = tempAllowedChars;*/
+            var ph1 = ctb1?.Placeholder ?? string.Empty;
+            var ph2 = ctb2?.Placeholder ?? string.Empty;
 
-            int tempMaxLength = tb1.MaxLength;
-            tb1.MaxLength = tb2.MaxLength;
-            tb2.MaxLength = tempMaxLength;
+            bool tb1HasUserInput = !string.IsNullOrWhiteSpace(tb1.Text) && tb1.Text != ph1;
+            bool tb2HasUserInput = !string.IsNullOrWhiteSpace(tb2.Text) && tb2.Text != ph2;
 
-            string tempText = tb1.Text;
-            tb1.Text = tb2.Text;
-            tb2.Text = tempText;
+            if (tb1HasUserInput && tb2HasUserInput)
+            {
+                (tb1.Text, tb2.Text) = (tb2.Text, tb1.Text);
+            }
+            else if (tb1HasUserInput)
+            {
+                tb2.Text = tb1.Text;
+                tb2.Foreground = Brushes.White;
+                tb1.Clear();
+                tb1.Text = ph1;
+                tb1.Foreground = Brushes.Gray;
+            }
+            else if (tb2HasUserInput)
+            {
+                tb1.Text = tb2.Text;
+                tb1.Foreground = Brushes.White;
+                tb2.Clear();
+                tb2.Text = ph2;
+                tb2.Foreground = Brushes.Gray;
+            }
         }
     }
 }

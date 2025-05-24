@@ -1,12 +1,14 @@
 ﻿/* Reexport */
+using btmc.src.ui.forms.main.tabs;
+
 namespace btmc.src.ui.resources.toolbox
 {
-    public class Button : CButton.Button { }
+   public class Button : CButton.CustomButton { }
 
     /* Reexport your custom components here */
 
     /* Change 'System.Windows.Controls.*' to your custom components after you implement them */
-    public class TextBox : System.Windows.Controls.TextBox { }
-    public class ComboBox : System.Windows.Controls.ComboBox { }
+    public class TextBox : CTextBox.CustomTextBox{ }
+    public class ComboBox : CComboBox.CustomComboBox{ }
 }
 

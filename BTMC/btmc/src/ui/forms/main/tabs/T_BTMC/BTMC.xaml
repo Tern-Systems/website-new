@@ -4,15 +4,117 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:btmc.src.ui.forms.main.tabs.T_BTMC"
-             xmlns:toolbox="clr-namespace:btmc.src.ui.resources.toolbox"
              xmlns:components="clr-namespace:btmc.src.ui.forms.main.components"
+             xmlns:ctextbox="clr-namespace:btmc.src.ui.resources.toolbox.CTextBox"
+              xmlns:ccombobox="clr-namespace:btmc.src.ui.resources.toolbox.CComboBox"
+             xmlns:tabs="clr-namespace:btmc.src.ui.forms.main.tabs"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="../../Form.style.xaml" />
+        <ResourceDictionary>
+            
+
+            <x:Array x:Key="TypeOptions" Type="{x:Type sys:String}">
+                <sys:String>select</sys:String>
+                <sys:String>Hex</sys:String>
+                <sys:String>Decimal</sys:String>
+                <sys:String>Binary</sys:String>
+                <sys:String>Oct</sys:String>
+            </x:Array>
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid >
-        
+    <Grid>
+        <StackPanel x:Name="BTMCLayout" Visibility="Visible" HorizontalAlignment="Center">
+
+            <!-- Input Row -->
+            <StackPanel Orientation="Horizontal" Margin="80,20">
+                <TextBlock Grid.Column="0" Text="Input :" Width="50" VerticalAlignment="Center"
+                           Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
+
+                <ccombobox:CustomComboBox   x:Name="cmbBTMC_In"
+                                            AutomationProperties.Name="Convert From"
+                                            Grid.Column ="1"
+                                            ItemsSource="{Binding TypeNames}"
+                                            SelectedIndex="0"
+                                            Width="120"
+                                            Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            Foreground="{StaticResource Color.White}"
+                                            BorderBrush="{StaticResource Color.White}"
+                                            BorderThickness="1"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            SelectionChanged="CmbTypeIn_SelectionChanged"/>
+
+                <Grid>
+                    <ctextbox:CustomTextBox Grid.Column="2" x:Name="InputTextBox"
+                                            AutomationProperties.Name="User Input"
+                                            Width="250" Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            BorderBrush="{StaticResource Color.White}" BorderThickness="1"
+                                            Margin="10,0,0,0"
+                                            Foreground="{StaticResource Color.White}" Padding="0,0,50,0"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            Placeholder="input..." 
+                                            TextChanged="InputTextBox_TextChanged"
+                                            />
+                    <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
+                    <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
+
+                </Grid>
+
+            </StackPanel>
+
+            <!-- Swap Button -->
+            <components:Swap Width="25" Height="25"
+                             AutomationProperties.Name="Swap Inputs Button"
+                             Foreground="White" BorderThickness="0"
+                             ToolTip="Swap" Padding="5"
+                             Cursor="Hand" HorizontalAlignment="Center" 
+                             Click="BtnSwap_Click"/>
+
+            <!-- Output Row -->
+            <StackPanel Orientation="Horizontal" Margin="80,20">
+                <TextBlock Grid.Column="0" Text="Output:" Width="50" VerticalAlignment="Center"
+                           Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}" />
+                
+                <ccombobox:CustomComboBox   x:Name="cmbBTMC_Out"
+                                            AutomationProperties.Name="Convert To"
+                                            Grid.Column ="1"
+                                            ItemsSource="{Binding TypeNames}"
+                                            SelectedIndex="0"
+                                            Width="120"
+                                            Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            Foreground="{StaticResource Color.White}"
+                                            BorderBrush="{StaticResource Color.White}"
+                                            BorderThickness="1"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            SelectionChanged="CmbTypeOut_SelectionChanged"/>
+
+                <Grid>
+                    <ctextbox:CustomTextBox Grid.Column="2" x:Name="OutputTextBox"
+                                            AutomationProperties.Name="Converted Output"
+                                            Width="250" Height="25"
+                                            Background="{StaticResource Color.Gray.77}"
+                                            BorderBrush="{StaticResource Color.White}" BorderThickness="1"
+                                            Margin="10,0,0,0"
+                                            Foreground="{StaticResource Color.White}" Padding="0,0,50,0"
+                                            FontFamily="{StaticResource FontFamily.Gothic}"
+                                            CornerRadius="3"
+                                            Placeholder="output..."/>
+                    <ContentControl ContentTemplate="{StaticResource Template.CopyIcon}" />
+                    <ContentControl ContentTemplate="{StaticResource Template.PasteIcon}" />
+
+                </Grid>
+
+
+
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

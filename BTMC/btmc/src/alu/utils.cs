@@ -33,7 +33,7 @@ namespace btmc.src.alu
             allowedChars = String.Format(@"^[{0}]$", Dict.BALTERN_CHARS)
         };
 
-        /// <summary>
+        /// <summary>0908
         /// Dictionary: input type - pattern regex, value length and allowed chars for input types
         /// </summary>
         public static readonly TypePatternDict TypePattern = new()
