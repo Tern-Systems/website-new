@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { Res } from '@/app/types/service';
-import { Article, Tip } from '@/app/types/blog';
+import { Article, Tip, Course } from '@/app/types/blog';
 
 import { BaseService } from './base.service';
 
@@ -13,9 +13,95 @@ type TipsDTO = {
     reads: Tip[];
 };
 
+type CoursesDTO = {
+    mostPopular: Course[];
+    featured: Course[];
+    videos: Course[];
+    reading: Course[];
+};
+
 const CACHED_ARTICLE_COUNT = 5;
 
 const TIPS_TEMPLATE: Tip[] = [
+    {
+        type: 'video',
+        id: '98fg45r3s0j3----',
+        poster: '',
+        title: 'Step-by-Step: How to Setup your Tern Account for 2FA',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98254gf0j3----',
+        poster: '',
+        title: 'The 5 biggest AI adoption challenges for 2025',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f02f3fj3----',
+        poster: '',
+        title: 'Here we discuss what benefits are enabled by switching from conventional computers to ours.',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0j53g34f324----',
+        poster: '',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0aasdasdergj3----',
+        poster: '',
+        description: 'Soe useful thing6',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0agasdasfdsj3----',
+        poster: '',
+        description: 'Soe useful thing5',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98asdaf0j3----',
+        poster: '',
+        description: 'Soe useful thing4',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0hgjs3----',
+        poster: '',
+        description: 'Soe useful thing3',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0js3f----',
+        poster: '',
+        description: 'Soe useful thing2',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0ja3---s-',
+        poster: '',
+        description: 'Soe useful thing1',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+];
+
+const COURSES_TEMPLATE: Course[] = [
     {
         type: 'video',
         id: '98fg45r3s0j3----',
@@ -101,6 +187,13 @@ const TIPS_DTO_TEMPLATE: TipsDTO = {
     reads: TIPS_TEMPLATE.slice(-6),
 };
 
+const COURSES_DTO_TEMPLATE: CoursesDTO = {
+    mostPopular: COURSES_TEMPLATE.slice(0, 3),
+    featured: COURSES_TEMPLATE.slice(0, 4),
+    videos: COURSES_TEMPLATE.slice(2, 5),
+    reading: COURSES_TEMPLATE.slice(3, 6),
+};
+
 interface IBlogService {
     getArticles(): Promise<Res<ArticlesDTO, false>>;
 }
@@ -149,9 +242,30 @@ class BlogServiceImpl extends BaseService implements IBlogService {
             throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
         }
     }
+    async getCourses(): Promise<Res<CoursesDTO, false>> {
+        const [debug, error] = this.getLoggers(this.getCourses.name);
+
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: this._API + `get-courses`,
+            withCredentials: true,
+        };
+
+        try {
+            debug(config);
+            // In a real implementation, you would make an API call:
+            // const response = await axios(config);
+            // debug(response);
+
+            return { payload: COURSES_DTO_TEMPLATE };
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
+        }
+    }
 }
 
 const BlogService = new BlogServiceImpl();
 
-export type { TipsDTO };
+export type { TipsDTO, CoursesDTO };
 export { BlogService };
