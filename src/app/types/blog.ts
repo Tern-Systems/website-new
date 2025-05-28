@@ -25,6 +25,10 @@ type Article = DeepPartial<{
     content: string;
     contentIDs: string[];
 }>;
+type CourseType = 'video';
+type Course = DeepPartial<
+    Pick<Article, 'id' | 'title' | 'poster' | 'content'> & Partial<Pick<Article, 'description'>> & { type: CourseType }
+>;
 
 // TODO clarify
 type TipType = 'video';
@@ -32,4 +36,4 @@ type Tip = DeepPartial<
     Pick<Article, 'id' | 'title' | 'poster' | 'content'> & Partial<Pick<Article, 'description'>> & { type: TipType }
 >;
 
-export type { ArticleTag, Article, Tip };
+export type { ArticleTag, Article, Tip, Course };

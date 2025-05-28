@@ -60,6 +60,13 @@ enum Route {
     TernKitDoc = '/support/documentation/tern_kit',
     TernDoc = '/support/documentation/tern',
     BTMCDoc = '/support/documentation/btmc',
+    Courses = '/support/training/courses',
+    CoursesAll = '/support/training/courses/all',
+    CoursesFree = '/support/training/courses/free',
+    CoursesCertification = '/support/training/courses/certification',
+    CoursesAdvanced = '/support/training/courses/advanced',
+    CoursesVideos = '/support/training/courses/videos',
+    CoursesLibrary = '/support/training/courses/library',
 
     // /all_ways
     AllWays = '/all_ways',
@@ -80,16 +87,28 @@ enum Route {
 
 const CONTACT_LINKS = {
     Discord: { svg: SVG_DISCORD, href: 'https://discord.gg/ZkZZmm8k4f' },
-    'Stack overflow': { svg: SVG_STACKOVERFLOW, href: 'https://stackoverflow.com/users/24470835/tern' },
+    'Stack overflow': {
+        svg: SVG_STACKOVERFLOW,
+        href: 'https://stackoverflow.com/users/24470835/tern',
+    },
     GitHub: { svg: SVG_GITHUB, href: 'https://github.com/Tern-Systems' },
     X: { svg: SVG_X, href: 'https://x.com/Tern_Systems' },
     Reddit: { svg: SVG_REDDIT, href: 'https://www.reddit.com/user/Tern_Systems' },
-    LinkedIn: { svg: SVG_LINKEDIN, href: 'https://www.linkedin.com/company/tern-sys' },
-    Facebook: { svg: SVG_FACEBOOK, href: 'https://www.facebook.com/ternsystemsinc' },
+    LinkedIn: {
+        svg: SVG_LINKEDIN,
+        href: 'https://www.linkedin.com/company/tern-sys',
+    },
+    Facebook: {
+        svg: SVG_FACEBOOK,
+        href: 'https://www.facebook.com/ternsystemsinc',
+    },
 };
 
 const MEDIA_LINKS = {
-    Instagram: { svg: SVG_INSTAGRAM, href: 'https://www.instagram.com/ternsystems/' },
+    Instagram: {
+        svg: SVG_INSTAGRAM,
+        href: 'https://www.instagram.com/ternsystems/',
+    },
     YouTube: { svg: SVG_YOUTUBE, href: 'https://www.youtube.com/@Tern_Systems' },
     Twitch: { svg: SVG_TWITCH, href: 'https://www.twitch.tv/tern_systems' },
 };
