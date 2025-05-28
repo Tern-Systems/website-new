@@ -16,11 +16,14 @@ import { MainBackground } from '@/app/ui/atoms';
 import { ArticleCard, ResourceCard, Carousel } from '@/app/ui/organisms';
 import { AllWaysCard, InsideTernSection } from '@/app/ui/templates';
 import { MessageModal } from '@/app/ui/modals';
+import { InfoSectionData } from '@/app/types/layout';
+import { InfoSection } from '@/app/ui/templates';
 
 import styles from '@/app/common.module.css';
 
 import PNG_BG_MAIN from '@/assets/images/open-office.jpg';
 import PNG_MICROPROCESSOR from '@/assets/images/microprocessor.png';
+import SVG_COMPUTER from '@/assets/images/old-computer.svg';
 
 const HIGHLIGHTED_CARD: CardLink = {
     icon: PNG_MICROPROCESSOR,
@@ -30,6 +33,16 @@ const HIGHLIGHTED_CARD: CardLink = {
         title: 'Explore certifications',
         href: Route.CoursesCertification || '',
     },
+};
+
+const INFO: InfoSectionData = {
+    title: 'Ternary Computing',
+    image: SVG_COMPUTER,
+    subTitle: 'Tern Academy',
+    link: Route.CoursesLibrary,
+    linkTitle: 'Explore All Courses',
+    description:
+        'Tern Academy is is your premier destination for diving into the world of ternary computing, offering a comprehensive lineup of expertly designed courses that cover all things tern',
 };
 
 const UL_H_CN = ' mb-xs md:mb-n lg:mb-xxl  sm:x-[mx-auto,w-card]  sm:text-27 text-40';
@@ -82,7 +95,8 @@ function CoursesPage() {
                 <div className={cn(styles.content, 'relative z-10 flex flex-col justify-between', 'py-xxl md:pb-4xl')}>
                     <h1 className={'text-64 md:text-80 lg:text-96'}>Courses</h1>
                     <h2 className={'w-full lg:w-2/3 leading-n text-20 md:text-36 lg:text-36'}>
-                        Expect the Unexpected,<br />
+                        Expect the Unexpected,
+                        <br />
                         Learn the Unknown
                     </h2>
                 </div>
@@ -157,11 +171,36 @@ function CoursesPage() {
                     />
                 </div>
             </section>
-            <InsideTernSection
-                data={'alt0'}
-                className={cn('bg-gradient-to-t from-blue to-transparent to-60%')}
-                classNameContent={'pb-[25.3rem] md:pb-[26rem] lg:pb-[28rem]'}
-            />
+            <div className='mt-6xl md:mt-8xl lg:mt-9xl'>
+                <div className='relative z-10 bg-black bg-gradient-to-b from-blue to-transparent to-60% md:to-35%  lg:x-[from-[-15%],to-20%]'>
+                    <div
+                        className={cn(
+                            'hidden lg:block',
+                            'h-full w-full absolute left-0 top-0 z-10',
+                            'bg-gradient-to-t from-green to-transparent to-30%',
+                        )}
+                    />
+                    <InfoSection
+                        data={INFO}
+                        className={cn('pt-[12rem] bg-transparent')}
+                        classNameTitle={'sm:x-[text-30,mb-xl,leading-n]  md:text-36'}
+                        classNameSubTitle={'mb-4xs [&]:text-24 lg:[&]:text-32'}
+                        classNameContent={'md:x-[max-w-[62rem],mx-auto]'}
+                        classNameDescription={'[&]:leading-l text-16 lg:text-20'}
+                        classNamePageLink={cn(
+                            'flex w-full [&]:p-0 items-center justify-center rounded-none',
+                            'text-14 md:text-14 lg:[&]:text-14',
+                            'sm:max-w-11xl max-w-[8.4375rem]',
+                            'sm:h-button-l h-button-xl',
+                            'mt-n md:mt-xl lg:mt-xxl',
+                        )}
+                    />
+                    <InsideTernSection
+                        data={'alt1'}
+                        className={'bg-transparent'}
+                    />
+                </div>
+            </div>
         </>
     );
 }

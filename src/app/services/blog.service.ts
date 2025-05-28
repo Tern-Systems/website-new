@@ -178,6 +178,82 @@ const COURSES_TEMPLATE: Course[] = [
         title: 'The World’s Most Efficient Computer',
         content: 'some useful content',
     },
+    {
+        type: 'video',
+        id: '98fg45r3s0j3----',
+        poster: '',
+        title: 'Step-by-Step: How to Setup your Tern Account for 2FA',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98254gf0j3----',
+        poster: '',
+        title: 'The 5 biggest AI adoption challenges for 2025',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f02f3fj3----',
+        poster: '',
+        title: 'Here we discuss what benefits are enabled by switching from conventional computers to ours.',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0j53g34f324----',
+        poster: '',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0aasdasdergj3----',
+        poster: '',
+        description: 'Soe useful thing6',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0agasdasfdsj3----',
+        poster: '',
+        description: 'Soe useful thing5',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98asdaf0j3----',
+        poster: '',
+        description: 'Soe useful thing4',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0hgjs3----',
+        poster: '',
+        description: 'Soe useful thing3',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0js3f----',
+        poster: '',
+        description: 'Soe useful thing2',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
+    {
+        type: 'video',
+        id: '98f0ja3---s-',
+        poster: '',
+        description: 'Soe useful thing1',
+        title: 'The World’s Most Efficient Computer',
+        content: 'some useful content',
+    },
 ];
 
 const TIPS_DTO_TEMPLATE: TipsDTO = {
@@ -258,6 +334,20 @@ class BlogServiceImpl extends BaseService implements IBlogService {
             // debug(response);
 
             return { payload: COURSES_DTO_TEMPLATE };
+        } catch (err: unknown) {
+            error(err);
+            throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
+        }
+    }
+    // Add this method to the BlogServiceImpl class
+    async getAllCourses(): Promise<Res<Course[], false>> {
+        const [debug, error] = this.getLoggers(this.getAllCourses.name);
+
+        try {
+            debug('Getting all courses');
+            // In a real implementation, you would make an API call
+            // For now, return the full courses template
+            return { payload: COURSES_TEMPLATE };
         } catch (err: unknown) {
             error(err);
             throw axios.isAxiosError(err) ? (err.response?.data?.error ?? err.message) : 'Unexpected error!';
