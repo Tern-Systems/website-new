@@ -42,7 +42,7 @@ const INFO: InfoSectionData = {
     link: Route.CoursesLibrary,
     linkTitle: 'Explore All Courses',
     description:
-        'Tern Academy is is your premier destination for diving into the world of ternary computing, offering a comprehensive lineup of expertly designed courses that cover all things tern',
+        'Tern Academy is your premier destination for diving into the world of ternary computing, offering a comprehensive lineup of expertly designed courses that cover all things tern',
 };
 
 const UL_H_CN = ' mb-xs md:mb-n lg:mb-xxl  sm:x-[mx-auto,w-card]  sm:text-27 text-40';
