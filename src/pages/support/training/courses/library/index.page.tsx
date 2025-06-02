@@ -5,7 +5,6 @@ import cn from 'classnames';
 
 import styles from '@/app/common.module.css';
 import { BreadcrumbRoute, SearchBar } from '@/app/ui/atoms';
-import { CourseCard, CourseCardType } from '@/app/ui/organisms/CourseCard';
 import { Course } from '@/app/types/blog';
 import { useModal } from '@/app/hooks';
 import { CoursesDTO, CourseService } from '@/app/services/course.service';
@@ -13,6 +12,8 @@ import { MessageModal } from '@/app/ui/modals';
 import { Button } from '@/app/ui/form';
 
 import SVG_CLOSE from '@/assets/images/icons/close.svg';
+import { ArticleCard } from '@/app/ui/organisms';
+import { ArticleCardType } from '@/app/ui/organisms/ArticleCard';
 
 const CONTENT_TYPES: Record<string, string> = {
     tbd: 'TBD',
@@ -21,15 +22,15 @@ const ITEMS_PER_PAGE = 24;
 
 const STYLE_ARROW_BUTTON = 'px-4 py-3 border border-[#979797]';
 
-const renderCourses = (type: CourseCardType, courses: Course[] = []) =>
+const renderCourses = (type: ArticleCardType, courses: Course[] = []) =>
     courses.map((course) => (
         <li
             key={course.id}
             className={'contents'}
         >
-            <CourseCard
+            <ArticleCard
                 type={type}
-                course={course}
+                article={course}
                 className={'[&:not(:first-of-type)]:border-t-0'}
             />
         </li>

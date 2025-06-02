@@ -10,20 +10,18 @@ import { Route } from '@/app/static';
 
 import { useModal } from '@/app/hooks';
 
-import { CourseCard, ResourceCard } from '@/app/ui/organisms';
+import { ArticleCard, Carousel, ResourceCard } from '@/app/ui/organisms';
 
 import styles from '@/app/common.module.css';
 
 import JPG_GIRL_LAPTOP from '@/assets/images/girl-on-laptop-2.jpg';
 import JPG_PEOPLE_WALKING from '@/assets/images/people-walking.jpg';
 import { BreadcrumbRoute } from '@/app/ui/atoms';
-import { DescriptionBox } from '@/app/ui/organisms/DescriptionBox';
 import { CourseService } from '@/app/services/course.service';
 import { MessageModal } from '@/app/ui/modals';
 import { PageLink } from '@/app/ui/layout';
 import { CardLink, ResourceSectionData } from '@/app/types/layout';
 import { ResourcesSection } from '@/app/ui/templates';
-import { SeriesCarousel } from './SeriesCarousel';
 
 const HIGHLIGHTED_CARD: CardLink = {
     icon: JPG_PEOPLE_WALKING,
@@ -40,12 +38,15 @@ const RESOURCES: ResourceSectionData[] = [
 ];
 
 function VideoPage() {
+    const COMPACT_LINES = 1;
+
     const modalCtx = useModal();
 
     const { id } = useParams() ?? ({} as { id: string });
 
     const [course, setCourse] = useState<Course | null>(null);
     const [cards, setCards] = useState<Course[]>([]);
+    const [expanded, setExpanded] = useState(false);
 
     useEffect(() => {
         const courseStr: string | null = localStorage.getItem('course');
@@ -74,8 +75,8 @@ function VideoPage() {
                 key={course?.id ?? 'card-' + idx}
                 className={'contents'}
             >
-                <CourseCard
-                    course={course}
+                <ArticleCard
+                    article={course}
                     type='compact'
                 />
             </li>
@@ -93,23 +94,49 @@ function VideoPage() {
                     <div className='col-span-2 flex flex-col w-full h-fit'>
                         <h1 className='leading-n text-40 sm:text-24 mb-xxs'>{course?.series} Series</h1>
                         <div className='contents'>
-                            <CourseCard
+                            <ArticleCard
                                 type='compact'
-                                course={course}
+                                article={course}
                                 hideTitle={true}
                             />
                         </div>
                         <div className='text-32 md:text-27 sm:text-18 pt-xs sm:pt-3xs'>{course?.title}</div>
-                        <DescriptionBox
-                            course={course}
-                            className='my-4xs'
-                        />
+                        <div className={cn('my-4xs bg-[#444444] text-white p-4xs')}>
+                            <p
+                                className={cn(
+                                    'text-16 md:text-14 sm:text-12 mb-4xs',
+                                    !expanded && `line-clamp-${COMPACT_LINES}`,
+                                )}
+                            >
+                                {course?.date
+                                    ? new Date(course?.date).toLocaleDateString('en-US', {
+                                          year: 'numeric',
+                                          month: 'short',
+                                          day: 'numeric',
+                                      })
+                                    : 'Date TBD'}
+                            </p>
+                            <p
+                                className={cn(
+                                    'text-14 md:text-12 sm:text-10',
+                                    !expanded && `line-clamp-${COMPACT_LINES}`,
+                                )}
+                            >
+                                {course?.description}
+                            </p>
+                            <button
+                                onClick={() => setExpanded((e) => !e)}
+                                className='font-bold text-14 md:text-12 sm:text-10 mt-2 hover:underline'
+                            >
+                                {expanded ? 'Show less' : 'Show more'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
             <section className={cn(styles.content, 'mt-xl')}>
-                <SeriesCarousel
-                    data={{
+                <Carousel
+                    altData={{
                         title: 'Next in series',
                         link: Route.CourseVideo,
                         cards: CardsLi,
@@ -122,6 +149,7 @@ function VideoPage() {
                         md: 3,
                         sm: 2,
                     }}
+                    type={true}
                 />
             </section>
             <div className={cn(styles.content)}>
@@ -170,8 +198,8 @@ function VideoPage() {
                 </section>
             </div>
             <section className={cn(styles.content, 'mt-xl')}>
-                <SeriesCarousel
-                    data={{
+                <Carousel
+                    altData={{
                         title: 'Recommended courses',
                         link: Route.CourseVideo,
                         cards: CardsLi,
@@ -184,6 +212,7 @@ function VideoPage() {
                         md: 3,
                         sm: 2,
                     }}
+                    type={true}
                 />
             </section>
             <section className={cn(styles.content, 'mt-xl')}>
@@ -209,8 +238,8 @@ function VideoPage() {
                 </ResourceCard>
             </section>
             <section className={cn(styles.content, 'mt-xl')}>
-                <SeriesCarousel
-                    data={{
+                <Carousel
+                    altData={{
                         title: 'Recently viewed',
                         link: Route.CourseVideo,
                         cards: CardsLi,
@@ -223,6 +252,7 @@ function VideoPage() {
                         md: 3,
                         sm: 2,
                     }}
+                    type={true}
                 />
             </section>
             <section className='relative z-10'>
