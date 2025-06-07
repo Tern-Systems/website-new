@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace btmc
@@ -19,8 +20,14 @@ namespace btmc
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ButtonState == MouseButtonState.Pressed)
-                DragMove();
+            if (e.ChangedButton == MouseButton.Left || e.ChangedButton == MouseButton.Right)
+            {
+                try
+                {
+                    DragMove();
+                }
+                catch { }
+            }
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -35,21 +42,34 @@ namespace btmc
 
         private void TcMain_SectionChanged(object sender, RoutedEventArgs e)
         {
-            /* Uncomment after you add your custom TabControl to the form */
-            //_activeTab = (_TabEnum)tcMain.SelectedIndex;
+            if (TcMain.SelectedIndex == 0)
+            {
+                BtmcControl.Visibility = Visibility.Visible;
+                TernControl.Visibility = Visibility.Collapsed;
+            }
+            else if (TcMain.SelectedIndex == 1)
+            {
+                BtmcControl.Visibility = Visibility.Collapsed;
+                TernControl.Visibility = Visibility.Visible;
+            }
         }
 
         private void BtnClean_Click(object sender, RoutedEventArgs e)
         {
-            switch (_activeTab)
+            var selectedTab = TcMain.SelectedItem as TabItem;
+
+            if (selectedTab != null)
             {
-                default: break;
-                case _TabEnum.BTMC:
-                    // Implement it
-                    break;
-                case _TabEnum.TERN:
-                    // Implement it
-                    break;
+                switch (selectedTab.Header.ToString())
+                {
+                    case "BTMC":
+                        BtmcControl.ClearFields();
+                        break;
+
+                    case "TERN":
+                        TernControl.ClearFields();
+                        break;
+                }
             }
         }
 
