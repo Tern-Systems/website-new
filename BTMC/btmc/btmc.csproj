@@ -23,7 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Page Remove="src\ui\forms\main\Form.style.xaml" />
 		<Page Remove="src\ui\resources\theme\General.xaml" />
 		<Page Remove="src\ui\resources\toolbox\TextBox.xaml" />
 	</ItemGroup>
@@ -48,7 +47,6 @@
 		<Resource Include="assets\icons\broom.png" />
 		<Resource Include="assets\icons\copy.png" />
 		<Resource Include="assets\icons\paste.png" />
-		<Resource Include="src\ui\forms\main\Form.style.xaml" />
 		<Resource Include="src\ui\resources\theme\General.xaml" />
 	</ItemGroup>
 

@@ -5,6 +5,16 @@
 
     <SolidColorBrush x:Key="Color.Gray.77"
                      Color="#4d4d4d" />
+    <SolidColorBrush x:Key="Color.Gray.102"
+                     Color="#666666" />
+    <SolidColorBrush x:Key="Color.Gray.128"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="Color.Gray.136"
+                     Color="#888888" />
+    <SolidColorBrush x:Key="Color.Gray.179"
+                     Color="#b3b3b3" />
+    <SolidColorBrush x:Key="Color.Gray.204"
+                     Color="#CCCCCC" />
     <SolidColorBrush x:Key="Color.White"
                      Color="#f2f2f2" />
 

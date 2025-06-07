@@ -9,10 +9,182 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="../../Form.style.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/btmc;component/src/ui/forms/main/Form.style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
-
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Input 1 Row -->
+        <TextBlock Grid.Row="0" 
+                   Grid.Column="0" 
+                   Text="Input 1:" 
+                   Foreground="White"
+                   FontFamily="{StaticResource FontFamily.Gothic}" 
+                   FontSize="18" 
+                   VerticalAlignment="Center" 
+                   Margin="12,0,10,0"/>
+        <Grid Grid.Row="0" Grid.Column="1" Height="36" Width="Auto">
+            <TextBox x:Name="Input1TextBox"
+                     Style="{StaticResource RoundedTextBoxStyle}"
+                     Padding="6,0,60,0"
+                     VerticalContentAlignment="Center"
+                     Text="input 1..."
+                     Foreground="{StaticResource Color.Gray.179}"
+                     FontFamily="{StaticResource FontFamily.Gothic}"
+                     FontSize="18"
+                     GotFocus="RemovePlaceholder"
+                     LostFocus="RestorePlaceholder"
+                     Cursor="Pen"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0">
+                <Button ToolTip="Copy" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        Width="24" 
+                        Height="24">
+                    <Image Source="/btmc;component/assets/icons/copy.png" Width="16"/>
+                </Button>
+                <Button ToolTip="Paste" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        Width="24" 
+                        Height="24">
+                    <Image Source="/btmc;component/assets/icons/paste.png" Width="16"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+        <!-- Instruction Row -->
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBlock Grid.Row="1" 
+                           Grid.Column="0" 
+                           Text="Instruction:" 
+                           Foreground="White"
+                           FontFamily="{StaticResource FontFamily.Gothic}" 
+                           FontSize="18" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Margin="12,10,10,0"/>
+                <ComboBox x:Name="InstructionComboBox" Grid.Row="1" Grid.Column="1" Width="180" Height="36" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Style="{StaticResource FlatComboBoxStyle}" SelectedIndex="0">
+                    <ComboBoxItem Content="select" Foreground="{StaticResource Color.Gray.179}" FontFamily="{StaticResource FontFamily.Gothic}" />
+                    <ComboBoxItem Content="LOAD" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}"/>
+                    <ComboBoxItem Content="ADD" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}"/>
+                    <ComboBoxItem Content="SUB" Foreground="White" FontFamily="{StaticResource FontFamily.Gothic}"/>
+                </ComboBox>
+                
+                <!-- Swap Button -->
+                <Button Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3"
+                        Style="{StaticResource SwapButtonStyle}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="10, 0"
+                        Cursor="Hand"
+                        ToolTip="Swap"/>
+            </StackPanel>
+        </Grid>
+        
+        <!-- Input 2 Row -->
+        <TextBlock Grid.Row="2" 
+                   Grid.Column="0" 
+                   Text="Input 2:" 
+                   Foreground="White"
+                   FontFamily="{StaticResource FontFamily.Gothic}" 
+                   FontSize="18" 
+                   VerticalAlignment="Center" 
+                   Margin="12,10,10,0"/>
+        <Grid Grid.Row="2" Grid.Column="1" Height="36" Margin="0,10,0,0">
+            <TextBox x:Name="Input2TextBox"
+                     Style="{StaticResource RoundedTextBoxStyle}"
+                     Padding="6,0,60,0"
+                     VerticalContentAlignment="Center"
+                     Text="input 2..."
+                     Foreground="{StaticResource Color.Gray.179}"
+                     FontFamily="{StaticResource FontFamily.Gothic}"
+                     FontSize="18"
+                     GotFocus="RemovePlaceholder"
+                     LostFocus="RestorePlaceholder"
+                     Cursor="Pen"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0">
+                <Button ToolTip="Copy" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        Width="24" 
+                        Height="24">
+                    <Image Source="/btmc;component/assets/icons/copy.png" Width="16"/>
+                </Button>
+                <Button ToolTip="Paste" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        Width="24" 
+                        Height="24">
+                    <Image Source="/btmc;component/assets/icons/paste.png" Width="16"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+        <!-- Output Row -->
+        <TextBlock Grid.Row="3" 
+                   Grid.Column="0" 
+                   Text="Output:" 
+                   Foreground="White"
+                   FontFamily="{StaticResource FontFamily.Gothic}" 
+                   FontSize="18" VerticalAlignment="Center" 
+                   Margin="12,10,10,0"/>
+        <Grid Grid.Row="3" Grid.Column="1" Height="36" Margin="0,10,0,0">
+            <TextBox x:Name="OutputTextBox"
+                     Style="{StaticResource RoundedTextBoxStyle}"
+                     Padding="6,0,60,0"
+                     VerticalContentAlignment="Center"
+                     Text="output..."
+                     Foreground="{StaticResource Color.Gray.179}"
+                     FontFamily="{StaticResource FontFamily.Gothic}"
+                     FontSize="18"
+                     GotFocus="RemovePlaceholder"
+                     LostFocus="RestorePlaceholder"
+                     Cursor="Pen"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0">
+                <Button ToolTip="Copy" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        Width="24" 
+                        Height="24">
+                    <Image Source="/btmc;component/assets/icons/copy.png" Width="16"/>
+                </Button>
+                <Button ToolTip="Paste" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        Width="24" 
+                        Height="24">
+                    <Image Source="/btmc;component/assets/icons/paste.png" Width="16"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+        <!-- Convert Button-->
+        <Button Grid.Row="4" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="3" 
+                Content="Convert"
+                Style="{StaticResource PrimaryButtonStyle}"
+                HorizontalAlignment="Center" 
+                Margin="0,20,0,0"
+                Cursor="Hand"
+                ToolTip="Convert"/>
     </Grid>
 </UserControl>
