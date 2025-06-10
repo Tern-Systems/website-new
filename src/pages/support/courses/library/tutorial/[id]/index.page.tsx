@@ -9,8 +9,6 @@ import { Tip } from '@/app/types/blog';
 
 import cn from 'classnames';
 
-import { VideoCard } from '@/app/ui/organisms/VideoCard';
-
 import { PageLink } from '@/app/ui/layout';
 import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
 
@@ -61,7 +59,6 @@ const RESOURCES: ResourceSectionData[] = [
 
 
 function TrainingPage() {
-    const pathName = usePathname()
     return (
         <div className="w-full min-h-screen bg-gradient-to-b from-black via-[#002c40] to-[#004466] text-white font-sans">
             <div className="text-sm text-gray-400 px-8 pt-8 space-x-1">
