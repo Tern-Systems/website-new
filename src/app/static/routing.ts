@@ -90,6 +90,7 @@ enum Route {
     // support
     Courses = Route.Support + '/courses',
     CoursesLib = Route.Courses + '/library',
+    CoursesTutorial = Route.CoursesLib + '/tutorial',
     CoursesAll = Route.CoursesLib + '/' + CategoryFallback,
     FreeCourses = Route.CoursesLib + '/free',
     PremiumCourses = Route.CoursesLib + '/premium',
