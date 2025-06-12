@@ -15,9 +15,6 @@ import { ResourceCards, ResourcesSection } from '@/app/ui/templates';
 import { ResourceLink, ResourceSectionData } from '@/app/types/layout';
 import { MediaCard } from '@/app/ui/organisms';
 
-import { Carousel } from '@/app/ui/organisms';
-
-import PNG_CARD_HIGHLIGHTED_1 from '@/assets/images/Abstract.png';
 import { usePathname } from 'next/navigation';
 
 
@@ -61,7 +58,7 @@ const RESOURCES: ResourceSectionData[] = [
 function TrainingPage() {
     return (
         <div className="w-full min-h-screen bg-gradient-to-b from-black via-[#002c40] to-[#004466] text-white font-sans">
-            <div className="text-sm text-gray-400 px-8 pt-8 space-x-1">
+            <div className="text-sm text-gray-400 px-8 pt-8 space-x-1 ml-36">
                 <Link href="/support/courses" className="hover:underline text-blue-300">Courses</Link>
                 <span>/</span>
                 <Link href="/support/courses/library" className="hover:underline text-blue-300">Library</Link>
@@ -69,9 +66,9 @@ function TrainingPage() {
                 <Link href={usePathname() ?? '/'} className="hover:underline text-blue-300">Tidal Tutorial</Link>
             </div>
             <div className="px-8 pt-8">
-                <h1 className="text-4xl font-light mb-4">Tidal Tutorial Series</h1>
+                <h1 className="text-4xl font-light mb-4 ml-36">Tidal Tutorial Series</h1>
 
-                <div className="relative w-full aspect-video bg-black overflow-hidden">
+                <div className="relative  h-[450px]  bg-black ml-36 w-[1010px]">
                     <div
                         className="absolute top-0 left-0 text-xs px-1 py-[2px]"
                         style={{
@@ -110,9 +107,11 @@ function TrainingPage() {
                     </div>
                 </div>
 
-                <div className="mt-6">
-                    <h2 className="text-3xl font-light mb-1">Tidal – Getting Started</h2>
-                    <div className="mt-3 w-full bg-gray px-4 py-3 shadow-md">
+
+
+                <div className="max-w-2xl mx-auto relative">
+                    <h2 className="text-3xl font-light mb-4 -ml-44 ">Tidal – Getting Started</h2>
+                    <div className="mt-3 w-full bg-gray px-4 py-3 shadow-md -ml-44 w-[1020px]">
                         <p className="text-xs text-gray-400 mb-1">November 17, 2025</p>
                         <p className="text-sm text-gray-200 leading-snug">
                             In this "Tidal – Getting Started"...
@@ -123,28 +122,28 @@ function TrainingPage() {
             </div>
 
             <div className="h-10" />
-            <div className="px-8 pt-10">
-                <h2 className="text-2xl font-semibold mb-4">Next in this series</h2>
-                <div className="flex flex-row gap-4 overflow-x-auto">
+            <div className="max-w-2xl mx-auto">
+                <h2 className="text-2xl font-semibold mb-4 -ml-44">Next in this series</h2>
+                <div className="flex flex-row gap-4 justify-center">
                     {TIPS_TEMPLATE.slice(0, 4).map((tip) => (
-                        <div className="min-w-[250px] max-w-[300px]">
+                        <div className="min-w-[240px] max-w-[250px]">
                             <MediaCard key={tip.id} {...tip} />
                         </div>
                     ))}
                 </div>
             </div>
 
-
+            <div className="h-10" />
             <CardCheckersSection type="regular" idx={2} />
 
 
             <div className="h-10" />
 
-            <div className="px-8 pt-10">
-                <h2 className="text-2xl font-semibold mb-4">Recommended courses</h2>
-                <div className="flex flex-row gap-4 overflow-x-auto">
+            <div className="max-w-2xl mx-auto">
+                <h2 className="text-2xl font-semibold mb-4 -ml-44">Recommended courses</h2>
+                <div className="flex flex-row gap-4 justify-center">
                     {TIPS_TEMPLATE.slice(0, 4).map((tip) => (
-                        <div className="min-w-[250px] max-w-[300px]">
+                        <div className="min-w-[240px] max-w-[240px]">
                             <MediaCard key={tip.id} {...tip} />
                         </div>
                     ))}
@@ -154,11 +153,11 @@ function TrainingPage() {
 
             <CardCheckersSection type="default" idx={2} />
             <div className="h-10" />
-            <div className="px-8 pt-10">
-                <h2 className="text-2xl font-semibold mb-4">Recently Viewed</h2>
-                <div className="flex flex-row gap-4 overflow-x-auto">
+            <div className="max-w-2xl mx-auto">
+                <h2 className="text-2xl font-semibold mb-4 -ml-44">Recently Viewed</h2>
+                <div className="flex flex-row gap-4 justify-center">
                     {TIPS_TEMPLATE.slice(0, 4).map((tip) => (
-                        <div className="min-w-[250px] max-w-[300px]">
+                        <div className="min-w-[240px] max-w-[240px]">
                             <MediaCard key={tip.id} {...tip} />
                         </div>
                     ))}
