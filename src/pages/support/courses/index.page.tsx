@@ -63,9 +63,9 @@ function CoursesLib(){
             <Content>
                 <CardsLibrary
                     section={{
-                        preHref: Route.Courses,
-                        first: { title: 'Free Courses', href: Route.FreeCourses },
-                        second: { title: 'Premium Courses', href: Route.PremiumCourses },
+                        preHref: Route.CoursesTutorial,
+                        first: { title: 'Free Courses', href: Route.CoursesLib },
+                        second: { title: 'Premium Courses', href: Route.CoursesLib },
                     }}
                     cards={courses}
                     tags={COURSE_TAGS}
@@ -93,6 +93,3 @@ function CoursesLib(){
     );
 }
 export default CoursesLib;
-
-
-

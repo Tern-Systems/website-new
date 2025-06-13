@@ -13,8 +13,8 @@ import { ResourcesSection } from '@/app/ui/templates';
 import {CardCheckersSection} from '@/app/ui/templates';
 import { VideoOverlay } from '@/app/ui/organisms/VideoOverlay';
 
-import { Vidcarousel } from '../Vidcarousel';
-import { ExpandableText } from '../ExpandableText';
+import { Vidcarousel } from './Vidcarousel';
+import { ExpandableText } from './ExpandableText';
 
 import Course_png from '@/assets/images/Course_lib.jpg';
 
