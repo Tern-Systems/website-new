@@ -122,9 +122,6 @@ const DROPDOWN_SUB_NAV_ROUTES: Record<string, SelectOptions> = {
         Todo1: 'News',
         Todo2: 'Newsletter',
     },
-    [Route.Courses]: {
-        [Route.Courses]: 'All Courses',
-    },
 };
 
 const CELL_FALLBACK = <span className={'text-section-xs'}>No data</span>;

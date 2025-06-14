@@ -66,6 +66,7 @@ enum Route {
     TrainingFAQs = Route.Training + '/faqs',
     ProfessionalCertifications = Route.Training + '/certifications',
     Subscribe = Route.Training + '/subscriptions',
+    Courses = Route.Training + '/courses',
     Credentials = '/support/training/credentials',
     Downloads = Route.Support + '/downloads',
     Cases = Route.Support + '/cases',
@@ -88,7 +89,6 @@ enum Route {
     TipsReads = Route.TipsLibrary + '/reads',
 
     // support
-    Courses = Route.Support + '/courses',
     CoursesLib = Route.Courses + '/library',
     CoursesAll = Route.CoursesLib + '/' + CategoryFallback,
     FreeCourses = Route.CoursesLib + '/free',
