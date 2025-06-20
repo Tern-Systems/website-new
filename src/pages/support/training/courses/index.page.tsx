@@ -38,8 +38,8 @@ function CoursesPage() {
                 <CardsLibrary
                     section={{
                         preHref: Route.Courses,
-                        first: { title: 'Most Popular', href: Route.AllWays },
-                        second: { title: 'Featured', href: Route.AllWays },
+                        first: { title: 'Most Popular', href: Route.CoursesLib },
+                        second: { title: 'Featured', href: Route.CoursesLib },
                     }}
                     cards={COURSES_TEMPLATE}
                     tags={['Popular', 'Featured', 'Free', 'Premium']}

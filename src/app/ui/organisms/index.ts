@@ -14,3 +14,4 @@ export { SubscribeCard } from './SubscribeCard';
 export { Table } from './Table';
 export { Tabs } from './Tabs';
 export { Video } from './Video';
+export { VideoDescription } from './VideoDescription';

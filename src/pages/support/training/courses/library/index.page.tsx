@@ -2,6 +2,7 @@ import { LibraryTemplate } from '@/app/ui/templates';
 import { Section, Content } from '@/app/ui/atoms';
 import { MediaCard } from '@/app/ui/organisms';
 import { Course, COURSES_TEMPLATE } from '@/app/types/course';
+import Link from 'next/link';
 
 function CoursesLibraryPage() {
     return (
@@ -20,7 +21,15 @@ function CoursesLibraryPage() {
                         option: { category: { options: { '': 'All' } } },
                         date: true
                     }}
-                    renderItem={(item) => <MediaCard {...item} />}
+                    renderItem={(item) => (
+                        <Link
+                            href={`/support/training/courses/library/${item.id}`}
+                            style={{ display: 'block' }}
+                            key={item.id}
+                        >
+                            <MediaCard {...item} />
+                        </Link>
+                    )}
                 />
             </Section>
         </>
